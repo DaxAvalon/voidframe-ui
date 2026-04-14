@@ -22,6 +22,7 @@
 @import "./components/date-time.css";
 @import "./components/complex-form.css";
 @import "./components/editors.css";
+@import "./components/capture.css";
 @import "./components/data.css";
 @import "./components/data-extended.css";
 @import "./components/navigation.css";

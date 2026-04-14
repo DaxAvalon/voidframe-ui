@@ -211,6 +211,23 @@ export type {
   TagInputProps,
 } from "./FormAdvanced";
 
+// ── Phase 7.5: capture + upload ─────────────────────────────
+export { SignaturePad } from "./SignaturePad";
+export type {
+  SignaturePadHandle,
+  SignaturePadProps,
+  SignaturePoint,
+  SignatureStrokes,
+} from "./SignaturePad";
+export { ImageCropper } from "./ImageCropper";
+export type {
+  CropRect,
+  CropResult,
+  ImageCropperProps,
+} from "./ImageCropper";
+export { FileUpload } from "./FileUpload";
+export type { FileUploadProps, UploadItem, UploadStatus } from "./FileUpload";
+
 // ── Phase 7.4: editors + specialty inputs ───────────────────
 export { RichTextEditor } from "./RichTextEditor";
 export type {

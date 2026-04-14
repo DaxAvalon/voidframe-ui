@@ -23,6 +23,17 @@ export {
   type UseControllableStateOptions,
 } from "./useControllableState";
 
+// Phase 7.5 — form state manager
+export { useForm } from "./useForm";
+export type {
+  FieldBindings,
+  FieldHandle,
+  FormValidator,
+  UseFormOptions,
+  UseFormReturn,
+  Validator,
+} from "./useForm";
+
 // Phase 3 — foundational effect/callback hooks
 export { useEvent } from "./useEvent";
 export { useMountEffect } from "./useMountEffect";

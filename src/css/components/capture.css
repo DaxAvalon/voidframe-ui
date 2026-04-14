@@ -1,0 +1,252 @@
+/* Phase 7.5 — SignaturePad, ImageCropper, FileUpload */
+
+/* ── SignaturePad ──────────────────────────────────────────── */
+.vf-signature {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--vf-font-family);
+}
+.vf-signature__frame {
+  position: relative;
+  border: 1px solid var(--vf-border-1);
+  background: var(--vf-bg-2);
+  overflow: hidden;
+}
+.vf-signature__frame[data-has-ink] .vf-signature__placeholder {
+  display: none;
+}
+.vf-signature__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+.vf-signature__placeholder {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 8px;
+  text-align: center;
+  color: var(--vf-text-4);
+  font-size: var(--vf-font-xs);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.vf-signature__clear {
+  position: absolute;
+  inset-inline-end: 8px;
+  bottom: 8px;
+  background: var(--vf-bg-3);
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-2);
+  padding: 2px 8px;
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--vf-transition);
+}
+.vf-signature__clear:hover:not(:disabled) {
+  background: var(--vf-bg-4);
+  color: var(--vf-text-0);
+}
+.vf-signature__frame[data-disabled] .vf-signature__canvas {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ── ImageCropper ──────────────────────────────────────────── */
+.vf-image-cropper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+}
+.vf-image-cropper__picker {
+  color: var(--vf-text-2);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+}
+.vf-image-cropper__stage {
+  position: relative;
+  user-select: none;
+  touch-action: none;
+  background: var(--vf-bg-3);
+  border: 1px solid var(--vf-border-1);
+  overflow: hidden;
+  display: inline-block;
+  max-width: 100%;
+}
+.vf-image-cropper__image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+.vf-image-cropper__overlay {
+  position: absolute;
+  border: 2px dashed var(--vf-accent, var(--vf-green));
+  cursor: grab;
+  box-shadow: 0 0 0 9999px color-mix(in srgb, var(--vf-bg-0) 50%, transparent);
+}
+.vf-image-cropper__overlay:active {
+  cursor: grabbing;
+}
+.vf-image-cropper__handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--vf-bg-0);
+  border: 1px solid var(--vf-accent, var(--vf-green));
+}
+.vf-image-cropper__handle--nw {
+  top: -6px;
+  inset-inline-start: -6px;
+  cursor: nwse-resize;
+}
+.vf-image-cropper__handle--ne {
+  top: -6px;
+  inset-inline-end: -6px;
+  cursor: nesw-resize;
+}
+.vf-image-cropper__handle--sw {
+  bottom: -6px;
+  inset-inline-start: -6px;
+  cursor: nesw-resize;
+}
+.vf-image-cropper__handle--se {
+  bottom: -6px;
+  inset-inline-end: -6px;
+  cursor: nwse-resize;
+}
+.vf-image-cropper__actions {
+  display: flex;
+  gap: var(--vf-sp-2);
+}
+
+/* ── FileUpload ────────────────────────────────────────────── */
+.vf-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--vf-font-family);
+}
+.vf-file-upload__surface {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: var(--vf-sp-5);
+  border: 1px dashed var(--vf-border-2);
+  background: var(--vf-bg-2);
+  color: var(--vf-text-2);
+  cursor: pointer;
+  transition: var(--vf-transition);
+}
+.vf-file-upload__surface:focus-visible {
+  outline: 1px solid var(--vf-border-3);
+  outline-offset: 2px;
+}
+.vf-file-upload__surface--dragging {
+  border-color: var(--vf-accent, var(--vf-green));
+  background: var(--vf-bg-3);
+}
+.vf-file-upload__surface--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.vf-file-upload__cta {
+  color: var(--vf-text-0);
+  font-size: var(--vf-font-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--vf-letter-spacing);
+}
+.vf-file-upload__hint {
+  color: var(--vf-text-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-file-upload__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.vf-file-upload__item {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  padding: var(--vf-sp-2);
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-1);
+}
+.vf-file-upload__item--error { border-color: var(--vf-red, #a33); }
+.vf-file-upload__item--success { border-color: var(--vf-accent, var(--vf-green)); }
+.vf-file-upload__thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 1px solid var(--vf-border-1);
+  background: var(--vf-bg-3);
+}
+.vf-file-upload__thumb--placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: var(--vf-text-3);
+}
+.vf-file-upload__meta {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.vf-file-upload__name {
+  color: var(--vf-text-0);
+  font-size: var(--vf-font-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vf-file-upload__sub {
+  color: var(--vf-text-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-file-upload__progress {
+  width: 100%;
+  height: 3px;
+  background: var(--vf-bg-4);
+  margin-block-start: 2px;
+}
+.vf-file-upload__progress-bar {
+  display: block;
+  height: 100%;
+  background: var(--vf-accent, var(--vf-green));
+  transition: width 0.15s linear;
+}
+.vf-file-upload__actions {
+  display: inline-flex;
+  gap: 4px;
+}
+.vf-file-upload__action {
+  background: transparent;
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-2);
+  padding: 2px 6px;
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  letter-spacing: var(--vf-letter-spacing);
+  cursor: pointer;
+  transition: var(--vf-transition);
+}
+.vf-file-upload__action:hover:not(:disabled) {
+  color: var(--vf-text-0);
+  background: var(--vf-bg-4);
+}
