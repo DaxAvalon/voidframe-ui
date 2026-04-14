@@ -211,6 +211,104 @@ export type {
   TagInputProps,
 } from "./FormAdvanced";
 
+// ── Phase 8: layout + navigation shell ──────────────────────
+export {
+  Stack,
+  GridItem,
+  Sticky,
+  SafeArea,
+  Section,
+  PageHeader,
+  EmptyLayout,
+} from "./LayoutExtended";
+export type {
+  GridItemProps,
+  StickyProps,
+  SafeAreaProps,
+  SectionProps,
+  PageHeaderProps,
+  EmptyLayoutProps,
+} from "./LayoutExtended";
+
+export { ScrollArea } from "./ScrollArea";
+export type { ScrollAreaProps } from "./ScrollArea";
+
+export { Masonry } from "./Masonry";
+export type { MasonryColumns, MasonryProps } from "./Masonry";
+
+export {
+  ResizableGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "./Resizable";
+export type {
+  ResizableDirection,
+  ResizableGroupProps,
+  ResizablePanelProps,
+  ResizableHandleProps,
+} from "./Resizable";
+
+export { AppShell } from "./AppShell";
+export type { AppShellProps } from "./AppShell";
+
+export { default as Menu, ContextMenu, MenuBar, MenuBarMenu } from "./Menu";
+export type {
+  MenuProps,
+  MenuTriggerProps,
+  MenuContentProps,
+  MenuItemProps,
+  MenuCheckboxItemProps,
+  MenuRadioGroupProps,
+  MenuRadioItemProps,
+  MenuSubProps,
+  ContextMenuProps,
+  MenuBarProps,
+  MenuBarMenuProps,
+} from "./Menu";
+
+export { Toolbar } from "./Toolbar";
+export type {
+  ToolbarProps,
+  ToolbarOrientation,
+  ToolbarButtonProps,
+  ToolbarLinkProps,
+  ToolbarToggleGroupProps,
+  ToolbarToggleItemProps,
+} from "./Toolbar";
+
+export { Navbar, TabBar } from "./Navbar";
+export type {
+  NavbarProps,
+  TabBarProps,
+  TabBarItemProps,
+} from "./Navbar";
+
+export { Sidebar } from "./Sidebar";
+export type { SidebarProps, SidebarSectionProps } from "./Sidebar";
+
+export { Wizard } from "./Wizard";
+export type { WizardProps, WizardStepProps } from "./Wizard";
+
+export {
+  CursorPagination,
+  ScrollSpy,
+  BackToTop,
+  Shortcut,
+  TreeNav,
+  UserMenu,
+} from "./NavigationExtended";
+export type {
+  CursorPaginationProps,
+  ScrollSpyProps,
+  ScrollSpyItemProps,
+  BackToTopProps,
+  ShortcutProps,
+  TreeNavItem,
+  TreeNavProps,
+  UserMenuProps,
+  UserMenuItemProps,
+} from "./NavigationExtended";
+
 // ── Phase 7.5: capture + upload ─────────────────────────────
 export { SignaturePad } from "./SignaturePad";
 export type {
