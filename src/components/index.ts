@@ -211,6 +211,34 @@ export type {
   TagInputProps,
 } from "./FormAdvanced";
 
+// ── Phase 7.3: complex form controls ────────────────────────
+export { Combobox, MultiSelect } from "./Combobox";
+export type {
+  ComboboxOption,
+  ComboboxProps,
+  MultiSelectProps,
+} from "./Combobox";
+export { TreeSelect } from "./TreeSelect";
+export type {
+  TreeNode,
+  TreeSelectNode,
+  TreeSelectProps,
+} from "./TreeSelect";
+export {
+  MaskedInput,
+  CurrencyInput,
+  PhoneInput,
+  applyMask,
+  stripMask,
+} from "./MaskedInput";
+export type {
+  MaskedInputProps,
+  CurrencyInputProps,
+  PhoneInputProps,
+} from "./MaskedInput";
+export { RatingInput } from "./RatingInput";
+export type { RatingInputProps } from "./RatingInput";
+
 // ── Phase 7.2: date/time family ─────────────────────────────
 export { DatePicker, DateRangePicker } from "./DatePicker";
 export type {

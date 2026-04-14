@@ -1,0 +1,228 @@
+/* Phase 7.3 — Combobox, MultiSelect, TreeSelect, MaskedInput family, RatingInput */
+
+/* ── Combobox / MultiSelect ─────────────────────────────────── */
+.vf-combobox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  font-family: var(--vf-font-family);
+}
+.vf-combobox__input {
+  width: 100%;
+}
+.vf-combobox__list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 4px 0 0 0;
+  padding: 0;
+  list-style: none;
+  max-height: 240px;
+  overflow-y: auto;
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-2);
+  z-index: var(--vf-z-popover);
+}
+.vf-combobox__option {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  color: var(--vf-text-1);
+  font-size: var(--vf-font-sm);
+  cursor: pointer;
+  transition: var(--vf-transition);
+}
+.vf-combobox__option--highlighted {
+  background: var(--vf-bg-4);
+  color: var(--vf-text-0);
+}
+.vf-combobox__option--selected {
+  color: var(--vf-text-0);
+  border-inline-start: 2px solid var(--vf-accent, var(--vf-green));
+}
+.vf-combobox__option--disabled {
+  color: var(--vf-text-5);
+  cursor: not-allowed;
+}
+.vf-combobox__empty {
+  padding: var(--vf-sp-3);
+  color: var(--vf-text-4);
+  font-size: var(--vf-font-xs);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+  list-style: none;
+}
+.vf-combobox__check {
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+  color: var(--vf-accent, var(--vf-green));
+}
+
+.vf-multi-select__control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  padding: 2px 4px;
+  background: var(--vf-bg-3);
+  border: 1px solid var(--vf-border-1);
+  min-height: 32px;
+  cursor: text;
+}
+.vf-multi-select__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  background: var(--vf-bg-5);
+  border: 1px solid var(--vf-border-2);
+  color: var(--vf-text-0);
+  font-size: var(--vf-font-xs);
+}
+.vf-multi-select__tag-label { white-space: nowrap; }
+.vf-multi-select__tag-remove {
+  background: transparent;
+  border: none;
+  color: var(--vf-text-3);
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  font-size: var(--vf-font-sm);
+}
+.vf-multi-select__tag-remove:hover:not(:disabled) {
+  color: var(--vf-text-0);
+}
+.vf-multi-select__input {
+  flex: 1;
+  min-width: 80px;
+  background: transparent;
+  border: none;
+  color: var(--vf-text-0);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  outline: none;
+  padding: 2px;
+}
+
+/* ── TreeSelect ─────────────────────────────────────────────── */
+.vf-tree-select {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  font-family: var(--vf-font-family);
+}
+.vf-tree-select__trigger {
+  text-align: left;
+  cursor: pointer;
+}
+.vf-tree-select__popover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-2);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: var(--vf-z-popover);
+}
+.vf-tree-select__tree {
+  list-style: none;
+  padding: 4px 0;
+  margin: 0;
+}
+.vf-tree-select__node {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  color: var(--vf-text-1);
+  font-size: var(--vf-font-sm);
+  cursor: pointer;
+  transition: var(--vf-transition);
+  outline: none;
+}
+.vf-tree-select__node:hover:not(.vf-tree-select__node--disabled) {
+  background: var(--vf-bg-4);
+}
+.vf-tree-select__node:focus-visible {
+  background: var(--vf-bg-4);
+  outline: 1px solid var(--vf-border-3);
+  outline-offset: -1px;
+}
+.vf-tree-select__node--selected {
+  color: var(--vf-text-0);
+  border-inline-start: 2px solid var(--vf-accent, var(--vf-green));
+}
+.vf-tree-select__node--disabled {
+  color: var(--vf-text-5);
+  cursor: not-allowed;
+}
+.vf-tree-select__disclosure {
+  background: transparent;
+  border: none;
+  color: var(--vf-text-3);
+  padding: 0 4px;
+  font-size: var(--vf-font-sm);
+  cursor: pointer;
+  line-height: 1;
+}
+.vf-tree-select__disclosure:hover { color: var(--vf-text-0); }
+.vf-tree-select__label { flex: 1; }
+
+/* ── MaskedInput / CurrencyInput ─────────────────────────────── */
+.vf-masked-input,
+.vf-currency-input {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  font-family: var(--vf-font-family);
+}
+
+/* ── RatingInput ────────────────────────────────────────────── */
+.vf-rating-input {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--vf-font-family);
+}
+.vf-rating-input__stars {
+  display: inline-flex;
+  gap: 2px;
+  outline: none;
+}
+.vf-rating-input__stars:focus-visible {
+  outline: 1px solid var(--vf-border-3);
+  outline-offset: 4px;
+}
+.vf-rating-input__star {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--vf-text-4);
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: var(--vf-transition);
+}
+.vf-rating-input__star--filled,
+.vf-rating-input__star--half {
+  color: var(--vf-amber);
+}
+.vf-rating-input__star:disabled {
+  cursor: default;
+}
+.vf-rating-input--disabled .vf-rating-input__star {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.vf-rating-input__glyph { display: inline-block; }
