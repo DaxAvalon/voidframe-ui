@@ -135,8 +135,12 @@ export {
 export type {
   BreadcrumbProps,
   BreadcrumbItem,
+  BreadcrumbItemProps,
   PaginationProps,
   StepperProps,
+  StepperStepProps,
+  StepperVariant,
+  StepperOrientation,
   NavItemProps,
   NavGroupProps,
 } from "./Navigation";
@@ -288,6 +292,25 @@ export type { SidebarProps, SidebarSectionProps } from "./Sidebar";
 
 export { Wizard } from "./Wizard";
 export type { WizardProps, WizardStepProps } from "./Wizard";
+
+export { MegaMenu } from "./MegaMenu";
+export type {
+  MegaMenuProps,
+  MegaMenuTriggerProps,
+  MegaMenuContentProps,
+  MegaMenuSectionProps,
+  MegaMenuLinkProps,
+} from "./MegaMenu";
+
+export { BreadcrumbMenu } from "./BreadcrumbMenu";
+export type {
+  BreadcrumbMenuItem,
+  BreadcrumbMenuProps,
+  BreadcrumbMenuSibling,
+} from "./BreadcrumbMenu";
+
+export { ShortcutGuide } from "./ShortcutGuide";
+export type { ShortcutGuideProps } from "./ShortcutGuide";
 
 export {
   CursorPagination,

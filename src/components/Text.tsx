@@ -92,23 +92,55 @@ export interface DividerProps extends HTMLAttributes<HTMLDivElement> {
   color?: string;
   /** Vertical margin in px. Defaults to `sp6` (12px) via CSS. */
   spacing?: number;
+  /** Orientation. Default "horizontal". */
+  orientation?: "horizontal" | "vertical";
+  /** Optional inline label centered on the rule (horizontal only). */
+  label?: ReactNode;
   style?: CSSProperties;
 }
 
-/** Horizontal rule using the border system. */
+/** Horizontal or vertical rule; can wrap a label inline for "OR"-style separators. */
 export const Divider = forwardRef<HTMLDivElement, DividerProps>(function Divider(
-  { color, spacing, className, style, ...props },
+  { color, spacing, orientation = "horizontal", label, className, style, ...props },
   ref
 ) {
   const inline: CSSProperties = {
-    ...(color !== undefined ? { borderTopColor: color } : {}),
-    ...(spacing !== undefined ? { margin: `${spacing}px 0` } : {}),
+    ...(color !== undefined
+      ? orientation === "vertical"
+        ? { borderInlineStartColor: color }
+        : { borderTopColor: color }
+      : {}),
+    ...(spacing !== undefined
+      ? orientation === "vertical"
+        ? { margin: `0 ${spacing}px` }
+        : { margin: `${spacing}px 0` }
+      : {}),
     ...style,
   };
+  if (orientation === "horizontal" && label !== undefined) {
+    return (
+      <div
+        ref={ref}
+        role="separator"
+        aria-orientation="horizontal"
+        className={cx("vf-divider", "vf-divider--labeled", className)}
+        style={inline}
+        {...props}
+      >
+        <span className="vf-divider__label">{label}</span>
+      </div>
+    );
+  }
   return (
     <div
       ref={ref}
-      className={cx("vf-divider", className)}
+      role="separator"
+      aria-orientation={orientation}
+      className={cx(
+        "vf-divider",
+        orientation === "vertical" && "vf-divider--vertical",
+        className
+      )}
       style={inline}
       {...props}
     />

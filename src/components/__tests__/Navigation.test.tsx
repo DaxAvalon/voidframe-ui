@@ -58,7 +58,7 @@ describe("Pagination", () => {
   it("disables previous at page 1", async () => {
     const onChange = vi.fn();
     renderWithTheme(<Pagination page={1} total={5} onChange={onChange} />);
-    await userEvent.click(screen.getByText("◂"));
+    await userEvent.click(screen.getByRole("button", { name: "Previous page" }));
     expect(onChange).not.toHaveBeenCalled();
   });
 });

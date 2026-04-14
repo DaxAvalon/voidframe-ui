@@ -283,12 +283,13 @@ Toast.displayName = "Toast";
 // ── Kbd ───────────────────────────────────────────────────────
 
 export interface KbdProps extends HTMLAttributes<HTMLElement> {
-  keys: string;
+  /** Combo string (e.g. "Cmd+K"). Use children for single-key form. */
+  keys?: string;
   style?: CSSProperties;
 }
 
 export const Kbd = forwardRef<HTMLElement, KbdProps>(function Kbd(
-  { keys, className, style, ...props },
+  { keys, children, className, style, ...props },
   ref
 ) {
   return (
@@ -298,7 +299,7 @@ export const Kbd = forwardRef<HTMLElement, KbdProps>(function Kbd(
       style={style}
       {...props}
     >
-      {keys}
+      {children ?? keys}
     </kbd>
   );
 });

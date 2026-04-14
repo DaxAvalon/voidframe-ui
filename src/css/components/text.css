@@ -34,6 +34,33 @@
   border-top: 1px solid var(--vf-border-1);
   margin: var(--vf-sp-6) 0;
 }
+.vf-divider--vertical {
+  border-top: 0;
+  border-inline-start: 1px solid var(--vf-border-1);
+  align-self: stretch;
+  min-height: 1em;
+  margin: 0 var(--vf-sp-3);
+}
+.vf-divider--labeled {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-3);
+  border-top: 0;
+  margin: var(--vf-sp-6) 0;
+}
+.vf-divider--labeled::before,
+.vf-divider--labeled::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--vf-border-1);
+}
+.vf-divider__label {
+  color: var(--vf-text-4);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+}
 
 .vf-spacer {
   height: var(--vf-sp-6);

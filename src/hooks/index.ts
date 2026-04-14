@@ -25,6 +25,19 @@ export {
 
 // Phase 7.5 — form state manager
 export { useForm } from "./useForm";
+
+// Phase 8 — shortcut registry + hook
+export {
+  ShortcutProvider,
+  useShortcut,
+  useShortcutRegistry,
+} from "./useShortcuts";
+export type {
+  RegisteredShortcut,
+  ShortcutProviderProps,
+  ShortcutRegistryValue,
+  UseShortcutOptions,
+} from "./useShortcuts";
 export type {
   FieldBindings,
   FieldHandle,
