@@ -211,6 +211,37 @@ export type {
   TagInputProps,
 } from "./FormAdvanced";
 
+// ── Phase 7.4: editors + specialty inputs ───────────────────
+export { RichTextEditor } from "./RichTextEditor";
+export type {
+  RichTextCommand,
+  RichTextEditorApi,
+  RichTextEditorProps,
+} from "./RichTextEditor";
+export {
+  MarkdownEditor,
+  applyMarkdownCommand,
+  renderMarkdown,
+} from "./MarkdownEditor";
+export type { MarkdownCommand, MarkdownEditorProps } from "./MarkdownEditor";
+export { CodeEditor } from "./CodeEditor";
+export type { CodeEditorProps } from "./CodeEditor";
+export { MentionInput, SlashCommandInput } from "./MentionInput";
+export type {
+  MentionInputProps,
+  MentionOption,
+  SlashCommandInputProps,
+  SlashCommandOption,
+} from "./MentionInput";
+export {
+  ColorPicker,
+  hexToRgba,
+  rgbaToHex,
+  rgbaToHsla,
+  hslaToRgba,
+} from "./ColorPicker";
+export type { ColorPickerProps } from "./ColorPicker";
+
 // ── Phase 7.3: complex form controls ────────────────────────
 export { Combobox, MultiSelect } from "./Combobox";
 export type {
