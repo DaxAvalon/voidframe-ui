@@ -1,0 +1,624 @@
+// Phase 7.1 form additions:
+//   Switch, CheckboxGroup, SegmentedControl, PasswordInput, PinInput, TagInput
+
+import {
+  forwardRef,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type ClipboardEvent,
+  type CSSProperties,
+  type HTMLAttributes,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
+import { useControllableState } from "../hooks/useControllableState";
+import { useId } from "../hooks/useId";
+import { useMergedRefs } from "../hooks/useMergedRefs";
+import { cx } from "../utils/cx";
+import { Checkbox } from "./FormExtended";
+import { Toggle, type ToggleProps } from "./Form";
+import { Label } from "./Text";
+
+// ── Switch — semantic alias of Toggle ────────────────────────
+// Exported separately so `<Switch>` reads naturally in code that models
+// a boolean capability (vs. a generic toggle of visibility).
+
+export type SwitchProps = ToggleProps;
+export const Switch = forwardRef<HTMLDivElement, SwitchProps>(function Switch(
+  props,
+  ref
+) {
+  return <Toggle ref={ref} {...props} />;
+});
+Switch.displayName = "Switch";
+
+// ── CheckboxGroup — parity with RadioGroup ────────────────────
+
+export interface CheckboxGroupOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+export interface CheckboxGroupProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+  options: CheckboxGroupOption[];
+  /** Controlled selected values. */
+  value?: string[];
+  /** Uncontrolled initial values. */
+  defaultValue?: string[];
+  onChange?: (values: string[]) => void;
+  label?: string;
+  accent?: string;
+  direction?: "horizontal" | "vertical";
+  style?: CSSProperties;
+}
+
+export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
+  function CheckboxGroup(
+    {
+      options,
+      value,
+      defaultValue,
+      onChange,
+      label,
+      accent,
+      direction = "vertical",
+      className,
+      style,
+      ...props
+    },
+    ref
+  ) {
+    const [current, setCurrent] = useControllableState<string[]>({
+      value,
+      defaultValue: defaultValue ?? [],
+      onChange,
+      componentName: "CheckboxGroup",
+    });
+    const labelId = useId();
+
+    const toggle = (val: string) => {
+      const next = current.includes(val)
+        ? current.filter((v) => v !== val)
+        : [...current, val];
+      setCurrent(next);
+    };
+
+    return (
+      <div
+        ref={ref}
+        className={cx("vf-field", className)}
+        style={style}
+        role="group"
+        aria-labelledby={label ? labelId : undefined}
+        {...props}
+      >
+        {label && <Label id={labelId}>{label}</Label>}
+        <div
+          className={cx(
+            "vf-radio-group__items",
+            direction === "horizontal" && "vf-radio-group__items--horizontal"
+          )}
+        >
+          {options.map((o) => (
+            <Checkbox
+              key={o.value}
+              checked={current.includes(o.value)}
+              onChange={() => toggle(o.value)}
+              label={o.label}
+              accent={accent}
+              disabled={o.disabled}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+);
+CheckboxGroup.displayName = "CheckboxGroup";
+
+// ── SegmentedControl — role=radiogroup, arrow-key nav ─────────
+
+export interface SegmentedOption {
+  value: string;
+  label: string;
+  icon?: ReactNode;
+  disabled?: boolean;
+}
+
+export interface SegmentedControlProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+  options: SegmentedOption[];
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  /** Accent color (sets `--vf-accent`). */
+  accent?: string;
+  size?: "sm" | "md" | "lg";
+  style?: CSSProperties;
+}
+
+export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
+  function SegmentedControl(
+    { options, value, defaultValue, onChange, accent, size = "md", className, style, ...props },
+    ref
+  ) {
+    const [current, setCurrent] = useControllableState<string>({
+      value,
+      defaultValue: defaultValue ?? options[0]?.value ?? "",
+      onChange,
+      componentName: "SegmentedControl",
+    });
+
+    const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
+      const activeIdx = options.findIndex((o) => o.value === current);
+      if (activeIdx === -1) return;
+      const move = (delta: number) => {
+        // Skip disabled options.
+        let next = activeIdx;
+        for (let i = 0; i < options.length; i++) {
+          next = (next + delta + options.length) % options.length;
+          if (!options[next]?.disabled) break;
+        }
+        const nextVal = options[next]?.value;
+        if (nextVal) setCurrent(nextVal);
+      };
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        move(1);
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        move(-1);
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        const first = options.find((o) => !o.disabled);
+        if (first) setCurrent(first.value);
+      } else if (e.key === "End") {
+        e.preventDefault();
+        const last = [...options].reverse().find((o) => !o.disabled);
+        if (last) setCurrent(last.value);
+      }
+    };
+
+    const composedStyle: CSSProperties = accent
+      ? ({ "--vf-accent": accent, ...style } as CSSProperties)
+      : (style ?? {});
+
+    return (
+      <div
+        ref={ref}
+        className={cx("vf-segmented", `vf-segmented--${size}`, className)}
+        style={composedStyle}
+        role="radiogroup"
+        onKeyDown={handleKey}
+        {...props}
+      >
+        {options.map((o) => {
+          const selected = current === o.value;
+          return (
+            <button
+              key={o.value}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              aria-label={o.label}
+              tabIndex={selected ? 0 : -1}
+              disabled={o.disabled}
+              className={cx("vf-segmented__item")}
+              data-active={selected ? "true" : undefined}
+              onClick={() => !o.disabled && setCurrent(o.value)}
+            >
+              {o.icon && (
+                <span aria-hidden="true" className="vf-segmented__icon">
+                  {o.icon}
+                </span>
+              )}
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+);
+SegmentedControl.displayName = "SegmentedControl";
+
+// ── PasswordInput — visibility toggle ────────────────────────
+
+export interface PasswordInputProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  label?: string;
+  required?: boolean;
+  disabled?: boolean;
+  autoComplete?: string;
+  name?: string;
+  id?: string;
+  /** Show/hide toggle button. Default true. */
+  visibilityToggle?: boolean;
+  /** Start with password revealed. */
+  defaultVisible?: boolean;
+  style?: CSSProperties;
+}
+
+export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
+  function PasswordInput(
+    {
+      value,
+      onChange,
+      placeholder,
+      label,
+      required,
+      disabled,
+      autoComplete = "current-password",
+      name,
+      id,
+      visibilityToggle = true,
+      defaultVisible = false,
+      className,
+      style,
+      ...props
+    },
+    ref
+  ) {
+    const [visible, setVisible] = useState(defaultVisible);
+    const inputId = useId(id);
+    return (
+      <div className="vf-field">
+        {label && (
+          <Label as="label" htmlFor={inputId}>
+            {label}
+          </Label>
+        )}
+        <div
+          className={cx("vf-password-input", className)}
+          style={style}
+          {...props}
+        >
+          <input
+            ref={ref}
+            id={inputId}
+            type={visible ? "text" : "password"}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            required={required}
+            disabled={disabled}
+            autoComplete={autoComplete}
+            name={name}
+            aria-label={label}
+            className="vf-input vf-password-input__field"
+          />
+          {visibilityToggle && (
+            <button
+              type="button"
+              className="vf-password-input__toggle"
+              aria-label={visible ? "Hide password" : "Show password"}
+              aria-pressed={visible}
+              onClick={() => setVisible((v) => !v)}
+              disabled={disabled}
+            >
+              {visible ? "◉" : "○"}
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+);
+PasswordInput.displayName = "PasswordInput";
+
+// ── PinInput — N-box OTP with auto-advance + paste split ─────
+
+export interface PinInputProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+  length?: number;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  onComplete?: (value: string) => void;
+  /** "numeric" | "alphanumeric" | "alpha" — filters allowed input. */
+  type?: "numeric" | "alphanumeric" | "alpha";
+  mask?: boolean;
+  autoFocus?: boolean;
+  disabled?: boolean;
+  label?: string;
+  style?: CSSProperties;
+}
+
+const PIN_PATTERNS: Record<NonNullable<PinInputProps["type"]>, RegExp> = {
+  numeric: /^[0-9]$/,
+  alphanumeric: /^[a-zA-Z0-9]$/,
+  alpha: /^[a-zA-Z]$/,
+};
+
+export const PinInput = forwardRef<HTMLDivElement, PinInputProps>(
+  function PinInput(
+    {
+      length = 6,
+      value,
+      defaultValue = "",
+      onChange,
+      onComplete,
+      type = "numeric",
+      mask,
+      autoFocus,
+      disabled,
+      label,
+      className,
+      style,
+      ...props
+    },
+    ref
+  ) {
+    const [current, setCurrent] = useControllableState<string>({
+      value,
+      defaultValue,
+      onChange,
+      componentName: "PinInput",
+    });
+    const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+    const completeFiredFor = useRef<string | null>(null);
+    const allowed = PIN_PATTERNS[type];
+
+    // Pad/truncate current to length — never read past `length`.
+    const chars = Array.from({ length }, (_, i) => current[i] ?? "");
+
+    const update = (next: string) => {
+      const trimmed = next.slice(0, length);
+      setCurrent(trimmed);
+      if (
+        trimmed.length === length &&
+        completeFiredFor.current !== trimmed
+      ) {
+        completeFiredFor.current = trimmed;
+        onComplete?.(trimmed);
+      }
+      if (trimmed.length < length) {
+        completeFiredFor.current = null;
+      }
+    };
+
+    const handleChange = (i: number, raw: string) => {
+      // Last-typed character wins (handles re-typing over a filled slot).
+      const char = raw.slice(-1);
+      if (char && !allowed.test(char)) return;
+      const next = chars.slice();
+      next[i] = char;
+      update(next.join("").replace(/\s+$/, ""));
+      if (char && i < length - 1) {
+        inputsRef.current[i + 1]?.focus();
+      }
+    };
+
+    const handleKeyDown = (i: number, e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Backspace") {
+        if (!chars[i] && i > 0) {
+          e.preventDefault();
+          inputsRef.current[i - 1]?.focus();
+          const next = chars.slice();
+          next[i - 1] = "";
+          update(next.join("").replace(/\s+$/, ""));
+        }
+      } else if (e.key === "ArrowLeft" && i > 0) {
+        e.preventDefault();
+        inputsRef.current[i - 1]?.focus();
+      } else if (e.key === "ArrowRight" && i < length - 1) {
+        e.preventDefault();
+        inputsRef.current[i + 1]?.focus();
+      }
+    };
+
+    const handlePaste = (i: number, e: ClipboardEvent<HTMLInputElement>) => {
+      const pasted = e.clipboardData.getData("text") ?? "";
+      const filtered = Array.from(pasted)
+        .filter((ch) => allowed.test(ch))
+        .slice(0, length - i)
+        .join("");
+      if (!filtered) return;
+      e.preventDefault();
+      const next = chars.slice();
+      for (let j = 0; j < filtered.length; j++) {
+        next[i + j] = filtered[j]!;
+      }
+      const joined = next.join("").replace(/\s+$/, "");
+      update(joined);
+      const focusTarget = Math.min(i + filtered.length, length - 1);
+      inputsRef.current[focusTarget]?.focus();
+    };
+
+    return (
+      <div className="vf-field">
+        {label && <Label>{label}</Label>}
+        <div
+          ref={ref}
+          role="group"
+          aria-label={label ?? "PIN entry"}
+          className={cx("vf-pin-input", className)}
+          style={style}
+          {...props}
+        >
+          {chars.map((char, i) => (
+            <input
+              key={i}
+              ref={(el) => {
+                inputsRef.current[i] = el;
+              }}
+              type={mask ? "password" : "text"}
+              inputMode={type === "numeric" ? "numeric" : "text"}
+              autoComplete={i === 0 ? "one-time-code" : "off"}
+              maxLength={2}
+              disabled={disabled}
+              aria-label={`Digit ${i + 1} of ${length}`}
+              className="vf-pin-input__slot"
+              value={char}
+              autoFocus={autoFocus && i === 0}
+              onChange={(e) => handleChange(i, e.target.value)}
+              onKeyDown={(e) => handleKeyDown(i, e)}
+              onPaste={(e) => handlePaste(i, e)}
+              onFocus={(e) => e.currentTarget.select()}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+);
+PinInput.displayName = "PinInput";
+
+// ── TagInput — chip multi-entry with keyboard nav ────────────
+
+export interface TagInputProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+  value?: string[];
+  defaultValue?: string[];
+  onChange?: (tags: string[]) => void;
+  placeholder?: string;
+  label?: string;
+  disabled?: boolean;
+  /** KeyboardEvent.key values that commit the typed text as a tag. */
+  delimiters?: string[];
+  /** Reject duplicate entries (case-insensitive). Default true. */
+  dedupe?: boolean;
+  /** Cap on how many tags may be present. */
+  maxTags?: number;
+  /** Return `true` to accept, `false` (or a string) to reject. Strings surface as dev warnings. */
+  validate?: (tag: string) => boolean | string;
+  style?: CSSProperties;
+}
+
+export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
+  function TagInput(
+    {
+      value,
+      defaultValue = [],
+      onChange,
+      placeholder = "Type and press Enter…",
+      label,
+      disabled,
+      delimiters = ["Enter", ","],
+      dedupe = true,
+      maxTags,
+      validate,
+      className,
+      style,
+      ...props
+    },
+    ref
+  ) {
+    const [tags, setTags] = useControllableState<string[]>({
+      value,
+      defaultValue,
+      onChange,
+      componentName: "TagInput",
+    });
+    const [draft, setDraft] = useState("");
+    const inputRef = useRef<HTMLInputElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const mergedRef = useMergedRefs(ref, containerRef);
+
+    const commit = (raw: string) => {
+      const tag = raw.trim();
+      if (!tag) return;
+      if (maxTags !== undefined && tags.length >= maxTags) return;
+      if (dedupe && tags.some((t) => t.toLowerCase() === tag.toLowerCase())) return;
+      if (validate) {
+        const result = validate(tag);
+        if (result === false || typeof result === "string") return;
+      }
+      setTags([...tags, tag]);
+      setDraft("");
+    };
+
+    const remove = (i: number) => {
+      setTags(tags.filter((_, idx) => idx !== i));
+      inputRef.current?.focus();
+    };
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+      if (delimiters.includes(e.key)) {
+        e.preventDefault();
+        commit(draft);
+      } else if (e.key === "Backspace" && !draft && tags.length > 0) {
+        e.preventDefault();
+        remove(tags.length - 1);
+      }
+    };
+
+    const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
+      const text = e.clipboardData.getData("text");
+      if (!text) return;
+      // Split on comma/newline/tab/semicolon — common multi-item paste sources.
+      const parts = text
+        .split(/[,\n\t;]/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      if (parts.length <= 1) return; // single-item paste falls through to default.
+      e.preventDefault();
+      let next = tags.slice();
+      for (const p of parts) {
+        if (maxTags !== undefined && next.length >= maxTags) break;
+        if (dedupe && next.some((t) => t.toLowerCase() === p.toLowerCase())) continue;
+        if (validate) {
+          const result = validate(p);
+          if (result === false || typeof result === "string") continue;
+        }
+        next.push(p);
+      }
+      setTags(next);
+      setDraft("");
+    };
+
+    const focusInput = () => inputRef.current?.focus();
+
+    return (
+      <div className="vf-field">
+        {label && <Label>{label}</Label>}
+        <div
+          ref={mergedRef}
+          className={cx("vf-tag-input", className)}
+          style={style}
+          onClick={focusInput}
+          data-disabled={disabled ? "true" : undefined}
+          {...props}
+        >
+          {tags.map((tag, i) => (
+            <span key={`${tag}-${i}`} className="vf-tag-input__chip">
+              {tag}
+              {!disabled && (
+                <button
+                  type="button"
+                  className="vf-tag-input__remove"
+                  aria-label={`Remove ${tag}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    remove(i);
+                  }}
+                >
+                  ×
+                </button>
+              )}
+            </span>
+          ))}
+          <input
+            ref={inputRef}
+            type="text"
+            className="vf-tag-input__field"
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onPaste={handlePaste}
+            placeholder={tags.length === 0 ? placeholder : undefined}
+            disabled={disabled}
+            aria-label={label ?? "Tag entry"}
+          />
+        </div>
+      </div>
+    );
+  }
+);
+TagInput.displayName = "TagInput";

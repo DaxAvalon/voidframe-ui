@@ -1,0 +1,244 @@
+/* Phase 7.1: FormActions, InputGroup, FieldSet/Legend, Field compound,
+ * SegmentedControl, PasswordInput, PinInput, TagInput. */
+
+/* ── FormActions ─────────────────────────────────────────────── */
+.vf-form-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-3);
+}
+.vf-form-actions--end      { justify-content: flex-end; }
+.vf-form-actions--start    { justify-content: flex-start; }
+.vf-form-actions--center   { justify-content: center; }
+.vf-form-actions--between  { justify-content: space-between; }
+
+/* ── InputGroup ──────────────────────────────────────────────── */
+.vf-input-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+.vf-input-group > * {
+  border-radius: 0;
+}
+/* The group's direct children style themselves via data-vf-group-pos. Only
+ * the leftmost gets a left border; rightmost gets a right border. Middle
+ * members collapse their adjacent borders via negative margin. */
+.vf-input-group > [data-vf-group-pos="first"]  { margin-inline-end: -1px; }
+.vf-input-group > [data-vf-group-pos="middle"] { margin-inline-end: -1px; }
+
+.vf-input-group__addon {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--vf-sp-5);
+  background: var(--vf-bg-4);
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-3);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+/* Ensure input inside group expands to fill. */
+.vf-input-group .vf-field {
+  flex: 1;
+  min-width: 0;
+}
+.vf-input-group .vf-input {
+  width: 100%;
+}
+
+/* ── FieldSet + Legend ───────────────────────────────────────── */
+.vf-fieldset {
+  border: 1px solid var(--vf-border-1);
+  padding: var(--vf-sp-7) var(--vf-sp-8) var(--vf-sp-8);
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-5);
+}
+.vf-fieldset:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.vf-legend {
+  padding: 0 var(--vf-sp-4);
+  color: var(--vf-text-3);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  letter-spacing: var(--vf-label-spacing);
+  text-transform: uppercase;
+}
+
+/* ── Field compound state data attrs ─────────────────────────── */
+.vf-field[data-invalid="true"] .vf-input,
+.vf-field[data-invalid="true"] .vf-textarea,
+.vf-field[data-invalid="true"] .vf-select {
+  border-color: var(--vf-danger);
+}
+.vf-field[data-disabled="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ── SegmentedControl ────────────────────────────────────────── */
+.vf-segmented {
+  display: inline-flex;
+  border: 1px solid var(--vf-border-1);
+  background: var(--vf-bg-2);
+  border-radius: var(--vf-radius);
+}
+.vf-segmented__item {
+  background: transparent;
+  border: none;
+  border-inline-end: 1px solid var(--vf-border-1);
+  color: var(--vf-text-3);
+  font-family: var(--vf-font-family);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+  transition: var(--vf-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vf-sp-3);
+}
+.vf-segmented__item:last-child {
+  border-inline-end: none;
+}
+.vf-segmented--sm .vf-segmented__item { padding: 3px 10px; font-size: var(--vf-font-xs); }
+.vf-segmented--md .vf-segmented__item { padding: 6px 14px; font-size: var(--vf-font-sm); }
+.vf-segmented--lg .vf-segmented__item { padding: 8px 18px; font-size: var(--vf-font-md); }
+.vf-segmented__item:hover:not(:disabled) {
+  background: var(--vf-bg-4);
+  color: var(--vf-text-1);
+}
+.vf-segmented__item[data-active="true"] {
+  background: var(--vf-bg-5);
+  color: var(--vf-accent, var(--vf-text-0));
+}
+.vf-segmented__item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.vf-segmented__icon {
+  display: inline-flex;
+  opacity: 0.8;
+}
+
+/* ── PasswordInput ───────────────────────────────────────────── */
+.vf-password-input {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+.vf-password-input__field {
+  flex: 1;
+  min-width: 0;
+}
+.vf-password-input__toggle {
+  background: var(--vf-bg-4);
+  border: 1px solid var(--vf-border-1);
+  border-inline-start: none;
+  color: var(--vf-text-3);
+  width: 36px;
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-md);
+  cursor: pointer;
+  outline: none;
+  transition: var(--vf-transition);
+}
+.vf-password-input__toggle:hover:not(:disabled) {
+  color: var(--vf-text-1);
+}
+.vf-password-input__toggle:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── PinInput ────────────────────────────────────────────────── */
+.vf-pin-input {
+  display: flex;
+  gap: var(--vf-sp-3);
+}
+.vf-pin-input__slot {
+  width: 36px;
+  height: 44px;
+  background: var(--vf-bg-3);
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-0);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xl);
+  text-align: center;
+  outline: none;
+  transition: var(--vf-transition);
+}
+.vf-pin-input__slot:focus-visible {
+  border-color: var(--vf-border-3);
+}
+.vf-pin-input__slot:disabled {
+  opacity: 0.5;
+}
+
+/* ── TagInput ────────────────────────────────────────────────── */
+.vf-tag-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--vf-sp-2);
+  align-items: center;
+  min-height: 28px;
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  background: var(--vf-bg-3);
+  border: 1px solid var(--vf-border-1);
+  cursor: text;
+  transition: var(--vf-transition);
+}
+.vf-tag-input:focus-within {
+  border-color: var(--vf-border-3);
+}
+.vf-tag-input[data-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.vf-tag-input__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vf-sp-1);
+  padding: 1px 4px 1px 7px;
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 22%, transparent);
+  color: var(--vf-accent, var(--vf-text-1));
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xxs);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+}
+.vf-tag-input__remove {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.6;
+  font-size: var(--vf-font-md);
+  line-height: 1;
+  padding: 0 2px;
+}
+.vf-tag-input__remove:hover {
+  opacity: 1;
+}
+.vf-tag-input__field {
+  flex: 1;
+  min-width: 80px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--vf-text-0);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  padding: 2px 4px;
+}
+.vf-tag-input__field::placeholder {
+  color: var(--vf-text-4);
+}

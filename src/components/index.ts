@@ -160,6 +160,56 @@ export {
   Alert,
   ConfirmDialog,
 } from "./Overlay";
+
+// ── Phase 7.1: advanced form controls ───────────────────────
+export {
+  Field,
+  FieldLabel,
+  FieldControl,
+  FieldHelp,
+  FieldError,
+} from "./Field";
+export type {
+  FieldProps,
+  FieldLabelProps,
+  FieldControlProps,
+  FieldHelpProps,
+  FieldErrorProps,
+} from "./Field";
+
+export {
+  FormActions,
+  InputGroup,
+  InputGroupAddon,
+  FieldSet,
+  Legend,
+} from "./FormStructure";
+export type {
+  FormActionsProps,
+  InputGroupProps,
+  InputGroupAddonProps,
+  FieldSetProps,
+  LegendProps,
+} from "./FormStructure";
+
+export {
+  Switch,
+  CheckboxGroup,
+  SegmentedControl,
+  PasswordInput,
+  PinInput,
+  TagInput,
+} from "./FormAdvanced";
+export type {
+  SwitchProps,
+  CheckboxGroupProps,
+  CheckboxGroupOption,
+  SegmentedControlProps,
+  SegmentedOption,
+  PasswordInputProps,
+  PinInputProps,
+  TagInputProps,
+} from "./FormAdvanced";
 export type {
   DrawerProps,
   DropdownProps,
