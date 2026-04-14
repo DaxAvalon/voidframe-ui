@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voidframe Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #050505; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module">
+    import { createRoot } from "react-dom/client";
+    import { createElement } from "react";
+    import Demo from "./App.tsx";
+    createRoot(document.getElementById("root")).render(createElement(Demo));
+  </script>
+</body>
+</html>

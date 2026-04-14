@@ -1,0 +1,23 @@
+/* Badge + Dots */
+
+.vf-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xxs);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+  border-radius: var(--vf-radius);
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 20%, transparent);
+  color: var(--vf-accent, var(--vf-text-3));
+}
+
+.vf-dots {
+  display: inline-flex;
+  gap: 2px;
+}
+.vf-dots__dot {
+  font-size: 7px;
+  color: var(--vf-accent, var(--vf-amber));
+}

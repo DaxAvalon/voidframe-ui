@@ -1,0 +1,80 @@
+/* Button + ButtonGroup */
+
+.vf-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--vf-font-family);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+  border-radius: var(--vf-radius);
+  outline: none;
+  cursor: pointer;
+  transition: var(--vf-transition);
+  user-select: none;
+  background: transparent;
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-3);
+}
+
+/* sizes */
+.vf-button--sm { padding: 3px 8px; font-size: var(--vf-font-xs); }
+.vf-button--md { padding: 6px 14px; font-size: var(--vf-font-sm); }
+.vf-button--lg { padding: 8px 18px; font-size: var(--vf-font-md); }
+
+/* variants */
+.vf-button--default:hover:not(:disabled) {
+  background: var(--vf-bg-4);
+  border-color: var(--vf-border-2);
+  color: var(--vf-text-1);
+}
+.vf-button--default[data-active="true"] {
+  background: var(--vf-bg-5);
+  border-color: var(--vf-border-3);
+  color: var(--vf-text-0);
+}
+
+.vf-button--ghost {
+  background: transparent;
+  border-color: transparent;
+}
+.vf-button--ghost:hover:not(:disabled) {
+  color: var(--vf-text-1);
+}
+
+.vf-button--accent {
+  /* accent color set per-instance via inline style: --vf-accent */
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 8%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 22%, transparent);
+  color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 80%, transparent);
+}
+.vf-button--accent:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 15%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 33%, transparent);
+  color: var(--vf-accent, var(--vf-text-1));
+}
+.vf-button--accent[data-active="true"] {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 22%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 55%, transparent);
+  color: var(--vf-accent, var(--vf-text-1));
+}
+
+.vf-button--solid {
+  background: var(--vf-accent, var(--vf-text-1));
+  border-color: var(--vf-accent, var(--vf-text-1));
+  color: var(--vf-bg-0);
+}
+.vf-button--solid:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 86%, var(--vf-bg-0));
+}
+
+.vf-button:disabled,
+.vf-button[data-disabled="true"] {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.vf-button-group {
+  display: flex;
+  gap: 2px;
+}

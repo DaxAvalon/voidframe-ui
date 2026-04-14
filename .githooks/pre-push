@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# ────────────────────────────────────────────────────────────────
+# Voidframe pre-push hook
+# Refuses to push unless typecheck + full test suite pass in Docker.
+# All checks run in containers — never on the host.
+# ────────────────────────────────────────────────────────────────
+
+set -e
+
+# Resolve repo root so the hook works even when git invokes it from a
+# subdirectory.
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+# Opt-out for genuine emergencies: VF_SKIP_HOOKS=1 git push
+if [ "${VF_SKIP_HOOKS:-0}" = "1" ]; then
+  echo "⚠️  VF_SKIP_HOOKS=1 — pre-push checks skipped."
+  exit 0
+fi
+
+# Sanity: docker must be reachable.
+if ! command -v docker >/dev/null 2>&1; then
+  echo "❌ docker not found. Install Docker to push."
+  exit 1
+fi
+if ! docker compose version >/dev/null 2>&1; then
+  echo "❌ 'docker compose' not available."
+  exit 1
+fi
+
+echo "▶  Pre-push: typecheck + tests in Docker"
+echo
+
+echo "[1/2] typecheck..."
+if ! docker compose run --rm typecheck; then
+  echo
+  echo "❌ Typecheck failed. Push aborted."
+  echo "   Fix the errors, or set VF_SKIP_HOOKS=1 to override (last resort)."
+  exit 1
+fi
+echo
+
+echo "[2/2] tests..."
+if ! docker compose run --rm test; then
+  echo
+  echo "❌ Tests failed. Push aborted."
+  echo "   Fix the failures, or set VF_SKIP_HOOKS=1 to override (last resort)."
+  exit 1
+fi
+
+echo
+echo "✅ All checks passed. Pushing."
+exit 0

@@ -1,0 +1,35 @@
+/* Minimal reset — opt-in via VoidframeProvider's `cssBaseline` prop. */
+
+.vf-baseline *,
+.vf-baseline *::before,
+.vf-baseline *::after {
+  box-sizing: border-box;
+}
+
+.vf-baseline html {
+  -webkit-text-size-adjust: 100%;
+}
+
+.vf-baseline body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.vf-baseline img,
+.vf-baseline picture,
+.vf-baseline video,
+.vf-baseline canvas,
+.vf-baseline svg {
+  display: block;
+  max-width: 100%;
+}
+
+.vf-baseline button,
+.vf-baseline input,
+.vf-baseline textarea,
+.vf-baseline select {
+  font: inherit;
+  color: inherit;
+}

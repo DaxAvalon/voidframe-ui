@@ -1,0 +1,15 @@
+node_modules
+dist
+coverage
+.git
+.gitignore
+.DS_Store
+*.log
+npm-debug.log*
+.vscode
+.idea
+.env
+.env.local
+.env.*.local
+plans
+VoidFrameImplementationPlan.md

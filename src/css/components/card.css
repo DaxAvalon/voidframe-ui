@@ -1,0 +1,70 @@
+/* Card + ScrollRow + StatusBar + SegmentBar */
+
+.vf-card {
+  border: 1px solid var(--vf-border-1);
+  background: var(--vf-bg-2);
+  padding: var(--vf-sp-8);
+  border-radius: var(--vf-radius);
+}
+
+.vf-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--vf-sp-5);
+}
+
+.vf-card__subtitle {
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-4);
+  margin-top: 2px;
+}
+
+.vf-scroll-row {
+  display: flex;
+  gap: var(--vf-sp-3);
+  overflow-x: auto;
+  padding-bottom: var(--vf-sp-3);
+}
+
+.vf-status-bar {
+  display: flex;
+  gap: var(--vf-sp-7);
+  padding: var(--vf-sp-4) var(--vf-sp-6);
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-1);
+  border-radius: var(--vf-radius);
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: var(--vf-font-sm);
+  font-family: var(--vf-font-family);
+}
+.vf-status-bar__item {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-3);
+}
+.vf-status-bar__sep {
+  color: var(--vf-border-1);
+  margin-right: var(--vf-sp-3);
+}
+.vf-status-bar__value {
+  font-family: var(--vf-font-family);
+  color: var(--vf-text-0);
+}
+
+.vf-segment-bar {
+  display: flex;
+}
+.vf-segment-bar__segment {
+  font-size: var(--vf-font-xxs);
+  letter-spacing: var(--vf-label-spacing);
+  color: var(--vf-text-4);
+  padding-bottom: 3px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: var(--vf-font-family);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--vf-border-2);
+}

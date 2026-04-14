@@ -1,0 +1,116 @@
+/* Tabs / Collapsible / Modal / Toast / Kbd */
+
+.vf-tabs {
+  display: flex;
+  gap: 2px;
+}
+
+/* Collapsible */
+.vf-collapsible__trigger {
+  background: transparent;
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-3);
+  padding: 5px 12px;
+  font-size: var(--vf-font-xs);
+  letter-spacing: var(--vf-label-spacing);
+  font-family: var(--vf-font-family);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: left;
+  outline: none;
+}
+.vf-collapsible__caret {
+  color: var(--vf-accent, var(--vf-red));
+  display: inline-block;
+  transition: transform 0.2s;
+  font-size: 10px;
+}
+.vf-collapsible__trigger[aria-expanded="true"] .vf-collapsible__caret {
+  transform: rotate(180deg);
+}
+.vf-collapsible__content {
+  border: 1px solid var(--vf-border-1);
+  border-top: none;
+  background: var(--vf-bg-2);
+  padding: var(--vf-sp-8);
+}
+
+/* Modal */
+.vf-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--vf-z-modal);
+  font-family: var(--vf-font-family);
+}
+.vf-modal__panel {
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-2);
+  padding: var(--vf-sp-9);
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.vf-modal__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--vf-sp-7);
+}
+.vf-modal__close {
+  background: transparent;
+  border: none;
+  color: var(--vf-text-4);
+  cursor: pointer;
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-lg);
+  padding: 2px 6px;
+}
+
+/* Toast */
+.vf-toast {
+  padding: 8px 14px;
+  font-size: var(--vf-font-sm);
+  font-family: var(--vf-font-family);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: color-mix(in srgb, var(--vf-toast-color, var(--vf-info)) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--vf-toast-color, var(--vf-info)) 20%, transparent);
+  color: var(--vf-toast-color, var(--vf-info));
+}
+.vf-toast__dot {
+  font-size: 6px;
+}
+.vf-toast__msg {
+  flex: 1;
+}
+.vf-toast__dismiss {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-md);
+  padding: 0 4px;
+  opacity: 0.6;
+}
+
+/* Kbd */
+.vf-kbd {
+  display: inline-block;
+  font-size: var(--vf-font-xxs);
+  padding: 1px 5px;
+  background: var(--vf-bg-3);
+  border: 1px solid var(--vf-border-2);
+  color: var(--vf-text-3);
+  font-family: var(--vf-font-family);
+}

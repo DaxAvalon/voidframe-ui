@@ -1,0 +1,57 @@
+/* Reusable utility classes. */
+
+.vf-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.vf-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vf-no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.vf-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.vf-uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* SkipToContent — visually hidden until focused, then fixed at the top. */
+.vf-skip-to-content {
+  position: absolute;
+  left: var(--vf-sp-4);
+  top: var(--vf-sp-4);
+  transform: translateY(-200%);
+  padding: var(--vf-sp-4) var(--vf-sp-7);
+  background: var(--vf-bg-2);
+  color: var(--vf-text-0);
+  border: 1px solid var(--vf-border-3);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--vf-letter-spacing);
+  text-decoration: none;
+  z-index: 9999;
+  transition: transform var(--vf-duration-base) var(--vf-easing-standard);
+}
+.vf-skip-to-content:focus,
+.vf-skip-to-content:focus-visible {
+  transform: translateY(0);
+  outline: var(--vf-focus-ring);
+  outline-offset: var(--vf-focus-offset);
+}

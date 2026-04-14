@@ -1,0 +1,69 @@
+/* Layout primitives: Flex, HStack, VStack, Grid, Container, Center, AspectRatio, SplitView, Stretch, Box */
+
+.vf-flex {
+  display: flex;
+  flex-direction: row;
+  gap: var(--vf-sp-4);
+}
+.vf-flex--column { flex-direction: column; }
+.vf-flex--row    { flex-direction: row; }
+.vf-flex--row-reverse    { flex-direction: row-reverse; }
+.vf-flex--column-reverse { flex-direction: column-reverse; }
+.vf-flex--wrap { flex-wrap: wrap; }
+
+.vf-hstack {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--vf-sp-4);
+}
+.vf-vstack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--vf-sp-4);
+}
+
+.vf-grid {
+  display: grid;
+  gap: var(--vf-sp-6);
+}
+
+.vf-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 var(--vf-sp-9);
+  box-sizing: border-box;
+}
+
+.vf-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vf-aspect-ratio {
+  position: relative;
+  width: 100%;
+}
+.vf-aspect-ratio__inner {
+  position: absolute;
+  inset: 0;
+}
+
+.vf-split-view {
+  display: grid;
+  grid-template-columns: var(--vf-sidebar-width, 260px) 1fr;
+  gap: var(--vf-sp-6);
+  min-height: 100%;
+}
+
+.vf-stretch {
+  flex: 1;
+}
+
+.vf-box {
+  font-family: var(--vf-font-family);
+  border-radius: var(--vf-radius);
+}

@@ -1,0 +1,40 @@
+/* Text / Label / Divider / Spacer */
+
+.vf-text {
+  font-family: var(--vf-font-family);
+  color: var(--vf-text-1);
+  line-height: var(--vf-line-height);
+  margin: 0;
+  font-weight: 400;
+}
+
+.vf-text--xxs { font-size: var(--vf-font-xxs); }
+.vf-text--xs  { font-size: var(--vf-font-xs); }
+.vf-text--sm  { font-size: var(--vf-font-sm); }
+.vf-text--md  { font-size: var(--vf-font-md); }
+.vf-text--lg  { font-size: var(--vf-font-lg); }
+.vf-text--xl  { font-size: var(--vf-font-xl); }
+.vf-text--xxl { font-size: var(--vf-font-xxl); }
+.vf-text--3xl { font-size: var(--vf-font-3xl); }
+
+.vf-text--upper {
+  text-transform: uppercase;
+}
+
+.vf-label {
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  letter-spacing: var(--vf-label-spacing);
+  color: var(--vf-text-3);
+  text-transform: uppercase;
+}
+
+.vf-divider {
+  border: 0;
+  border-top: 1px solid var(--vf-border-1);
+  margin: var(--vf-sp-6) 0;
+}
+
+.vf-spacer {
+  height: var(--vf-sp-6);
+}

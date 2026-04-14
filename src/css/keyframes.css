@@ -1,0 +1,96 @@
+/* Animation primitives. Used by Phase 6 Transition and overlay primitives. */
+
+@keyframes vf-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes vf-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes vf-slide-up-in {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes vf-slide-up-out {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(8px); opacity: 0; }
+}
+
+@keyframes vf-slide-down-in {
+  from { transform: translateY(-8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes vf-slide-down-out {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-8px); opacity: 0; }
+}
+
+@keyframes vf-slide-left-in {
+  from { transform: translateX(8px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes vf-slide-left-out {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(8px); opacity: 0; }
+}
+
+@keyframes vf-slide-right-in {
+  from { transform: translateX(-8px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes vf-slide-right-out {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(-8px); opacity: 0; }
+}
+
+@keyframes vf-scale-in {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes vf-scale-out {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.96); opacity: 0; }
+}
+
+@keyframes vf-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes vf-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes vf-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Drawer directionals */
+@keyframes vf-drawer-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+@keyframes vf-drawer-out-right {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+@keyframes vf-drawer-in-left {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+@keyframes vf-drawer-out-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

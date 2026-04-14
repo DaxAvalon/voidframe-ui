@@ -1,0 +1,15 @@
+# Voidframe dev image
+# One image, reused by every compose service.
+# Dependencies are installed at build time; source is bind-mounted at runtime.
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install deps first so this layer caches independently of source changes.
+COPY package.json package-lock.json* ./
+RUN npm install --no-fund --no-audit
+
+# Source is mounted at runtime via docker-compose; nothing copied here.
+# Defaults to an interactive shell; override per-service in compose.
+CMD ["sh"]

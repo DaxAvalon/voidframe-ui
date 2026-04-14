@@ -1,0 +1,25 @@
+/* Voidframe CSS — single-file consumer entry.
+ *
+ * Import order matters: tokens first (define vars), then keyframes/utilities
+ * (foundational), then base (theme baseline), then components (consume vars).
+ *
+ * Consumers do: `import "voidframe/styles.css"`
+ */
+
+@import "./tokens.css";
+@import "./reset.css";
+@import "./keyframes.css";
+@import "./utilities.css";
+@import "./base.css";
+@import "./components/text.css";
+@import "./components/layout.css";
+@import "./components/button.css";
+@import "./components/badge.css";
+@import "./components/card.css";
+@import "./components/form.css";
+@import "./components/form-extended.css";
+@import "./components/data.css";
+@import "./components/data-extended.css";
+@import "./components/navigation.css";
+@import "./components/interactive.css";
+@import "./components/overlay.css";

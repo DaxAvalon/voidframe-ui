@@ -1,0 +1,137 @@
+/* ═══════════════════════════════════════════════════════════════
+ * VOIDFRAME — DESIGN TOKENS (CSS custom properties)
+ *
+ * MIRROR of `src/tokens.ts` — when you change values there,
+ * change them here too. (Auto-generation script lives in Phase 22 tooling.)
+ *
+ * Theme switching: set `data-vf-theme="light"` on the .vf-root element.
+ * ═══════════════════════════════════════════════════════════════ */
+
+:root,
+[data-vf-theme="dark"] {
+  /* surfaces */
+  --vf-bg-0: #050505;
+  --vf-bg-1: #0a0a0a;
+  --vf-bg-2: #0d0d0d;
+  --vf-bg-3: #111111;
+  --vf-bg-4: #161616;
+  --vf-bg-5: #1a1a1a;
+
+  /* borders */
+  --vf-border-0: #111111;
+  --vf-border-1: #1a1a1a;
+  --vf-border-2: #222222;
+  --vf-border-3: #333333;
+  --vf-border-4: #444444;
+
+  /* text */
+  --vf-text-0: #ffffff;
+  --vf-text-1: #cccccc;
+  --vf-text-2: #888888;
+  --vf-text-3: #555555;
+  --vf-text-4: #333333;
+  --vf-text-5: #1a1a1a;
+
+  /* accents */
+  --vf-green: #4ade80;
+  --vf-red: #f87171;
+  --vf-amber: #c8aa3e;
+  --vf-blue: #6b9fdd;
+  --vf-purple: #a855f7;
+  --vf-cyan: #22d3ee;
+  --vf-rose: #ff6b6b;
+
+  /* semantic aliases */
+  --vf-success: var(--vf-green);
+  --vf-danger: var(--vf-red);
+  --vf-warning: var(--vf-amber);
+  --vf-info: var(--vf-blue);
+
+  /* typography */
+  --vf-font-family: "Courier New", "Courier", "Liberation Mono", monospace;
+  --vf-font-xxs: 8px;
+  --vf-font-xs: 9px;
+  --vf-font-sm: 10px;
+  --vf-font-md: 12px;
+  --vf-font-lg: 14px;
+  --vf-font-xl: 18px;
+  --vf-font-xxl: 24px;
+  --vf-font-3xl: 32px;
+  --vf-line-height: 1.6;
+  --vf-letter-spacing: 1.5px;
+  --vf-label-spacing: 2px;
+
+  /* spacing */
+  --vf-sp-1: 2px;
+  --vf-sp-2: 4px;
+  --vf-sp-3: 6px;
+  --vf-sp-4: 8px;
+  --vf-sp-5: 10px;
+  --vf-sp-6: 12px;
+  --vf-sp-7: 14px;
+  --vf-sp-8: 16px;
+  --vf-sp-9: 20px;
+  --vf-sp-10: 24px;
+  --vf-sp-11: 32px;
+  --vf-sp-12: 48px;
+
+  /* motion */
+  --vf-transition: all 0.15s ease;
+  --vf-duration-fast: 100ms;
+  --vf-duration-base: 150ms;
+  --vf-duration-slow: 250ms;
+  --vf-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --vf-easing-emphasized: cubic-bezier(0.3, 0, 0, 1);
+
+  /* geometry */
+  --vf-radius: 0;
+
+  /* z-index */
+  --vf-z-base: 0;
+  --vf-z-dropdown: 1000;
+  --vf-z-sticky: 1100;
+  --vf-z-modal: 1300;
+  --vf-z-popover: 1400;
+  --vf-z-tooltip: 1500;
+  --vf-z-toast: 1600;
+
+  /* focus */
+  --vf-focus-ring: 2px solid var(--vf-text-0);
+  --vf-focus-offset: 0;
+}
+
+[data-vf-theme="light"] {
+  --vf-bg-0: #f5f5f0;
+  --vf-bg-1: #eaeae5;
+  --vf-bg-2: #e0e0db;
+  --vf-bg-3: #d6d6d1;
+  --vf-bg-4: #cccccc;
+  --vf-bg-5: #c0c0bb;
+  --vf-border-0: #d6d6d1;
+  --vf-border-1: #cccccc;
+  --vf-border-2: #bbbbbb;
+  --vf-border-3: #999999;
+  --vf-border-4: #777777;
+  --vf-text-0: #111111;
+  --vf-text-1: #333333;
+  --vf-text-2: #666666;
+  --vf-text-3: #888888;
+  --vf-text-4: #aaaaaa;
+  --vf-text-5: #cccccc;
+  --vf-green: #16a34a;
+  --vf-red: #dc2626;
+  --vf-amber: #a16207;
+  --vf-blue: #2563eb;
+  --vf-purple: #7c3aed;
+  --vf-cyan: #0891b2;
+  --vf-rose: #e11d48;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --vf-transition: none;
+    --vf-duration-fast: 0.01ms;
+    --vf-duration-base: 0.01ms;
+    --vf-duration-slow: 0.01ms;
+  }
+}
