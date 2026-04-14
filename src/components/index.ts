@@ -210,6 +210,19 @@ export type {
   PinInputProps,
   TagInputProps,
 } from "./FormAdvanced";
+
+// ── Phase 7.2: date/time family ─────────────────────────────
+export { DatePicker, DateRangePicker } from "./DatePicker";
+export type {
+  DatePickerProps,
+  DateRange,
+  DateRangePickerProps,
+  DateRangePreset,
+} from "./DatePicker";
+export { TimePicker } from "./TimePicker";
+export type { TimePickerProps, TimePickerFormat } from "./TimePicker";
+export { DateTimePicker } from "./DateTimePicker";
+export type { DateTimePickerProps } from "./DateTimePicker";
 export type {
   DrawerProps,
   DropdownProps,

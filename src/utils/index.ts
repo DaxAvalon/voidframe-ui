@@ -40,3 +40,20 @@ export type {
 } from "./polymorphic";
 export { genericForwardRef } from "./forwardRef";
 export { deprecatedProp, deprecatedComponent } from "./deprecate";
+
+// Date helpers (Phase 7.2).
+export {
+  startOfDay,
+  startOfMonth,
+  endOfMonth,
+  addDays,
+  addMonths,
+  isSameDay,
+  isSameMonth,
+  getMonthGrid,
+  weekdayNames,
+  monthName,
+  formatDate,
+  parseDate,
+  clampDate,
+} from "./date";
