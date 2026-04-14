@@ -40,3 +40,10 @@ export { ErrorBoundary, type ErrorBoundaryProps } from "./ErrorBoundary";
 
 // ── Skip link ──────────────────────────────────────────────────
 export { SkipToContent, type SkipToContentProps } from "./SkipToContent";
+
+// ── Animation ──────────────────────────────────────────────────
+export {
+  Transition,
+  type TransitionProps,
+  type TransitionType,
+} from "./Transition";

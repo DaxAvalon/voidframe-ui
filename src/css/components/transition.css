@@ -1,0 +1,30 @@
+/* <Transition> animation types — data-state-driven. */
+
+.vf-transition[data-state="open"]   {
+  animation-duration: var(--vf-transition-enter-duration, var(--vf-duration-base));
+  animation-timing-function: var(--vf-easing-standard);
+  animation-fill-mode: both;
+}
+.vf-transition[data-state="closed"] {
+  animation-duration: var(--vf-transition-exit-duration, var(--vf-duration-fast));
+  animation-timing-function: var(--vf-easing-standard);
+  animation-fill-mode: both;
+}
+
+.vf-transition--fade[data-state="open"]   { animation-name: vf-fade-in; }
+.vf-transition--fade[data-state="closed"] { animation-name: vf-fade-out; }
+
+.vf-transition--scale[data-state="open"]   { animation-name: vf-scale-in; }
+.vf-transition--scale[data-state="closed"] { animation-name: vf-scale-out; }
+
+.vf-transition--slide-up[data-state="open"]   { animation-name: vf-slide-up-in; }
+.vf-transition--slide-up[data-state="closed"] { animation-name: vf-slide-up-out; }
+
+.vf-transition--slide-down[data-state="open"]   { animation-name: vf-slide-down-in; }
+.vf-transition--slide-down[data-state="closed"] { animation-name: vf-slide-down-out; }
+
+.vf-transition--slide-left[data-state="open"]   { animation-name: vf-slide-left-in; }
+.vf-transition--slide-left[data-state="closed"] { animation-name: vf-slide-left-out; }
+
+.vf-transition--slide-right[data-state="open"]   { animation-name: vf-slide-right-in; }
+.vf-transition--slide-right[data-state="closed"] { animation-name: vf-slide-right-out; }

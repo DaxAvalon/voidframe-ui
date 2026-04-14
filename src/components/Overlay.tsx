@@ -5,6 +5,7 @@ import { useMergedRefs } from "../hooks/useMergedRefs";
 import { DismissableLayer } from "../primitives/DismissableLayer";
 import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
+import { Presence } from "../primitives/Presence";
 import type { Side, ToastType } from "../types";
 import { cx } from "../utils/cx";
 import { warn } from "../utils/warn";
@@ -27,12 +28,14 @@ export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
   title?: string;
   side?: "left" | "right";
   width?: string | number;
+  /** Enable enter/exit animations. Default true. */
+  motion?: boolean;
   children?: ReactNode;
   style?: CSSProperties;
 }
 
 export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
-  { open, onClose, title, side = "right", width = "360px", children, className, style, ...props },
+  { open, onClose, title, side = "right", width = "360px", motion = true, children, className, style, ...props },
   ref
 ) {
   warn(
@@ -44,51 +47,58 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
     "<Drawer> requires a `title` or `aria-label`/`aria-labelledby` for accessibility."
   );
 
-  if (!open) return null;
+  const inner = (
+    <div
+      ref={ref}
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+      className="vf-drawer"
+      {...props}
+    >
+      <div
+        className="vf-drawer__backdrop"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+      <DismissableLayer onDismiss={onClose}>
+        <FocusScope
+          trapped
+          autoFocus
+          restoreFocus
+          loop
+          className={cx("vf-drawer__panel", `vf-drawer__panel--${side}`, className)}
+          style={{ width, ...style }}
+        >
+          <div className="vf-drawer__head">
+            {title && (
+              <Label style={{ fontSize: "var(--vf-font-sm)", color: "var(--vf-text-0)" }}>
+                {title}
+              </Label>
+            )}
+            <button
+              type="button"
+              className="vf-drawer__close"
+              onClick={onClose}
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          <div className="vf-drawer__body">{children}</div>
+        </FocusScope>
+      </DismissableLayer>
+    </div>
+  );
+
+  if (!motion) {
+    if (!open) return null;
+    return <Portal>{inner}</Portal>;
+  }
 
   return (
     <Portal>
-      <div
-        ref={ref}
-        role="dialog"
-        aria-modal="true"
-        aria-label={title}
-        className="vf-drawer"
-        {...props}
-      >
-        <div
-          className="vf-drawer__backdrop"
-          onClick={onClose}
-          aria-hidden="true"
-        />
-        <DismissableLayer onDismiss={onClose}>
-          <FocusScope
-            trapped
-            autoFocus
-            restoreFocus
-            loop
-            className={cx("vf-drawer__panel", `vf-drawer__panel--${side}`, className)}
-            style={{ width, ...style }}
-          >
-            <div className="vf-drawer__head">
-              {title && (
-                <Label style={{ fontSize: "var(--vf-font-sm)", color: "var(--vf-text-0)" }}>
-                  {title}
-                </Label>
-              )}
-              <button
-                type="button"
-                className="vf-drawer__close"
-                onClick={onClose}
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-            <div className="vf-drawer__body">{children}</div>
-          </FocusScope>
-        </DismissableLayer>
-      </div>
+      <Presence present={open}>{inner}</Presence>
     </Portal>
   );
 });
@@ -280,6 +290,8 @@ export interface ConfirmDialogProps extends HTMLAttributes<HTMLDivElement> {
   confirmLabel?: string;
   cancelLabel?: string;
   danger?: boolean;
+  /** Enable enter/exit animations. Default true. */
+  motion?: boolean;
   style?: CSSProperties;
 }
 
@@ -294,43 +306,52 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
       confirmLabel = "CONFIRM",
       cancelLabel = "CANCEL",
       danger,
+      motion = true,
       className,
       style,
       ...props
     },
     ref
   ) {
-    if (!open) return null;
+    const inner = (
+      <DismissableLayer onDismiss={onCancel} className="vf-modal__backdrop">
+        <FocusScope
+          ref={ref as never}
+          trapped
+          autoFocus
+          restoreFocus
+          loop
+          className={cx("vf-confirm__panel", className)}
+          style={style}
+          role="alertdialog"
+          aria-modal="true"
+          aria-label={title}
+          {...(props as HTMLAttributes<HTMLDivElement>)}
+        >
+          <Label className="vf-confirm__title">{title}</Label>
+          {message && <div className="vf-confirm__msg">{message}</div>}
+          <div className="vf-confirm__actions">
+            <Button onClick={onCancel}>{cancelLabel}</Button>
+            <Button
+              variant="solid"
+              accent={danger ? "var(--vf-danger)" : "var(--vf-green)"}
+              onClick={onConfirm}
+            >
+              {confirmLabel}
+            </Button>
+          </div>
+        </FocusScope>
+      </DismissableLayer>
+    );
+
+    if (!motion) {
+      if (!open) return null;
+      return <Portal>{inner}</Portal>;
+    }
+
     return (
       <Portal>
-        <DismissableLayer onDismiss={onCancel} className="vf-modal__backdrop">
-          <FocusScope
-            ref={ref as never}
-            trapped
-            autoFocus
-            restoreFocus
-            loop
-            className={cx("vf-confirm__panel", className)}
-            style={style}
-            role="alertdialog"
-            aria-modal="true"
-            aria-label={title}
-            {...(props as HTMLAttributes<HTMLDivElement>)}
-          >
-            <Label className="vf-confirm__title">{title}</Label>
-            {message && <div className="vf-confirm__msg">{message}</div>}
-            <div className="vf-confirm__actions">
-              <Button onClick={onCancel}>{cancelLabel}</Button>
-              <Button
-                variant="solid"
-                accent={danger ? "var(--vf-danger)" : "var(--vf-green)"}
-                onClick={onConfirm}
-              >
-                {confirmLabel}
-              </Button>
-            </div>
-          </FocusScope>
-        </DismissableLayer>
+        <Presence present={open}>{inner}</Presence>
       </Portal>
     );
   }

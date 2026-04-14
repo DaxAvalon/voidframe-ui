@@ -39,6 +39,17 @@
   padding: var(--vf-sp-8);
 }
 
+/* ── Modal animations ────────────────────────────────────────────
+ * Presence sets data-state on the backdrop. Backdrop fades; panel
+ * inside scales. motion={false} suppresses the attribute entirely.
+ */
+.vf-modal__backdrop[data-state="open"]  { animation: vf-fade-in  var(--vf-duration-base) var(--vf-easing-standard) both; }
+.vf-modal__backdrop[data-state="closed"] { animation: vf-fade-out var(--vf-duration-fast) var(--vf-easing-standard) both; }
+.vf-modal__backdrop[data-state="open"]  .vf-modal__panel   { animation: vf-scale-in  var(--vf-duration-base) var(--vf-easing-emphasized) both; }
+.vf-modal__backdrop[data-state="closed"] .vf-modal__panel  { animation: vf-scale-out var(--vf-duration-fast) var(--vf-easing-standard) both; }
+.vf-modal__backdrop[data-state="open"]  .vf-confirm__panel  { animation: vf-scale-in  var(--vf-duration-base) var(--vf-easing-emphasized) both; }
+.vf-modal__backdrop[data-state="closed"] .vf-confirm__panel { animation: vf-scale-out var(--vf-duration-fast) var(--vf-easing-standard) both; }
+
 /* Modal */
 .vf-modal__backdrop {
   position: fixed;

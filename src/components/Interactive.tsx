@@ -5,6 +5,7 @@ import { useId } from "../hooks/useId";
 import { DismissableLayer } from "../primitives/DismissableLayer";
 import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
+import { Presence } from "../primitives/Presence";
 import type { ToastType } from "../types";
 import { cx } from "../utils/cx";
 import { warn } from "../utils/warn";
@@ -156,12 +157,14 @@ export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   /** Accessible name. Highly recommended. */
   title?: string;
   width?: string | number;
+  /** Enable enter/exit animations. Default true. */
+  motion?: boolean;
   children?: ReactNode;
   style?: CSSProperties;
 }
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
-  { open, onClose, title, width = "480px", children, className, style, ...props },
+  { open, onClose, title, width = "480px", motion = true, children, className, style, ...props },
   ref
 ) {
   warn(
@@ -173,45 +176,53 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
     "<Modal> requires a `title` or `aria-label`/`aria-labelledby` for accessibility."
   );
 
-  if (!open) return null;
+  const inner = (
+    <DismissableLayer
+      onDismiss={onClose}
+      className="vf-modal__backdrop"
+    >
+      <FocusScope
+        ref={ref as never}
+        trapped
+        autoFocus
+        restoreFocus
+        loop
+        className={cx("vf-modal__panel", className)}
+        style={{ width, ...style }}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        {...(props as HTMLAttributes<HTMLDivElement>)}
+      >
+        {title && (
+          <div className="vf-modal__head">
+            <Label style={{ fontSize: "var(--vf-font-sm)", color: "var(--vf-text-0)" }}>
+              {title}
+            </Label>
+            <button
+              type="button"
+              className="vf-modal__close"
+              onClick={onClose}
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+        )}
+        {children}
+      </FocusScope>
+    </DismissableLayer>
+  );
+
+  // motion={false} → use the original conditional-render path, no Presence.
+  if (!motion) {
+    if (!open) return null;
+    return <Portal>{inner}</Portal>;
+  }
 
   return (
     <Portal>
-      <DismissableLayer
-        onDismiss={onClose}
-        className="vf-modal__backdrop"
-      >
-        <FocusScope
-          ref={ref as never}
-          trapped
-          autoFocus
-          restoreFocus
-          loop
-          className={cx("vf-modal__panel", className)}
-          style={{ width, ...style }}
-          role="dialog"
-          aria-modal="true"
-          aria-label={title}
-          {...(props as HTMLAttributes<HTMLDivElement>)}
-        >
-          {title && (
-            <div className="vf-modal__head">
-              <Label style={{ fontSize: "var(--vf-font-sm)", color: "var(--vf-text-0)" }}>
-                {title}
-              </Label>
-              <button
-                type="button"
-                className="vf-modal__close"
-                onClick={onClose}
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-          )}
-          {children}
-        </FocusScope>
-      </DismissableLayer>
+      <Presence present={open}>{inner}</Presence>
     </Portal>
   );
 });

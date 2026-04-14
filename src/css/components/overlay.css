@@ -1,5 +1,17 @@
 /* Drawer / Dropdown / Popover / Alert / ConfirmDialog */
 
+/* ── Drawer animations ───────────────────────────────────────────
+ * Presence sets `data-state="open"` / `"closed"` on the root .vf-drawer.
+ * Backdrop fades; panel slides from its side. motion={false} suppresses
+ * the data-state attribute so these rules don't match.
+ */
+.vf-drawer[data-state="open"]  .vf-drawer__backdrop { animation: vf-fade-in var(--vf-duration-base) var(--vf-easing-standard) both; }
+.vf-drawer[data-state="closed"] .vf-drawer__backdrop { animation: vf-fade-out var(--vf-duration-fast) var(--vf-easing-standard) both; }
+.vf-drawer[data-state="open"]  .vf-drawer__panel--right { animation: vf-drawer-in-right  var(--vf-duration-slow) var(--vf-easing-emphasized) both; }
+.vf-drawer[data-state="closed"] .vf-drawer__panel--right { animation: vf-drawer-out-right var(--vf-duration-base) var(--vf-easing-standard) both; }
+.vf-drawer[data-state="open"]  .vf-drawer__panel--left  { animation: vf-drawer-in-left   var(--vf-duration-slow) var(--vf-easing-emphasized) both; }
+.vf-drawer[data-state="closed"] .vf-drawer__panel--left  { animation: vf-drawer-out-left  var(--vf-duration-base) var(--vf-easing-standard) both; }
+
 /* Drawer */
 .vf-drawer {
   position: fixed;
