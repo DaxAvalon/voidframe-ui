@@ -231,6 +231,7 @@ import {
   darkTheme,
   lightTheme,
   midnightTheme,
+  greyTheme,
   useThemePersistence,
   // Phase 14: icons
   Icon,
@@ -2803,12 +2804,17 @@ function ResponsiveSection() {
 
 function ThemingSection() {
   const [previewTheme, setPreviewTheme] = useState<
-    "dark" | "light" | "midnight"
+    "dark" | "light" | "midnight" | "grey"
   >("light");
   const [density, setDensity] = useState<"comfortable" | "compact" | "spacious">(
     "comfortable"
   );
-  const themeMap = { dark: darkTheme, light: lightTheme, midnight: midnightTheme };
+  const themeMap = {
+    dark: darkTheme,
+    light: lightTheme,
+    midnight: midnightTheme,
+    grey: greyTheme,
+  };
   return (
     <Frame
       title="Theming — Scope + Density + Contrast"
@@ -2824,6 +2830,7 @@ function ThemingSection() {
               { id: "dark", label: "Dark" },
               { id: "light", label: "Light" },
               { id: "midnight", label: "Midnight" },
+              { id: "grey", label: "Grey" },
             ]}
           />
           <ThemeScope
@@ -2935,6 +2942,7 @@ function ThemingSection() {
               { id: "dark", label: "Dark" },
               { id: "light", label: "Light" },
               { id: "midnight", label: "Midnight" },
+              { id: "grey", label: "Grey" },
               { id: "system", label: "Auto" },
             ]}
           />
@@ -4262,11 +4270,11 @@ function App() {
   const [activeId, setActiveId] = useState(SECTIONS[0]!.id);
   const [collapsed, setCollapsed] = useState(false);
   const { theme: themeName, setTheme: setThemeName } = useThemePersistence<
-    "dark" | "light" | "midnight" | "system"
+    "dark" | "light" | "midnight" | "grey" | "system"
   >({
     key: "voidframe-demo-theme",
     defaultTheme: "dark",
-    allowed: ["dark", "light", "midnight", "system"] as const,
+    allowed: ["dark", "light", "midnight", "grey", "system"] as const,
   });
   const [localeTag, setLocaleTag] = useState<string>("en");
   const localePack = LOCALE_PACKS[localeTag] ?? LOCALE_PACKS.en!;
@@ -4303,6 +4311,7 @@ function App() {
                     { id: "dark", label: "Dark" },
                     { id: "light", label: "Light" },
                     { id: "midnight", label: "Midnight" },
+                    { id: "grey", label: "Grey" },
                     { id: "system", label: "Auto" },
                   ]}
                 />

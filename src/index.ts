@@ -41,6 +41,7 @@ export {
   darkTheme,
   lightTheme,
   midnightTheme,
+  greyTheme,
   tokensToCssVars,
   THEME_NAMES,
 } from "./themes";
