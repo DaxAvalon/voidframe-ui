@@ -1126,6 +1126,10 @@ function DataGridPagination({
 
 // ── Compound export ──────────────────────────────────────────
 
+/**
+ * A high-density data table with built-in sorting, filtering, pagination, and column management.
+ * Exposes compound subcomponents (Toolbar, Search, Filters, Pagination, Export) for flexible layouts.
+ */
 export const DataGrid = Object.assign(DataGridRoot, {
   Body: DataGridBody,
   Toolbar: DataGridToolbar,

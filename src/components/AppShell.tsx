@@ -41,6 +41,10 @@ function sizeToCss(n: number | string): string {
   return typeof n === "number" ? `${n}px` : n;
 }
 
+/**
+ * The top-level layout shell combining a sidebar, header, and main content area.
+ * Provides a consistent application chrome with configurable sizing for each region.
+ */
 export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
   function AppShell(
     {

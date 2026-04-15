@@ -62,6 +62,10 @@ export interface PopoverV2Props {
   children?: ReactNode;
 }
 
+/**
+ * An anchored popover that positions content relative to a trigger with viewport-flip and edge-clamp.
+ * Pair with PopoverV2.Trigger and PopoverV2.Content to attach rich content to any element.
+ */
 function PopoverRoot({ open, defaultOpen, onOpenChange, children }: PopoverV2Props) {
   const [internal, setInternal] = useState(defaultOpen ?? false);
   const isOpen = open ?? internal;
@@ -205,6 +209,11 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
 );
 PopoverContent.displayName = "PopoverContent";
 
+/**
+ * Anchored popover with viewport-flip + edge-clamp positioning.
+ * Compose with `PopoverV2.Trigger` and `PopoverV2.Content`. The content
+ * is portaled to the document body so it escapes overflow clipping.
+ */
 export const PopoverV2 = Object.assign(PopoverRoot, {
   Trigger: PopoverTrigger,
   Content: PopoverContent,

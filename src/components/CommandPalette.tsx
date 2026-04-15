@@ -584,6 +584,10 @@ function CommandPaletteFooter({ className, ...props }: HTMLAttributes<HTMLDivEle
   return <div className={cx("vf-cmd__footer", className)} {...props} />;
 }
 
+/**
+ * A cmd+K search overlay for fuzzy-finding actions, pages, and commands.
+ * Register commands with `useCommand` and compose results via the Input, List, Group, and Item subcomponents.
+ */
 export const CommandPalette = Object.assign(CommandPaletteRoot, {
   Input: CommandPaletteInput,
   List: CommandPaletteList,

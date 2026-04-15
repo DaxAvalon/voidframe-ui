@@ -47,6 +47,10 @@ export interface KanbanProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * A column-based task board that supports dragging items between columns.
+ * Emits move events so callers can persist reordering and cross-column transitions.
+ */
 export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
   {
     columns,

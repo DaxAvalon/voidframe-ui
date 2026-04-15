@@ -1,12 +1,5 @@
 [
   {
-    "name": "_resetWarnings",
-    "kind": "function",
-    "signature": "export function _resetWarnings(): void",
-    "description": "Test helper: clear the `warnOnce` deduplication cache so each test\nsees fresh warnings. Not exported from the package barrel.",
-    "file": "src/utils/warn.ts"
-  },
-  {
     "name": "addDays",
     "kind": "function",
     "signature": "export function addDays(d: Date, n: number): Date",

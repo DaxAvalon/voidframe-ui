@@ -62,6 +62,10 @@ export interface DialogProps {
   children?: ReactNode;
 }
 
+/**
+ * A modal overlay anchored to the viewport with a focus trap and escape-to-close behavior.
+ * Pair with Dialog.Trigger and Dialog.Content to compose a dismissible modal surface.
+ */
 function DialogRoot({
   open,
   defaultOpen,
@@ -375,6 +379,12 @@ DialogAction.displayName = "DialogAction";
 
 // ── Compound ──────────────────────────────────────────────────
 
+/**
+ * Modal overlay with focus trap, escape-to-close, and portaled content.
+ * Controlled via `open` / `onOpenChange`. Compose with `Dialog.Trigger`,
+ * `Dialog.Content`, `Dialog.Header`, `Dialog.Footer`, and the action
+ * sub-components for confirm flows.
+ */
 export const Dialog = Object.assign(DialogRoot, {
   Trigger: DialogTrigger,
   Content: DialogContent,

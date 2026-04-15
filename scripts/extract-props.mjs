@@ -244,7 +244,11 @@ async function main() {
   console.log(`[extract-props] ${hooks.length} hooks → hooks.json`);
 
   const utils = (await extractFromDir(utilsDir, tsFilter)).filter(
-    (e) => e.kind === "function" || e.kind === "variable"
+    (e) =>
+      (e.kind === "function" || e.kind === "variable") &&
+      // Drop internal-only test helpers. These live inside the utils
+      // folder but are excluded from the public surface barrel.
+      !e.name.startsWith("_")
   );
   writeFileSync(join(outDir, "utils.json"), JSON.stringify(utils, null, 2));
   console.log(`[extract-props] ${utils.length} utils → utils.json`);

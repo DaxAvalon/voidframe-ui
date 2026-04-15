@@ -57,6 +57,10 @@ export interface MenuProps {
   children?: ReactNode;
 }
 
+/**
+ * A keyboard-navigable dropdown of actions, anchored to a trigger.
+ * Supports items, checkbox/radio items, submenus, separators, and labels.
+ */
 export function Menu({ open, defaultOpen, onOpenChange, children }: MenuProps) {
   const [internal, setInternal] = useState(defaultOpen ?? false);
   const isOpen = open ?? internal;

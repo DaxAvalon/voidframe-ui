@@ -70,6 +70,13 @@ export interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Compound vertically-stacked collapsible sections. `type="single"`
+ * (default) allows one open at a time; `type="multiple"` lets any
+ * number be open simultaneously. Supports controlled and uncontrolled
+ * modes via `value` / `defaultValue` and routes keyboard navigation
+ * (arrow keys, Home/End) through the registered triggers.
+ */
 function AccordionRoot({
   type = "single",
   value,
@@ -287,6 +294,12 @@ function AccordionContent({
   );
 }
 
+/**
+ * Compound vertically-stacked collapsible sections. `type="single"`
+ * (default) allows one open at a time; `type="multiple"` lets any
+ * number be open simultaneously. Compose with `Accordion.Item`,
+ * `Accordion.Trigger`, and `Accordion.Content`.
+ */
 export const Accordion = Object.assign(AccordionRoot, {
   Item: AccordionItem,
   Trigger: AccordionTrigger,

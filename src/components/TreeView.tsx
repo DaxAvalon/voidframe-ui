@@ -70,6 +70,10 @@ function flatten(
   return out;
 }
 
+/**
+ * A hierarchical tree for displaying and navigating nested data structures.
+ * Supports expand/collapse, keyboard traversal, and optional selection.
+ */
 export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(function TreeView(
   {
     items,

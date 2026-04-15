@@ -67,6 +67,10 @@ export interface ComboboxProps
   style?: CSSProperties;
 }
 
+/**
+ * A searchable single-select that pairs a text input with a filterable listbox.
+ * Users can type to narrow options and pick a single value from the results.
+ */
 export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
   function Combobox(
     {

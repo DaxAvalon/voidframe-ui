@@ -85,6 +85,10 @@ function startOfWeek(d: Date, firstDay: 0 | 1): Date {
   return addDays(start, -offset);
 }
 
+/**
+ * A date-grid calendar for navigating months and selecting dates.
+ * Supports month, week, and day views, optional event rendering, and single or range selection.
+ */
 export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calendar(
   {
     value,

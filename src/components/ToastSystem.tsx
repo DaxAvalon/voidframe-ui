@@ -203,6 +203,10 @@ export interface ToasterProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * A portaled queue of transient notifications rendered at a configurable viewport corner.
+ * Mount once near the application root; dispatch toasts via the `toast` API or `useToast` hook.
+ */
 export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(function Toaster(
   {
     position = "top-right",

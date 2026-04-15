@@ -31,6 +31,11 @@ export interface ActivityProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Vertical activity feed. Pair with `<Activity.Item>` children — each
+ * item shows a rail marker, an actor, an action, and a timestamp.
+ * Intended for audit logs, commit histories, and notification streams.
+ */
 const ActivityRoot = forwardRef<HTMLDivElement, ActivityProps>(function Activity(
   { className, children, ...props },
   ref
@@ -110,4 +115,9 @@ const ActivityItem = forwardRef<HTMLDivElement, ActivityItemProps>(
 );
 ActivityItem.displayName = "ActivityItem";
 
+/**
+ * Vertical activity feed. Pair with `Activity.Item` children — each
+ * item shows a rail marker, an actor, an action, and a timestamp.
+ * Intended for audit logs, commit histories, and notification streams.
+ */
 export const Activity = Object.assign(ActivityRoot, { Item: ActivityItem });

@@ -94,6 +94,8 @@ function OverviewPage() {
 function ComponentPage({ name }: { name: string }) {
   const doc = getPropsFor(name);
   const over = curated[name];
+  const hasDescription = Boolean(doc.description && doc.description.trim());
+  const hasProps = doc.props.length > 0;
   return (
     <div>
       {over ? (
@@ -119,23 +121,35 @@ function ComponentPage({ name }: { name: string }) {
             </section>
           ))}
         </>
-      ) : doc.description ? (
+      ) : hasDescription ? (
         <section className="vf-docs__block">
           <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
             Summary
           </Text>
-          <Text>{doc.description}</Text>
+          <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>
+            {doc.description}
+          </div>
+        </section>
+      ) : !hasProps ? (
+        <section className="vf-docs__block">
+          <Text size="sm" color="var(--vf-text-3)">
+            <code>{name}</code> is exported from voidframe but doesn&apos;t
+            yet have a TSDoc description or documented props. Check the
+            source link below for usage.
+          </Text>
         </section>
       ) : null}
-      <section className="vf-docs__block">
-        <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
-          Props
-        </Text>
-        <PropsTable
-          doc={doc}
-          exclude={["className", "style", "children"]}
-        />
-      </section>
+      {hasProps && (
+        <section className="vf-docs__block">
+          <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
+            Props
+          </Text>
+          <PropsTable
+            doc={doc}
+            exclude={["className", "style", "children"]}
+          />
+        </section>
+      )}
       {doc.file && (
         <Text size="sm" color="var(--vf-text-3)">
           Source: <code>{doc.file}</code>

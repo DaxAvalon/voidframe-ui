@@ -14,7 +14,7 @@
   },
   {
     "name": "Accordion",
-    "description": "",
+    "description": "Compound vertically-stacked collapsible sections. `type=\"single\"`\n(default) allows one open at a time; `type=\"multiple\"` lets any\nnumber be open simultaneously. Compose with `Accordion.Item`,\n`Accordion.Trigger`, and `Accordion.Content`.",
     "file": "src/components/Accordion.tsx",
     "props": [
       {
@@ -51,7 +51,7 @@
   },
   {
     "name": "Activity",
-    "description": "",
+    "description": "Vertical activity feed. Pair with `Activity.Item` children — each\nitem shows a rail marker, an actor, an action, and a timestamp.\nIntended for audit logs, commit histories, and notification streams.",
     "file": "src/components/Activity.tsx",
     "props": []
   },
@@ -285,7 +285,7 @@
   },
   {
     "name": "AppShell",
-    "description": "",
+    "description": "The top-level layout shell combining a sidebar, header, and main content area.\nProvides a consistent application chrome with configurable sizing for each region.",
     "file": "src/components/AppShell.tsx",
     "props": [
       {
@@ -2374,7 +2374,7 @@
   },
   {
     "name": "Calendar",
-    "description": "",
+    "description": "A date-grid calendar for navigating months and selecting dates.\nSupports month, week, and day views, optional event rendering, and single or range selection.",
     "file": "src/components/Calendar.tsx",
     "props": [
       {
@@ -4880,7 +4880,7 @@
   },
   {
     "name": "Combobox",
-    "description": "",
+    "description": "A searchable single-select that pairs a text input with a filterable listbox.\nUsers can type to narrow options and pick a single value from the results.",
     "file": "src/components/Combobox.tsx",
     "props": [
       {
@@ -4961,7 +4961,7 @@
   },
   {
     "name": "CommandPalette",
-    "description": "",
+    "description": "A cmd+K search overlay for fuzzy-finding actions, pages, and commands.\nRegister commands with `useCommand` and compose results via the Input, List, Group, and Item subcomponents.",
     "file": "src/components/CommandPalette.tsx",
     "props": [
       {
@@ -6281,7 +6281,7 @@
   },
   {
     "name": "DataGrid",
-    "description": "",
+    "description": "A high-density data table with built-in sorting, filtering, pagination, and column management.\nExposes compound subcomponents (Toolbar, Search, Filters, Pagination, Export) for flexible layouts.",
     "file": "src/components/DataGrid.tsx",
     "props": [
       {
@@ -6470,7 +6470,7 @@
   },
   {
     "name": "DatePicker",
-    "description": "",
+    "description": "A text input paired with a popover calendar; selecting a date fills the input.\nSupports keyboard entry, format parsing, and min/max bounds.",
     "file": "src/components/DatePicker.tsx",
     "props": [
       {
@@ -6979,7 +6979,7 @@
   },
   {
     "name": "Dialog",
-    "description": "",
+    "description": "Modal overlay with focus trap, escape-to-close, and portaled content.\nControlled via `open` / `onOpenChange`. Compose with `Dialog.Trigger`,\n`Dialog.Content`, `Dialog.Header`, `Dialog.Footer`, and the action\nsub-components for confirm flows.",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -7453,7 +7453,7 @@
   },
   {
     "name": "DrawerV2",
-    "description": "",
+    "description": "Side-anchored panel (top / right / bottom / left) with focus trap\nand escape-to-close. Controlled via `open` / `onOpenChange`. Compose\nwith `DrawerV2.Trigger`, `DrawerV2.Content`, and the header/body/\nfooter sub-components.",
     "file": "src/components/DrawerCompound.tsx",
     "props": [
       {
@@ -8804,7 +8804,7 @@
   },
   {
     "name": "Gantt",
-    "description": "",
+    "description": "A horizontal timeline that renders tasks as bars across a day, week, or month axis.\nUseful for schedule overviews, project plans, and resource-allocation views.",
     "file": "src/components/Gantt.tsx",
     "props": [
       {
@@ -10142,7 +10142,7 @@
   },
   {
     "name": "Input",
-    "description": "",
+    "description": "A single-line text field with optional label and standard HTML input types.",
     "file": "src/components/Form.tsx",
     "props": [
       {
@@ -10297,7 +10297,7 @@
   },
   {
     "name": "Kanban",
-    "description": "",
+    "description": "A column-based task board that supports dragging items between columns.\nEmits move events so callers can persist reordering and cross-column transitions.",
     "file": "src/components/Kanban.tsx",
     "props": [
       {
@@ -11491,7 +11491,7 @@
   },
   {
     "name": "Menu",
-    "description": "",
+    "description": "A keyboard-navigable dropdown of actions, anchored to a trigger.\nSupports items, checkbox/radio items, submenus, separators, and labels.",
     "file": "src/components/Menu.tsx",
     "props": [
       {
@@ -14283,7 +14283,7 @@
   },
   {
     "name": "PopoverV2",
-    "description": "",
+    "description": "Anchored popover with viewport-flip + edge-clamp positioning.\nCompose with `PopoverV2.Trigger` and `PopoverV2.Content`. The content\nis portaled to the document body so it escapes overflow clipping.",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -16570,7 +16570,7 @@
   },
   {
     "name": "Select",
-    "description": "",
+    "description": "A native dropdown for choosing one value from a fixed list of options.",
     "file": "src/components/Form.tsx",
     "props": [
       {
@@ -19608,7 +19608,7 @@
   },
   {
     "name": "Textarea",
-    "description": "",
+    "description": "A multi-line text field for longer free-form input, with configurable rows and optional label.",
     "file": "src/components/Form.tsx",
     "props": [
       {
@@ -19990,7 +19990,7 @@
   },
   {
     "name": "Toaster",
-    "description": "",
+    "description": "A portaled queue of transient notifications rendered at a configurable viewport corner.\nMount once near the application root; dispatch toasts via the `toast` API or `useToast` hook.",
     "file": "src/components/ToastSystem.tsx",
     "props": [
       {
@@ -20024,7 +20024,7 @@
   },
   {
     "name": "Toggle",
-    "description": "",
+    "description": "A switch control for binary on/off state, with an accessible label and keyboard support.",
     "file": "src/components/Form.tsx",
     "props": [
       {
@@ -20629,7 +20629,7 @@
   },
   {
     "name": "TreeView",
-    "description": "",
+    "description": "A hierarchical tree for displaying and navigating nested data structures.\nSupports expand/collapse, keyboard traversal, and optional selection.",
     "file": "src/components/TreeView.tsx",
     "props": [
       {

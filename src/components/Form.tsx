@@ -43,6 +43,9 @@ export interface InputProps extends InputBaseProps {
   style?: CSSProperties;
 }
 
+/**
+ * A single-line text field with optional label and standard HTML input types.
+ */
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   { value, onChange, placeholder, label, type = "text", width, className, style, id, ...props },
   ref
@@ -89,6 +92,9 @@ export interface TextareaProps extends TextareaBaseProps {
   style?: CSSProperties;
 }
 
+/**
+ * A multi-line text field for longer free-form input, with configurable rows and optional label.
+ */
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea(
     { value, onChange, placeholder, label, rows = 3, className, style, id, ...props },
@@ -133,6 +139,9 @@ export interface ToggleProps extends Omit<HTMLAttributes<HTMLDivElement>, "onCha
   style?: CSSProperties;
 }
 
+/**
+ * A switch control for binary on/off state, with an accessible label and keyboard support.
+ */
 export const Toggle = forwardRef<HTMLDivElement, ToggleProps>(function Toggle(
   { checked, defaultChecked, onChange, label, accent, className, style, ...props },
   ref
@@ -196,6 +205,9 @@ export interface SelectProps extends SelectBaseProps {
   style?: CSSProperties;
 }
 
+/**
+ * A native dropdown for choosing one value from a fixed list of options.
+ */
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
   { options, value, onChange, label, width, className, style, id, ...props },
   ref

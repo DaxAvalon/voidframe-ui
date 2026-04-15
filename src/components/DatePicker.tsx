@@ -320,6 +320,10 @@ export interface DatePickerProps
   style?: CSSProperties;
 }
 
+/**
+ * A text input paired with a popover calendar; selecting a date fills the input.
+ * Supports keyboard entry, format parsing, and min/max bounds.
+ */
 export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   function DatePicker(
     {

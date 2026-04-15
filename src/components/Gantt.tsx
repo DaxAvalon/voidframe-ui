@@ -68,6 +68,10 @@ function unitsToMs(units: number, g: GanttGranularity): number {
   return days * 86400000;
 }
 
+/**
+ * A horizontal timeline that renders tasks as bars across a day, week, or month axis.
+ * Useful for schedule overviews, project plans, and resource-allocation views.
+ */
 export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
   {
     tasks,

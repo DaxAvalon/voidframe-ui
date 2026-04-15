@@ -56,6 +56,10 @@ export interface DrawerV2Props {
   children?: ReactNode;
 }
 
+/**
+ * A side-anchored panel that slides in from the top, right, bottom, or left.
+ * Use with DrawerV2.Trigger and DrawerV2.Content to compose dismissible off-canvas surfaces.
+ */
 function DrawerRoot({
   open,
   defaultOpen,
@@ -259,6 +263,12 @@ function DrawerClose({
   );
 }
 
+/**
+ * Side-anchored panel (top / right / bottom / left) with focus trap
+ * and escape-to-close. Controlled via `open` / `onOpenChange`. Compose
+ * with `DrawerV2.Trigger`, `DrawerV2.Content`, and the header/body/
+ * footer sub-components.
+ */
 export const DrawerV2 = Object.assign(DrawerRoot, {
   Trigger: DrawerTrigger,
   Content: DrawerContent,
