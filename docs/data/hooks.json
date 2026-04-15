@@ -1,0 +1,383 @@
+[
+  {
+    "name": "ShortcutProvider",
+    "kind": "function",
+    "signature": "export function ShortcutProvider({ children }: ShortcutProviderProps)",
+    "file": "src/hooks/useShortcuts.tsx"
+  },
+  {
+    "name": "useAnnouncer",
+    "kind": "function",
+    "signature": "export function useAnnouncer(): AnnouncerApi",
+    "description": "Announce dynamic messages to assistive tech via a shared `aria-live` region.\nCreates two hidden regions (polite + assertive) once per page and reuses them.",
+    "file": "src/hooks/useAnnouncer.ts"
+  },
+  {
+    "name": "useAsync",
+    "kind": "function",
+    "signature": "export function useAsync<T, A extends unknown[] = []>( fn: (...args: A) => Promise<T> ): UseAsyncReturn<T, A>",
+    "description": "Manage an async function's lifecycle — pending / success / error.\n`run()` returns the resolved value (or undefined if cancelled by unmount).\nStale results are discarded after unmount.",
+    "file": "src/hooks/useAsync.ts"
+  },
+  {
+    "name": "useAsyncCallback",
+    "kind": "function",
+    "signature": "export function useAsyncCallback<T, A extends unknown[] = []>( fn: (...args: A) => Promise<T> ): UseAsyncReturn<T, A>",
+    "description": "Alias of `useAsync` — use whichever name reads better at the call site.",
+    "file": "src/hooks/useAsyncCallback.ts"
+  },
+  {
+    "name": "useClickOutside",
+    "kind": "function",
+    "signature": "export function useClickOutside<T extends HTMLElement = HTMLElement>( onClickOutside: () => void ): RefObject<T>",
+    "description": "Detect clicks outside a ref'd element.\n\n@returns A ref to attach to the element whose outside-clicks you want to detect.",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useColorScheme",
+    "kind": "function",
+    "signature": "export function useColorScheme( initial: ColorScheme = \"system\" ): UseColorSchemeReturn",
+    "description": "Manage color-scheme with \"system\" auto-resolution.\n\nDoes not persist — pair with `useLocalStorage` for that.",
+    "file": "src/hooks/useColorScheme.ts"
+  },
+  {
+    "name": "useControllableState",
+    "kind": "function",
+    "signature": "export function useControllableState<T>(",
+    "description": "Controlled-or-uncontrolled state primitive.\n\n- When `value` is provided, the component is controlled — internal state\n  is ignored, and `onChange` is the only way to mutate.\n- When `value` is undefined, the component is uncontrolled — internal\n  state seeded from `defaultValue` is used, and `onChange` (if given)\n  is still notified.\n\nDev-mode warns if a component switches between controlled and uncontrolled.",
+    "file": "src/hooks/useControllableState.ts"
+  },
+  {
+    "name": "useCopyToClipboard",
+    "kind": "function",
+    "signature": "export function useCopyToClipboard(resetDelay: number = 2000): UseCopyToClipboardReturn",
+    "description": "Copy to clipboard with success state that auto-resets.",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useCountdown",
+    "kind": "function",
+    "signature": "export function useCountdown(",
+    "description": "Live countdown to a future timestamp.",
+    "file": "src/hooks/useCountdown.ts"
+  },
+  {
+    "name": "useDebounce",
+    "kind": "function",
+    "signature": "export function useDebounce<T>(value: T, delay: number = 300): T",
+    "description": "Debounce a value.",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useDebouncedCallback",
+    "kind": "function",
+    "signature": "export function useDebouncedCallback<A extends unknown[]>( fn: (...args: A) => void, delay: number ): DebouncedFn<A>",
+    "description": "Debounce a function. Calls are coalesced — only the last invocation within\n`delay` ms runs (after the quiet window elapses).\n\nThe returned function has `.cancel()` and `.flush()` helpers; also cancelled\nautomatically on unmount.",
+    "file": "src/hooks/useDebouncedCallback.ts"
+  },
+  {
+    "name": "useElementSize",
+    "kind": "function",
+    "signature": "export function useElementSize<T extends Element>(ref: RefObject<T>): ResizeSize",
+    "description": "Convenience wrapper over `useResizeObserver`.",
+    "file": "src/hooks/useElementSize.ts"
+  },
+  {
+    "name": "useEscapeKey",
+    "kind": "function",
+    "signature": "export function useEscapeKey( handler: (e: KeyboardEvent) => void, enabled: boolean = true ): void",
+    "description": "Fire `handler` when the user presses Escape.\nHandler identity changes are tracked — no re-subscription per render.",
+    "file": "src/hooks/useEscapeKey.ts"
+  },
+  {
+    "name": "useEvent",
+    "kind": "function",
+    "signature": "export function useEvent<A extends unknown[], R>( fn: (...args: A) => R ): (...args: A) => R",
+    "description": "Stable callback ref that always sees the latest closure.\nImplements the React `useEvent` RFC: the returned function's identity never\nchanges, but it always invokes the most-recent version of `fn`.\n\nUse when passing a callback to deeply-memoized children or to effects with\nrestrictive dependency arrays.",
+    "file": "src/hooks/useEvent.ts"
+  },
+  {
+    "name": "useFocus",
+    "kind": "function",
+    "signature": "export function useFocus(): UseFocusReturn",
+    "description": "Track focus state. Spread `bind` onto the target element.",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useFocusReturn",
+    "kind": "function",
+    "signature": "export function useFocusReturn(enabled: boolean = true): void",
+    "description": "Save the element that had focus when this hook first runs, and restore focus\nto it on unmount. Used by overlays (Modal, Drawer, Popover) for a11y:\nthe user's focus returns to the trigger after the overlay closes.\n\n@param enabled Skip save/restore when false (for cleanly-dismounted overlays\n  that shouldn't restore — e.g. when the trigger itself was removed).",
+    "file": "src/hooks/useFocusReturn.ts"
+  },
+  {
+    "name": "useFocusVisible",
+    "kind": "function",
+    "signature": "export function useFocusVisible(): boolean",
+    "description": "Global `:focus-visible` state: `true` when the last interaction was keyboard\n(or programmatic), `false` for mouse/touch. Matches browser `:focus-visible`.\n\nSubscribe once — the state is shared via bubbling DOM events.",
+    "file": "src/hooks/useFocusVisible.ts"
+  },
+  {
+    "name": "useFocusWithin",
+    "kind": "function",
+    "signature": "export function useFocusWithin<T extends HTMLElement>(ref: RefObject<T>): boolean",
+    "description": "`true` when any descendant of the element has focus.",
+    "file": "src/hooks/useFocusWithin.ts"
+  },
+  {
+    "name": "useForceUpdate",
+    "kind": "function",
+    "signature": "export function useForceUpdate(): () => void",
+    "description": "Force re-render.",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useForm",
+    "kind": "function",
+    "signature": "export function useForm<T extends Record<string, unknown>>( options: UseFormOptions<T> ): UseFormReturn<T>",
+    "file": "src/hooks/useForm.ts"
+  },
+  {
+    "name": "useHasMounted",
+    "kind": "function",
+    "signature": "export function useHasMounted(): boolean",
+    "description": "Returns `false` during the first render, `true` after mount.\nUse to gate client-only content and avoid SSR hydration mismatches.",
+    "file": "src/hooks/useHasMounted.ts"
+  },
+  {
+    "name": "useHover",
+    "kind": "function",
+    "signature": "export function useHover(): UseHoverReturn",
+    "description": "Track hover state. Spread `bind` onto the target element.",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useId",
+    "kind": "function",
+    "signature": "export function useId(providedId?: string, prefix: string = \"vf\"): string",
+    "description": "SSR-safe stable ID. Wraps React 18's `useId` with a Voidframe prefix\nconvention so generated IDs are easy to spot in the DOM and DevTools.\n\n@param providedId If the consumer passes their own ID, use it verbatim.\n@param prefix     Convention prefix (default `\"vf\"`).",
+    "file": "src/hooks/useId.ts"
+  },
+  {
+    "name": "useIdle",
+    "kind": "function",
+    "signature": "export function useIdle(timeout: number): boolean",
+    "description": "`true` when the user has been idle (no input events) for `timeout` ms.",
+    "file": "src/hooks/useIdle.ts"
+  },
+  {
+    "name": "useIntersectionObserver",
+    "kind": "function",
+    "signature": "export function useIntersectionObserver<T extends Element>( ref: RefObject<T>, options: UseIntersectionOptions = {} ): IntersectionState",
+    "description": "Observe element intersection with the viewport (or a custom root).",
+    "file": "src/hooks/useIntersectionObserver.ts"
+  },
+  {
+    "name": "useInterval",
+    "kind": "function",
+    "signature": "export function useInterval(callback: () => void, delay: number | null): void",
+    "description": "Repeating interval with cleanup.\n@param delay `null` to pause.",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useIsomorphicLayoutEffect",
+    "kind": "variable",
+    "signature": "useIsomorphicLayoutEffect = typeof window !== \"undefined\" ? useLayoutEffect : useEffect",
+    "description": "`useLayoutEffect` on the client, `useEffect` on the server.\n\nUse in any hook that measures DOM (positioning, scroll, resize) so SSR\ndoesn't print `useLayoutEffect does nothing on the server` warnings.",
+    "file": "src/hooks/useIsomorphicLayoutEffect.ts"
+  },
+  {
+    "name": "useKeyboardShortcut",
+    "kind": "function",
+    "signature": "export function useKeyboardShortcut( key: string, handler: (e: KeyboardEvent) => void, modifiers: KeyModifiers = {} ): void",
+    "description": "Register a global keyboard shortcut.",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useKeyPress",
+    "kind": "function",
+    "signature": "export function useKeyPress(key: string): boolean",
+    "description": "`true` while `key` (KeyboardEvent.key, case-insensitive) is pressed.",
+    "file": "src/hooks/useKeyPress.ts"
+  },
+  {
+    "name": "useLocalStorage",
+    "kind": "function",
+    "signature": "export function useLocalStorage<T>( key: string, initialValue: T ): [T, (value: T | ((prev: T) => T)) => void]",
+    "description": "Persist state in localStorage.",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useLongPress",
+    "kind": "function",
+    "signature": "export function useLongPress( handler: (e: ReactPointerEvent) => void, { threshold = 500, onCancel }: UseLongPressOptions = {} ): LongPressBindings",
+    "description": "Long-press detection. Returns bindings to spread onto the target element.",
+    "file": "src/hooks/useLongPress.ts"
+  },
+  {
+    "name": "useMediaQuery",
+    "kind": "function",
+    "signature": "export function useMediaQuery(query: string): boolean",
+    "description": "Responsive media query hook.\n@param query e.g. `\"(max-width: 768px)\"`",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useMergedRefs",
+    "kind": "function",
+    "signature": "export function useMergedRefs<T>( ...refs: Array<Ref<T> | undefined | null> ): RefCallback<T>",
+    "description": "Merge multiple refs into one. Apply when a component has its own internal\nref AND forwards a ref AND optionally merges a child's ref (via `<Slot>`).\n\nEach ref can be a callback, an object ref, or null/undefined (skipped).\n\n@example\nconst internal = useRef<HTMLDivElement>(null);\nconst setRef = useMergedRefs(internal, forwardedRef);\nreturn <div ref={setRef} />;",
+    "file": "src/hooks/useMergedRefs.ts"
+  },
+  {
+    "name": "useMountEffect",
+    "kind": "function",
+    "signature": "export function useMountEffect(effect: EffectCallback): void",
+    "description": "Runs `effect` once when the component mounts. Cleanup runs on unmount.\nEquivalent to `useEffect(fn, [])` but communicates intent.",
+    "file": "src/hooks/useMountEffect.ts"
+  },
+  {
+    "name": "useNetworkStatus",
+    "kind": "function",
+    "signature": "export function useNetworkStatus(): NetworkStatus",
+    "description": "`{ online, downlink?, effectiveType? }`. Reacts to `online`/`offline` events\nand (where supported) `navigator.connection` changes.",
+    "file": "src/hooks/useNetworkStatus.ts"
+  },
+  {
+    "name": "usePageVisibility",
+    "kind": "function",
+    "signature": "export function usePageVisibility(): PageVisibility",
+    "description": "`document.visibilityState` reactive. Returns `\"visible\"` on the server.",
+    "file": "src/hooks/usePageVisibility.ts"
+  },
+  {
+    "name": "usePrefersColorScheme",
+    "kind": "function",
+    "signature": "export function usePrefersColorScheme(): \"dark\" | \"light\"",
+    "description": "`\"dark\" | \"light\"` — user's system preference. Returns `null` pre-match.",
+    "file": "src/hooks/usePrefersColorScheme.ts"
+  },
+  {
+    "name": "usePrefersReducedMotion",
+    "kind": "function",
+    "signature": "export function usePrefersReducedMotion(): boolean",
+    "description": "`true` when the user has opted into reduced motion via OS settings.",
+    "file": "src/hooks/usePrefersReducedMotion.ts"
+  },
+  {
+    "name": "usePrevious",
+    "kind": "function",
+    "signature": "export function usePrevious<T>(value: T): T | undefined",
+    "description": "Previous value of a variable (from last render).",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useRafInterval",
+    "kind": "function",
+    "signature": "export function useRafInterval(callback: () => void, ms: number | null = 0): void",
+    "description": "Repeating callback driven by `requestAnimationFrame`. Fires at most once\nper `ms` milliseconds (defaults to every frame).\n\nUse for scroll/animation loops where visual fidelity matters more than\ntimer precision. Pass `null` to pause.",
+    "file": "src/hooks/useRafInterval.ts"
+  },
+  {
+    "name": "useResizeObserver",
+    "kind": "function",
+    "signature": "export function useResizeObserver<T extends Element>( ref: RefObject<T> ): ResizeSize",
+    "description": "Observe an element's content-box size.\nReturns `{ width: 0, height: 0 }` until the first measurement.",
+    "file": "src/hooks/useResizeObserver.ts"
+  },
+  {
+    "name": "useScroll",
+    "kind": "function",
+    "signature": "export function useScroll(): ScrollPosition",
+    "description": "Track window scroll position.",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useScrollDirection",
+    "kind": "function",
+    "signature": "export function useScrollDirection(",
+    "description": "Tracks whether the user is scrolling up or down.\nReturns `null` until the first scroll event.",
+    "file": "src/hooks/useScrollDirection.ts"
+  },
+  {
+    "name": "useScrollPosition",
+    "kind": "function",
+    "signature": "export function useScrollPosition<T extends HTMLElement>( ref: RefObject<T> ): ScrollPos",
+    "description": "Track scroll position of a specific element (as opposed to `useScroll` which\ntracks `window`). Returns `{ x: 0, y: 0 }` until first scroll event.",
+    "file": "src/hooks/useScrollPosition.ts"
+  },
+  {
+    "name": "useShortcut",
+    "kind": "function",
+    "signature": "export function useShortcut( keys: string, handler: (e: KeyboardEvent) => void, options: UseShortcutOptions = {} ): void",
+    "description": "Register a keyboard shortcut. The handler runs at document-level keydown.\nIf a `ShortcutProvider` is in scope, the shortcut also shows up in\n`ShortcutGuide`.",
+    "file": "src/hooks/useShortcuts.tsx"
+  },
+  {
+    "name": "useShortcutRegistry",
+    "kind": "function",
+    "signature": "export function useShortcutRegistry(): ShortcutRegistryValue | null",
+    "file": "src/hooks/useShortcuts.tsx"
+  },
+  {
+    "name": "useStopwatch",
+    "kind": "function",
+    "signature": "export function useStopwatch(",
+    "description": "Elapsed-time stopwatch. Starts paused unless `autoStart` is true.",
+    "file": "src/hooks/useStopwatch.ts"
+  },
+  {
+    "name": "useThemePersistence",
+    "kind": "function",
+    "signature": "export function useThemePersistence<T extends string = string>( options: UseThemePersistenceOptions<T> = {} ): UseThemePersistenceReturn<T>",
+    "file": "src/hooks/useThemePersistence.ts"
+  },
+  {
+    "name": "useThrottle",
+    "kind": "function",
+    "signature": "export function useThrottle<T>(value: T, interval: number): T",
+    "description": "Throttle a value. The returned value updates at most once per `interval` ms.",
+    "file": "src/hooks/useThrottle.ts"
+  },
+  {
+    "name": "useThrottledCallback",
+    "kind": "function",
+    "signature": "export function useThrottledCallback<A extends unknown[]>( fn: (...args: A) => void, interval: number, options: { leading?: boolean; trailing?: boolean } = {} ): (...args: A) => void",
+    "description": "Throttle a function. Call at most once every `interval` ms.\nLeading-edge: the first call fires immediately; subsequent calls within\nthe interval are dropped (or held as \"trailing\" — see `trailing`).",
+    "file": "src/hooks/useThrottledCallback.ts"
+  },
+  {
+    "name": "useTimeout",
+    "kind": "function",
+    "signature": "export function useTimeout(callback: () => void, delay: number | null): void",
+    "description": "Fire `callback` after `delay` ms. Pass `null` to pause.\nCallback identity changes are handled — the ref is always kept current.",
+    "file": "src/hooks/useTimeout.ts"
+  },
+  {
+    "name": "useToggle",
+    "kind": "function",
+    "signature": "export function useToggle( initial: boolean = false, key?: string ): [boolean, () => void, Dispatch<SetStateAction<boolean>>]",
+    "description": "Boolean toggle with optional keyboard shortcut.\n\n@param initial Initial value\n@param key Optional `KeyboardEvent.key` that toggles (e.g. \"Escape\")\n@returns `[value, toggle, setValue]`",
+    "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useUnmountEffect",
+    "kind": "function",
+    "signature": "export function useUnmountEffect(fn: () => void): void",
+    "description": "Runs `fn` exactly once on unmount.",
+    "file": "src/hooks/useUnmountEffect.ts"
+  },
+  {
+    "name": "useUpdateEffect",
+    "kind": "function",
+    "signature": "export function useUpdateEffect(effect: EffectCallback, deps?: DependencyList): void",
+    "description": "Like `useEffect`, but skips the first render.",
+    "file": "src/hooks/useUpdateEffect.ts"
+  },
+  {
+    "name": "useWindowSize",
+    "kind": "function",
+    "signature": "export function useWindowSize(): WindowSize",
+    "description": "Track window dimensions.",
+    "file": "src/hooks/index.ts"
+  }
+]

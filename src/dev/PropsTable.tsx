@@ -14,6 +14,9 @@ export interface ComponentDoc {
   name: string;
   description?: string;
   props: PropDoc[];
+  /** Source file path relative to the repo root. Emitted by the
+   * extract-props script so the docs site can link back to source. */
+  file?: string;
 }
 
 export interface PropsTableProps {

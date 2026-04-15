@@ -143,10 +143,23 @@
 .vf-docs__search {
   margin-bottom: var(--vf-sp-1);
 }
+.vf-docs__nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-2);
+}
 .vf-docs__nav-group {
   display: flex;
   flex-direction: column;
   gap: var(--vf-sp-1);
+}
+.vf-docs__nav-subhead {
+  padding: 2px var(--vf-sp-2);
+  color: var(--vf-text-3);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px dashed var(--vf-border-0);
 }
 .vf-docs__nav-list {
   list-style: none;

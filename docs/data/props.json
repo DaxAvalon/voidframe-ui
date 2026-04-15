@@ -1,17 +1,5 @@
 [
   {
-    "name": "__type",
-    "description": "Maintainer's note: Sync with {@link ReactChildren} until {@link ReactChildren} is removed.",
-    "file": "src/components/Popovers.tsx",
-    "props": []
-  },
-  {
-    "name": "_resetToastsForTesting",
-    "description": "Test-only helper: clear every toast and notify subscribers. Not part of\nthe public API surface; intended to keep test isolation predictable.",
-    "file": "src/components/ToastSystem.tsx",
-    "props": []
-  },
-  {
     "name": "AccessibleIcon",
     "description": "Wrap a decorative SVG/glyph with an accessible label. The icon itself\nis marked `aria-hidden`, and the label renders in a `VisuallyHidden` sibling.",
     "file": "src/primitives/AccessibleIcon.tsx",
@@ -65,12 +53,6 @@
     "name": "Activity",
     "description": "",
     "file": "src/components/Activity.tsx",
-    "props": []
-  },
-  {
-    "name": "adaptIcon",
-    "description": "Wraps any icon component that accepts a `size` prop (Lucide, Phosphor,\nHeroicons, Tabler, etc.) into a voidframe-styled icon wrapper.\n\n```tsx\nimport { Search } from \"lucide-react\";\nconst SearchIcon = adaptIcon(Search, { defaultLabel: \"Search\" });\n```",
-    "file": "src/icons/adapters.tsx",
     "props": []
   },
   {
@@ -300,12 +282,6 @@
         "required": false
       }
     ]
-  },
-  {
-    "name": "applyMask",
-    "description": "Apply a mask to a raw string, returning the formatted result.",
-    "file": "src/components/MaskedInput.tsx",
-    "props": []
   },
   {
     "name": "AppShell",
@@ -1608,20 +1584,6 @@
         "name": "showText",
         "type": "boolean",
         "defaultValue": "true",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "foreground",
-        "type": "string",
-        "defaultValue": "var(--vf-text-0)",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "background",
-        "type": "string",
-        "defaultValue": "var(--vf-bg-0)",
         "description": "",
         "required": false
       }
@@ -5900,12 +5862,6 @@
     ]
   },
   {
-    "name": "count",
-    "description": "",
-    "file": "src/components/Popovers.tsx",
-    "props": []
-  },
-  {
     "name": "Countdown",
     "description": "",
     "file": "src/components/TimeDisplays.tsx",
@@ -7877,12 +7833,6 @@
     ]
   },
   {
-    "name": "escapeHTML",
-    "description": "",
-    "file": "src/components/Viewers.tsx",
-    "props": []
-  },
-  {
     "name": "ExternalLinkIcon",
     "description": "",
     "file": "src/icons/set.tsx",
@@ -9277,12 +9227,6 @@
     ]
   },
   {
-    "name": "hexToRgba",
-    "description": "",
-    "file": "src/components/ColorPicker.tsx",
-    "props": []
-  },
-  {
     "name": "Hide",
     "description": "",
     "file": "src/responsive/Show.tsx",
@@ -9599,37 +9543,6 @@
         "type": "((open: boolean) => void)",
         "description": "",
         "required": false
-      }
-    ]
-  },
-  {
-    "name": "hslaToRgba",
-    "description": "",
-    "file": "src/components/ColorPicker.tsx",
-    "props": [
-      {
-        "name": "h",
-        "type": "number",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "s",
-        "type": "number",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "l",
-        "type": "number",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "a",
-        "type": "number",
-        "description": "",
-        "required": true
       }
     ]
   },
@@ -11831,12 +11744,6 @@
     ]
   },
   {
-    "name": "mergeSlotProps",
-    "description": "Merge two prop bags following Radix Slot semantics.",
-    "file": "src/primitives/Slot.tsx",
-    "props": []
-  },
-  {
     "name": "Mermaid",
     "description": "",
     "file": "src/components/RichEmbed.tsx",
@@ -13331,12 +13238,6 @@
     ]
   },
   {
-    "name": "only",
-    "description": "",
-    "file": "src/components/Popovers.tsx",
-    "props": []
-  },
-  {
     "name": "OrganizationCard",
     "description": "",
     "file": "src/components/Identity.tsx",
@@ -14726,20 +14627,6 @@
         "type": "ReactNode",
         "description": "Optional logo overlay (rendered centered, 20% size).",
         "required": false
-      },
-      {
-        "name": "foreground",
-        "type": "string",
-        "defaultValue": "var(--vf-text-0)",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "background",
-        "type": "string",
-        "defaultValue": "var(--vf-bg-0)",
-        "description": "",
-        "required": false
       }
     ]
   },
@@ -15489,18 +15376,6 @@
     ]
   },
   {
-    "name": "renderMarkdown",
-    "description": "",
-    "file": "src/components/MarkdownEditor.tsx",
-    "props": []
-  },
-  {
-    "name": "renderWithTheme",
-    "description": "Render a component inside `<VoidframeProvider>` with optional theme /\nlocale / density / contrast overrides. Returns the standard Testing\nLibrary result plus a `root()` accessor that skips the provider's\nwrapper div.",
-    "file": "src/testing/renderWithTheme.tsx",
-    "props": []
-  },
-  {
     "name": "ReorderList",
     "description": "Alias of Sortable with list semantics — same component, different name.",
     "file": "src/components/DragDrop.tsx",
@@ -15858,68 +15733,6 @@
         "type": "Responsive<string | number>",
         "description": "",
         "required": false
-      }
-    ]
-  },
-  {
-    "name": "rgbaToHex",
-    "description": "",
-    "file": "src/components/ColorPicker.tsx",
-    "props": [
-      {
-        "name": "r",
-        "type": "number",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "g",
-        "type": "number",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "b",
-        "type": "number",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "a",
-        "type": "number",
-        "description": "",
-        "required": true
-      }
-    ]
-  },
-  {
-    "name": "rgbaToHsla",
-    "description": "",
-    "file": "src/components/ColorPicker.tsx",
-    "props": [
-      {
-        "name": "r",
-        "type": "number",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "g",
-        "type": "number",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "b",
-        "type": "number",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "a",
-        "type": "number",
-        "description": "",
-        "required": true
       }
     ]
   },
@@ -18939,12 +18752,6 @@
     "props": []
   },
   {
-    "name": "stripMask",
-    "description": "Strip a formatted value down to the raw characters the mask cares about.",
-    "file": "src/components/MaskedInput.tsx",
-    "props": []
-  },
-  {
     "name": "SubmitButton",
     "description": "",
     "file": "src/components/ChatComposer.tsx",
@@ -20149,61 +19956,6 @@
     ]
   },
   {
-    "name": "toArray",
-    "description": "",
-    "file": "src/components/Popovers.tsx",
-    "props": []
-  },
-  {
-    "name": "toast",
-    "description": "",
-    "file": "src/components/ToastSystem.tsx",
-    "props": [
-      {
-        "name": "id",
-        "type": "string",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "title",
-        "type": "ReactNode",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "description",
-        "type": "ReactNode",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "tone",
-        "type": "enum",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "duration",
-        "type": "number",
-        "description": "Auto-dismiss after this many ms. 0 disables. Default 4000.",
-        "required": false
-      },
-      {
-        "name": "action",
-        "type": "ReactNode",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "render",
-        "type": "((api: { dismiss: () => void; }) => ReactNode)",
-        "description": "Render arbitrary content; if set, takes precedence over title/description.",
-        "required": false
-      }
-    ]
-  },
-  {
     "name": "Toast",
     "description": "",
     "file": "src/components/Interactive.tsx",
@@ -20521,12 +20273,6 @@
         "required": false
       }
     ]
-  },
-  {
-    "name": "toYaml",
-    "description": "Minimal YAML serializer. Handles strings, numbers, booleans, null, arrays,\nplain objects. Non-safe keys / multi-line strings fall back to quoted form.\n\nNot a full YAML implementation — intended for debug/inspector display.",
-    "file": "src/components/DevTools.tsx",
-    "props": []
   },
   {
     "name": "TraceViewer",
@@ -21316,79 +21062,6 @@
     ]
   },
   {
-    "name": "useCommand",
-    "description": "Register a command with the global palette. Stable across renders if `id`\nis stable; updates the entry if other fields change.",
-    "file": "src/components/CommandPalette.tsx",
-    "props": [
-      {
-        "name": "id",
-        "type": "string",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "label",
-        "type": "string",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "group",
-        "type": "string",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "shortcut",
-        "type": "string",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "icon",
-        "type": "ReactNode",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "description",
-        "type": "string",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "onSelect",
-        "type": "() => void",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "enabled",
-        "type": "boolean",
-        "description": "",
-        "required": false
-      }
-    ]
-  },
-  {
-    "name": "useI18n",
-    "description": "Alias when you want the broader i18n surface (locale/direction/etc.).",
-    "file": "src/i18n/MessagesProvider.tsx",
-    "props": []
-  },
-  {
-    "name": "useMessages",
-    "description": "Access resolved messages + the `t()` helper.",
-    "file": "src/i18n/MessagesProvider.tsx",
-    "props": []
-  },
-  {
-    "name": "useOptionalChart",
-    "description": "Optional variant — returns null instead of throwing.",
-    "file": "src/charts/primitives/ChartContext.tsx",
-    "props": []
-  },
-  {
     "name": "UserCard",
     "description": "",
     "file": "src/components/Identity.tsx",
@@ -21577,24 +21250,6 @@
         "required": false
       }
     ]
-  },
-  {
-    "name": "useShortcut",
-    "description": "Register a keyboard shortcut. The handler runs at document-level keydown.\nIf a `ShortcutProvider` is in scope, the shortcut also shows up in\n`ShortcutGuide`.",
-    "file": "src/hooks/useShortcuts.tsx",
-    "props": []
-  },
-  {
-    "name": "useThemeScope",
-    "description": "Access the nearest resolved theme scope (or `null` outside a provider).",
-    "file": "src/provider/VoidframeProvider.tsx",
-    "props": []
-  },
-  {
-    "name": "useTokens",
-    "description": "Access the current Voidframe tokens from any child component.\nFalls back to `defaultTokens` if no provider is found.",
-    "file": "src/provider/VoidframeProvider.tsx",
-    "props": []
   },
   {
     "name": "VideoPlayer",

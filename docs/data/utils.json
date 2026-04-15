@@ -1,0 +1,287 @@
+[
+  {
+    "name": "_resetWarnings",
+    "kind": "function",
+    "signature": "export function _resetWarnings(): void",
+    "description": "Test helper: clear the `warnOnce` deduplication cache so each test\nsees fresh warnings. Not exported from the package barrel.",
+    "file": "src/utils/warn.ts"
+  },
+  {
+    "name": "addDays",
+    "kind": "function",
+    "signature": "export function addDays(d: Date, n: number): Date",
+    "description": "Return `n` days added (negative = subtract). New Date.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "addMonths",
+    "kind": "function",
+    "signature": "export function addMonths(d: Date, n: number): Date",
+    "description": "Return `n` months added. New Date.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "adjustColor",
+    "kind": "function",
+    "signature": "export function adjustColor(hex: string, amount: number): string",
+    "description": "Lighten or darken a hex color.\n@param amount Positive = lighten, negative = darken (-255 to 255)",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "clamp",
+    "kind": "function",
+    "signature": "export function clamp(value: number, min: number, max: number): number",
+    "description": "Clamp a number between min and max.",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "clampDate",
+    "kind": "function",
+    "signature": "export function clampDate(d: Date, min?: Date | null, max?: Date | null): Date",
+    "description": "Clamp a date to [min, max]. Either bound can be null.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "clearWarningHistory",
+    "kind": "function",
+    "signature": "export function clearWarningHistory(): void",
+    "description": "Clear the captured warning history.",
+    "file": "src/utils/warn.ts"
+  },
+  {
+    "name": "computeAnchoredPosition",
+    "kind": "function",
+    "signature": "export function computeAnchoredPosition( triggerRect: AnchorRect, contentSize: AnchorSize, placement: Placement, offset: number ): AnchorPosition",
+    "description": "Compute the pixel top/left for a floating element anchored to a trigger.\n\nBehavior:\n- `placement` picks the primary side and alignment (e.g. `\"bottom-start\"`).\n- If the chosen side overflows the viewport, flips to the opposite side.\n- After placement, clamps the position 8px inside the viewport on both axes.",
+    "file": "src/utils/anchor.ts"
+  },
+  {
+    "name": "copyToClipboard",
+    "kind": "function",
+    "signature": "export async function copyToClipboard(text: string): Promise<boolean>",
+    "description": "Copy text to clipboard.\n@returns true on success, false on failure",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "createSafeContext",
+    "kind": "function",
+    "signature": "export function createSafeContext<T>( options: SafeContextOptions<T> ): SafeContextTuple<T>",
+    "description": "Creates a typed context with a provider-presence guard.\n\n@returns `[Provider, useContext, RawContext]`\n\n@example\nconst [TabsProvider, useTabsContext] = createSafeContext<TabsState>({ name: \"Tabs\" });\n\nfunction TabsTrigger() {\n  const { value, setValue } = useTabsContext(\"Tabs.Trigger\");\n  ...\n}",
+    "file": "src/utils/createSafeContext.ts"
+  },
+  {
+    "name": "cx",
+    "kind": "function",
+    "signature": "export function cx(...args: ClassValue[]): string",
+    "description": "Compose class names. Truthy values are joined with spaces.\n\n@example\ncx(\"vf-button\", `vf-button--${variant}`, { \"vf-button--full-width\": fullWidth }, className)",
+    "file": "src/utils/cx.ts"
+  },
+  {
+    "name": "deepMerge",
+    "kind": "function",
+    "signature": "export function deepMerge<T extends Record<string, unknown>>( target: T, source: Partial<T> ): T",
+    "description": "Deep merge two objects (useful for theme composition).",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "deprecatedComponent",
+    "kind": "function",
+    "signature": "export function deprecatedComponent( component: string, replacement: string, version: string ): void",
+    "description": "Warn (once) that a component is deprecated.",
+    "file": "src/utils/deprecate.ts"
+  },
+  {
+    "name": "deprecatedProp",
+    "kind": "function",
+    "signature": "export function deprecatedProp( component: string, oldName: string, newName: string, version: string ): void",
+    "description": "Warn (once) that a prop is deprecated and will be removed.\n\n@example\nif (oldName !== undefined) deprecatedProp(\"Button\", \"old\", \"new\", \"v2.0\");",
+    "file": "src/utils/deprecate.ts"
+  },
+  {
+    "name": "endOfMonth",
+    "kind": "function",
+    "signature": "export function endOfMonth(d: Date): Date",
+    "description": "Last day of the month at 23:59:59.999 local.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "formatBytes",
+    "kind": "function",
+    "signature": "export function formatBytes(bytes: number): string",
+    "description": "Format bytes into human-readable string.",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "formatDate",
+    "kind": "function",
+    "signature": "export function formatDate(d: Date, pattern: string): string",
+    "description": "Tiny token-based formatter. Supported tokens:\n  yyyy  4-digit year\n  yy    2-digit year\n  MM    2-digit month\n  M     1-2 digit month\n  dd    2-digit day\n  d     1-2 digit day\n  HH    2-digit hour (24h)\n  H     1-2 digit hour (24h)\n  hh    2-digit hour (12h)\n  h     1-2 digit hour (12h)\n  mm    2-digit minute\n  m     1-2 digit minute\n  ss    2-digit second\n  a     AM/PM\n\nFor richer locale-aware formatting, prefer `Intl.DateTimeFormat` directly\nor pass a `(d) => string` function at the call site.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "formatDuration",
+    "kind": "function",
+    "signature": "export function formatDuration(ms: number): string",
+    "description": "Format duration in ms to human string.",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "formatNumber",
+    "kind": "function",
+    "signature": "export function formatNumber(n: number, decimals?: number): string",
+    "description": "Format a number with locale-aware commas.\n\n@example formatNumber(12847)     → \"12,847\"\n@example formatNumber(3.14159, 2) → \"3.14\"",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "genericForwardRef",
+    "kind": "function",
+    "signature": "export function genericForwardRef<T, P = Record<string, unknown>>( render: (props: P, ref: ForwardedRef<T>) => ReactElement | null ): (props: P & { ref?: ForwardedRef<T> }) => ReactElement | null",
+    "description": "`forwardRef` that preserves generic type parameters.\n\n@example\nconst Table = genericForwardRef(function Table<T>(\n  props: TableProps<T>,\n  ref: Ref<HTMLDivElement>\n) {\n  return <div ref={ref}>...</div>;\n});\n\n<Table<User> data={users} columns={cols} />",
+    "file": "src/utils/forwardRef.ts"
+  },
+  {
+    "name": "getLogger",
+    "kind": "function",
+    "signature": "export function getLogger(): VoidframeLogger",
+    "file": "src/utils/warn.ts"
+  },
+  {
+    "name": "getMonthGrid",
+    "kind": "function",
+    "signature": "export function getMonthGrid( month: Date, firstDayOfWeek: 0 | 1 = 0 ): Date[]",
+    "description": "Build the six-row grid of days for a given month, padded with prior/next month days.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "getWarningHistory",
+    "kind": "function",
+    "signature": "export function getWarningHistory(): WarningEntry[]",
+    "description": "Read the captured warning history (newest last).",
+    "file": "src/utils/warn.ts"
+  },
+  {
+    "name": "groupBy",
+    "kind": "function",
+    "signature": "export function groupBy<T, K extends string | number>( arr: T[], keyFn: (item: T) => K ): Record<K, T[]>",
+    "description": "Group an array by a key function.",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "isSameDay",
+    "kind": "function",
+    "signature": "export function isSameDay(a: Date | null | undefined, b: Date | null | undefined): boolean",
+    "description": "`true` if both dates fall on the same calendar day.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "isSameMonth",
+    "kind": "function",
+    "signature": "export function isSameMonth(a: Date, b: Date): boolean",
+    "description": "`true` if both dates fall in the same calendar month/year.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "mapRange",
+    "kind": "function",
+    "signature": "export function mapRange( value: number, inMin: number, inMax: number, outMin: number, outMax: number ): number",
+    "description": "Map a value from one range to another.",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "monthName",
+    "kind": "function",
+    "signature": "export function monthName(d: Date, locale: string, length: \"long\" | \"short\" = \"long\"): string",
+    "description": "Localized month name (e.g. \"March\").",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "parseDate",
+    "kind": "function",
+    "signature": "export function parseDate(input: string, pattern: string): Date | null",
+    "description": "Parse a date string against a pattern using the same token set as\n`formatDate`. Returns `null` on failure.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "setLogger",
+    "kind": "function",
+    "signature": "export function setLogger(next: Partial<VoidframeLogger>): void",
+    "description": "Override the logger used by `warn()` / `warnOnce()`. Useful for routing\ndev warnings to Sentry, Datadog, or a test harness.",
+    "file": "src/utils/warn.ts"
+  },
+  {
+    "name": "sortBy",
+    "kind": "function",
+    "signature": "export function sortBy<T, K extends keyof T>( arr: T[], key: K, order: \"asc\" | \"desc\" = \"asc\" ): T[]",
+    "description": "Sort an array of objects by key (returns new array).",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "startOfDay",
+    "kind": "function",
+    "signature": "export function startOfDay(d: Date): Date",
+    "description": "Normalize a date to midnight local time. Returns a new Date.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "startOfMonth",
+    "kind": "function",
+    "signature": "export function startOfMonth(d: Date): Date",
+    "description": "First of the month at 00:00 local.",
+    "file": "src/utils/date.ts"
+  },
+  {
+    "name": "stringToColor",
+    "kind": "function",
+    "signature": "export function stringToColor(str: string): string",
+    "description": "Generate a deterministic hash color from a string.\nUseful for avatar colors, chart series, etc.",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "subscribeWarnings",
+    "kind": "function",
+    "signature": "export function subscribeWarnings(listener: Listener): () => void",
+    "description": "Subscribe to every dev warning emitted by voidframe. Returns unsubscribe.",
+    "file": "src/utils/warn.ts"
+  },
+  {
+    "name": "timeAgo",
+    "kind": "function",
+    "signature": "export function timeAgo(date: Date | number | string): string",
+    "description": "Relative time string (\"2 hours ago\", \"in 3 days\").",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "truncate",
+    "kind": "function",
+    "signature": "export function truncate(str: string | null | undefined, max: number = 40): string",
+    "description": "Truncate string with ellipsis.",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "uid",
+    "kind": "function",
+    "signature": "export function uid(prefix: string = \"vf\"): string",
+    "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "warn",
+    "kind": "function",
+    "signature": "export function warn(condition: boolean, message: string, ...args: unknown[]): void",
+    "description": "Warn in development if `condition` is false. Production: noop.\n\n@param condition When false, the warning fires.\n@param message   Human-readable explanation. Should name the component and the fix.",
+    "file": "src/utils/warn.ts"
+  },
+  {
+    "name": "warnOnce",
+    "kind": "function",
+    "signature": "export function warnOnce(key: string, message: string, ...args: unknown[]): void",
+    "description": "Warn at most once per `key`. For deprecation notices, missing-context errors,\netc. that would otherwise spam the console.",
+    "file": "src/utils/warn.ts"
+  },
+  {
+    "name": "weekdayNames",
+    "kind": "function",
+    "signature": "export function weekdayNames( locale: string, firstDayOfWeek: 0 | 1 = 0, length: \"narrow\" | \"short\" = \"short\" ): string[]",
+    "description": "Localized short weekday names, rotated so index 0 is firstDayOfWeek.",
+    "file": "src/utils/date.ts"
+  }
+]
