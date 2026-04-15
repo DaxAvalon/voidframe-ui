@@ -86,9 +86,36 @@ import { VoidframeProvider } from "voidframe";
 </VoidframeProvider>
 ```
 
-### Custom Themes
+### Built-in themes
 
-Override any token via `createTheme()`:
+Three themes ship out of the box: `darkTheme` (default), `lightTheme`, and `midnightTheme` (deep-black OLED-friendly).
+
+```jsx
+import { VoidframeProvider } from "voidframe";
+
+// By name — sets data-vf-theme and uses the stylesheet cascade (no FOUC).
+<VoidframeProvider themeName="midnight">
+  <App />
+</VoidframeProvider>
+
+// Or pass a full token set via `theme` for runtime overrides.
+import { lightTheme } from "voidframe";
+<VoidframeProvider theme={lightTheme}>
+  <App />
+</VoidframeProvider>
+```
+
+### `"system"` — follow OS preference
+
+```jsx
+<VoidframeProvider themeName="system">
+  <App />
+</VoidframeProvider>
+```
+
+Subscribes to `prefers-color-scheme` and re-resolves automatically.
+
+### Custom tokens
 
 ```jsx
 import { VoidframeProvider, createTheme } from "voidframe";
@@ -105,15 +132,67 @@ const warmVoid = createTheme({
 </VoidframeProvider>
 ```
 
-### Light Theme
+### Density, contrast, direction, reduced motion
+
+Independent, composable props on the provider — all cascade via `data-*` attributes so component CSS reads them through custom properties.
 
 ```jsx
-import { VoidframeProvider, lightTheme } from "voidframe";
-
-<VoidframeProvider theme={lightTheme}>
+<VoidframeProvider
+  themeName="system"
+  density="compact"          // comfortable | compact | spacious
+  contrast="high"            // normal | high
+  direction="rtl"            // ltr | rtl
+  reducedMotion="auto"       // auto | always | never
+>
   <App />
 </VoidframeProvider>
 ```
+
+### Nested `<ThemeScope>`
+
+Override any of the above for a subtree without remounting the rest.
+
+```jsx
+import { ThemeScope, lightTheme } from "voidframe";
+
+<VoidframeProvider themeName="dark">
+  <Header />
+  <ThemeScope themeName="light">
+    <Preview />               {/* this subtree renders in light */}
+  </ThemeScope>
+  <Footer />
+</VoidframeProvider>
+```
+
+### Persistence
+
+```jsx
+import { useThemePersistence, VoidframeProvider, ThemeSelector } from "voidframe";
+
+function App() {
+  const { theme, setTheme } = useThemePersistence({
+    key: "myapp-theme",
+    defaultTheme: "system",
+    allowed: ["dark", "light", "midnight", "system"],
+  });
+  return (
+    <VoidframeProvider themeName={theme}>
+      <ThemeSelector
+        value={theme}
+        onChange={setTheme}
+        themes={[
+          { id: "dark", label: "Dark" },
+          { id: "light", label: "Light" },
+          { id: "midnight", label: "Midnight" },
+          { id: "system", label: "Auto" },
+        ]}
+      />
+    </VoidframeProvider>
+  );
+}
+```
+
+Reads from `localStorage`, survives reloads, and syncs across tabs via the `storage` event.
 
 ### Accessing Tokens
 
@@ -394,7 +473,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (1150+ tests)
+npm run test      # full vitest suite (1170+ tests)
 npm run typecheck # tsc --noEmit
 ```
 

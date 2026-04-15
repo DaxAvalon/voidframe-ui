@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 // ── Tokens & Theming ────────────────────────────────────────
-export { defaultTokens, createTheme, lightTheme, tint } from "./tokens";
+export { defaultTokens, createTheme, tint } from "./tokens";
 export type { VoidframeTokens, ThemeOverrides } from "./tokens";
 
 // ── Shared types ────────────────────────────────────────────
@@ -20,8 +20,31 @@ export type {
 } from "./types";
 
 // ── Provider ────────────────────────────────────────────────
-export { VoidframeProvider, useTokens } from "./provider/VoidframeProvider";
-export type { VoidframeProviderProps } from "./provider/VoidframeProvider";
+export {
+  VoidframeProvider,
+  useTokens,
+  useThemeScope,
+} from "./provider/VoidframeProvider";
+export type {
+  VoidframeProviderProps,
+  ThemeName,
+  VoidframeDensity,
+  VoidframeContrast,
+  VoidframeDirection,
+  VoidframeReducedMotion,
+} from "./provider/VoidframeProvider";
+export { ThemeScope } from "./provider/ThemeScope";
+export type { ThemeScopeProps } from "./provider/ThemeScope";
+
+// ── Themes ──────────────────────────────────────────────────
+export {
+  darkTheme,
+  lightTheme,
+  midnightTheme,
+  tokensToCssVars,
+  THEME_NAMES,
+} from "./themes";
+export type { BuiltInThemeName } from "./themes";
 
 // ── Primitives ──────────────────────────────────────────────
 export * from "./primitives";
@@ -55,6 +78,7 @@ export {
   ShortcutProvider,
   useShortcut,
   useShortcutRegistry,
+  useThemePersistence,
 } from "./hooks";
 export type {
   HoverBindings,

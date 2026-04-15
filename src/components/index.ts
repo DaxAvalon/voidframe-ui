@@ -1054,6 +1054,13 @@ export type {
 
 export { PrintLayout, PrintButton } from "./Print";
 export type { PrintLayoutProps, PrintButtonProps } from "./Print";
+
+// ── Phase 15: theming ────────────────────────────────────────
+export { ThemeSelector } from "./ThemeSelector";
+export type {
+  ThemeSelectorProps,
+  ThemeSelectorOption,
+} from "./ThemeSelector";
 export type {
   ChatModelOption,
   ModelSelectorProps,

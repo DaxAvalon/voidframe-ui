@@ -100,6 +100,11 @@ export {
   type ResolvedColorScheme,
   type UseColorSchemeReturn,
 } from "./useColorScheme";
+export {
+  useThemePersistence,
+  type UseThemePersistenceOptions,
+  type UseThemePersistenceReturn,
+} from "./useThemePersistence";
 
 // Phase 3 — interaction
 export { useEscapeKey } from "./useEscapeKey";

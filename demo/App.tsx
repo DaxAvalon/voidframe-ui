@@ -173,6 +173,13 @@ import {
   Zoomable,
   toast,
   useConfirm,
+  // Phase 15: theming
+  ThemeScope,
+  ThemeSelector,
+  darkTheme,
+  lightTheme,
+  midnightTheme,
+  useThemePersistence,
   // Phase 14: icons
   Icon,
   IconButton,
@@ -1664,6 +1671,153 @@ function UtilitySection() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// PHASE 15 — THEMING
+// ─────────────────────────────────────────────────────────────
+
+function ThemingSection() {
+  const [previewTheme, setPreviewTheme] = useState<
+    "dark" | "light" | "midnight"
+  >("light");
+  const [density, setDensity] = useState<"comfortable" | "compact" | "spacious">(
+    "comfortable"
+  );
+  const themeMap = { dark: darkTheme, light: lightTheme, midnight: midnightTheme };
+  return (
+    <Frame
+      title="Theming — Scope + Density + Contrast"
+      description="ThemeScope re-emits CSS vars for a subtree. Density + contrast + motion modes cascade via data attributes."
+    >
+      <Block label="ThemeScope — preview the opposite theme">
+        <Flex gap={16} wrap align="flex-start">
+          <ThemeSelector
+            size="sm"
+            value={previewTheme}
+            onChange={(v) => setPreviewTheme(v as typeof previewTheme)}
+            themes={[
+              { id: "dark", label: "Dark" },
+              { id: "light", label: "Light" },
+              { id: "midnight", label: "Midnight" },
+            ]}
+          />
+          <ThemeScope
+            theme={themeMap[previewTheme]}
+            style={{
+              padding: 16,
+              border: "1px solid var(--vf-border-2)",
+              background: "var(--vf-bg-1)",
+              minWidth: 320,
+            }}
+          >
+            <Text size="xs" color="var(--vf-text-3)" upper spacing={2}>
+              {previewTheme} scope
+            </Text>
+            <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
+              <Button>Default</Button>
+              <Button variant="accent" accent="var(--vf-green)">
+                Accent
+              </Button>
+              <Badge tone="success">Success</Badge>
+              <Badge tone="danger">Danger</Badge>
+            </div>
+            <div style={{ marginTop: 12 }}>
+              <Text>
+                Surface ramp visible here uses the <b>{previewTheme}</b> token
+                set; the rest of the demo stays on the root theme.
+              </Text>
+            </div>
+          </ThemeScope>
+        </Flex>
+      </Block>
+      <Block label="Density modes">
+        <ThemeSelector
+          size="sm"
+          value={density}
+          onChange={(v) => setDensity(v as typeof density)}
+          themes={[
+            { id: "comfortable", label: "Comfortable" },
+            { id: "compact", label: "Compact" },
+            { id: "spacious", label: "Spacious" },
+          ]}
+        />
+        <ThemeScope
+          density={density}
+          style={{
+            marginTop: 12,
+            padding: 16,
+            border: "1px solid var(--vf-border-2)",
+            background: "var(--vf-bg-1)",
+          }}
+        >
+          <Flex gap={8} align="center">
+            <Button>OK</Button>
+            <Button variant="ghost">Cancel</Button>
+            <Badge>v1.0</Badge>
+            <Text>Spacing tokens scale with <code>data-vf-density</code>.</Text>
+          </Flex>
+        </ThemeScope>
+      </Block>
+      <Block label="Contrast — high-contrast scope">
+        <ThemeScope
+          contrast="high"
+          style={{
+            padding: 16,
+            border: "1px solid var(--vf-border-2)",
+            background: "var(--vf-bg-1)",
+          }}
+        >
+          <Text color="var(--vf-text-1)">
+            Text-1 is brighter here. Borders thicken. Focus ring widens.
+          </Text>
+          <Flex gap={8} style={{ marginTop: 8 }}>
+            <Button>Primary</Button>
+            <Button variant="ghost">Ghost</Button>
+          </Flex>
+        </ThemeScope>
+      </Block>
+      <Block label="RTL scope (direction='rtl')">
+        <ThemeScope
+          direction="rtl"
+          style={{
+            padding: 16,
+            border: "1px solid var(--vf-border-2)",
+            background: "var(--vf-bg-1)",
+          }}
+        >
+          <Flex gap={8} align="center">
+            <ChevronRightIcon />
+            <Text>القوالب تعكس الاتجاه تلقائيًا.</Text>
+            <ArrowRightIcon />
+          </Flex>
+        </ThemeScope>
+      </Block>
+      <Block label="ThemeSelector variants">
+        <Flex gap={16} align="center" wrap>
+          <ThemeSelector
+            size="sm"
+            defaultValue="dark"
+            themes={[
+              { id: "dark", label: "Dark" },
+              { id: "light", label: "Light" },
+              { id: "system", label: "Auto" },
+            ]}
+          />
+          <ThemeSelector
+            variant="dropdown"
+            defaultValue="dark"
+            themes={[
+              { id: "dark", label: "Dark" },
+              { id: "light", label: "Light" },
+              { id: "midnight", label: "Midnight" },
+              { id: "system", label: "Auto" },
+            ]}
+          />
+        </Flex>
+      </Block>
+    </Frame>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // PHASE 14 — ICONS
 // ─────────────────────────────────────────────────────────────
 
@@ -2930,6 +3084,8 @@ const SECTIONS: DemoSection[] = [
   { id: "media", group: "Interactive", title: "Media", render: () => <MediaSection /> },
   { id: "utility", group: "Interactive", title: "Utility", render: () => <UtilitySection /> },
 
+  { id: "theming", group: "Theming", title: "Scope + Density + Contrast", render: () => <ThemingSection /> },
+
   { id: "icons-primitive", group: "Icons", title: "Primitive", render: () => <IconsPrimitiveSection /> },
   { id: "icons-set", group: "Icons", title: "Bundled set", render: () => <IconsSetSection /> },
   { id: "icons-button", group: "Icons", title: "IconButton + Group", render: () => <IconsButtonSection /> },
@@ -2954,6 +3110,13 @@ const SECTIONS: DemoSection[] = [
 function App() {
   const [activeId, setActiveId] = useState(SECTIONS[0]!.id);
   const [collapsed, setCollapsed] = useState(false);
+  const { theme: themeName, setTheme: setThemeName } = useThemePersistence<
+    "dark" | "light" | "midnight" | "system"
+  >({
+    key: "voidframe-demo-theme",
+    defaultTheme: "dark",
+    allowed: ["dark", "light", "midnight", "system"] as const,
+  });
   const active = SECTIONS.find((s) => s.id === activeId) ?? SECTIONS[0]!;
 
   // Group sidebar by group label.
@@ -2965,7 +3128,7 @@ function App() {
   }
 
   return (
-    <VoidframeProvider>
+    <VoidframeProvider themeName={themeName}>
       <ConfirmProvider>
         <ShortcutProvider>
           <AppShell
@@ -2979,8 +3142,19 @@ function App() {
                   VOIDFRAME · DEMO
                 </Text>
                 <span style={{ flex: 1 }} />
+                <ThemeSelector
+                  size="sm"
+                  value={themeName}
+                  onChange={(v) => setThemeName(v as typeof themeName)}
+                  themes={[
+                    { id: "dark", label: "Dark" },
+                    { id: "light", label: "Light" },
+                    { id: "midnight", label: "Midnight" },
+                    { id: "system", label: "Auto" },
+                  ]}
+                />
                 <Text size="xs" color="var(--vf-text-3)">
-                  {SECTIONS.length} sections · 150+ components
+                  {SECTIONS.length} sections · 230+ components
                 </Text>
               </Flex>
             }

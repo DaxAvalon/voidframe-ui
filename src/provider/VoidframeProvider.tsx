@@ -1,4 +1,12 @@
-import { createContext, useContext, useMemo, type CSSProperties, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import "../css/index.css";
 import {
   defaultTokens,
@@ -6,17 +14,65 @@ import {
   type ThemeOverrides,
   type VoidframeTokens,
 } from "../tokens";
+import {
+  darkTheme,
+  lightTheme,
+  midnightTheme,
+  tokensToCssVars,
+  type BuiltInThemeName,
+} from "../themes";
 import { cx } from "../utils/cx";
 
 const VoidframeContext = createContext<VoidframeTokens>(defaultTokens);
 
-export type ThemeName = "dark" | "light" | (string & {});
+// ── Runtime configuration types ───────────────────────────
+
+export type VoidframeDensity = "comfortable" | "compact" | "spacious";
+export type VoidframeContrast = "normal" | "high";
+export type VoidframeDirection = "ltr" | "rtl";
+export type VoidframeReducedMotion = "auto" | "always" | "never";
+export type ThemeName = BuiltInThemeName | "system" | (string & {});
+
+interface ResolvedScope {
+  tokens: VoidframeTokens;
+  themeName: string;
+  density: VoidframeDensity;
+  contrast: VoidframeContrast;
+  direction: VoidframeDirection;
+  reducedMotion: VoidframeReducedMotion;
+}
+
+const RuntimeScopeContext = createContext<ResolvedScope | null>(null);
+
+/** Access the nearest resolved theme scope (or `null` outside a provider). */
+export function useThemeScope(): ResolvedScope | null {
+  return useContext(RuntimeScopeContext);
+}
 
 export interface VoidframeProviderProps {
-  /** Optional theme overrides. Merged over `defaultTokens` and injected as inline CSS variables. */
-  theme?: ThemeOverrides;
-  /** Built-in or custom theme name. Sets `data-vf-theme` on the root element. */
+  /**
+   * Full token set or partial overrides merged over `defaultTokens`.
+   * For pure theme switching, prefer `themeName`.
+   */
+  theme?: VoidframeTokens | ThemeOverrides;
+  /**
+   * Named theme. `"system"` follows `prefers-color-scheme`. Custom strings
+   * are emitted as `data-vf-theme="…"` so consumer CSS can register new
+   * palettes statically.
+   */
   themeName?: ThemeName;
+  /** Density mode. Scales spacing globally. */
+  density?: VoidframeDensity;
+  /** Contrast mode. Boosts text + border tokens under `"high"`. */
+  contrast?: VoidframeContrast;
+  /** Writing direction. Root gains `dir="…"`. */
+  direction?: VoidframeDirection;
+  /**
+   * Motion behavior. `"auto"` (default) respects OS preference; `"always"`
+   * force-disables motion; `"never"` overrides the OS preference and
+   * keeps animations on.
+   */
+  reducedMotion?: VoidframeReducedMotion;
   /** Inject the optional CSS reset (`.vf-baseline`). */
   cssBaseline?: boolean;
   className?: string;
@@ -24,64 +80,132 @@ export interface VoidframeProviderProps {
   children?: ReactNode;
 }
 
+const BUILTIN_THEMES: Record<BuiltInThemeName, VoidframeTokens> = {
+  dark: darkTheme,
+  light: lightTheme,
+  midnight: midnightTheme,
+};
+
+function resolveSystemScheme(): "dark" | "light" {
+  if (typeof window === "undefined" || !window.matchMedia) return "dark";
+  return window.matchMedia("(prefers-color-scheme: light)").matches
+    ? "light"
+    : "dark";
+}
+
 /**
- * Theme provider. Wraps your app (or a subtree) and injects the .vf-root
- * baseline class plus `data-vf-theme` for switching between dark/light.
- *
- * Inline runtime overrides via `theme` flow into the root as CSS custom
- * property declarations (e.g., `--vf-green: ...`).
+ * Theme provider. Wraps your app (or a subtree) and injects:
+ *   - `.vf-root` baseline class
+ *   - `data-vf-theme` for stylesheet-driven theme switching
+ *   - `data-vf-density`, `data-vf-contrast`, `data-vf-motion` for modes
+ *   - `dir` for RTL
+ *   - CSS custom properties on `style` when `theme` supplies runtime
+ *     overrides
  *
  * @example
- * <VoidframeProvider themeName="dark">
+ * <VoidframeProvider themeName="system" density="compact">
  *   <App />
  * </VoidframeProvider>
  */
 export function VoidframeProvider({
   theme,
   themeName = "dark",
+  density = "comfortable",
+  contrast = "normal",
+  direction = "ltr",
+  reducedMotion = "auto",
   cssBaseline = false,
   className,
   style,
   children,
 }: VoidframeProviderProps) {
-  const tokens = useMemo<VoidframeTokens>(
-    () => (theme ? createTheme(theme) : defaultTokens),
-    [theme]
+  // Resolve `"system"` to the actual matchMedia result + subscribe to changes.
+  const [systemScheme, setSystemScheme] = useState<"dark" | "light">(() =>
+    resolveSystemScheme()
+  );
+  useEffect(() => {
+    if (themeName !== "system") return;
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mql = window.matchMedia("(prefers-color-scheme: light)");
+    const onChange = () => setSystemScheme(mql.matches ? "light" : "dark");
+    onChange();
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, [themeName]);
+
+  const resolvedThemeName =
+    themeName === "system" ? systemScheme : themeName;
+
+  // Base token set: a built-in, else the caller's full theme, else default.
+  const baseTokens = useMemo<VoidframeTokens>(() => {
+    if (resolvedThemeName in BUILTIN_THEMES) {
+      return BUILTIN_THEMES[resolvedThemeName as BuiltInThemeName];
+    }
+    return defaultTokens;
+  }, [resolvedThemeName]);
+
+  const tokens = useMemo<VoidframeTokens>(() => {
+    if (!theme) return baseTokens;
+    if (isFullTokenSet(theme)) return theme;
+    return createTheme({ ...baseTokens, ...theme });
+  }, [theme, baseTokens]);
+
+  // Emit runtime CSS vars whenever the caller supplied overrides or a
+  // non-default built-in needs to beat `:root`'s stylesheet.
+  const overrideStyle = useMemo<CSSProperties>(() => {
+    if (isFullTokenSet(theme)) return tokensToCssVars(theme);
+    if (theme) return tokensToCssVars(theme);
+    return {};
+  }, [theme]);
+
+  const scope = useMemo<ResolvedScope>(
+    () => ({
+      tokens,
+      themeName: resolvedThemeName,
+      density,
+      contrast,
+      direction,
+      reducedMotion,
+    }),
+    [tokens, resolvedThemeName, density, contrast, direction, reducedMotion]
   );
 
-  // For runtime overrides (theme prop), emit per-token CSS variables on the
-  // root element so they cascade and beat the stylesheet's defaults.
-  const overrideStyle = useMemo<CSSProperties | undefined>(() => {
-    if (!theme) return undefined;
-    return tokensToCssVars(theme);
-  }, [theme]);
+  const mergedStyle: CSSProperties | undefined =
+    Object.keys(overrideStyle).length > 0 || style
+      ? { ...overrideStyle, ...style }
+      : undefined;
 
   return (
     <VoidframeContext.Provider value={tokens}>
-      <div
-        className={cx("vf-root", cssBaseline && "vf-baseline", className)}
-        data-vf-theme={themeName}
-        style={overrideStyle ? { ...overrideStyle, ...style } : style}
-      >
-        {children}
-      </div>
+      <RuntimeScopeContext.Provider value={scope}>
+        <div
+          className={cx("vf-root", cssBaseline && "vf-baseline", className)}
+          data-vf-theme={resolvedThemeName}
+          data-vf-density={density !== "comfortable" ? density : undefined}
+          data-vf-contrast={contrast !== "normal" ? contrast : undefined}
+          data-vf-motion={reducedMotion !== "auto" ? reducedMotion : undefined}
+          dir={direction === "rtl" ? "rtl" : undefined}
+          style={mergedStyle}
+        >
+          {children}
+        </div>
+      </RuntimeScopeContext.Provider>
     </VoidframeContext.Provider>
   );
 }
 
-/** Map a token override object to its CSS-var equivalent. */
-function tokensToCssVars(overrides: ThemeOverrides): CSSProperties {
-  const out: Record<string, string | number> = {};
-  for (const key in overrides) {
-    const value = (overrides as Record<string, unknown>)[key];
-    if (value === undefined) continue;
-    out[`--vf-${camelToKebab(key)}`] = value as string | number;
-  }
-  return out as CSSProperties;
-}
-
-function camelToKebab(s: string): string {
-  return s.replace(/([a-z])([A-Z0-9])/g, "$1-$2").toLowerCase();
+function isFullTokenSet(
+  t: VoidframeTokens | ThemeOverrides | undefined
+): t is VoidframeTokens {
+  if (!t) return false;
+  // Cheap heuristic — a full set always has the full palette keys.
+  const k = t as ThemeOverrides;
+  return (
+    k.bg0 !== undefined &&
+    k.text0 !== undefined &&
+    k.fontFamily !== undefined &&
+    k.sp1 !== undefined
+  );
 }
 
 /**
@@ -91,3 +215,5 @@ function camelToKebab(s: string): string {
 export function useTokens(): VoidframeTokens {
   return useContext(VoidframeContext);
 }
+
+export { VoidframeContext as _VoidframeContextForTesting };
