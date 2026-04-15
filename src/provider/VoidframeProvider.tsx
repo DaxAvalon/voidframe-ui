@@ -21,6 +21,9 @@ import {
   tokensToCssVars,
   type BuiltInThemeName,
 } from "../themes";
+import { MessagesProvider } from "../i18n/MessagesProvider";
+import type { PartialMessages } from "../i18n/messages";
+import type { LocalePack } from "../i18n/locales/types";
 import { cx } from "../utils/cx";
 
 const VoidframeContext = createContext<VoidframeTokens>(defaultTokens);
@@ -75,6 +78,20 @@ export interface VoidframeProviderProps {
   reducedMotion?: VoidframeReducedMotion;
   /** Inject the optional CSS reset (`.vf-baseline`). */
   cssBaseline?: boolean;
+  /**
+   * Full locale pack (messages + direction + firstDayOfWeek). When
+   * supplied, direction auto-derives from the pack unless the
+   * `direction` prop above overrides it.
+   */
+  locale?: LocalePack;
+  /** Partial message overrides layered on top of `locale` (or English). */
+  messages?: PartialMessages;
+  /** Override the BCP-47 locale tag independent of the locale pack. */
+  localeTag?: string;
+  /** 0 = Sunday … 6 = Saturday. Derived from locale pack when omitted. */
+  firstDayOfWeek?: number;
+  /** Default time zone for date/time rendering. */
+  timeZone?: string;
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
@@ -112,13 +129,21 @@ export function VoidframeProvider({
   themeName = "dark",
   density = "comfortable",
   contrast = "normal",
-  direction = "ltr",
+  direction,
   reducedMotion = "auto",
   cssBaseline = false,
+  locale,
+  messages,
+  localeTag,
+  firstDayOfWeek,
+  timeZone,
   className,
   style,
   children,
 }: VoidframeProviderProps) {
+  // Direction resolution: explicit prop > locale pack > ltr.
+  const resolvedDirection: VoidframeDirection =
+    direction ?? locale?.direction ?? "ltr";
   // Resolve `"system"` to the actual matchMedia result + subscribe to changes.
   const [systemScheme, setSystemScheme] = useState<"dark" | "light">(() =>
     resolveSystemScheme()
@@ -164,10 +189,10 @@ export function VoidframeProvider({
       themeName: resolvedThemeName,
       density,
       contrast,
-      direction,
+      direction: resolvedDirection,
       reducedMotion,
     }),
-    [tokens, resolvedThemeName, density, contrast, direction, reducedMotion]
+    [tokens, resolvedThemeName, density, contrast, resolvedDirection, reducedMotion]
   );
 
   const mergedStyle: CSSProperties | undefined =
@@ -184,10 +209,19 @@ export function VoidframeProvider({
           data-vf-density={density !== "comfortable" ? density : undefined}
           data-vf-contrast={contrast !== "normal" ? contrast : undefined}
           data-vf-motion={reducedMotion !== "auto" ? reducedMotion : undefined}
-          dir={direction === "rtl" ? "rtl" : undefined}
+          dir={resolvedDirection === "rtl" ? "rtl" : undefined}
           style={mergedStyle}
         >
-          {children}
+          <MessagesProvider
+            locale={locale}
+            messages={messages}
+            localeTag={localeTag}
+            firstDayOfWeek={firstDayOfWeek}
+            timeZone={timeZone}
+            direction={resolvedDirection}
+          >
+            {children}
+          </MessagesProvider>
         </div>
       </RuntimeScopeContext.Provider>
     </VoidframeContext.Provider>

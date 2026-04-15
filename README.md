@@ -365,6 +365,72 @@ const CompassIcon = adaptIcon(Compass, { defaultLabel: "Compass" });
 <CompassIcon size="xl" />
 ```
 
+### Internationalization
+
+Full i18n surface — every built-in string translates, every layout mirrors in RTL, every number/date formats by locale. Backed entirely by `Intl.*` APIs (no `date-fns`/`moment` dependency).
+
+```jsx
+import {
+  VoidframeProvider,
+  MessagesProvider,
+  useMessages,
+  formatCurrency,
+  formatDate,
+  formatRelativeTime,
+  pluralize,
+  pseudolocalize,
+  ja, ar, enXA,                   // locale packs
+} from "voidframe";
+
+// Provider — pass a LocalePack (messages + direction + firstDayOfWeek).
+<VoidframeProvider locale={ja}>
+  <App />
+</VoidframeProvider>
+
+// Or layer partial overrides over a pack:
+<VoidframeProvider
+  locale={ar}
+  messages={{ dialog: { confirm: "OK" } }}
+>
+  <App />
+</VoidframeProvider>
+
+// RTL auto-derives from the pack — explicit `direction` wins if supplied.
+<VoidframeProvider locale={ar}>   {/* dir="rtl" */}
+<VoidframeProvider locale={ar} direction="ltr">  {/* forced LTR */}
+
+// Inside components
+function MyComponent() {
+  const { t, locale, direction, firstDayOfWeek } = useMessages();
+  return (
+    <>
+      <Button>{t("dialog.confirm")}</Button>
+      <span>{t("pagination.pageOf", { current: 2, total: 10 })}</span>
+      <span>{formatCurrency(1234.56, "EUR", locale)}</span>
+      <span>{formatDate(new Date(), locale, { dateStyle: "long" })}</span>
+      <span>{formatRelativeTime(Date.now() - 60_000, locale)}</span>
+      <span>
+        {pluralize(count, locale, {
+          one: `1 file`,
+          other: `${count} files`,
+        })}
+      </span>
+    </>
+  );
+}
+```
+
+**Shipped locale packs** (tree-shakable — import only what you need):
+`en`, `es`, `fr`, `de`, `ja`, `zhCN`, `ar` (RTL), `he` (RTL), plus `enXA` — a pseudolocale wrapper for text-expansion QA.
+
+**Pseudolocalization** — drop in `enXA` or `pseudolocalize(enMessages)` to stress-test layout with 40%-longer diacritic-heavy strings:
+
+```jsx
+<VoidframeProvider locale={enXA}>
+```
+
+**Nothing hardcoded** — `t()` paths like `pagination.previous`, `dialog.cancel`, `table.noData`, `overlay.close`, `a11y.menu` etc. resolve from the merged catalog. Override any subset via the `messages` prop without re-translating everything.
+
 ### Responsive
 
 Breakpoint tokens (`sm=640`, `md=768`, `lg=1024`, `xl=1280`, `xxl=1536`), a `Responsive<T>` prop shape, CSS-based `<Show>` / `<Hide>` (no SSR hydration flash), a JS `ResponsiveBox` primitive, and hooks for dynamic resolution.
@@ -545,7 +611,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (1200+ tests)
+npm run test      # full vitest suite (1210+ tests)
 npm run typecheck # tsc --noEmit
 ```
 

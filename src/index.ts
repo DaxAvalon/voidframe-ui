@@ -58,6 +58,42 @@ export * from "./icons";
 // ── Responsive system (Phase 16) ────────────────────────────
 export * from "./responsive";
 
+// ── i18n (Phase 17) ─────────────────────────────────────────
+export {
+  enMessages,
+  mergeMessages,
+  resolvePath,
+  MessagesProvider,
+  useMessages,
+  useI18n,
+  pluralize,
+  formatCurrency,
+  formatPercent,
+  formatDate,
+  formatRelativeTime,
+  formatList,
+  pseudolocalize,
+  en,
+  es,
+  fr,
+  de,
+  ja,
+  zhCN,
+  ar,
+  he,
+  enXA,
+  LOCALE_PACKS,
+} from "./i18n";
+export type {
+  VoidframeMessages,
+  PartialMessages,
+  MessageTemplate,
+  I18nContextValue,
+  MessagesProviderProps,
+  PluralForms,
+  LocalePack,
+} from "./i18n";
+
 // ── Hooks ───────────────────────────────────────────────────
 export {
   useHover,

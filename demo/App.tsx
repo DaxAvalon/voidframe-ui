@@ -173,6 +173,14 @@ import {
   Zoomable,
   toast,
   useConfirm,
+  // Phase 17: i18n
+  LOCALE_PACKS,
+  formatCurrency,
+  formatDate,
+  formatRelativeTime,
+  pluralize,
+  useMessages,
+  type LocalePack,
   // Phase 16: responsive
   BREAKPOINTS,
   Hide,
@@ -1673,6 +1681,92 @@ function UtilitySection() {
           ]}
           onReact={(id) => toast({ title: `Reacted ${id}` })}
         />
+      </Block>
+    </Frame>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// PHASE 17 — i18n
+// ─────────────────────────────────────────────────────────────
+
+function I18nSection() {
+  const { t, locale, direction, firstDayOfWeek } = useMessages();
+  const [fileCount] = useState(3);
+  const now = Date.now();
+  return (
+    <Frame
+      title="i18n — Messages, locales, RTL, Intl formatters"
+      description="Change the demo locale from the header selector (Phase 17). Strings, number/date formatting, and writing direction all flow from the provider."
+    >
+      <Block label="Resolved context">
+        <Flex gap={24} wrap>
+          <Text>
+            Locale: <Code>{locale}</Code>
+          </Text>
+          <Text>
+            Direction: <Code>{direction}</Code>
+          </Text>
+          <Text>
+            First day of week:{" "}
+            <Code>{String(firstDayOfWeek)}</Code>
+          </Text>
+        </Flex>
+      </Block>
+      <Block label="Built-in strings via t()">
+        <Flex gap={16} wrap>
+          <Badge>{t("pagination.previous")}</Badge>
+          <Badge>{t("pagination.next")}</Badge>
+          <Badge>{t("dialog.cancel")}</Badge>
+          <Badge>{t("dialog.confirm")}</Badge>
+          <Badge>{t("form.required")}</Badge>
+          <Badge>{t("table.noData")}</Badge>
+          <Text>{t("pagination.pageOf", { current: 2, total: 10 })}</Text>
+        </Flex>
+      </Block>
+      <Block label="Intl formatters">
+        <Flex gap={24} wrap>
+          <Text>
+            Currency: <Code>{formatCurrency(1234.56, "EUR", locale)}</Code>
+          </Text>
+          <Text>
+            Date:{" "}
+            <Code>
+              {formatDate(now, locale, {
+                dateStyle: "long",
+              })}
+            </Code>
+          </Text>
+          <Text>
+            Relative:{" "}
+            <Code>{formatRelativeTime(now - 125_000, locale, now)}</Code>
+          </Text>
+          <Text>
+            Plural:{" "}
+            <Code>
+              {pluralize(fileCount, locale, {
+                one: `1 ${t("combobox.noResults").toLowerCase()}`,
+                other: `${fileCount} items`,
+              })}
+            </Code>
+          </Text>
+        </Flex>
+      </Block>
+      <Block label="Ship catalog — 8 locale packs + pseudoloc">
+        <Flex gap={8} wrap>
+          {Object.keys(LOCALE_PACKS).map((tag) => {
+            const pack: LocalePack = LOCALE_PACKS[tag]!;
+            return (
+              <Badge key={tag} tone={pack.direction === "rtl" ? "warning" : "neutral"}>
+                {tag} · {pack.direction}
+              </Badge>
+            );
+          })}
+        </Flex>
+        <Text size="xs" color="var(--vf-text-3)">
+          Consumers import only the packs they need —{" "}
+          <Code>{`import { ja } from "voidframe"`}</Code> is tree-shakable.
+        </Text>
       </Block>
     </Frame>
   );
@@ -3240,6 +3334,8 @@ const SECTIONS: DemoSection[] = [
   { id: "media", group: "Interactive", title: "Media", render: () => <MediaSection /> },
   { id: "utility", group: "Interactive", title: "Utility", render: () => <UtilitySection /> },
 
+  { id: "i18n", group: "i18n", title: "Locales + Formatters + RTL", render: () => <I18nSection /> },
+
   { id: "responsive", group: "Responsive", title: "Breakpoints + Show/Hide", render: () => <ResponsiveSection /> },
 
   { id: "theming", group: "Theming", title: "Scope + Density + Contrast", render: () => <ThemingSection /> },
@@ -3275,6 +3371,8 @@ function App() {
     defaultTheme: "dark",
     allowed: ["dark", "light", "midnight", "system"] as const,
   });
+  const [localeTag, setLocaleTag] = useState<string>("en");
+  const localePack = LOCALE_PACKS[localeTag] ?? LOCALE_PACKS.en!;
   const active = SECTIONS.find((s) => s.id === activeId) ?? SECTIONS[0]!;
 
   // Group sidebar by group label.
@@ -3286,7 +3384,7 @@ function App() {
   }
 
   return (
-    <VoidframeProvider themeName={themeName}>
+    <VoidframeProvider themeName={themeName} locale={localePack}>
       <ConfirmProvider>
         <ShortcutProvider>
           <AppShell
@@ -3310,6 +3408,16 @@ function App() {
                     { id: "midnight", label: "Midnight" },
                     { id: "system", label: "Auto" },
                   ]}
+                />
+                <Select
+                  value={localeTag}
+                  onChange={setLocaleTag}
+                  options={Object.keys(LOCALE_PACKS).map((tag) => ({
+                    value: tag,
+                    label: tag,
+                  }))}
+                  width={96}
+                  aria-label="Locale"
                 />
                 <Text size="xs" color="var(--vf-text-3)">
                   {SECTIONS.length} sections · 230+ components
