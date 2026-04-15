@@ -189,6 +189,20 @@ export function intersectSegmentRect(
   return [t0, t1];
 }
 
+/** True if the segment passes through any of the listed rectangles. */
+export function segmentCrossesAnyRect(
+  ax: number,
+  ay: number,
+  bx: number,
+  by: number,
+  obstacles: RectObstacle[]
+): boolean {
+  for (const o of obstacles) {
+    if (intersectSegmentRect(ax, ay, bx, by, o.x, o.y, o.w, o.h)) return true;
+  }
+  return false;
+}
+
 /**
  * Split a segment into runs of "visible" vs "obstructed" by rectangles.
  * Used for graphs whose nodes are rectangles (DependencyGraph).

@@ -17,6 +17,7 @@ import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
 import { seriesPalette } from "./math/color";
 import {
   interpolatePoint,
+  segmentCrossesAnyRect,
   splitSegmentByRectObstacles,
   type RectObstacle,
 } from "./math/edges";
@@ -266,59 +267,178 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
             </marker>
           </defs>
           {(() => {
-            // Build per-edge segment lists once. Each edge becomes 3
-            // straight segments forming an orthogonal connector. The
-            // last segment carries the arrow head.
-            type Seg = { ax: number; ay: number; bx: number; by: number };
-            type EdgeSegments = {
+            // Build a per-edge route: direct 3-segment orthogonal
+            // connector when it doesn't cross any unrelated node, or a
+            // side-gutter detour when it would. Edges always attach at
+            // node borders and never cross other nodes' rectangles.
+            type Seg = {
+              ax: number;
+              ay: number;
+              bx: number;
+              by: number;
+            };
+            const ARROW_INSET = 4;
+            // Layout extents (used to pick gutter coords outside all
+            // nodes when a detour is needed).
+            const layoutMaxX = placed.reduce(
+              (max, p) => Math.max(max, p.x + nodeWidth),
+              0
+            );
+            const layoutMaxY = placed.reduce(
+              (max, p) => Math.max(max, p.y + nodeHeight),
+              0
+            );
+            const gutterX = layoutMaxX + Math.max(siblingGap, 24);
+            const gutterY = layoutMaxY + Math.max(layerGap / 2, 24);
+
+            const directRoute = (s: PlacedNode, t: PlacedNode): Seg[] => {
+              if (direction === "top-down") {
+                if (t.y < s.y) {
+                  // target above source — exit source TOP, enter target BOTTOM
+                  const x1 = s.x + nodeWidth / 2;
+                  const y1 = s.y;
+                  const x2 = t.x + nodeWidth / 2;
+                  const y2 = t.y + nodeHeight;
+                  const midY = (y1 + y2) / 2;
+                  return [
+                    { ax: x1, ay: y1, bx: x1, by: midY },
+                    { ax: x1, ay: midY, bx: x2, by: midY },
+                    { ax: x2, ay: midY, bx: x2, by: y2 + ARROW_INSET },
+                  ];
+                }
+                // target below source — exit source BOTTOM, enter target TOP
+                const x1 = s.x + nodeWidth / 2;
+                const y1 = s.y + nodeHeight;
+                const x2 = t.x + nodeWidth / 2;
+                const y2 = t.y;
+                const midY = (y1 + y2) / 2;
+                return [
+                  { ax: x1, ay: y1, bx: x1, by: midY },
+                  { ax: x1, ay: midY, bx: x2, by: midY },
+                  { ax: x2, ay: midY, bx: x2, by: y2 - ARROW_INSET },
+                ];
+              }
+              // left-right
+              if (t.x < s.x) {
+                const x1 = s.x;
+                const y1 = s.y + nodeHeight / 2;
+                const x2 = t.x + nodeWidth;
+                const y2 = t.y + nodeHeight / 2;
+                const midX = (x1 + x2) / 2;
+                return [
+                  { ax: x1, ay: y1, bx: midX, by: y1 },
+                  { ax: midX, ay: y1, bx: midX, by: y2 },
+                  { ax: midX, ay: y2, bx: x2 + ARROW_INSET, by: y2 },
+                ];
+              }
+              const x1 = s.x + nodeWidth;
+              const y1 = s.y + nodeHeight / 2;
+              const x2 = t.x;
+              const y2 = t.y + nodeHeight / 2;
+              const midX = (x1 + x2) / 2;
+              return [
+                { ax: x1, ay: y1, bx: midX, by: y1 },
+                { ax: midX, ay: y1, bx: midX, by: y2 },
+                { ax: midX, ay: y2, bx: x2 - ARROW_INSET, by: y2 },
+              ];
+            };
+
+            const sideRoute = (s: PlacedNode, t: PlacedNode): Seg[] => {
+              if (direction === "top-down") {
+                // Exit source RIGHT → vertical along right gutter →
+                // enter target RIGHT.
+                const sy = s.y + nodeHeight / 2;
+                const ty = t.y + nodeHeight / 2;
+                return [
+                  { ax: s.x + nodeWidth, ay: sy, bx: gutterX, by: sy },
+                  { ax: gutterX, ay: sy, bx: gutterX, by: ty },
+                  {
+                    ax: gutterX,
+                    ay: ty,
+                    bx: t.x + nodeWidth + ARROW_INSET,
+                    by: ty,
+                  },
+                ];
+              }
+              // left-right: route via bottom gutter.
+              const sx = s.x + nodeWidth / 2;
+              const tx = t.x + nodeWidth / 2;
+              return [
+                { ax: sx, ay: s.y + nodeHeight, bx: sx, by: gutterY },
+                { ax: sx, ay: gutterY, bx: tx, by: gutterY },
+                {
+                  ax: tx,
+                  ay: gutterY,
+                  bx: tx,
+                  by: t.y + nodeHeight + ARROW_INSET,
+                },
+              ];
+            };
+            type EdgeRender = {
               edge: DependencyEdge;
-              segs: Seg[];
               key: string;
               incident: boolean;
               dim: boolean;
+              segs: Seg[];
+              /** runs[segIdx] = visible/obstructed runs along that segment. */
+              runs: ReturnType<typeof splitSegmentByRectObstacles>[];
             };
-            const edgeData: EdgeSegments[] = edges
+            const edgeData: EdgeRender[] = edges
               .map((e, i) => {
                 const s = placedById.get(e.source);
                 const t = placedById.get(e.target);
                 if (!s || !t) return null;
-                let segs: Seg[];
-                if (direction === "top-down") {
-                  const x1 = s.x + nodeWidth / 2;
-                  const y1 = s.y + nodeHeight;
-                  const x2 = t.x + nodeWidth / 2;
-                  const y2 = t.y;
-                  const midY = (y1 + y2) / 2;
-                  segs = [
-                    { ax: x1, ay: y1, bx: x1, by: midY },
-                    { ax: x1, ay: midY, bx: x2, by: midY },
-                    { ax: x2, ay: midY, bx: x2, by: y2 - 4 },
-                  ];
-                } else {
-                  const x1 = s.x + nodeWidth;
-                  const y1 = s.y + nodeHeight / 2;
-                  const x2 = t.x;
-                  const y2 = t.y + nodeHeight / 2;
-                  const midX = (x1 + x2) / 2;
-                  segs = [
-                    { ax: x1, ay: y1, bx: midX, by: y1 },
-                    { ax: midX, ay: y1, bx: midX, by: y2 },
-                    { ax: midX, ay: y2, bx: x2 - 4, by: y2 },
-                  ];
+                const others: RectObstacle[] = placed
+                  .filter(
+                    (p) => p.id !== e.source && p.id !== e.target
+                  )
+                  .map((p) => ({
+                    x: p.x,
+                    y: p.y,
+                    w: nodeWidth,
+                    h: nodeHeight,
+                  }));
+                // Try direct first; fall back to a side-gutter detour
+                // when any direct segment would cross an unrelated node.
+                let segs = directRoute(s, t);
+                const directCrosses = segs.some((seg) =>
+                  segmentCrossesAnyRect(
+                    seg.ax,
+                    seg.ay,
+                    seg.bx,
+                    seg.by,
+                    others
+                  )
+                );
+                if (directCrosses) {
+                  segs = sideRoute(s, t);
                 }
+                const runs = segs.map((seg) =>
+                  splitSegmentByRectObstacles(
+                    seg.ax,
+                    seg.ay,
+                    seg.bx,
+                    seg.by,
+                    others
+                  )
+                );
                 const incident =
                   selected === e.source || selected === e.target;
                 return {
                   edge: e,
-                  segs,
                   key: `${e.source}-${e.target}-${i}`,
                   incident,
                   dim: selected !== null && !incident,
+                  segs,
+                  runs,
                 };
               })
-              .filter((x): x is EdgeSegments => x !== null);
+              .filter((x): x is EdgeRender => x !== null);
 
-            const onEdgeEnter = (ed: DependencyEdge, ev: React.PointerEvent) => {
+            const onEdgeEnter = (
+              ed: DependencyEdge,
+              ev: React.PointerEvent
+            ) => {
               if (!ed.label && ed.value === undefined) return;
               setHover({
                 kind: "edge",
@@ -332,38 +452,84 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
               setHover({ ...hover, x: ev.clientX, y: ev.clientY });
             };
 
+            // Render only the VISIBLE runs as solid base lines. The
+            // arrow head is placed on the very last visible run of the
+            // last segment so the arrow always sits at the target
+            // node's edge.
             return (
               <>
-                {/* Solid edge segments under the nodes. */}
-                {edgeData.map((ed) =>
-                  ed.segs.map((seg, segIdx) => {
-                    const isLast = segIdx === ed.segs.length - 1;
-                    return (
-                      <line
-                        key={`base-${ed.key}-${segIdx}`}
-                        className={cx(
-                          "vf-chart-dep-graph__edge",
-                          ed.incident && "vf-chart-dep-graph__edge--highlighted",
-                          ed.dim && "vf-chart-dep-graph__edge--dimmed"
-                        )}
-                        x1={seg.ax}
-                        y1={seg.ay}
-                        x2={seg.bx}
-                        y2={seg.by}
-                        stroke="currentColor"
-                        strokeWidth={1.2}
-                        markerEnd={
-                          isLast && directed ? "url(#vf-dep-arrow)" : undefined
-                        }
-                        onPointerEnter={(ev) => onEdgeEnter(ed.edge, ev)}
-                        onPointerMove={onEdgeMove}
-                        onPointerLeave={() => setHover(null)}
-                      />
-                    );
-                  })
-                )}
-                {/* (Nodes will be rendered next, drawn on top of the
-                    base segments above.) */}
+                {edgeData.map((ed) => {
+                  // Find the last visible run across all segments —
+                  // that's where the arrow head goes.
+                  let lastVisibleIdx: { seg: number; run: number } | null =
+                    null;
+                  for (let s = ed.segs.length - 1; s >= 0; s--) {
+                    const segRuns = ed.runs[s] ?? [];
+                    for (let r = segRuns.length - 1; r >= 0; r--) {
+                      if (!segRuns[r]!.obstructed) {
+                        lastVisibleIdx = { seg: s, run: r };
+                        break;
+                      }
+                    }
+                    if (lastVisibleIdx) break;
+                  }
+                  return ed.segs.map((seg, segIdx) => {
+                    const segRuns = ed.runs[segIdx] ?? [];
+                    return segRuns
+                      .filter((r) => !r.obstructed)
+                      .map((r, rIdx) => {
+                        const start = interpolatePoint(
+                          seg.ax,
+                          seg.ay,
+                          seg.bx,
+                          seg.by,
+                          r.start
+                        );
+                        const end = interpolatePoint(
+                          seg.ax,
+                          seg.ay,
+                          seg.bx,
+                          seg.by,
+                          r.end
+                        );
+                        // Map filtered-rIdx back to original index for
+                        // the arrow comparison.
+                        const originalIdx = segRuns.indexOf(r);
+                        const isArrowEnd =
+                          directed &&
+                          lastVisibleIdx !== null &&
+                          lastVisibleIdx.seg === segIdx &&
+                          lastVisibleIdx.run === originalIdx;
+                        return (
+                          <line
+                            key={`base-${ed.key}-${segIdx}-${rIdx}`}
+                            className={cx(
+                              "vf-chart-dep-graph__edge",
+                              ed.incident &&
+                                "vf-chart-dep-graph__edge--highlighted",
+                              ed.dim && "vf-chart-dep-graph__edge--dimmed"
+                            )}
+                            x1={start.x}
+                            y1={start.y}
+                            x2={end.x}
+                            y2={end.y}
+                            stroke="currentColor"
+                            strokeWidth={1.2}
+                            markerEnd={
+                              isArrowEnd
+                                ? "url(#vf-dep-arrow)"
+                                : undefined
+                            }
+                            onPointerEnter={(ev) =>
+                              onEdgeEnter(ed.edge, ev)
+                            }
+                            onPointerMove={onEdgeMove}
+                            onPointerLeave={() => setHover(null)}
+                          />
+                        );
+                      });
+                  });
+                })}
               </>
             );
           })()}
@@ -420,98 +586,10 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
               </g>
             );
           })}
-          {/* Dashed overlays — for each edge segment, find runs that
-              cross any non-connected node rectangle and draw them over
-              the top so the obstructed portion stays visible. */}
-          {edges.map((e, i) => {
-            const s = placedById.get(e.source);
-            const t = placedById.get(e.target);
-            if (!s || !t) return null;
-            let segs: Array<{
-              ax: number;
-              ay: number;
-              bx: number;
-              by: number;
-            }>;
-            if (direction === "top-down") {
-              const x1 = s.x + nodeWidth / 2;
-              const y1 = s.y + nodeHeight;
-              const x2 = t.x + nodeWidth / 2;
-              const y2 = t.y;
-              const midY = (y1 + y2) / 2;
-              segs = [
-                { ax: x1, ay: y1, bx: x1, by: midY },
-                { ax: x1, ay: midY, bx: x2, by: midY },
-                { ax: x2, ay: midY, bx: x2, by: y2 - 4 },
-              ];
-            } else {
-              const x1 = s.x + nodeWidth;
-              const y1 = s.y + nodeHeight / 2;
-              const x2 = t.x;
-              const y2 = t.y + nodeHeight / 2;
-              const midX = (x1 + x2) / 2;
-              segs = [
-                { ax: x1, ay: y1, bx: midX, by: y1 },
-                { ax: midX, ay: y1, bx: midX, by: y2 },
-                { ax: midX, ay: y2, bx: x2 - 4, by: y2 },
-              ];
-            }
-            const others: RectObstacle[] = placed
-              .filter((p) => p.id !== e.source && p.id !== e.target)
-              .map((p) => ({
-                x: p.x,
-                y: p.y,
-                w: nodeWidth,
-                h: nodeHeight,
-              }));
-            const incident =
-              selected === e.source || selected === e.target;
-            const dim = selected !== null && !incident;
-            return segs.flatMap((seg, segIdx) => {
-              const runs = splitSegmentByRectObstacles(
-                seg.ax,
-                seg.ay,
-                seg.bx,
-                seg.by,
-                others
-              );
-              return runs
-                .filter((r) => r.obstructed)
-                .map((r, rIdx) => {
-                  const start = interpolatePoint(
-                    seg.ax,
-                    seg.ay,
-                    seg.bx,
-                    seg.by,
-                    r.start
-                  );
-                  const end = interpolatePoint(
-                    seg.ax,
-                    seg.ay,
-                    seg.bx,
-                    seg.by,
-                    r.end
-                  );
-                  return (
-                    <line
-                      key={`obstr-${i}-${segIdx}-${rIdx}`}
-                      className={cx(
-                        "vf-chart-dep-graph__edge-obstructed",
-                        incident &&
-                          "vf-chart-dep-graph__edge-obstructed--highlighted",
-                        dim &&
-                          "vf-chart-dep-graph__edge-obstructed--dimmed"
-                      )}
-                      x1={start.x}
-                      y1={start.y}
-                      x2={end.x}
-                      y2={end.y}
-                      pointerEvents="none"
-                    />
-                  );
-                });
-            });
-          })}
+          {/* No dashed overlay needed: the routing function above
+              swaps to the side-gutter detour any time the direct route
+              would cross an unrelated node, so by construction every
+              rendered segment is visible end-to-end. */}
         </svg>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover?.kind === "node" ? (
