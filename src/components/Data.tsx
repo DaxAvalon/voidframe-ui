@@ -140,7 +140,11 @@ export const Table = genericForwardRef(function Table<T = Record<string, unknown
         }}
         role="table"
       >
-        <div role="rowgroup" className="vf-table__head">
+        <div
+          role="rowgroup"
+          className="vf-table__head"
+          style={{ display: "contents" }}
+        >
           <div role="row" style={{ display: "contents" }}>
           {columns.map((c) => {
             const isSorted = current?.key === c.key;
@@ -177,7 +181,11 @@ export const Table = genericForwardRef(function Table<T = Record<string, unknown
           })}
           </div>
         </div>
-        <div role="rowgroup" className="vf-table__body">
+        <div
+          role="rowgroup"
+          className="vf-table__body"
+          style={{ display: "contents" }}
+        >
           {loading ? (
             <div className="vf-table__loading" role="row">
               <div role="cell" style={{ gridColumn: `1 / span ${columns.length}` }}>

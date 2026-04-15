@@ -173,7 +173,7 @@
     grid-template-columns: none !important;
   }
   .vf-table--adaptive .vf-table__head {
-    display: none;
+    display: none !important;
   }
   .vf-table--adaptive .vf-table__row {
     display: flex !important;
