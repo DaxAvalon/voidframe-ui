@@ -2,9 +2,9 @@
 
 Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-radius. Monospace-first.
 
-Built for dashboards, dev tools, data interfaces, internal consoles, and anything that needs to feel like it was forged from the void.
+Built for dashboards, dev tools, data interfaces, internal consoles, AI chat products, and anything that needs to feel like it was forged from the void.
 
-**150+ accessible components** across primitives, layout, forms, navigation, data, overlays, and interaction. WAI-ARIA patterns. Controllable / uncontrollable duality on every input. Compound APIs on every complex surface. No runtime dependencies beyond React.
+**200+ accessible components** across primitives, layout, forms, navigation, data, overlays, interaction, and a full chat/AI surface. WAI-ARIA patterns. Controllable / uncontrollable duality on every input. Compound APIs on every complex surface. No runtime dependencies beyond React.
 
 ---
 
@@ -216,6 +216,28 @@ Toasts: `toast()` imperative API, `useToast()` hook, `Toaster` (placement wrappe
 
 `Accordion` (compound), `Carousel`, `Marquee`, `Lightbox`, `Swipeable`, `SwipeActions`, `Zoomable`, `ShareButton`, `Activity`, `MediaPlayer`.
 
+### Chat & AI
+
+Purpose-built surface for Claude-/ChatGPT-/agent-style products. Everything below is in the top-level `voidframe` import.
+
+**Conversation + messages:** `Conversation`, `MessageList`, `MessageGroup`, `Message`, `MessageContent` (with `MessagePart[]` — text / code / tool_use / tool_result / thinking), `StreamingText`, `ThinkingIndicator` / `TypingIndicator`, `ReasoningTrace`, `MessageActions` (compound: `Copy`/`Regenerate`/`Edit`/`Delete`/`Share`/`Feedback`/`Pin`/`Branch`), `MessageFeedback`, `ReactionBar` / `MessageReactions`, `MessageEdit`.
+
+**Attachments:** `AttachmentList`, `Attachment`, `ImageAttachment`, `FileAttachment`, `CodeAttachment`, `AudioAttachment`.
+
+**Tool calls & agents:** `ToolCall`, `ToolCallGroup`, `AgentStep`, `AgentTrace`, `PlanDisplay`.
+
+**Citations & sources:** `Citation`, `CitationList`, `SourceCard`, `SourceGrid`, `RAGContext`.
+
+**Composer:** `Composer` (compound: `Toolbar`, `Input`, `Footer`, `Submit`, `AttachButton`, `SlashButton`, `MicButton`, `TokenCounter`), `ComposerAttachment`, `ComposerMicButton`, `SubmitButton`, `StopButton`, `RegenerateButton`, `SuggestionChips` / `QuickReplies`, `PromptTemplateList`, `PromptTemplateEditor`, `SlashCommandPicker`, `Mention`.
+
+**Session & history:** `SessionList`, `SessionListItem`, `ConversationHeader`, `ConversationEmptyState`.
+
+**Model, context, cost:** `ModelSelector`, `SystemPromptEditor`, `ChatTokenCounter`, `ContextWindow`, `CostDisplay`, `LatencyIndicator`, `UnreadBadge`.
+
+**Debug & trace:** `DebugPanel`, `TraceViewer`.
+
+**Layout patterns:** `ChatLayout` (sidebar + conversation + inspector), `SimpleChat`, `AgentRunner`.
+
 ### Providers
 
 `VoidframeProvider` — theme context.
@@ -256,6 +278,57 @@ Toasts: `useToast`, plus module-level `toast.success / .info / .warning / .dange
 
 ---
 
+## Chat quickstart
+
+```jsx
+import {
+  VoidframeProvider,
+  ChatLayout,
+  SessionList,
+  Conversation,
+  ConversationHeader,
+  MessageList,
+  Message,
+  MessageContent,
+  Composer,
+  ToolCall,
+  toast,
+} from "voidframe";
+
+function ChatApp() {
+  return (
+    <VoidframeProvider>
+      <ChatLayout
+        sidebar={<SessionList sessions={sessions} activeId={id} onSelect={load} />}
+        conversation={
+          <Conversation status={status}>
+            <ConversationHeader title={title} model={model} />
+            <MessageList>
+              {messages.map((m) => (
+                <Message key={m.id} role={m.role} author={m.author}>
+                  <MessageContent content={m.content} streaming={m.streaming} />
+                  {m.toolCalls?.map((tc) => <ToolCall key={tc.id} {...tc} />)}
+                </Message>
+              ))}
+            </MessageList>
+            <Composer value={draft} onChange={setDraft} onSubmit={send} status={status}>
+              <Composer.Toolbar>
+                <Composer.AttachButton />
+              </Composer.Toolbar>
+              <Composer.Input placeholder="Message…" />
+              <Composer.Footer>
+                <Composer.TokenCounter />
+                <Composer.Submit />
+              </Composer.Footer>
+            </Composer>
+          </Conversation>
+        }
+      />
+    </VoidframeProvider>
+  );
+}
+```
+
 ## Demo
 
 A live, section-by-section showcase covers every shipped component. Run it locally:
@@ -273,7 +346,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (1000+ tests)
+npm run test      # full vitest suite (1090+ tests)
 npm run typecheck # tsc --noEmit
 ```
 

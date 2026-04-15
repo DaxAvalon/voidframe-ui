@@ -769,3 +769,180 @@ export type {
   AlertProps,
   ConfirmDialogProps,
 } from "./Overlay";
+
+// ── Phase 12: chat & AI ─────────────────────────────────────
+export {
+  Conversation,
+  MessageList,
+  MessageGroup,
+  Message,
+  MessageContent,
+  StreamingText,
+  ThinkingIndicator,
+  TypingIndicator,
+  ReasoningTrace,
+  MessageActions,
+  MessageFeedback,
+  ReactionBar,
+  MessageReactions,
+  MessageEdit,
+  useConversation,
+} from "./Chat";
+export type {
+  ConversationProps,
+  ConversationStatus,
+  MessageListProps,
+  MessageGroupProps,
+  MessageProps,
+  MessageRole,
+  MessageStatus,
+  MessageAuthor,
+  MessagePart,
+  MessageContentProps,
+  StreamingTextProps,
+  ThinkingIndicatorProps,
+  ReasoningTraceProps,
+  MessageActionsProps,
+  MessageActionButtonProps,
+  MessageFeedbackProps,
+  FeedbackValue,
+  FeedbackReason,
+  ReactionBarProps,
+  MessageReactionEntry,
+  MessageEditProps,
+} from "./Chat";
+
+export {
+  Attachment,
+  AttachmentList,
+  ImageAttachment,
+  FileAttachment,
+  CodeAttachment,
+  AudioAttachment,
+} from "./ChatAttachments";
+export type {
+  AttachmentKind,
+  AttachmentProps,
+  AttachmentListProps,
+  ImageAttachmentProps,
+  FileAttachmentProps,
+  CodeAttachmentProps,
+  AudioAttachmentProps,
+} from "./ChatAttachments";
+
+export {
+  ToolCall,
+  ToolCallGroup,
+  AgentStep,
+  AgentTrace,
+  PlanDisplay,
+} from "./ChatAgent";
+export type {
+  ToolStatus,
+  ToolCallProps,
+  ToolCallGroupProps,
+  AgentStepProps,
+  AgentTraceProps,
+  AgentTraceTokens,
+  PlanDisplayProps,
+  PlanStep,
+  PlanStepStatus,
+} from "./ChatAgent";
+
+export {
+  Citation,
+  CitationList,
+  SourceCard,
+  SourceGrid,
+  RAGContext,
+} from "./ChatCitations";
+export type {
+  SourceRef,
+  CitationProps,
+  CitationListProps,
+  SourceCardProps,
+  SourceGridProps,
+  RAGChunk,
+  RAGContextProps,
+} from "./ChatCitations";
+
+export {
+  Composer,
+  ComposerAttachment,
+  ComposerMicButton,
+  SubmitButton,
+  StopButton,
+  RegenerateButton,
+  SuggestionChips,
+  QuickReplies,
+  PromptTemplateList,
+  PromptTemplateEditor,
+  SlashCommandPicker,
+  Mention,
+} from "./ChatComposer";
+export type {
+  ComposerProps,
+  ComposerInputProps,
+  ComposerAttachmentProps,
+  ComposerMicButtonProps,
+  SubmitButtonProps,
+  StopButtonProps,
+  RegenerateButtonProps,
+  SuggestionChipsProps,
+  SuggestionItem,
+  PromptTemplate,
+  PromptTemplateListProps,
+  PromptTemplateEditorProps,
+  SlashCommand,
+  SlashCommandPickerProps,
+  MentionProps,
+} from "./ChatComposer";
+
+export {
+  SessionList,
+  SessionListItem,
+  ConversationHeader,
+  ConversationEmptyState,
+} from "./ChatSession";
+export type {
+  ChatSessionEntry,
+  SessionGroupBy,
+  SessionListProps,
+  SessionListItemProps,
+  ConversationHeaderProps,
+  ConversationEmptyStateProps,
+  ConversationEmptyStateSuggestion,
+} from "./ChatSession";
+
+export {
+  ModelSelector,
+  SystemPromptEditor,
+  TokenCounter as ChatTokenCounter,
+  ContextWindow,
+  CostDisplay,
+  LatencyIndicator,
+  DebugPanel,
+  TraceViewer,
+  UnreadBadge,
+  ChatLayout,
+  SimpleChat,
+  AgentRunner,
+} from "./ChatModel";
+export type {
+  ChatModelOption,
+  ModelSelectorProps,
+  SystemPromptTemplate,
+  SystemPromptEditorProps,
+  TokenCounterProps,
+  ContextWindowProps,
+  CostDisplayProps,
+  LatencyIndicatorProps,
+  DebugEvent,
+  DebugPanelProps,
+  TraceSpan,
+  TraceViewerProps,
+  UnreadBadgeProps,
+  ChatLayoutProps,
+  SimpleChatProps,
+  AgentRunnerProps,
+} from "./ChatModel";

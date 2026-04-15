@@ -173,6 +173,57 @@ import {
   Zoomable,
   toast,
   useConfirm,
+  // Phase 12: chat & AI
+  AgentRunner,
+  AgentStep,
+  AgentTrace,
+  AttachmentList,
+  ChatLayout,
+  ChatTokenCounter,
+  Citation,
+  CitationList,
+  Composer,
+  ComposerAttachment,
+  ComposerMicButton,
+  Conversation,
+  ConversationEmptyState,
+  ConversationHeader,
+  ContextWindow,
+  CostDisplay,
+  DebugPanel,
+  FileAttachment,
+  ImageAttachment,
+  LatencyIndicator,
+  Mention,
+  Message,
+  MessageActions,
+  MessageContent,
+  MessageEdit,
+  MessageFeedback,
+  MessageGroup,
+  MessageList,
+  ModelSelector,
+  PlanDisplay,
+  PromptTemplateList,
+  RAGContext,
+  ReactionBar,
+  ReasoningTrace,
+  RegenerateButton,
+  SessionList,
+  SimpleChat,
+  SlashCommandPicker,
+  SourceCard,
+  SourceGrid,
+  StopButton,
+  StreamingText,
+  SubmitButton,
+  SuggestionChips,
+  SystemPromptEditor,
+  ThinkingIndicator,
+  ToolCall,
+  ToolCallGroup,
+  TraceViewer,
+  UnreadBadge,
 } from "../src";
 
 // ── Section helpers ─────────────────────────────────────────
@@ -1515,6 +1566,508 @@ function UtilitySection() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// PHASE 12 — CHAT & AI
+// ─────────────────────────────────────────────────────────────
+
+function ChatMessagesSection() {
+  return (
+    <Frame
+      title="Chat — Messages"
+      description="Conversation, Message, MessageContent, StreamingText, ThinkingIndicator, ReasoningTrace, actions + feedback + reactions + edit."
+    >
+      <Block label="Conversation with mixed messages">
+        <Conversation status="streaming" style={{ height: 320 }}>
+          <MessageList>
+            <MessageGroup author={{ name: "Ops", avatar: "▲" }}>
+              <Message
+                role="user"
+                content="Summarize today's incident report."
+              />
+            </MessageGroup>
+            <MessageGroup author={{ name: "Claude", avatar: "◆" }}>
+              <Message
+                role="assistant"
+                content={
+                  <>
+                    <ReasoningTrace
+                      content="First I'll list incidents, then dedupe and rank by impact."
+                      duration={3200}
+                    />
+                    <MessageContent
+                      content="3 incidents overnight. Two network blips and one disk-space warning on db-2."
+                      streaming
+                    />
+                  </>
+                }
+                actions={
+                  <MessageActions>
+                    <MessageActions.Copy />
+                    <MessageActions.Regenerate />
+                  </MessageActions>
+                }
+                reactions={
+                  <ReactionBar
+                    reactions={[
+                      { emoji: "👍", count: 2, reacted: true },
+                      { emoji: "❤", count: 1 },
+                    ]}
+                  />
+                }
+              />
+            </MessageGroup>
+            <ThinkingIndicator duration={1800} />
+          </MessageList>
+        </Conversation>
+      </Block>
+      <Block label="StreamingText (instant)">
+        <StreamingText text="Token stream rendering, with a blinking cursor." />
+      </Block>
+      <Block label="MessageFeedback + MessageEdit">
+        <Flex gap={16} align="flex-start">
+          <MessageFeedback
+            reasons={[
+              { id: "wrong", label: "Incorrect" },
+              { id: "vague", label: "Too vague" },
+              { id: "long", label: "Too long" },
+            ]}
+          />
+          <MessageEditDemo />
+        </Flex>
+      </Block>
+    </Frame>
+  );
+}
+
+function MessageEditDemo() {
+  const [value, setValue] = useState("Edit me with cmd+Enter to save.");
+  return (
+    <MessageEdit
+      value={value}
+      onChange={setValue}
+      onSave={(v) => toast.success(`Saved: ${v.slice(0, 24)}…`)}
+      onCancel={() => toast.info("Cancelled")}
+      autoFocus={false}
+    />
+  );
+}
+
+function ChatAgentSection() {
+  return (
+    <Frame
+      title="Chat — Agents"
+      description="ToolCall, ToolCallGroup, AgentStep, AgentTrace, PlanDisplay."
+    >
+      <Block label="Tool call states">
+        <Flex gap={16} direction="column">
+          <ToolCall name="search_web" status="running" args={{ query: "voidframe" }} />
+          <ToolCall
+            name="read_file"
+            status="complete"
+            duration={412}
+            args={{ path: "README.md" }}
+            result="A monospace React UI framework…"
+            defaultExpanded
+          />
+          <ToolCall
+            name="post_message"
+            status="error"
+            errorMessage="429 Too Many Requests"
+            defaultExpanded
+            onRetry={() => toast.info("Retrying…")}
+          />
+        </Flex>
+      </Block>
+      <Block label="ToolCallGroup + AgentStep">
+        <ToolCallGroup title="Searching the web" status="complete">
+          <ToolCall name="search_web" status="complete" duration={320} />
+          <ToolCall name="fetch_page" status="complete" duration={700} />
+        </ToolCallGroup>
+        <AgentStep
+          number={1}
+          title="Gather logs"
+          status="complete"
+          duration={1200}
+          output="12 events collected"
+          defaultExpanded
+        />
+        <AgentStep
+          number={2}
+          title="Summarize"
+          status="running"
+          toolCalls={<ToolCall name="summarize" status="running" />}
+        />
+      </Block>
+      <Block label="AgentTrace + PlanDisplay">
+        <AgentTrace
+          tokens={{ input: 1234, output: 512 }}
+          cost="$0.0042"
+          duration={4800}
+          status="complete"
+          steps={
+            <>
+              <AgentStep number={1} title="Plan" status="complete" duration={400} />
+              <AgentStep number={2} title="Execute" status="complete" duration={1800} />
+              <AgentStep number={3} title="Report" status="complete" duration={200} />
+            </>
+          }
+        />
+        <PlanDisplay
+          title="Plan"
+          steps={[
+            { id: "1", title: "Analyze context", status: "done" },
+            { id: "2", title: "Draft response", status: "active" },
+            { id: "3", title: "Cite sources", status: "pending" },
+          ]}
+        />
+      </Block>
+      <Block label="TraceViewer">
+        <TraceViewer
+          spans={[
+            { id: "a", name: "plan", startMs: 0, durationMs: 400 },
+            { id: "b", name: "search_web", startMs: 400, durationMs: 900 },
+            { id: "c", name: "summarize", startMs: 1300, durationMs: 1200 },
+            { id: "d", name: "render", startMs: 2500, durationMs: 300 },
+          ]}
+        />
+      </Block>
+    </Frame>
+  );
+}
+
+function ChatAttachmentsSection() {
+  return (
+    <Frame
+      title="Chat — Attachments + Mentions"
+      description="AttachmentList, ImageAttachment, FileAttachment, Mention."
+    >
+      <Block label="AttachmentList">
+        <AttachmentList>
+          <FileAttachment name="design.pdf" extension="pdf" size="2.3 MB" />
+          <FileAttachment name="spec.md" extension="md" size="14 KB" />
+          <ImageAttachment
+            src="https://picsum.photos/seed/voidframe/300/180"
+            alt="Screenshot"
+            width={180}
+          />
+        </AttachmentList>
+      </Block>
+      <Block label="Mentions inside content">
+        <Text>
+          Ping <Mention value="alice" kind="user" /> in{" "}
+          <Mention value="ops" kind="channel" /> about{" "}
+          <Mention value="deploy.yml" kind="file" />.
+        </Text>
+      </Block>
+    </Frame>
+  );
+}
+
+function ChatCitationsSection() {
+  const sources = [
+    {
+      id: 1,
+      title: "Voidframe — README",
+      url: "https://example.com/readme",
+      snippet: "A dark-monochrome React UI framework.",
+      publisher: "git.ahadley.local",
+    },
+    {
+      id: 2,
+      title: "Phase plan 12",
+      url: "https://example.com/plan",
+      snippet: "Ship ~50 chat/AI components.",
+      publisher: "internal",
+    },
+  ];
+  return (
+    <Frame
+      title="Chat — Citations & Sources"
+      description="Citation, CitationList, SourceCard, SourceGrid, RAGContext."
+    >
+      <Block label="Inline Citation + CitationList">
+        <Text>
+          The answer is grounded in two sources{" "}
+          <Citation index={1} source={sources[0]} />
+          <Citation index={2} source={sources[1]} />.
+        </Text>
+        <CitationList sources={sources} />
+      </Block>
+      <Block label="SourceCard + SourceGrid">
+        <SourceCard
+          title="Example — Voidframe"
+          url="https://example.com/readme"
+          snippet="A dark-monochrome React UI framework. Terminal-brutalist. Data-dense."
+          publisher="example.com"
+          publishedAt="today"
+        />
+        <SourceGrid sources={sources} />
+      </Block>
+      <Block label="RAGContext">
+        <RAGContext
+          chunks={[
+            {
+              source: "README.md · §Install",
+              content: "npm install voidframe\n\nPeer deps: react 18+, react-dom 18+.",
+              score: 0.92,
+            },
+            {
+              source: "README.md · §Theming",
+              content: "Wrap in VoidframeProvider. Override tokens via createTheme.",
+              score: 0.71,
+            },
+          ]}
+        />
+      </Block>
+    </Frame>
+  );
+}
+
+function ChatComposerSection() {
+  const [draft, setDraft] = useState("");
+  const [streaming, setStreaming] = useState(false);
+  return (
+    <Frame
+      title="Chat — Composer"
+      description="Composer compound, SubmitButton, StopButton, RegenerateButton, SuggestionChips, SlashCommandPicker."
+    >
+      <Block label="Composer with toolbar, mic, token counter, submit">
+        <Composer
+          value={draft}
+          onChange={setDraft}
+          status={streaming ? "streaming" : "idle"}
+          maxLength={500}
+          onSubmit={(v) => {
+            setStreaming(true);
+            toast.info(`Sent: ${v}`);
+            setTimeout(() => {
+              setStreaming(false);
+              setDraft("");
+            }, 1500);
+          }}
+          onStop={() => {
+            setStreaming(false);
+            toast.warning("Stopped");
+          }}
+        >
+          <Composer.Toolbar>
+            <Composer.AttachButton />
+            <ComposerMicButton />
+            <Composer.SlashButton />
+          </Composer.Toolbar>
+          <ComposerAttachment name="diagram.png" progress={72} />
+          <Composer.Input placeholder="Message… (Enter to send, Shift+Enter for newline)" />
+          <Composer.Footer>
+            <Composer.TokenCounter />
+            <Composer.Submit />
+          </Composer.Footer>
+        </Composer>
+      </Block>
+      <Block label="Standalone buttons">
+        <Flex gap={8}>
+          <SubmitButton status="idle" onSubmit={() => toast.info("send")} />
+          <SubmitButton status="streaming" onStop={() => toast.info("stop")} />
+          <StopButton onStop={() => toast.info("stop")} />
+          <RegenerateButton onRegenerate={() => toast.info("regen")} />
+        </Flex>
+      </Block>
+      <Block label="SuggestionChips">
+        <SuggestionChips
+          suggestions={[
+            "Summarize this chat",
+            "Translate to Spanish",
+            "Draft a response",
+            "Explain like I'm five",
+          ]}
+          onSelect={(s) => toast.info(`Picked: ${typeof s === "string" ? s : "custom"}`)}
+        />
+      </Block>
+      <Block label="SlashCommandPicker">
+        <SlashCommandPicker
+          commands={[
+            { id: "clear", command: "clear", description: "Clear the conversation" },
+            { id: "model", command: "model", description: "Switch model" },
+            { id: "summarize", command: "summarize", description: "TL;DR" },
+          ]}
+          onSelect={(cmd) => toast.info(`/${cmd.command}`)}
+        />
+      </Block>
+    </Frame>
+  );
+}
+
+function ChatSessionSection() {
+  const [activeId, setActiveId] = useState("1");
+  const sessions = [
+    {
+      id: "1",
+      title: "Voidframe launch plan",
+      lastMessage: "Phase 12 is under way.",
+      updatedAt: Date.now() - 5 * 60 * 1000,
+      pinned: true,
+    },
+    {
+      id: "2",
+      title: "Infra migration",
+      lastMessage: "Proxmox cluster is healthy.",
+      updatedAt: Date.now() - 2 * 60 * 60 * 1000,
+    },
+    {
+      id: "3",
+      title: "Onboarding notes",
+      lastMessage: "Start with the demo.",
+      updatedAt: Date.now() - 8 * 86_400_000,
+    },
+  ];
+  return (
+    <Frame
+      title="Chat — Session + Model"
+      description="SessionList, ConversationHeader, ConversationEmptyState, ModelSelector, SystemPromptEditor, TokenCounter, ContextWindow, CostDisplay."
+    >
+      <Block label="SessionList (grouped by day)">
+        <div style={{ height: 280, width: 280 }}>
+          <SessionList
+            sessions={sessions}
+            activeId={activeId}
+            onSelect={setActiveId}
+            onDelete={(id) => toast.danger(`Delete ${id}`)}
+            onRename={(id) => toast.info(`Rename ${id}`)}
+            onPin={(id) => toast.info(`Pin ${id}`)}
+            searchable
+          />
+        </div>
+      </Block>
+      <Block label="ConversationHeader (editable title)">
+        <ConversationHeader
+          title="Voidframe launch plan"
+          onTitleChange={(t) => toast.info(`Renamed to ${t}`)}
+          model="opus-4.6"
+          tokens={<ChatTokenCounter input={1234} output={212} max={8000} />}
+          cost={<CostDisplay total={0.0042} />}
+          status="streaming"
+        />
+      </Block>
+      <Block label="ConversationEmptyState">
+        <ConversationEmptyState
+          title="Start a new conversation"
+          description="Ask a question, run a task, or pick a suggestion below."
+          logo="◆"
+          suggestions={[
+            { text: "Summarize the latest docs", description: "TL;DR of recent changes" },
+            { text: "Generate a changelog", description: "From today's commits" },
+            { text: "Draft a retro", description: "Last week's incidents" },
+          ]}
+          onSuggestionSelect={(s) =>
+            toast.info(`Picked: ${typeof s.text === "string" ? s.text : "suggestion"}`)
+          }
+        />
+      </Block>
+      <Block label="Model / System prompt / Context / Cost">
+        <ModelSelector
+          showCapabilities
+          models={[
+            { id: "opus-4.6", name: "Opus 4.6", provider: "Anthropic", contextWindow: 1_000_000, capabilities: ["vision", "tool-use"] },
+            { id: "sonnet-4.6", name: "Sonnet 4.6", provider: "Anthropic", contextWindow: 200_000 },
+            { id: "haiku-4.5", name: "Haiku 4.5", provider: "Anthropic", contextWindow: 200_000 },
+          ]}
+        />
+        <SystemPromptEditor
+          placeholder="You are a helpful, concise assistant…"
+          templates={[
+            { id: "helpful", title: "Helpful", body: "You are a helpful, concise assistant." },
+            { id: "code", title: "Code-focused", body: "You are a senior engineer. Prefer code." },
+          ]}
+        />
+        <ContextWindow used={187_432} max={200_000} label="Context used" />
+        <Flex gap={16} align="center">
+          <LatencyIndicator value={420} label="p50" />
+          <LatencyIndicator value={2_400} label="p95" />
+          <LatencyIndicator value={7_100} label="p99" />
+          <UnreadBadge count={12} />
+        </Flex>
+      </Block>
+    </Frame>
+  );
+}
+
+function ChatLayoutSection() {
+  return (
+    <Frame
+      title="Chat — Layout patterns"
+      description="ChatLayout, SimpleChat, AgentRunner, DebugPanel."
+    >
+      <Block label="ChatLayout (sidebar + conversation + inspector)">
+        <div style={{ height: 320, border: "1px solid var(--vf-border-1)" }}>
+          <ChatLayout
+            sidebar={
+              <SessionList
+                sessions={[
+                  { id: "1", title: "Session 1", updatedAt: Date.now() - 60_000 },
+                  { id: "2", title: "Session 2", updatedAt: Date.now() - 3_600_000 },
+                ]}
+                activeId="1"
+              />
+            }
+            conversation={
+              <SimpleChat
+                header={<ConversationHeader title="Session 1" model="opus-4.6" />}
+                conversation={
+                  <Conversation>
+                    <MessageList>
+                      <Message role="assistant" content="Hello. Ready to go." />
+                    </MessageList>
+                  </Conversation>
+                }
+              />
+            }
+            inspector={
+              <DebugPanel
+                events={[
+                  { type: "request", message: "POST /messages", timestamp: Date.now() - 30_000 },
+                  { type: "response", message: "200 OK", timestamp: Date.now() - 28_000 },
+                ]}
+              />
+            }
+          />
+        </div>
+      </Block>
+      <Block label="AgentRunner (conversation + plan + trace)">
+        <div style={{ height: 320, border: "1px solid var(--vf-border-1)" }}>
+          <AgentRunner
+            header={<ConversationHeader title="Agent run" model="opus-4.6" />}
+            conversation={
+              <Conversation>
+                <MessageList>
+                  <Message role="user" content="Run the deploy." />
+                  <Message role="assistant" content="Starting deploy…" />
+                </MessageList>
+              </Conversation>
+            }
+            plan={
+              <PlanDisplay
+                title="Plan"
+                steps={[
+                  { id: "1", title: "Build", status: "done" },
+                  { id: "2", title: "Migrate", status: "active" },
+                  { id: "3", title: "Verify", status: "pending" },
+                ]}
+              />
+            }
+            trace={
+              <TraceViewer
+                spans={[
+                  { id: "a", name: "build", startMs: 0, durationMs: 800 },
+                  { id: "b", name: "migrate", startMs: 800, durationMs: 1400 },
+                ]}
+              />
+            }
+          />
+        </div>
+      </Block>
+    </Frame>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // REGISTRY + APP SHELL
 // ─────────────────────────────────────────────────────────────
 
@@ -1551,6 +2104,14 @@ const SECTIONS: DemoSection[] = [
   { id: "animation", group: "Interactive", title: "Animation atoms", render: () => <AnimationSection /> },
   { id: "media", group: "Interactive", title: "Media", render: () => <MediaSection /> },
   { id: "utility", group: "Interactive", title: "Utility", render: () => <UtilitySection /> },
+
+  { id: "chat-messages", group: "Chat & AI", title: "Messages", render: () => <ChatMessagesSection /> },
+  { id: "chat-agents", group: "Chat & AI", title: "Agents & Tools", render: () => <ChatAgentSection /> },
+  { id: "chat-attachments", group: "Chat & AI", title: "Attachments + Mentions", render: () => <ChatAttachmentsSection /> },
+  { id: "chat-citations", group: "Chat & AI", title: "Citations & Sources", render: () => <ChatCitationsSection /> },
+  { id: "chat-composer", group: "Chat & AI", title: "Composer", render: () => <ChatComposerSection /> },
+  { id: "chat-session", group: "Chat & AI", title: "Session + Model", render: () => <ChatSessionSection /> },
+  { id: "chat-layout", group: "Chat & AI", title: "Layouts", render: () => <ChatLayoutSection /> },
 ];
 
 function App() {
