@@ -55,6 +55,9 @@ export * from "./components";
 // ── Icons (Phase 14) ────────────────────────────────────────
 export * from "./icons";
 
+// ── Responsive system (Phase 16) ────────────────────────────
+export * from "./responsive";
+
 // ── Hooks ───────────────────────────────────────────────────
 export {
   useHover,

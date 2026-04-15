@@ -173,6 +173,14 @@ import {
   Zoomable,
   toast,
   useConfirm,
+  // Phase 16: responsive
+  BREAKPOINTS,
+  Hide,
+  ResponsiveBox,
+  Show,
+  useBreakpoint,
+  useDeviceType,
+  useResponsive,
   // Phase 15: theming
   ThemeScope,
   ThemeSelector,
@@ -1671,6 +1679,116 @@ function UtilitySection() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// PHASE 16 — RESPONSIVE
+// ─────────────────────────────────────────────────────────────
+
+function ResponsiveSection() {
+  const bp = useBreakpoint();
+  const device = useDeviceType();
+  const size = useResponsive({ base: "sm", md: "md", lg: "lg", xxl: "xxl" });
+  return (
+    <Frame
+      title="Responsive — Breakpoints + Show/Hide + ResponsiveBox"
+      description="JS + CSS responsive primitives. Resize the viewport to watch values update."
+    >
+      <Block label="Current viewport">
+        <Flex gap={24} align="center" wrap>
+          <Text>
+            Breakpoint: <Code>{bp}</Code>
+          </Text>
+          <Text>
+            Device: <Code>{device}</Code>
+          </Text>
+          <Text>
+            Resolved size: <Code>{size ?? "—"}</Code>
+          </Text>
+        </Flex>
+        <Text size="xs" color="var(--vf-text-3)">
+          Breakpoint px values: sm={BREAKPOINTS.sm} md={BREAKPOINTS.md} lg=
+          {BREAKPOINTS.lg} xl={BREAKPOINTS.xl} xxl={BREAKPOINTS.xxl}
+        </Text>
+      </Block>
+      <Block label="Show / Hide (CSS-based, no SSR flash)">
+        <Flex gap={16} wrap>
+          <div
+            style={{
+              padding: 12,
+              border: "1px solid var(--vf-border-1)",
+              background: "var(--vf-bg-1)",
+            }}
+          >
+            <Show above="md">
+              <Text>▲ visible at md+</Text>
+            </Show>
+            <Hide above="md">
+              <Text>▼ only below md</Text>
+            </Hide>
+          </div>
+          <div
+            style={{
+              padding: 12,
+              border: "1px solid var(--vf-border-1)",
+              background: "var(--vf-bg-1)",
+            }}
+          >
+            <Show between={["md", "xl"]}>
+              <Text>◆ tablet band (md..xl)</Text>
+            </Show>
+            <Hide between={["md", "xl"]}>
+              <Text>◇ not in tablet band</Text>
+            </Hide>
+          </div>
+        </Flex>
+      </Block>
+      <Block label="ResponsiveBox — JS-resolved grid">
+        <ResponsiveBox
+          display="grid"
+          columns={{ base: 1, sm: 2, md: 3, lg: 4, xxl: 6 }}
+          gap={{ base: 8, md: 12, lg: 16 }}
+          p={{ base: 8, md: 16 }}
+          style={{
+            border: "1px solid var(--vf-border-2)",
+            background: "var(--vf-bg-1)",
+          }}
+        >
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div
+              key={i}
+              style={{
+                padding: 12,
+                background: "var(--vf-bg-3)",
+                textAlign: "center",
+              }}
+            >
+              <Text>#{i + 1}</Text>
+            </div>
+          ))}
+        </ResponsiveBox>
+      </Block>
+      <Block label="ResponsiveBox — layout flips at md">
+        <ResponsiveBox
+          display="flex"
+          direction={{ base: "column", md: "row" }}
+          gap={{ base: 8, md: 16 }}
+          align={{ base: "stretch", md: "center" }}
+          p={12}
+          style={{
+            border: "1px solid var(--vf-border-2)",
+            background: "var(--vf-bg-1)",
+          }}
+        >
+          <Badge>Stacked on mobile</Badge>
+          <Text>Rows at md and above. Resize to toggle.</Text>
+          <Button variant="accent" accent="var(--vf-green)">
+            OK
+          </Button>
+        </ResponsiveBox>
+      </Block>
+    </Frame>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // PHASE 15 — THEMING
 // ─────────────────────────────────────────────────────────────
 
@@ -3083,6 +3201,8 @@ const SECTIONS: DemoSection[] = [
   { id: "animation", group: "Interactive", title: "Animation atoms", render: () => <AnimationSection /> },
   { id: "media", group: "Interactive", title: "Media", render: () => <MediaSection /> },
   { id: "utility", group: "Interactive", title: "Utility", render: () => <UtilitySection /> },
+
+  { id: "responsive", group: "Responsive", title: "Breakpoints + Show/Hide", render: () => <ResponsiveSection /> },
 
   { id: "theming", group: "Theming", title: "Scope + Density + Contrast", render: () => <ThemingSection /> },
 

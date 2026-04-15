@@ -365,6 +365,54 @@ const CompassIcon = adaptIcon(Compass, { defaultLabel: "Compass" });
 <CompassIcon size="xl" />
 ```
 
+### Responsive
+
+Breakpoint tokens (`sm=640`, `md=768`, `lg=1024`, `xl=1280`, `xxl=1536`), a `Responsive<T>` prop shape, CSS-based `<Show>` / `<Hide>` (no SSR hydration flash), a JS `ResponsiveBox` primitive, and hooks for dynamic resolution.
+
+```jsx
+import {
+  Show,
+  Hide,
+  ResponsiveBox,
+  useBreakpoint,
+  useDeviceType,
+  useResponsive,
+  useContainerQuery,
+} from "voidframe";
+
+// CSS-based visibility — no flash, no JS required.
+<Show above="md"><DesktopNav /></Show>
+<Hide above="md"><MobileMenu /></Hide>
+<Show between={["md", "xl"]}><TabletBand /></Show>
+
+// JS-resolved responsive layout — walks the ladder to pick the active value.
+<ResponsiveBox
+  display="grid"
+  columns={{ base: 1, sm: 2, md: 3, lg: 4, xxl: 6 }}
+  gap={{ base: 8, md: 12, lg: 16 }}
+  p={{ base: 8, md: 16 }}
+/>
+
+// Hooks for behavior that can't be expressed in CSS.
+function ChatHeader() {
+  const bp = useBreakpoint();              // "base" | "sm" | "md" | "lg" | "xl" | "xxl"
+  const device = useDeviceType();          // "mobile" | "tablet" | "desktop"
+  const variant = useResponsive({ base: "compact", md: "comfortable" });
+  return ...;
+}
+
+// Container queries — element-size responsiveness.
+function Card({ children }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const state = useContainerQuery(ref, {
+    small: "(max-width: 300px)",
+    medium: "(min-width: 301px) and (max-width: 600px)",
+    large: "(min-width: 601px)",
+  });
+  return <div ref={ref} data-container="inline">...</div>;
+}
+```
+
 ### Providers
 
 `VoidframeProvider` — theme context.
@@ -473,7 +521,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (1170+ tests)
+npm run test      # full vitest suite (1180+ tests)
 npm run typecheck # tsc --noEmit
 ```
 
