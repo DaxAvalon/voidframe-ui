@@ -21,6 +21,49 @@ let logger: VoidframeLogger = {
   error: (msg, ...args) => console.error(msg, ...args),
 };
 
+export interface WarningEntry {
+  level: "warn" | "error";
+  message: string;
+  args: unknown[];
+  key?: string;
+  time: number;
+}
+
+type Listener = (entry: WarningEntry) => void;
+const listeners = new Set<Listener>();
+const history: WarningEntry[] = [];
+const MAX_HISTORY = 200;
+
+function emit(entry: WarningEntry): void {
+  history.push(entry);
+  if (history.length > MAX_HISTORY) history.shift();
+  listeners.forEach((fn) => {
+    try {
+      fn(entry);
+    } catch {
+      /* listener errors shouldn't break warnings */
+    }
+  });
+}
+
+/** Subscribe to every dev warning emitted by voidframe. Returns unsubscribe. */
+export function subscribeWarnings(listener: Listener): () => void {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+/** Read the captured warning history (newest last). */
+export function getWarningHistory(): WarningEntry[] {
+  return history.slice();
+}
+
+/** Clear the captured warning history. */
+export function clearWarningHistory(): void {
+  history.length = 0;
+}
+
 /**
  * Override the logger used by `warn()` / `warnOnce()`. Useful for routing
  * dev warnings to Sentry, Datadog, or a test harness.
@@ -42,6 +85,7 @@ export function getLogger(): VoidframeLogger {
 export function warn(condition: boolean, message: string, ...args: unknown[]): void {
   if (isDev && !condition) {
     logger.warn(`[voidframe] ${message}`, ...args);
+    emit({ level: "warn", message, args, time: Date.now() });
   }
 }
 
@@ -53,6 +97,7 @@ export function warnOnce(key: string, message: string, ...args: unknown[]): void
   if (isDev && !seen.has(key)) {
     seen.add(key);
     logger.warn(`[voidframe] ${message}`, ...args);
+    emit({ level: "warn", message, args, key, time: Date.now() });
   }
 }
 
@@ -62,4 +107,5 @@ export function warnOnce(key: string, message: string, ...args: unknown[]): void
  */
 export function _resetWarnings(): void {
   seen.clear();
+  history.length = 0;
 }

@@ -387,6 +387,14 @@ import {
   TraceViewer,
   UnreadBadge,
 } from "../src";
+import {
+  DevPanel,
+  DevErrorFallback,
+  ProfilerScope,
+  useRenderProfiler,
+  warnOnce,
+  ErrorBoundary,
+} from "../src";
 
 // ── Section helpers ─────────────────────────────────────────
 
@@ -4325,6 +4333,135 @@ function ChatLayoutSection() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// PHASE 25 — DEV EXPERIENCE
+// ─────────────────────────────────────────────────────────────
+
+function DevExperienceSection() {
+  const [crash, setCrash] = useState(false);
+  const [resetKey, setResetKey] = useState(0);
+  const [bumps, setBumps] = useState(0);
+  const [showPanel, setShowPanel] = useState(true);
+  const counterStats = useRenderProfiler("dev-demo-counter");
+
+  function Boom() {
+    if (crash) throw new Error("Demo: synthetic render error");
+    return (
+      <div style={{ color: "var(--vf-text-2)" }}>
+        Component is rendering normally.
+      </div>
+    );
+  }
+
+  return (
+    <Frame
+      title="Dev Experience — Phase 25"
+      description="ErrorBoundary + DevErrorFallback, render profiler, runtime misuse warnings, and the floating DevPanel."
+    >
+      <Block label="ErrorBoundary + DevErrorFallback">
+        <Text size="sm" color="var(--vf-text-3)">
+          Throw a render error and watch the boundary catch it. The fallback
+          UI exposes the message, stack, and a Reset button. resetKeys
+          auto-recover when an external value changes.
+        </Text>
+        <div style={{ display: "flex", gap: 8 }}>
+          <Button onClick={() => setCrash(true)}>Throw error</Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setCrash(false);
+              setResetKey((k) => k + 1);
+            }}
+          >
+            Reset via key
+          </Button>
+        </div>
+        <ErrorBoundary
+          resetKeys={[resetKey]}
+          fallback={(err, reset) => (
+            <DevErrorFallback
+              error={err}
+              reset={() => {
+                setCrash(false);
+                reset();
+              }}
+            />
+          )}
+        >
+          <Boom />
+        </ErrorBoundary>
+      </Block>
+
+      <Block label="ProfilerScope + useRenderProfiler">
+        <Text size="sm" color="var(--vf-text-3)">
+          Wrap any subtree in <code>&lt;ProfilerScope id=&quot;…&quot;&gt;</code> to
+          capture render timings. Read them via <code>useRenderProfiler(id)</code>
+          (mounted outside the scope) or via the DevPanel below.
+        </Text>
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <Button onClick={() => setBumps((b) => b + 1)}>
+            Trigger re-render ({bumps})
+          </Button>
+          <Text size="sm" color="var(--vf-text-2)">
+            renders: {counterStats.renderCount} · last:{" "}
+            {counterStats.lastDuration.toFixed(2)}ms · avg:{" "}
+            {counterStats.avgDuration.toFixed(2)}ms
+          </Text>
+        </div>
+        <ProfilerScope id="dev-demo-counter">
+          <div
+            style={{
+              padding: 8,
+              border: "1px solid var(--vf-border-1)",
+              background: "var(--vf-bg-0)",
+              fontFamily: "var(--vf-font-family)",
+              fontSize: "var(--vf-fs-1)",
+              color: "var(--vf-text-1)",
+            }}
+          >
+            scope payload · bumps={bumps}
+          </div>
+        </ProfilerScope>
+      </Block>
+
+      <Block label="Runtime misuse warnings">
+        <Text size="sm" color="var(--vf-text-3)">
+          Misuse warnings fire from within components when their props are
+          inconsistent (empty options, duplicate keys, unknown active values).
+          They land in <code>console.warn</code> and stream into the DevPanel
+          Warnings tab.
+        </Text>
+        <Button
+          onClick={() =>
+            warnOnce(
+              `dev-demo:emit:${Date.now()}`,
+              `Demo: synthetic warning at ${new Date().toLocaleTimeString()}`
+            )
+          }
+        >
+          Emit synthetic warning
+        </Button>
+      </Block>
+
+      <Block label="DevPanel">
+        <Text size="sm" color="var(--vf-text-3)">
+          Drop <code>&lt;DevPanel /&gt;</code> at your app root. It floats in
+          a corner with tabs for Renders, Warnings, Theme tokens, and About.
+          Production builds render nothing unless <code>showInProduction</code>
+          {" "}is set.
+        </Text>
+        <Button
+          variant="ghost"
+          onClick={() => setShowPanel((v) => !v)}
+        >
+          {showPanel ? "Hide DevPanel" : "Show DevPanel"}
+        </Button>
+        {showPanel && <DevPanel position="br" version="1.0.0" />}
+      </Block>
+    </Frame>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // REGISTRY + APP SHELL
 // ─────────────────────────────────────────────────────────────
 
@@ -4382,6 +4519,7 @@ const SECTIONS: DemoSection[] = [
   { id: "specialty-help", group: "Specialty", title: "Help & Changelog", render: () => <SpecialtyHelpSection /> },
   { id: "specialty-encoding", group: "Specialty", title: "Encoding", render: () => <SpecialtyEncodingSection /> },
   { id: "specialty-widgets", group: "Specialty", title: "Widgets + Print", render: () => <SpecialtyWidgetsSection /> },
+  { id: "specialty-dev", group: "Specialty", title: "Dev Experience (Phase 25)", render: () => <DevExperienceSection /> },
 
   { id: "chat-messages", group: "Chat & AI", title: "Messages", render: () => <ChatMessagesSection /> },
   { id: "chat-agents", group: "Chat & AI", title: "Agents & Tools", render: () => <ChatAgentSection /> },

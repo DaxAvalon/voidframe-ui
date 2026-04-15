@@ -11,6 +11,11 @@ export interface ErrorBoundaryProps {
   children?: ReactNode;
   /** Invoked when a descendant throws. */
   onError?: (error: Error, info: ErrorInfo) => void;
+  /**
+   * When any value in this array changes identity, the boundary auto-resets.
+   * Useful when the underlying cause is tied to a prop or route.
+   */
+  resetKeys?: unknown[];
 }
 
 interface State {
@@ -32,6 +37,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, State> {
 
   override componentDidCatch(error: Error, info: ErrorInfo): void {
     this.props.onError?.(error, info);
+  }
+
+  override componentDidUpdate(prev: ErrorBoundaryProps): void {
+    if (!this.state.error) return;
+    const a = prev.resetKeys;
+    const b = this.props.resetKeys;
+    if (!a || !b) return;
+    if (a.length !== b.length || a.some((v, i) => v !== b[i])) {
+      this.reset();
+    }
   }
 
   reset = (): void => {

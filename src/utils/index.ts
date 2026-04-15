@@ -23,7 +23,11 @@ export {
   warnOnce,
   setLogger,
   getLogger,
+  subscribeWarnings,
+  getWarningHistory,
+  clearWarningHistory,
   type VoidframeLogger,
+  type WarningEntry,
   _resetWarnings,
 } from "./warn";
 export {

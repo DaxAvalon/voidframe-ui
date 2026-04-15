@@ -27,6 +27,7 @@ import {
 import { useClickOutside, useId, useMergedRefs } from "../hooks";
 import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
+import { warnOnce } from "../utils/warn";
 import { Label } from "./Text";
 
 // ── shared option type ────────────────────────────────────────
@@ -93,6 +94,19 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       onChange,
       componentName: "Combobox",
     });
+
+    if (options.length > 0) {
+      const seen = new Set<string>();
+      for (const o of options) {
+        if (seen.has(o.value)) {
+          warnOnce(
+            `Combobox:duplicate:${o.value}`,
+            `Combobox: duplicate option value "${o.value}" — each option must have a unique \`value\`.`
+          );
+        }
+        seen.add(o.value);
+      }
+    }
 
     const selectedOption = useMemo(
       () => options.find((o) => o.value === current) ?? null,

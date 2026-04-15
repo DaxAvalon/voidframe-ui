@@ -10,7 +10,7 @@ import { Portal } from "../primitives/Portal";
 import { Presence } from "../primitives/Presence";
 import type { ToastType } from "../types";
 import { cx } from "../utils/cx";
-import { warn } from "../utils/warn";
+import { warn, warnOnce } from "../utils/warn";
 import { Button } from "./Button";
 import { Label } from "./Text";
 
@@ -45,6 +45,24 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
   { tabs, active, onChange, accent, className, style, ...props },
   ref
 ) {
+  if (tabs.length > 0) {
+    const seen = new Set<string>();
+    for (const t of tabs) {
+      if (seen.has(t.key)) {
+        warnOnce(
+          `Tabs:duplicate:${t.key}`,
+          `Tabs: duplicate tab key "${t.key}" — each tab must have a unique \`key\`.`
+        );
+      }
+      seen.add(t.key);
+    }
+    if (!seen.has(active)) {
+      warnOnce(
+        `Tabs:unknown-active:${active}`,
+        `Tabs: \`active\` is "${active}" but no tab has that key. Arrow-key navigation will be inactive until \`active\` matches a tab.`
+      );
+    }
+  }
   const handleKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const idx = tabs.findIndex((t) => t.key === active);
     if (idx === -1) return;

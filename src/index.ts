@@ -62,6 +62,9 @@ export * from "./icons";
 // the component is mounted. Full re-exports live under `voidframe/lazy`.
 export * from "./lazy";
 
+// ── Dev Experience (Phase 25) ───────────────────────────────
+export * from "./dev";
+
 // ── Responsive system (Phase 16) ────────────────────────────
 export * from "./responsive";
 

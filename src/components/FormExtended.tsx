@@ -12,6 +12,7 @@ import type {
 import { useControllableState } from "../hooks/useControllableState";
 import { useId } from "../hooks/useId";
 import { cx } from "../utils/cx";
+import { warnOnce } from "../utils/warn";
 import { Label } from "./Text";
 
 // ── Checkbox ──────────────────────────────────────────────────
@@ -141,6 +142,23 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       componentName: "RadioGroup",
     });
     const labelId = useId();
+    if (options.length === 0) {
+      warnOnce(
+        "RadioGroup:empty-options",
+        "RadioGroup: `options` is empty — the group will render nothing. Supply at least one option."
+      );
+    } else {
+      const seen = new Set<string>();
+      for (const o of options) {
+        if (seen.has(o.value)) {
+          warnOnce(
+            `RadioGroup:duplicate:${o.value}`,
+            `RadioGroup: duplicate option value "${o.value}" — each option must have a unique \`value\`.`
+          );
+        }
+        seen.add(o.value);
+      }
+    }
     return (
       <div
         ref={ref}
@@ -351,6 +369,18 @@ export interface FormFieldProps extends HTMLAttributes<HTMLDivElement> {
 
 export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
   function FormField({ label, error, help, required, children, className, style, ...props }, ref) {
+    if (required && !label) {
+      warnOnce(
+        "FormField:required-without-label",
+        "FormField: `required` is set but `label` is missing — the asterisk will not render. Provide a `label` or drop `required`."
+      );
+    }
+    if (error && help) {
+      warnOnce(
+        "FormField:error-with-help",
+        "FormField: both `error` and `help` provided — only `error` renders. Consider combining them if the help text is relevant during errors."
+      );
+    }
     return (
       <div ref={ref} className={cx("vf-field", className)} style={style} {...props}>
         {label && (

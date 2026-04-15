@@ -13,7 +13,7 @@ import type {
 import { useControllableState } from "../hooks/useControllableState";
 import { useId } from "../hooks/useId";
 import { cx } from "../utils/cx";
-import { warn } from "../utils/warn";
+import { warn, warnOnce } from "../utils/warn";
 import { Label } from "./Text";
 
 /**
@@ -204,6 +204,29 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     hasAccessibleName(label, props as Record<string, unknown>),
     "<Select> requires `label`, `aria-label`, or `aria-labelledby` for screen readers."
   );
+  if (options.length === 0) {
+    warnOnce(
+      "Select:empty-options",
+      "Select: `options` is empty — the field will render an empty dropdown."
+    );
+  } else {
+    const seenVals = new Set<string>();
+    for (const o of options) {
+      if (seenVals.has(o.value)) {
+        warnOnce(
+          `Select:duplicate:${o.value}`,
+          `Select: duplicate option value "${o.value}" — each option must have a unique \`value\`.`
+        );
+      }
+      seenVals.add(o.value);
+    }
+    if (value !== "" && !seenVals.has(value)) {
+      warnOnce(
+        `Select:unknown-value:${value}`,
+        `Select: controlled \`value\` is "${value}" but no option has that value. The native select will display the first option until \`value\` matches an option.`
+      );
+    }
+  }
   const selectId = useId(id);
   const inline: CSSProperties = width !== undefined ? { width, ...style } : (style ?? {});
   return (
