@@ -5,6 +5,7 @@
 import {
   forwardRef,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -116,35 +117,165 @@ WidgetShell.displayName = "WidgetShell";
 
 // ── DashboardGrid ───────────────────────────────────────────
 //
-// Lightweight layout with CSS-grid placement and optional drag swap.
-// We don't bundle react-grid-layout — this is pure-CSS placement using
-// the consumer's (x, y, w, h) layout. Drag moves swap positions; resize
-// is handled via the corner handle by the consumer's callback.
+// Open-canvas dashboard grid. Cards are positioned in a sub-cell
+// coordinate system (every position is an integer count of sub-cells
+// from the canvas top-left). Each card has a fixed `w × h` in sub-cells
+// and snaps in 1-sub-cell increments while being dragged. A live
+// micro-grid overlay highlights the proposed drop target.
+//
+// Snap rules on release:
+//   - If the cursor is inside another card's bounds → swap positions.
+//   - Else → snap to the cursor target. If that target overlaps another
+//     card, walk outward (BFS over neighbour sub-cells) to the nearest
+//     empty spot whose rect touches the target.
+//
+// Resize: pointerdown on the corner grip stops propagation so it never
+// triggers a move. The card grows down/right with the top-left
+// (`x`, `y`) anchored.
 
 export interface DashboardLayoutItem {
   id: string;
+  /** Top-left sub-cell column (0-based). */
   x: number;
+  /** Top-left sub-cell row (0-based). */
   y: number;
+  /** Width in sub-cells. */
   w: number;
+  /** Height in sub-cells. */
   h: number;
 }
 
-export interface DashboardGridProps extends HTMLAttributes<HTMLDivElement> {
+export type DashboardBounds = "auto" | { rows: number };
+
+export interface DashboardGridProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onClick"> {
   items: DashboardLayoutItem[];
   onLayoutChange?: (next: DashboardLayoutItem[]) => void;
+  /** Total sub-cell columns across the canvas. Default 24. */
   cols?: number;
-  rowHeight?: number;
+  /** Pixel size of one sub-cell side. Default 32. */
+  cellSize?: number;
+  /** Pixel gap between sub-cells. Default 4. */
   gap?: number;
-  /** Render function per layout item id. */
+  /** Render function per item. */
   renderItem: (id: string, item: DashboardLayoutItem) => ReactNode;
-  /** Enable drag-to-swap. Default false. */
-  swappable?: boolean;
-  /** Enable corner-resize handles on each cell. Default false. */
+  /** Allow click-drag to move cards. Default true. */
+  movable?: boolean;
+  /** Show corner-resize grips on each card. Default false. */
   resizable?: boolean;
-  /** Min width (cols) when resizing. Default 1. */
+  /** Min sub-cell width when resizing. Default 2. */
   minW?: number;
-  /** Min height (rows) when resizing. Default 1. */
+  /** Min sub-cell height when resizing. Default 2. */
   minH?: number;
+  /** Max sub-cell width. Default `cols`. */
+  maxW?: number;
+  /** Max sub-cell height. Defaults to bounds rows or unbounded. */
+  maxH?: number;
+  /** `"auto"` (default) grows the canvas to fit the lowest card; pass
+   * `{ rows: N }` for a fixed sub-cell row count. */
+  bounds?: DashboardBounds;
+  /** Empty rows below the lowest card when bounds === "auto". Default 4. */
+  autoPaddingRows?: number;
+}
+
+interface MoveDragState {
+  id: string;
+  /** Card position at drag start (sub-cells). */
+  startX: number;
+  startY: number;
+  /** Pointer coords at drag start (canvas-local pixels). */
+  pointerStartX: number;
+  pointerStartY: number;
+}
+
+interface ResizeDragState {
+  id: string;
+  startW: number;
+  startH: number;
+  pointerStartX: number;
+  pointerStartY: number;
+}
+
+interface SnapPreview {
+  /** Snap target the card would land on if released now (sub-cells). */
+  x: number;
+  y: number;
+  /** Will the release swap with another card instead of snap-adjacent? */
+  swapTargetId: string | null;
+}
+
+function rectsOverlap(
+  a: { x: number; y: number; w: number; h: number },
+  b: { x: number; y: number; w: number; h: number }
+): boolean {
+  return (
+    a.x < b.x + b.w &&
+    a.x + a.w > b.x &&
+    a.y < b.y + b.h &&
+    a.y + a.h > b.y
+  );
+}
+
+function pointInRect(
+  px: number,
+  py: number,
+  r: { x: number; y: number; w: number; h: number }
+): boolean {
+  return px >= r.x && px < r.x + r.w && py >= r.y && py < r.y + r.h;
+}
+
+/**
+ * BFS outward from `(x, y)` looking for a sub-cell origin where the
+ * `(w, h)` rect fits without overlapping any card in `others` and stays
+ * within `[0, cols] × [0, rowsLimit]`.
+ */
+function findNearestEmpty(
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  others: Array<{ x: number; y: number; w: number; h: number }>,
+  cols: number,
+  rowsLimit: number
+): { x: number; y: number } {
+  const fits = (cx: number, cy: number) => {
+    if (cx < 0 || cy < 0) return false;
+    if (cx + w > cols) return false;
+    if (cy + h > rowsLimit) return false;
+    const rect = { x: cx, y: cy, w, h };
+    for (const o of others) if (rectsOverlap(rect, o)) return false;
+    return true;
+  };
+  if (fits(x, y)) return { x, y };
+  const seen = new Set<string>();
+  const queue: Array<[number, number]> = [[x, y]];
+  seen.add(`${x},${y}`);
+  while (queue.length) {
+    const [cx, cy] = queue.shift()!;
+    const neighbours: Array<[number, number]> = [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ];
+    for (const [dx, dy] of neighbours) {
+      const nx = cx + dx;
+      const ny = cy + dy;
+      const key = `${nx},${ny}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      if (nx < 0 || ny < 0 || nx + w > cols || ny + h > rowsLimit) continue;
+      if (fits(nx, ny)) return { x: nx, y: ny };
+      queue.push([nx, ny]);
+    }
+    if (seen.size > 4000) break; // hard cap so we never spin
+  }
+  // Fallback: clamp into bounds even if it overlaps (shouldn't happen
+  // unless the canvas is impossibly full).
+  return {
+    x: Math.max(0, Math.min(cols - w, x)),
+    y: Math.max(0, Math.min(rowsLimit - h, y)),
+  };
 }
 
 export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
@@ -152,158 +283,354 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
     {
       items,
       onLayoutChange,
-      cols = 12,
-      rowHeight = 64,
-      gap = 8,
+      cols = 24,
+      cellSize = 32,
+      gap = 4,
       renderItem,
-      swappable,
-      resizable,
-      minW = 1,
-      minH = 1,
+      movable = true,
+      resizable = false,
+      minW = 2,
+      minH = 2,
+      maxW,
+      maxH,
+      bounds = "auto",
+      autoPaddingRows = 4,
       className,
       style,
       ...props
     },
     ref
   ) {
-    const gridStyle: CSSProperties = {
-      display: "grid",
-      gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
-      gridAutoRows: `${rowHeight}px`,
-      gap,
-      position: "relative",
-      ...style,
-    };
-    const [draggingId, setDraggingId] = useState<string | null>(null);
-    const [hoverId, setHoverId] = useState<string | null>(null);
-    const [resizing, setResizing] = useState<{
-      id: string;
-      startX: number;
-      startY: number;
-      startW: number;
-      startH: number;
-      colPx: number;
-    } | null>(null);
-    const gridRef = useRef<HTMLDivElement | null>(null);
-    const setGridRef = (node: HTMLDivElement | null) => {
-      gridRef.current = node;
+    const [moving, setMoving] = useState<MoveDragState | null>(null);
+    const [resizing, setResizing] = useState<ResizeDragState | null>(null);
+    const [pointer, setPointer] = useState<{ x: number; y: number } | null>(
+      null
+    );
+
+    const canvasRef = useRef<HTMLDivElement | null>(null);
+    const setCanvasRef = (node: HTMLDivElement | null) => {
+      canvasRef.current = node;
       if (typeof ref === "function") ref(node);
       else if (ref) (ref as { current: HTMLDivElement | null }).current = node;
     };
 
-    const swap = useCallback(
-      (fromId: string, toId: string) => {
-        if (!onLayoutChange) return;
-        const from = items.find((i) => i.id === fromId);
-        const to = items.find((i) => i.id === toId);
-        if (!from || !to) return;
-        onLayoutChange(
-          items.map((item) => {
-            if (item.id === fromId)
-              return { ...item, x: to.x, y: to.y, w: to.w, h: to.h };
-            if (item.id === toId)
-              return { ...item, x: from.x, y: from.y, w: from.w, h: from.h };
-            return item;
-          })
-        );
+    const cellStep = cellSize + gap;
+    const subToPx = (n: number) => n * cellStep;
+
+    // Total sub-cell rows (vertical extent of the canvas).
+    const usedRows = items.reduce(
+      (max, item) => Math.max(max, item.y + item.h),
+      0
+    );
+    const rows =
+      bounds === "auto"
+        ? usedRows + autoPaddingRows
+        : bounds.rows;
+    const rowsLimit = bounds === "auto" ? Number.POSITIVE_INFINITY : bounds.rows;
+
+    const canvasWidth = cols * cellSize + (cols - 1) * gap;
+    const canvasHeight = rows * cellSize + Math.max(0, rows - 1) * gap;
+
+    const movingItem =
+      moving ? items.find((i) => i.id === moving.id) ?? null : null;
+
+    // Compute the snap preview while moving.
+    const preview: SnapPreview | null = useMemo(() => {
+      if (!moving || !movingItem || !pointer) return null;
+      // Pointer position in sub-cell coordinates relative to the card's
+      // top-left corner stays the same offset as at drag start, so we
+      // anchor the proposed snap to the same sub-cell offset.
+      const offsetX = moving.pointerStartX - subToPx(moving.startX);
+      const offsetY = moving.pointerStartY - subToPx(moving.startY);
+      const proposedPxX = pointer.x - offsetX;
+      const proposedPxY = pointer.y - offsetY;
+      const proposedX = Math.round(proposedPxX / cellStep);
+      const proposedY = Math.round(proposedPxY / cellStep);
+      const others = items
+        .filter((i) => i.id !== moving.id)
+        .map((i) => ({ x: i.x, y: i.y, w: i.w, h: i.h }));
+
+      // Cursor in sub-cells, for swap detection.
+      const cursorSubX = Math.floor(pointer.x / cellStep);
+      const cursorSubY = Math.floor(pointer.y / cellStep);
+      const swapTarget = items.find(
+        (i) =>
+          i.id !== moving.id &&
+          pointInRect(cursorSubX, cursorSubY, { x: i.x, y: i.y, w: i.w, h: i.h })
+      );
+
+      if (swapTarget) {
+        return {
+          x: swapTarget.x,
+          y: swapTarget.y,
+          swapTargetId: swapTarget.id,
+        };
+      }
+
+      const snap = findNearestEmpty(
+        Math.max(0, Math.min(cols - movingItem.w, proposedX)),
+        Math.max(0, Math.min(rowsLimit - movingItem.h, proposedY)),
+        movingItem.w,
+        movingItem.h,
+        others,
+        cols,
+        rowsLimit
+      );
+      return { x: snap.x, y: snap.y, swapTargetId: null };
+    }, [moving, movingItem, pointer, items, cellStep, cols, rowsLimit, subToPx]);
+
+    const localFromClient = useCallback(
+      (clientX: number, clientY: number) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return { x: 0, y: 0 };
+        const rect = canvas.getBoundingClientRect();
+        return { x: clientX - rect.left, y: clientY - rect.top };
       },
-      [items, onLayoutChange]
+      []
     );
 
-    const onResizeMove = useCallback(
+    const localFromPointer = (e: ReactPointerEvent<HTMLElement>) =>
+      localFromClient(e.clientX, e.clientY);
+
+    // While moving or resizing, follow the pointer at the window level.
+    // The card grabs pointer capture on press, so its events would not
+    // bubble to the grid; window listeners catch every move regardless.
+    useEffect(() => {
+      if (!moving && !resizing) return;
+      const onMove = (e: PointerEvent) => {
+        setPointer(localFromClient(e.clientX, e.clientY));
+      };
+      const onUp = () => {
+        if (resizing) {
+          setResizing(null);
+          setPointer(null);
+          return;
+        }
+        commitMoveRef.current();
+      };
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", onUp);
+      window.addEventListener("pointercancel", onUp);
+      return () => {
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("pointerup", onUp);
+        window.removeEventListener("pointercancel", onUp);
+      };
+    }, [moving, resizing, localFromClient]);
+
+    const startMove = (item: DashboardLayoutItem) =>
       (e: ReactPointerEvent<HTMLDivElement>) => {
-        if (!resizing || !onLayoutChange) return;
-        const dx = e.clientX - resizing.startX;
-        const dy = e.clientY - resizing.startY;
-        const dw = Math.round(dx / (resizing.colPx + gap));
-        const dh = Math.round(dy / (rowHeight + gap));
-        const nextW = Math.max(minW, Math.min(cols, resizing.startW + dw));
-        const nextH = Math.max(minH, resizing.startH + dh);
+        if (!movable) return;
+        // Avoid initiating move when the press starts inside the resize
+        // grip; the grip's own handler stops propagation, so we only
+        // need to defend against rare event ordering issues.
+        const target = e.target as HTMLElement;
+        if (target?.closest?.(".vf-dashboard-grid__resize")) return;
+        const local = localFromPointer(e);
+        setMoving({
+          id: item.id,
+          startX: item.x,
+          startY: item.y,
+          pointerStartX: local.x,
+          pointerStartY: local.y,
+        });
+        setPointer(local);
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId);
+        } catch {
+          /* noop */
+        }
+      };
+
+    // Note: in-progress drag pointermove/up are handled by the window
+    // listener registered above (the moving card grabs pointer capture
+    // and would otherwise swallow events that don't bubble back here).
+
+    const commitMove = useCallback(() => {
+      if (!moving || !movingItem || !preview || !onLayoutChange) {
+        setMoving(null);
+        setPointer(null);
+        return;
+      }
+      if (preview.swapTargetId) {
+        const swapTarget = items.find((i) => i.id === preview.swapTargetId);
+        if (swapTarget) {
+          onLayoutChange(
+            items.map((item) => {
+              if (item.id === movingItem.id)
+                return { ...item, x: swapTarget.x, y: swapTarget.y };
+              if (item.id === swapTarget.id)
+                return { ...item, x: movingItem.x, y: movingItem.y };
+              return item;
+            })
+          );
+        }
+      } else if (preview.x !== movingItem.x || preview.y !== movingItem.y) {
         onLayoutChange(
           items.map((item) =>
-            item.id === resizing.id
-              ? { ...item, w: Math.min(nextW, cols - item.x), h: nextH }
+            item.id === movingItem.id
+              ? { ...item, x: preview.x, y: preview.y }
               : item
           )
         );
-      },
-      [resizing, items, onLayoutChange, gap, rowHeight, cols, minW, minH]
-    );
+      }
+      setMoving(null);
+      setPointer(null);
+    }, [moving, movingItem, preview, items, onLayoutChange]);
 
-    const dropIndicator = hoverId
-      ? (() => {
-          const target = items.find((i) => i.id === hoverId);
-          if (!target) return null;
-          return (
-            <div
-              aria-hidden="true"
-              className="vf-dashboard-grid__drop-indicator"
-              style={{
-                gridColumn: `${target.x + 1} / span ${target.w}`,
-                gridRow: `${target.y + 1} / span ${target.h}`,
-              }}
-            />
-          );
-        })()
-      : null;
+    // Keep a ref to the latest commitMove so the window pointerup listener
+    // (registered once when drag starts) always commits with the current
+    // preview, not the snapshot from the moment the drag began.
+    const commitMoveRef = useRef(commitMove);
+    useEffect(() => {
+      commitMoveRef.current = commitMove;
+    }, [commitMove]);
+
+    const startResize = (item: DashboardLayoutItem) =>
+      (e: ReactPointerEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        if (!resizable || !onLayoutChange) return;
+        const local = localFromPointer(e);
+        setResizing({
+          id: item.id,
+          startW: item.w,
+          startH: item.h,
+          pointerStartX: local.x,
+          pointerStartY: local.y,
+        });
+        setPointer(local);
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId);
+        } catch {
+          /* noop */
+        }
+      };
+
+    const onResizeMoveTick = useCallback(() => {
+      if (!resizing || !pointer || !onLayoutChange) return;
+      const item = items.find((i) => i.id === resizing.id);
+      if (!item) return;
+      const dx = pointer.x - resizing.pointerStartX;
+      const dy = pointer.y - resizing.pointerStartY;
+      const nextW = Math.max(
+        minW,
+        Math.min(maxW ?? cols, resizing.startW + Math.round(dx / cellStep))
+      );
+      const heightLimit = maxH ?? (bounds === "auto" ? Infinity : bounds.rows);
+      const nextH = Math.max(
+        minH,
+        Math.min(heightLimit, resizing.startH + Math.round(dy / cellStep))
+      );
+      const clampedW = Math.min(nextW, cols - item.x);
+      const clampedH = Math.min(
+        nextH,
+        bounds === "auto" ? Infinity : bounds.rows - item.y
+      );
+      if (clampedW === item.w && clampedH === item.h) return;
+      onLayoutChange(
+        items.map((it) =>
+          it.id === item.id ? { ...it, w: clampedW, h: clampedH } : it
+        )
+      );
+    }, [resizing, pointer, items, onLayoutChange, cellStep, cols, minW, minH, maxW, maxH, bounds]);
+
+    // Re-run the resize delta every time the pointer moves.
+    useEffect(() => {
+      onResizeMoveTick();
+    }, [onResizeMoveTick]);
+
+    const showOverlay = !!moving;
+    const dragging = !!moving || !!resizing;
+
+    const canvasStyle: CSSProperties = {
+      position: "relative",
+      width: canvasWidth,
+      maxWidth: "100%",
+      height: bounds === "auto" ? canvasHeight : canvasHeight,
+      ...style,
+    };
+
+    // Inline CSS variables let the stylesheet draw the micro-grid via a
+    // background-image without re-rendering on every pointer move.
+    const overlayBg: CSSProperties = showOverlay
+      ? {
+          backgroundImage: `linear-gradient(to right, var(--vf-border-1) 1px, transparent 1px),
+                            linear-gradient(to bottom, var(--vf-border-1) 1px, transparent 1px)`,
+          backgroundSize: `${cellStep}px ${cellStep}px`,
+          backgroundPosition: `0 0`,
+        }
+      : {};
 
     return (
       <div
-        ref={setGridRef}
-        className={cx("vf-dashboard-grid", className)}
-        style={gridStyle}
-        onPointerMove={resizing ? onResizeMove : undefined}
-        onPointerUp={resizing ? () => setResizing(null) : undefined}
-        onPointerCancel={resizing ? () => setResizing(null) : undefined}
+        ref={setCanvasRef}
+        className={cx(
+          "vf-dashboard-grid",
+          dragging && "vf-dashboard-grid--dragging",
+          className
+        )}
+        style={{ ...canvasStyle, ...overlayBg }}
         {...props}
       >
-        {dropIndicator}
+        {showOverlay && preview && movingItem && (
+          <div
+            aria-hidden="true"
+            className={cx(
+              "vf-dashboard-grid__drop-target",
+              preview.swapTargetId && "vf-dashboard-grid__drop-target--swap"
+            )}
+            style={{
+              position: "absolute",
+              left: subToPx(preview.x),
+              top: subToPx(preview.y),
+              width: movingItem.w * cellStep - gap,
+              height: movingItem.h * cellStep - gap,
+            }}
+          />
+        )}
         {items.map((item) => {
-          const cell: CSSProperties = {
-            gridColumn: `${item.x + 1} / span ${item.w}`,
-            gridRow: `${item.y + 1} / span ${item.h}`,
-            position: "relative",
-          };
-          const isDragging = draggingId === item.id;
-          const isTarget = hoverId === item.id && draggingId && draggingId !== item.id;
+          const isMoving = moving?.id === item.id;
+          const isSwapPartner =
+            preview?.swapTargetId === item.id && !!moving;
+          // Card position: the moving card follows the pointer; everyone
+          // else stays put.
+          let displayX = item.x;
+          let displayY = item.y;
+          let zIndex: number | undefined;
+          let cardStyle: CSSProperties = {};
+          if (isMoving && moving && pointer && movingItem) {
+            const offsetX = moving.pointerStartX - subToPx(moving.startX);
+            const offsetY = moving.pointerStartY - subToPx(moving.startY);
+            cardStyle = {
+              left: pointer.x - offsetX,
+              top: pointer.y - offsetY,
+              transition: "none",
+              opacity: 0.85,
+            };
+            zIndex = 100;
+          } else {
+            cardStyle = {
+              left: subToPx(displayX),
+              top: subToPx(displayY),
+            };
+          }
           return (
             <div
               key={item.id}
               className={cx(
                 "vf-dashboard-grid__cell",
-                isDragging && "vf-dashboard-grid__cell--dragging",
-                isTarget && "vf-dashboard-grid__cell--target"
+                isMoving && "vf-dashboard-grid__cell--moving",
+                isSwapPartner && "vf-dashboard-grid__cell--swap-partner"
               )}
-              style={cell}
-              draggable={swappable && !resizing}
-              onDragStart={() => {
-                if (swappable) setDraggingId(item.id);
+              style={{
+                position: "absolute",
+                width: item.w * cellStep - gap,
+                height: item.h * cellStep - gap,
+                zIndex,
+                touchAction: "none",
+                ...cardStyle,
               }}
-              onDragEnter={() => {
-                if (swappable && draggingId && draggingId !== item.id) {
-                  setHoverId(item.id);
-                }
-              }}
-              onDragOver={(e) => {
-                if (swappable && draggingId && draggingId !== item.id) {
-                  e.preventDefault();
-                  setHoverId(item.id);
-                }
-              }}
-              onDragLeave={() => {
-                if (hoverId === item.id) setHoverId(null);
-              }}
-              onDrop={() => {
-                if (swappable && draggingId && draggingId !== item.id) {
-                  swap(draggingId, item.id);
-                }
-                setDraggingId(null);
-                setHoverId(null);
-              }}
-              onDragEnd={() => {
-                setDraggingId(null);
-                setHoverId(null);
-              }}
+              onPointerDown={movable ? startMove(item) : undefined}
             >
               {renderItem(item.id, item)}
               {resizable && onLayoutChange && (
@@ -311,26 +638,7 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
                   role="separator"
                   aria-label="Resize widget"
                   className="vf-dashboard-grid__resize"
-                  onPointerDown={(e) => {
-                    e.stopPropagation();
-                    const gridEl = gridRef.current;
-                    if (!gridEl) return;
-                    const rect = gridEl.getBoundingClientRect();
-                    const colPx = (rect.width - gap * (cols - 1)) / cols;
-                    setResizing({
-                      id: item.id,
-                      startX: e.clientX,
-                      startY: e.clientY,
-                      startW: item.w,
-                      startH: item.h,
-                      colPx,
-                    });
-                    try {
-                      e.currentTarget.setPointerCapture(e.pointerId);
-                    } catch {
-                      /* noop */
-                    }
-                  }}
+                  onPointerDown={startResize(item)}
                 />
               )}
             </div>

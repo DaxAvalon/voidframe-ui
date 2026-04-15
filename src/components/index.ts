@@ -1061,6 +1061,7 @@ export type {
   WidgetShellProps,
   DashboardLayoutItem,
   DashboardGridProps,
+  DashboardBounds,
 } from "./Widget";
 
 export { PrintLayout, PrintButton } from "./Print";

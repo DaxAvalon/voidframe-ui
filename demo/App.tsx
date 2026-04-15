@@ -3645,24 +3645,31 @@ function SpecialtyEncodingSection() {
 }
 
 function SpecialtyWidgetsSection() {
-  const items = useMemo(
-    () => packLayout(["users", "revenue", "errors", "deploys"], 12, { w: 6, h: 3 }),
-    []
-  );
-  const [layout, setLayout] = useState(items);
+  // Sub-cell positions: each card occupies a (w × h) block of 1×1 sub-cells.
+  // Drag picks up the card and snaps it to any free sub-cell where it fits,
+  // or swaps with another card if the cursor is dropped onto it.
+  const initialLayout: import("../src").DashboardLayoutItem[] = [
+    { id: "users", x: 0, y: 0, w: 8, h: 5 },
+    { id: "revenue", x: 8, y: 0, w: 8, h: 5 },
+    { id: "errors", x: 0, y: 5, w: 6, h: 4 },
+    { id: "deploys", x: 6, y: 5, w: 10, h: 4 },
+  ];
+  const [layout, setLayout] = useState(initialLayout);
   return (
     <Frame
       title="Specialty — Widgets + Print"
       description="WidgetShell, DashboardGrid, PrintLayout, PrintButton."
     >
-      <Block label="DashboardGrid (drag to swap + corner resize)">
+      <Block label="DashboardGrid (open canvas, snap-to-sub-cell drag, swap-on-drop, corner resize)">
         <DashboardGrid
           items={layout}
           onLayoutChange={setLayout}
-          swappable
+          movable
           resizable
-          cols={12}
-          rowHeight={56}
+          cols={24}
+          cellSize={28}
+          gap={4}
+          bounds="auto"
           renderItem={(id) => {
             const labels: Record<string, string> = {
               users: "Active users",
@@ -3678,8 +3685,6 @@ function SpecialtyWidgetsSection() {
                     ⋯
                   </Button>
                 }
-                draggable
-                resizable
               >
                 <BigNumber value="12,345" unit="this week" size="md" />
               </WidgetShell>

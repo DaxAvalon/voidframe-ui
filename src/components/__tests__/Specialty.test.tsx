@@ -431,6 +431,41 @@ describe("DashboardGrid + packLayout", () => {
       container.querySelector(".vf-dashboard-grid__resize")
     ).toBeFalsy();
   });
+
+  it("places cards at sub-cell coordinates and respects fixed bounds", () => {
+    const { container } = renderWithTheme(
+      <DashboardGrid
+        items={[{ id: "a", x: 3, y: 2, w: 6, h: 4 }]}
+        cols={24}
+        cellSize={32}
+        gap={4}
+        bounds={{ rows: 12 }}
+        renderItem={(id) => <span>cell {id}</span>}
+      />
+    );
+    const card = container.querySelector(
+      ".vf-dashboard-grid__cell"
+    ) as HTMLElement;
+    expect(card.style.left).toBe(`${3 * 36}px`);
+    expect(card.style.top).toBe(`${2 * 36}px`);
+    expect(card.style.width).toBe(`${6 * 36 - 4}px`);
+    expect(card.style.height).toBe(`${4 * 36 - 4}px`);
+  });
+
+  it("renders no overlay or drop target before any drag begins", () => {
+    const { container } = renderWithTheme(
+      <DashboardGrid
+        items={[{ id: "a", x: 0, y: 0, w: 4, h: 3 }]}
+        renderItem={(id) => <span>cell {id}</span>}
+      />
+    );
+    expect(
+      container.querySelector(".vf-dashboard-grid__drop-target")
+    ).toBeFalsy();
+    expect(
+      container.classList.contains("vf-dashboard-grid--dragging")
+    ).toBe(false);
+  });
 });
 
 // ── Print ──
