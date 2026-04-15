@@ -4,7 +4,7 @@ Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-
 
 Built for dashboards, dev tools, data interfaces, internal consoles, AI chat products, and anything that needs to feel like it was forged from the void.
 
-**200+ accessible components** across primitives, layout, forms, navigation, data, overlays, interaction, and a full chat/AI surface. WAI-ARIA patterns. Controllable / uncontrollable duality on every input. Compound APIs on every complex surface. No runtime dependencies beyond React.
+**230+ accessible components** across primitives, layout, forms, navigation, data, overlays, interaction, a full chat/AI surface, and a specialty tier (dev tools, identity, numeric, time, help, encoding, widgets, print). WAI-ARIA patterns. Controllable / uncontrollable duality on every input. Compound APIs on every complex surface. No runtime dependencies beyond React.
 
 ---
 
@@ -238,6 +238,30 @@ Purpose-built surface for Claude-/ChatGPT-/agent-style products. Everything belo
 
 **Layout patterns:** `ChatLayout` (sidebar + conversation + inspector), `SimpleChat`, `AgentRunner`.
 
+### Specialty
+
+Domain surfaces that round out the tier-1 offering. Everything below is in the top-level `voidframe` import.
+
+**Dev tools:** `CommitGraph`, `NetworkInspector` (JSON headers/body drill-down), `ConsoleOutput` (level filter `"warn+"`), `DebugTree`, `KeyValueEditor`, `QueryBuilder` (AND/OR groups + rules), `ShortcutEditor` (records chords to `mod+shift+k`-style strings with conflict detection).
+
+**Identity:** `UserCard`, `TeamCard`, `OrganizationCard`, `Identicon` (deterministic 5×5 mirrored pattern), `PresenceList` (grouped by status, maxVisible + overflow).
+
+**Numeric:** `NumberDisplay`, `CurrencyDisplay`, `PercentDisplay` (all locale-aware with auto-tone), `BigNumber` (hero metric with unit + delta + optional sparkline slot).
+
+**Time:** `TimeZoneSelect` (searchable, Intl-driven), `RelativeTime` (auto-updating, pure `Intl.RelativeTimeFormat`), `DurationDisplay` (`hms`/`compact`/`long`), `Countdown`.
+
+**Help & changelog:** `HelpTooltip` (CSS-positioned ? icon), `ContextHelp` (side-panel pattern), `Changelog` (per-entry `added`/`fixed`/`changed`/`removed`/`security`/`deprecated`), `WhatsNewPopover` (once-per-version, persists via injected storage for tests/SSR).
+
+**Encoding:** `QRCode`, `Barcode` — both render placeholder patterns by default and accept a pre-computed `matrix` / `pattern` so consumers can pipe in output from a peer dep (`qrcode-generator`, `jsbarcode`) without bundling it.
+
+**Color:** `ColorSwatch`, `Palette`.
+
+**Rich embeds:** `LegalText`, `Mermaid` (accepts a `loader` prop to lazy-resolve the peer dep at runtime).
+
+**Widgets:** `WidgetShell` (loading / error / empty states, optional drag + resize handles), `DashboardGrid` (CSS-grid placement, optional drag-to-swap), `packLayout` / `usePackedLayout` helpers.
+
+**Print:** `PrintLayout` (`@media print` optimized), `PrintButton` (prints a ref'd subtree via a transient iframe, preserving styles).
+
 ### Providers
 
 `VoidframeProvider` — theme context.
@@ -346,7 +370,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (1090+ tests)
+npm run test      # full vitest suite (1130+ tests)
 npm run typecheck # tsc --noEmit
 ```
 

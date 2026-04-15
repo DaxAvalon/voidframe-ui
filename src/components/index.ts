@@ -928,6 +928,132 @@ export {
   SimpleChat,
   AgentRunner,
 } from "./ChatModel";
+
+// ── Phase 13: specialty ─────────────────────────────────────
+export {
+  CommitGraph,
+  NetworkInspector,
+  ConsoleOutput,
+  DebugTree,
+  KeyValueEditor,
+  QueryBuilder,
+  ShortcutEditor,
+} from "./DevTools";
+export type {
+  CommitNode,
+  CommitGraphProps,
+  NetworkRequest,
+  NetworkRequestStatus,
+  NetworkInspectorProps,
+  ConsoleLevel,
+  ConsoleEntry,
+  ConsoleOutputProps,
+  DebugTreeProps,
+  KeyValuePair,
+  KeyValueEditorProps,
+  QueryOperator,
+  QueryFieldDef,
+  QueryRule,
+  QueryGroup,
+  QueryBuilderProps,
+  ShortcutEditorProps,
+} from "./DevTools";
+
+export {
+  UserCard,
+  TeamCard,
+  OrganizationCard,
+  Identicon,
+  PresenceList,
+} from "./Identity";
+export type {
+  UserCardUser,
+  UserCardProps,
+  TeamCardTeam,
+  TeamCardProps,
+  OrganizationCardOrg,
+  OrganizationCardProps,
+  IdenticonProps,
+  PresenceStatus,
+  PresenceUser,
+  PresenceListProps,
+} from "./Identity";
+
+export {
+  NumberDisplay,
+  CurrencyDisplay,
+  PercentDisplay,
+  BigNumber,
+} from "./Numeric";
+export type {
+  NumberDisplayProps,
+  CurrencyDisplayProps,
+  PercentDisplayProps,
+  BigNumberProps,
+} from "./Numeric";
+
+export {
+  TimeZoneSelect,
+  RelativeTime,
+  DurationDisplay,
+  Countdown,
+} from "./TimeDisplays";
+export type {
+  TimeZoneSelectProps,
+  RelativeTimeProps,
+  DurationDisplayProps,
+  CountdownProps,
+} from "./TimeDisplays";
+
+export {
+  HelpTooltip,
+  ContextHelp,
+  Changelog,
+  WhatsNewPopover,
+} from "./HelpChangelog";
+export type {
+  HelpTooltipProps,
+  ContextHelpProps,
+  ChangelogChange,
+  ChangelogChangeKind,
+  ChangelogEntry,
+  ChangelogProps,
+  WhatsNewFeature,
+  WhatsNewPopoverProps,
+} from "./HelpChangelog";
+
+export { QRCode, Barcode } from "./Encoding";
+export type {
+  QRErrorCorrection,
+  QRCodeProps,
+  BarcodeFormat,
+  BarcodeProps,
+} from "./Encoding";
+
+export { ColorSwatch, Palette } from "./ColorTools";
+export type {
+  ColorSwatchProps,
+  PaletteColor,
+  PaletteProps,
+} from "./ColorTools";
+
+export { LegalText, Mermaid } from "./RichEmbed";
+export type { LegalTextProps, MermaidProps } from "./RichEmbed";
+
+export {
+  WidgetShell,
+  DashboardGrid,
+  packLayout,
+  usePackedLayout,
+} from "./Widget";
+export type {
+  WidgetShellProps,
+  DashboardLayoutItem,
+  DashboardGridProps,
+} from "./Widget";
+
+export { PrintLayout, PrintButton } from "./Print";
+export type { PrintLayoutProps, PrintButtonProps } from "./Print";
 export type {
   ChatModelOption,
   ModelSelectorProps,

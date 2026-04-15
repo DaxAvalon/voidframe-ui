@@ -9,7 +9,7 @@
  * `SECTIONS` registry near the bottom.
  */
 
-import { useState, type ComponentProps, type ReactNode } from "react";
+import { useMemo, useState, type ComponentProps, type ReactNode } from "react";
 import "../src/css/index.css";
 import {
   Accordion,
@@ -173,6 +173,41 @@ import {
   Zoomable,
   toast,
   useConfirm,
+  // Phase 13: specialty
+  Barcode,
+  BigNumber,
+  Changelog,
+  ColorSwatch,
+  CommitGraph,
+  ConsoleOutput,
+  ContextHelp,
+  Countdown,
+  CurrencyDisplay,
+  DashboardGrid,
+  DebugTree,
+  DurationDisplay,
+  HelpTooltip,
+  Identicon,
+  KeyValueEditor,
+  LegalText,
+  NetworkInspector,
+  NumberDisplay,
+  OrganizationCard,
+  Palette,
+  PercentDisplay,
+  PresenceList,
+  PrintButton,
+  PrintLayout,
+  QRCode,
+  QueryBuilder,
+  RelativeTime,
+  ShortcutEditor,
+  TeamCard,
+  TimeZoneSelect,
+  UserCard,
+  WhatsNewPopover,
+  WidgetShell,
+  packLayout,
   // Phase 12: chat & AI
   AgentRunner,
   AgentStep,
@@ -1566,6 +1601,458 @@ function UtilitySection() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// PHASE 13 — SPECIALTY
+// ─────────────────────────────────────────────────────────────
+
+function SpecialtyDevToolsSection() {
+  const [pairs, setPairs] = useState<
+    import("../src").KeyValuePair[]
+  >([
+    { id: "1", key: "Authorization", value: "Bearer …" },
+    { id: "2", key: "Accept", value: "application/json" },
+  ]);
+  const [query, setQuery] = useState<import("../src").QueryGroup>({
+    id: "root",
+    combinator: "AND",
+    rules: [
+      { id: "r1", field: "status", operator: "=", value: "active" },
+    ],
+  });
+  const [shortcut, setShortcut] = useState("mod+shift+k");
+  return (
+    <Frame
+      title="Specialty — Dev Tools"
+      description="CommitGraph, NetworkInspector, ConsoleOutput, DebugTree, KeyValueEditor, QueryBuilder, ShortcutEditor."
+    >
+      <Block label="CommitGraph">
+        <CommitGraph
+          activeId="c2"
+          commits={[
+            { id: "c1abcdef", message: "Phase 13 kickoff", branch: "main" },
+            { id: "c2abcdef", message: "Add specialty CSS", tone: "info" },
+            { id: "c3abcdef", message: "Fix flaky test", tone: "warning" },
+            { id: "c4abcdef", message: "Ship Phase 12", tone: "success" },
+          ]}
+        />
+      </Block>
+      <Block label="NetworkInspector">
+        <NetworkInspector
+          requests={[
+            {
+              id: "1",
+              method: "GET",
+              url: "/api/sessions",
+              status: 200,
+              duration: 42,
+              size: 1800,
+              type: "json",
+              requestHeaders: { accept: "application/json" },
+              responseBody: { sessions: 3 },
+            },
+            {
+              id: "2",
+              method: "POST",
+              url: "/api/messages",
+              status: 429,
+              duration: 310,
+              size: 200,
+              type: "json",
+            },
+            {
+              id: "3",
+              method: "GET",
+              url: "/api/stream",
+              state: "pending",
+              type: "stream",
+            },
+          ]}
+          selectedId="1"
+        />
+      </Block>
+      <Block label="ConsoleOutput">
+        <ConsoleOutput
+          filter="info+"
+          entries={[
+            { level: "debug", message: "tick" },
+            {
+              level: "info",
+              message: "Worker started",
+              timestamp: new Date(Date.now() - 30_000),
+            },
+            {
+              level: "warn",
+              message: "Queue backing up",
+              timestamp: new Date(Date.now() - 10_000),
+              source: "worker",
+            },
+            {
+              level: "error",
+              message: "Job 42 failed",
+              timestamp: Date.now(),
+            },
+          ]}
+        />
+      </Block>
+      <Block label="DebugTree">
+        <DebugTree
+          rootLabel="state"
+          data={{ count: 3, user: { id: "u1", role: "admin" }, pending: [1, 2] }}
+          defaultExpanded={2}
+        />
+      </Block>
+      <Block label="KeyValueEditor">
+        <KeyValueEditor entries={pairs} onChange={setPairs} />
+      </Block>
+      <Block label="QueryBuilder">
+        <QueryBuilder
+          fields={[
+            { id: "status", label: "Status" },
+            { id: "owner", label: "Owner" },
+            { id: "score", label: "Score", type: "number" },
+          ]}
+          value={query}
+          onChange={setQuery}
+        />
+      </Block>
+      <Block label="ShortcutEditor">
+        <ShortcutEditor
+          value={shortcut}
+          onChange={setShortcut}
+          conflicts={["mod+shift+p"]}
+        />
+      </Block>
+    </Frame>
+  );
+}
+
+function SpecialtyIdentitySection() {
+  const [selected, setSelected] = useState("#4ade80");
+  return (
+    <Frame
+      title="Specialty — Identity"
+      description="UserCard, TeamCard, OrganizationCard, Identicon, PresenceList, ColorSwatch, Palette."
+    >
+      <Block label="UserCard / TeamCard / OrganizationCard">
+        <Flex gap={16} wrap>
+          <UserCard
+            user={{
+              name: "Ada Lovelace",
+              title: "Principal engineer",
+              team: "Platform",
+              email: "ada@example.com",
+              status: "online",
+            }}
+            actions={<Button variant="ghost">Follow</Button>}
+          />
+          <TeamCard
+            team={{
+              name: "Platform",
+              description: "Infrastructure + tooling",
+              memberCount: 8,
+              lead: "Ada",
+            }}
+          />
+          <OrganizationCard
+            organization={{
+              name: "Acme",
+              description: "The public benefit corporation.",
+              website: "https://acme.test",
+              members: 240,
+              plan: "Enterprise",
+            }}
+          />
+        </Flex>
+      </Block>
+      <Block label="Identicon">
+        <Flex gap={12} align="center">
+          {["ada@example.com", "linus@example.com", "grace@example.com"].map(
+            (v) => (
+              <Flex key={v} direction="column" align="center" gap={4}>
+                <Identicon value={v} size={40} />
+                <Text size="xs" color="var(--vf-text-3)">
+                  {v}
+                </Text>
+              </Flex>
+            )
+          )}
+        </Flex>
+      </Block>
+      <Block label="PresenceList (grouped by status)">
+        <PresenceList
+          groupByStatus
+          users={[
+            { id: "1", name: "Ada", status: "online", statusMessage: "shipping" },
+            { id: "2", name: "Linus", status: "busy" },
+            { id: "3", name: "Grace", status: "away" },
+            { id: "4", name: "Tim", status: "offline" },
+          ]}
+        />
+      </Block>
+      <Block label="ColorSwatch + Palette">
+        <Flex gap={16} align="center">
+          <ColorSwatch color={selected} size="lg" showLabel />
+          <Palette
+            colors={[
+              "#0f0f0f",
+              "#222",
+              "#4ade80",
+              "#60a5fa",
+              "#f472b6",
+              "#fbbf24",
+              "#a78bfa",
+              "#2dd4bf",
+              "#fb7185",
+            ]}
+            value={selected}
+            onSelect={setSelected}
+            size="md"
+          />
+        </Flex>
+      </Block>
+    </Frame>
+  );
+}
+
+function SpecialtyNumericSection() {
+  return (
+    <Frame
+      title="Specialty — Numeric"
+      description="NumberDisplay, CurrencyDisplay, PercentDisplay, BigNumber."
+    >
+      <Block label="Primitives">
+        <Flex gap={24} wrap align="baseline">
+          <Text>
+            Sessions <NumberDisplay value={12_845} compact />
+          </Text>
+          <Text>
+            Revenue{" "}
+            <CurrencyDisplay value={1_234_567.89} currency="USD" compact />
+          </Text>
+          <Text>
+            Growth{" "}
+            <PercentDisplay value={0.124} decimals={1} signed autoTone />
+          </Text>
+        </Flex>
+      </Block>
+      <Block label="BigNumber">
+        <Flex gap={16} wrap>
+          <BigNumber
+            label="Active users"
+            value={<NumberDisplay value={12_845} compact />}
+            unit="total"
+            delta="+5.4%"
+            deltaTone="success"
+          />
+          <BigNumber
+            label="Revenue"
+            value={
+              <CurrencyDisplay value={1_234_567.89} currency="USD" compact />
+            }
+            unit="MTD"
+            delta="-1.2%"
+            deltaTone="danger"
+          />
+          <BigNumber
+            label="Latency p50"
+            value="42ms"
+            unit="p50"
+            delta="-8%"
+            deltaTone="info"
+            size="md"
+          />
+        </Flex>
+      </Block>
+    </Frame>
+  );
+}
+
+function SpecialtyTimeSection() {
+  const [zone, setZone] = useState("UTC");
+  return (
+    <Frame
+      title="Specialty — Time"
+      description="TimeZoneSelect, RelativeTime, DurationDisplay, Countdown."
+    >
+      <Block label="TimeZoneSelect">
+        <TimeZoneSelect value={zone} onChange={setZone} />
+      </Block>
+      <Block label="RelativeTime / DurationDisplay / Countdown">
+        <Flex gap={24} wrap>
+          <Text>
+            Updated{" "}
+            <RelativeTime date={Date.now() - 125_000} />
+          </Text>
+          <Text>
+            Duration <DurationDisplay seconds={3725} />
+          </Text>
+          <Text>
+            Duration (long){" "}
+            <DurationDisplay seconds={3725} format="long" />
+          </Text>
+          <Text>
+            Until launch <Countdown target={Date.now() + 60 * 60 * 1000} />
+          </Text>
+        </Flex>
+      </Block>
+    </Frame>
+  );
+}
+
+function SpecialtyHelpSection() {
+  return (
+    <Frame
+      title="Specialty — Help & What's New"
+      description="HelpTooltip, ContextHelp, Changelog, WhatsNewPopover, LegalText."
+    >
+      <Block label="HelpTooltip">
+        <Flex gap={8} align="center">
+          <Text>Enable autopilot</Text>
+          <HelpTooltip content="Autopilot runs scheduled deploys in the background. Disable if you need manual gatekeeping." />
+        </Flex>
+      </Block>
+      <Block label="ContextHelp (side panel)">
+        <div
+          style={{
+            height: 180,
+            display: "grid",
+            gridTemplateColumns: "1fr auto",
+            border: "1px solid var(--vf-border-1)",
+          }}
+        >
+          <div style={{ padding: 16 }}>
+            <Text>Focused element documentation goes here.</Text>
+          </div>
+          <ContextHelp titleLabel="Autopilot">
+            <Text size="sm">
+              Autopilot handles scheduled deploys, retries, and rollbacks based
+              on your thresholds.
+            </Text>
+          </ContextHelp>
+        </div>
+      </Block>
+      <Block label="Changelog">
+        <Changelog
+          collapsed
+          entries={[
+            {
+              version: "1.3.0",
+              date: "2026-04-14",
+              title: "Phase 13 — specialty",
+              changes: [
+                { kind: "added", description: "Widget shell + dashboard grid" },
+                { kind: "added", description: "Identity cards + presence" },
+                { kind: "added", description: "Numeric, time, help, print" },
+              ],
+            },
+            {
+              version: "1.2.0",
+              date: "2026-04-14",
+              title: "Phase 12 — chat & AI",
+              changes: [
+                { kind: "added", description: "50+ chat/agent components" },
+                { kind: "fixed", description: "Tabs demo API mismatch" },
+              ],
+            },
+          ]}
+        />
+      </Block>
+      <Block label="WhatsNewPopover (in-place preview)">
+        <WhatsNewPopover
+          version="1.3.0"
+          features={[
+            { icon: "◆", title: "Dashboard grid", description: "Drag + resize widgets" },
+            { icon: "●", title: "Chat surface", description: "50+ components" },
+            { icon: "▲", title: "Identity cards", description: "User / team / org" },
+          ]}
+          storage={{
+            get: () => null,
+            set: () => undefined,
+          }}
+        />
+      </Block>
+      <Block label="LegalText">
+        <LegalText>
+          By using Voidframe you agree to the MIT license. Third-party peer
+          dependencies (mermaid, qrcode-generator, jsbarcode) remain the
+          property of their respective owners.
+        </LegalText>
+      </Block>
+    </Frame>
+  );
+}
+
+function SpecialtyEncodingSection() {
+  return (
+    <Frame
+      title="Specialty — Encoding"
+      description="QRCode + Barcode. Supply a real generator via `matrix` or `pattern` props — placeholders shown here."
+    >
+      <Block label="QRCode (placeholder pattern)">
+        <Flex gap={16} align="center">
+          <QRCode value="https://voidframe.dev" size={140} />
+          <QRCode value="order-42" size={100} ecc="M" />
+        </Flex>
+      </Block>
+      <Block label="Barcode (placeholder pattern)">
+        <Barcode value="SKU-VOIDFRAME-001" format="code128" />
+      </Block>
+    </Frame>
+  );
+}
+
+function SpecialtyWidgetsSection() {
+  const items = useMemo(
+    () => packLayout(["users", "revenue", "errors", "deploys"], 12, { w: 6, h: 3 }),
+    []
+  );
+  const [layout, setLayout] = useState(items);
+  return (
+    <Frame
+      title="Specialty — Widgets + Print"
+      description="WidgetShell, DashboardGrid, PrintLayout, PrintButton."
+    >
+      <Block label="DashboardGrid (swap widgets)">
+        <DashboardGrid
+          items={layout}
+          onLayoutChange={setLayout}
+          swappable
+          cols={12}
+          rowHeight={56}
+          renderItem={(id) => {
+            const labels: Record<string, string> = {
+              users: "Active users",
+              revenue: "Revenue",
+              errors: "Errors",
+              deploys: "Deploys",
+            };
+            return (
+              <WidgetShell
+                title={labels[id] ?? id}
+                actions={
+                  <Button variant="ghost" size="sm">
+                    ⋯
+                  </Button>
+                }
+                draggable
+                resizable
+              >
+                <BigNumber value="12,345" unit="this week" size="md" />
+              </WidgetShell>
+            );
+          }}
+        />
+      </Block>
+      <Block label="PrintLayout + PrintButton">
+        <PrintLayout title="Quarterly Report" subtitle="Q1 2026">
+          <Text>Report body — styles are preserved through print.</Text>
+        </PrintLayout>
+        <PrintButton documentTitle="Quarterly Report">Print report</PrintButton>
+      </Block>
+    </Frame>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // PHASE 12 — CHAT & AI
 // ─────────────────────────────────────────────────────────────
 
@@ -2104,6 +2591,14 @@ const SECTIONS: DemoSection[] = [
   { id: "animation", group: "Interactive", title: "Animation atoms", render: () => <AnimationSection /> },
   { id: "media", group: "Interactive", title: "Media", render: () => <MediaSection /> },
   { id: "utility", group: "Interactive", title: "Utility", render: () => <UtilitySection /> },
+
+  { id: "specialty-devtools", group: "Specialty", title: "Dev tools", render: () => <SpecialtyDevToolsSection /> },
+  { id: "specialty-identity", group: "Specialty", title: "Identity + Color", render: () => <SpecialtyIdentitySection /> },
+  { id: "specialty-numeric", group: "Specialty", title: "Numeric", render: () => <SpecialtyNumericSection /> },
+  { id: "specialty-time", group: "Specialty", title: "Time", render: () => <SpecialtyTimeSection /> },
+  { id: "specialty-help", group: "Specialty", title: "Help & Changelog", render: () => <SpecialtyHelpSection /> },
+  { id: "specialty-encoding", group: "Specialty", title: "Encoding", render: () => <SpecialtyEncodingSection /> },
+  { id: "specialty-widgets", group: "Specialty", title: "Widgets + Print", render: () => <SpecialtyWidgetsSection /> },
 
   { id: "chat-messages", group: "Chat & AI", title: "Messages", render: () => <ChatMessagesSection /> },
   { id: "chat-agents", group: "Chat & AI", title: "Agents & Tools", render: () => <ChatAgentSection /> },
