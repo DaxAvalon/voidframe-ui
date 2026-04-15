@@ -297,7 +297,13 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
         const sim = simulationRef.current;
         if (!sim) return;
         e.stopPropagation();
-        sim.alphaTarget(rubberBand ? 0.3 : 0);
+        if (rubberBand) {
+          // Re-warm + restart so subsequent .alpha(0.3) calls produce ticks.
+          sim.alphaTarget(0.3);
+          sim.restart();
+        } else {
+          sim.alphaTarget(0);
+        }
         node.fx = node.x ?? 0;
         node.fy = node.y ?? 0;
         setDragging(node.id);
@@ -315,7 +321,18 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
         const rect = svg.getBoundingClientRect();
         node.fx = e.clientX - rect.left;
         node.fy = e.clientY - rect.top;
-        if (rubberBand) simulationRef.current?.alpha(0.3);
+        if (rubberBand) {
+          // Re-warm the simulation so neighbours recompute around the
+          // pinned position and visibly tug along.
+          simulationRef.current?.alpha(0.3);
+        } else {
+          // Quiet pin-drag: the simulation isn't ticking, so push the
+          // dragged node's new position into the rendered state
+          // directly. Other nodes stay where they are.
+          node.x = node.fx;
+          node.y = node.fy;
+          setSimNodes((prev) => [...prev]);
+        }
       };
     const onNodeUp =
       (node: SimNode) => (e: ReactPointerEvent<SVGElement>) => {
@@ -434,16 +451,20 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
           onClick={handleSurfaceClick}
         >
           <defs>
+            {/* markerUnits=userSpaceOnUse keeps the arrow a fixed pixel
+                size instead of scaling with stroke-width — which made
+                heavy-weight edges spawn enormous arrow heads. */}
             <marker
               id="vf-network-arrow"
               viewBox="0 0 10 10"
-              refX="9"
+              refX="8"
               refY="5"
               markerWidth="6"
               markerHeight="6"
+              markerUnits="userSpaceOnUse"
               orient="auto-start-reverse"
             >
-              <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+              <path d="M0,1 L9,5 L0,9 z" fill="currentColor" />
             </marker>
           </defs>
 

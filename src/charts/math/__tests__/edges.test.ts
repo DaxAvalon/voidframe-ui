@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   intersectSegmentCircle,
+  intersectSegmentRect,
   splitSegmentByObstacles,
+  splitSegmentByRectObstacles,
   trimSegmentToCircles,
 } from "../edges";
 
@@ -63,5 +65,38 @@ describe("splitSegmentByObstacles", () => {
     ]);
     const obstructed = runs.filter((r) => r.obstructed);
     expect(obstructed).toHaveLength(1);
+  });
+});
+
+describe("intersectSegmentRect (Liang–Barsky)", () => {
+  it("returns null when the segment misses the rectangle", () => {
+    expect(intersectSegmentRect(0, 0, 100, 0, 0, 50, 100, 20)).toBeNull();
+  });
+
+  it("returns the entry/exit t for a segment that crosses the rect", () => {
+    const r = intersectSegmentRect(0, 50, 100, 50, 40, 0, 20, 100);
+    expect(r).not.toBeNull();
+    expect(r![0]).toBeCloseTo(0.4, 5);
+    expect(r![1]).toBeCloseTo(0.6, 5);
+  });
+});
+
+describe("splitSegmentByRectObstacles", () => {
+  it("yields a single visible run when no rect obstructs", () => {
+    const runs = splitSegmentByRectObstacles(0, 0, 100, 0, [
+      { x: 0, y: 50, w: 20, h: 20 },
+    ]);
+    expect(runs).toHaveLength(1);
+    expect(runs[0]!.obstructed).toBe(false);
+  });
+
+  it("splits into 3 runs when crossing one obstacle rectangle", () => {
+    const runs = splitSegmentByRectObstacles(0, 50, 100, 50, [
+      { x: 40, y: 0, w: 20, h: 100 },
+    ]);
+    expect(runs).toHaveLength(3);
+    expect(runs[1]!.obstructed).toBe(true);
+    expect(runs[1]!.start).toBeCloseTo(0.4);
+    expect(runs[1]!.end).toBeCloseTo(0.6);
   });
 });

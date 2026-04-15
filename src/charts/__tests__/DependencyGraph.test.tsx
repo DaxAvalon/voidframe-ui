@@ -25,13 +25,15 @@ describe("DependencyGraph", () => {
     ).toBe(nodes.length);
   });
 
-  it("renders an edge per input", () => {
+  it("renders 3 orthogonal segments per edge", () => {
     const { container } = renderWithTheme(
       <DependencyGraph nodes={nodes} edges={edges} />
     );
+    // Each edge decomposes into 3 line segments to support
+    // per-segment obstruction overlays.
     expect(
       container.querySelectorAll(".vf-chart-dep-graph__edge").length
-    ).toBe(edges.length);
+    ).toBe(edges.length * 3);
   });
 
   it("renders no errors and at least one label", () => {

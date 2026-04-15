@@ -544,6 +544,18 @@ button.vf-chart-legend__item:focus-visible {
 .vf-chart-dep-graph__edge--dimmed {
   opacity: 0.25;
 }
+.vf-chart-dep-graph__edge-obstructed {
+  stroke: var(--vf-text-3);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 3;
+  stroke-opacity: 0.85;
+}
+.vf-chart-dep-graph__edge-obstructed--highlighted {
+  stroke: var(--vf-accent, var(--vf-amber));
+}
+.vf-chart-dep-graph__edge-obstructed--dimmed {
+  stroke-opacity: 0.25;
+}
 .vf-chart-dep-graph__node {
   cursor: pointer;
   transition: opacity var(--vf-transition-duration, 0.15s) ease;

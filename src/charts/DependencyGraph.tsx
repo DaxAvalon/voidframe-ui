@@ -15,6 +15,11 @@ import {
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
 import { seriesPalette } from "./math/color";
+import {
+  interpolatePoint,
+  splitSegmentByRectObstacles,
+  type RectObstacle,
+} from "./math/edges";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
 
@@ -245,75 +250,123 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
           }}
         >
           <defs>
+            {/* userSpaceOnUse so the arrow is a fixed pixel size,
+                not multiplied by stroke-width. */}
             <marker
               id="vf-dep-arrow"
               viewBox="0 0 10 10"
-              refX="9"
+              refX="8"
               refY="5"
               markerWidth="6"
               markerHeight="6"
+              markerUnits="userSpaceOnUse"
               orient="auto-start-reverse"
             >
-              <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+              <path d="M0,1 L9,5 L0,9 z" fill="currentColor" />
             </marker>
           </defs>
-          {edges.map((e, i) => {
-            const s = placedById.get(e.source);
-            const t = placedById.get(e.target);
-            if (!s || !t) return null;
-            // Source connects on its bottom-center (top-down) or
-            // right-center (left-right); target on top-center or
-            // left-center.
-            let x1: number, y1: number, x2: number, y2: number;
-            let path: string;
-            if (direction === "top-down") {
-              x1 = s.x + nodeWidth / 2;
-              y1 = s.y + nodeHeight;
-              x2 = t.x + nodeWidth / 2;
-              y2 = t.y;
-              const midY = (y1 + y2) / 2;
-              path = `M ${x1} ${y1} L ${x1} ${midY} L ${x2} ${midY} L ${x2} ${y2 - 4}`;
-            } else {
-              x1 = s.x + nodeWidth;
-              y1 = s.y + nodeHeight / 2;
-              x2 = t.x;
-              y2 = t.y + nodeHeight / 2;
-              const midX = (x1 + x2) / 2;
-              path = `M ${x1} ${y1} L ${midX} ${y1} L ${midX} ${y2} L ${x2 - 4} ${y2}`;
-            }
-            const incident =
-              selected === e.source || selected === e.target;
-            const dim = selected !== null && !incident;
+          {(() => {
+            // Build per-edge segment lists once. Each edge becomes 3
+            // straight segments forming an orthogonal connector. The
+            // last segment carries the arrow head.
+            type Seg = { ax: number; ay: number; bx: number; by: number };
+            type EdgeSegments = {
+              edge: DependencyEdge;
+              segs: Seg[];
+              key: string;
+              incident: boolean;
+              dim: boolean;
+            };
+            const edgeData: EdgeSegments[] = edges
+              .map((e, i) => {
+                const s = placedById.get(e.source);
+                const t = placedById.get(e.target);
+                if (!s || !t) return null;
+                let segs: Seg[];
+                if (direction === "top-down") {
+                  const x1 = s.x + nodeWidth / 2;
+                  const y1 = s.y + nodeHeight;
+                  const x2 = t.x + nodeWidth / 2;
+                  const y2 = t.y;
+                  const midY = (y1 + y2) / 2;
+                  segs = [
+                    { ax: x1, ay: y1, bx: x1, by: midY },
+                    { ax: x1, ay: midY, bx: x2, by: midY },
+                    { ax: x2, ay: midY, bx: x2, by: y2 - 4 },
+                  ];
+                } else {
+                  const x1 = s.x + nodeWidth;
+                  const y1 = s.y + nodeHeight / 2;
+                  const x2 = t.x;
+                  const y2 = t.y + nodeHeight / 2;
+                  const midX = (x1 + x2) / 2;
+                  segs = [
+                    { ax: x1, ay: y1, bx: midX, by: y1 },
+                    { ax: midX, ay: y1, bx: midX, by: y2 },
+                    { ax: midX, ay: y2, bx: x2 - 4, by: y2 },
+                  ];
+                }
+                const incident =
+                  selected === e.source || selected === e.target;
+                return {
+                  edge: e,
+                  segs,
+                  key: `${e.source}-${e.target}-${i}`,
+                  incident,
+                  dim: selected !== null && !incident,
+                };
+              })
+              .filter((x): x is EdgeSegments => x !== null);
+
+            const onEdgeEnter = (ed: DependencyEdge, ev: React.PointerEvent) => {
+              if (!ed.label && ed.value === undefined) return;
+              setHover({
+                kind: "edge",
+                edge: ed,
+                x: ev.clientX,
+                y: ev.clientY,
+              });
+            };
+            const onEdgeMove = (ev: React.PointerEvent) => {
+              if (hover?.kind !== "edge") return;
+              setHover({ ...hover, x: ev.clientX, y: ev.clientY });
+            };
+
             return (
-              <path
-                key={i}
-                className={cx(
-                  "vf-chart-dep-graph__edge",
-                  incident && "vf-chart-dep-graph__edge--highlighted",
-                  dim && "vf-chart-dep-graph__edge--dimmed"
+              <>
+                {/* Solid edge segments under the nodes. */}
+                {edgeData.map((ed) =>
+                  ed.segs.map((seg, segIdx) => {
+                    const isLast = segIdx === ed.segs.length - 1;
+                    return (
+                      <line
+                        key={`base-${ed.key}-${segIdx}`}
+                        className={cx(
+                          "vf-chart-dep-graph__edge",
+                          ed.incident && "vf-chart-dep-graph__edge--highlighted",
+                          ed.dim && "vf-chart-dep-graph__edge--dimmed"
+                        )}
+                        x1={seg.ax}
+                        y1={seg.ay}
+                        x2={seg.bx}
+                        y2={seg.by}
+                        stroke="currentColor"
+                        strokeWidth={1.2}
+                        markerEnd={
+                          isLast && directed ? "url(#vf-dep-arrow)" : undefined
+                        }
+                        onPointerEnter={(ev) => onEdgeEnter(ed.edge, ev)}
+                        onPointerMove={onEdgeMove}
+                        onPointerLeave={() => setHover(null)}
+                      />
+                    );
+                  })
                 )}
-                d={path}
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.2}
-                markerEnd={directed ? "url(#vf-dep-arrow)" : undefined}
-                onPointerEnter={(ev) => {
-                  if (!e.label && e.value === undefined) return;
-                  setHover({
-                    kind: "edge",
-                    edge: e,
-                    x: ev.clientX,
-                    y: ev.clientY,
-                  });
-                }}
-                onPointerMove={(ev) => {
-                  if (hover?.kind !== "edge") return;
-                  setHover({ ...hover, x: ev.clientX, y: ev.clientY });
-                }}
-                onPointerLeave={() => setHover(null)}
-              />
+                {/* (Nodes will be rendered next, drawn on top of the
+                    base segments above.) */}
+              </>
             );
-          })}
+          })()}
           {placed.map((n) => {
             const color =
               palette.get(String(n.group ?? "default")) ?? "var(--vf-text-2)";
@@ -366,6 +419,98 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
                 </text>
               </g>
             );
+          })}
+          {/* Dashed overlays — for each edge segment, find runs that
+              cross any non-connected node rectangle and draw them over
+              the top so the obstructed portion stays visible. */}
+          {edges.map((e, i) => {
+            const s = placedById.get(e.source);
+            const t = placedById.get(e.target);
+            if (!s || !t) return null;
+            let segs: Array<{
+              ax: number;
+              ay: number;
+              bx: number;
+              by: number;
+            }>;
+            if (direction === "top-down") {
+              const x1 = s.x + nodeWidth / 2;
+              const y1 = s.y + nodeHeight;
+              const x2 = t.x + nodeWidth / 2;
+              const y2 = t.y;
+              const midY = (y1 + y2) / 2;
+              segs = [
+                { ax: x1, ay: y1, bx: x1, by: midY },
+                { ax: x1, ay: midY, bx: x2, by: midY },
+                { ax: x2, ay: midY, bx: x2, by: y2 - 4 },
+              ];
+            } else {
+              const x1 = s.x + nodeWidth;
+              const y1 = s.y + nodeHeight / 2;
+              const x2 = t.x;
+              const y2 = t.y + nodeHeight / 2;
+              const midX = (x1 + x2) / 2;
+              segs = [
+                { ax: x1, ay: y1, bx: midX, by: y1 },
+                { ax: midX, ay: y1, bx: midX, by: y2 },
+                { ax: midX, ay: y2, bx: x2 - 4, by: y2 },
+              ];
+            }
+            const others: RectObstacle[] = placed
+              .filter((p) => p.id !== e.source && p.id !== e.target)
+              .map((p) => ({
+                x: p.x,
+                y: p.y,
+                w: nodeWidth,
+                h: nodeHeight,
+              }));
+            const incident =
+              selected === e.source || selected === e.target;
+            const dim = selected !== null && !incident;
+            return segs.flatMap((seg, segIdx) => {
+              const runs = splitSegmentByRectObstacles(
+                seg.ax,
+                seg.ay,
+                seg.bx,
+                seg.by,
+                others
+              );
+              return runs
+                .filter((r) => r.obstructed)
+                .map((r, rIdx) => {
+                  const start = interpolatePoint(
+                    seg.ax,
+                    seg.ay,
+                    seg.bx,
+                    seg.by,
+                    r.start
+                  );
+                  const end = interpolatePoint(
+                    seg.ax,
+                    seg.ay,
+                    seg.bx,
+                    seg.by,
+                    r.end
+                  );
+                  return (
+                    <line
+                      key={`obstr-${i}-${segIdx}-${rIdx}`}
+                      className={cx(
+                        "vf-chart-dep-graph__edge-obstructed",
+                        incident &&
+                          "vf-chart-dep-graph__edge-obstructed--highlighted",
+                        dim &&
+                          "vf-chart-dep-graph__edge-obstructed--dimmed"
+                      )}
+                      x1={start.x}
+                      y1={start.y}
+                      x2={end.x}
+                      y2={end.y}
+                      pointerEvents="none"
+                    />
+                  );
+                });
+            });
           })}
         </svg>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>

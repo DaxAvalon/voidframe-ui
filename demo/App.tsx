@@ -1694,6 +1694,9 @@ function GeoNetworkChartsSection() {
     { source: "package", target: "lint", value: 1 },
     { source: "package", target: "typecheck", value: 1 },
     { source: "ship", target: "package", label: "release-on-green" },
+    // Skip-layer edge — passes under the intermediate layers, so the
+    // segments where it crosses unrelated nodes render dashed on top.
+    { source: "ship", target: "build", label: "ship blocks on build" },
   ];
   const stateValues: Record<string, number> = {
     CA: 38,
