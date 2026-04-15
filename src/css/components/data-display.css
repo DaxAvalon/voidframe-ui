@@ -605,12 +605,27 @@
 .vf-gantt { font-family: var(--vf-font-family); color: var(--vf-text-0); overflow: auto; border: 1px solid var(--vf-border-1); }
 .vf-gantt__corner { padding: var(--vf-sp-2); background: var(--vf-bg-3); border-bottom: 1px solid var(--vf-border-1); }
 .vf-gantt__tick {
-  text-align: center; padding: var(--vf-sp-2) 2px;
+  text-align: start; padding: var(--vf-sp-2) 4px;
   color: var(--vf-text-3); font-size: var(--vf-font-xxs);
-  background: var(--vf-bg-3); border-bottom: 1px solid var(--vf-border-1);
+  background: var(--vf-bg-3);
+  border-bottom: 1px solid var(--vf-border-1);
+  border-inline-start: 1px solid var(--vf-border-1);
+  overflow: hidden;
+  white-space: nowrap;
 }
+.vf-gantt__tick:first-child { border-inline-start: none; }
 .vf-gantt__name { padding: var(--vf-sp-2); color: var(--vf-text-1); border-bottom: 1px solid var(--vf-border-1); }
-.vf-gantt__track { position: relative; border-bottom: 1px solid var(--vf-border-1); height: 32px; }
+.vf-gantt__track {
+  position: relative;
+  border-bottom: 1px solid var(--vf-border-1);
+  height: 32px;
+  background-image: linear-gradient(
+    to right,
+    var(--vf-border-0) 1px,
+    transparent 1px
+  );
+  background-size: var(--vf-gantt-unit-px, 28px) 100%;
+}
 .vf-gantt__bar {
   position: absolute; top: 6px; bottom: 6px;
   background: var(--vf-accent, var(--vf-green));

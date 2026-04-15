@@ -406,6 +406,31 @@ describe("DashboardGrid + packLayout", () => {
     expect(screen.getByText("cell a")).toBeInTheDocument();
     expect(screen.getByText("cell b")).toBeInTheDocument();
   });
+
+  it("renders a resize grip per cell when resizable", () => {
+    const { container } = renderWithTheme(
+      <DashboardGrid
+        items={packLayout(["a", "b"], 12)}
+        onLayoutChange={() => undefined}
+        resizable
+        renderItem={(id) => <span>cell {id}</span>}
+      />
+    );
+    const grips = container.querySelectorAll(".vf-dashboard-grid__resize");
+    expect(grips).toHaveLength(2);
+  });
+
+  it("does not render resize grips when resizable is false", () => {
+    const { container } = renderWithTheme(
+      <DashboardGrid
+        items={packLayout(["a"], 12)}
+        renderItem={(id) => <span>cell {id}</span>}
+      />
+    );
+    expect(
+      container.querySelector(".vf-dashboard-grid__resize")
+    ).toBeFalsy();
+  });
 });
 
 // ── Print ──

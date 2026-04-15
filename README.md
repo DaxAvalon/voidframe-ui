@@ -239,6 +239,7 @@ Everything below ships from the top-level `voidframe` import. Compound component
 | `PageHeader` | Title / subtitle / action area for routes |
 | `Navbar`, `Toolbar` (compound) | Top-level bars and inline action strips |
 | `SplitView`, `ResizableGroup` / `ResizablePanel` / `ResizableHandle` | Draggable split panes |
+| `ResizableBox` | Standalone freeform resize (`axis="x" \| "y" \| "both"`) with edge + corner grips |
 | `ScrollArea`, `ScrollRow`, `ScrollIndicator`, `ScrollSpy` | Scroll containers + indicators |
 | `StatusBar`, `SegmentBar`, `SegmentedProgress` | Horizontal status strips |
 | `Frame`, `BannerAlert`, `Callout`, `OfflineBanner`, `ConnectionStatus` | Framed content + top-of-page callouts |
@@ -287,7 +288,7 @@ Avatars & media: `Avatar`, `AvatarGroup`, `Image`, `ImageGallery`, `AudioPlayer`
 
 ### Overlays
 
-`Modal`, `Dialog` (compound), `DrawerV2`, `Sheet`, `PopoverV2`, `HoverCard`, `TooltipV2`, `ContextMenu`, `Menu`, `CommandPalette`, `Spotlight`, `NotificationCenter`, `EmptyState`, `ErrorState`, `ReactionPicker`.
+`Modal`, `Dialog` (compound), `DrawerV2`, `Sheet` (smooth continuous drag on the handle, snaps on release), `PopoverV2`, `HoverCard`, `TooltipV2`, `ContextMenu`, `Menu`, `CommandPalette`, `Spotlight`, `NotificationCenter`, `EmptyState`, `ErrorState`, `ReactionPicker`.
 
 Toasts: `toast()` imperative API, `useToast()` hook, `Toaster` (placement wrapper), `Snackbar` (bottom-center preset), `AlertV2`.
 
@@ -321,7 +322,7 @@ Purpose-built surface for Claude-/ChatGPT-/agent-style products. Everything belo
 
 Domain surfaces that round out the tier-1 offering. Everything below is in the top-level `voidframe` import.
 
-**Dev tools:** `CommitGraph`, `NetworkInspector` (JSON headers/body drill-down), `ConsoleOutput` (level filter `"warn+"`), `DebugTree`, `KeyValueEditor`, `QueryBuilder` (AND/OR groups + rules), `ShortcutEditor` (records chords to `mod+shift+k`-style strings with conflict detection).
+**Dev tools:** `CommitGraph`, `NetworkInspector` (JSON headers/body drill-down), `ConsoleOutput` (level filter `"warn+"`), `DebugTree` (JSON or YAML via `format` prop — `toYaml` helper exported), `KeyValueEditor`, `QueryBuilder` (AND/OR groups + rules), `ShortcutEditor` (records chords to `mod+shift+k`-style strings with conflict detection).
 
 **Identity:** `UserCard`, `TeamCard`, `OrganizationCard`, `Identicon` (deterministic 5×5 mirrored pattern), `PresenceList` (grouped by status, maxVisible + overflow).
 
@@ -337,7 +338,7 @@ Domain surfaces that round out the tier-1 offering. Everything below is in the t
 
 **Rich embeds:** `LegalText`, `Mermaid` (accepts a `loader` prop to lazy-resolve the peer dep at runtime).
 
-**Widgets:** `WidgetShell` (loading / error / empty states, optional drag + resize handles), `DashboardGrid` (CSS-grid placement, optional drag-to-swap), `packLayout` / `usePackedLayout` helpers.
+**Widgets:** `WidgetShell` (loading / error / empty states, optional drag + resize handles), `DashboardGrid` (CSS-grid placement, optional drag-to-swap with live drop indicator, optional corner-resize handles via `resizable`), `packLayout` / `usePackedLayout` helpers.
 
 **Print:** `PrintLayout` (`@media print` optimized), `PrintButton` (prints a ref'd subtree via a transient iframe, preserving styles).
 

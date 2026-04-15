@@ -491,6 +491,58 @@ describe("Gantt", () => {
     );
     expect(container.querySelectorAll(".vf-gantt__bar").length).toBe(1);
   });
+
+  it("aligns the tick count with the bar track width", () => {
+    const { container } = renderWithTheme(
+      <Gantt
+        start={new Date(2026, 2, 1)}
+        end={new Date(2026, 2, 10)}
+        unitWidth={20}
+        tasks={[
+          {
+            id: "a",
+            name: "A",
+            start: new Date(2026, 2, 1),
+            end: new Date(2026, 2, 10),
+          },
+        ]}
+      />
+    );
+    // 9 day-units between the two dates — expect 9 ticks, not 10.
+    expect(container.querySelectorAll(".vf-gantt__tick").length).toBe(9);
+    // Bar should span (nearly) the full track width.
+    const bar = container.querySelector(".vf-gantt__bar") as HTMLElement;
+    expect(parseInt(bar.style.width, 10)).toBe(9 * 20);
+  });
+
+  it("draws a dependency arrow for linked tasks", () => {
+    const { container } = renderWithTheme(
+      <Gantt
+        start={new Date(2026, 2, 1)}
+        end={new Date(2026, 2, 15)}
+        tasks={[
+          {
+            id: "a",
+            name: "A",
+            start: new Date(2026, 2, 1),
+            end: new Date(2026, 2, 5),
+          },
+          {
+            id: "b",
+            name: "B",
+            start: new Date(2026, 2, 6),
+            end: new Date(2026, 2, 10),
+            dependencies: ["a"],
+          },
+        ]}
+      />
+    );
+    const deps = container.querySelectorAll(".vf-gantt__dep");
+    expect(deps.length).toBe(1);
+    const path = deps[0]!.querySelector("path");
+    expect(path).toBeTruthy();
+    expect(path!.getAttribute("d")).toMatch(/^M /);
+  });
 });
 
 describe("Activity", () => {

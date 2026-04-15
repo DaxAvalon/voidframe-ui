@@ -89,11 +89,13 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
   const unitPx =
     unitWidth ?? (granularity === "day" ? 28 : granularity === "week" ? 48 : 80);
 
+  // One column entry per unit — each represents the left edge of a track
+  // slot. The tick renders under its slot, aligning 1:1 with bar positions.
   const columns = useMemo(() => {
     const out: Date[] = [];
     const stepDays = granularity === "day" ? 1 : granularity === "week" ? 7 : 30;
     let cursor = new Date(start);
-    for (let i = 0; i <= totalUnits; i++) {
+    for (let i = 0; i < totalUnits; i++) {
       out.push(cursor);
       cursor = addDays(cursor, stepDays);
     }
@@ -219,14 +221,18 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
     return out;
   }, [visibleTasks, visibleById]);
 
-  const trackWidth = (columns.length - 1) * unitPx;
+  const trackWidth = columns.length * unitPx;
   const trackHeight = visibleTasks.length * rowHeight;
 
+  const composedStyle: CSSProperties = {
+    ...({ "--vf-gantt-unit-px": `${unitPx}px` } as CSSProperties),
+    ...style,
+  };
   return (
     <div
       ref={ref}
       className={cx("vf-gantt", `vf-gantt--${granularity}`, className)}
-      style={style}
+      style={composedStyle}
       role="table"
       aria-label="Gantt chart"
       {...props}
@@ -262,7 +268,7 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
           gridTemplateColumns: `200px ${trackWidth}px`,
         }}
       >
-        {visibleTasks.map((task, rowIdx) => {
+        {visibleTasks.map((task) => {
           const pos = positions.get(task.id)!;
           return (
             <div
@@ -323,17 +329,20 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
               width: trackWidth,
               height: trackHeight,
               pointerEvents: "none",
-              position: "relative",
+              alignSelf: "start",
+              justifySelf: "start",
+              zIndex: 1,
             }}
             width={trackWidth}
             height={trackHeight}
+            viewBox={`0 0 ${trackWidth} ${trackHeight}`}
           >
             {dependencyEdges.map(({ from, to }, i) => {
               const a = positions.get(from)!;
               const b = positions.get(to)!;
               const startX = a.left + a.width;
               const startY = a.centerY;
-              const endX = b.left;
+              const endX = Math.max(a.left + a.width + 4, b.left);
               const endY = b.centerY;
               const midX = startX + Math.max(8, (endX - startX) / 2);
               return (

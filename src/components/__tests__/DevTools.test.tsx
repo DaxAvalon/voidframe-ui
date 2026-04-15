@@ -9,6 +9,7 @@ import {
   NetworkInspector,
   QueryBuilder,
   ShortcutEditor,
+  toYaml,
 } from "../DevTools";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 
@@ -94,6 +95,38 @@ describe("DebugTree", () => {
       <DebugTree rootLabel="state" data={{ count: 2, items: [1, 2] }} />
     );
     expect(screen.getByText("state")).toBeInTheDocument();
+  });
+
+  it("renders YAML output when format='yaml'", () => {
+    const { container } = renderWithTheme(
+      <DebugTree format="yaml" data={{ name: "voidframe", version: 1 }} />
+    );
+    const pre = container.querySelector(".vf-debug-tree__yaml");
+    expect(pre).toBeTruthy();
+    expect(pre!.textContent).toContain("name: voidframe");
+    expect(pre!.textContent).toContain("version: 1");
+  });
+});
+
+describe("toYaml", () => {
+  it("serializes primitives and nested objects", () => {
+    const out = toYaml({ flag: true, count: 3, tags: ["a", "b"] });
+    expect(out).toContain("flag: true");
+    expect(out).toContain("count: 3");
+    expect(out).toContain("tags:");
+    expect(out).toContain("- a");
+    expect(out).toContain("- b");
+  });
+
+  it("quotes strings that would parse ambiguously", () => {
+    expect(toYaml("true")).toBe('"true"');
+    expect(toYaml("null")).toBe('"null"');
+    expect(toYaml("line\nbreak")).toBe('"line\\nbreak"');
+  });
+
+  it("handles empty collections", () => {
+    expect(toYaml([])).toBe("[]");
+    expect(toYaml({})).toBe("{}");
   });
 });
 

@@ -74,15 +74,17 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     );
   }
 
+  const { type: typeProp, ...restProps } = props as { type?: "button" | "submit" | "reset" };
   return (
     <button
       ref={ref}
+      type={typeProp ?? "button"}
       onClick={disabled ? undefined : onClick}
       aria-disabled={disabled || undefined}
       className={composedClass}
       style={composedStyle}
       {...dataAttrs}
-      {...props}
+      {...restProps}
     >
       {children}
     </button>

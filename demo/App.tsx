@@ -108,6 +108,7 @@ import {
   RadioGroup,
   RatingInput,
   ReactionPicker,
+  ResizableBox,
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
@@ -505,6 +506,44 @@ function LayoutSection() {
             </ResizablePanel>
           </ResizableGroup>
         </div>
+      </Block>
+      <Block label="ResizableBox (axis='both')">
+        <Flex gap={16} wrap>
+          <ResizableBox
+            axis="both"
+            defaultWidth={220}
+            defaultHeight={140}
+            minWidth={120}
+            minHeight={80}
+          >
+            <div style={{ padding: 12 }}>
+              <Label>BOTH</Label>
+              <Text size="sm" color="var(--vf-text-3)">
+                Drag the right edge, bottom edge, or corner.
+              </Text>
+            </div>
+          </ResizableBox>
+          <ResizableBox
+            axis="x"
+            defaultWidth={180}
+            defaultHeight={120}
+            minWidth={100}
+          >
+            <div style={{ padding: 12 }}>
+              <Label>X ONLY</Label>
+            </div>
+          </ResizableBox>
+          <ResizableBox
+            axis="y"
+            defaultWidth={180}
+            defaultHeight={120}
+            minHeight={80}
+          >
+            <div style={{ padding: 12 }}>
+              <Label>Y ONLY</Label>
+            </div>
+          </ResizableBox>
+        </Flex>
       </Block>
       <Block label="SplitView (legacy)">
         <div style={{ height: 160, border: "1px solid var(--vf-border-2)" }}>
@@ -2555,6 +2594,7 @@ function SpecialtyDevToolsSection() {
     ],
   });
   const [shortcut, setShortcut] = useState("mod+shift+k");
+  const [debugFormat, setDebugFormat] = useState<"json" | "yaml">("json");
   return (
     <Frame
       title="Specialty — Dev Tools"
@@ -2630,9 +2670,25 @@ function SpecialtyDevToolsSection() {
         />
       </Block>
       <Block label="DebugTree">
+        <Flex gap={12} align="center" style={{ marginBottom: 8 }}>
+          <ButtonGroup
+            options={[
+              { key: "json", label: "JSON" },
+              { key: "yaml", label: "YAML" },
+            ]}
+            value={debugFormat}
+            onChange={(k) => setDebugFormat(k as "json" | "yaml")}
+          />
+        </Flex>
         <DebugTree
           rootLabel="state"
-          data={{ count: 3, user: { id: "u1", role: "admin" }, pending: [1, 2] }}
+          format={debugFormat}
+          data={{
+            count: 3,
+            user: { id: "u1", role: "admin", tags: ["alpha", "beta"] },
+            pending: [1, 2],
+            settings: { dense: true, theme: null },
+          }}
           defaultExpanded={2}
         />
       </Block>
@@ -2947,11 +3003,12 @@ function SpecialtyWidgetsSection() {
       title="Specialty — Widgets + Print"
       description="WidgetShell, DashboardGrid, PrintLayout, PrintButton."
     >
-      <Block label="DashboardGrid (swap widgets)">
+      <Block label="DashboardGrid (drag to swap + corner resize)">
         <DashboardGrid
           items={layout}
           onLayoutChange={setLayout}
           swappable
+          resizable
           cols={12}
           rowHeight={56}
           renderItem={(id) => {

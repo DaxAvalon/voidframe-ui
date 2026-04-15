@@ -413,33 +413,112 @@ function formatTime(value: number | Date): string {
 
 // ── DebugTree ───────────────────────────────────────────────
 
+export type DebugTreeFormat = "json" | "yaml";
+
 export interface DebugTreeProps extends HTMLAttributes<HTMLDivElement> {
   data: unknown;
-  /** Depth to expand initially. Default 1. `true` expands all. */
+  /** Serialization format. Default `"json"` (uses the collapsible viewer). */
+  format?: DebugTreeFormat;
+  /** Depth to expand initially. Default 1. `true` expands all. Ignored for YAML. */
   defaultExpanded?: number | boolean;
   rootLabel?: ReactNode;
 }
 
 export const DebugTree = forwardRef<HTMLDivElement, DebugTreeProps>(
   function DebugTree(
-    { data, defaultExpanded = 2, rootLabel, className, ...props },
+    {
+      data,
+      format = "json",
+      defaultExpanded = 2,
+      rootLabel,
+      className,
+      ...props
+    },
     ref
   ) {
     return (
       <div
         ref={ref}
-        className={cx("vf-debug-tree", className)}
+        className={cx("vf-debug-tree", `vf-debug-tree--${format}`, className)}
+        data-format={format}
         {...props}
       >
         {rootLabel && (
           <header className="vf-debug-tree__label">{rootLabel}</header>
         )}
-        <JSONViewer data={data} defaultExpanded={defaultExpanded} />
+        {format === "yaml" ? (
+          <pre className="vf-debug-tree__yaml">{toYaml(data)}</pre>
+        ) : (
+          <JSONViewer data={data} defaultExpanded={defaultExpanded} />
+        )}
       </div>
     );
   }
 );
 DebugTree.displayName = "DebugTree";
+
+/**
+ * Minimal YAML serializer. Handles strings, numbers, booleans, null, arrays,
+ * plain objects. Non-safe keys / multi-line strings fall back to quoted form.
+ *
+ * Not a full YAML implementation — intended for debug/inspector display.
+ */
+export function toYaml(value: unknown, indent = 0): string {
+  const pad = "  ".repeat(indent);
+  if (value === null || value === undefined) return "null";
+  if (typeof value === "string") return yamlString(value);
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (Array.isArray(value)) {
+    if (value.length === 0) return "[]";
+    return value
+      .map((item) => {
+        if (isScalar(item)) return `${pad}- ${toYaml(item, 0)}`;
+        const rendered = toYaml(item, indent + 1);
+        // Place first line after the dash; indent remaining lines.
+        const lines = rendered.split("\n");
+        const firstTrimmed = lines[0]!.replace(/^ +/, "");
+        const rest = lines.slice(1).join("\n");
+        return `${pad}- ${firstTrimmed}${rest ? "\n" + rest : ""}`;
+      })
+      .join("\n");
+  }
+  if (typeof value === "object") {
+    const entries = Object.entries(value as Record<string, unknown>);
+    if (entries.length === 0) return "{}";
+    return entries
+      .map(([k, v]) => {
+        const key = yamlKey(k);
+        if (isScalar(v)) return `${pad}${key}: ${toYaml(v, 0)}`;
+        if (Array.isArray(v) && v.length === 0) return `${pad}${key}: []`;
+        if (v && typeof v === "object" && Object.keys(v).length === 0) return `${pad}${key}: {}`;
+        return `${pad}${key}:\n${toYaml(v, indent + 1)}`;
+      })
+      .join("\n");
+  }
+  return String(value);
+}
+
+function isScalar(v: unknown): boolean {
+  return (
+    v === null ||
+    v === undefined ||
+    typeof v === "string" ||
+    typeof v === "number" ||
+    typeof v === "boolean"
+  );
+}
+
+function yamlKey(key: string): string {
+  return /^[A-Za-z_][A-Za-z0-9_\-]*$/.test(key) ? key : JSON.stringify(key);
+}
+
+function yamlString(s: string): string {
+  if (s === "") return '""';
+  if (/[:\-#?&*!|>'"%@`\n\t]/.test(s) || /^\s|\s$/.test(s) || /^(true|false|null|yes|no|~)$/i.test(s)) {
+    return JSON.stringify(s);
+  }
+  return s;
+}
 
 // ── KeyValueEditor ──────────────────────────────────────────
 

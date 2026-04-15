@@ -129,6 +129,61 @@
   background: var(--vf-accent, var(--vf-green));
 }
 
+/* ── ResizableBox (freeform) ─────────────────────────────── */
+.vf-resizable-box {
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-2);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.vf-resizable-box__grip {
+  position: absolute;
+  background: transparent;
+  transition: background var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-resizable-box__grip:hover,
+.vf-resizable-box__grip:focus-visible {
+  background: var(--vf-accent, var(--vf-border-3));
+  outline: none;
+}
+.vf-resizable-box__grip--right {
+  top: 0; right: 0; bottom: 8px; width: 6px;
+  cursor: col-resize;
+}
+.vf-resizable-box__grip--bottom {
+  left: 0; right: 8px; bottom: 0; height: 6px;
+  cursor: row-resize;
+}
+.vf-resizable-box__grip--corner {
+  right: 0; bottom: 0; width: 12px; height: 12px;
+  cursor: nwse-resize;
+  background: linear-gradient(
+    135deg,
+    transparent 50%,
+    var(--vf-border-3) 50%,
+    var(--vf-border-3) 60%,
+    transparent 60%,
+    transparent 75%,
+    var(--vf-border-3) 75%,
+    var(--vf-border-3) 85%,
+    transparent 85%
+  );
+}
+.vf-resizable-box__grip--corner:hover,
+.vf-resizable-box__grip--corner:focus-visible {
+  background: linear-gradient(
+    135deg,
+    transparent 50%,
+    var(--vf-accent, var(--vf-text-1)) 50%,
+    var(--vf-accent, var(--vf-text-1)) 60%,
+    transparent 60%,
+    transparent 75%,
+    var(--vf-accent, var(--vf-text-1)) 75%,
+    var(--vf-accent, var(--vf-text-1)) 85%,
+    transparent 85%
+  );
+}
+
 /* ── Sticky ──────────────────────────────────────────────── */
 .vf-sticky { position: sticky; }
 

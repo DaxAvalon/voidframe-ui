@@ -595,12 +595,15 @@ export {
   ResizableGroup,
   ResizablePanel,
   ResizableHandle,
+  ResizableBox,
 } from "./Resizable";
 export type {
   ResizableDirection,
   ResizableGroupProps,
   ResizablePanelProps,
   ResizableHandleProps,
+  ResizableAxis,
+  ResizableBoxProps,
 } from "./Resizable";
 
 export { AppShell } from "./AppShell";
@@ -945,6 +948,7 @@ export {
   NetworkInspector,
   ConsoleOutput,
   DebugTree,
+  toYaml,
   KeyValueEditor,
   QueryBuilder,
   ShortcutEditor,
@@ -958,6 +962,7 @@ export type {
   ConsoleLevel,
   ConsoleEntry,
   ConsoleOutputProps,
+  DebugTreeFormat,
   DebugTreeProps,
   KeyValuePair,
   KeyValueEditorProps,

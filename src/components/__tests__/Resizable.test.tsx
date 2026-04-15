@@ -5,6 +5,7 @@ import {
   ResizableGroup,
   ResizablePanel,
   ResizableHandle,
+  ResizableBox,
 } from "../Resizable";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 
@@ -51,5 +52,68 @@ describe("Resizable", () => {
     );
     const h = screen.getByRole("separator");
     expect(h).toHaveAttribute("aria-orientation", "horizontal");
+  });
+});
+
+describe("ResizableBox", () => {
+  it("renders at the default size", () => {
+    const { container } = renderWithTheme(
+      <ResizableBox defaultWidth={240} defaultHeight={120}>
+        content
+      </ResizableBox>
+    );
+    const box = container.querySelector(".vf-resizable-box") as HTMLElement;
+    expect(box.style.width).toBe("240px");
+    expect(box.style.height).toBe("120px");
+  });
+
+  it("axis=x exposes only the width grip", () => {
+    const { container } = renderWithTheme(
+      <ResizableBox axis="x" defaultWidth={200} defaultHeight={100} />
+    );
+    expect(container.querySelector(".vf-resizable-box__grip--right")).toBeTruthy();
+    expect(container.querySelector(".vf-resizable-box__grip--bottom")).toBeFalsy();
+    expect(container.querySelector(".vf-resizable-box__grip--corner")).toBeFalsy();
+  });
+
+  it("axis=y exposes only the height grip", () => {
+    const { container } = renderWithTheme(
+      <ResizableBox axis="y" defaultWidth={200} defaultHeight={100} />
+    );
+    expect(container.querySelector(".vf-resizable-box__grip--right")).toBeFalsy();
+    expect(container.querySelector(".vf-resizable-box__grip--bottom")).toBeTruthy();
+    expect(container.querySelector(".vf-resizable-box__grip--corner")).toBeFalsy();
+  });
+
+  it("axis=both exposes right, bottom, and corner grips", () => {
+    const { container } = renderWithTheme(
+      <ResizableBox axis="both" defaultWidth={200} defaultHeight={100} />
+    );
+    expect(container.querySelector(".vf-resizable-box__grip--right")).toBeTruthy();
+    expect(container.querySelector(".vf-resizable-box__grip--bottom")).toBeTruthy();
+    expect(container.querySelector(".vf-resizable-box__grip--corner")).toBeTruthy();
+  });
+
+  it("corner drag resizes both dimensions and clamps to min", () => {
+    const onResize = vi.fn();
+    const { container } = renderWithTheme(
+      <ResizableBox
+        defaultWidth={200}
+        defaultHeight={100}
+        minWidth={80}
+        minHeight={60}
+        onResize={onResize}
+      />
+    );
+    const corner = container.querySelector(
+      ".vf-resizable-box__grip--corner"
+    ) as HTMLElement;
+    fireEvent.pointerDown(corner, { clientX: 100, clientY: 100, pointerId: 1 });
+    fireEvent.pointerMove(corner, { clientX: 50, clientY: 50, pointerId: 1 });
+    fireEvent.pointerUp(corner, { clientX: 50, clientY: 50, pointerId: 1 });
+    expect(onResize).toHaveBeenCalled();
+    const last = onResize.mock.calls.at(-1)![0];
+    expect(last.width).toBeGreaterThanOrEqual(80);
+    expect(last.height).toBeGreaterThanOrEqual(60);
   });
 });

@@ -10,6 +10,7 @@ import {
   useState,
   type CSSProperties,
   type HTMLAttributes,
+  type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
@@ -138,6 +139,12 @@ export interface DashboardGridProps extends HTMLAttributes<HTMLDivElement> {
   renderItem: (id: string, item: DashboardLayoutItem) => ReactNode;
   /** Enable drag-to-swap. Default false. */
   swappable?: boolean;
+  /** Enable corner-resize handles on each cell. Default false. */
+  resizable?: boolean;
+  /** Min width (cols) when resizing. Default 1. */
+  minW?: number;
+  /** Min height (rows) when resizing. Default 1. */
+  minH?: number;
 }
 
 export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
@@ -150,6 +157,9 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       gap = 8,
       renderItem,
       swappable,
+      resizable,
+      minW = 1,
+      minH = 1,
       className,
       style,
       ...props
@@ -161,11 +171,25 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
       gridAutoRows: `${rowHeight}px`,
       gap,
+      position: "relative",
       ...style,
     };
     const [draggingId, setDraggingId] = useState<string | null>(null);
-    const dragItemsRef = useRef(items);
-    dragItemsRef.current = items;
+    const [hoverId, setHoverId] = useState<string | null>(null);
+    const [resizing, setResizing] = useState<{
+      id: string;
+      startX: number;
+      startY: number;
+      startW: number;
+      startH: number;
+      colPx: number;
+    } | null>(null);
+    const gridRef = useRef<HTMLDivElement | null>(null);
+    const setGridRef = (node: HTMLDivElement | null) => {
+      gridRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) (ref as { current: HTMLDivElement | null }).current = node;
+    };
 
     const swap = useCallback(
       (fromId: string, toId: string) => {
@@ -186,45 +210,129 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       [items, onLayoutChange]
     );
 
+    const onResizeMove = useCallback(
+      (e: ReactPointerEvent<HTMLDivElement>) => {
+        if (!resizing || !onLayoutChange) return;
+        const dx = e.clientX - resizing.startX;
+        const dy = e.clientY - resizing.startY;
+        const dw = Math.round(dx / (resizing.colPx + gap));
+        const dh = Math.round(dy / (rowHeight + gap));
+        const nextW = Math.max(minW, Math.min(cols, resizing.startW + dw));
+        const nextH = Math.max(minH, resizing.startH + dh);
+        onLayoutChange(
+          items.map((item) =>
+            item.id === resizing.id
+              ? { ...item, w: Math.min(nextW, cols - item.x), h: nextH }
+              : item
+          )
+        );
+      },
+      [resizing, items, onLayoutChange, gap, rowHeight, cols, minW, minH]
+    );
+
+    const dropIndicator = hoverId
+      ? (() => {
+          const target = items.find((i) => i.id === hoverId);
+          if (!target) return null;
+          return (
+            <div
+              aria-hidden="true"
+              className="vf-dashboard-grid__drop-indicator"
+              style={{
+                gridColumn: `${target.x + 1} / span ${target.w}`,
+                gridRow: `${target.y + 1} / span ${target.h}`,
+              }}
+            />
+          );
+        })()
+      : null;
+
     return (
       <div
-        ref={ref}
+        ref={setGridRef}
         className={cx("vf-dashboard-grid", className)}
         style={gridStyle}
+        onPointerMove={resizing ? onResizeMove : undefined}
+        onPointerUp={resizing ? () => setResizing(null) : undefined}
+        onPointerCancel={resizing ? () => setResizing(null) : undefined}
         {...props}
       >
+        {dropIndicator}
         {items.map((item) => {
           const cell: CSSProperties = {
             gridColumn: `${item.x + 1} / span ${item.w}`,
             gridRow: `${item.y + 1} / span ${item.h}`,
+            position: "relative",
           };
           const isDragging = draggingId === item.id;
+          const isTarget = hoverId === item.id && draggingId && draggingId !== item.id;
           return (
             <div
               key={item.id}
               className={cx(
                 "vf-dashboard-grid__cell",
-                isDragging && "vf-dashboard-grid__cell--dragging"
+                isDragging && "vf-dashboard-grid__cell--dragging",
+                isTarget && "vf-dashboard-grid__cell--target"
               )}
               style={cell}
-              draggable={swappable}
+              draggable={swappable && !resizing}
               onDragStart={() => {
                 if (swappable) setDraggingId(item.id);
+              }}
+              onDragEnter={() => {
+                if (swappable && draggingId && draggingId !== item.id) {
+                  setHoverId(item.id);
+                }
               }}
               onDragOver={(e) => {
                 if (swappable && draggingId && draggingId !== item.id) {
                   e.preventDefault();
+                  setHoverId(item.id);
                 }
+              }}
+              onDragLeave={() => {
+                if (hoverId === item.id) setHoverId(null);
               }}
               onDrop={() => {
                 if (swappable && draggingId && draggingId !== item.id) {
                   swap(draggingId, item.id);
                 }
                 setDraggingId(null);
+                setHoverId(null);
               }}
-              onDragEnd={() => setDraggingId(null)}
+              onDragEnd={() => {
+                setDraggingId(null);
+                setHoverId(null);
+              }}
             >
               {renderItem(item.id, item)}
+              {resizable && onLayoutChange && (
+                <div
+                  role="separator"
+                  aria-label="Resize widget"
+                  className="vf-dashboard-grid__resize"
+                  onPointerDown={(e) => {
+                    e.stopPropagation();
+                    const gridEl = gridRef.current;
+                    if (!gridEl) return;
+                    const rect = gridEl.getBoundingClientRect();
+                    const colPx = (rect.width - gap * (cols - 1)) / cols;
+                    setResizing({
+                      id: item.id,
+                      startX: e.clientX,
+                      startY: e.clientY,
+                      startW: item.w,
+                      startH: item.h,
+                      colPx,
+                    });
+                    try {
+                      e.currentTarget.setPointerCapture(e.pointerId);
+                    } catch {
+                      /* noop */
+                    }
+                  }}
+                />
+              )}
             </div>
           );
         })}

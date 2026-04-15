@@ -275,6 +275,9 @@ interface SheetContextValue extends DrawerContextValue {
   snapIndex: number;
   setSnapIndex: (i: number) => void;
   snapPoints: number[];
+  /** Live drag offset (px). Positive = dragged down. `null` when not dragging. */
+  dragPx: number | null;
+  setDragPx: (next: number | null) => void;
 }
 
 const SheetContext = createContext<SheetContextValue | null>(null);
@@ -318,6 +321,7 @@ function SheetRoot({
   const contentId = `${baseId}-content`;
   const titleId = `${baseId}-title`;
   const [snapIndex, setSnapIndex] = useState<number>(defaultSnap);
+  const [dragPx, setDragPx] = useState<number | null>(null);
   const value = useMemo<SheetContextValue>(
     () => ({
       open: isOpen,
@@ -330,8 +334,10 @@ function SheetRoot({
       snapIndex,
       setSnapIndex,
       snapPoints,
+      dragPx,
+      setDragPx,
     }),
-    [isOpen, setOpen, triggerId, contentId, titleId, modal, snapIndex, snapPoints]
+    [isOpen, setOpen, triggerId, contentId, titleId, modal, snapIndex, snapPoints, dragPx]
   );
   return <SheetContext.Provider value={value}>{children}</SheetContext.Provider>;
 }
@@ -365,6 +371,15 @@ function SheetContent({
 }: HTMLAttributes<HTMLDivElement>) {
   const ctx = useSheet();
   const heightRatio = ctx.snapPoints[ctx.snapIndex] ?? 0.4;
+  // While dragging, override the snap-based height with a continuous px value
+  // so the panel tracks the pointer smoothly.
+  const vh = typeof window !== "undefined" ? window.innerHeight : 800;
+  const baseHeight = heightRatio * vh;
+  const dragging = ctx.dragPx !== null;
+  const liveHeight = Math.max(60, Math.min(vh, baseHeight - (ctx.dragPx ?? 0)));
+  const mergedStyle: CSSProperties = dragging
+    ? { height: `${liveHeight}px`, transition: "none", ...style }
+    : { height: `${heightRatio * 100}vh`, ...style };
   const inner = (
     <div className="vf-sheet">
       {ctx.modal && (
@@ -385,7 +400,8 @@ function SheetContent({
           aria-modal={ctx.modal || undefined}
           aria-labelledby={ctx.titleId}
           className={cx("vf-sheet__panel", className)}
-          style={{ height: `${heightRatio * 100}vh`, ...style }}
+          style={mergedStyle}
+          data-dragging={dragging || undefined}
           {...props}
         >
           {children}
@@ -403,11 +419,10 @@ function SheetContent({
 function SheetHandle(props: HTMLAttributes<HTMLDivElement>) {
   const ctx = useSheet();
   const startY = useRef<number | null>(null);
-  const startSnap = useRef<number>(ctx.snapIndex);
 
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     startY.current = e.clientY;
-    startSnap.current = ctx.snapIndex;
+    ctx.setDragPx(0);
     try {
       e.currentTarget.setPointerCapture(e.pointerId);
     } catch {
@@ -415,26 +430,31 @@ function SheetHandle(props: HTMLAttributes<HTMLDivElement>) {
     }
   };
   const onPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (startY.current === null || typeof window === "undefined") return;
-    const dy = e.clientY - startY.current;
-    const ratioDelta = dy / window.innerHeight;
-    if (Math.abs(ratioDelta) < 0.05) return;
-    const direction = ratioDelta > 0 ? -1 : 1;
-    const next = Math.max(
-      0,
-      Math.min(ctx.snapPoints.length - 1, startSnap.current + direction)
-    );
-    if (next !== ctx.snapIndex) {
-      ctx.setSnapIndex(next);
-    }
+    if (startY.current === null) return;
+    ctx.setDragPx(e.clientY - startY.current);
   };
   const onPointerUp = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (startY.current === null) return;
     const dy = e.clientY - startY.current;
-    if (typeof window !== "undefined" && dy / window.innerHeight > 0.25) {
+    const vh = typeof window !== "undefined" ? window.innerHeight : 800;
+    const startRatio = ctx.snapPoints[ctx.snapIndex] ?? 0.4;
+    const endRatio = Math.max(0, startRatio - dy / vh);
+    // Close if user dragged past 60% of the smallest snap.
+    const smallest = ctx.snapPoints[0] ?? 0.4;
+    if (endRatio < smallest * 0.6) {
       ctx.setOpen(false);
+    } else {
+      // Snap to nearest point.
+      let nearest = 0;
+      let best = Infinity;
+      ctx.snapPoints.forEach((p, i) => {
+        const d = Math.abs(p - endRatio);
+        if (d < best) { best = d; nearest = i; }
+      });
+      if (nearest !== ctx.snapIndex) ctx.setSnapIndex(nearest);
     }
     startY.current = null;
+    ctx.setDragPx(null);
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
     } catch {
@@ -451,6 +471,7 @@ function SheetHandle(props: HTMLAttributes<HTMLDivElement>) {
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
       {...props}
     />
   );

@@ -296,3 +296,164 @@ export const ResizableHandle = forwardRef<HTMLDivElement, ResizableHandleProps>(
   }
 );
 ResizableHandle.displayName = "ResizableHandle";
+
+// ── ResizableBox ─────────────────────────────────────────────
+//
+// Standalone freeform resize: drag the corner (or edge) grip to resize a
+// single box. Use `axis="x"` / `"y"` / `"both"` to limit the dimensions.
+
+export type ResizableAxis = "x" | "y" | "both";
+
+export interface ResizableBoxProps extends HTMLAttributes<HTMLDivElement> {
+  axis?: ResizableAxis;
+  defaultWidth?: number;
+  defaultHeight?: number;
+  width?: number;
+  height?: number;
+  minWidth?: number;
+  minHeight?: number;
+  maxWidth?: number;
+  maxHeight?: number;
+  onResize?: (size: { width: number; height: number }) => void;
+  children?: ReactNode;
+}
+
+export const ResizableBox = forwardRef<HTMLDivElement, ResizableBoxProps>(
+  function ResizableBox(
+    {
+      axis = "both",
+      defaultWidth = 320,
+      defaultHeight = 200,
+      width: controlledW,
+      height: controlledH,
+      minWidth = 80,
+      minHeight = 60,
+      maxWidth,
+      maxHeight,
+      onResize,
+      className,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) {
+    const [w, setW] = useState(controlledW ?? defaultWidth);
+    const [h, setH] = useState(controlledH ?? defaultHeight);
+    const liveW = controlledW ?? w;
+    const liveH = controlledH ?? h;
+    const dragging = useRef<{
+      startX: number;
+      startY: number;
+      startW: number;
+      startH: number;
+      which: "corner" | "right" | "bottom";
+    } | null>(null);
+
+    const clamp = useCallback(
+      (next: { width: number; height: number }) => ({
+        width: Math.max(minWidth, Math.min(maxWidth ?? Infinity, next.width)),
+        height: Math.max(minHeight, Math.min(maxHeight ?? Infinity, next.height)),
+      }),
+      [minWidth, minHeight, maxWidth, maxHeight]
+    );
+
+    const onDown =
+      (which: "corner" | "right" | "bottom") =>
+      (e: ReactPointerEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        dragging.current = {
+          startX: e.clientX,
+          startY: e.clientY,
+          startW: liveW,
+          startH: liveH,
+          which,
+        };
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId);
+        } catch {
+          /* noop */
+        }
+      };
+    const onMove = (e: ReactPointerEvent<HTMLDivElement>) => {
+      const d = dragging.current;
+      if (!d) return;
+      const dx = e.clientX - d.startX;
+      const dy = e.clientY - d.startY;
+      const next = clamp({
+        width:
+          (axis === "y" || d.which === "bottom") ? d.startW : d.startW + dx,
+        height:
+          (axis === "x" || d.which === "right") ? d.startH : d.startH + dy,
+      });
+      if (controlledW === undefined) setW(next.width);
+      if (controlledH === undefined) setH(next.height);
+      onResize?.(next);
+    };
+    const onUp = (e: ReactPointerEvent<HTMLDivElement>) => {
+      if (!dragging.current) return;
+      dragging.current = null;
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch {
+        /* noop */
+      }
+    };
+
+    const showX = axis !== "y";
+    const showY = axis !== "x";
+    const showCorner = axis === "both";
+
+    return (
+      <div
+        ref={ref}
+        className={cx("vf-resizable-box", className)}
+        style={{
+          width: `${liveW}px`,
+          height: `${liveH}px`,
+          position: "relative",
+          ...style,
+        }}
+        {...props}
+      >
+        {children}
+        {showX && (
+          <div
+            role="separator"
+            aria-orientation="vertical"
+            aria-label="Resize width"
+            className="vf-resizable-box__grip vf-resizable-box__grip--right"
+            onPointerDown={onDown("right")}
+            onPointerMove={onMove}
+            onPointerUp={onUp}
+            onPointerCancel={onUp}
+          />
+        )}
+        {showY && (
+          <div
+            role="separator"
+            aria-orientation="horizontal"
+            aria-label="Resize height"
+            className="vf-resizable-box__grip vf-resizable-box__grip--bottom"
+            onPointerDown={onDown("bottom")}
+            onPointerMove={onMove}
+            onPointerUp={onUp}
+            onPointerCancel={onUp}
+          />
+        )}
+        {showCorner && (
+          <div
+            role="separator"
+            aria-label="Resize"
+            className="vf-resizable-box__grip vf-resizable-box__grip--corner"
+            onPointerDown={onDown("corner")}
+            onPointerMove={onMove}
+            onPointerUp={onUp}
+            onPointerCancel={onUp}
+          />
+        )}
+      </div>
+    );
+  }
+);
+ResizableBox.displayName = "ResizableBox";
