@@ -149,6 +149,90 @@ button.vf-chart-legend__item:focus-visible {
   shape-rendering: crispEdges;
 }
 
+/* ── Series (Bar / Line / Area / Point / Arc) ─────────────── */
+.vf-chart-bar__rect,
+.vf-chart-arc path {
+  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-bar__rect:hover,
+.vf-chart-arc path:hover {
+  opacity: 0.82;
+}
+
+/* ── Bar / line / area / scatter / composed chart wrappers ── */
+.vf-chart-bar-chart,
+.vf-chart-line-chart,
+.vf-chart-area-chart,
+.vf-chart-scatter,
+.vf-chart-composed,
+.vf-chart-histogram {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+  color: var(--vf-text-1);
+}
+
+/* ── Pie / Donut ──────────────────────────────────────────── */
+.vf-chart-pie {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+}
+.vf-chart-pie__svg {
+  align-self: start;
+}
+
+/* ── Radar ────────────────────────────────────────────────── */
+.vf-chart-radar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+}
+.vf-chart-radar__ring,
+.vf-chart-radar__axis {
+  stroke: var(--vf-border-1);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.vf-chart-radar__label {
+  font-size: var(--vf-font-xxs);
+  fill: var(--vf-text-3);
+}
+
+/* ── Calendar heatmap + Heatmap ───────────────────────────── */
+.vf-chart-calheat,
+.vf-chart-heatmap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+}
+.vf-chart-calheat__month,
+.vf-chart-heatmap__col-label,
+.vf-chart-heatmap__row-label,
+.vf-chart-calheat__day {
+  font-size: var(--vf-font-xxs);
+  fill: var(--vf-text-3);
+}
+.vf-chart-calheat__cell,
+.vf-chart-heatmap__cell {
+  stroke: var(--vf-border-0);
+  stroke-width: 1;
+  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-calheat__cell:hover,
+.vf-chart-heatmap__cell:hover {
+  stroke: var(--vf-text-2);
+  stroke-width: 1.5;
+}
+
+/* ── Sparkline ────────────────────────────────────────────── */
+.vf-chart-sparkline {
+  vertical-align: middle;
+}
+
 /* ── Density overrides ────────────────────────────────────── */
 [data-vf-density="compact"] .vf-chart-axis__label,
 [data-vf-density="compact"] .vf-chart-tooltip,

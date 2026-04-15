@@ -86,3 +86,66 @@ export type { NearestResult } from "./math/bisector";
 
 export { seriesPalette, defaultSeriesPalette } from "./math/color";
 export type { SeriesPaletteOptions } from "./math/color";
+
+// ── Phase 22: core charts ──────────────────────────────────
+export { BarChart } from "./BarChart";
+export type {
+  BarChartDatum,
+  BarChartMode,
+  BarChartOrientation,
+  BarChartProps,
+  BarChartSeries,
+} from "./BarChart";
+
+export { LineChart } from "./LineChart";
+export type {
+  LineChartDatum,
+  LineChartProps,
+  LineChartSeries,
+  LineChartXKind,
+} from "./LineChart";
+
+export { AreaChart } from "./AreaChart";
+export type {
+  AreaChartDatum,
+  AreaChartMode,
+  AreaChartProps,
+  AreaChartSeries,
+} from "./AreaChart";
+
+export { ScatterPlot, BubbleChart } from "./ScatterPlot";
+export type {
+  ScatterDatum,
+  ScatterPlotProps,
+  ScatterSeries,
+} from "./ScatterPlot";
+
+export { ComposedChart } from "./ComposedChart";
+export type {
+  ComposedChartDatum,
+  ComposedChartProps,
+  ComposedChartSeries,
+  ComposedSeriesType,
+  ComposedXKind,
+} from "./ComposedChart";
+
+export { PieChart, DonutChart } from "./PieChart";
+export type { PieChartDatum, PieChartProps } from "./PieChart";
+
+export { RadarChart } from "./RadarChart";
+export type { RadarChartProps, RadarSeries } from "./RadarChart";
+
+export { Histogram } from "./Histogram";
+export type { HistogramProps } from "./Histogram";
+
+export { CalendarHeatmap } from "./CalendarHeatmap";
+export type {
+  CalendarHeatmapCell,
+  CalendarHeatmapProps,
+} from "./CalendarHeatmap";
+
+export { Sparkline } from "./Sparkline";
+export type { SparklineProps } from "./Sparkline";
+
+export { Heatmap } from "./Heatmap";
+export type { HeatmapCellData, HeatmapProps } from "./Heatmap";

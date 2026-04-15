@@ -22,7 +22,8 @@ import {
   StatusIndicator,
   TrendIndicator,
 } from "../Metrics";
-import { ChartContainer, Heatmap, Sparkline } from "../Charts";
+// Legacy Charts were removed in Phase 22 — their replacements are tested
+// under src/charts/__tests__/.
 import {
   CodeBlock,
   DiffViewer,
@@ -368,40 +369,7 @@ describe("Metrics", () => {
   });
 });
 
-// ── Charts ──
-
-describe("Charts", () => {
-  it("Sparkline renders an SVG path", () => {
-    const { container } = renderWithTheme(
-      <Sparkline data={[1, 2, 3, 4, 5]} />
-    );
-    expect(container.querySelector("svg path")).toBeInTheDocument();
-  });
-
-  it("Heatmap renders a cell per column per row", () => {
-    const { container } = renderWithTheme(
-      <Heatmap
-        rows={["r1"]}
-        columns={["c1", "c2"]}
-        data={[
-          { x: "c1", y: "r1", value: 1 },
-          { x: "c2", y: "r1", value: 2 },
-        ]}
-      />
-    );
-    expect(container.querySelectorAll(".vf-heatmap__cell").length).toBe(2);
-  });
-
-  it("ChartContainer renders title + body", () => {
-    renderWithTheme(
-      <ChartContainer title="Revenue">
-        <div data-testid="body">body</div>
-      </ChartContainer>
-    );
-    expect(screen.getByText("Revenue")).toBeInTheDocument();
-    expect(screen.getByTestId("body")).toBeInTheDocument();
-  });
-});
+// Charts tests moved to src/charts/__tests__/ in Phase 22.
 
 // ── Viewers ──
 

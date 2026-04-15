@@ -106,17 +106,17 @@ export const LazyCalendar: L<
   import("./components/Calendar").then((m) => ({ default: m.Calendar }))
 );
 
-// Charts / heavy visualizations
+// Charts / heavy visualizations — Phase 22 charts live in src/charts/.
 export const LazySparkline: L<
-  import("./components/Charts").SparklineProps
+  import("./charts/Sparkline").SparklineProps
 > = lazy(() =>
-  import("./components/Charts").then((m) => ({ default: m.Sparkline }))
+  import("./charts/Sparkline").then((m) => ({ default: m.Sparkline }))
 );
 
 export const LazyHeatmap: L<
-  import("./components/Charts").HeatmapProps
+  import("./charts/Heatmap").HeatmapProps
 > = lazy(() =>
-  import("./components/Charts").then((m) => ({ default: m.Heatmap }))
+  import("./charts/Heatmap").then((m) => ({ default: m.Heatmap }))
 );
 
 // Capture / media-heavy

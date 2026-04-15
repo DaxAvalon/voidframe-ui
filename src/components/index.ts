@@ -509,13 +509,9 @@ export type {
   StatusIndicatorStatus,
 } from "./Metrics";
 
-export { Sparkline, Heatmap, ChartContainer } from "./Charts";
-export type {
-  SparklineProps,
-  HeatmapProps,
-  HeatmapCell,
-  ChartContainerProps,
-} from "./Charts";
+// Legacy Sparkline / Heatmap / ChartContainer removed in Phase 22. The
+// new implementations live under `src/charts/` and are exported via the
+// "Phase 21: chart foundations" block below.
 
 export {
   CodeBlock,

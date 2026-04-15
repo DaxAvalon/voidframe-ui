@@ -19,7 +19,7 @@ import { Calendar, type CalendarRange } from "../Calendar";
 import { TreeView } from "../TreeView";
 import { Gantt } from "../Gantt";
 import { Kanban } from "../Kanban";
-import { Heatmap } from "../Charts";
+// Legacy Heatmap removed in Phase 22. The replacement lives in src/charts/.
 import { MarkdownRenderer } from "../Viewers";
 
 // ── DataGrid ──
@@ -360,22 +360,7 @@ describe("Kanban (closeout)", () => {
   });
 });
 
-// ── Heatmap ──
-
-describe("Heatmap (closeout)", () => {
-  it("hover on a cell shows a tooltip", () => {
-    renderWithTheme(
-      <Heatmap
-        rows={["r"]}
-        columns={["c"]}
-        data={[{ x: "c", y: "r", value: 7 }]}
-      />
-    );
-    const cell = screen.getByRole("gridcell");
-    fireEvent.mouseEnter(cell);
-    expect(screen.getByRole("tooltip")).toHaveTextContent("r × c: 7");
-  });
-});
+// Legacy Heatmap test removed in Phase 22 — new Heatmap is tested under src/charts/.
 
 // ── MarkdownRenderer ──
 

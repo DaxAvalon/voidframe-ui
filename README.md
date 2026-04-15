@@ -280,9 +280,11 @@ Tables: `Table`, `DataGrid` (sort / filter / resize / reorder / group / virtuali
 
 Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortable`.
 
-Metrics: `Stat`, `StatGroup`, `MetricCard`, `CircularProgress`, `Sparkline`, `ChartContainer`.
+Metrics: `Stat`, `StatGroup`, `MetricCard`, `CircularProgress`.
 
-Charts (Phase 21 foundations — primitives ready for the chart library shipping in Phases 22–24):
+Charts — hand-rolled SVG library. Math uses d3-scale / d3-shape / d3-array / d3-time for algorithms; every rendered element, CSS class, and interaction is ours and themed through `--vf-*` tokens.
+
+**Primitives (Phase 21):**
 
 | Primitive | Purpose |
 |-----------|---------|
@@ -294,7 +296,23 @@ Charts (Phase 21 foundations — primitives ready for the chart library shipping
 | `Crosshair` | SVG guide lines + point at `(x, y)` in plot-space coords |
 | `Brush` | Drag-select range on X or Y axis, controlled + uncontrolled |
 
-Math utilities (thin wrappers over d3-scale / d3-shape / d3-array / d3-time — algorithms only, every rendered element is ours): `linearScale`, `logScale`, `sqrtScale`, `timeScale`, `bandScale`, `pointScale`, `quantizeScale`, `generateTicks`, `stackSeries`, `resolveCurve`, `bisectNearest`, `scanNearest`, `seriesPalette`.
+**Chart families (Phase 22):**
+
+| Chart | Variants |
+|-------|----------|
+| `BarChart` | vertical / horizontal, grouped / stacked / 100%-stacked |
+| `LineChart` | single + multi-series, linear/step/monotone/catmull-rom curves, dashed, crosshair |
+| `AreaChart` | single / stacked / 100%-stacked |
+| `ScatterPlot`, `BubbleChart` | square/circle/diamond/cross shapes, sqrt size scale for bubbles |
+| `ComposedChart` | bar + line + area + scatter on shared axes |
+| `PieChart`, `DonutChart` | configurable inner radius, pad/corner angles |
+| `RadarChart` | multi-series polygon over shared axes |
+| `Histogram` | auto-bin via d3-array, tooltip per bin |
+| `CalendarHeatmap` | GitHub contribution-graph style, quantized color scale |
+| `Sparkline` | inline micro-chart, optional area + trend + points |
+| `Heatmap` | row × column matrix, quantized color scale |
+
+**Math utilities:** `linearScale`, `logScale`, `sqrtScale`, `timeScale`, `bandScale`, `pointScale`, `quantizeScale`, `generateTicks`, `stackSeries`, `resolveCurve`, `bisectNearest`, `scanNearest`, `seriesPalette`.
 
 Calendars: `Calendar` (month/week/day views, range selection).
 

@@ -31,10 +31,20 @@ import {
   Callout,
   Card,
   Carousel,
-  ChartContainer,
+  AreaChart,
+  BarChart,
+  BubbleChart,
+  CalendarHeatmap,
   ChartFrame,
   ChartLegend,
   ChartTooltip,
+  ComposedChart,
+  DonutChart,
+  Histogram,
+  LineChart,
+  PieChart,
+  RadarChart,
+  ScatterPlot,
   Axis,
   Brush,
   Crosshair,
@@ -1211,27 +1221,187 @@ function MetricsSection() {
 }
 
 function ChartsSection() {
+  const salesData = [
+    { category: "Jan", mobile: 30, desktop: 52, tablet: 14 },
+    { category: "Feb", mobile: 45, desktop: 60, tablet: 18 },
+    { category: "Mar", mobile: 52, desktop: 48, tablet: 20 },
+    { category: "Apr", mobile: 68, desktop: 72, tablet: 22 },
+    { category: "May", mobile: 75, desktop: 80, tablet: 28 },
+    { category: "Jun", mobile: 90, desktop: 94, tablet: 34 },
+  ];
+  const timeSeries = Array.from({ length: 30 }, (_, i) => {
+    const t = i;
+    return {
+      x: t,
+      users: 100 + Math.sin(t / 4) * 30 + t * 2,
+      sessions: 80 + Math.cos(t / 3) * 20 + t * 1.5,
+    };
+  });
+  const scatterData = Array.from({ length: 30 }, (_, i) => ({
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: 10 + Math.random() * 40,
+  }));
+  const pieData = [
+    { key: "infra", label: "Infra", value: 42 },
+    { key: "research", label: "Research", value: 28 },
+    { key: "design", label: "Design", value: 18 },
+    { key: "ops", label: "Ops", value: 12 },
+  ];
+  const histogramValues = Array.from({ length: 400 }, () => {
+    // roughly bell-shaped
+    return (Math.random() + Math.random() + Math.random()) / 3;
+  });
+  const radarValues = {
+    alice: [80, 65, 90, 70, 55, 85],
+    bob: [60, 85, 60, 80, 70, 60],
+  };
+  const calHeatmapStart = new Date(2026, 0, 1);
+  const calHeatmapEnd = new Date(2026, 3, 30);
+  const calHeatmapData: import("../src").CalendarHeatmapCell[] = [];
+  for (let i = 0; i < 120; i++) {
+    const d = new Date(calHeatmapStart);
+    d.setDate(d.getDate() + i);
+    if (Math.random() > 0.2) {
+      calHeatmapData.push({ date: d, value: Math.floor(Math.random() * 12) });
+    }
+  }
   return (
-    <Frame title="Data — Charts (legacy)" description="Sparkline, Heatmap, ChartContainer. Replaced in Phase 22 by the new chart library.">
-      <Block label="Sparkline">
-        <Sparkline data={[3, 5, 2, 8, 6, 9, 7, 11]} showArea showTrend />
-      </Block>
-      <Block label="Heatmap">
-        <Heatmap
-          rows={["Mon", "Tue", "Wed"]}
-          columns={["00", "06", "12", "18"]}
-          data={[
-            { x: "00", y: "Mon", value: 1 },
-            { x: "06", y: "Mon", value: 4 },
-            { x: "12", y: "Tue", value: 8 },
-            { x: "18", y: "Wed", value: 3 },
+    <Frame
+      title="Data — Charts"
+      description="Hand-rolled SVG chart library. BarChart, LineChart, AreaChart, ScatterPlot, BubbleChart, ComposedChart, PieChart, DonutChart, RadarChart, Histogram, CalendarHeatmap, Sparkline, Heatmap."
+    >
+      <Block label="BarChart — grouped">
+        <BarChart
+          data={salesData}
+          series={[
+            { key: "mobile", label: "Mobile" },
+            { key: "desktop", label: "Desktop" },
+            { key: "tablet", label: "Tablet" },
           ]}
+          height={260}
         />
       </Block>
-      <Block label="ChartContainer">
-        <ChartContainer title="Revenue" description="Last 30 days">
-          <Sparkline data={[1, 3, 2, 6, 4, 8, 7]} showArea />
-        </ChartContainer>
+      <Block label="BarChart — stacked 100%">
+        <BarChart
+          data={salesData}
+          series={[
+            { key: "mobile", label: "Mobile" },
+            { key: "desktop", label: "Desktop" },
+            { key: "tablet", label: "Tablet" },
+          ]}
+          mode="100%-stacked"
+          height={260}
+          valueFormat={(v) => `${Math.round(v * 100)}%`}
+        />
+      </Block>
+      <Block label="BarChart — horizontal">
+        <BarChart
+          data={salesData}
+          series={[{ key: "mobile", label: "Mobile" }]}
+          orientation="horizontal"
+          height={260}
+        />
+      </Block>
+      <Block label="LineChart (multi-series, monotone curve)">
+        <LineChart
+          data={timeSeries}
+          series={[
+            { key: "users", label: "Users", curve: "monotone" },
+            { key: "sessions", label: "Sessions", curve: "monotone", dashed: true },
+          ]}
+          height={260}
+        />
+      </Block>
+      <Block label="AreaChart — stacked">
+        <AreaChart
+          data={salesData.map((d) => ({
+            x: d.category,
+            mobile: d.mobile,
+            desktop: d.desktop,
+            tablet: d.tablet,
+          }))}
+          series={[
+            { key: "mobile", label: "Mobile" },
+            { key: "desktop", label: "Desktop" },
+            { key: "tablet", label: "Tablet" },
+          ]}
+          xKind="category"
+          mode="stacked"
+          height={260}
+        />
+      </Block>
+      <Block label="ScatterPlot + BubbleChart">
+        <ScatterPlot
+          data={scatterData}
+          height={260}
+          shape="square"
+        />
+      </Block>
+      <Block label="ComposedChart (bar + line)">
+        <ComposedChart
+          data={salesData.map((d) => ({
+            x: d.category,
+            desktop: d.desktop,
+            mobile: d.mobile,
+          }))}
+          series={[
+            { key: "desktop", type: "bar", label: "Desktop" },
+            { key: "mobile", type: "line", label: "Mobile", curve: "monotone" },
+          ]}
+          xKind="category"
+          height={260}
+        />
+      </Block>
+      <Block label="PieChart / DonutChart">
+        <Flex gap={24} wrap align="flex-start">
+          <PieChart data={pieData} size={240} />
+          <DonutChart data={pieData} size={240} />
+        </Flex>
+      </Block>
+      <Block label="RadarChart">
+        <RadarChart
+          axes={["Vision", "Execution", "Focus", "Pace", "Clarity", "Polish"]}
+          series={[
+            { key: "alice", label: "Alice", values: radarValues.alice },
+            { key: "bob", label: "Bob", values: radarValues.bob },
+          ]}
+          size={320}
+        />
+      </Block>
+      <Block label="Histogram">
+        <Histogram values={histogramValues} bins={24} height={240} />
+      </Block>
+      <Block label="CalendarHeatmap">
+        <CalendarHeatmap
+          start={calHeatmapStart}
+          end={calHeatmapEnd}
+          data={calHeatmapData}
+        />
+      </Block>
+      <Block label="Sparkline (new)">
+        <Flex gap={16} align="center">
+          <Sparkline data={[3, 5, 2, 8, 6, 9, 7, 11]} showArea showTrend />
+          <Sparkline data={[11, 8, 9, 6, 7, 3, 5, 2]} showArea curve="monotone" />
+          <Sparkline data={[4, 5, 4, 5, 4, 5, 4, 5]} showPoints />
+        </Flex>
+      </Block>
+      <Block label="Heatmap (new)">
+        <Heatmap
+          rows={["Mon", "Tue", "Wed", "Thu", "Fri"]}
+          columns={["00", "04", "08", "12", "16", "20"]}
+          data={[
+            { x: "00", y: "Mon", value: 1 },
+            { x: "04", y: "Mon", value: 2 },
+            { x: "08", y: "Mon", value: 6 },
+            { x: "12", y: "Tue", value: 8 },
+            { x: "16", y: "Wed", value: 3 },
+            { x: "20", y: "Thu", value: 4 },
+            { x: "04", y: "Fri", value: 7 },
+            { x: "08", y: "Fri", value: 9 },
+            { x: "12", y: "Fri", value: 5 },
+          ]}
+        />
       </Block>
     </Frame>
   );
