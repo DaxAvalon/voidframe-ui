@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { useId } from "../hooks/useId";
@@ -308,7 +308,7 @@ export interface KbdProps extends HTMLAttributes<HTMLElement> {
   style?: CSSProperties;
 }
 
-export const Kbd = forwardRef<HTMLElement, KbdProps>(function Kbd(
+const KbdImpl = forwardRef<HTMLElement, KbdProps>(function Kbd(
   { keys, children, className, style, ...props },
   ref
 ) {
@@ -323,4 +323,6 @@ export const Kbd = forwardRef<HTMLElement, KbdProps>(function Kbd(
     </kbd>
   );
 });
-Kbd.displayName = "Kbd";
+KbdImpl.displayName = "Kbd";
+export const Kbd = memo(KbdImpl);
+(Kbd as unknown as { displayName: string }).displayName = "Kbd";

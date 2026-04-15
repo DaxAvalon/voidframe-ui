@@ -7,7 +7,7 @@
 // xl=24, xxl=32. Icons are decorative by default; supplying `label`
 // promotes them to img role with that accessible name.
 
-import { forwardRef, type ReactNode, type SVGProps } from "react";
+import { forwardRef, memo, type ReactNode, type SVGProps } from "react";
 import { cx } from "../utils/cx";
 
 export type IconSize = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
@@ -44,7 +44,7 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, "children"> {
   children?: ReactNode;
 }
 
-export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
+const IconImpl = forwardRef<SVGSVGElement, IconProps>(function Icon(
   {
     size = "md",
     color,
@@ -108,4 +108,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
     </svg>
   );
 });
-Icon.displayName = "Icon";
+IconImpl.displayName = "Icon";
+/** Memoized leaf — icons render frequently inside rows/lists. */
+export const Icon = memo(IconImpl);
+(Icon as unknown as { displayName: string }).displayName = "Icon";

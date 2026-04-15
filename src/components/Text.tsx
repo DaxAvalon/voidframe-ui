@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import type { Size } from "../types";
 import { cx } from "../utils/cx";
@@ -103,7 +103,7 @@ export interface LabelProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
 }
 
 /** Uppercase chrome label. Render as `<label>` + `htmlFor` to associate with a form input. */
-export const Label = forwardRef<HTMLElement, LabelProps>(function Label(
+const LabelImpl = forwardRef<HTMLElement, LabelProps>(function Label(
   { children, color, className, style, as: Tag = "span", htmlFor, ...props },
   ref
 ) {
@@ -121,7 +121,9 @@ export const Label = forwardRef<HTMLElement, LabelProps>(function Label(
     </Tag>
   );
 });
-Label.displayName = "Label";
+LabelImpl.displayName = "Label";
+export const Label = memo(LabelImpl);
+(Label as unknown as { displayName: string }).displayName = "Label";
 
 export interface DividerProps extends HTMLAttributes<HTMLDivElement> {
   color?: string;
@@ -135,7 +137,7 @@ export interface DividerProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /** Horizontal or vertical rule; can wrap a label inline for "OR"-style separators. */
-export const Divider = forwardRef<HTMLDivElement, DividerProps>(function Divider(
+const DividerImpl = forwardRef<HTMLDivElement, DividerProps>(function Divider(
   { color, spacing, orientation = "horizontal", label, className, style, ...props },
   ref
 ) {
@@ -181,7 +183,9 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(function Divider
     />
   );
 });
-Divider.displayName = "Divider";
+DividerImpl.displayName = "Divider";
+export const Divider = memo(DividerImpl);
+(Divider as unknown as { displayName: string }).displayName = "Divider";
 
 export interface SpacerProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
@@ -189,7 +193,7 @@ export interface SpacerProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /** Vertical spacer. */
-export const Spacer = forwardRef<HTMLDivElement, SpacerProps>(function Spacer(
+const SpacerImpl = forwardRef<HTMLDivElement, SpacerProps>(function Spacer(
   { size, className, style, ...props },
   ref
 ) {
@@ -203,4 +207,6 @@ export const Spacer = forwardRef<HTMLDivElement, SpacerProps>(function Spacer(
     />
   );
 });
-Spacer.displayName = "Spacer";
+SpacerImpl.displayName = "Spacer";
+export const Spacer = memo(SpacerImpl);
+(Spacer as unknown as { displayName: string }).displayName = "Spacer";

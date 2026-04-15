@@ -1,0 +1,45 @@
+/* Phase 20 — Performance hints
+ *
+ * `contain` tells the browser a subtree doesn't affect siblings, so it
+ * can skip expensive layout / paint invalidation when the subtree
+ * changes. Safe on overlays because they're fixed-position portals
+ * whose layout is independent from the page flow.
+ *
+ * `content-visibility: auto` lets the browser skip rendering of
+ * off-screen descendants, with huge wins on long lists. We opt it in
+ * via a utility class so virtualized lists and very tall panels can
+ * benefit without guessing when it's appropriate.
+ */
+
+.vf-modal__panel,
+.vf-drawer__panel,
+.vf-drawer-v2__panel,
+.vf-popover-v2,
+.vf-tooltip-v2,
+.vf-dialog__content,
+.vf-sheet__content,
+.vf-toast-v2,
+.vf-toaster,
+.vf-command-palette__content,
+.vf-spotlight__content {
+  contain: layout paint;
+}
+
+/* Opt-in via `data-contain="strict"` anywhere the consumer knows the
+ * subtree can't overflow visually. */
+[data-contain="layout"] { contain: layout; }
+[data-contain="paint"] { contain: paint; }
+[data-contain="strict"] { contain: layout paint; }
+
+/* Opt-in content-visibility. Apply to the scrolling ancestor of long
+ * lists (DataGrid body rows, LogViewer, Heatmap cells). */
+.vf-cv-auto,
+[data-content-visibility="auto"] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
+}
+
+/* Use on elements that animate frequently. Don't broadcast globally —
+ * will-change makes the browser promote layers; that costs GPU memory. */
+.vf-will-change-transform { will-change: transform; }
+.vf-will-change-opacity { will-change: opacity; }

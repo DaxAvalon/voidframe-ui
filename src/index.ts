@@ -55,6 +55,12 @@ export * from "./components";
 // ── Icons (Phase 14) ────────────────────────────────────────
 export * from "./icons";
 
+// ── Lazy wrappers (Phase 20) ────────────────────────────────
+// Code-split entry points for the heaviest components. Wrap in
+// React.Suspense at the consumer site to defer the bundle cost until
+// the component is mounted. Full re-exports live under `voidframe/lazy`.
+export * from "./lazy";
+
 // ── Responsive system (Phase 16) ────────────────────────────
 export * from "./responsive";
 

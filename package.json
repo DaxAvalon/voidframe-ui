@@ -44,8 +44,37 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ssr": "vitest run src/__tests__/ssr.test.tsx",
-    "test:a11y": "vitest run src/components/__tests__/a11yAxe.test.tsx"
+    "test:a11y": "vitest run src/components/__tests__/a11yAxe.test.tsx",
+    "size": "size-limit"
   },
+  "size-limit": [
+    {
+      "name": "Full ESM bundle",
+      "path": "dist/voidframe.es.js",
+      "limit": "150 KB",
+      "gzip": true
+    },
+    {
+      "name": "Stylesheet",
+      "path": "dist/voidframe.css",
+      "limit": "25 KB",
+      "gzip": true
+    },
+    {
+      "name": "Button leaf only",
+      "path": "dist/voidframe.es.js",
+      "import": "{ Button }",
+      "limit": "5 KB",
+      "gzip": true
+    },
+    {
+      "name": "Icon + SearchIcon only",
+      "path": "dist/voidframe.es.js",
+      "import": "{ Icon, SearchIcon }",
+      "limit": "3 KB",
+      "gzip": true
+    }
+  ],
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"

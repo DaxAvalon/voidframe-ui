@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";
 import { cx } from "../utils/cx";
@@ -24,7 +24,7 @@ export interface ButtonProps
   style?: CSSProperties;
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
     children,
     variant = "default",
@@ -88,7 +88,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     </button>
   );
 });
-Button.displayName = "Button";
+ButtonImpl.displayName = "Button";
+/** Memoized leaf — skips re-render when props are referentially stable. */
+export const Button = memo(ButtonImpl);
+(Button as unknown as { displayName: string }).displayName = "Button";
 
 export interface ButtonGroupOption {
   key: string;

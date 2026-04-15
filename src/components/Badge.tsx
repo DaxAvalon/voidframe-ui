@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";
 import { cx } from "../utils/cx";
@@ -23,7 +23,7 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, "color
   style?: CSSProperties;
 }
 
-export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
+const BadgeImpl = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
   {
     children,
     color,
@@ -78,7 +78,9 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
     </span>
   );
 });
-Badge.displayName = "Badge";
+BadgeImpl.displayName = "Badge";
+export const Badge = memo(BadgeImpl);
+(Badge as unknown as { displayName: string }).displayName = "Badge";
 
 export interface DotsProps extends HTMLAttributes<HTMLSpanElement> {
   count: number;
@@ -90,7 +92,7 @@ export interface DotsProps extends HTMLAttributes<HTMLSpanElement> {
   style?: CSSProperties;
 }
 
-export const Dots = forwardRef<HTMLSpanElement, DotsProps>(function Dots(
+const DotsImpl = forwardRef<HTMLSpanElement, DotsProps>(function Dots(
   { count, max = 8, color, size, className, style, ...props },
   ref
 ) {
@@ -118,4 +120,6 @@ export const Dots = forwardRef<HTMLSpanElement, DotsProps>(function Dots(
     </span>
   );
 });
-Dots.displayName = "Dots";
+DotsImpl.displayName = "Dots";
+export const Dots = memo(DotsImpl);
+(Dots as unknown as { displayName: string }).displayName = "Dots";

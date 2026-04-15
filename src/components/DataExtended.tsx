@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { forwardRef, memo, useState } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import type { Side } from "../types";
 import { cx } from "../utils/cx";
@@ -502,7 +502,7 @@ export interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
-export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(function Spinner(
+const SpinnerImpl = forwardRef<HTMLDivElement, SpinnerProps>(function Spinner(
   { size = 16, color, className, style, ...props },
   ref
 ) {
@@ -523,4 +523,6 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(function Spinner
     />
   );
 });
-Spinner.displayName = "Spinner";
+SpinnerImpl.displayName = "Spinner";
+export const Spinner = memo(SpinnerImpl);
+(Spinner as unknown as { displayName: string }).displayName = "Spinner";

@@ -365,6 +365,51 @@ const CompassIcon = adaptIcon(Compass, { defaultLabel: "Compass" });
 <CompassIcon size="xl" />
 ```
 
+### Performance
+
+**Lazy wrappers.** The heaviest components ship pre-wrapped as `React.lazy` exports so you can defer their chunks until mount. Pair with `<Suspense>` at the consumer:
+
+```jsx
+import { Suspense } from "react";
+import {
+  LazyModal, LazyDialog, LazyDrawer, LazyLightbox,
+  LazyDataGrid, LazyTreeTable, LazyGantt, LazyKanban,
+  LazyCodeEditor, LazyMarkdownEditor, LazyRichTextEditor,
+  LazyDatePicker, LazyDateRangePicker, LazyCalendar,
+  LazySparkline, LazyHeatmap,
+  LazySignaturePad, LazyImageCropper, LazyVideoPlayer,
+} from "voidframe";
+
+<Suspense fallback={<Spinner />}>
+  <LazyDataGrid columns={cols} data={rows} />
+</Suspense>
+```
+
+**Memoized leaves.** High-traffic stateless components — `Button`, `Badge`, `Dots`, `Label`, `Divider`, `Spacer`, `Spinner`, `Kbd`, `Icon` — are wrapped in `React.memo`. Re-renders skip when props are referentially stable, which is the typical case inside tables, feeds, and icon-heavy lists.
+
+**Tree-shaking.** `package.json` declares `sideEffects: ["*.css"]`. Every export is named; barrels re-export without side effects. Bundlers drop unused components automatically — `import { SearchIcon } from "voidframe"` costs you just the icon and its primitive.
+
+**CSS perf hints.** Overlay panels (modals, drawers, popovers, tooltips, toasts, command palette) carry `contain: layout paint` so they don't invalidate the surrounding page on open/close. For virtualized content, opt in to `content-visibility: auto` via `data-content-visibility="auto"` or the `vf-cv-auto` class — browsers skip rendering off-screen descendants entirely.
+
+```jsx
+<div data-content-visibility="auto">
+  {longList.map((row) => <Row key={row.id} {...row} />)}
+</div>
+```
+
+**Bundle budgets** (enforced in CI via `npm run size`):
+
+| Entry | Budget |
+|---|---|
+| Full ESM bundle | ≤150 KB gzipped |
+| Stylesheet | ≤25 KB gzipped |
+| `import { Button }` only | ≤5 KB gzipped |
+| `import { Icon, SearchIcon }` | ≤3 KB gzipped |
+
+Configured in `package.json` → `size-limit`. Run `npm run size` after `npm run build` to verify before shipping a large component.
+
+**Production DCE.** All dev-only `warn()` and `warnOnce()` calls are guarded by `process.env.NODE_ENV !== "production"` — bundlers strip them from production builds entirely, so warning message strings never ship.
+
 ### Testing your app against Voidframe
 
 Voidframe ships a `voidframe/testing` subpath with the same helpers used internally — so consuming apps can write tests against our components with the provider, a11y checks, and viewport mocks pre-wired.
@@ -406,7 +451,7 @@ it("persists theme through storage", () => {
 **Scripts** (the framework's own CI matrix, mirrored in `package.json`):
 
 ```bash
-npm run test              # full vitest suite (1230+ tests)
+npm run test              # full vitest suite (1260+ tests)
 npm run test:watch        # interactive
 npm run test:coverage     # v8 coverage + enforced floor thresholds
 npm run test:ssr          # renderToString smoke test per phase
