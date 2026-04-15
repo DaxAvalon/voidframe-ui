@@ -15,9 +15,10 @@ import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
 import { Gridlines } from "./primitives/Gridlines";
 import { bandScale, linearScale } from "./math/scales";
-import { seriesPalette } from "./math/color";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import { cx } from "../utils/cx";
 
 export interface BoxPlotGroup {
@@ -86,7 +87,7 @@ export const BoxPlot = forwardRef<HTMLDivElement, BoxPlotProps>(
       title,
       description,
       valueTicks = 5,
-      valueFormat = (v) => String(v),
+      valueFormat = (v) => formatChartNumber(v),
       accessibleLabel,
       padding = 0.3,
       showGrid = true,
@@ -136,19 +137,24 @@ export const BoxPlot = forwardRef<HTMLDivElement, BoxPlotProps>(
         </ChartFrame>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
-            <>
-              <div>
-                <strong>{hover.group.label ?? hover.group.key}</strong>
-              </div>
-              <div>min: {valueFormat(hover.stats.min)}</div>
-              <div>Q1: {valueFormat(hover.stats.q1)}</div>
-              <div>median: {valueFormat(hover.stats.median)}</div>
-              <div>Q3: {valueFormat(hover.stats.q3)}</div>
-              <div>max: {valueFormat(hover.stats.max)}</div>
-              {hover.stats.outliers.length > 0 && (
-                <div>outliers: {hover.stats.outliers.length}</div>
-              )}
-            </>
+            <ChartTooltipBody
+              title={hover.group.label ?? hover.group.key}
+              metrics={[
+                { label: "min", value: valueFormat(hover.stats.min) },
+                { label: "Q1", value: valueFormat(hover.stats.q1) },
+                { label: "median", value: valueFormat(hover.stats.median) },
+                { label: "Q3", value: valueFormat(hover.stats.q3) },
+                { label: "max", value: valueFormat(hover.stats.max) },
+                ...(hover.stats.outliers.length > 0
+                  ? [
+                      {
+                        label: "outliers",
+                        value: String(hover.stats.outliers.length),
+                      },
+                    ]
+                  : []),
+              ]}
+            />
           ) : null}
         </ChartTooltip>
       </div>

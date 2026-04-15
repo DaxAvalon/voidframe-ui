@@ -117,8 +117,55 @@ button.vf-chart-legend__item:focus-visible {
   color: var(--vf-text-0);
   pointer-events: none;
   z-index: var(--vf-z-tooltip, 300);
-  max-width: 260px;
+  max-width: 320px;
   line-height: 1.4;
+}
+.vf-chart-tooltip__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.vf-chart-tooltip__title {
+  font-weight: 600;
+  color: var(--vf-text-0);
+  letter-spacing: 0.2px;
+}
+.vf-chart-tooltip__metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.vf-chart-tooltip__row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  column-gap: var(--vf-sp-2);
+  align-items: baseline;
+}
+.vf-chart-tooltip__row .vf-chart-tooltip__hint {
+  grid-column: 1 / -1;
+  color: var(--vf-text-3);
+  font-size: var(--vf-font-xxs);
+}
+.vf-chart-tooltip__swatch {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  align-self: center;
+}
+.vf-chart-tooltip__label {
+  color: var(--vf-text-2);
+}
+.vf-chart-tooltip__value {
+  color: var(--vf-text-0);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+.vf-chart-tooltip__footer {
+  color: var(--vf-text-3);
+  font-size: var(--vf-font-xxs);
+  padding-top: 2px;
+  border-top: 1px solid var(--vf-border-1);
+  margin-top: 2px;
 }
 
 /* ── Crosshair ────────────────────────────────────────────── */

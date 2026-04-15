@@ -12,7 +12,8 @@ import {
   type ReactNode,
 } from "react";
 import { ChartTooltip } from "./primitives/ChartTooltip";
-import { seriesPalette } from "./math/color";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
 
@@ -48,7 +49,7 @@ export const FunnelChart = forwardRef<HTMLDivElement, FunnelChartProps>(
       height = 360,
       title,
       description,
-      valueFormat = (v) => String(v),
+      valueFormat = (v) => formatChartNumber(v),
       accessibleLabel,
       gap = 4,
       orientation = "vertical",
@@ -178,12 +179,24 @@ export const FunnelChart = forwardRef<HTMLDivElement, FunnelChartProps>(
         </svg>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
-            <>
-              <div>
-                <strong>{hover.step.label}</strong>
-              </div>
-              <div>{valueFormat(hover.step.value)}</div>
-            </>
+            <ChartTooltipBody
+              title={hover.step.label}
+              metrics={(() => {
+                const top = steps[0]?.value ?? 0;
+                const idx = steps.findIndex((s) => s.key === hover.step.key);
+                return [
+                  {
+                    label: "value",
+                    value: valueFormat(hover.step.value),
+                    color: colors[idx],
+                    hint:
+                      top > 0
+                        ? `${formatChartNumber((hover.step.value / top) * 100)}% of top`
+                        : undefined,
+                  },
+                ];
+              })()}
+            />
           ) : null}
         </ChartTooltip>
       </div>

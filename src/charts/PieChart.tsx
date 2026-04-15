@@ -14,7 +14,11 @@ import {
 import { pie as d3Pie } from "d3-shape";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { ChartTooltip } from "./primitives/ChartTooltip";
-import { seriesPalette } from "./math/color";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import { Arc } from "./series/Arc";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
@@ -49,7 +53,7 @@ function PieChartImpl(
   {
     data,
     innerRatio = 0,
-    padAngle = 0.01,
+    padAngle = 0,
     cornerRadius = 0,
     startAngle = -Math.PI / 2,
     endAngle,
@@ -58,7 +62,7 @@ function PieChartImpl(
     description,
     showLegend = true,
     accessibleLabel,
-    valueFormat = (v) => String(v),
+    valueFormat = (v) => formatChartNumber(v),
     className,
     style,
     ...props
@@ -134,6 +138,8 @@ function PieChartImpl(
           outerRadius={outerR}
           cornerRadius={cornerRadius}
           fillFor={(_d, i) => colors[i]!}
+          stroke="var(--vf-bg-1)"
+          strokeWidth={1}
           onArcHover={(d, i, e) =>
             setHover(
               d
@@ -160,22 +166,25 @@ function PieChartImpl(
       )}
       <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
         {hover ? (
-          <>
-            <div>
-              <strong>{hover.datum.label ?? hover.datum.key}</strong>
-            </div>
-            <div>
-              {valueFormat(hover.datum.value)}
-              {total > 0 && (
-                <>
-                  {" "}
-                  <span>
-                    ({Math.round((hover.datum.value / total) * 100)}%)
-                  </span>
-                </>
-              )}
-            </div>
-          </>
+          <ChartTooltipBody
+            title={hover.datum.label ?? hover.datum.key}
+            metrics={[
+              {
+                label: "value",
+                value: valueFormat(hover.datum.value),
+                color:
+                  data.findIndex((d) => d.key === hover.datum.key) >= 0
+                    ? colors[
+                        data.findIndex((d) => d.key === hover.datum.key)
+                      ]
+                    : undefined,
+                hint:
+                  total > 0
+                    ? `${formatChartNumber((hover.datum.value / total) * 100)}% of total`
+                    : undefined,
+              },
+            ]}
+          />
         ) : null}
       </ChartTooltip>
     </div>

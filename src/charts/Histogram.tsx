@@ -15,6 +15,8 @@ import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
+import { formatChartNumber } from "./math/color";
 import { Gridlines } from "./primitives/Gridlines";
 import { seriesPalette } from "./math/color";
 import { linearScale } from "./math/scales";
@@ -92,14 +94,10 @@ export const Histogram = forwardRef<HTMLDivElement, HistogramProps>(
         </ChartFrame>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
-            <>
-              <div>
-                <strong>
-                  [{hover.lo.toFixed(2)}, {hover.hi.toFixed(2)})
-                </strong>
-              </div>
-              <div>count: {hover.count}</div>
-            </>
+            <ChartTooltipBody
+              title={`[${formatChartNumber(hover.lo)}, ${formatChartNumber(hover.hi)})`}
+              metrics={[{ label: "count", value: String(hover.count) }]}
+            />
           ) : null}
         </ChartTooltip>
       </div>

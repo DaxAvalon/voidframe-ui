@@ -22,8 +22,9 @@ import {
   treemapSliceDice,
   type HierarchyRectangularNode,
 } from "d3-hierarchy";
-import { seriesPalette } from "./math/color";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
 
@@ -77,7 +78,7 @@ export const TreeMap = forwardRef<HTMLDivElement, TreeMapProps>(
       labelMinArea = 600,
       title,
       description,
-      valueFormat = (v) => String(v),
+      valueFormat = (v) => formatChartNumber(v),
       accessibleLabel,
       colorForGroup,
       className,
@@ -203,17 +204,15 @@ export const TreeMap = forwardRef<HTMLDivElement, TreeMapProps>(
           y={hover?.y ?? 0}
         >
           {hover ? (
-            <>
-              <div>
-                <strong>{hover.name}</strong>
-              </div>
-              <div>{valueFormat(hover.value)}</div>
-              {hover.path.length > 1 && (
-                <div className="vf-chart-tooltip__path">
-                  {hover.path.slice(0, -1).join(" › ")}
-                </div>
-              )}
-            </>
+            <ChartTooltipBody
+              title={hover.name}
+              metrics={[{ label: "value", value: valueFormat(hover.value) }]}
+              footer={
+                hover.path.length > 1
+                  ? hover.path.slice(0, -1).join(" › ")
+                  : null
+              }
+            />
           ) : null}
         </ChartTooltip>
       </div>

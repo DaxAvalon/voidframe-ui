@@ -17,7 +17,8 @@ import {
 } from "react";
 import { arc as d3Arc } from "d3-shape";
 import { ChartTooltip } from "./primitives/ChartTooltip";
-import { seriesPalette } from "./math/color";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
 
@@ -63,7 +64,7 @@ export const ChordDiagram = forwardRef<HTMLDivElement, ChordDiagramProps>(
       padAngle = 0.02,
       title,
       description,
-      valueFormat = (v) => String(v),
+      valueFormat = (v) => formatChartNumber(v),
       accessibleLabel,
       className,
       style,
@@ -265,21 +266,15 @@ export const ChordDiagram = forwardRef<HTMLDivElement, ChordDiagramProps>(
         </svg>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover?.type === "group" ? (
-            <>
-              <div>
-                <strong>{hover.label}</strong>
-              </div>
-              <div>{valueFormat(hover.value)}</div>
-            </>
+            <ChartTooltipBody
+              title={hover.label}
+              metrics={[{ label: "total flow", value: valueFormat(hover.value) }]}
+            />
           ) : hover?.type === "chord" ? (
-            <>
-              <div>
-                <strong>
-                  {hover.fromLabel} → {hover.toLabel}
-                </strong>
-              </div>
-              <div>{valueFormat(hover.value)}</div>
-            </>
+            <ChartTooltipBody
+              title={`${hover.fromLabel} → ${hover.toLabel}`}
+              metrics={[{ label: "flow", value: valueFormat(hover.value) }]}
+            />
           ) : null}
         </ChartTooltip>
       </div>

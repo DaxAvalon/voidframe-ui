@@ -12,6 +12,8 @@ import {
   type ReactNode,
 } from "react";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
+import { formatChartNumber } from "./math/color";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { quantizeScale } from "./math/scales";
 import { cx } from "../utils/cx";
@@ -62,7 +64,7 @@ export const Heatmap = forwardRef<HTMLDivElement, HeatmapProps>(
       description,
       showRowLabels = true,
       showColumnLabels = true,
-      valueFormat = (v) => String(v),
+      valueFormat = (v) => formatChartNumber(v),
       accessibleLabel,
       showLegend = true,
       className,
@@ -187,19 +189,16 @@ export const Heatmap = forwardRef<HTMLDivElement, HeatmapProps>(
         )}
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
-            <>
-              <div>
-                <strong>
-                  {hover.row} · {hover.col}
-                </strong>
-              </div>
-              <div>
-                {hover.cell
-                  ? valueFormat(hover.cell.value)
-                  : "No data"}
-              </div>
-              {hover.cell?.label && <div>{hover.cell.label}</div>}
-            </>
+            <ChartTooltipBody
+              title={`${hover.row} · ${hover.col}`}
+              metrics={[
+                {
+                  label: "value",
+                  value: hover.cell ? valueFormat(hover.cell.value) : "—",
+                },
+              ]}
+              footer={hover.cell?.label}
+            />
           ) : null}
         </ChartTooltip>
       </div>

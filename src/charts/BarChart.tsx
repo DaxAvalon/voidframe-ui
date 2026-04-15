@@ -15,10 +15,14 @@ import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { Gridlines } from "./primitives/Gridlines";
 import { bandScale, linearScale, type BandScale } from "./math/scales";
-import { seriesPalette } from "./math/color";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import { stackSeries, type StackOffset } from "./math/stack";
 import { Bar } from "./series/Bar";
 import { cx } from "../utils/cx";
@@ -77,7 +81,7 @@ export interface BarChartProps
   }) => void;
 }
 
-const fmtDefault = (v: number) => String(v);
+const fmtDefault = (v: number) => formatChartNumber(v);
 
 export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   function BarChart(
@@ -150,14 +154,28 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         )}
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
-            <>
-              <div>
-                <strong>{hover.datum.category}</strong>
-              </div>
-              <div>
-                {hover.seriesKey}: {valueFormat(hover.value)}
-              </div>
-            </>
+            <ChartTooltipBody
+              title={hover.datum.category}
+              metrics={(() => {
+                const total = mode === "100%-stacked"
+                  ? series.reduce(
+                      (acc, s) => acc + Number(hover.datum[s.key] ?? 0),
+                      0
+                    )
+                  : 0;
+                const seriesDef = series.find((s) => s.key === hover.seriesKey);
+                const idx = series.findIndex((s) => s.key === hover.seriesKey);
+                const metric: TooltipMetric = {
+                  label: seriesDef?.label ?? hover.seriesKey,
+                  value: valueFormat(hover.value),
+                  color: colors[idx],
+                };
+                if (mode === "100%-stacked" && total > 0) {
+                  metric.hint = `${formatChartNumber((hover.value / total) * 100)}% of total`;
+                }
+                return [metric];
+              })()}
+            />
           ) : null}
         </ChartTooltip>
       </div>
@@ -280,7 +298,11 @@ function BarChartInner({
         orientation={isVertical ? "left" : "bottom"}
         scale={valueScale}
         ticks={valueTicks}
-        format={(v) => valueFormat(v as number)}
+        format={(v) =>
+          mode === "100%-stacked"
+            ? `${Math.round((v as number) * 100)}%`
+            : valueFormat(v as number)
+        }
       />
       {stackedResult
         ? stackedResult.map((s, sIdx) => (

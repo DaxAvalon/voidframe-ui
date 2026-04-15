@@ -33,6 +33,12 @@ export type {
 export { ChartTooltip } from "./primitives/ChartTooltip";
 export type { ChartTooltipProps } from "./primitives/ChartTooltip";
 
+export { ChartTooltipBody } from "./primitives/ChartTooltipBody";
+export type {
+  ChartTooltipBodyProps,
+  TooltipMetric,
+} from "./primitives/ChartTooltipBody";
+
 export { Crosshair } from "./primitives/Crosshair";
 export type { CrosshairProps } from "./primitives/Crosshair";
 
@@ -84,7 +90,11 @@ export type { CurveKind } from "./math/curves";
 export { bisectNearest, scanNearest } from "./math/bisector";
 export type { NearestResult } from "./math/bisector";
 
-export { seriesPalette, defaultSeriesPalette } from "./math/color";
+export {
+  seriesPalette,
+  defaultSeriesPalette,
+  formatChartNumber,
+} from "./math/color";
 export type { SeriesPaletteOptions } from "./math/color";
 
 // ── Phase 22: core charts ──────────────────────────────────

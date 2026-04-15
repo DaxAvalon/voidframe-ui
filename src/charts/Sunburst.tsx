@@ -18,7 +18,11 @@ import {
 } from "d3-hierarchy";
 import { arc as d3Arc } from "d3-shape";
 import { ChartTooltip } from "./primitives/ChartTooltip";
-import { seriesPalette } from "./math/color";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
 
@@ -50,9 +54,9 @@ export const Sunburst = forwardRef<HTMLDivElement, SunburstProps>(
       labelMinAngle = 0.25,
       title,
       description,
-      valueFormat = (v) => String(v),
+      valueFormat = (v) => formatChartNumber(v),
       accessibleLabel,
-      padAngle = 0.005,
+      padAngle = 0,
       className,
       style,
       ...props
@@ -151,6 +155,8 @@ export const Sunburst = forwardRef<HTMLDivElement, SunburstProps>(
                   className="vf-chart-sunburst__slice"
                   d={path}
                   fill={colorFor(node)}
+                  stroke="var(--vf-bg-1)"
+                  strokeWidth={1}
                   onPointerMove={(e) =>
                     setHover({
                       name: node.data.name,
@@ -179,17 +185,11 @@ export const Sunburst = forwardRef<HTMLDivElement, SunburstProps>(
         </svg>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
-            <>
-              <div>
-                <strong>{hover.name}</strong>
-              </div>
-              <div>{valueFormat(hover.value)}</div>
-              {hover.path.length > 1 && (
-                <div className="vf-chart-tooltip__path">
-                  {hover.path.join(" › ")}
-                </div>
-              )}
-            </>
+            <ChartTooltipBody
+              title={hover.name}
+              metrics={[{ label: "value", value: valueFormat(hover.value) }]}
+              footer={hover.path.length > 1 ? hover.path.join(" › ") : null}
+            />
           ) : null}
         </ChartTooltip>
       </div>

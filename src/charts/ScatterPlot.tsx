@@ -14,9 +14,13 @@ import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { Gridlines } from "./primitives/Gridlines";
-import { seriesPalette } from "./math/color";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import { linearScale, sqrtScale } from "./math/scales";
 import { Point, type PointShape } from "./series/Point";
 import { cx } from "../utils/cx";
@@ -74,8 +78,8 @@ export const ScatterPlot = forwardRef<HTMLDivElement, ScatterPlotProps>(
       showGrid = true,
       xTicks = 5,
       yTicks = 5,
-      xFormat = String,
-      yFormat = String,
+      xFormat = (v) => formatChartNumber(v),
+      yFormat = (v) => formatChartNumber(v),
       accessibleLabel,
       className,
       shape = "square",
@@ -132,19 +136,28 @@ export const ScatterPlot = forwardRef<HTMLDivElement, ScatterPlotProps>(
         )}
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
-            <>
-              {hover.datum.label && (
-                <div>
-                  <strong>{hover.datum.label}</strong>
-                </div>
-              )}
-              <div>
-                {xFormat(hover.datum.x)}, {yFormat(hover.datum.y)}
-              </div>
-              {hover.datum.size !== undefined && (
-                <div>size: {hover.datum.size}</div>
-              )}
-            </>
+            <ChartTooltipBody
+              title={hover.datum.label ?? "Point"}
+              metrics={(() => {
+                const metrics: TooltipMetric[] = [
+                  { label: "x", value: xFormat(hover.datum.x) },
+                  { label: "y", value: yFormat(hover.datum.y) },
+                ];
+                if (hover.datum.size !== undefined) {
+                  metrics.push({
+                    label: "size",
+                    value: formatChartNumber(hover.datum.size),
+                  });
+                }
+                if (hover.datum.series) {
+                  metrics.push({
+                    label: "series",
+                    value: hover.datum.series,
+                  });
+                }
+                return metrics;
+              })()}
+            />
           ) : null}
         </ChartTooltip>
       </div>

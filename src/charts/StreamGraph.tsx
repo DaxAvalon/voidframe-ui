@@ -7,6 +7,7 @@
 import {
   forwardRef,
   useMemo,
+  useState,
   type HTMLAttributes,
   type ReactNode,
 } from "react";
@@ -14,7 +15,13 @@ import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
-import { seriesPalette } from "./math/color";
+import { ChartTooltip } from "./primitives/ChartTooltip";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
+import { bisectNearest } from "./math/bisector";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import {
   linearScale,
   pointScale,
@@ -50,6 +57,8 @@ export interface StreamGraphProps
   description?: ReactNode;
   showLegend?: boolean;
   accessibleLabel?: string;
+  valueFormat?: (v: number) => string;
+  xFormat?: (v: number | Date | string) => string;
 }
 
 export const StreamGraph = forwardRef<HTMLDivElement, StreamGraphProps>(
@@ -66,6 +75,8 @@ export const StreamGraph = forwardRef<HTMLDivElement, StreamGraphProps>(
       description,
       showLegend = true,
       accessibleLabel,
+      valueFormat = (v) => formatChartNumber(v),
+      xFormat,
       className,
       ...props
     },
@@ -75,6 +86,11 @@ export const StreamGraph = forwardRef<HTMLDivElement, StreamGraphProps>(
       const palette = seriesPalette(series.length);
       return series.map((s, i) => s.color ?? palette[i]!);
     }, [series]);
+    const [hover, setHover] = useState<{
+      datum: StreamGraphDatum;
+      clientX: number;
+      clientY: number;
+    } | null>(null);
     return (
       <div
         ref={ref}
@@ -95,6 +111,7 @@ export const StreamGraph = forwardRef<HTMLDivElement, StreamGraphProps>(
             xKind={xKind}
             curve={curve}
             colors={colors}
+            onHover={setHover}
           />
         </ChartFrame>
         {showLegend && (
@@ -108,6 +125,35 @@ export const StreamGraph = forwardRef<HTMLDivElement, StreamGraphProps>(
             }))}
           />
         )}
+        <ChartTooltip
+          active={!!hover}
+          x={hover?.clientX ?? 0}
+          y={hover?.clientY ?? 0}
+        >
+          {hover ? (
+            <ChartTooltipBody
+              title={
+                xFormat
+                  ? xFormat(hover.datum.x)
+                  : String(
+                      hover.datum.x instanceof Date
+                        ? hover.datum.x.toDateString()
+                        : hover.datum.x
+                    )
+              }
+              metrics={series.reduce<TooltipMetric[]>((acc, s, i) => {
+                const v = Number(hover.datum[s.key]);
+                if (!Number.isFinite(v)) return acc;
+                acc.push({
+                  label: s.label ?? s.key,
+                  value: valueFormat(v),
+                  color: colors[i],
+                });
+                return acc;
+              }, [])}
+            />
+          ) : null}
+        </ChartTooltip>
       </div>
     );
   }
@@ -120,6 +166,13 @@ interface StreamInnerProps {
   xKind: "linear" | "time" | "category";
   curve: CurveKind;
   colors: string[];
+  onHover: (
+    h: {
+      datum: StreamGraphDatum;
+      clientX: number;
+      clientY: number;
+    } | null
+  ) => void;
 }
 
 function StreamInner({
@@ -128,6 +181,7 @@ function StreamInner({
   xKind,
   curve,
   colors,
+  onHover,
 }: StreamInnerProps) {
   const { innerWidth, innerHeight } = useChart();
   const xValuesRaw = data.map((d) => d.x);
@@ -214,6 +268,29 @@ function StreamInner({
           />
         );
       })}
+      <rect
+        x={0}
+        y={0}
+        width={innerWidth}
+        height={innerHeight}
+        fill="transparent"
+        onPointerMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const localX = e.clientX - rect.left;
+          const nearest = bisectNearest(
+            data,
+            localX,
+            (d) => xAt(d.x) as number
+          );
+          if (!nearest) return;
+          onHover({
+            datum: nearest.datum,
+            clientX: e.clientX,
+            clientY: e.clientY,
+          });
+        }}
+        onPointerLeave={() => onHover(null)}
+      />
     </g>
   );
 }

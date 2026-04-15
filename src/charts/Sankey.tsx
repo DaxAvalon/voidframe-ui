@@ -21,7 +21,8 @@ import {
   type SankeyLayout,
 } from "d3-sankey";
 import { ChartTooltip } from "./primitives/ChartTooltip";
-import { seriesPalette } from "./math/color";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
 
@@ -89,7 +90,7 @@ export const Sankey = forwardRef<HTMLDivElement, SankeyProps>(function Sankey(
     title,
     description,
     accessibleLabel,
-    valueFormat = (v) => String(v),
+    valueFormat = (v) => formatChartNumber(v),
     className,
     style,
     ...props
@@ -235,21 +236,15 @@ export const Sankey = forwardRef<HTMLDivElement, SankeyProps>(function Sankey(
       </svg>
       <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
         {hover?.type === "link" ? (
-          <>
-            <div>
-              <strong>
-                {hover.source} → {hover.target}
-              </strong>
-            </div>
-            <div>{valueFormat(hover.value)}</div>
-          </>
+          <ChartTooltipBody
+            title={`${hover.source} → ${hover.target}`}
+            metrics={[{ label: "flow", value: valueFormat(hover.value) }]}
+          />
         ) : hover?.type === "node" ? (
-          <>
-            <div>
-              <strong>{hover.label}</strong>
-            </div>
-            <div>{valueFormat(hover.value)}</div>
-          </>
+          <ChartTooltipBody
+            title={hover.label}
+            metrics={[{ label: "value", value: valueFormat(hover.value) }]}
+          />
         ) : null}
       </ChartTooltip>
     </div>

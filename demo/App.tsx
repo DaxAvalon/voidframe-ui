@@ -1307,7 +1307,6 @@ function ChartsSection() {
           ]}
           mode="100%-stacked"
           height={260}
-          valueFormat={(v) => `${Math.round(v * 100)}%`}
         />
       </Block>
       <Block label="BarChart — horizontal">
@@ -1731,21 +1730,138 @@ function ChartPrimitivesSection() {
         />
       </Block>
       <Block label="Brush + Crosshair overlay">
-        <ChartFrame
-          width={600}
-          height={200}
-          xScale={xScale}
-          yScale={yScale}
-          accessibleLabel="Brush overlay demo"
-        >
-          <Gridlines mode="both" ticks={5} dashed />
-          <Axis orientation="bottom" />
-          <Axis orientation="left" ticks={5} />
-          <Crosshair x={120} y={80} mode="both" dashed />
-          <Brush />
-        </ChartFrame>
+        <BrushPrimitiveDemo />
       </Block>
     </Frame>
+  );
+}
+
+function BrushPrimitiveDemo() {
+  const samples = useMemo(
+    () =>
+      Array.from({ length: 60 }, (_, i) => ({
+        x: i,
+        y: 50 + Math.sin(i / 4) * 25 + Math.cos(i / 9) * 12,
+      })),
+    []
+  );
+  const xScale = useMemo(
+    () =>
+      linearScale({
+        domain: [samples[0]!.x, samples[samples.length - 1]!.x],
+        range: [0, 552],
+      }),
+    [samples]
+  );
+  const yScale = useMemo(
+    () =>
+      linearScale({
+        domain: [
+          Math.min(...samples.map((s) => s.y)),
+          Math.max(...samples.map((s) => s.y)),
+        ],
+        range: [156, 0],
+        nice: true,
+      }),
+    [samples]
+  );
+  const [selection, setSelection] = useState<[number, number] | null>(null);
+  const selectedSamples = useMemo(() => {
+    if (!selection) return samples;
+    const [x0, x1] = selection;
+    const xMin = xScale.invert(x0);
+    const xMax = xScale.invert(x1);
+    return samples.filter((s) => s.x >= xMin && s.x <= xMax);
+  }, [samples, selection, xScale]);
+  const summary = useMemo(() => {
+    if (selectedSamples.length === 0)
+      return {
+        count: 0,
+        avg: 0,
+        min: 0,
+        max: 0,
+        rangeStart: 0,
+        rangeEnd: 0,
+      };
+    const ys = selectedSamples.map((s) => s.y);
+    return {
+      count: selectedSamples.length,
+      avg: ys.reduce((a, b) => a + b, 0) / ys.length,
+      min: Math.min(...ys),
+      max: Math.max(...ys),
+      rangeStart: selectedSamples[0]!.x,
+      rangeEnd: selectedSamples[selectedSamples.length - 1]!.x,
+    };
+  }, [selectedSamples]);
+  return (
+    <Flex direction="column" gap={8}>
+      <ChartFrame
+        width={640}
+        height={200}
+        xScale={xScale}
+        yScale={yScale}
+        margins={{ top: 12, right: 16, bottom: 32, left: 44 }}
+        accessibleLabel="Brush overlay demo"
+      >
+        <Gridlines mode="both" ticks={5} dashed />
+        <Axis orientation="bottom" ticks={6} />
+        <Axis orientation="left" ticks={5} />
+        {(() => {
+          const pts = samples.map(
+            (s) => `${xScale(s.x)},${yScale(s.y)}`
+          );
+          return (
+            <polyline
+              points={pts.join(" ")}
+              fill="none"
+              stroke="var(--vf-green)"
+              strokeWidth={1.5}
+            />
+          );
+        })()}
+        <Brush onChange={setSelection} />
+      </ChartFrame>
+      <Flex
+        gap={16}
+        wrap
+        style={{
+          fontFamily: "var(--vf-font-family)",
+          fontSize: "var(--vf-font-xs)",
+          color: "var(--vf-text-2)",
+        }}
+      >
+        <span>
+          <strong>Selected range:</strong>{" "}
+          {selection
+            ? `x ${summary.rangeStart}–${summary.rangeEnd}`
+            : "(drag across the chart to brush)"}
+        </span>
+        <span>
+          <strong>Points:</strong> {summary.count}
+        </span>
+        <span>
+          <strong>Avg:</strong>{" "}
+          {summary.avg.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+        </span>
+        <span>
+          <strong>Min:</strong>{" "}
+          {summary.min.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+        </span>
+        <span>
+          <strong>Max:</strong>{" "}
+          {summary.max.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+        </span>
+        {selection && (
+          <button
+            type="button"
+            className="vf-button vf-button--ghost vf-button--sm"
+            onClick={() => setSelection(null)}
+          >
+            Clear selection
+          </button>
+        )}
+      </Flex>
+    </Flex>
   );
 }
 

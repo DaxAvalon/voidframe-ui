@@ -14,6 +14,8 @@ import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
+import { formatChartNumber } from "./math/color";
 import { Gridlines } from "./primitives/Gridlines";
 import { bandScale, linearScale } from "./math/scales";
 import { Bar } from "./series/Bar";
@@ -61,7 +63,7 @@ export const WaterfallChart = forwardRef<HTMLDivElement, WaterfallChartProps>(
       margins,
       title,
       description,
-      valueFormat = (v) => String(v),
+      valueFormat = (v) => formatChartNumber(v),
       accessibleLabel,
       colors = [
         "var(--vf-green)",
@@ -149,16 +151,33 @@ export const WaterfallChart = forwardRef<HTMLDivElement, WaterfallChartProps>(
         </ChartFrame>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
-            <>
-              <div>
-                <strong>{hover.step.label}</strong>
-              </div>
-              <div>
-                {hover.step.kind === "total"
-                  ? `Total: ${valueFormat(hover.step.end)}`
-                  : `${hover.step.magnitude > 0 ? "+" : ""}${valueFormat(hover.step.magnitude)}`}
-              </div>
-            </>
+            <ChartTooltipBody
+              title={hover.step.label}
+              metrics={
+                hover.step.kind === "total"
+                  ? [
+                      {
+                        label: "total",
+                        value: valueFormat(hover.step.end),
+                        color: colors[2],
+                      },
+                    ]
+                  : [
+                      {
+                        label: "delta",
+                        value: `${hover.step.magnitude > 0 ? "+" : ""}${valueFormat(hover.step.magnitude)}`,
+                        color:
+                          hover.step.kind === "increase"
+                            ? colors[0]
+                            : colors[1],
+                      },
+                      {
+                        label: "running total",
+                        value: valueFormat(hover.step.end),
+                      },
+                    ]
+              }
+            />
           ) : null}
         </ChartTooltip>
       </div>

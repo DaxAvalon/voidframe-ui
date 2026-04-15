@@ -15,6 +15,8 @@ import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
+import { formatChartNumber } from "./math/color";
 import { Gridlines } from "./primitives/Gridlines";
 import { bandScale, linearScale } from "./math/scales";
 import { cx } from "../utils/cx";
@@ -66,7 +68,7 @@ export const CandlestickChart = forwardRef<
     title,
     description,
     valueTicks = 5,
-    valueFormat = (v) => String(v),
+    valueFormat = (v) => formatChartNumber(v),
     xTicks = 6,
     xFormat,
     accessibleLabel,
@@ -115,15 +117,27 @@ export const CandlestickChart = forwardRef<
       </ChartFrame>
       <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
         {hover ? (
-          <>
-            <div>
-              <strong>{xFormat ? xFormat(hover.datum.x) : hover.datum.x}</strong>
-            </div>
-            <div>open: {valueFormat(hover.datum.open)}</div>
-            <div>high: {valueFormat(hover.datum.high)}</div>
-            <div>low: {valueFormat(hover.datum.low)}</div>
-            <div>close: {valueFormat(hover.datum.close)}</div>
-          </>
+          <ChartTooltipBody
+            title={xFormat ? xFormat(hover.datum.x) : hover.datum.x}
+            metrics={(() => {
+              const up = hover.datum.close >= hover.datum.open;
+              const tone = up ? upColor : downColor;
+              return [
+                {
+                  label: "open",
+                  value: valueFormat(hover.datum.open),
+                },
+                { label: "high", value: valueFormat(hover.datum.high) },
+                { label: "low", value: valueFormat(hover.datum.low) },
+                {
+                  label: "close",
+                  value: valueFormat(hover.datum.close),
+                  color: tone,
+                  hint: `${up ? "▲" : "▼"} ${formatChartNumber(((hover.datum.close - hover.datum.open) / hover.datum.open) * 100)}%`,
+                },
+              ];
+            })()}
+          />
         ) : null}
       </ChartTooltip>
     </div>

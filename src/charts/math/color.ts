@@ -41,3 +41,22 @@ export function seriesPalette(
 export function defaultSeriesPalette(): string[] {
   return DEFAULT_PALETTE.slice();
 }
+
+/**
+ * Format a number for display in tooltips / axes with sensible defaults:
+ * - Integers rendered without a decimal.
+ * - Values with |v| >= 1000 rendered with thousands separators.
+ * - Everything else rendered with up to `maxDecimals` (default 2),
+ *   trimming trailing zeroes.
+ */
+export function formatChartNumber(v: number, maxDecimals = 2): string {
+  if (!Number.isFinite(v)) return String(v);
+  if (Number.isInteger(v)) return v.toLocaleString();
+  if (Math.abs(v) >= 1000) {
+    return v.toLocaleString(undefined, {
+      maximumFractionDigits: maxDecimals,
+    });
+  }
+  const rounded = Number(v.toFixed(maxDecimals));
+  return rounded.toString();
+}

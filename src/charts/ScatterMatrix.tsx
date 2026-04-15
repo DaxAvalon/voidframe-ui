@@ -54,7 +54,7 @@ function Cell({ data, xKey, yKey, height, showAxes, series }: CellProps) {
         x,
         y,
         series: d.series,
-        label: d.label ?? String(d.id),
+        label: `${d.label ?? String(d.id)} · ${xKey}/${yKey}`,
       });
     }
     return out;
@@ -67,10 +67,9 @@ function Cell({ data, xKey, yKey, height, showAxes, series }: CellProps) {
       showLegend={false}
       showGrid={false}
       shape="circle"
-      xFormat={() => ""}
-      yFormat={() => ""}
-      xTicks={showAxes ? 3 : 0}
-      yTicks={showAxes ? 3 : 0}
+      xTicks={showAxes ? 3 : 2}
+      yTicks={showAxes ? 3 : 2}
+      margins={{ top: 6, right: 10, bottom: 22, left: 34 }}
     />
   );
 }

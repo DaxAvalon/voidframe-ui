@@ -13,6 +13,11 @@ import {
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
+import { formatChartNumber } from "./math/color";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { Axis } from "./primitives/Axis";
 import { linearScale } from "./math/scales";
@@ -127,19 +132,20 @@ export const ParallelCoordinates = forwardRef<
       )}
       <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
         {hover ? (
-          <>
-            <div>
-              <strong>{hover.datum.label ?? String(hover.datum.id)}</strong>
-            </div>
-            {axes.map((ax) => {
+          <ChartTooltipBody
+            title={hover.datum.label ?? String(hover.datum.id)}
+            metrics={axes.reduce<TooltipMetric[]>((acc, ax) => {
               const v = hover.datum.values[ax.key];
-              return v === undefined ? null : (
-                <div key={ax.key}>
-                  {ax.label ?? ax.key}: {ax.format ? ax.format(v) : v}
-                </div>
-              );
-            })}
-          </>
+              if (v === undefined) return acc;
+              acc.push({
+                label: ax.label ?? ax.key,
+                value: ax.format
+                  ? ax.format(v)
+                  : formatChartNumber(v),
+              });
+              return acc;
+            }, [])}
+          />
         ) : null}
       </ChartTooltip>
     </div>

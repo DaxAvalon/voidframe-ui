@@ -7,10 +7,18 @@
 import {
   forwardRef,
   useMemo,
+  useState,
   type HTMLAttributes,
   type ReactNode,
 } from "react";
 import { area as d3Area } from "d3-shape";
+import { ChartTooltip } from "./primitives/ChartTooltip";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
+import { bisectNearest } from "./math/bisector";
+import { formatChartNumber } from "./math/color";
 import { linearScale, pointScale, timeScale, type PointScale } from "./math/scales";
 import { resolveCurve, type CurveKind } from "./math/curves";
 import { cx } from "../utils/cx";
@@ -36,6 +44,10 @@ export interface HorizonChartProps
   title?: ReactNode;
   description?: ReactNode;
   accessibleLabel?: string;
+  /** Label shown in the tooltip for the series value. Default `"Value"`. */
+  seriesLabel?: string;
+  valueFormat?: (v: number) => string;
+  xFormat?: (v: number | Date | string) => string;
 }
 
 export const HorizonChart = forwardRef<HTMLDivElement, HorizonChartProps>(
@@ -52,12 +64,20 @@ export const HorizonChart = forwardRef<HTMLDivElement, HorizonChartProps>(
       title,
       description,
       accessibleLabel,
+      seriesLabel = "Value",
+      valueFormat = (v) => formatChartNumber(v),
+      xFormat,
       className,
       style,
       ...props
     },
     ref
   ) {
+    const [hover, setHover] = useState<{
+      datum: HorizonPoint;
+      clientX: number;
+      clientY: number;
+    } | null>(null);
     const xScale = useMemo(() => {
       if (xKind === "time") {
         const dates = data.map((d) =>
@@ -173,7 +193,57 @@ export const HorizonChart = forwardRef<HTMLDivElement, HorizonChartProps>(
               y2={height}
             />
           </g>
+          <rect
+            x={0}
+            y={0}
+            width={width}
+            height={height}
+            fill="transparent"
+            onPointerMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const localX = e.clientX - rect.left;
+              const nearest = bisectNearest(
+                data,
+                localX,
+                (d) => xAt(d.x) as number
+              );
+              if (!nearest) return;
+              setHover({
+                datum: nearest.datum,
+                clientX: e.clientX,
+                clientY: e.clientY,
+              });
+            }}
+            onPointerLeave={() => setHover(null)}
+          />
         </svg>
+        <ChartTooltip
+          active={!!hover}
+          x={hover?.clientX ?? 0}
+          y={hover?.clientY ?? 0}
+        >
+          {hover ? (
+            <ChartTooltipBody
+              title={
+                xFormat
+                  ? xFormat(hover.datum.x)
+                  : String(
+                      hover.datum.x instanceof Date
+                        ? hover.datum.x.toDateString()
+                        : hover.datum.x
+                    )
+              }
+              metrics={[
+                {
+                  label: seriesLabel,
+                  value: valueFormat(hover.datum.y),
+                  color:
+                    hover.datum.y >= 0 ? positiveColor : negativeColor,
+                },
+              ]}
+            />
+          ) : null}
+        </ChartTooltip>
       </div>
     );
   }

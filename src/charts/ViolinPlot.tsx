@@ -15,6 +15,7 @@ import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
 import { Gridlines } from "./primitives/Gridlines";
 import { bandScale, linearScale } from "./math/scales";
 import { seriesPalette } from "./math/color";
@@ -127,12 +128,10 @@ export const ViolinPlot = forwardRef<HTMLDivElement, ViolinPlotProps>(
         </ChartFrame>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
-            <>
-              <div>
-                <strong>{hover.group.label ?? hover.group.key}</strong>
-              </div>
-              <div>samples: {hover.count}</div>
-            </>
+            <ChartTooltipBody
+              title={hover.group.label ?? hover.group.key}
+              metrics={[{ label: "samples", value: String(hover.count) }]}
+            />
           ) : null}
         </ChartTooltip>
       </div>

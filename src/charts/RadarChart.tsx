@@ -7,11 +7,17 @@ import {
   forwardRef,
   useMemo,
   useRef,
+  useState,
   type HTMLAttributes,
   type ReactNode,
 } from "react";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
-import { seriesPalette } from "./math/color";
+import { ChartTooltip } from "./primitives/ChartTooltip";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import { linearScale } from "./math/scales";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
@@ -39,6 +45,8 @@ export interface RadarChartProps
   accessibleLabel?: string;
   /** Fill opacity. Default 0.25. */
   fillOpacity?: number;
+  /** Format values shown in tooltips. Default smart number formatter. */
+  valueFormat?: (v: number) => string;
 }
 
 export const RadarChart = forwardRef<HTMLDivElement, RadarChartProps>(
@@ -54,12 +62,19 @@ export const RadarChart = forwardRef<HTMLDivElement, RadarChartProps>(
       showLegend = true,
       accessibleLabel,
       fillOpacity = 0.25,
+      valueFormat = (v) => formatChartNumber(v),
       className,
       style,
       ...props
     },
     ref
   ) {
+    const [hover, setHover] = useState<{
+      axis: string;
+      metrics: TooltipMetric[];
+      x: number;
+      y: number;
+    } | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const mergedRef = (node: HTMLDivElement | null) => {
       (containerRef as { current: HTMLDivElement | null }).current = node;
@@ -184,22 +199,60 @@ export const RadarChart = forwardRef<HTMLDivElement, RadarChartProps>(
                   stroke={colors[sIdx]}
                   strokeWidth={1.5}
                 />
-                {s.values.map((v, i) => {
-                  const p = pointFor(v, i);
-                  return (
-                    <rect
-                      key={i}
-                      x={p.x - 2}
-                      y={p.y - 2}
-                      width={4}
-                      height={4}
-                      fill={colors[sIdx]}
-                    />
-                  );
-                })}
               </g>
             );
           })}
+          {/* hover targets per (axis × series) vertex */}
+          {series.map((s, sIdx) =>
+            s.values.map((v, axisIdx) => {
+              const p = pointFor(v, axisIdx);
+              return (
+                <rect
+                  key={`${s.key}-${axisIdx}`}
+                  x={p.x - 6}
+                  y={p.y - 6}
+                  width={12}
+                  height={12}
+                  fill={colors[sIdx]}
+                  fillOpacity={0}
+                  stroke={colors[sIdx]}
+                  strokeOpacity={0}
+                  onPointerMove={(e) => {
+                    const axisLabel = axes[axisIdx]!;
+                    const metrics: TooltipMetric[] = series.map((ss, i) => ({
+                      label: ss.label ?? ss.key,
+                      value: valueFormat(ss.values[axisIdx] ?? 0),
+                      color: colors[i],
+                    }));
+                    setHover({
+                      axis: axisLabel,
+                      metrics,
+                      x: e.clientX,
+                      y: e.clientY,
+                    });
+                  }}
+                  onPointerLeave={() => setHover(null)}
+                />
+              );
+            })
+          )}
+          {/* visible dots — drawn on top of hover zones */}
+          {series.map((s, sIdx) =>
+            s.values.map((v, axisIdx) => {
+              const p = pointFor(v, axisIdx);
+              return (
+                <rect
+                  key={`dot-${s.key}-${axisIdx}`}
+                  x={p.x - 2}
+                  y={p.y - 2}
+                  width={4}
+                  height={4}
+                  fill={colors[sIdx]}
+                  pointerEvents="none"
+                />
+              );
+            })
+          )}
         </svg>
         {showLegend && series.length > 1 && (
           <ChartLegend
@@ -212,6 +265,15 @@ export const RadarChart = forwardRef<HTMLDivElement, RadarChartProps>(
             }))}
           />
         )}
+        <ChartTooltip
+          active={!!hover}
+          x={hover?.x ?? 0}
+          y={hover?.y ?? 0}
+        >
+          {hover ? (
+            <ChartTooltipBody title={hover.axis} metrics={hover.metrics} />
+          ) : null}
+        </ChartTooltip>
       </div>
     );
   }

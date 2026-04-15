@@ -7,6 +7,7 @@
 import {
   forwardRef,
   useMemo,
+  useState,
   type HTMLAttributes,
   type ReactNode,
 } from "react";
@@ -14,8 +15,15 @@ import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
+import { ChartTooltip } from "./primitives/ChartTooltip";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
+import { Crosshair } from "./primitives/Crosshair";
 import { Gridlines } from "./primitives/Gridlines";
-import { seriesPalette } from "./math/color";
+import { bisectNearest } from "./math/bisector";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import {
   linearScale,
   pointScale,
@@ -80,7 +88,7 @@ export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
       showStroke = true,
       valueTicks = 5,
       xTicks = 6,
-      valueFormat = (v) => String(v),
+      valueFormat = (v) => formatChartNumber(v),
       xFormat,
       accessibleLabel,
       className,
@@ -92,6 +100,11 @@ export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
       const palette = seriesPalette(series.length);
       return series.map((s, i) => s.color ?? palette[i]!);
     }, [series]);
+    const [hover, setHover] = useState<{
+      datum: AreaChartDatum;
+      clientX: number;
+      clientY: number;
+    } | null>(null);
 
     return (
       <div ref={ref} className={cx("vf-chart-area-chart", className)} {...props}>
@@ -115,6 +128,7 @@ export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
             colors={colors}
             showGrid={showGrid}
             showStroke={showStroke}
+            onHover={setHover}
           />
         </ChartFrame>
         {showLegend && series.length > 1 && (
@@ -128,6 +142,35 @@ export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
             }))}
           />
         )}
+        <ChartTooltip
+          active={!!hover}
+          x={hover?.clientX ?? 0}
+          y={hover?.clientY ?? 0}
+        >
+          {hover ? (
+            <ChartTooltipBody
+              title={
+                xFormat
+                  ? xFormat(hover.datum.x)
+                  : String(
+                      hover.datum.x instanceof Date
+                        ? hover.datum.x.toDateString()
+                        : hover.datum.x
+                    )
+              }
+              metrics={series.reduce<TooltipMetric[]>((acc, s, i) => {
+                const v = Number(hover.datum[s.key]);
+                if (!Number.isFinite(v)) return acc;
+                acc.push({
+                  label: s.label ?? s.key,
+                  value: valueFormat(v),
+                  color: colors[i],
+                });
+                return acc;
+              }, [])}
+            />
+          ) : null}
+        </ChartTooltip>
       </div>
     );
   }
@@ -146,6 +189,9 @@ interface AreaChartInnerProps {
   colors: string[];
   showGrid: boolean;
   showStroke: boolean;
+  onHover: (
+    h: { datum: AreaChartDatum; clientX: number; clientY: number } | null
+  ) => void;
 }
 
 function AreaChartInner({
@@ -160,8 +206,10 @@ function AreaChartInner({
   colors,
   showGrid,
   showStroke,
+  onHover,
 }: AreaChartInnerProps) {
   const { innerWidth, innerHeight } = useChart();
+  const [crosshair, setCrosshair] = useState<number | null>(null);
   const xValuesRaw = data.map((d) => d.x);
 
   const xScale = useMemo(() => {
@@ -317,6 +365,36 @@ function AreaChartInner({
               </g>
             );
           })}
+      {crosshair !== null && (
+        <Crosshair x={crosshair} mode="x" />
+      )}
+      <rect
+        x={0}
+        y={0}
+        width={innerWidth}
+        height={innerHeight}
+        fill="transparent"
+        onPointerMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const localX = e.clientX - rect.left;
+          const nearest = bisectNearest(
+            data,
+            localX,
+            (d) => xAt(d.x) as number
+          );
+          if (!nearest) return;
+          setCrosshair(xAt(nearest.datum.x) as number);
+          onHover({
+            datum: nearest.datum,
+            clientX: e.clientX,
+            clientY: e.clientY,
+          });
+        }}
+        onPointerLeave={() => {
+          setCrosshair(null);
+          onHover(null);
+        }}
+      />
     </g>
   );
 }

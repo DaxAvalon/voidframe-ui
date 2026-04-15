@@ -14,11 +14,15 @@ import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
 import { useChart, type ChartMargins } from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { Crosshair } from "./primitives/Crosshair";
 import { Gridlines } from "./primitives/Gridlines";
 import { bisectNearest } from "./math/bisector";
-import { seriesPalette } from "./math/color";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import {
   linearScale,
   pointScale,
@@ -66,7 +70,7 @@ export interface LineChartProps
   accessibleLabel?: string;
 }
 
-const fmtDefault = (v: number) => String(v);
+const fmtDefault = (v: number) => formatChartNumber(v);
 
 export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   function LineChart(
@@ -99,10 +103,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 
     const [hover, setHover] = useState<{
       datum: LineChartDatum;
-      series: LineChartSeries;
-      value: number;
-      plotX: number;
-      plotY: number;
       clientX: number;
       clientY: number;
     } | null>(null);
@@ -148,18 +148,27 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
           y={hover?.clientY ?? 0}
         >
           {hover ? (
-            <>
-              <div>
-                <strong>
-                  {xFormat
-                    ? xFormat(hover.datum.x)
-                    : String(hover.datum.x instanceof Date ? hover.datum.x.toDateString() : hover.datum.x)}
-                </strong>
-              </div>
-              <div>
-                {hover.series.label ?? hover.series.key}: {valueFormat(hover.value)}
-              </div>
-            </>
+            <ChartTooltipBody
+              title={
+                xFormat
+                  ? xFormat(hover.datum.x)
+                  : String(
+                      hover.datum.x instanceof Date
+                        ? hover.datum.x.toDateString()
+                        : hover.datum.x
+                    )
+              }
+              metrics={series.reduce<TooltipMetric[]>((acc, s, i) => {
+                const v = Number(hover.datum[s.key]);
+                if (!Number.isFinite(v)) return acc;
+                acc.push({
+                  label: s.label ?? s.key,
+                  value: valueFormat(v),
+                  color: colors[i],
+                });
+                return acc;
+              }, [])}
+            />
           ) : null}
         </ChartTooltip>
       </div>
@@ -184,10 +193,6 @@ interface LineChartInnerProps {
 
 interface LineChartInnerHover {
   datum: LineChartDatum;
-  series: LineChartSeries;
-  value: number;
-  plotX: number;
-  plotY: number;
   clientX: number;
   clientY: number;
 }
@@ -271,7 +276,6 @@ function LineChartInner({
 
   const [crosshair, setCrosshair] = useState<{
     x: number;
-    y?: number;
   } | null>(null);
 
   const handlePointerMove = (e: React.PointerEvent<SVGRectElement>) => {
@@ -286,27 +290,12 @@ function LineChartInner({
     if (!nearest) return;
     const datum = nearest.datum;
     const dx = xAt(datum.x) as number;
-    // Choose the first series for crosshair y (tooltip below shows it fully).
-    const firstSeries = series[0];
-    const firstValue = firstSeries
-      ? Number(datum[firstSeries.key])
-      : undefined;
-    const firstY =
-      firstSeries && Number.isFinite(firstValue!)
-        ? yScale(firstValue!)
-        : undefined;
-    setCrosshair({ x: dx, y: firstY });
-    if (firstSeries && firstValue !== undefined) {
-      onHover({
-        datum,
-        series: firstSeries,
-        value: firstValue,
-        plotX: dx,
-        plotY: firstY ?? 0,
-        clientX: e.clientX,
-        clientY: e.clientY,
-      });
-    }
+    setCrosshair({ x: dx });
+    onHover({
+      datum,
+      clientX: e.clientX,
+      clientY: e.clientY,
+    });
   };
   const handlePointerLeave = () => {
     setCrosshair(null);
@@ -357,7 +346,7 @@ function LineChartInner({
         );
       })}
       {showCrosshair && crosshair && (
-        <Crosshair x={crosshair.x} y={crosshair.y} mode="x" />
+        <Crosshair x={crosshair.x} mode="x" />
       )}
       {/* Transparent hover catcher spanning the plot. */}
       <rect

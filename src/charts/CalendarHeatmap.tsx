@@ -13,6 +13,8 @@ import {
 } from "react";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { ChartTooltip } from "./primitives/ChartTooltip";
+import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
+import { formatChartNumber } from "./math/color";
 import { quantizeScale } from "./math/scales";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
@@ -71,7 +73,7 @@ export const CalendarHeatmap = forwardRef<HTMLDivElement, CalendarHeatmapProps>(
       description,
       showDayLabels = true,
       showMonthLabels = true,
-      valueFormat = (v) => String(v),
+      valueFormat = (v) => formatChartNumber(v),
       accessibleLabel,
       showLegend = true,
       className,
@@ -256,13 +258,11 @@ export const CalendarHeatmap = forwardRef<HTMLDivElement, CalendarHeatmapProps>(
         )}
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
-            <>
-              <div>
-                <strong>{hover.date.toDateString()}</strong>
-              </div>
-              <div>{valueFormat(hover.value)}</div>
-              {hover.cell?.label && <div>{hover.cell.label}</div>}
-            </>
+            <ChartTooltipBody
+              title={hover.date.toDateString()}
+              metrics={[{ label: "value", value: valueFormat(hover.value) }]}
+              footer={hover.cell?.label}
+            />
           ) : null}
         </ChartTooltip>
       </div>
