@@ -22,6 +22,16 @@ export default defineConfig({
         "test/**",
         "vite.config.ts",
       ],
+      thresholds: {
+        // Library-wide floors. Phase 19 sets a pragmatic baseline so
+        // regressions surface in CI; per-layer targets (utilities /
+        // hooks / primitives at 95%) live in the phase doc and can be
+        // raised incrementally.
+        lines: 75,
+        statements: 75,
+        functions: 75,
+        branches: 70,
+      },
     },
   },
   plugins: [

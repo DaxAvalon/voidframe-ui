@@ -17,6 +17,10 @@
       "types": "./dist/types/tokens.d.ts",
       "import": "./dist/tokens.js"
     },
+    "./testing": {
+      "types": "./dist/types/testing/index.d.ts",
+      "import": "./dist/testing.js"
+    },
     "./theme-script.js": "./theme-script.js",
     "./package.json": "./package.json"
   },
@@ -38,7 +42,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:ssr": "vitest run src/__tests__/ssr.test.tsx",
+    "test:a11y": "vitest run src/components/__tests__/a11yAxe.test.tsx"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

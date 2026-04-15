@@ -365,6 +365,65 @@ const CompassIcon = adaptIcon(Compass, { defaultLabel: "Compass" });
 <CompassIcon size="xl" />
 ```
 
+### Testing your app against Voidframe
+
+Voidframe ships a `voidframe/testing` subpath with the same helpers used internally — so consuming apps can write tests against our components with the provider, a11y checks, and viewport mocks pre-wired.
+
+```jsx
+import { describe, expect, it } from "vitest";
+import { screen } from "@testing-library/react";
+import {
+  renderWithTheme,
+  expectNoA11yViolations,
+  installMatchMedia,
+  createMockStorage,
+} from "voidframe/testing";
+import { MyFeature } from "./MyFeature";
+
+it("renders inside the provider + passes axe", async () => {
+  const { container } = renderWithTheme(<MyFeature />, {
+    themeName: "light",
+    density: "compact",
+    direction: "rtl",
+  });
+  expect(screen.getByRole("button")).toBeInTheDocument();
+  await expectNoA11yViolations(container);
+});
+
+it("reacts to a viewport resize", () => {
+  const ctl = installMatchMedia(320);
+  renderWithTheme(<MyFeature />);
+  ctl.setWidth(1100);            // flips min-width matches + fires listeners
+  ctl.restore();
+});
+
+it("persists theme through storage", () => {
+  const storage = createMockStorage();
+  // Pass `storage` into useThemePersistence / WhatsNewPopover.
+});
+```
+
+**Scripts** (the framework's own CI matrix, mirrored in `package.json`):
+
+```bash
+npm run test              # full vitest suite (1230+ tests)
+npm run test:watch        # interactive
+npm run test:coverage     # v8 coverage + enforced floor thresholds
+npm run test:ssr          # renderToString smoke test per phase
+npm run test:a11y         # axe suite across every component
+```
+
+**Coverage floors** (enforced by vitest thresholds): lines / statements / functions ≥75%, branches ≥70%. Per-layer targets in the Phase 19 plan (utilities / hooks / primitives ≥95%) are aspirational and can be raised as the suite matures.
+
+**Playwright + Chromatic.** Unit + SSR + axe is the baseline. For full-flow interaction tests (overlays, drag-drop, form submission) add Playwright against the shipped demo:
+
+```bash
+npx playwright install
+npx playwright test
+```
+
+Use `@axe-core/playwright` for per-route browser-level a11y checks. For visual regression, point Chromatic at the demo build or publish Storybook — the setup lives in Phases 22 / 25 of the plan.
+
 ### SSR & framework compatibility
 
 Voidframe is SSR-safe and carries `"use client"` directives on every stateful module, so it works out of the box with Next.js (App + Pages Router), Remix, Astro, Vite SSR, and Gatsby. A `renderToString` smoke test exercises a representative sample of every complexity tier on every commit.
