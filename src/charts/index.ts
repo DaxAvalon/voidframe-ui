@@ -149,3 +149,70 @@ export type { SparklineProps } from "./Sparkline";
 
 export { Heatmap } from "./Heatmap";
 export type { HeatmapCellData, HeatmapProps } from "./Heatmap";
+
+// ── Phase 23: advanced layouts ─────────────────────────────
+export { SmallMultiples } from "./SmallMultiples";
+export type { SmallMultiplesProps } from "./SmallMultiples";
+
+export { TreeMap } from "./TreeMap";
+export type { TreeMapNode, TreeMapProps, TreeMapTile } from "./TreeMap";
+
+export { Sunburst } from "./Sunburst";
+export type { SunburstNode, SunburstProps } from "./Sunburst";
+
+export { FunnelChart } from "./FunnelChart";
+export type { FunnelChartProps, FunnelChartStep } from "./FunnelChart";
+
+export { WaterfallChart } from "./WaterfallChart";
+export type {
+  WaterfallChartProps,
+  WaterfallStep,
+} from "./WaterfallChart";
+
+export { BoxPlot, computeBoxStats } from "./BoxPlot";
+export type { BoxPlotGroup, BoxPlotProps, BoxPlotStats } from "./BoxPlot";
+
+export { ViolinPlot } from "./ViolinPlot";
+export type { ViolinPlotGroup, ViolinPlotProps } from "./ViolinPlot";
+
+export { CandlestickChart, OHLCChart } from "./CandlestickChart";
+export type {
+  CandleChartStyle,
+  CandleDatum,
+  CandlestickChartProps,
+} from "./CandlestickChart";
+
+export { StreamGraph } from "./StreamGraph";
+export type {
+  StreamGraphDatum,
+  StreamGraphProps,
+  StreamGraphSeries,
+} from "./StreamGraph";
+
+export { HorizonChart } from "./HorizonChart";
+export type { HorizonChartProps, HorizonPoint } from "./HorizonChart";
+
+export { Sankey } from "./Sankey";
+export type {
+  SankeyAlign,
+  SankeyLink,
+  SankeyNode,
+  SankeyProps,
+} from "./Sankey";
+
+export { ChordDiagram } from "./ChordDiagram";
+export type { ChordDiagramProps, ChordGroup } from "./ChordDiagram";
+
+export { ParallelCoordinates } from "./ParallelCoordinates";
+export type {
+  ParallelAxis,
+  ParallelCoordinatesProps,
+  ParallelDatum,
+  ParallelSeries,
+} from "./ParallelCoordinates";
+
+export { ScatterMatrix } from "./ScatterMatrix";
+export type {
+  ScatterMatrixDatum,
+  ScatterMatrixProps,
+} from "./ScatterMatrix";

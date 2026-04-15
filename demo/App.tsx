@@ -33,18 +33,33 @@ import {
   Carousel,
   AreaChart,
   BarChart,
+  BoxPlot,
   BubbleChart,
   CalendarHeatmap,
+  CandlestickChart,
   ChartFrame,
   ChartLegend,
   ChartTooltip,
+  ChordDiagram,
   ComposedChart,
   DonutChart,
+  FunnelChart,
   Histogram,
+  HorizonChart,
   LineChart,
+  OHLCChart,
+  ParallelCoordinates,
   PieChart,
   RadarChart,
+  Sankey,
+  ScatterMatrix,
   ScatterPlot,
+  SmallMultiples,
+  StreamGraph,
+  Sunburst,
+  TreeMap,
+  ViolinPlot,
+  WaterfallChart,
   Axis,
   Brush,
   Crosshair,
@@ -1401,6 +1416,236 @@ function ChartsSection() {
             { x: "08", y: "Fri", value: 9 },
             { x: "12", y: "Fri", value: 5 },
           ]}
+        />
+      </Block>
+    </Frame>
+  );
+}
+
+function AdvancedChartsSection() {
+  const treeData = {
+    name: "platform",
+    children: [
+      {
+        name: "backend",
+        children: [
+          { name: "api", value: 18 },
+          { name: "worker", value: 12 },
+          { name: "scheduler", value: 6 },
+        ],
+      },
+      {
+        name: "frontend",
+        children: [
+          { name: "web", value: 22 },
+          { name: "mobile", value: 9 },
+          { name: "embed", value: 4 },
+        ],
+      },
+      {
+        name: "infra",
+        children: [
+          { name: "deploy", value: 10 },
+          { name: "ops", value: 7 },
+        ],
+      },
+    ],
+  };
+  const funnel = [
+    { key: "visits", label: "Visits", value: 1000 },
+    { key: "signups", label: "Sign-ups", value: 420 },
+    { key: "activated", label: "Activated", value: 260 },
+    { key: "paid", label: "Paid", value: 85 },
+  ];
+  const waterfallSteps: import("../src").WaterfallStep[] = [
+    { key: "open", label: "Opening", value: 120 },
+    { key: "inc1", label: "New users", value: 34 },
+    { key: "dec1", label: "Churn", value: -12 },
+    { key: "inc2", label: "Referrals", value: 22 },
+    { key: "dec2", label: "Refunds", value: -4 },
+    { key: "close", label: "Closing", value: "total" },
+  ];
+  const boxGroups = ["A", "B", "C"].map((k) => ({
+    key: k,
+    label: `Group ${k}`,
+    values: Array.from(
+      { length: 30 },
+      () => (Math.random() + Math.random()) * 10 + 20
+    ),
+  }));
+  const candleData = Array.from({ length: 24 }, (_, i) => {
+    const base = 100 + Math.sin(i / 3) * 10 + i;
+    const open = base + (Math.random() - 0.5) * 2;
+    const close = open + (Math.random() - 0.5) * 4;
+    const high = Math.max(open, close) + Math.random() * 2;
+    const low = Math.min(open, close) - Math.random() * 2;
+    return {
+      x: `D${i + 1}`,
+      open,
+      close,
+      high,
+      low,
+    };
+  });
+  const streamData = Array.from({ length: 24 }, (_, i) => ({
+    x: i,
+    a: 30 + Math.sin(i / 4) * 10 + Math.random() * 4,
+    b: 20 + Math.cos(i / 3) * 8 + Math.random() * 4,
+    c: 15 + Math.sin(i / 5) * 6 + Math.random() * 3,
+    d: 10 + Math.cos(i / 6) * 5 + Math.random() * 2,
+  }));
+  const horizonSmallMultiples = [
+    {
+      key: "requests",
+      label: "Requests",
+      data: Array.from({ length: 60 }, (_, i) => ({
+        x: i,
+        y: Math.sin(i / 5) * 40 + Math.cos(i / 7) * 10,
+      })),
+    },
+    {
+      key: "latency",
+      label: "Latency",
+      data: Array.from({ length: 60 }, (_, i) => ({
+        x: i,
+        y: Math.cos(i / 4) * 30 - 10,
+      })),
+    },
+    {
+      key: "errors",
+      label: "Errors",
+      data: Array.from({ length: 60 }, (_, i) => ({
+        x: i,
+        y: Math.sin(i / 6) * 20,
+      })),
+    },
+  ];
+  const sankeyNodes = [
+    { key: "raw", label: "Raw leads" },
+    { key: "mql", label: "MQL" },
+    { key: "sql", label: "SQL" },
+    { key: "won", label: "Won" },
+    { key: "lost", label: "Lost" },
+  ];
+  const sankeyLinks = [
+    { source: "raw", target: "mql", value: 300 },
+    { source: "raw", target: "lost", value: 180 },
+    { source: "mql", target: "sql", value: 120 },
+    { source: "mql", target: "lost", value: 180 },
+    { source: "sql", target: "won", value: 60 },
+    { source: "sql", target: "lost", value: 60 },
+  ];
+  const chordGroups = [
+    { key: "us", label: "US" },
+    { key: "eu", label: "EU" },
+    { key: "as", label: "Asia" },
+    { key: "sa", label: "South America" },
+  ];
+  const chordMatrix = [
+    [0, 12, 8, 3],
+    [10, 0, 5, 2],
+    [6, 4, 0, 1],
+    [2, 1, 1, 0],
+  ];
+  const parallelData = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    values: {
+      mpg: 15 + Math.random() * 25,
+      hp: 60 + Math.random() * 180,
+      weight: 2000 + Math.random() * 2000,
+      year: 2000 + Math.random() * 24,
+    },
+    series: i % 2 === 0 ? "a" : "b",
+  }));
+  const splomData = Array.from({ length: 40 }, (_, i) => ({
+    id: i,
+    values: {
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      z: Math.random() * 100,
+    },
+  }));
+  return (
+    <Frame
+      title="Advanced charts — Phase 23"
+      description="Hierarchical, statistical, financial, temporal, and relational charts."
+    >
+      <Block label="TreeMap">
+        <TreeMap data={treeData} height={260} />
+      </Block>
+      <Block label="Sunburst">
+        <Sunburst data={treeData} size={320} />
+      </Block>
+      <Block label="FunnelChart / WaterfallChart">
+        <Flex gap={24} wrap>
+          <FunnelChart steps={funnel} height={320} />
+          <WaterfallChart
+            steps={waterfallSteps}
+            height={260}
+          />
+        </Flex>
+      </Block>
+      <Block label="BoxPlot / ViolinPlot">
+        <Flex gap={24} wrap>
+          <BoxPlot groups={boxGroups} height={260} />
+          <ViolinPlot groups={boxGroups} height={260} />
+        </Flex>
+      </Block>
+      <Block label="Candlestick / OHLC">
+        <Flex gap={24} wrap>
+          <CandlestickChart data={candleData} height={260} />
+          <OHLCChart data={candleData} height={260} />
+        </Flex>
+      </Block>
+      <Block label="StreamGraph">
+        <StreamGraph
+          data={streamData}
+          series={[
+            { key: "a", label: "A" },
+            { key: "b", label: "B" },
+            { key: "c", label: "C" },
+            { key: "d", label: "D" },
+          ]}
+          height={200}
+        />
+      </Block>
+      <Block label="HorizonChart (SmallMultiples)">
+        <SmallMultiples
+          items={horizonSmallMultiples}
+          minItemWidth={280}
+          facetLabel={(m) => m.label}
+          renderItem={(m) => (
+            <HorizonChart data={m.data} bands={3} height={54} />
+          )}
+        />
+      </Block>
+      <Block label="Sankey">
+        <Sankey nodes={sankeyNodes} links={sankeyLinks} height={260} />
+      </Block>
+      <Block label="ChordDiagram">
+        <ChordDiagram groups={chordGroups} matrix={chordMatrix} size={320} />
+      </Block>
+      <Block label="ParallelCoordinates">
+        <ParallelCoordinates
+          data={parallelData}
+          axes={[
+            { key: "mpg", label: "MPG" },
+            { key: "hp", label: "HP" },
+            { key: "weight", label: "Weight" },
+            { key: "year", label: "Year" },
+          ]}
+          series={[
+            { key: "a", label: "Cohort A" },
+            { key: "b", label: "Cohort B" },
+          ]}
+          height={300}
+        />
+      </Block>
+      <Block label="ScatterMatrix (SPLOM)">
+        <ScatterMatrix
+          data={splomData}
+          dimensions={["x", "y", "z"]}
+          facetHeight={140}
         />
       </Block>
     </Frame>
@@ -3853,6 +4098,7 @@ const SECTIONS: DemoSection[] = [
   { id: "data-lists", group: "Data", title: "Trees & Lists", render: () => <DataListsSection /> },
   { id: "data-metrics", group: "Data", title: "Metrics", render: () => <MetricsSection /> },
   { id: "data-charts", group: "Data", title: "Charts", render: () => <ChartsSection /> },
+  { id: "data-chart-advanced", group: "Data", title: "Advanced charts (Phase 23)", render: () => <AdvancedChartsSection /> },
   { id: "data-chart-primitives", group: "Data", title: "Chart primitives (Phase 21)", render: () => <ChartPrimitivesSection /> },
   { id: "data-viewers", group: "Data", title: "Viewers", render: () => <ViewersSection /> },
   { id: "data-calendars", group: "Data", title: "Calendars", render: () => <CalendarsSection /> },

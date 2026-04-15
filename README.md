@@ -312,6 +312,25 @@ Charts — hand-rolled SVG library. Math uses d3-scale / d3-shape / d3-array / d
 | `Sparkline` | inline micro-chart, optional area + trend + points |
 | `Heatmap` | row × column matrix, quantized color scale |
 
+**Advanced layouts (Phase 23):**
+
+| Chart | Notes |
+|-------|-------|
+| `TreeMap` | squarified / binary / slice / dice / slice-dice tilings via d3-hierarchy |
+| `Sunburst` | radial partition with rotated labels for wide sweeps |
+| `FunnelChart` | vertical or horizontal drop-off, percent-of-top label |
+| `WaterfallChart` | running-sum bars with increase / decrease / total tones and connectors |
+| `BoxPlot` | min / Q1 / median / Q3 / max + outliers beyond 1.5 × IQR |
+| `ViolinPlot` | Gaussian-kernel density (Silverman bandwidth), falls back to rect for small samples |
+| `CandlestickChart`, `OHLCChart` | candle bodies or OHLC ticks with up/down tones |
+| `StreamGraph` | stacked area with wiggle baseline + inside-out order |
+| `HorizonChart` | N colored bands, negatives folded |
+| `Sankey` | node relaxation via d3-sankey with justify/left/right/center alignment |
+| `ChordDiagram` | flow between N groups from a square matrix |
+| `ParallelCoordinates` | N per-dimension linear axes with polylines per row |
+| `ScatterMatrix` | N × N scatter grid (SPLOM) |
+| `SmallMultiples<T>` | generic faceting wrapper used by SPLOM and any chart repeated over categories |
+
 **Math utilities:** `linearScale`, `logScale`, `sqrtScale`, `timeScale`, `bandScale`, `pointScale`, `quantizeScale`, `generateTicks`, `stackSeries`, `resolveCurve`, `bisectNearest`, `scanNearest`, `seriesPalette`.
 
 Calendars: `Calendar` (month/week/day views, range selection).

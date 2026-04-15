@@ -233,6 +233,185 @@ button.vf-chart-legend__item:focus-visible {
   vertical-align: middle;
 }
 
+/* ── TreeMap / Sunburst ───────────────────────────────────── */
+.vf-chart-treemap,
+.vf-chart-sunburst {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+}
+.vf-chart-treemap__cell {
+  stroke: var(--vf-bg-1);
+  stroke-width: 1;
+  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-treemap__cell:hover,
+.vf-chart-sunburst__slice:hover {
+  opacity: 0.82;
+}
+.vf-chart-treemap__label,
+.vf-chart-sunburst__label {
+  fill: var(--vf-bg-0);
+  font-size: var(--vf-font-xs);
+  font-family: var(--vf-font-family);
+  pointer-events: none;
+}
+.vf-chart-tooltip__path {
+  color: var(--vf-text-3);
+  font-size: var(--vf-font-xxs);
+  margin-top: 2px;
+}
+
+/* ── Funnel / Waterfall ───────────────────────────────────── */
+.vf-chart-funnel,
+.vf-chart-waterfall {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+}
+.vf-chart-funnel__label,
+.vf-chart-funnel__percent {
+  fill: var(--vf-bg-0);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  pointer-events: none;
+}
+.vf-chart-funnel__percent {
+  font-size: var(--vf-font-xxs);
+  fill: color-mix(in srgb, var(--vf-bg-0) 75%, transparent);
+}
+.vf-chart-waterfall__connector {
+  stroke: var(--vf-border-2);
+  stroke-dasharray: 2 2;
+  stroke-width: 1;
+}
+
+/* ── BoxPlot / ViolinPlot ─────────────────────────────────── */
+.vf-chart-boxplot__whisker,
+.vf-chart-boxplot__cap,
+.vf-chart-boxplot__median {
+  shape-rendering: crispEdges;
+}
+.vf-chart-boxplot__box {
+  shape-rendering: crispEdges;
+}
+
+/* ── Candlestick / OHLC ───────────────────────────────────── */
+.vf-chart-candle__wick {
+  shape-rendering: crispEdges;
+}
+
+/* ── Stream / Horizon ─────────────────────────────────────── */
+.vf-chart-stream,
+.vf-chart-horizon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+}
+.vf-chart-horizon__baseline {
+  stroke: var(--vf-border-1);
+  stroke-width: 1;
+}
+
+/* ── Sankey ───────────────────────────────────────────────── */
+.vf-chart-sankey {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+}
+.vf-chart-sankey__link {
+  transition: stroke-opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-sankey__link:hover {
+  stroke-opacity: 0.7;
+}
+.vf-chart-sankey__label {
+  fill: var(--vf-text-1);
+  font-size: var(--vf-font-xxs);
+  font-family: var(--vf-font-family);
+  pointer-events: none;
+}
+
+/* ── Chord ────────────────────────────────────────────────── */
+.vf-chart-chord {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+}
+.vf-chart-chord__chord {
+  transition: stroke-opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-chord__chord:hover {
+  stroke-opacity: 0.85;
+}
+.vf-chart-chord__label {
+  fill: var(--vf-text-1);
+  font-size: var(--vf-font-xxs);
+  font-family: var(--vf-font-family);
+}
+
+/* ── Parallel coordinates / SPLOM ─────────────────────────── */
+.vf-chart-parallel,
+.vf-chart-splom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+}
+.vf-chart-parallel__axis-line {
+  stroke: var(--vf-border-2);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.vf-chart-parallel__axis-label {
+  fill: var(--vf-text-2);
+  font-size: var(--vf-font-xxs);
+}
+.vf-chart-parallel__row:hover {
+  stroke-opacity: 1;
+}
+.vf-chart-splom__cell {
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-1);
+  padding: var(--vf-sp-2);
+}
+.vf-chart-splom__diagonal {
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vf-text-0);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── SmallMultiples ───────────────────────────────────────── */
+.vf-chart-multiples {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-4);
+  font-family: var(--vf-font-family);
+}
+.vf-chart-multiples__facet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-2);
+}
+.vf-chart-multiples__facet-label {
+  color: var(--vf-text-2);
+  font-size: var(--vf-font-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 /* ── Density overrides ────────────────────────────────────── */
 [data-vf-density="compact"] .vf-chart-axis__label,
 [data-vf-density="compact"] .vf-chart-tooltip,
