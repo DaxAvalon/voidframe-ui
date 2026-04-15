@@ -171,11 +171,15 @@ export interface DashboardGridProps
   maxW?: number;
   /** Max sub-cell height. Defaults to bounds rows or unbounded. */
   maxH?: number;
-  /** `"auto"` (default) grows the canvas to fit the lowest card; pass
-   * `{ rows: N }` for a fixed sub-cell row count. */
+  /** `"auto"` (default) grows the canvas in both axes to fit the
+   * furthest card; pass `{ rows: N }` for a fixed sub-cell row count
+   * (horizontal still grows past `cols` if a card requires it). */
   bounds?: DashboardBounds;
-  /** Empty rows below the lowest card when bounds === "auto". Default 4. */
+  /** Empty rows below the lowest card when growing vertically. Default 4. */
   autoPaddingRows?: number;
+  /** Empty columns to the right of the furthest card when growing
+   * horizontally. Default 4. */
+  autoPaddingCols?: number;
 }
 
 interface MoveDragState {
@@ -295,6 +299,7 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       maxH,
       bounds = "auto",
       autoPaddingRows = 4,
+      autoPaddingCols = 4,
       className,
       style,
       ...props
@@ -317,22 +322,52 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
     const cellStep = cellSize + gap;
     const subToPx = (n: number) => n * cellStep;
 
-    // Total sub-cell rows (vertical extent of the canvas).
+    const movingItem =
+      moving ? items.find((i) => i.id === moving.id) ?? null : null;
+
+    // Used extents across both axes — committed cards plus the in-flight
+    // drag's pointer-tracked position so the canvas can grow in real
+    // time while the user drags toward an edge.
+    const usedCols = items.reduce(
+      (max, item) => Math.max(max, item.x + item.w),
+      0
+    );
     const usedRows = items.reduce(
       (max, item) => Math.max(max, item.y + item.h),
       0
     );
+
+    let liveCols = usedCols;
+    let liveRows = usedRows;
+    if (moving && movingItem && pointer) {
+      const offsetX = moving.pointerStartX - subToPx(moving.startX);
+      const offsetY = moving.pointerStartY - subToPx(moving.startY);
+      const probeX = Math.max(
+        0,
+        Math.round((pointer.x - offsetX) / cellStep)
+      );
+      const probeY = Math.max(
+        0,
+        Math.round((pointer.y - offsetY) / cellStep)
+      );
+      liveCols = Math.max(liveCols, probeX + movingItem.w);
+      liveRows = Math.max(liveRows, probeY + movingItem.h);
+    }
+
+    const effectiveCols = Math.max(cols, liveCols + autoPaddingCols);
     const rows =
       bounds === "auto"
-        ? usedRows + autoPaddingRows
+        ? Math.max(usedRows, liveRows) + autoPaddingRows
         : bounds.rows;
+    // Snap math always allows growing horizontally; vertical growth
+    // depends on the bounds prop.
+    const colsLimit = effectiveCols;
     const rowsLimit = bounds === "auto" ? Number.POSITIVE_INFINITY : bounds.rows;
 
-    const canvasWidth = cols * cellSize + (cols - 1) * gap;
-    const canvasHeight = rows * cellSize + Math.max(0, rows - 1) * gap;
-
-    const movingItem =
-      moving ? items.find((i) => i.id === moving.id) ?? null : null;
+    const canvasWidth =
+      effectiveCols * cellSize + Math.max(0, effectiveCols - 1) * gap;
+    const canvasHeight =
+      rows * cellSize + Math.max(0, rows - 1) * gap;
 
     // Compute the snap preview while moving.
     const preview: SnapPreview | null = useMemo(() => {
@@ -368,16 +403,16 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       }
 
       const snap = findNearestEmpty(
-        Math.max(0, Math.min(cols - movingItem.w, proposedX)),
+        Math.max(0, Math.min(colsLimit - movingItem.w, proposedX)),
         Math.max(0, Math.min(rowsLimit - movingItem.h, proposedY)),
         movingItem.w,
         movingItem.h,
         others,
-        cols,
+        colsLimit,
         rowsLimit
       );
       return { x: snap.x, y: snap.y, swapTargetId: null };
-    }, [moving, movingItem, pointer, items, cellStep, cols, rowsLimit, subToPx]);
+    }, [moving, movingItem, pointer, items, cellStep, colsLimit, rowsLimit, subToPx]);
 
     const localFromClient = useCallback(
       (clientX: number, clientY: number) => {
@@ -512,27 +547,27 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       if (!item) return;
       const dx = pointer.x - resizing.pointerStartX;
       const dy = pointer.y - resizing.pointerStartY;
+      const widthCap = maxW ?? Number.POSITIVE_INFINITY;
       const nextW = Math.max(
         minW,
-        Math.min(maxW ?? cols, resizing.startW + Math.round(dx / cellStep))
+        Math.min(widthCap, resizing.startW + Math.round(dx / cellStep))
       );
-      const heightLimit = maxH ?? (bounds === "auto" ? Infinity : bounds.rows);
+      const heightCap = maxH ?? (bounds === "auto" ? Infinity : bounds.rows);
       const nextH = Math.max(
         minH,
-        Math.min(heightLimit, resizing.startH + Math.round(dy / cellStep))
+        Math.min(heightCap, resizing.startH + Math.round(dy / cellStep))
       );
-      const clampedW = Math.min(nextW, cols - item.x);
       const clampedH = Math.min(
         nextH,
         bounds === "auto" ? Infinity : bounds.rows - item.y
       );
-      if (clampedW === item.w && clampedH === item.h) return;
+      if (nextW === item.w && clampedH === item.h) return;
       onLayoutChange(
         items.map((it) =>
-          it.id === item.id ? { ...it, w: clampedW, h: clampedH } : it
+          it.id === item.id ? { ...it, w: nextW, h: clampedH } : it
         )
       );
-    }, [resizing, pointer, items, onLayoutChange, cellStep, cols, minW, minH, maxW, maxH, bounds]);
+    }, [resizing, pointer, items, onLayoutChange, cellStep, minW, minH, maxW, maxH, bounds]);
 
     // Re-run the resize delta every time the pointer moves.
     useEffect(() => {
