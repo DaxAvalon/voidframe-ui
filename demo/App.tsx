@@ -1784,6 +1784,44 @@ function ResponsiveSection() {
           </Button>
         </ResponsiveBox>
       </Block>
+      <Block label="Native Flex / Grid accept Responsive<T>">
+        <Grid columns={{ base: 1, sm: 2, md: 4 }} gap={{ base: 4, md: 12 }}>
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              style={{ padding: 12, background: "var(--vf-bg-3)" }}
+            >
+              col {i + 1}
+            </div>
+          ))}
+        </Grid>
+      </Block>
+      <Block label="Text — responsive size preset">
+        <Flex direction={{ base: "column", md: "row" }} gap={12} align="baseline">
+          <Text size="responsive-xl">Hero (scales)</Text>
+          <Text size={{ base: "sm", md: "md" }} color="var(--vf-text-3)">
+            Body text resizes at md
+          </Text>
+        </Flex>
+      </Block>
+      <Block label="Adaptive Table (stacked cards below md)">
+        <Table
+          columns={[
+            { key: "name", header: "NAME", width: "1fr" },
+            { key: "role", header: "ROLE", width: "1fr" },
+            { key: "status", header: "STATUS", width: "120px" },
+          ]}
+          data={[
+            { name: "Alice Smith", role: "Platform", status: "active" },
+            { name: "Bob Jones", role: "Data", status: "on-call" },
+            { name: "Grace Lee", role: "Infra", status: "idle" },
+          ]}
+        />
+        <Text size="xs" color="var(--vf-text-3)">
+          Resize below 768px — rows become stacked cards with label/value
+          pairs.
+        </Text>
+      </Block>
     </Frame>
   );
 }

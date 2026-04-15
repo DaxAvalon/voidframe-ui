@@ -122,6 +122,8 @@ export interface DrawerV2ContentProps extends HTMLAttributes<HTMLDivElement> {
   size?: number | string;
   trapFocus?: boolean;
   restoreFocus?: boolean;
+  /** Expand to full-width below the `md` breakpoint. Default true. */
+  adaptive?: boolean;
   onEscape?: (e: KeyboardEvent) => void;
   onInteractOutside?: (e: PointerEvent) => void;
   children?: ReactNode;
@@ -133,6 +135,7 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
       size = 360,
       trapFocus = true,
       restoreFocus = true,
+      adaptive = true,
       onEscape,
       onInteractOutside,
       className,
@@ -181,9 +184,11 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
             className={cx(
               "vf-drawer-v2__panel",
               `vf-drawer-v2__panel--${ctx.side}`,
+              adaptive && "vf-drawer-v2__panel--adaptive",
               className
             )}
             style={merged}
+            data-adaptive={adaptive ? "true" : undefined}
             {...(props as HTMLAttributes<HTMLDivElement>)}
           >
             {children}

@@ -385,7 +385,14 @@ import {
 <Hide above="md"><MobileMenu /></Hide>
 <Show between={["md", "xl"]}><TabletBand /></Show>
 
-// JS-resolved responsive layout — walks the ladder to pick the active value.
+// Every layout primitive now accepts Responsive<T> natively.
+<Flex direction={{ base: "column", md: "row" }} gap={{ base: 4, md: 8 }} />
+<Grid columns={{ base: 1, md: 2, lg: 3 }} gap={{ base: 8, md: 16 }} />
+<Container maxWidth={{ base: "100%", lg: "1200px" }} />
+<Text size={{ base: "sm", md: "md", lg: "lg" }} />
+<Text size="responsive-xl">Hero headline</Text>  {/* preset ladder */}
+
+// Or use ResponsiveBox as an escape hatch with the full prop surface.
 <ResponsiveBox
   display="grid"
   columns={{ base: 1, sm: 2, md: 3, lg: 4, xxl: 6 }}
@@ -412,6 +419,23 @@ function Card({ children }) {
   return <div ref={ref} data-container="inline">...</div>;
 }
 ```
+
+**Container query polyfill.** The `data-container="inline"` / `"size"` CSS hooks apply `container-type: inline-size` / `size` on modern browsers (>93% support as of 2026). For older browsers, add the [container query polyfill](https://github.com/GoogleChromeLabs/container-query-polyfill) to your bundle:
+
+```js
+import "container-query-polyfill";
+```
+
+The `useContainerQuery` hook above doesn't depend on browser CSS support — it measures via `ResizeObserver` and evaluates the predicates locally — so it always works.
+
+**Adaptive components.** `Modal`, `Drawer`, `DrawerV2`, `Sidebar`, and `Table` accept an `adaptive` prop (default **`true`**) that changes behavior below the `md` breakpoint:
+
+- `Modal` goes full-screen.
+- `Drawer` / `DrawerV2` expand to full-width.
+- `Sidebar` collapses to a 48px rail (labels hidden).
+- `Table` renders as stacked cards (column header above each value).
+
+Opt-out with `adaptive={false}` when you're wrapping one of these inside your own mobile-aware shell.
 
 ### Providers
 
@@ -521,7 +545,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (1180+ tests)
+npm run test      # full vitest suite (1200+ tests)
 npm run typecheck # tsc --noEmit
 ```
 

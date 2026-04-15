@@ -159,12 +159,25 @@ export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   width?: string | number;
   /** Enable enter/exit animations. Default true. */
   motion?: boolean;
+  /** Go full-screen below the `md` breakpoint. Default true. */
+  adaptive?: boolean;
   children?: ReactNode;
   style?: CSSProperties;
 }
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
-  { open, onClose, title, width = "480px", motion = true, children, className, style, ...props },
+  {
+    open,
+    onClose,
+    title,
+    width = "480px",
+    motion = true,
+    adaptive = true,
+    children,
+    className,
+    style,
+    ...props
+  },
   ref
 ) {
   warn(
@@ -187,11 +200,16 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
         autoFocus
         restoreFocus
         loop
-        className={cx("vf-modal__panel", className)}
+        className={cx(
+          "vf-modal__panel",
+          adaptive && "vf-modal__panel--adaptive",
+          className
+        )}
         style={{ width, ...style }}
         role="dialog"
         aria-modal="true"
         aria-label={title}
+        data-adaptive={adaptive ? "true" : undefined}
         {...(props as HTMLAttributes<HTMLDivElement>)}
       >
         {title && (

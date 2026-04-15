@@ -6,16 +6,17 @@ import type {
   ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { useResponsive, type Responsive } from "../responsive";
 
 type FlexDirection = CSSProperties["flexDirection"];
 
 export interface FlexProps extends HTMLAttributes<HTMLElement> {
   children?: ReactNode;
-  direction?: FlexDirection;
-  align?: CSSProperties["alignItems"];
-  justify?: CSSProperties["justifyContent"];
-  wrap?: boolean;
-  gap?: number | string;
+  direction?: Responsive<FlexDirection>;
+  align?: Responsive<CSSProperties["alignItems"]>;
+  justify?: Responsive<CSSProperties["justifyContent"]>;
+  wrap?: Responsive<boolean>;
+  gap?: Responsive<number | string>;
   as?: ElementType;
   style?: CSSProperties;
 }
@@ -30,21 +31,26 @@ const directionClass = (d: FlexDirection): string | undefined => {
   }
 };
 
-/** Flexbox primitive. Foundation for HStack/VStack. */
+/** Flexbox primitive. Foundation for HStack/VStack. Every visual prop accepts a `Responsive<T>` object for per-breakpoint values. */
 export const Flex = forwardRef<HTMLElement, FlexProps>(function Flex(
   { children, direction, align, justify, wrap, gap, className, style, as: Tag = "div", ...props },
   ref
 ) {
+  const d = useResponsive(direction);
+  const a = useResponsive(align);
+  const j = useResponsive(justify);
+  const w = useResponsive(wrap);
+  const g = useResponsive(gap);
   const inline: CSSProperties = {
-    ...(align !== undefined ? { alignItems: align } : {}),
-    ...(justify !== undefined ? { justifyContent: justify } : {}),
-    ...(gap !== undefined ? { gap: typeof gap === "number" ? `${gap}px` : gap } : {}),
+    ...(a !== undefined ? { alignItems: a } : {}),
+    ...(j !== undefined ? { justifyContent: j } : {}),
+    ...(g !== undefined ? { gap: typeof g === "number" ? `${g}px` : g } : {}),
     ...style,
   };
   return (
     <Tag
       ref={ref as never}
-      className={cx("vf-flex", directionClass(direction), wrap && "vf-flex--wrap", className)}
+      className={cx("vf-flex", directionClass(d), w && "vf-flex--wrap", className)}
       style={inline}
       {...props}
     >
@@ -105,27 +111,31 @@ VStack.displayName = "VStack";
 
 export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
-  columns?: number | string;
-  rows?: string;
-  gap?: number | string;
-  minChildWidth?: string;
+  columns?: Responsive<number | string>;
+  rows?: Responsive<string>;
+  gap?: Responsive<number | string>;
+  minChildWidth?: Responsive<string>;
   style?: CSSProperties;
 }
 
-/** CSS Grid wrapper. Dynamic templates flow through inline `gridTemplate*`. */
+/** CSS Grid wrapper. All visual props accept `Responsive<T>` objects. */
 export const Grid = forwardRef<HTMLDivElement, GridProps>(function Grid(
   { children, columns, rows, gap, minChildWidth, className, style, ...props },
   ref
 ) {
-  const templateCols = minChildWidth
-    ? `repeat(auto-fill, minmax(${minChildWidth}, 1fr))`
-    : typeof columns === "number"
-      ? `repeat(${columns}, 1fr)`
-      : columns;
+  const c = useResponsive(columns);
+  const r = useResponsive(rows);
+  const g = useResponsive(gap);
+  const m = useResponsive(minChildWidth);
+  const templateCols = m
+    ? `repeat(auto-fill, minmax(${m}, 1fr))`
+    : typeof c === "number"
+      ? `repeat(${c}, 1fr)`
+      : c;
   const inline: CSSProperties = {
     ...(templateCols ? { gridTemplateColumns: templateCols } : {}),
-    ...(rows ? { gridTemplateRows: rows } : {}),
-    ...(gap !== undefined ? { gap: typeof gap === "number" ? `${gap}px` : gap } : {}),
+    ...(r ? { gridTemplateRows: r } : {}),
+    ...(g !== undefined ? { gap: typeof g === "number" ? `${g}px` : g } : {}),
     ...style,
   };
   return (
@@ -138,18 +148,20 @@ Grid.displayName = "Grid";
 
 export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
-  maxWidth?: string;
-  padding?: string | number;
+  maxWidth?: Responsive<string>;
+  padding?: Responsive<string | number>;
   style?: CSSProperties;
 }
 
-/** Max-width centered container. */
+/** Max-width centered container. `maxWidth` and `padding` accept `Responsive<T>`. */
 export const Container = forwardRef<HTMLDivElement, ContainerProps>(
   function Container({ children, maxWidth, padding, className, style, ...props }, ref) {
+    const mw = useResponsive(maxWidth);
+    const p = useResponsive(padding);
     const inline: CSSProperties = {
-      ...(maxWidth ? { maxWidth } : {}),
-      ...(padding !== undefined
-        ? { padding: typeof padding === "number" ? `${padding}px` : padding }
+      ...(mw ? { maxWidth: mw } : {}),
+      ...(p !== undefined
+        ? { padding: typeof p === "number" ? `${p}px` : p }
         : {}),
       ...style,
     };

@@ -43,6 +43,11 @@ export interface TableProps<T = Record<string, unknown>>
   dense?: boolean;
   bordered?: boolean;
   stickyHeader?: boolean;
+  /**
+   * Below the `md` breakpoint, render rows as stacked cards (column
+   * header shown as a label above each value). Default true.
+   */
+  adaptive?: boolean;
   loading?: boolean;
   emptyState?: ReactNode;
   onRowClick?: (row: T, index: number) => void;
@@ -65,6 +70,7 @@ export const Table = genericForwardRef(function Table<T = Record<string, unknown
     dense,
     bordered,
     stickyHeader,
+    adaptive = true,
     loading,
     emptyState,
     onRowClick,
@@ -117,8 +123,10 @@ export const Table = genericForwardRef(function Table<T = Record<string, unknown
         dense && "vf-table--dense",
         bordered && "vf-table--bordered",
         stickyHeader && "vf-table--sticky-header",
+        adaptive && "vf-table--adaptive",
         className
       )}
+      data-adaptive={adaptive ? "true" : undefined}
       style={style}
       {...props}
     >
@@ -218,9 +226,19 @@ export const Table = genericForwardRef(function Table<T = Record<string, unknown
                         )}
                         style={inline}
                       >
-                        {c.render
-                          ? c.render(row, ri)
-                          : ((row as TableRowLookup)[c.key] as ReactNode)}
+                        {adaptive && (
+                          <span
+                            aria-hidden="true"
+                            className="vf-table__cell-label"
+                          >
+                            {c.header}
+                          </span>
+                        )}
+                        <span className="vf-table__cell-value">
+                          {c.render
+                            ? c.render(row, ri)
+                            : ((row as TableRowLookup)[c.key] as ReactNode)}
+                        </span>
                       </div>
                     );
                   })}

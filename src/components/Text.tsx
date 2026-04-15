@@ -2,11 +2,29 @@ import { forwardRef } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import type { Size } from "../types";
 import { cx } from "../utils/cx";
+import { useResponsive, type Responsive } from "../responsive";
 
 type AsElement = "span" | "div" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
+/**
+ * Pre-baked responsive size ladders. `responsive-xl` = { base: lg, md: xl,
+ * xl: xxl } — intended for Heading-ish use cases where a single prop
+ * should scale automatically across breakpoints.
+ */
+export const RESPONSIVE_SIZE_PRESETS = {
+  "responsive-sm": { base: "xs", md: "sm" },
+  "responsive-md": { base: "sm", md: "md" },
+  "responsive-lg": { base: "md", md: "lg" },
+  "responsive-xl": { base: "lg", md: "xl", xl: "xxl" },
+  "responsive-xxl": { base: "xl", md: "xxl", xl: "3xl" },
+} as const satisfies Record<string, Partial<Record<string, Size>>>;
+
+export type ResponsiveSizePreset = keyof typeof RESPONSIVE_SIZE_PRESETS;
+
+export type TextSize = Size | ResponsiveSizePreset | Responsive<Size>;
+
 export interface TextProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
-  size?: Size;
+  size?: TextSize;
   /** Override text color. */
   color?: string;
   weight?: number;
@@ -38,6 +56,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   },
   ref
 ) {
+  const resolvedSize = useResolvedTextSize(size);
   const inline: CSSProperties = {
     ...(color !== undefined ? { color } : {}),
     ...(weight !== undefined ? { fontWeight: weight } : {}),
@@ -47,7 +66,12 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   return (
     <Tag
       ref={ref as never}
-      className={cx("vf-text", `vf-text--${size}`, upper && "vf-text--upper", className)}
+      className={cx(
+        "vf-text",
+        `vf-text--${resolvedSize}`,
+        upper && "vf-text--upper",
+        className
+      )}
       style={inline}
       {...props}
     >
@@ -56,6 +80,15 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   );
 });
 Text.displayName = "Text";
+
+function useResolvedTextSize(size: TextSize): Size {
+  const normalized: Responsive<Size> =
+    typeof size === "string" && size in RESPONSIVE_SIZE_PRESETS
+      ? (RESPONSIVE_SIZE_PRESETS[size as ResponsiveSizePreset] as Responsive<Size>)
+      : (size as Responsive<Size>);
+  const resolved = useResponsive<Size>(normalized);
+  return resolved ?? "md";
+}
 
 type LabelAsElement = "span" | "label" | "div";
 

@@ -30,12 +30,26 @@ export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
   width?: string | number;
   /** Enable enter/exit animations. Default true. */
   motion?: boolean;
+  /** Expand to full-width below the `md` breakpoint. Default true. */
+  adaptive?: boolean;
   children?: ReactNode;
   style?: CSSProperties;
 }
 
 export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
-  { open, onClose, title, side = "right", width = "360px", motion = true, children, className, style, ...props },
+  {
+    open,
+    onClose,
+    title,
+    side = "right",
+    width = "360px",
+    motion = true,
+    adaptive = true,
+    children,
+    className,
+    style,
+    ...props
+  },
   ref
 ) {
   warn(
@@ -67,8 +81,14 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
           autoFocus
           restoreFocus
           loop
-          className={cx("vf-drawer__panel", `vf-drawer__panel--${side}`, className)}
+          className={cx(
+            "vf-drawer__panel",
+            `vf-drawer__panel--${side}`,
+            adaptive && "vf-drawer__panel--adaptive",
+            className
+          )}
           style={{ width, ...style }}
+          data-adaptive={adaptive ? "true" : undefined}
         >
           <div className="vf-drawer__head">
             {title && (

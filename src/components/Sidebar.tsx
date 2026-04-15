@@ -22,11 +22,17 @@ const SidebarContext = createContext<SidebarContextValue>({ collapsed: false });
 export interface SidebarProps extends HTMLAttributes<HTMLElement> {
   /** When true, collapses labels so only icons remain (rail mode). */
   collapsed?: boolean;
+  /**
+   * Collapse to rail mode automatically below the `md` breakpoint. Default
+   * true. Use `adaptive={false}` when the sidebar is already inside a
+   * mobile-aware shell (e.g. AppShell with `drawerMobile`).
+   */
+  adaptive?: boolean;
   children?: ReactNode;
 }
 
 const SidebarBase = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
-  { collapsed = false, className, children, ...props },
+  { collapsed = false, adaptive = true, className, children, ...props },
   ref
 ) {
   return (
@@ -37,8 +43,10 @@ const SidebarBase = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
         className={cx(
           "vf-sidebar",
           collapsed && "vf-sidebar--collapsed",
+          adaptive && "vf-sidebar--adaptive",
           className
         )}
+        data-adaptive={adaptive ? "true" : undefined}
         {...props}
       >
         {children}

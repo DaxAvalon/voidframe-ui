@@ -74,6 +74,13 @@ export interface VoidframeTokens {
   sp11: number;
   sp12: number;
 
+  // Breakpoints (Phase 16). Pixel thresholds for responsive props.
+  bpSm: number;
+  bpMd: number;
+  bpLg: number;
+  bpXl: number;
+  bpXxl: number;
+
   // Misc
   radius: number;
   transition: string;
@@ -155,6 +162,13 @@ export const defaultTokens: VoidframeTokens = {
   sp10: 24,
   sp11: 32,
   sp12: 48,
+
+  // ── BREAKPOINTS ───────────────────────────────────────────
+  bpSm: 640,
+  bpMd: 768,
+  bpLg: 1024,
+  bpXl: 1280,
+  bpXxl: 1536,
 
   // ── MISC ──────────────────────────────────────────────────
   radius: 0,

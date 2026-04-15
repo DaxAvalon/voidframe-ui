@@ -1,6 +1,16 @@
 // ── Primitives ──────────────────────────────────────────────
 export { Text, Label, Divider, Spacer } from "./Text";
-export type { TextProps, LabelProps, DividerProps, SpacerProps } from "./Text";
+export {
+  RESPONSIVE_SIZE_PRESETS,
+} from "./Text";
+export type {
+  TextProps,
+  TextSize,
+  ResponsiveSizePreset,
+  LabelProps,
+  DividerProps,
+  SpacerProps,
+} from "./Text";
 
 // ── Layout ──────────────────────────────────────────────────
 export {

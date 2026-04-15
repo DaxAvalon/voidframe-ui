@@ -20,8 +20,12 @@ describe("Table", () => {
 
   it("renders headers", () => {
     renderWithTheme(<Table columns={columns} data={data} />);
-    expect(screen.getByText("NAME")).toBeInTheDocument();
-    expect(screen.getByText("SCORE")).toBeInTheDocument();
+    expect(
+      screen.getByRole("columnheader", { name: /NAME/ })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("columnheader", { name: /SCORE/ })
+    ).toBeInTheDocument();
   });
 
   it("renders row values", () => {

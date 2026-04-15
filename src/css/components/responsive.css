@@ -125,3 +125,83 @@
 
 [data-container="inline"] { container-type: inline-size; }
 [data-container="size"]   { container-type: size; }
+
+/* ── Adaptive components (Phase 16 close-out) ───────────── */
+
+/* Modal — go full-screen below md. */
+@media (max-width: 767.98px) {
+  .vf-modal__panel--adaptive {
+    width: 100vw !important;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    border: none;
+  }
+}
+
+/* Drawer (legacy + compound) — expand to full-width below md. */
+@media (max-width: 767.98px) {
+  .vf-drawer__panel--adaptive,
+  .vf-drawer-v2__panel--adaptive {
+    width: 100vw !important;
+    max-width: 100vw;
+  }
+}
+
+/* Sidebar — auto-collapse to rail below md (label text hidden). */
+@media (max-width: 767.98px) {
+  .vf-sidebar--adaptive:not(.vf-sidebar--collapsed) .vf-sidebar__section-label,
+  .vf-sidebar--adaptive:not(.vf-sidebar--collapsed) .vf-sidebar__brand:not(.vf-sidebar__brand--collapsed) {
+    display: none;
+  }
+  .vf-sidebar--adaptive {
+    width: 48px;
+    min-width: 48px;
+  }
+}
+
+/* Table — stacked card rows below md. */
+
+.vf-table__cell-label {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  .vf-table--adaptive .vf-table__grid {
+    display: block !important;
+    min-width: 0 !important;
+    grid-template-columns: none !important;
+  }
+  .vf-table--adaptive .vf-table__head {
+    display: none;
+  }
+  .vf-table--adaptive .vf-table__row {
+    display: flex !important;
+    flex-direction: column;
+    gap: var(--vf-sp-1);
+    padding: var(--vf-sp-2);
+    border: 1px solid var(--vf-border-1);
+    border-radius: 0;
+    margin-bottom: var(--vf-sp-2);
+    background: var(--vf-bg-1);
+  }
+  .vf-table--adaptive .vf-table__cell {
+    display: grid;
+    grid-template-columns: minmax(96px, 35%) 1fr;
+    gap: var(--vf-sp-2);
+    align-items: baseline;
+    padding: var(--vf-sp-1) 0;
+    border-bottom: 1px solid var(--vf-border-0);
+    text-align: left !important;
+  }
+  .vf-table--adaptive .vf-table__cell:last-child {
+    border-bottom: none;
+  }
+  .vf-table--adaptive .vf-table__cell-label {
+    display: inline-block;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--vf-text-4);
+  }
+}
