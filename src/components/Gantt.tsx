@@ -266,6 +266,10 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
         style={{
           display: "grid",
           gridTemplateColumns: `200px ${trackWidth}px`,
+          // The dependency SVG overlays the track column via absolute
+          // positioning, so the row container must establish a containing
+          // block for it.
+          position: "relative",
         }}
       >
         {visibleTasks.map((task) => {
@@ -324,13 +328,15 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
             aria-hidden="true"
             className="vf-gantt__deps"
             style={{
-              gridColumn: "2 / 3",
-              gridRow: `1 / span ${visibleTasks.length}`,
+              // Absolutely positioned so this overlay does not participate
+              // in grid auto-placement (which would push the track cells
+              // into rows below the SVG span).
+              position: "absolute",
+              top: 0,
+              insetInlineStart: 200,
               width: trackWidth,
               height: trackHeight,
               pointerEvents: "none",
-              alignSelf: "start",
-              justifySelf: "start",
               zIndex: 1,
             }}
             width={trackWidth}

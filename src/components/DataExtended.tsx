@@ -91,9 +91,15 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
     return (
       <div ref={ref} className={cx("vf-avatar-group", className)} style={style} {...props}>
         {visible.map((item, i) => (
-          <div key={i} style={{ marginLeft: i > 0 ? -8 : 0, zIndex: max - i }}>
-            <Avatar {...item} size={size} />
-          </div>
+          <Avatar
+            key={i}
+            {...item}
+            size={size}
+            style={{
+              ...(item.style ?? {}),
+              zIndex: max - i,
+            }}
+          />
         ))}
         {overflow > 0 && (
           <div
