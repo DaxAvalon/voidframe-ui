@@ -2,6 +2,11 @@ node_modules/
 dist/
 coverage/
 
+# VS Code extension bundles are build artifacts, produced by
+# `npm run vscode:package`. The snippet JSON they consume IS committed;
+# the .vsix is not.
+tools/vscode-voidframe/*.vsix
+
 # Editor
 .DS_Store
 .idea/

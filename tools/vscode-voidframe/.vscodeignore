@@ -1,0 +1,7 @@
+__tests__/**
+.vscode/**
+.vscode-test/**
+**/*.map
+**/tsconfig.json
+**/tsconfig.*.json
+*.vsix

@@ -22,5 +22,11 @@
     "useDefineForClassFields": true
   },
   "include": ["src", "demo", "docs", "tools"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "tools/cli/templates"
+  ]
 }

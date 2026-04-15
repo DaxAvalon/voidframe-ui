@@ -26,10 +26,10 @@
   },
   "files": [
     "dist",
-    "src",
     "theme-script.js",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "sideEffects": [
     "*.css"
@@ -51,7 +51,12 @@
     "size": "size-limit",
     "analyze": "ANALYZE=1 vite build && echo 'Bundle analysis written to dist/stats.html'",
     "lint:voidframe": "eslint --rulesdir tools/eslint-plugin-voidframe/rules --ext .ts,.tsx,.js,.jsx",
-    "codemod": "node tools/codemods/run.mjs"
+    "codemod": "node tools/codemods/run.mjs",
+    "cli": "node tools/cli/bin/voidframe.mjs",
+    "vscode:snippets": "node scripts/generate-vscode-snippets.mjs",
+    "vscode:package": "node scripts/package-vscode.mjs",
+    "prepublishOnly": "npm run typecheck && npm test -- --run && npm run build",
+    "pack:check": "npm pack --dry-run"
   },
   "size-limit": [
     {
@@ -139,7 +144,10 @@
     "size-limit": "^11.1.4",
     "@size-limit/file": "^11.1.4",
     "react-live": "^4.1.6",
-    "react-docgen-typescript": "^2.2.2"
+    "react-docgen-typescript": "^2.2.2",
+    "commander": "^12.1.0",
+    "@vscode/vsce": "^2.29.0",
+    "@types/vscode": "^1.84.0"
   },
   "keywords": [
     "react",

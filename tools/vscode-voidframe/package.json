@@ -1,0 +1,49 @@
+{
+  "name": "vscode-voidframe",
+  "displayName": "Voidframe",
+  "description": "Snippets, hover docs, and quick actions for the Voidframe React UI framework.",
+  "version": "1.0.0",
+  "publisher": "voidframe",
+  "private": true,
+  "engines": {
+    "vscode": "^1.84.0"
+  },
+  "categories": ["Snippets", "Other"],
+  "activationEvents": [
+    "onLanguage:typescriptreact",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescript",
+    "onLanguage:javascript"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "typescriptreact",
+        "path": "./snippets/voidframe.code-snippets"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./snippets/voidframe.code-snippets"
+      },
+      {
+        "language": "typescript",
+        "path": "./snippets/voidframe.code-snippets"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/voidframe.code-snippets"
+      }
+    ],
+    "commands": [
+      {
+        "command": "voidframe.openPlayground",
+        "title": "Voidframe: Open playground for component"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/voidframe/voidframe"
+  }
+}

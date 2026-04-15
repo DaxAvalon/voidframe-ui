@@ -1,0 +1,32 @@
+# The `files` field in package.json is the allowlist for what ships to
+# npm. This .npmignore exists as a belt-and-braces exclusion of common
+# artifacts that should NEVER reach the published tarball, even if they
+# sneak into the allowlisted directories.
+
+__tests__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Repo-only content
+demo/
+docs/
+tools/
+scripts/
+plans/
+coverage/
+.forgejo/
+.github/
+.vscode/
+.idea/
+
+# Dev artifacts
+*.vsix
+*.log
+.env
+.env.*
+
+# Generated files we don't need in the published tarball
+docs/data/props.json
+dist/stats.html

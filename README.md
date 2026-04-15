@@ -19,7 +19,38 @@ Peer dependencies: `react >= 18.0.0`, `react-dom >= 18.0.0`
 Import the stylesheet once at the top of your app:
 
 ```js
-import "voidframe/dist/voidframe.css";
+import "voidframe/styles.css";
+```
+
+### Scaffold a new app
+
+The `voidframe` CLI can set up a fresh Vite + React project pre-wired
+with the provider, stylesheet, and a starter page:
+
+```bash
+npx voidframe init my-app
+cd my-app && npm install && npm run dev
+```
+
+Other CLI commands:
+
+- `voidframe theme <dark|light|midnight|grey>` — drop a theme override
+  file you can edit locally.
+- `voidframe codemod <name> <paths...>` — run a voidframe codemod
+  (`legacy-charts-to-v2`, `tokens-from-hex`).
+- `voidframe doctor` — verify your project wiring (voidframe version,
+  React version, stylesheet import, peer deps).
+
+### VS Code extension
+
+A packaged `.vsix` for VS Code lives at
+[`tools/vscode-voidframe/`](tools/vscode-voidframe/). It ships snippets
+for every public component (trigger with `vf-<name>` or the PascalCase
+name), hover docs, and an "Open Playground" command. Not published to
+the Marketplace — install locally with:
+
+```bash
+code --install-extension tools/vscode-voidframe/vscode-voidframe-1.0.0.vsix
 ```
 
 ## Quick Start
