@@ -1,12 +1,27 @@
 "use client";
 
 // NetworkGraph — force-directed graph via d3-force (loaded as an
-// optional peer dep). Nodes can be dragged; the simulation rebalances
-// on each drag tick. Click events bubble up via onNodeClick.
+// optional peer dep).
 //
-// The simulation runs on a worker-free, RAF-based tick loop. Nodes
-// auto-cool after `coolDownAfter` ms with no interaction so we don't
-// pin CPU once the graph settles.
+// Edge rendering:
+//   - Endpoints are trimmed to the connected nodes' borders so lines
+//     never enter the node disc.
+//   - Where an edge passes under an *unrelated* node, that segment is
+//     overlaid as a dashed line ON TOP of the node — so the underlying
+//     edge is still readable while the node clearly sits over it.
+//   - `directed` (default true) draws an arrowhead at the target.
+//   - Edges with a `label` or `value` open a tooltip on hover.
+//
+// Selection:
+//   - Click a node to highlight it + its connected neighbours and
+//     incident edges. Other nodes/edges dim. Click again (or click
+//     elsewhere) to clear.
+//
+// Drag mode:
+//   - `rubberBand` (default true): grabbing a node holds the simulation
+//     "warm" via alphaTarget(0.3), so neighbours visibly tug along.
+//   - When false: the dragged node is pinned to the cursor and others
+//     stay put.
 
 import {
   forwardRef,
@@ -19,8 +34,17 @@ import {
   type ReactNode,
 } from "react";
 import { ChartTooltip } from "./primitives/ChartTooltip";
-import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
+import {
+  ChartTooltipBody,
+  type TooltipMetric,
+} from "./primitives/ChartTooltipBody";
 import { formatChartNumber, seriesPalette } from "./math/color";
+import {
+  splitSegmentByObstacles,
+  trimSegmentToCircles,
+  interpolatePoint,
+  type CircleObstacle,
+} from "./math/edges";
 import { loadPeer, MissingPeerDependencyError } from "./peer";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
@@ -41,6 +65,8 @@ export interface NetworkLink {
   target: string;
   /** Edge weight; affects rendering thickness. Default 1. */
   value?: number;
+  /** Free-form label rendered in the edge tooltip. */
+  label?: string;
 }
 
 export interface NetworkGraphProps
@@ -55,6 +81,12 @@ export interface NetworkGraphProps
   chargeStrength?: number;
   /** Optional pin centring force strength. Default 0.05. */
   centerStrength?: number;
+  /** Render arrowheads on edges. Default true. */
+  directed?: boolean;
+  /** Click a node to highlight its neighbourhood. Default true. */
+  selectable?: boolean;
+  /** Dragging a node tugs its neighbours via alphaTarget(0.3). Default true. */
+  rubberBand?: boolean;
   title?: ReactNode;
   description?: ReactNode;
   accessibleLabel?: string;
@@ -80,7 +112,10 @@ interface SimLink {
   source: string | SimNode;
   target: string | SimNode;
   value: number;
+  label?: string;
 }
+
+const RESOLVED_RADIUS = (n: SimNode) => n.radius ?? 6;
 
 export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
   function NetworkGraph(
@@ -92,6 +127,9 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
       linkDistance = 60,
       chargeStrength = -180,
       centerStrength = 0.05,
+      directed = true,
+      selectable = true,
+      rubberBand = true,
       title,
       description,
       accessibleLabel,
@@ -136,7 +174,6 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
       return map;
     }, [nodes]);
 
-    // Mount + (re)create the simulation when nodes/links change.
     useEffect(() => {
       let cancelled = false;
       let raf = 0;
@@ -163,6 +200,7 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
             source: l.source,
             target: l.target,
             value: l.value ?? 1,
+            label: l.label,
           }));
 
           const sim = d3Force
@@ -185,7 +223,6 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
             });
 
           simulationRef.current = sim as unknown as typeof simulationRef.current;
-          // Cooldown loop — stop the simulation once it's been quiet.
           const tickGuard = () => {
             if (stopped) return;
             if (Date.now() - lastTickRef.current > coolDownAfter) {
@@ -225,19 +262,42 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
       coolDownAfter,
     ]);
 
-    const [hover, setHover] = useState<{
-      node: SimNode;
-      x: number;
-      y: number;
-    } | null>(null);
+    const [hover, setHover] = useState<
+      | { kind: "node"; node: SimNode; x: number; y: number }
+      | { kind: "edge"; link: SimLink; x: number; y: number }
+      | null
+    >(null);
     const [dragging, setDragging] = useState<string | null>(null);
+    const [selected, setSelected] = useState<string | null>(null);
+
+    // Build adjacency for selection + edge filtering.
+    const adjacency = useMemo(() => {
+      const map = new Map<string, Set<string>>();
+      for (const l of simLinks) {
+        const sId = (l.source as SimNode).id ?? (l.source as string);
+        const tId = (l.target as SimNode).id ?? (l.target as string);
+        if (!map.has(sId)) map.set(sId, new Set());
+        if (!map.has(tId)) map.set(tId, new Set());
+        map.get(sId)!.add(tId);
+        map.get(tId)!.add(sId);
+      }
+      return map;
+    }, [simLinks]);
+
+    const isHighlighted = (id: string): boolean => {
+      if (!selected) return false;
+      if (id === selected) return true;
+      return adjacency.get(selected)?.has(id) ?? false;
+    };
+    const isDimmed = (id: string): boolean =>
+      selected !== null && !isHighlighted(id);
 
     const onNodeDown =
       (node: SimNode) => (e: ReactPointerEvent<SVGElement>) => {
         const sim = simulationRef.current;
         if (!sim) return;
         e.stopPropagation();
-        sim.alphaTarget(0.3);
+        sim.alphaTarget(rubberBand ? 0.3 : 0);
         node.fx = node.x ?? 0;
         node.fy = node.y ?? 0;
         setDragging(node.id);
@@ -255,6 +315,7 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
         const rect = svg.getBoundingClientRect();
         node.fx = e.clientX - rect.left;
         node.fy = e.clientY - rect.top;
+        if (rubberBand) simulationRef.current?.alpha(0.3);
       };
     const onNodeUp =
       (node: SimNode) => (e: ReactPointerEvent<SVGElement>) => {
@@ -271,6 +332,20 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
         }
       };
 
+    const handleNodeClick = (node: SimNode) => {
+      if (selectable) setSelected((cur) => (cur === node.id ? null : node.id));
+      onNodeClick?.({
+        id: node.id,
+        label: node.label,
+        group: node.group,
+        radius: node.radius,
+      });
+    };
+
+    const handleSurfaceClick = () => {
+      if (selectable) setSelected(null);
+    };
+
     if (error) {
       return (
         <div
@@ -283,6 +358,56 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
         </div>
       );
     }
+
+    type RenderedEdge = {
+      key: string;
+      sId: string;
+      tId: string;
+      ax: number;
+      ay: number;
+      bx: number;
+      by: number;
+      width: number;
+      label?: string;
+      runs: ReturnType<typeof splitSegmentByObstacles>;
+      link: SimLink;
+    };
+
+    const rendered: RenderedEdge[] = simLinks.map((l, i) => {
+      const s = l.source as SimNode;
+      const t = l.target as SimNode;
+      const trimmed = trimSegmentToCircles(
+        s.x ?? 0,
+        s.y ?? 0,
+        t.x ?? 0,
+        t.y ?? 0,
+        RESOLVED_RADIUS(s),
+        RESOLVED_RADIUS(t)
+      );
+      const others: CircleObstacle[] = simNodes
+        .filter((n) => n.id !== s.id && n.id !== t.id)
+        .map((n) => ({ x: n.x ?? 0, y: n.y ?? 0, r: RESOLVED_RADIUS(n) }));
+      const runs = splitSegmentByObstacles(
+        trimmed.ax,
+        trimmed.ay,
+        trimmed.bx,
+        trimmed.by,
+        others
+      );
+      return {
+        key: `${s.id}-${t.id}-${i}`,
+        sId: s.id,
+        tId: t.id,
+        ax: trimmed.ax,
+        ay: trimmed.ay,
+        bx: trimmed.bx,
+        by: trimmed.by,
+        width: Math.max(1, l.value),
+        label: l.label,
+        runs,
+        link: l,
+      };
+    });
 
     return (
       <div
@@ -306,30 +431,71 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
           width={width}
           height={height}
           viewBox={`0 0 ${width} ${height}`}
+          onClick={handleSurfaceClick}
         >
-          {simLinks.map((l, i) => {
-            const s = l.source as SimNode;
-            const t = l.target as SimNode;
+          <defs>
+            <marker
+              id="vf-network-arrow"
+              viewBox="0 0 10 10"
+              refX="9"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+            </marker>
+          </defs>
+
+          {/* Solid edges, drawn under the nodes. */}
+          {rendered.map((edge) => {
+            const incident = selected === edge.sId || selected === edge.tId;
+            const dim = selected !== null && !incident;
             return (
               <line
-                key={i}
-                className="vf-chart-network__link"
-                x1={s.x ?? 0}
-                y1={s.y ?? 0}
-                x2={t.x ?? 0}
-                y2={t.y ?? 0}
-                strokeWidth={Math.max(1, l.value)}
+                key={`base-${edge.key}`}
+                className={cx(
+                  "vf-chart-network__link",
+                  incident && "vf-chart-network__link--highlighted",
+                  dim && "vf-chart-network__link--dimmed"
+                )}
+                x1={edge.ax}
+                y1={edge.ay}
+                x2={edge.bx}
+                y2={edge.by}
+                strokeWidth={edge.width}
+                markerEnd={directed ? "url(#vf-network-arrow)" : undefined}
+                onPointerEnter={(e) =>
+                  setHover({
+                    kind: "edge",
+                    link: edge.link,
+                    x: e.clientX,
+                    y: e.clientY,
+                  })
+                }
+                onPointerMove={(e) => {
+                  if (hover?.kind !== "edge") return;
+                  setHover({ ...hover, x: e.clientX, y: e.clientY });
+                }}
+                onPointerLeave={() => setHover(null)}
               />
             );
           })}
+
+          {/* Nodes. */}
           {simNodes.map((n) => {
-            const color = palette.get(String(n.group ?? "default")) ?? "var(--vf-text-2)";
+            const color =
+              palette.get(String(n.group ?? "default")) ?? "var(--vf-text-2)";
+            const dim = isDimmed(n.id);
+            const highlighted = isHighlighted(n.id);
             return (
               <g
                 key={n.id}
                 className={cx(
                   "vf-chart-network__node",
-                  dragging === n.id && "vf-chart-network__node--dragging"
+                  dragging === n.id && "vf-chart-network__node--dragging",
+                  dim && "vf-chart-network__node--dimmed",
+                  highlighted && "vf-chart-network__node--highlighted"
                 )}
                 transform={`translate(${n.x ?? 0}, ${n.y ?? 0})`}
                 onPointerDown={onNodeDown(n)}
@@ -337,18 +503,26 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
                 onPointerUp={onNodeUp(n)}
                 onPointerCancel={onNodeUp(n)}
                 onPointerEnter={(e) =>
-                  setHover({ node: n, x: e.clientX, y: e.clientY })
+                  setHover({ kind: "node", node: n, x: e.clientX, y: e.clientY })
                 }
                 onPointerLeave={() => setHover(null)}
-                onClick={() => onNodeClick?.({
-                  id: n.id, label: n.label, group: n.group, radius: n.radius,
-                })}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNodeClick(n);
+                }}
               >
-                <circle r={n.radius} fill={color} />
+                <circle
+                  r={RESOLVED_RADIUS(n)}
+                  fill={color}
+                  stroke={
+                    highlighted ? "var(--vf-accent, var(--vf-amber))" : "none"
+                  }
+                  strokeWidth={highlighted ? 2 : 0}
+                />
                 {n.label && (
                   <text
                     className="vf-chart-network__label"
-                    x={n.radius + 4}
+                    x={RESOLVED_RADIUS(n) + 4}
                     y={4}
                   >
                     {n.label}
@@ -357,14 +531,62 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
               </g>
             );
           })}
+
+          {/* Dashed overlays for the obstructed runs of each edge. Drawn
+              ON TOP of nodes so the under-node portion stays visible. */}
+          {rendered.map((edge) =>
+            edge.runs
+              .filter((r) => r.obstructed)
+              .map((r, i) => {
+                const start = interpolatePoint(
+                  edge.ax,
+                  edge.ay,
+                  edge.bx,
+                  edge.by,
+                  r.start
+                );
+                const end = interpolatePoint(
+                  edge.ax,
+                  edge.ay,
+                  edge.bx,
+                  edge.by,
+                  r.end
+                );
+                const incident =
+                  selected === edge.sId || selected === edge.tId;
+                const dim = selected !== null && !incident;
+                return (
+                  <line
+                    key={`obstr-${edge.key}-${i}`}
+                    className={cx(
+                      "vf-chart-network__link-obstructed",
+                      incident &&
+                        "vf-chart-network__link-obstructed--highlighted",
+                      dim && "vf-chart-network__link-obstructed--dimmed"
+                    )}
+                    x1={start.x}
+                    y1={start.y}
+                    x2={end.x}
+                    y2={end.y}
+                    strokeWidth={edge.width}
+                    pointerEvents="none"
+                  />
+                );
+              })
+          )}
         </svg>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
-          {hover ? (
+          {hover?.kind === "node" ? (
             <ChartTooltipBody
               title={hover.node.label ?? hover.node.id}
               metrics={[
                 ...(hover.node.group !== undefined
-                  ? [{ label: "group", value: String(hover.node.group) }]
+                  ? [
+                      {
+                        label: "group",
+                        value: String(hover.node.group),
+                      } as TooltipMetric,
+                    ]
                   : []),
                 {
                   label: "edges",
@@ -376,6 +598,28 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
                     ).length
                   ),
                 },
+              ]}
+            />
+          ) : hover?.kind === "edge" ? (
+            <ChartTooltipBody
+              title={`${(hover.link.source as SimNode).id} → ${(hover.link.target as SimNode).id}`}
+              metrics={[
+                ...(hover.link.label
+                  ? [
+                      {
+                        label: "label",
+                        value: hover.link.label,
+                      } as TooltipMetric,
+                    ]
+                  : []),
+                ...(hover.link.value !== undefined
+                  ? [
+                      {
+                        label: "weight",
+                        value: formatChartNumber(hover.link.value),
+                      } as TooltipMetric,
+                    ]
+                  : []),
               ]}
             />
           ) : null}

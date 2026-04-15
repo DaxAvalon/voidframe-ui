@@ -28,6 +28,10 @@ export interface DependencyEdge {
   /** Source node id — depends on `target`. */
   source: string;
   target: string;
+  /** Optional label rendered in the edge tooltip. */
+  label?: string;
+  /** Optional weight rendered in the edge tooltip. */
+  value?: number;
 }
 
 export interface DependencyGraphProps
@@ -49,6 +53,10 @@ export interface DependencyGraphProps
   description?: ReactNode;
   accessibleLabel?: string;
   onNodeClick?: (node: DependencyNode) => void;
+  /** Click a node to highlight its neighbourhood. Default true. */
+  selectable?: boolean;
+  /** Render arrowheads on edges. Default true. */
+  directed?: boolean;
 }
 
 interface PlacedNode extends DependencyNode {
@@ -103,6 +111,8 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
       description,
       accessibleLabel,
       onNodeClick,
+      selectable = true,
+      directed = true,
       className,
       style,
       ...props
@@ -181,11 +191,32 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
     const width = widthProp ?? naturalWidth + 8;
     const height = heightProp ?? naturalHeight + 8;
 
-    const [hover, setHover] = useState<{
-      node: PlacedNode;
-      x: number;
-      y: number;
-    } | null>(null);
+    const [hover, setHover] = useState<
+      | { kind: "node"; node: PlacedNode; x: number; y: number }
+      | { kind: "edge"; edge: DependencyEdge; x: number; y: number }
+      | null
+    >(null);
+    const [selected, setSelected] = useState<string | null>(null);
+
+    // Adjacency for selection-driven dimming.
+    const adjacency = useMemo(() => {
+      const map = new Map<string, Set<string>>();
+      for (const e of edges) {
+        if (!map.has(e.source)) map.set(e.source, new Set());
+        if (!map.has(e.target)) map.set(e.target, new Set());
+        map.get(e.source)!.add(e.target);
+        map.get(e.target)!.add(e.source);
+      }
+      return map;
+    }, [edges]);
+
+    const isHighlighted = (id: string): boolean => {
+      if (!selected) return false;
+      if (id === selected) return true;
+      return adjacency.get(selected)?.has(id) ?? false;
+    };
+    const isDimmed = (id: string): boolean =>
+      selected !== null && !isHighlighted(id);
 
     return (
       <div
@@ -209,6 +240,9 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
           width={width}
           height={height}
           viewBox={`0 0 ${width} ${height}`}
+          onClick={() => {
+            if (selectable) setSelected(null);
+          }}
         >
           <defs>
             <marker
@@ -247,41 +281,79 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
               const midX = (x1 + x2) / 2;
               path = `M ${x1} ${y1} L ${midX} ${y1} L ${midX} ${y2} L ${x2 - 4} ${y2}`;
             }
+            const incident =
+              selected === e.source || selected === e.target;
+            const dim = selected !== null && !incident;
             return (
               <path
                 key={i}
-                className="vf-chart-dep-graph__edge"
+                className={cx(
+                  "vf-chart-dep-graph__edge",
+                  incident && "vf-chart-dep-graph__edge--highlighted",
+                  dim && "vf-chart-dep-graph__edge--dimmed"
+                )}
                 d={path}
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={1.2}
-                markerEnd="url(#vf-dep-arrow)"
+                markerEnd={directed ? "url(#vf-dep-arrow)" : undefined}
+                onPointerEnter={(ev) => {
+                  if (!e.label && e.value === undefined) return;
+                  setHover({
+                    kind: "edge",
+                    edge: e,
+                    x: ev.clientX,
+                    y: ev.clientY,
+                  });
+                }}
+                onPointerMove={(ev) => {
+                  if (hover?.kind !== "edge") return;
+                  setHover({ ...hover, x: ev.clientX, y: ev.clientY });
+                }}
+                onPointerLeave={() => setHover(null)}
               />
             );
           })}
           {placed.map((n) => {
             const color =
               palette.get(String(n.group ?? "default")) ?? "var(--vf-text-2)";
+            const dim = isDimmed(n.id);
+            const highlighted = isHighlighted(n.id);
             return (
               <g
                 key={n.id}
-                className="vf-chart-dep-graph__node"
+                className={cx(
+                  "vf-chart-dep-graph__node",
+                  dim && "vf-chart-dep-graph__node--dimmed",
+                  highlighted && "vf-chart-dep-graph__node--highlighted"
+                )}
                 transform={`translate(${n.x}, ${n.y})`}
                 onPointerEnter={(e) =>
-                  setHover({ node: n, x: e.clientX, y: e.clientY })
+                  setHover({ kind: "node", node: n, x: e.clientX, y: e.clientY })
                 }
                 onPointerLeave={() => setHover(null)}
-                onClick={() =>
-                  onNodeClick?.({ id: n.id, label: n.label, group: n.group })
-                }
+                onClick={(ev) => {
+                  ev.stopPropagation();
+                  if (selectable)
+                    setSelected((cur) => (cur === n.id ? null : n.id));
+                  onNodeClick?.({
+                    id: n.id,
+                    label: n.label,
+                    group: n.group,
+                  });
+                }}
               >
                 <rect
                   width={nodeWidth}
                   height={nodeHeight}
                   fill={color}
-                  fillOpacity={0.18}
-                  stroke={color}
-                  strokeWidth={1.2}
+                  fillOpacity={highlighted ? 0.32 : 0.18}
+                  stroke={
+                    highlighted
+                      ? "var(--vf-accent, var(--vf-amber))"
+                      : color
+                  }
+                  strokeWidth={highlighted ? 2 : 1.2}
                   shapeRendering="crispEdges"
                 />
                 <text
@@ -297,13 +369,25 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
           })}
         </svg>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
-          {hover ? (
+          {hover?.kind === "node" ? (
             <ChartTooltipBody
               title={hover.node.label ?? hover.node.id}
               metrics={[
                 { label: "layer", value: String(hover.node.layer) },
                 ...(hover.node.group !== undefined
                   ? [{ label: "group", value: String(hover.node.group) }]
+                  : []),
+              ]}
+            />
+          ) : hover?.kind === "edge" ? (
+            <ChartTooltipBody
+              title={`${hover.edge.source} → ${hover.edge.target}`}
+              metrics={[
+                ...(hover.edge.label
+                  ? [{ label: "label", value: hover.edge.label }]
+                  : []),
+                ...(hover.edge.value !== undefined
+                  ? [{ label: "weight", value: String(hover.edge.value) }]
                   : []),
               ]}
             />

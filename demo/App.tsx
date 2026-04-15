@@ -1668,15 +1668,15 @@ function GeoNetworkChartsSection() {
     { id: "search", label: "Search", group: "service" },
   ];
   const networkLinks: import("../src").NetworkLink[] = [
-    { source: "ui", target: "api" },
-    { source: "ui", target: "auth" },
-    { source: "api", target: "db" },
-    { source: "api", target: "cache" },
-    { source: "api", target: "queue" },
-    { source: "queue", target: "worker" },
-    { source: "worker", target: "db" },
-    { source: "worker", target: "search" },
-    { source: "auth", target: "db" },
+    { source: "ui", target: "api", value: 3, label: "REST + WS" },
+    { source: "ui", target: "auth", value: 1, label: "OAuth bootstrap" },
+    { source: "api", target: "db", value: 4, label: "primary store" },
+    { source: "api", target: "cache", value: 2, label: "read-through" },
+    { source: "api", target: "queue", value: 2, label: "enqueue jobs" },
+    { source: "queue", target: "worker", value: 2, label: "job stream" },
+    { source: "worker", target: "db", value: 3, label: "writes" },
+    { source: "worker", target: "search", value: 2, label: "indexing" },
+    { source: "auth", target: "db", value: 1, label: "session lookup" },
   ];
   const depNodes: import("../src").DependencyNode[] = [
     { id: "build", group: "core" },
@@ -1687,13 +1687,13 @@ function GeoNetworkChartsSection() {
     { id: "ship", group: "release" },
   ];
   const depEdges: import("../src").DependencyEdge[] = [
-    { source: "test", target: "build" },
-    { source: "lint", target: "build" },
-    { source: "typecheck", target: "build" },
-    { source: "package", target: "test" },
-    { source: "package", target: "lint" },
-    { source: "package", target: "typecheck" },
-    { source: "ship", target: "package" },
+    { source: "test", target: "build", label: "needs build artefacts" },
+    { source: "lint", target: "build", label: "needs source map" },
+    { source: "typecheck", target: "build", label: "needs declarations" },
+    { source: "package", target: "test", value: 1 },
+    { source: "package", target: "lint", value: 1 },
+    { source: "package", target: "typecheck", value: 1 },
+    { source: "ship", target: "package", label: "release-on-green" },
   ];
   const stateValues: Record<string, number> = {
     CA: 38,
@@ -1734,11 +1734,20 @@ function GeoNetworkChartsSection() {
           direction="left-right"
         />
       </Block>
-      <Block label="NetworkGraph (force-directed via d3-force)">
+      <Block label="NetworkGraph (force-directed, click to highlight, drag to rubber-band)">
         <NetworkGraph
           nodes={networkNodes}
           links={networkLinks}
           height={360}
+        />
+      </Block>
+      <Block label="NetworkGraph (rubber-band off — drag pins one node, others stay put)">
+        <NetworkGraph
+          nodes={networkNodes}
+          links={networkLinks}
+          height={300}
+          rubberBand={false}
+          directed
         />
       </Block>
       <Block label="TileGridMap — US states (built-in grid)">

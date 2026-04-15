@@ -473,12 +473,44 @@ button.vf-chart-legend__item:focus-visible {
 .vf-chart-network__link {
   stroke: var(--vf-border-2);
   stroke-opacity: 0.65;
+  color: var(--vf-border-2);
+  cursor: pointer;
+  transition:
+    stroke var(--vf-transition-duration, 0.15s) ease,
+    stroke-opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-network__link--highlighted {
+  stroke: var(--vf-accent, var(--vf-amber));
+  color: var(--vf-accent, var(--vf-amber));
+  stroke-opacity: 1;
+}
+.vf-chart-network__link--dimmed {
+  stroke-opacity: 0.18;
+  color: var(--vf-border-1);
+}
+.vf-chart-network__link-obstructed {
+  stroke: var(--vf-border-2);
+  stroke-dasharray: 4 3;
+  stroke-opacity: 0.85;
+}
+.vf-chart-network__link-obstructed--highlighted {
+  stroke: var(--vf-accent, var(--vf-amber));
+}
+.vf-chart-network__link-obstructed--dimmed {
+  stroke-opacity: 0.25;
 }
 .vf-chart-network__node {
   cursor: grab;
+  transition: opacity var(--vf-transition-duration, 0.15s) ease;
 }
 .vf-chart-network__node--dragging {
   cursor: grabbing;
+}
+.vf-chart-network__node--dimmed {
+  opacity: 0.35;
+}
+.vf-chart-network__node--highlighted {
+  opacity: 1;
 }
 .vf-chart-network__label {
   fill: var(--vf-text-2);
@@ -500,6 +532,27 @@ button.vf-chart-legend__item:focus-visible {
 .vf-chart-dep-graph__edge {
   color: var(--vf-text-3);
   shape-rendering: geometricPrecision;
+  cursor: pointer;
+  transition:
+    color var(--vf-transition-duration, 0.15s) ease,
+    opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-dep-graph__edge--highlighted {
+  color: var(--vf-accent, var(--vf-amber));
+  stroke-width: 1.8;
+}
+.vf-chart-dep-graph__edge--dimmed {
+  opacity: 0.25;
+}
+.vf-chart-dep-graph__node {
+  cursor: pointer;
+  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-dep-graph__node--dimmed {
+  opacity: 0.35;
+}
+.vf-chart-dep-graph__node--highlighted {
+  opacity: 1;
 }
 .vf-chart-dep-graph__label {
   fill: var(--vf-text-1);
