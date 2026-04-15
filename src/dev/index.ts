@@ -16,3 +16,7 @@ export type {
   DevPanelPosition,
   DevPanelTab,
 } from "./DevPanel";
+export { Playground } from "./Playground";
+export type { PlaygroundProps } from "./Playground";
+export { PropsTable } from "./PropsTable";
+export type { PropsTableProps, PropDoc, ComponentDoc } from "./PropsTable";

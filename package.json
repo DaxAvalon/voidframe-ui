@@ -39,6 +39,9 @@
     "dev": "vite",
     "preview": "vite preview",
     "demo": "vite serve demo",
+    "docs": "npm run docs:extract-props && vite serve docs",
+    "docs:build": "npm run docs:extract-props && vite build --config docs/vite.config.ts",
+    "docs:extract-props": "node scripts/extract-props.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -134,7 +137,9 @@
     "@types/jscodeshift": "^0.11.11",
     "rollup-plugin-visualizer": "^5.12.0",
     "size-limit": "^11.1.4",
-    "@size-limit/file": "^11.1.4"
+    "@size-limit/file": "^11.1.4",
+    "react-live": "^4.1.6",
+    "react-docgen-typescript": "^2.2.2"
   },
   "keywords": [
     "react",

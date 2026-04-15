@@ -1,5 +1,273 @@
 /* Phase 25 — Dev Experience styles */
 
+/* ── Playground (Phase 27) ───────────────────────────────── */
+.vf-playground {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--vf-border-2);
+  background: var(--vf-bg-1);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-fs-1);
+}
+.vf-playground__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+  background: var(--vf-bg-2);
+  border-bottom: 1px solid var(--vf-border-1);
+}
+.vf-playground__title {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--vf-text-0);
+}
+.vf-playground__reset {
+  padding: 2px var(--vf-sp-2);
+  background: transparent;
+  border: 1px solid var(--vf-border-2);
+  color: var(--vf-text-1);
+  font-family: inherit;
+  font-size: var(--vf-fs-0);
+  cursor: pointer;
+}
+.vf-playground__reset:hover {
+  background: var(--vf-bg-3);
+}
+.vf-playground__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+@media (max-width: 640px) {
+  .vf-playground__body {
+    grid-template-columns: 1fr;
+  }
+}
+.vf-playground__pane {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--vf-border-1);
+  min-width: 0;
+}
+.vf-playground__pane:last-child {
+  border-right: none;
+}
+.vf-playground__label {
+  padding: 2px var(--vf-sp-2);
+  background: var(--vf-bg-0);
+  color: var(--vf-text-2);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--vf-border-0);
+}
+.vf-playground__editor {
+  background: var(--vf-bg-0);
+  color: var(--vf-text-0);
+  overflow: auto;
+}
+.vf-playground__editor textarea,
+.vf-playground__editor pre {
+  font-family: var(--vf-font-family) !important;
+  font-size: var(--vf-fs-1) !important;
+  background: transparent !important;
+  color: var(--vf-text-0) !important;
+}
+.vf-playground__preview {
+  padding: var(--vf-sp-3);
+  background: var(--vf-bg-0);
+  overflow: auto;
+  color: var(--vf-text-0);
+}
+.vf-playground__error {
+  padding: var(--vf-sp-2);
+  background: var(--vf-bg-0);
+  border-top: 1px solid var(--vf-red, #c03030);
+  color: var(--vf-red, #c03030);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-fs-0);
+  white-space: pre-wrap;
+  overflow: auto;
+  max-height: 160px;
+}
+
+/* ── Docs shell (Phase 27) ───────────────────────────────── */
+.vf-docs {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--vf-bg-0);
+  color: var(--vf-text-1);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-fs-1);
+}
+.vf-docs__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--vf-sp-2) var(--vf-sp-4);
+  background: var(--vf-bg-1);
+  border-bottom: 1px solid var(--vf-border-1);
+}
+.vf-docs__brand {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--vf-text-0);
+}
+.vf-docs__count {
+  color: var(--vf-text-3);
+  font-variant-numeric: tabular-nums;
+}
+.vf-docs__layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+@media (max-width: 760px) {
+  .vf-docs__layout {
+    grid-template-columns: 1fr;
+  }
+}
+.vf-docs__nav {
+  background: var(--vf-bg-1);
+  border-right: 1px solid var(--vf-border-1);
+  padding: var(--vf-sp-3);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+}
+.vf-docs__search {
+  margin-bottom: var(--vf-sp-1);
+}
+.vf-docs__nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+}
+.vf-docs__nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.vf-docs__nav-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 2px var(--vf-sp-2);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--vf-text-1);
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+.vf-docs__nav-link:hover {
+  background: var(--vf-bg-2);
+  color: var(--vf-text-0);
+}
+.vf-docs__nav-link--active {
+  background: var(--vf-bg-3);
+  border-color: var(--vf-border-2);
+  color: var(--vf-text-0);
+  font-weight: 600;
+}
+.vf-docs__main {
+  padding: var(--vf-sp-6) var(--vf-sp-6);
+  overflow-y: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+.vf-docs__page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-4);
+}
+.vf-docs__page-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: var(--vf-sp-3);
+  border-bottom: 1px solid var(--vf-border-1);
+}
+.vf-docs__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-2);
+}
+.vf-docs__block p,
+.vf-docs__block code {
+  line-height: 1.6;
+}
+.vf-docs__block code {
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-0);
+  padding: 0 4px;
+  color: var(--vf-text-1);
+}
+
+/* ── PropsTable (Phase 27) ───────────────────────────────── */
+.vf-props-table {
+  border: 1px solid var(--vf-border-2);
+  background: var(--vf-bg-1);
+  overflow-x: auto;
+}
+.vf-props-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-fs-1);
+  color: var(--vf-text-1);
+}
+.vf-props-table__table th,
+.vf-props-table__table td {
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--vf-border-0);
+}
+.vf-props-table__table th {
+  color: var(--vf-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  font-size: 10px;
+  background: var(--vf-bg-2);
+  border-bottom-color: var(--vf-border-1);
+}
+.vf-props-table__name {
+  color: var(--vf-text-0);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.vf-props-table__required {
+  color: var(--vf-red, #c03030);
+  margin-left: 2px;
+}
+.vf-props-table__type code,
+.vf-props-table__default code {
+  font-family: var(--vf-font-family);
+  font-size: inherit;
+  color: var(--vf-text-1);
+  background: var(--vf-bg-0);
+  padding: 0 4px;
+  border: 1px solid var(--vf-border-0);
+}
+.vf-props-table__desc {
+  color: var(--vf-text-2);
+}
+.vf-props-table__empty {
+  color: var(--vf-text-3);
+  font-style: italic;
+  text-align: center;
+}
+
+
 /* ── ErrorBoundary ───────────────────────────────────────── */
 .vf-error-boundary {
   display: flex;

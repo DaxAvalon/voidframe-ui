@@ -34,6 +34,14 @@ services:
     stdin_open: true
     tty: true
 
+  docs:
+    <<: *base
+    command: npm run docs -- --host 0.0.0.0 --port 5175
+    ports:
+      - "5175:5175"
+    stdin_open: true
+    tty: true
+
   dev:
     <<: *base
     command: npm run dev -- --host 0.0.0.0 --port 5174
