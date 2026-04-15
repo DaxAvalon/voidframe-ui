@@ -143,15 +143,19 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
     ref
   ) {
     const ctx = usePopoverCtx();
-    const contentRef = useRef<HTMLDivElement>(null);
+    // State (not ref) so `contentEl` flipping from null → element after the
+    // <Portal> mounts triggers the position effect to re-run.
+    const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
     const [pos, setPos] = useState<AnchorPosition | null>(null);
 
     useEffect(() => {
-      if (!ctx.open || !ctx.triggerEl || !contentRef.current) return;
+      if (!ctx.open || !ctx.triggerEl || !contentEl) return;
       const update = () => {
         const trig = ctx.triggerEl!.getBoundingClientRect();
-        const el = contentRef.current!;
-        const size = { width: el.offsetWidth, height: el.offsetHeight };
+        const size = {
+          width: contentEl.offsetWidth,
+          height: contentEl.offsetHeight,
+        };
         setPos(computeAnchoredPosition(trig, size, placement, offset));
       };
       update();
@@ -161,7 +165,7 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
         window.removeEventListener("scroll", update, true);
         window.removeEventListener("resize", update);
       };
-    }, [ctx.open, ctx.triggerEl, placement, offset]);
+    }, [ctx.open, ctx.triggerEl, contentEl, placement, offset]);
 
     if (!ctx.open) return null;
 
@@ -173,7 +177,7 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
       <DismissableLayer onDismiss={() => ctx.setOpen(false)}>
         <FocusScope
           ref={(node) => {
-            (contentRef as { current: HTMLDivElement | null }).current = node;
+            setContentEl(node);
             if (typeof ref === "function") ref(node);
             else if (ref) (ref as { current: HTMLDivElement | null }).current = node;
           }}
@@ -273,7 +277,7 @@ export function Tooltip({
       : 300);
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLElement | null>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
   const [pos, setPos] = useState<AnchorPosition | null>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -297,12 +301,11 @@ export function Tooltip({
   };
 
   useEffect(() => {
-    if (!open || !triggerRef.current || !contentRef.current) return;
+    if (!open || !triggerRef.current || !contentEl) return;
     const trig = triggerRef.current.getBoundingClientRect();
-    const el = contentRef.current;
-    const size = { width: el.offsetWidth, height: el.offsetHeight };
+    const size = { width: contentEl.offsetWidth, height: contentEl.offsetHeight };
     setPos(computeAnchoredPosition(trig, size, placement, offset));
-  }, [open, placement, offset]);
+  }, [open, contentEl, placement, offset]);
 
   useEffect(() => () => cancelTimers(), []);
 
@@ -361,7 +364,7 @@ export function Tooltip({
       {open && (
         <Portal>
           <div
-            ref={contentRef}
+            ref={setContentEl}
             id={tooltipId}
             role="tooltip"
             className="vf-tooltip-v2"
@@ -507,14 +510,20 @@ const HoverCardContent = forwardRef<HTMLDivElement, HoverCardContentProps>(
     ref
   ) {
     const ctx = useHoverCard();
-    const contentRef = useRef<HTMLDivElement>(null);
+    const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
     const [pos, setPos] = useState<AnchorPosition | null>(null);
     useEffect(() => {
-      if (!ctx.open || !ctx.triggerEl || !contentRef.current) return;
+      if (!ctx.open || !ctx.triggerEl || !contentEl) return;
       const update = () => {
         const trig = ctx.triggerEl!.getBoundingClientRect();
-        const el = contentRef.current!;
-        setPos(computeAnchoredPosition(trig, { width: el.offsetWidth, height: el.offsetHeight }, placement, offset));
+        setPos(
+          computeAnchoredPosition(
+            trig,
+            { width: contentEl.offsetWidth, height: contentEl.offsetHeight },
+            placement,
+            offset
+          )
+        );
       };
       update();
       window.addEventListener("scroll", update, true);
@@ -523,7 +532,7 @@ const HoverCardContent = forwardRef<HTMLDivElement, HoverCardContentProps>(
         window.removeEventListener("scroll", update, true);
         window.removeEventListener("resize", update);
       };
-    }, [ctx.open, ctx.triggerEl, placement, offset]);
+    }, [ctx.open, ctx.triggerEl, contentEl, placement, offset]);
     if (!ctx.open) return null;
     const inline: CSSProperties = pos
       ? { position: "fixed", top: pos.top, left: pos.left, ...style }
@@ -532,7 +541,7 @@ const HoverCardContent = forwardRef<HTMLDivElement, HoverCardContentProps>(
       <Portal>
         <div
           ref={(node) => {
-            (contentRef as { current: HTMLDivElement | null }).current = node;
+            setContentEl(node);
             if (typeof ref === "function") ref(node);
             else if (ref) (ref as { current: HTMLDivElement | null }).current = node;
           }}

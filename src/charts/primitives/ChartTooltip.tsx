@@ -7,7 +7,6 @@
 import {
   forwardRef,
   useEffect,
-  useRef,
   useState,
   type CSSProperties,
   type HTMLAttributes,
@@ -49,14 +48,13 @@ export const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(
     },
     ref
   ) {
-    const innerRef = useRef<HTMLDivElement>(null);
+    const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
     const [pos, setPos] = useState<AnchorPosition | null>(null);
 
     useEffect(() => {
       if (!active) return;
-      const el = innerRef.current;
-      const size = el
-        ? { width: el.offsetWidth, height: el.offsetHeight }
+      const size = contentEl
+        ? { width: contentEl.offsetWidth, height: contentEl.offsetHeight }
         : EMPTY_SIZE;
       const rect = {
         top: y,
@@ -67,7 +65,7 @@ export const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(
         height: 0,
       };
       setPos(computeAnchoredPosition(rect, size, placement, offset));
-    }, [active, x, y, placement, offset]);
+    }, [active, contentEl, x, y, placement, offset]);
 
     if (!active) return null;
 
@@ -79,7 +77,7 @@ export const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(
       <Portal>
         <div
           ref={(node) => {
-            (innerRef as { current: HTMLDivElement | null }).current = node;
+            setContentEl(node);
             if (typeof ref === "function") ref(node);
             else if (ref)
               (ref as { current: HTMLDivElement | null }).current = node;

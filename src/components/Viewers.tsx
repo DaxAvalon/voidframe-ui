@@ -254,91 +254,8 @@ function JSONNode({
       ? "null"
       : typeof value;
 
-  const body = (() => {
-    if (isArray) {
-      const arr = value as unknown[];
-      return (
-        <>
-          <span className="vf-json-viewer__brace">[</span>
-          {open ? (
-            <ul className="vf-json-viewer__children">
-              {arr.map((v, i) => (
-                <li key={i} className="vf-json-viewer__entry">
-                  <JSONNode
-                    value={v}
-                    path={`${path}[${i}]`}
-                    depth={depth + 1}
-                    defaultExpanded={defaultExpanded}
-                    showDataTypes={showDataTypes}
-                    onSelect={onSelect}
-                    nameKey={String(i)}
-                    isArrayItem
-                  />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <span className="vf-json-viewer__preview">
-              {arr.length} {arr.length === 1 ? "item" : "items"}
-            </span>
-          )}
-          <span className="vf-json-viewer__brace">]</span>
-        </>
-      );
-    }
-    if (isObject) {
-      const entries = Object.entries(value as Record<string, unknown>);
-      return (
-        <>
-          <span className="vf-json-viewer__brace">{"{"}</span>
-          {open ? (
-            <ul className="vf-json-viewer__children">
-              {entries.map(([k, v]) => (
-                <li key={k} className="vf-json-viewer__entry">
-                  <JSONNode
-                    value={v}
-                    path={path ? `${path}.${k}` : k}
-                    depth={depth + 1}
-                    defaultExpanded={defaultExpanded}
-                    showDataTypes={showDataTypes}
-                    onSelect={onSelect}
-                    nameKey={k}
-                  />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <span className="vf-json-viewer__preview">
-              {entries.length} {entries.length === 1 ? "key" : "keys"}
-            </span>
-          )}
-          <span className="vf-json-viewer__brace">{"}"}</span>
-        </>
-      );
-    }
-    const v = value;
-    const rendered =
-      typeof v === "string"
-        ? `"${v}"`
-        : v === null
-          ? "null"
-          : String(v);
-    return (
-      <span
-        className={cx(
-          "vf-json-viewer__value",
-          `vf-json-viewer__value--${typeLabel}`
-        )}
-        onClick={() => onSelect?.(path || nameKey)}
-      >
-        {rendered}
-        {showDataTypes && <em className="vf-json-viewer__type">{typeLabel}</em>}
-      </span>
-    );
-  })();
-
-  return (
-    <div className="vf-json-viewer__node">
+  const renderHeader = (openBrace: string) => (
+    <div className="vf-json-viewer__row">
       {(isArray || isObject) ? (
         <button
           type="button"
@@ -356,7 +273,118 @@ function JSONNode({
           {isArrayItem ? `[${nameKey}]` : `"${nameKey}"`}:
         </span>
       )}
-      {body}
+      <span className="vf-json-viewer__brace">{openBrace}</span>
+      {!open && (
+        <>
+          <span className="vf-json-viewer__preview">
+            {isArray
+              ? `${(value as unknown[]).length} ${(value as unknown[]).length === 1 ? "item" : "items"}`
+              : `${Object.keys(value as object).length} ${Object.keys(value as object).length === 1 ? "key" : "keys"}`}
+          </span>
+          <span className="vf-json-viewer__brace">
+            {isArray ? "]" : "}"}
+          </span>
+        </>
+      )}
+    </div>
+  );
+
+  const renderClose = (closeBrace: string) => (
+    <div className="vf-json-viewer__row vf-json-viewer__row--close">
+      <span className="vf-json-viewer__spacer" aria-hidden="true" />
+      <span className="vf-json-viewer__brace">{closeBrace}</span>
+    </div>
+  );
+
+  if (isArray) {
+    const arr = value as unknown[];
+    return (
+      <div className="vf-json-viewer__node">
+        {renderHeader("[")}
+        {open && (
+          <>
+            <ul className="vf-json-viewer__children">
+              {arr.map((v, i) => (
+                <li key={i} className="vf-json-viewer__entry">
+                  <JSONNode
+                    value={v}
+                    path={`${path}[${i}]`}
+                    depth={depth + 1}
+                    defaultExpanded={defaultExpanded}
+                    showDataTypes={showDataTypes}
+                    onSelect={onSelect}
+                    nameKey={String(i)}
+                    isArrayItem
+                  />
+                </li>
+              ))}
+            </ul>
+            {renderClose("]")}
+          </>
+        )}
+      </div>
+    );
+  }
+
+  if (isObject) {
+    const entries = Object.entries(value as Record<string, unknown>);
+    return (
+      <div className="vf-json-viewer__node">
+        {renderHeader("{")}
+        {open && (
+          <>
+            <ul className="vf-json-viewer__children">
+              {entries.map(([k, v]) => (
+                <li key={k} className="vf-json-viewer__entry">
+                  <JSONNode
+                    value={v}
+                    path={path ? `${path}.${k}` : k}
+                    depth={depth + 1}
+                    defaultExpanded={defaultExpanded}
+                    showDataTypes={showDataTypes}
+                    onSelect={onSelect}
+                    nameKey={k}
+                  />
+                </li>
+              ))}
+            </ul>
+            {renderClose("}")}
+          </>
+        )}
+      </div>
+    );
+  }
+
+  // Leaf value (string / number / boolean / null).
+  const v = value;
+  const rendered =
+    typeof v === "string"
+      ? `"${v}"`
+      : v === null
+        ? "null"
+        : String(v);
+  return (
+    <div className="vf-json-viewer__node">
+      <div className="vf-json-viewer__row">
+        <span className="vf-json-viewer__spacer" aria-hidden="true" />
+        {depth > 0 && (
+          <span className="vf-json-viewer__key">
+            {isArrayItem ? `[${nameKey}]` : `"${nameKey}"`}:
+          </span>
+        )}
+        <span
+          className={cx(
+            "vf-json-viewer__value",
+            `vf-json-viewer__value--${typeLabel}`
+          )}
+          onClick={() => onSelect?.(path || nameKey)}
+        >
+          {rendered}
+          {showDataTypes && (
+            <em className="vf-json-viewer__type">{typeLabel}</em>
+          )}
+        </span>
+      </div>
     </div>
   );
 }
