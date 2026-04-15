@@ -192,46 +192,51 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
   );
 
   const inner = (
-    <DismissableLayer
-      onDismiss={onClose}
+    <div
       className="vf-modal__backdrop"
+      onClick={(e) => {
+        // Clicking the backdrop itself (not the panel) closes.
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
-      <FocusScope
-        ref={ref as never}
-        trapped
-        autoFocus
-        restoreFocus
-        loop
-        className={cx(
-          "vf-modal__panel",
-          adaptive && "vf-modal__panel--adaptive",
-          className
-        )}
-        style={{ width, ...style }}
-        role="dialog"
-        aria-modal="true"
-        aria-label={title}
-        data-adaptive={adaptive ? "true" : undefined}
-        {...(props as HTMLAttributes<HTMLDivElement>)}
-      >
-        {title && (
-          <div className="vf-modal__head">
-            <Label style={{ fontSize: "var(--vf-font-sm)", color: "var(--vf-text-0)" }}>
-              {title}
-            </Label>
-            <button
-              type="button"
-              className="vf-modal__close"
-              onClick={onClose}
-              aria-label="Close"
-            >
-              ×
-            </button>
-          </div>
-        )}
-        {children}
-      </FocusScope>
-    </DismissableLayer>
+      <DismissableLayer onDismiss={onClose}>
+        <FocusScope
+          ref={ref as never}
+          trapped
+          autoFocus
+          restoreFocus
+          loop
+          className={cx(
+            "vf-modal__panel",
+            adaptive && "vf-modal__panel--adaptive",
+            className
+          )}
+          style={{ width, ...style }}
+          role="dialog"
+          aria-modal="true"
+          aria-label={title}
+          data-adaptive={adaptive ? "true" : undefined}
+          {...(props as HTMLAttributes<HTMLDivElement>)}
+        >
+          {title && (
+            <div className="vf-modal__head">
+              <Label style={{ fontSize: "var(--vf-font-sm)", color: "var(--vf-text-0)" }}>
+                {title}
+              </Label>
+              <button
+                type="button"
+                className="vf-modal__close"
+                onClick={onClose}
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
+          )}
+          {children}
+        </FocusScope>
+      </DismissableLayer>
+    </div>
   );
 
   // motion={false} → use the original conditional-render path, no Presence.

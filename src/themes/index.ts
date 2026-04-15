@@ -10,8 +10,9 @@ import type { ThemeOverrides, VoidframeTokens } from "../tokens";
 export { darkTheme } from "./dark";
 export { lightTheme } from "./light";
 export { midnightTheme } from "./midnight";
+export { greyTheme } from "./grey";
 
-export const THEME_NAMES = ["dark", "light", "midnight"] as const;
+export const THEME_NAMES = ["dark", "light", "midnight", "grey"] as const;
 export type BuiltInThemeName = (typeof THEME_NAMES)[number];
 
 /** Emit `--vf-*` CSS custom properties from a partial or full token set. */

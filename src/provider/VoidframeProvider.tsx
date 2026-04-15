@@ -20,6 +20,7 @@ import {
   darkTheme,
   lightTheme,
   midnightTheme,
+  greyTheme,
   tokensToCssVars,
   type BuiltInThemeName,
 } from "../themes";
@@ -103,6 +104,7 @@ const BUILTIN_THEMES: Record<BuiltInThemeName, VoidframeTokens> = {
   dark: darkTheme,
   light: lightTheme,
   midnight: midnightTheme,
+  grey: greyTheme,
 };
 
 function resolveSystemScheme(): "dark" | "light" {

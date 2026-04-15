@@ -102,7 +102,7 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
       label,
       width,
       height = 180,
-      strokeColor = "#e0e0e0",
+      strokeColor,
       strokeWidth = 2,
       background = "transparent",
       onChange,
@@ -123,6 +123,9 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
     const [hasInk, setHasInk] = useState(false);
     const [drawing, setDrawing] = useState(false);
     const [resolvedWidth, setResolvedWidth] = useState<number>(width ?? 0);
+    const [resolvedColor, setResolvedColor] = useState<string>(
+      strokeColor ?? "#e0e0e0"
+    );
     const inputId = useId(id);
 
     // Size the canvas to the container when width is unspecified.
@@ -136,11 +139,28 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
       setResolvedWidth(el.clientWidth || 360);
     }, [width]);
 
+    // Resolve stroke color from the theme when the consumer didn't
+    // supply one — so the default signature reads on both dark and
+    // light backgrounds without forcing the consumer to pick a color.
+    useEffect(() => {
+      if (strokeColor !== undefined) {
+        setResolvedColor(strokeColor);
+        return;
+      }
+      if (typeof getComputedStyle === "undefined") return;
+      const el = containerRef.current;
+      if (!el) return;
+      const fromTheme = getComputedStyle(el)
+        .getPropertyValue("--vf-text-0")
+        .trim();
+      if (fromTheme) setResolvedColor(fromTheme);
+    }, [strokeColor]);
+
     const flush = useCallback(() => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      redraw(canvas, strokesRef.current, strokeColor, strokeWidth, background);
-    }, [strokeColor, strokeWidth, background]);
+      redraw(canvas, strokesRef.current, resolvedColor, strokeWidth, background);
+    }, [resolvedColor, strokeWidth, background]);
 
     useEffect(() => {
       flush();
@@ -264,8 +284,12 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
             <button
               type="button"
               className="vf-signature__clear"
-              disabled={disabled || !hasInk}
-              onClick={clear}
+              disabled={disabled}
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                clear();
+              }}
             >
               Clear
             </button>

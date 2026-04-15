@@ -140,9 +140,11 @@
   cursor: pointer;
 }
 .vf-date-range-picker__popover {
-  min-width: 580px;
-  display: flex;
-  gap: var(--vf-sp-7);
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  gap: var(--vf-sp-5);
+  box-sizing: content-box;
 }
 .vf-date-range-picker__presets {
   display: flex;
@@ -170,8 +172,9 @@
   color: var(--vf-text-0);
 }
 .vf-date-range-picker__months {
-  display: flex;
-  gap: var(--vf-sp-7);
+  display: inline-flex;
+  gap: var(--vf-sp-5);
+  width: fit-content;
 }
 
 /* ── TimePicker ──────────────────────────────────────────────── */

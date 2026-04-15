@@ -136,61 +136,120 @@
   --vf-bg-1: #eaeae5;
   --vf-bg-2: #e0e0db;
   --vf-bg-3: #d6d6d1;
-  --vf-bg-4: #cccccc;
-  --vf-bg-5: #c0c0bb;
-  --vf-border-0: #d6d6d1;
-  --vf-border-1: #cccccc;
-  --vf-border-2: #bbbbbb;
-  --vf-border-3: #999999;
-  --vf-border-4: #777777;
-  --vf-text-0: #111111;
-  --vf-text-1: #333333;
-  --vf-text-2: #666666;
-  --vf-text-3: #888888;
-  --vf-text-4: #aaaaaa;
-  --vf-text-5: #cccccc;
-  --vf-green: #16a34a;
-  --vf-red: #dc2626;
-  --vf-amber: #a16207;
-  --vf-blue: #2563eb;
-  --vf-purple: #7c3aed;
-  --vf-cyan: #0891b2;
-  --vf-rose: #e11d48;
+  --vf-bg-4: #c0c0bb;
+  --vf-bg-5: #b0b0a8;
+  --vf-border-0: #c8c8c3;
+  --vf-border-1: #b8b8b3;
+  --vf-border-2: #8e8e89;
+  --vf-border-3: #5e5e5a;
+  --vf-border-4: #3a3a37;
+  --vf-text-0: #000000;
+  --vf-text-1: #1a1a1a;
+  --vf-text-2: #3e3e3e;
+  --vf-text-3: #5e5e5e;
+  --vf-text-4: #7a7a7a;
+  --vf-text-5: #9a9a9a;
+  --vf-green: #0f7f38;
+  --vf-red: #b91c1c;
+  --vf-amber: #854d0e;
+  --vf-blue: #1d4ed8;
+  --vf-purple: #6d28d9;
+  --vf-cyan: #0e7490;
+  --vf-rose: #be123c;
+  --vf-success: var(--vf-green);
+  --vf-danger: var(--vf-red);
+  --vf-warning: var(--vf-amber);
+  --vf-info: var(--vf-blue);
+}
+
+[data-vf-theme="grey"] {
+  --vf-bg-0: #2a2a2a;
+  --vf-bg-1: #2f2f2f;
+  --vf-bg-2: #353535;
+  --vf-bg-3: #3b3b3b;
+  --vf-bg-4: #424242;
+  --vf-bg-5: #4a4a4a;
+  --vf-border-0: #3b3b3b;
+  --vf-border-1: #484848;
+  --vf-border-2: #5a5a5a;
+  --vf-border-3: #6e6e6e;
+  --vf-border-4: #8a8a8a;
+  --vf-text-0: #f5f5f5;
+  --vf-text-1: #dcdcdc;
+  --vf-text-2: #b0b0b0;
+  --vf-text-3: #8a8a8a;
+  --vf-text-4: #6a6a6a;
+  --vf-text-5: #4a4a4a;
+  --vf-green: #6ee7a8;
+  --vf-red: #fb7185;
+  --vf-amber: #f1c96b;
+  --vf-blue: #8fb8f0;
+  --vf-purple: #c4a3ff;
+  --vf-cyan: #7fe8f3;
+  --vf-rose: #ff95b6;
+  --vf-success: var(--vf-green);
+  --vf-danger: var(--vf-red);
+  --vf-warning: var(--vf-amber);
+  --vf-info: var(--vf-blue);
 }
 
 /* ── Density modes ──────────────────────────────────────── */
 
 [data-vf-density="compact"] {
   --vf-sp-1: 1px;
-  --vf-sp-2: 3px;
-  --vf-sp-3: 4px;
-  --vf-sp-4: 6px;
-  --vf-sp-5: 8px;
-  --vf-sp-6: 9px;
-  --vf-sp-7: 10px;
-  --vf-sp-8: 12px;
-  --vf-sp-9: 15px;
-  --vf-sp-10: 18px;
-  --vf-sp-11: 24px;
-  --vf-sp-12: 36px;
-  --vf-line-height: 1.4;
+  --vf-sp-2: 2px;
+  --vf-sp-3: 3px;
+  --vf-sp-4: 4px;
+  --vf-sp-5: 5px;
+  --vf-sp-6: 7px;
+  --vf-sp-7: 8px;
+  --vf-sp-8: 10px;
+  --vf-sp-9: 12px;
+  --vf-sp-10: 14px;
+  --vf-sp-11: 20px;
+  --vf-sp-12: 30px;
+  --vf-line-height: 1.35;
 }
+
+[data-vf-density="compact"] .vf-button--sm,
+[data-vf-density="compact"] .vf-icon-button--sm,
+[data-vf-density="compact"] .vf-badge--sm { padding: 1px 5px; }
+[data-vf-density="compact"] .vf-button--md { padding: 3px 9px; }
+[data-vf-density="compact"] .vf-button--lg { padding: 4px 12px; }
+[data-vf-density="compact"] .vf-table__header-cell,
+[data-vf-density="compact"] .vf-table__cell { padding: 3px 6px; }
+[data-vf-density="compact"] .vf-card { padding: var(--vf-sp-6); }
+[data-vf-density="compact"] .vf-input,
+[data-vf-density="compact"] .vf-textarea,
+[data-vf-density="compact"] .vf-form-control { padding: 3px 6px; }
 
 [data-vf-density="spacious"] {
   --vf-sp-1: 3px;
-  --vf-sp-2: 5px;
-  --vf-sp-3: 8px;
-  --vf-sp-4: 10px;
-  --vf-sp-5: 13px;
-  --vf-sp-6: 16px;
-  --vf-sp-7: 18px;
-  --vf-sp-8: 21px;
-  --vf-sp-9: 26px;
-  --vf-sp-10: 32px;
-  --vf-sp-11: 42px;
-  --vf-sp-12: 62px;
-  --vf-line-height: 1.8;
+  --vf-sp-2: 6px;
+  --vf-sp-3: 9px;
+  --vf-sp-4: 12px;
+  --vf-sp-5: 15px;
+  --vf-sp-6: 18px;
+  --vf-sp-7: 21px;
+  --vf-sp-8: 24px;
+  --vf-sp-9: 30px;
+  --vf-sp-10: 36px;
+  --vf-sp-11: 48px;
+  --vf-sp-12: 72px;
+  --vf-line-height: 1.85;
 }
+
+[data-vf-density="spacious"] .vf-button--sm,
+[data-vf-density="spacious"] .vf-icon-button--sm,
+[data-vf-density="spacious"] .vf-badge--sm { padding: 5px 12px; }
+[data-vf-density="spacious"] .vf-button--md { padding: 10px 22px; }
+[data-vf-density="spacious"] .vf-button--lg { padding: 14px 28px; }
+[data-vf-density="spacious"] .vf-table__header-cell,
+[data-vf-density="spacious"] .vf-table__cell { padding: 12px 16px; }
+[data-vf-density="spacious"] .vf-card { padding: var(--vf-sp-10); }
+[data-vf-density="spacious"] .vf-input,
+[data-vf-density="spacious"] .vf-textarea,
+[data-vf-density="spacious"] .vf-form-control { padding: 10px 14px; }
 
 /* ── Contrast modes ─────────────────────────────────────── */
 

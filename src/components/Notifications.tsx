@@ -34,6 +34,17 @@ export interface NotificationCenterProps extends HTMLAttributes<HTMLDivElement> 
   renderNotification?: (n: NotificationItem) => ReactNode;
   variant?: "dropdown" | "drawer";
   triggerLabel?: string;
+  /**
+   * Accent color (hex / CSS color). Themes the unread badge + the
+   * unread-row highlight. Defaults to `--vf-danger` so consumers who
+   * don't override get a neutral theme-aligned red badge.
+   */
+  accent?: string;
+  /**
+   * Force the dropdown anchor side. Defaults to `"start"` which opens
+   * below-and-right of the trigger.
+   */
+  anchor?: "start" | "end";
 }
 
 function formatTime(t: Date | string | undefined): string {
@@ -57,7 +68,10 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
       renderNotification,
       variant = "dropdown",
       triggerLabel = "Notifications",
+      accent,
+      anchor = "start",
       className,
+      style,
       ...props
     },
     ref
@@ -66,11 +80,20 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
     const outsideRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
     const mergedRef = useMergedRefs(ref, outsideRef);
     const unread = unreadCount ?? notifications.filter((n) => !n.read).length;
+    const composedStyle = accent
+      ? ({ "--vf-accent": accent, ...style } as React.CSSProperties)
+      : style;
 
     return (
       <div
         ref={mergedRef}
-        className={cx("vf-notif-center", `vf-notif-center--${variant}`, className)}
+        className={cx(
+          "vf-notif-center",
+          `vf-notif-center--${variant}`,
+          anchor === "end" && "vf-notif-center--right",
+          className
+        )}
+        style={composedStyle}
         {...props}
       >
         <button
@@ -81,7 +104,21 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
           aria-label={`${triggerLabel}${unread ? ` (${unread} unread)` : ""}`}
           onClick={() => setOpen(!open)}
         >
-          <span aria-hidden="true">🔔</span>
+          <svg
+            aria-hidden="true"
+            className="vf-notif-center__icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="square"
+            strokeLinejoin="miter"
+          >
+            <path d="M6 15V10a6 6 0 0 1 12 0v5l2 3H4z" />
+            <path d="M10 21a2 2 0 0 0 4 0" />
+          </svg>
           {unread > 0 && (
             <span className="vf-notif-center__badge">{unread}</span>
           )}

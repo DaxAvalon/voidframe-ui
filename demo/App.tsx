@@ -507,11 +507,37 @@ function LayoutSection() {
         </div>
       </Block>
       <Block label="SplitView (legacy)">
-        <div style={{ height: 120 }}>
-          <SplitView>
-            <div style={{ padding: 8 }}>A</div>
-            <div style={{ padding: 8 }}>B</div>
-          </SplitView>
+        <div style={{ height: 160, border: "1px solid var(--vf-border-2)" }}>
+          <SplitView
+            sidebarWidth="180px"
+            gap={0}
+            left={
+              <div
+                style={{
+                  padding: 12,
+                  background: "var(--vf-bg-2)",
+                  height: "100%",
+                }}
+              >
+                <Label>SIDEBAR</Label>
+                <Text size="sm" color="var(--vf-text-3)">
+                  Fixed-width left column.
+                </Text>
+              </div>
+            }
+            right={
+              <div
+                style={{
+                  padding: 12,
+                  background: "var(--vf-bg-1)",
+                  height: "100%",
+                }}
+              >
+                <Label>MAIN</Label>
+                <Text size="sm">Fluid right column — takes remaining width.</Text>
+              </div>
+            }
+          />
         </div>
       </Block>
     </Frame>
@@ -1234,52 +1260,168 @@ function CalendarsSection() {
 
 function AvatarsSection() {
   return (
-    <Frame title="Data — Avatars + Misc" description="Avatar, Tag, Code, Skeleton, EmptyState.">
+    <Frame title="Data — Avatars + Misc" description="Avatar, AvatarGroup, Tag, Code.">
       <Block label="Avatar / AvatarGroup">
-        <Flex gap={16}>
+        <Flex gap={16} align="center">
           <Avatar name="Alice" />
           <Avatar name="Bob" status="online" />
           <Avatar name="Carol" square />
           <AvatarGroup
-            items={[{ name: "Alice" }, { name: "Bob" }, { name: "Carol" }, { name: "Dan" }]}
-            max={3}
+            items={[
+              { name: "Alice" },
+              { name: "Bob" },
+              { name: "Carol" },
+              { name: "Dan" },
+              { name: "Eve" },
+              { name: "Frank" },
+            ]}
+            max={4}
           />
         </Flex>
       </Block>
-      <Block label="Tag / Code / Skeleton / EmptyState">
-        <Flex gap={8}>
+      <Block label="Tag / Code">
+        <Flex gap={8} align="center">
           <Tag>Default</Tag>
-          <Tag color="#4ade80" onRemove={() => {}}>Removable</Tag>
+          <Tag color="#4ade80" onRemove={() => {}}>
+            Removable
+          </Tag>
+          <Code inline>inline code</Code>
         </Flex>
-        <Code inline>inline code</Code>
-        <Skeleton lines={3} />
-        <EmptyState
-          title="Nothing here yet"
-          description="Create something to get started."
-          action={<Button>Create</Button>}
-        />
       </Block>
     </Frame>
   );
 }
 
 function KanbanSection() {
-  const [items, setItems] = useState([
-    { id: "t1", columnId: "todo", label: "Write spec" },
-    { id: "t2", columnId: "doing", label: "Build feature" },
-    { id: "t3", columnId: "done", label: "Ship release" },
+  interface Task {
+    id: string;
+    columnId: string;
+    label: string;
+    assignee?: string;
+    priority?: "low" | "med" | "high" | "urgent";
+    points?: number;
+    tags?: string[];
+    due?: string;
+    [key: string]: unknown;
+  }
+  const [items, setItems] = useState<Task[]>([
+    {
+      id: "t1",
+      columnId: "backlog",
+      label: "Research auth providers",
+      assignee: "Ada",
+      priority: "med",
+      points: 3,
+      tags: ["research"],
+    },
+    {
+      id: "t2",
+      columnId: "todo",
+      label: "Write API spec for /v2/sessions",
+      assignee: "Linus",
+      priority: "high",
+      points: 5,
+      tags: ["api", "spec"],
+      due: "Apr 20",
+    },
+    {
+      id: "t3",
+      columnId: "todo",
+      label: "Audit color-contrast on light theme",
+      assignee: "Grace",
+      priority: "low",
+      points: 2,
+      tags: ["a11y"],
+    },
+    {
+      id: "t4",
+      columnId: "doing",
+      label: "Build RTL-aware icon mirroring",
+      assignee: "Ada",
+      priority: "high",
+      points: 8,
+      tags: ["icons", "rtl"],
+      due: "Apr 18",
+    },
+    {
+      id: "t5",
+      columnId: "review",
+      label: "Code review for responsive Grid retrofit",
+      assignee: "Linus",
+      priority: "med",
+      points: 3,
+      tags: ["review"],
+    },
+    {
+      id: "t6",
+      columnId: "done",
+      label: "Ship Phase 20 perf wrappers",
+      assignee: "Ada",
+      priority: "urgent",
+      points: 5,
+      tags: ["perf", "shipped"],
+    },
   ]);
+  const toneByPriority: Record<NonNullable<Task["priority"]>, string> = {
+    low: "var(--vf-text-3)",
+    med: "var(--vf-info)",
+    high: "var(--vf-warning)",
+    urgent: "var(--vf-danger)",
+  };
   return (
-    <Frame title="Kanban" description="Drag-drop board with WIP limits.">
-      <Block label="Kanban (drag rows; Ctrl+Arrow to move with keyboard)">
+    <Frame title="Kanban" description="Drag-drop board with WIP limits + rich cards.">
+      <Block label="Kanban (drag cards; Ctrl+Arrow to move with keyboard)">
         <Kanban
           columns={[
-            { id: "todo", title: "Todo" },
-            { id: "doing", title: "Doing", wip: 3 },
+            { id: "backlog", title: "Backlog" },
+            { id: "todo", title: "Todo", wip: 3 },
+            { id: "doing", title: "In progress", wip: 2 },
+            { id: "review", title: "Review" },
             { id: "done", title: "Done" },
           ]}
           items={items}
-          renderItem={(it) => <Card title={String(it.label ?? it.id)}> </Card>}
+          renderItem={(it) => {
+            const task = it as Task;
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
+                }}
+              >
+                <div style={{ fontWeight: 600, color: "var(--vf-text-0)" }}>
+                  {task.label}
+                </div>
+                <Flex gap={6} align="center" wrap>
+                  {task.priority && (
+                    <Badge
+                      tone="neutral"
+                      style={{
+                        color: toneByPriority[task.priority],
+                        borderColor: toneByPriority[task.priority],
+                      }}
+                    >
+                      {task.priority}
+                    </Badge>
+                  )}
+                  {task.points !== undefined && <Badge>{task.points} pts</Badge>}
+                  {task.due && (
+                    <Text size="xs" color="var(--vf-text-3)">
+                      ⏱ {task.due}
+                    </Text>
+                  )}
+                </Flex>
+                <Flex gap={6} align="center" wrap>
+                  {task.tags?.map((t) => (
+                    <Tag key={t}>{t}</Tag>
+                  ))}
+                  <span style={{ flex: 1 }} />
+                  {task.assignee && <Avatar name={task.assignee} size={20} />}
+                </Flex>
+              </div>
+            );
+          }}
           onItemMove={({ itemId, toColumn, toIndex }) => {
             setItems((prev) => {
               const moved = prev.find((i) => i.id === itemId);
@@ -1325,7 +1467,9 @@ function OverlaysSection() {
     <Frame title="Overlays" description="Dialog, Drawer, Sheet, Popover, Tooltip, HoverCard, ConfirmDialog hook.">
       <Block label="Dialog">
         <Dialog>
-          <Dialog.Trigger>Open dialog</Dialog.Trigger>
+          <Dialog.Trigger asChild>
+            <Button>Open dialog</Button>
+          </Dialog.Trigger>
           <Dialog.Content size="md">
             <Dialog.Header>
               <Dialog.Title>Confirm action</Dialog.Title>
@@ -1342,43 +1486,55 @@ function OverlaysSection() {
         </Dialog>
       </Block>
       <Block label="DrawerV2 / Sheet">
-        <DrawerV2>
-          <DrawerV2.Trigger>Open drawer</DrawerV2.Trigger>
-          <DrawerV2.Content>
-            <DrawerV2.Header>
-              <DrawerV2.Title>Settings</DrawerV2.Title>
-            </DrawerV2.Header>
-            <DrawerV2.Body>Drawer content here.</DrawerV2.Body>
-          </DrawerV2.Content>
-        </DrawerV2>
-        <Sheet>
-          <Sheet.Trigger>Open sheet</Sheet.Trigger>
-          <Sheet.Content>
-            <Sheet.Handle />
-            <Sheet.Header>
-              <Sheet.Title>Bottom sheet</Sheet.Title>
-            </Sheet.Header>
-            <Sheet.Body>Drag the handle to resize.</Sheet.Body>
-          </Sheet.Content>
-        </Sheet>
+        <Flex gap={8} align="center">
+          <DrawerV2>
+            <DrawerV2.Trigger asChild>
+              <Button>Open drawer</Button>
+            </DrawerV2.Trigger>
+            <DrawerV2.Content>
+              <DrawerV2.Header>
+                <DrawerV2.Title>Settings</DrawerV2.Title>
+              </DrawerV2.Header>
+              <DrawerV2.Body>
+                <Text>Drawer content here — themed text + body padding.</Text>
+              </DrawerV2.Body>
+            </DrawerV2.Content>
+          </DrawerV2>
+          <Sheet>
+            <Sheet.Trigger asChild>
+              <Button>Open sheet</Button>
+            </Sheet.Trigger>
+            <Sheet.Content>
+              <Sheet.Handle />
+              <Sheet.Header>
+                <Sheet.Title>Bottom sheet</Sheet.Title>
+              </Sheet.Header>
+              <Sheet.Body>
+                <Text>Drag the handle to resize the sheet vertically.</Text>
+              </Sheet.Body>
+            </Sheet.Content>
+          </Sheet>
+        </Flex>
       </Block>
       <Block label="PopoverV2 / HoverCard">
-        <PopoverV2 open={popOpen} onOpenChange={setPopOpen}>
-          <PopoverV2.Trigger>Open popover</PopoverV2.Trigger>
-          <PopoverV2.Content>
-            <Text>Popover body</Text>
-          </PopoverV2.Content>
-        </PopoverV2>
-        <HoverCard>
-          <HoverCard.Trigger asChild>
-            <a href="#" style={{ color: "var(--vf-accent, var(--vf-green))" }}>
-              Hover me
-            </a>
-          </HoverCard.Trigger>
-          <HoverCard.Content>
-            <Text size="sm">Card preview content.</Text>
-          </HoverCard.Content>
-        </HoverCard>
+        <Flex gap={8} align="center">
+          <PopoverV2 open={popOpen} onOpenChange={setPopOpen}>
+            <PopoverV2.Trigger asChild>
+              <Button>Open popover</Button>
+            </PopoverV2.Trigger>
+            <PopoverV2.Content>
+              <Text>Popover body</Text>
+            </PopoverV2.Content>
+          </PopoverV2>
+          <HoverCard>
+            <HoverCard.Trigger asChild>
+              <Button variant="ghost">Hover me</Button>
+            </HoverCard.Trigger>
+            <HoverCard.Content>
+              <Text size="sm">Card preview content.</Text>
+            </HoverCard.Content>
+          </HoverCard>
+        </Flex>
       </Block>
       <Block label="useConfirm() hook">
         <Button
@@ -1406,11 +1562,19 @@ function OverlaysSection() {
 
 function CommandPaletteSection() {
   const [open, setOpen] = useState(false);
+  const [dim, setDim] = useState(true);
   return (
     <Frame title="CommandPalette + ShortcutGuide" description="Discovery + onboarding overlays.">
       <Block label="CommandPalette (mod+k or button)">
-        <Button onClick={() => setOpen(true)}>Open palette</Button>
-        <CommandPalette open={open} onOpenChange={setOpen}>
+        <Flex gap={12} align="center">
+          <Button onClick={() => setOpen(true)}>Open palette</Button>
+          <Toggle
+            label="Dim page behind palette"
+            checked={dim}
+            onChange={setDim}
+          />
+        </Flex>
+        <CommandPalette open={open} onOpenChange={setOpen} dim={dim}>
           <CommandPalette.Input />
           <CommandPalette.List>
             <CommandPalette.Empty>No commands</CommandPalette.Empty>
@@ -1487,7 +1651,7 @@ function NotificationsSection() {
 function LoadingStatusSection() {
   const [busy, setBusy] = useState(false);
   return (
-    <Frame title="Loading & Status" description="LoadingOverlay, SpinnerV2, Shimmer, ErrorState, OfflineBanner, ConnectionStatus.">
+    <Frame title="Loading & Status" description="LoadingOverlay, SpinnerV2, Skeleton, Shimmer, EmptyState, ErrorState, OfflineBanner, ConnectionStatus.">
       <Block label="SpinnerV2 variants">
         <Flex gap={16} align="center">
           <SpinnerV2 variant="ring" />
@@ -1506,8 +1670,16 @@ function LoadingStatusSection() {
           </Flex>
         </div>
       </Block>
-      <Block label="Shimmer / ErrorState">
+      <Block label="Skeleton / Shimmer">
+        <Skeleton lines={3} />
         <Shimmer lines={3} rounded />
+      </Block>
+      <Block label="Empty / Error states">
+        <EmptyState
+          title="Nothing here yet"
+          description="Create something to get started."
+          action={<Button>Create</Button>}
+        />
         <ErrorState
           error={new Error("Network unreachable")}
           actions={<Button>Retry</Button>}
@@ -1713,16 +1885,38 @@ function I18nSection() {
           </Text>
         </Flex>
       </Block>
-      <Block label="Built-in strings via t()">
-        <Flex gap={16} wrap>
-          <Badge>{t("pagination.previous")}</Badge>
-          <Badge>{t("pagination.next")}</Badge>
-          <Badge>{t("dialog.cancel")}</Badge>
-          <Badge>{t("dialog.confirm")}</Badge>
-          <Badge>{t("form.required")}</Badge>
-          <Badge>{t("table.noData")}</Badge>
-          <Text>{t("pagination.pageOf", { current: 2, total: 10 })}</Text>
+      <Block label="Built-in strings — t() resolved against the active locale">
+        <Text size="sm" color="var(--vf-text-3)">
+          These are the strings voidframe would render for common built-in
+          UI ("Previous", "Cancel", "No data", etc.) under the currently
+          selected locale. Switch the locale dropdown in the header to see
+          everything retranslate live.
+        </Text>
+        <Flex gap={8} wrap style={{ marginTop: 8 }}>
+          <Badge>
+            t(&quot;pagination.previous&quot;) → <b>{t("pagination.previous")}</b>
+          </Badge>
+          <Badge>
+            t(&quot;pagination.next&quot;) → <b>{t("pagination.next")}</b>
+          </Badge>
+          <Badge>
+            t(&quot;dialog.cancel&quot;) → <b>{t("dialog.cancel")}</b>
+          </Badge>
+          <Badge>
+            t(&quot;dialog.confirm&quot;) → <b>{t("dialog.confirm")}</b>
+          </Badge>
+          <Badge>
+            t(&quot;form.required&quot;) → <b>{t("form.required")}</b>
+          </Badge>
+          <Badge>
+            t(&quot;table.noData&quot;) → <b>{t("table.noData")}</b>
+          </Badge>
         </Flex>
+        <Text size="sm" style={{ marginTop: 8 }}>
+          Templates accept args:{" "}
+          <Code inline>{`t("pagination.pageOf", { current: 2, total: 10 })`}</Code>{" "}
+          → <b>{t("pagination.pageOf", { current: 2, total: 10 })}</b>
+        </Text>
       </Block>
       <Block label="Intl formatters">
         <Flex gap={24} wrap>

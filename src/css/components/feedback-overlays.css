@@ -301,24 +301,66 @@
 }
 
 /* ── NotificationCenter ──────────────────────────────────── */
-.vf-notif-center { position: relative; display: inline-block; font-family: var(--vf-font-family); }
+.vf-notif-center {
+  position: relative;
+  display: inline-flex;
+  font-family: var(--vf-font-family);
+}
 .vf-notif-center__trigger {
-  background: transparent; border: 1px solid var(--vf-border-1);
-  color: var(--vf-text-0); padding: 4px 8px;
-  cursor: pointer; position: relative;
+  background: transparent;
+  border: 1px solid var(--vf-border-2);
+  color: var(--vf-text-0);
+  padding: 6px 8px;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.vf-notif-center__trigger:hover {
+  background: var(--vf-bg-2);
+  border-color: var(--vf-border-3);
+}
+.vf-notif-center__trigger:focus-visible {
+  outline: 2px solid var(--vf-accent, var(--vf-text-2));
+  outline-offset: 1px;
+}
+.vf-notif-center__icon {
+  color: inherit;
 }
 .vf-notif-center__badge {
-  position: absolute; top: -4px; right: -4px;
-  background: var(--vf-red, #c44); color: var(--vf-bg-0);
-  font-size: var(--vf-font-xxs); padding: 0 4px;
+  position: absolute;
+  top: -5px;
+  inset-inline-end: -5px;
+  background: var(--vf-accent, var(--vf-danger));
+  color: var(--vf-bg-0);
+  font-size: 9px;
+  line-height: 1;
+  padding: 2px 4px;
   border: 1px solid var(--vf-bg-0);
+  font-variant-numeric: tabular-nums;
 }
 .vf-notif-center__panel {
-  position: absolute; top: 100%; right: 0;
-  margin-top: 4px;
-  width: 320px; max-height: 60vh; overflow-y: auto;
-  background: var(--vf-bg-1); border: 1px solid var(--vf-border-2);
+  position: absolute;
+  top: calc(100% + 6px);
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  margin-top: 0;
+  width: 300px;
+  max-width: calc(100vw - 24px);
+  max-height: 60vh;
+  overflow-y: auto;
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-2);
   z-index: var(--vf-z-popover, 200);
+}
+/* Flip to right-anchored if the trigger is in the right third of the viewport. */
+.vf-notif-center--right .vf-notif-center__panel {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
 }
 .vf-notif-center__head {
   display: flex; justify-content: space-between; align-items: center;

@@ -25,3 +25,37 @@
   outline: var(--vf-focus-ring);
   outline-offset: var(--vf-focus-offset);
 }
+
+/* Themed scrollbars everywhere — selects, dropdowns, overflow areas. */
+
+.vf-root *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.vf-root *::-webkit-scrollbar-track {
+  background: var(--vf-bg-1);
+}
+.vf-root *::-webkit-scrollbar-thumb {
+  background: var(--vf-border-2);
+  border: 1px solid var(--vf-bg-1);
+}
+.vf-root *::-webkit-scrollbar-thumb:hover {
+  background: var(--vf-border-3);
+}
+.vf-root * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--vf-border-2) var(--vf-bg-1);
+}
+
+/* Native <select multiple> / <option> — limited stylability but we push
+   colors where browsers honor them. */
+.vf-root select {
+  background: var(--vf-bg-0);
+  color: var(--vf-text-0);
+  border: 1px solid var(--vf-border-1);
+  font-family: var(--vf-font-family);
+}
+.vf-root option {
+  background: var(--vf-bg-0);
+  color: var(--vf-text-0);
+}

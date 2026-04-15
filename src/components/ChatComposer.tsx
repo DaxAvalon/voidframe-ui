@@ -909,10 +909,10 @@ export const Mention = forwardRef<HTMLSpanElement, MentionProps>(
   ) {
     const body = (
       <>
-        <span className="vf-mention__sigil" aria-hidden="true">
+        <span className="vf-mention-chip__sigil" aria-hidden="true">
           {sigil(kind)}
         </span>
-        <span className="vf-mention__value">{value}</span>
+        <span className="vf-mention-chip__value">{value}</span>
       </>
     );
     const composed: CSSProperties | undefined = style;
@@ -921,7 +921,7 @@ export const Mention = forwardRef<HTMLSpanElement, MentionProps>(
         <a
           href={href}
           ref={ref as React.Ref<HTMLAnchorElement>}
-          className={cx("vf-mention", `vf-mention--${kind}`, className)}
+          className={cx("vf-mention-chip", `vf-mention-chip--${kind}`, className)}
           style={composed}
           onClick={onActivate ? () => onActivate() : undefined}
           {...(props as HTMLAttributes<HTMLAnchorElement>)}
@@ -935,7 +935,7 @@ export const Mention = forwardRef<HTMLSpanElement, MentionProps>(
         <button
           type="button"
           ref={ref as React.Ref<HTMLButtonElement>}
-          className={cx("vf-mention", `vf-mention--${kind}`, className)}
+          className={cx("vf-mention-chip", `vf-mention-chip--${kind}`, className)}
           style={composed}
           onClick={onActivate}
           {...(props as HTMLAttributes<HTMLButtonElement>)}
@@ -947,7 +947,7 @@ export const Mention = forwardRef<HTMLSpanElement, MentionProps>(
     return (
       <span
         ref={ref}
-        className={cx("vf-mention", `vf-mention--${kind}`, className)}
+        className={cx("vf-mention-chip", `vf-mention-chip--${kind}`, className)}
         style={composed}
         {...props}
       >

@@ -496,7 +496,9 @@
 
 .vf-message-edit__input {
   min-height: 64px;
-  resize: vertical;
+  min-width: 200px;
+  width: 100%;
+  resize: both;
   padding: var(--vf-sp-2);
   background: var(--vf-bg-0);
   border: 1px solid var(--vf-border-1);
@@ -1566,23 +1568,27 @@
   margin-left: auto;
 }
 
-/* Mention */
+/* Mention chip (inline — distinct class from the MentionInput editor wrapper
+   which also uses .vf-mention in editors.css). */
 
-.vf-mention {
+.vf-mention-chip {
   display: inline-flex;
   align-items: center;
   gap: 2px;
   padding: 0 4px;
+  margin: 0 1px;
   color: var(--vf-accent, var(--vf-info));
   background: var(--vf-bg-2);
   border: 1px solid var(--vf-border-1);
   font-family: var(--vf-font-family);
   font-size: 0.95em;
   text-decoration: none;
+  vertical-align: baseline;
+  line-height: 1.4;
 }
 
-.vf-mention__sigil {
-  color: var(--vf-text-4);
+.vf-mention-chip__sigil {
+  color: var(--vf-text-3);
 }
 
 /* ── Sessions ───────────────────────────────────────────────── */

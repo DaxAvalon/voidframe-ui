@@ -1176,15 +1176,20 @@
 
 .vf-qrcode,
 .vf-barcode {
-  border: 1px solid var(--vf-border-1);
-  padding: 4px;
+  border: 1px solid var(--vf-border-2);
+  padding: 8px;
   background: var(--vf-bg-0);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: content-box;
+  width: fit-content;
 }
 
 .vf-barcode__text {
-  margin-top: 4px;
+  margin-top: 6px;
   font-size: var(--vf-font-xs);
-  color: var(--vf-text-3);
+  color: var(--vf-text-1);
   text-align: center;
   font-variant-numeric: tabular-nums;
 }

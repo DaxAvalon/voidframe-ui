@@ -147,6 +147,12 @@ export interface CommandPaletteProps {
   onOpenChange?: (next: boolean) => void;
   /** Global keyboard shortcut to open the palette. Default "mod+k". */
   shortcut?: string | null;
+  /**
+   * Dim the surrounding page while the palette is open. Default `true`.
+   * Set to `false` for a frosted-glass-less variant where the palette
+   * floats above the existing UI without darkening it.
+   */
+  dim?: boolean;
   children?: ReactNode;
   /** When set, also exposes a registry via `useCommand`. */
   registry?: boolean;
@@ -175,6 +181,7 @@ function CommandPaletteRoot({
   defaultOpen,
   onOpenChange,
   shortcut = "mod+k",
+  dim = true,
   registry = true,
   children,
 }: CommandPaletteProps) {
@@ -219,12 +226,12 @@ function CommandPaletteRoot({
 
   const tree = registry ? (
     <CommandRegistryContext.Provider value={registryValue}>
-      <CommandPaletteShell open={isOpen} setOpen={setOpen} registryList={list}>
+      <CommandPaletteShell open={isOpen} setOpen={setOpen} registryList={list} dim={dim}>
         {children}
       </CommandPaletteShell>
     </CommandRegistryContext.Provider>
   ) : (
-    <CommandPaletteShell open={isOpen} setOpen={setOpen} registryList={[]}>
+    <CommandPaletteShell open={isOpen} setOpen={setOpen} registryList={[]} dim={dim}>
       {children}
     </CommandPaletteShell>
   );
@@ -235,11 +242,13 @@ function CommandPaletteShell({
   open,
   setOpen,
   registryList,
+  dim,
   children,
 }: {
   open: boolean;
   setOpen: (next: boolean) => void;
   registryList: RegisteredCommand[];
+  dim: boolean;
   children?: ReactNode;
 }) {
   const baseId = useId();
@@ -361,12 +370,19 @@ function CommandPaletteShell({
         {open && (
           <Portal>
             <Presence present={open}>
-              <div className="vf-cmd-overlay">
-                <div
-                  className="vf-cmd-overlay__backdrop"
-                  aria-hidden="true"
-                  onClick={() => setOpen(false)}
-                />
+              <div
+                className={cx(
+                  "vf-cmd-overlay",
+                  !dim && "vf-cmd-overlay--no-dim"
+                )}
+              >
+                {dim && (
+                  <div
+                    className="vf-cmd-overlay__backdrop"
+                    aria-hidden="true"
+                    onClick={() => setOpen(false)}
+                  />
+                )}
                 <DismissableLayer onDismiss={() => setOpen(false)}>
                   <FocusScope
                     trapped

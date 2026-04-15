@@ -195,11 +195,11 @@ describe("Mention", () => {
     const { rerender, container } = renderWithTheme(
       <Mention value="alice" kind="user" />
     );
-    expect(container.querySelector(".vf-mention__sigil")?.textContent).toBe(
+    expect(container.querySelector(".vf-mention-chip__sigil")?.textContent).toBe(
       "@"
     );
     rerender(<Mention value="channel" kind="channel" />);
-    expect(container.querySelector(".vf-mention__sigil")?.textContent).toBe(
+    expect(container.querySelector(".vf-mention-chip__sigil")?.textContent).toBe(
       "#"
     );
   });

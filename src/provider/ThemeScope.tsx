@@ -19,7 +19,12 @@ import {
   type BuiltInThemeName,
 } from "../themes";
 import type { ThemeOverrides, VoidframeTokens } from "../tokens";
-import { darkTheme, lightTheme, midnightTheme } from "../themes";
+import {
+  darkTheme,
+  lightTheme,
+  midnightTheme,
+  greyTheme,
+} from "../themes";
 import {
   useTokens,
   _VoidframeContextForTesting,
@@ -33,6 +38,7 @@ const BUILTIN_THEMES: Record<BuiltInThemeName, VoidframeTokens> = {
   dark: darkTheme,
   light: lightTheme,
   midnight: midnightTheme,
+  grey: greyTheme,
 };
 
 export interface ThemeScopeProps

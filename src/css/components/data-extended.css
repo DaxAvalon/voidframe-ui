@@ -18,16 +18,35 @@
   object-fit: cover;
 }
 
-.vf-avatar-group { display: flex; }
+.vf-avatar-group {
+  display: inline-flex;
+  align-items: center;
+  isolation: isolate;
+}
+.vf-avatar-group > .vf-avatar {
+  margin-inline-start: -6px;
+  outline: 2px solid var(--vf-bg-1);
+  outline-offset: -1px;
+  position: relative;
+  z-index: 0;
+}
+.vf-avatar-group > .vf-avatar:first-child {
+  margin-inline-start: 0;
+}
+.vf-avatar-group > .vf-avatar:hover {
+  z-index: 1;
+}
 .vf-avatar-group__overflow {
-  margin-left: -8px;
+  margin-inline-start: -6px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--vf-bg-4);
   border: 1px solid var(--vf-border-2);
-  color: var(--vf-text-3);
+  color: var(--vf-text-1);
   font-family: var(--vf-font-family);
+  outline: 2px solid var(--vf-bg-1);
+  outline-offset: -1px;
 }
 
 /* Tag */

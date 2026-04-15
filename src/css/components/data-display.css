@@ -163,7 +163,18 @@
 
 /* ── Virtualization ───────────────────────────────────────── */
 .vf-virtual-list,
-.vf-virtual-grid { outline: none; }
+.vf-virtual-grid {
+  outline: none;
+  overflow: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  contain: layout paint;
+}
+.vf-virtual-list__inner,
+.vf-virtual-grid__inner {
+  position: relative;
+  width: 100%;
+}
 
 /* ── DataList / DescriptionList ──────────────────────────── */
 .vf-datalist { display: flex; flex-direction: column; gap: 4px; font-family: var(--vf-font-family); }
@@ -290,9 +301,21 @@
 .vf-trend { display: inline-flex; gap: 2px; align-items: baseline; font-family: var(--vf-font-family); font-size: var(--vf-font-xs); }
 .vf-trend--up { color: var(--vf-green); }
 .vf-trend--down { color: var(--vf-red, #c44); }
-.vf-heatmap { display: flex; flex-direction: column; gap: 2px; font-family: var(--vf-font-family); }
+.vf-heatmap {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--vf-font-family);
+  width: fit-content;
+  max-width: 100%;
+}
 .vf-heatmap__row,
-.vf-heatmap__columns { display: grid; gap: 2px; align-items: center; }
+.vf-heatmap__columns {
+  display: grid;
+  gap: 2px;
+  align-items: center;
+  justify-content: start;
+}
 .vf-heatmap__row-label,
 .vf-heatmap__col-label { color: var(--vf-text-3); font-size: var(--vf-font-xxs); padding-inline-end: 4px; text-align: end; }
 .vf-heatmap__cell { border: none; padding: 0; cursor: pointer; }
