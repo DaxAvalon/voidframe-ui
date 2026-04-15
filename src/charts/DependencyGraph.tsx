@@ -76,23 +76,25 @@ function computeLayers(
   nodes: DependencyNode[],
   edges: DependencyEdge[]
 ): Map<string, number> {
-  // Longest-path layering: layer(node) = 1 + max layer of its
-  // dependencies; nodes with no dependencies are layer 0.
+  // Longest-path layering by INCOMING edges: a node sits 1 layer below
+  // the deepest node that points at it. Roots (no incoming edges) land
+  // at layer 0 / top, so the natural read for "source → target" is a
+  // downward arrow from a higher level to its dependency.
   const layer = new Map<string, number>();
-  const deps = new Map<string, string[]>();
-  for (const n of nodes) deps.set(n.id, []);
+  const incoming = new Map<string, string[]>();
+  for (const n of nodes) incoming.set(n.id, []);
   for (const e of edges) {
-    if (!deps.has(e.source)) deps.set(e.source, []);
-    deps.get(e.source)!.push(e.target);
+    if (!incoming.has(e.target)) incoming.set(e.target, []);
+    incoming.get(e.target)!.push(e.source);
   }
   const visiting = new Set<string>();
   const visit = (id: string): number => {
     if (layer.has(id)) return layer.get(id)!;
     if (visiting.has(id)) return 0; // cycle: place at layer 0
     visiting.add(id);
-    const targets = deps.get(id) ?? [];
+    const sources = incoming.get(id) ?? [];
     let l = 0;
-    for (const t of targets) l = Math.max(l, visit(t) + 1);
+    for (const s of sources) l = Math.max(l, visit(s) + 1);
     visiting.delete(id);
     layer.set(id, l);
     return l;
@@ -277,7 +279,11 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
               bx: number;
               by: number;
             };
-            const ARROW_INSET = 4;
+            // Line endpoints sit on the node border so the arrow head's
+            // tip touches the rect edge cleanly. Marker body extends
+            // backward along the line into the rect interior, which
+            // looks like the arrow is "landing on" the node.
+            const ARROW_INSET = 0;
             // Layout extents (used to pick gutter coords outside all
             // nodes when a detour is needed).
             const layoutMaxX = placed.reduce(
