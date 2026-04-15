@@ -231,6 +231,98 @@ export type {
   TagInputProps,
 } from "./FormAdvanced";
 
+// ── Phase 11: interactive + media ───────────────────────────
+export { Carousel, CarouselImageGallery } from "./Carousel";
+export type {
+  CarouselProps,
+  CarouselAlign,
+  CarouselControls,
+  CarouselImage,
+  CarouselImageProps,
+} from "./Carousel";
+
+export { Lightbox, ImageGallery } from "./Lightbox";
+export type {
+  LightboxProps,
+  LightboxImage,
+  ImageGalleryProps,
+} from "./Lightbox";
+
+export { Accordion } from "./Accordion";
+export type {
+  AccordionProps,
+  AccordionItemProps,
+  AccordionType,
+} from "./Accordion";
+
+export { Swipeable, SwipeActions, Zoomable } from "./Gestures";
+export type {
+  SwipeableProps,
+  SwipeActionsProps,
+  SwipeActionProps,
+  ZoomableProps,
+} from "./Gestures";
+
+export {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  Sortable,
+  ReorderList,
+} from "./DragDrop";
+export type {
+  DragDropContextProps,
+  DraggableProps,
+  DraggableRenderProps,
+  DroppableProps,
+  DroppableRenderProps,
+  DragEndEvent,
+  SortableProps,
+  SortableRenderProps,
+  SortStrategy,
+} from "./DragDrop";
+
+export { Marquee, Typewriter, Ticker } from "./Animations";
+export type {
+  MarqueeProps,
+  MarqueeDirection,
+  TypewriterProps,
+  TickerProps,
+} from "./Animations";
+
+export { Image } from "./Image";
+export type { ImageProps, ImagePlaceholder } from "./Image";
+
+export { VideoPlayer, AudioPlayer, VoiceWaveform } from "./MediaPlayer";
+export type {
+  VideoPlayerProps,
+  AudioPlayerProps,
+  VoiceWaveformProps,
+  CaptionTrack,
+} from "./MediaPlayer";
+
+export { IFrame, DocumentPreview } from "./Embed";
+export type {
+  IFrameProps,
+  DocumentPreviewProps,
+  DocumentKind,
+} from "./Embed";
+
+export {
+  Clipboard,
+  ShareButton,
+  ScrollIndicator,
+  ReactionPicker,
+} from "./Utility";
+export type {
+  ClipboardProps,
+  ClipboardRenderProps,
+  ShareButtonProps,
+  ScrollIndicatorProps,
+  Reaction,
+  ReactionPickerProps,
+} from "./Utility";
+
 // ── Phase 10: feedback + overlays ───────────────────────────
 export {
   Dialog,
