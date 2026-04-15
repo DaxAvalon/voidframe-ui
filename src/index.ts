@@ -49,6 +49,9 @@ export {
   useMergedRefs,
   useId,
   useIsomorphicLayoutEffect,
+  ShortcutProvider,
+  useShortcut,
+  useShortcutRegistry,
 } from "./hooks";
 export type {
   HoverBindings,
