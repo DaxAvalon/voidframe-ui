@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 11 — Accordion (compound) + Collapsible upgrade
 //
 // Accordion manages a single or multiple expanded items per WAI-ARIA pattern.

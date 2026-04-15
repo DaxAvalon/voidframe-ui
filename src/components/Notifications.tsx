@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 10 — NotificationCenter, BannerAlert, Callout, Quote, Alert (upgrade)
 
 import {

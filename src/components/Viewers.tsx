@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — Viewers: CodeBlock, JSONViewer, DiffViewer, LogViewer, Terminal,
 // MarkdownRenderer.
 //

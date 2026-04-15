@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — BreadcrumbMenu
 //
 // Variant of Breadcrumb where each non-current segment can expose a dropdown

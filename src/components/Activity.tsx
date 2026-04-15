@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — Activity / ActivityFeed
 //
 // Chronological list of events with actor, action, target, optional preview,

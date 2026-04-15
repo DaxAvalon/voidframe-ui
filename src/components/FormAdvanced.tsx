@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.1 form additions:
 //   Switch, CheckboxGroup, SegmentedControl, PasswordInput, PinInput, TagInput
 

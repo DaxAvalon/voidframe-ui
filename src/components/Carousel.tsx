@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 11 — Carousel + CarouselImage
 //
 // Scroll-snap-based carousel. Uses native overflow + scroll-snap so touch +

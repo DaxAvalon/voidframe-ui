@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 11 — IFrame + DocumentPreview
 //
 // Sandboxed embed wrapper plus a thumbnail-and-metadata preview for any

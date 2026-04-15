@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — Virtualization: VirtualList, VirtualGrid, InfiniteScroll
 //
 // Windowed rendering for large datasets. Keeps things small and dependency-free.

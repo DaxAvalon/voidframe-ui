@@ -1,3 +1,5 @@
+"use client";
+
 // DateTimePicker — DatePicker + TimePicker composed.
 // Value is a single Date; the time portion of the date is kept in sync with
 // the TimePicker selection.

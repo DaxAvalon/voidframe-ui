@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 13 — ColorSwatch + Palette
 
 import {

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — Calendar (view-only display)
 //
 // Three views:

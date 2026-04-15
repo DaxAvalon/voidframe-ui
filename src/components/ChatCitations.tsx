@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 12 — Citations, sources, RAG context
 
 import { forwardRef, useState, type HTMLAttributes, type ReactNode } from "react";

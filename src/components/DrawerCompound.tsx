@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 10 — DrawerV2 (compound) + Sheet (mobile bottom sheet)
 //
 // Same primitive composition as Dialog. Renamed `DrawerV2` to keep the

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — Metrics: StatGroup, MetricCard, CircularProgress, Gauge,
 // SegmentedProgress, TrendIndicator, StatusIndicator.
 

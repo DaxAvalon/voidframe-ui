@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — Menu + ContextMenu + MenuBar
 //
 // Radix-style compound menu with support for items, separators, labels,

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — Layout extensions:
 //   Stack (VStack alias), GridItem, Sticky, SafeArea, Section, PageHeader,
 //   EmptyLayout

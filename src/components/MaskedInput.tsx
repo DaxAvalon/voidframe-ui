@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.3 — MaskedInput + CurrencyInput + PhoneInput
 //
 // MaskedInput applies a positional mask to the input, using these tokens:

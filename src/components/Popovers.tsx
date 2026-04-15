@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 10 — Popover (compound), Tooltip + TooltipProvider, HoverCard
 //
 // All three are anchored overlays. We keep the floating-position math minimal

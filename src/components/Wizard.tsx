@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — Wizard (multi-step form)
 //
 // Controlled or uncontrolled step state. Supports per-step validation via a

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.4 — ColorPicker
 //
 // HSL sliders + hex input + optional preset swatches. Emits a hex string

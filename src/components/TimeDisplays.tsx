@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 13 — Time zone, relative time, duration, countdown
 
 import {

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.3 — Combobox + MultiSelect
 //
 // Combobox is a searchable single-select: an input filters a listbox popover.

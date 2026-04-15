@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — Charts: Sparkline, Heatmap, ChartContainer
 //
 // Lightweight SVG-based primitives. No dep on a charting library.

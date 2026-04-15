@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, type HTMLAttributes } from "react";
 import type { Orientation } from "../types";
 

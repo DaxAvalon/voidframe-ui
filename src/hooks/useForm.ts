@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.5 — useForm
 //
 // Lightweight form state manager. Tracks values, errors, touched, dirty, and

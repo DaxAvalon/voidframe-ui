@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 16 — useContainerQuery
 //
 // Observes a container's inline-size and reports which of the supplied

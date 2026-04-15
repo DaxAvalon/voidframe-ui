@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.3 — TreeSelect
 //
 // Hierarchical select: nodes can have children; toggling a parent expands/

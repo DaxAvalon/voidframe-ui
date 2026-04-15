@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 10 — OfflineBanner + ConnectionStatus
 
 import {

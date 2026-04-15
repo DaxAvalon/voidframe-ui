@@ -1,3 +1,5 @@
+"use client";
+
 // ═══════════════════════════════════════════════════════════════
 // Slot — Radix-style asChild primitive
 // Merges its props onto a single child element instead of wrapping it.

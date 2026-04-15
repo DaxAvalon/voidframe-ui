@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 13 — Encoding: QRCode + Barcode.
 //
 // Both components support a "renderMatrix" / "renderBars" escape hatch

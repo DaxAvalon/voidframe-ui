@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 11 — DragDropContext + Droppable + Draggable + Sortable
 //
 // Lightweight HTML5-drag based drag/drop primitives plus a higher-level

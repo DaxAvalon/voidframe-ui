@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 10 — Spotlight (onboarding tour) + CoachMark (single-shot pointer)
 //
 // Spotlight cuts a transparent hole around a target element via an SVG mask

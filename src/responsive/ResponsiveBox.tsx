@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 16 — ResponsiveBox
 //
 // JS-resolved responsive layout primitive. For common layout props that

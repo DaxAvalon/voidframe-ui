@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — useShortcut + ShortcutRegistry
 //
 // Context-based shortcut registry. Components call `useShortcut(keys, handler,

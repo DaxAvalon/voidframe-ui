@@ -47,3 +47,9 @@ export {
   type TransitionProps,
   type TransitionType,
 } from "./Transition";
+
+// ── SSR / hydration (Phase 18) ─────────────────────────────────
+export {
+  HydrationBoundary,
+  type HydrationBoundaryProps,
+} from "./HydrationBoundary";

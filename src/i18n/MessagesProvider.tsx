@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 17 — MessagesProvider
 //
 // Holds the resolved message catalog + locale metadata. Runs underneath

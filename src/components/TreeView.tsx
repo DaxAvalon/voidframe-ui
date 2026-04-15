@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — TreeView
 //
 // Hierarchical tree with optional multi-select, checkable items, lazy

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.4 — MarkdownEditor
 //
 // Textarea-based markdown editor with an optional live-preview pane and a

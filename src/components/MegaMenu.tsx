@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — MegaMenu
 //
 // Multi-column dropdown for large navigation structures (product catalogs,

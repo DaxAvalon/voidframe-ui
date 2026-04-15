@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useRef, type PointerEvent as ReactPointerEvent } from "react";
 
 export interface UseLongPressOptions {

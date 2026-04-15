@@ -17,11 +17,13 @@
       "types": "./dist/types/tokens.d.ts",
       "import": "./dist/tokens.js"
     },
+    "./theme-script.js": "./theme-script.js",
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "src",
+    "theme-script.js",
     "README.md",
     "LICENSE"
   ],

@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, useEffect, useState, type HTMLAttributes } from "react";
 import { visuallyHiddenStyle } from "./VisuallyHidden";
 

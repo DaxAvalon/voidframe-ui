@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 11 — Lightbox + ImageGallery
 //
 // Lightbox is a Portal-mounted modal with image carousel, optional thumbnail

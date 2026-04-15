@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef } from "react";
 import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";

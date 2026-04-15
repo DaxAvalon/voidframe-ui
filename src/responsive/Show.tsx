@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 16 — Show / Hide
 //
 // CSS-based to avoid SSR hydration flash. The subtree uses

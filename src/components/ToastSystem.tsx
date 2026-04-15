@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 10 — ToastV2 (compound) + Toaster + Snackbar + useToast
 //
 // `useToast()` returns an imperative API that pushes/dismisses entries from

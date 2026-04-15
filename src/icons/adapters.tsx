@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 14 — Third-party icon-library adapters
 //
 // These wrap an icon from Lucide / Phosphor / Heroicons / Tabler into a

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — Sidebar (compound)
 //
 // Vertical navigation container with brand, sections (labeled groups), nav

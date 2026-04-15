@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.5 — ImageCropper
 //
 // Pick or pass an image, then drag a rectangular crop window across it.

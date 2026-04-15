@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.4 — RichTextEditor
 //
 // Minimal contenteditable-based rich text editor with a toolbar. Commands use

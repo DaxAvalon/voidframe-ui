@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 14 — Bundled icon set
 //
 // Monoline 1px stroke, 24x24 viewBox, pixel-aligned. Every icon is a

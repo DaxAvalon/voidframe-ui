@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — TreeTable
 //
 // Table with hierarchical rows. Each row may have children exposed via

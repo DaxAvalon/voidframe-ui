@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — ScrollArea
 //
 // Native overflow container with Voidframe-styled custom scrollbar. Uses

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.5 — FileUpload
 //
 // Upgraded file picker on top of DropZone ergonomics: drag/drop + browse,

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — ResizableGroup / ResizablePanel / ResizableHandle
 //
 // A simple N-panel resizable layout driven by percentage sizes that always

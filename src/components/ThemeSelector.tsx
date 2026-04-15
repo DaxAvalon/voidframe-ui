@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 15 — ThemeSelector
 //
 // SegmentedControl-style chooser with optional icon per theme. Works as

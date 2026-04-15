@@ -1,3 +1,5 @@
+"use client";
+
 // ═══════════════════════════════════════════════════════════════
 // genericForwardRef — forwardRef that preserves generics
 // React's `forwardRef` collapses generics (returns a non-generic

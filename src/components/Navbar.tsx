@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — Navbar (compound) + TabBar
 //
 // Navbar is a horizontal top-navigation strip with a brand slot, a center

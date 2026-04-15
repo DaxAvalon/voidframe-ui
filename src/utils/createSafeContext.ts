@@ -1,3 +1,5 @@
+"use client";
+
 // ═══════════════════════════════════════════════════════════════
 // createSafeContext — context with provider-presence guarantee
 // Replaces raw `React.createContext` for compound components.

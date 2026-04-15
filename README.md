@@ -365,6 +365,73 @@ const CompassIcon = adaptIcon(Compass, { defaultLabel: "Compass" });
 <CompassIcon size="xl" />
 ```
 
+### SSR & framework compatibility
+
+Voidframe is SSR-safe and carries `"use client"` directives on every stateful module, so it works out of the box with Next.js (App + Pages Router), Remix, Astro, Vite SSR, and Gatsby. A `renderToString` smoke test exercises a representative sample of every complexity tier on every commit.
+
+**Next.js (App Router):** wrap the root layout in a thin client wrapper — this keeps the rest of the layout server-rendered while carving out a single client boundary for `VoidframeProvider`.
+
+```tsx
+// app/providers.tsx
+"use client";
+import { VoidframeProvider } from "voidframe";
+export function AppProviders({ children }) {
+  return <VoidframeProvider>{children}</VoidframeProvider>;
+}
+
+// app/layout.tsx
+import { AppProviders } from "./providers";
+import "voidframe/styles.css";
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Pre-hydration theme sync — no flash. */}
+        <script src="/vf-theme.js" />
+      </head>
+      <body><AppProviders>{children}</AppProviders></body>
+    </html>
+  );
+}
+```
+
+**Remix / Vite SSR / Astro:** identical pattern — import `VoidframeProvider` in a client-only entry, include `voidframe/styles.css` in your root layout, add the theme-sync script inline to `<head>`.
+
+**Pre-hydration theme script.** Prevents the dark→light flash when a user has a persisted or `"system"` theme preference. Inline the script in `<head>` *before* your app bundle — it's shipped at the package root as `voidframe/theme-script.js`:
+
+```html
+<!-- via <script src> — shipped at the package root -->
+<script src="/node_modules/voidframe/theme-script.js"></script>
+
+<!-- or inline — identical behavior -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("voidframe-theme");
+      if (!t || t === "system") {
+        t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-vf-theme", t);
+    } catch (e) {}
+  })();
+</script>
+```
+
+The snippet runs synchronously, reads the user's persisted pref (the same `voidframe-theme` key `useThemePersistence` uses), and sets `data-vf-theme` before React takes over.
+
+**`<HydrationBoundary>`.** For components that genuinely can't SSR (canvas, measured layouts, time-of-day text), wrap them to render a fallback until after hydration — no mismatch, no broken diff.
+
+```jsx
+import { HydrationBoundary } from "voidframe";
+
+<HydrationBoundary fallback={<Skeleton lines={3} />}>
+  <SignaturePad />
+</HydrationBoundary>
+```
+
+**React Server Components.** Stateful components carry `"use client"` — use them freely in client files. Pure display primitives (`Text`, `Label`, `Divider`, `Badge`, `Icon`, `Box`, `Flex`, `Grid`, `Container`, `Code`, `Kbd`) remain usable from RSC because they don't hook into any stateful context beyond CSS.
+
 ### Internationalization
 
 Full i18n surface — every built-in string translates, every layout mirrors in RTL, every number/date formats by locale. Backed entirely by `Intl.*` APIs (no `date-fns`/`moment` dependency).
@@ -611,7 +678,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (1210+ tests)
+npm run test      # full vitest suite (1230+ tests)
 npm run typecheck # tsc --noEmit
 ```
 

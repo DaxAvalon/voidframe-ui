@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, type AnchorHTMLAttributes, type ReactNode } from "react";
 import { cx } from "../utils/cx";
 

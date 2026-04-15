@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.4 — MentionInput + SlashCommandInput
 //
 // MentionInput: textarea that watches for "@" (or any configured trigger),

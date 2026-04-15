@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 12 — Composer compound + buttons + suggestions + templates + mentions
 
 import {

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 10 — Dialog (compound modal) + AlertDialog + useConfirm
 //
 // Composes Portal + FocusScope + DismissableLayer + Presence. Keeps the

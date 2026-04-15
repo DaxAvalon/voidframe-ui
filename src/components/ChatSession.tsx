@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 12 — Session list, conversation header, empty state
 
 import {

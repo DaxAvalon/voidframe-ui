@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 10 — LoadingOverlay, SpinnerV2 (variants), Shimmer, ErrorState
 
 import {

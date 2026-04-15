@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 14 — Icon primitive
 //
 // Monoline, 1px stroke, square caps, miter joins. Drawn on 24x24 grid.

@@ -1,3 +1,5 @@
+"use client";
+
 // Layout + semantic structure for forms: FormActions, InputGroup, FieldSet.
 
 import {

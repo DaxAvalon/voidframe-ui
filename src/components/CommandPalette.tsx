@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 10 — CommandPalette
 //
 // `cmdk`-style command launcher with fuzzy filter, keyboard nav (Arrow up/

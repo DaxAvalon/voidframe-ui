@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 16 — useBreakpoint / useResponsive / useDeviceType
 
 import { useEffect, useMemo, useState } from "react";

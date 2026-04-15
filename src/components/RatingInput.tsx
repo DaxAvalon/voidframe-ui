@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.3 — RatingInput
 //
 // Star-based rating control (count configurable). Supports:

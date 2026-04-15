@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — Gantt
 //
 // Bar-on-timeline schedule view. Renders dependency arrows between linked

@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 13 — Dev tools: CommitGraph, NetworkInspector, ConsoleOutput,
 // DebugTree, KeyValueEditor, QueryBuilder, ShortcutEditor.
 

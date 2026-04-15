@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 11 — Clipboard, ShareButton, ScrollIndicator, ReactionPicker
 
 import {

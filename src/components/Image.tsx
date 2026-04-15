@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 11 — Image (upgrade)
 //
 // `<img>` wrapper with blur-up, fallback-on-error, native lazy loading, and

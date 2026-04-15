@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — DataGrid (flagship data component)
 //
 // Features: sort, filter, column visibility, column reorder (header drag),

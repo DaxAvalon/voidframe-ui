@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.4 — CodeEditor (textarea wrapper with optional line numbers and
 // syntax-highlighted overlay).
 //

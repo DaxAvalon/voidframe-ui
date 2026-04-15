@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — Kanban
 //
 // Column-based board with drag-drop card moves. Keeps the DnD logic plain

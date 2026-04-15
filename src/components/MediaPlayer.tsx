@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 11 — VideoPlayer (compound) + AudioPlayer + VoiceWaveform
 //
 // HTML5 media wrappers with a custom-controls compound API (Play, Progress,

@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
 
 export const visuallyHiddenStyle: CSSProperties = {

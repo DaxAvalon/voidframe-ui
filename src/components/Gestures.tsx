@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 11 — Swipeable, SwipeActions, Zoomable
 //
 // Pointer-event-based gesture wrappers. No external deps.

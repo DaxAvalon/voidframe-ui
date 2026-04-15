@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 14 — IconButton + IconGroup
 //
 // IconButton is a square, icon-only button with required aria-label (dev-

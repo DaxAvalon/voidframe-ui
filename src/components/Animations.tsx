@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 11 — Marquee, Typewriter, Ticker
 //
 // Self-contained animation atoms — no external deps.

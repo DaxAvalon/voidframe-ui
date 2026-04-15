@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 12 — Model selector, system prompt, token/context/cost displays,
 // latency, debug panel, trace viewer, unread badge, layout patterns.
 

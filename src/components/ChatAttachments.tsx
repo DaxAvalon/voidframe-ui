@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 12 — Attachments
 
 import { forwardRef, type HTMLAttributes, type ReactNode } from "react";

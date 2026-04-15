@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — Navigation extensions:
 //   CursorPagination, ScrollSpy, BackToTop, Shortcut, TreeNav, UserMenu
 //

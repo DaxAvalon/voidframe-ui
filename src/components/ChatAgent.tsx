@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 12 — Tool calls, agent steps, traces, plans
 
 import {

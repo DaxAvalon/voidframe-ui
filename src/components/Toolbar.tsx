@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — Toolbar (compound)
 //
 // Horizontal (or vertical) tool strip with roving tabindex. Children can be

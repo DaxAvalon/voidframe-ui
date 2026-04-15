@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — DataList + DescriptionList
 //
 // DataList: stylized label/value rows (scaled up from KeyValue for longer

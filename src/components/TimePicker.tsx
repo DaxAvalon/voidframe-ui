@@ -1,3 +1,5 @@
+"use client";
+
 // TimePicker — hour/minute (optional seconds) spinners.
 // No datepicker required; value is a "HH:mm" / "HH:mm:ss" 24h string.
 

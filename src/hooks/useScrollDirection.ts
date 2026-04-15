@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 
 export type ScrollDirection = "up" | "down" | null;

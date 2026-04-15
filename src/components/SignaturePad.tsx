@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 7.5 — SignaturePad
 //
 // Canvas-backed signature capture. Mouse, touch, and pen are all routed

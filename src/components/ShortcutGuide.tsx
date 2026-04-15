@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — ShortcutGuide
 //
 // Overlay listing every shortcut currently registered via `useShortcut` under

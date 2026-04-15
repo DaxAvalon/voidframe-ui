@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 12 — Chat core
 //
 // Conversation / MessageList / Message / MessageGroup / MessageContent /

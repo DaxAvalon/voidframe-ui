@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — AppShell
 //
 // Opinionated page-level scaffold with optional header, sidebar (collapsible),

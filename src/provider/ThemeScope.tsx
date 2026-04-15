@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 15 — ThemeScope
 //
 // Nested subtree override. Re-emits CSS custom properties + data-attrs

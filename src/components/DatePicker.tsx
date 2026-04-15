@@ -1,3 +1,5 @@
+"use client";
+
 // DatePicker + DateRangePicker + internal Calendar grid.
 // Native <Date>, no external deps. Full keyboard spec per WAI-ARIA grid pattern.
 

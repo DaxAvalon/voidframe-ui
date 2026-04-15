@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 15 — persisted theme preference
 //
 // Reads from localStorage, falls back to the supplied default. Writes

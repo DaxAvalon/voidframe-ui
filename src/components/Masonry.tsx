@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 8 — Masonry
 //
 // CSS grid masonry layout (via `grid-template-rows: masonry` where supported)

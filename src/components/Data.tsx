@@ -1,3 +1,5 @@
+"use client";
+
 // Phase 9 — Data core (Table / Stat / Progress upgrades)
 
 import {
