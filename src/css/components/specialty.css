@@ -1294,12 +1294,15 @@
 .vf-widget {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
   background: var(--vf-bg-1);
   border: 1px solid var(--vf-border-1);
   color: var(--vf-text-1);
   font-family: var(--vf-font-family);
   overflow: hidden;
   position: relative;
+  box-sizing: border-box;
 }
 
 .vf-widget--loading { opacity: 0.6; }
