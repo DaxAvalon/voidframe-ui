@@ -21,6 +21,6 @@
     "isolatedModules": true,
     "useDefineForClassFields": true
   },
-  "include": ["src", "demo"],
+  "include": ["src", "demo", "tools"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx"]
 }

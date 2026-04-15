@@ -2,14 +2,21 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
+import { visualizer } from "rollup-plugin-visualizer";
 import { resolve } from "path";
+
+const analyze = process.env.ANALYZE === "1";
 
 export default defineConfig({
   test: {
     globals: true,
     environment: "happy-dom",
     setupFiles: ["./test/setup.ts"],
-    include: ["src/**/*.{test,spec}.{ts,tsx}", "test/**/*.{test,spec}.{ts,tsx}"],
+    include: [
+      "src/**/*.{test,spec}.{ts,tsx}",
+      "test/**/*.{test,spec}.{ts,tsx}",
+      "tools/**/*.{test,spec}.{ts,tsx}",
+    ],
     coverage: {
       provider: "v8",
       reporter: ["text", "html", "lcov"],
@@ -41,6 +48,17 @@ export default defineConfig({
       rollupTypes: true,
       tsconfigPath: "./tsconfig.build.json",
     }),
+    // Opt-in bundle analyzer. Produces dist/stats.html when ANALYZE=1.
+    ...(analyze
+      ? [
+          visualizer({
+            filename: "dist/stats.html",
+            gzipSize: true,
+            brotliSize: true,
+            template: "treemap",
+          }),
+        ]
+      : []),
   ],
   server: {
     host: "0.0.0.0",
