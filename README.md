@@ -282,6 +282,20 @@ Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortabl
 
 Metrics: `Stat`, `StatGroup`, `MetricCard`, `CircularProgress`, `Sparkline`, `ChartContainer`.
 
+Charts (Phase 21 foundations — primitives ready for the chart library shipping in Phases 22–24):
+
+| Primitive | Purpose |
+|-----------|---------|
+| `ChartFrame` | SVG wrapper, margin accounting, scale context, responsive sizing |
+| `Axis` | 1px brutalist axis with nice-ticks for linear / log / time / band / point scales |
+| `Gridlines` | X / Y / both, solid or dashed |
+| `ChartLegend` | Swatches + labels, interactive toggle, tone variants |
+| `ChartTooltip` | Portaled tooltip with viewport-flip + edge-clamp math |
+| `Crosshair` | SVG guide lines + point at `(x, y)` in plot-space coords |
+| `Brush` | Drag-select range on X or Y axis, controlled + uncontrolled |
+
+Math utilities (thin wrappers over d3-scale / d3-shape / d3-array / d3-time — algorithms only, every rendered element is ours): `linearScale`, `logScale`, `sqrtScale`, `timeScale`, `bandScale`, `pointScale`, `quantizeScale`, `generateTicks`, `stackSeries`, `resolveCurve`, `bisectNearest`, `scanNearest`, `seriesPalette`.
+
 Calendars: `Calendar` (month/week/day views, range selection).
 
 Avatars & media: `Avatar`, `AvatarGroup`, `Image`, `ImageGallery`, `AudioPlayer`, `VideoPlayer`, `DocumentPreview`, `IFrame`, `CodeBlock`.

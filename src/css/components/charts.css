@@ -1,0 +1,160 @@
+/* Chart primitives — theme-token driven, 1px brutalist lines, no animation. */
+
+/* ── ChartFrame ───────────────────────────────────────────── */
+.vf-chart-frame {
+  font-family: var(--vf-font-family);
+  color: var(--vf-text-1);
+  box-sizing: border-box;
+}
+.vf-chart-frame__header {
+  margin-bottom: var(--vf-sp-3);
+}
+.vf-chart-frame__title {
+  margin: 0 0 var(--vf-sp-1) 0;
+  font-size: var(--vf-font-md);
+  font-weight: 600;
+  color: var(--vf-text-0);
+  letter-spacing: 0.5px;
+}
+.vf-chart-frame__description {
+  margin: 0;
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-3);
+}
+.vf-chart-frame__svg {
+  overflow: visible;
+}
+
+/* ── Axis ─────────────────────────────────────────────────── */
+.vf-chart-axis__line,
+.vf-chart-axis__tick-line {
+  stroke: var(--vf-border-2);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.vf-chart-axis__label {
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xxs);
+  fill: var(--vf-text-3);
+  pointer-events: none;
+}
+.vf-chart-axis__title {
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  fill: var(--vf-text-2);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ── Gridlines ────────────────────────────────────────────── */
+.vf-chart-gridlines__line {
+  stroke: var(--vf-border-0);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.vf-chart-gridlines--dashed .vf-chart-gridlines__line {
+  stroke-dasharray: 2 3;
+}
+
+/* ── Legend ───────────────────────────────────────────────── */
+.vf-chart-legend {
+  display: flex;
+  gap: var(--vf-sp-4);
+  flex-wrap: wrap;
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-2);
+}
+.vf-chart-legend--vertical {
+  flex-direction: column;
+  gap: var(--vf-sp-2);
+}
+.vf-chart-legend--align-center { justify-content: center; }
+.vf-chart-legend--align-end { justify-content: flex-end; }
+
+.vf-chart-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: default;
+}
+button.vf-chart-legend__item { cursor: pointer; }
+button.vf-chart-legend__item:hover .vf-chart-legend__label {
+  color: var(--vf-text-0);
+}
+button.vf-chart-legend__item:focus-visible {
+  outline: 1px solid var(--vf-accent, var(--vf-text-2));
+  outline-offset: 2px;
+}
+.vf-chart-legend__item--disabled {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.vf-chart-legend__swatch--square {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+}
+
+.vf-chart-legend__label {
+  color: var(--vf-text-2);
+}
+
+/* ── Chart tooltip ────────────────────────────────────────── */
+.vf-chart-tooltip {
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-2);
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-0);
+  pointer-events: none;
+  z-index: var(--vf-z-tooltip, 300);
+  max-width: 260px;
+  line-height: 1.4;
+}
+
+/* ── Crosshair ────────────────────────────────────────────── */
+.vf-chart-crosshair__line {
+  stroke: var(--vf-text-3);
+  stroke-width: 1;
+  opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+.vf-chart-crosshair--dashed .vf-chart-crosshair__line {
+  stroke-dasharray: 3 3;
+}
+.vf-chart-crosshair__point {
+  fill: var(--vf-accent, var(--vf-green));
+  stroke: var(--vf-bg-1);
+  stroke-width: 1;
+}
+
+/* ── Brush ────────────────────────────────────────────────── */
+.vf-chart-brush__track {
+  cursor: crosshair;
+}
+.vf-chart-brush__selection {
+  fill: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 18%, transparent);
+  stroke: var(--vf-accent, var(--vf-text-3));
+  stroke-width: 1;
+  stroke-dasharray: 3 2;
+  shape-rendering: crispEdges;
+}
+
+/* ── Density overrides ────────────────────────────────────── */
+[data-vf-density="compact"] .vf-chart-axis__label,
+[data-vf-density="compact"] .vf-chart-tooltip,
+[data-vf-density="compact"] .vf-chart-legend {
+  font-size: var(--vf-font-xxs);
+}
+[data-vf-density="spacious"] .vf-chart-legend {
+  gap: var(--vf-sp-5);
+}

@@ -32,6 +32,16 @@ import {
   Card,
   Carousel,
   ChartContainer,
+  ChartFrame,
+  ChartLegend,
+  ChartTooltip,
+  Axis,
+  Brush,
+  Crosshair,
+  Gridlines,
+  bandScale,
+  linearScale,
+  seriesPalette,
   Checkbox,
   CheckboxGroup,
   CircularProgress,
@@ -1202,7 +1212,7 @@ function MetricsSection() {
 
 function ChartsSection() {
   return (
-    <Frame title="Data — Charts" description="Sparkline, Heatmap, ChartContainer.">
+    <Frame title="Data — Charts (legacy)" description="Sparkline, Heatmap, ChartContainer. Replaced in Phase 22 by the new chart library.">
       <Block label="Sparkline">
         <Sparkline data={[3, 5, 2, 8, 6, 9, 7, 11]} showArea showTrend />
       </Block>
@@ -1226,6 +1236,109 @@ function ChartsSection() {
     </Frame>
   );
 }
+
+function ChartPrimitivesSection() {
+  const [hover, setHover] = useState<
+    | { datum: { month: string; value: number }; x: number; y: number }
+    | null
+  >(null);
+  const data = [
+    { month: "Jan", value: 42 },
+    { month: "Feb", value: 64 },
+    { month: "Mar", value: 28 },
+    { month: "Apr", value: 88 },
+    { month: "May", value: 52 },
+    { month: "Jun", value: 71 },
+  ];
+  const max = Math.max(...data.map((d) => d.value));
+  const xScale = ChartPrimitivesSection.cachedBand(data.map((d) => d.month));
+  const yScale = ChartPrimitivesSection.cachedLinear(max);
+  const palette = ChartPrimitivesSection.cachedPalette();
+  return (
+    <Frame
+      title="Chart primitives — Phase 21"
+      description="ChartFrame, Axis, Gridlines, Legend, ChartTooltip, Crosshair, Brush. These compose into every chart in Phases 22–24."
+    >
+      <Block label="ChartFrame + Axis + Gridlines (pure primitives)">
+        <ChartFrame
+          width={600}
+          height={280}
+          title="Monthly throughput"
+          description="Band scale (X) + linear scale (Y), ticks + gridlines."
+          xScale={xScale}
+          yScale={yScale}
+          accessibleLabel="Sample monthly throughput"
+        >
+          <Gridlines mode="y" ticks={5} dashed />
+          <Axis orientation="bottom" />
+          <Axis orientation="left" ticks={5} format={(v) => `${v}`} />
+          {data.map((d) => {
+            const x = xScale(d.month)!;
+            const bw = xScale.bandwidth();
+            const y = yScale(d.value)!;
+            const h = yScale(0)! - y;
+            return (
+              <rect
+                key={d.month}
+                x={x}
+                y={y}
+                width={bw}
+                height={h}
+                fill={palette[0]}
+                onPointerMove={(e) =>
+                  setHover({ datum: d, x: e.clientX, y: e.clientY })
+                }
+                onPointerLeave={() => setHover(null)}
+              />
+            );
+          })}
+        </ChartFrame>
+        <ChartTooltip
+          active={!!hover}
+          x={hover?.x ?? 0}
+          y={hover?.y ?? 0}
+        >
+          {hover ? (
+            <>
+              <strong>{hover.datum.month}</strong>: {hover.datum.value}
+            </>
+          ) : null}
+        </ChartTooltip>
+      </Block>
+      <Block label="ChartLegend (interactive)">
+        <ChartLegend
+          items={[
+            { key: "mobile", label: "Mobile", color: palette[0]!, glyph: "square" },
+            { key: "desktop", label: "Desktop", color: palette[1]!, glyph: "line" },
+            { key: "tablet", label: "Tablet", color: palette[2]!, glyph: "circle", disabled: true },
+          ]}
+          onToggle={() => undefined}
+        />
+      </Block>
+      <Block label="Brush + Crosshair overlay">
+        <ChartFrame
+          width={600}
+          height={200}
+          xScale={xScale}
+          yScale={yScale}
+          accessibleLabel="Brush overlay demo"
+        >
+          <Gridlines mode="both" ticks={5} dashed />
+          <Axis orientation="bottom" />
+          <Axis orientation="left" ticks={5} />
+          <Crosshair x={120} y={80} mode="both" dashed />
+          <Brush />
+        </ChartFrame>
+      </Block>
+    </Frame>
+  );
+}
+
+ChartPrimitivesSection.cachedBand = (domain: string[]) =>
+  bandScale({ domain, range: [0, 540], padding: 0.2 });
+ChartPrimitivesSection.cachedLinear = (max: number) =>
+  linearScale({ domain: [0, max], range: [236, 0], nice: true });
+ChartPrimitivesSection.cachedPalette = () => seriesPalette(3);
 
 function ViewersSection() {
   return (
@@ -3570,6 +3683,7 @@ const SECTIONS: DemoSection[] = [
   { id: "data-lists", group: "Data", title: "Trees & Lists", render: () => <DataListsSection /> },
   { id: "data-metrics", group: "Data", title: "Metrics", render: () => <MetricsSection /> },
   { id: "data-charts", group: "Data", title: "Charts", render: () => <ChartsSection /> },
+  { id: "data-chart-primitives", group: "Data", title: "Chart primitives (Phase 21)", render: () => <ChartPrimitivesSection /> },
   { id: "data-viewers", group: "Data", title: "Viewers", render: () => <ViewersSection /> },
   { id: "data-calendars", group: "Data", title: "Calendars", render: () => <CalendarsSection /> },
   { id: "data-avatars", group: "Data", title: "Avatars + Misc", render: () => <AvatarsSection /> },

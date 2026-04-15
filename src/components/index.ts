@@ -1070,6 +1070,9 @@ export type {
 export { PrintLayout, PrintButton } from "./Print";
 export type { PrintLayoutProps, PrintButtonProps } from "./Print";
 
+// ── Phase 21: chart foundations ──────────────────────────────
+export * from "../charts";
+
 // ── Phase 15: theming ────────────────────────────────────────
 export { ThemeSelector } from "./ThemeSelector";
 export type {
