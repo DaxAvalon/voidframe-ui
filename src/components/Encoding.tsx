@@ -28,8 +28,6 @@ export interface QRCodeProps extends HTMLAttributes<HTMLDivElement> {
   matrix?: boolean[][];
   /** Optional logo overlay (rendered centered, 20% size). */
   logo?: ReactNode;
-  foreground?: string;
-  background?: string;
 }
 
 export const QRCode = forwardRef<HTMLDivElement, QRCodeProps>(function QRCode(
@@ -39,14 +37,16 @@ export const QRCode = forwardRef<HTMLDivElement, QRCodeProps>(function QRCode(
     ecc = "L",
     matrix,
     logo,
-    foreground = "var(--vf-text-0)",
-    background = "var(--vf-bg-0)",
     className,
     style,
     ...props
   },
   ref
 ) {
+  // QR codes MUST render dark-on-light regardless of app theme — inverting
+  // would flip the scanner's read of the encoded bits. These are hardcoded.
+  const foreground = "#000000";
+  const background = "#ffffff";
   const grid = useMemo(
     () => matrix ?? placeholderMatrix(value, 25),
     [matrix, value]
@@ -165,8 +165,6 @@ export interface BarcodeProps extends HTMLAttributes<HTMLDivElement> {
    */
   pattern?: number[];
   showText?: boolean;
-  foreground?: string;
-  background?: string;
 }
 
 export const Barcode = forwardRef<HTMLDivElement, BarcodeProps>(function Barcode(
@@ -177,14 +175,17 @@ export const Barcode = forwardRef<HTMLDivElement, BarcodeProps>(function Barcode
     barWidth = 2,
     pattern,
     showText = true,
-    foreground = "var(--vf-text-0)",
-    background = "var(--vf-bg-0)",
     className,
     style,
     ...props
   },
   ref
 ) {
+  // Barcodes MUST render dark bars on a light background — optical scanners
+  // read reflectance, not color; inverting would make the scanner see the
+  // gaps as bars and vice-versa.
+  const foreground = "#000000";
+  const background = "#ffffff";
   const bars = useMemo(() => pattern ?? placeholderBars(value), [pattern, value]);
   const total = bars.length * barWidth;
   return (

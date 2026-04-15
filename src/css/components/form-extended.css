@@ -138,6 +138,16 @@
   width: 100%;
   text-align: center;
   -moz-appearance: textfield;
+  appearance: textfield;
+}
+/* Hide the native UA spinner arrows — the − / + buttons on either side
+ * are the canonical control; the inner chrome competes with them and
+ * the user-tested guidance is to remove it. */
+.vf-number-input__field::-webkit-inner-spin-button,
+.vf-number-input__field::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
 }
 .vf-number-input__field:focus-visible {
   border-color: var(--vf-border-3);

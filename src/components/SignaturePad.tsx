@@ -77,8 +77,14 @@ function redraw(
   if (typeof canvas.getContext !== "function") return;
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
-  ctx.fillStyle = background;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Always clear first — `fillRect` with a transparent `background`
+  // (the default) paints a see-through layer *over* prior ink instead
+  // of erasing it, so Clear would leave old strokes visible.
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (background && background !== "transparent") {
+    ctx.fillStyle = background;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
   ctx.strokeStyle = strokeColor;
   ctx.lineJoin = "round";
   ctx.lineCap = "round";

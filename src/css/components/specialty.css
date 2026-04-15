@@ -1186,23 +1186,39 @@
 }
 
 /* ── Encoding ──────────────────────────────────────────────── */
+/* Scanner reliability requires dark-on-light contrast regardless of
+ * app theme — theming these would break optical decode. The outer frame
+ * is white with a subtle border so they stay legible on dark surfaces. */
 
 .vf-qrcode,
 .vf-barcode {
   border: 1px solid var(--vf-border-2);
   padding: 8px;
-  background: var(--vf-bg-0);
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
+  background: #ffffff;
   box-sizing: content-box;
   width: fit-content;
+}
+
+.vf-qrcode > span,
+.vf-barcode span {
+  /* Grid/flex children must stretch to their cell. The outer frame's
+   * layout rules (align-items, flex-direction) would otherwise shrink
+   * them to 0 height since the spans are empty. */
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.vf-barcode {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .vf-barcode__text {
   margin-top: 6px;
   font-size: var(--vf-font-xs);
-  color: var(--vf-text-1);
+  color: #000000;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }

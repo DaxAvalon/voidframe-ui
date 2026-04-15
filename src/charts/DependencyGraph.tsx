@@ -17,7 +17,6 @@ import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
 import { seriesPalette } from "./math/color";
 import {
   interpolatePoint,
-  segmentCrossesAnyRect,
   splitSegmentByRectObstacles,
   type RectObstacle,
 } from "./math/edges";
@@ -284,18 +283,6 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
             // backward along the line into the rect interior, which
             // looks like the arrow is "landing on" the node.
             const ARROW_INSET = 0;
-            // Layout extents (used to pick gutter coords outside all
-            // nodes when a detour is needed).
-            const layoutMaxX = placed.reduce(
-              (max, p) => Math.max(max, p.x + nodeWidth),
-              0
-            );
-            const layoutMaxY = placed.reduce(
-              (max, p) => Math.max(max, p.y + nodeHeight),
-              0
-            );
-            const gutterX = layoutMaxX + Math.max(siblingGap, 24);
-            const gutterY = layoutMaxY + Math.max(layerGap / 2, 24);
 
             const directRoute = (s: PlacedNode, t: PlacedNode): Seg[] => {
               if (direction === "top-down") {
@@ -349,37 +336,6 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
               ];
             };
 
-            const sideRoute = (s: PlacedNode, t: PlacedNode): Seg[] => {
-              if (direction === "top-down") {
-                // Exit source RIGHT → vertical along right gutter →
-                // enter target RIGHT.
-                const sy = s.y + nodeHeight / 2;
-                const ty = t.y + nodeHeight / 2;
-                return [
-                  { ax: s.x + nodeWidth, ay: sy, bx: gutterX, by: sy },
-                  { ax: gutterX, ay: sy, bx: gutterX, by: ty },
-                  {
-                    ax: gutterX,
-                    ay: ty,
-                    bx: t.x + nodeWidth + ARROW_INSET,
-                    by: ty,
-                  },
-                ];
-              }
-              // left-right: route via bottom gutter.
-              const sx = s.x + nodeWidth / 2;
-              const tx = t.x + nodeWidth / 2;
-              return [
-                { ax: sx, ay: s.y + nodeHeight, bx: sx, by: gutterY },
-                { ax: sx, ay: gutterY, bx: tx, by: gutterY },
-                {
-                  ax: tx,
-                  ay: gutterY,
-                  bx: tx,
-                  by: t.y + nodeHeight + ARROW_INSET,
-                },
-              ];
-            };
             type EdgeRender = {
               edge: DependencyEdge;
               key: string;
@@ -404,21 +360,13 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
                     w: nodeWidth,
                     h: nodeHeight,
                   }));
-                // Try direct first; fall back to a side-gutter detour
-                // when any direct segment would cross an unrelated node.
-                let segs = directRoute(s, t);
-                const directCrosses = segs.some((seg) =>
-                  segmentCrossesAnyRect(
-                    seg.ax,
-                    seg.ay,
-                    seg.bx,
-                    seg.by,
-                    others
-                  )
-                );
-                if (directCrosses) {
-                  segs = sideRoute(s, t);
-                }
+                // Always use the direct orthogonal 3-segment route —
+                // edges only attach to the nodes they connect, no
+                // phantom detours into empty space. Where a segment
+                // crosses under an unrelated node, the obstructed run
+                // renders as a dashed overlay so the reader can see the
+                // edge is passing "underneath".
+                const segs = directRoute(s, t);
                 const runs = segs.map((seg) =>
                   splitSegmentByRectObstacles(
                     seg.ax,
@@ -458,82 +406,65 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
               setHover({ ...hover, x: ev.clientX, y: ev.clientY });
             };
 
-            // Render only the VISIBLE runs as solid base lines. The
-            // arrow head is placed on the very last visible run of the
-            // last segment so the arrow always sits at the target
-            // node's edge.
+            // Render every run along every segment. Visible runs are
+            // solid, obstructed runs are dashed so the reader can see
+            // the edge is passing under an unrelated node. The arrow
+            // head sits on the LAST run of the LAST segment (which is
+            // always the one touching the target node's border).
             return (
               <>
                 {edgeData.map((ed) => {
-                  // Find the last visible run across all segments —
-                  // that's where the arrow head goes.
-                  let lastVisibleIdx: { seg: number; run: number } | null =
-                    null;
-                  for (let s = ed.segs.length - 1; s >= 0; s--) {
-                    const segRuns = ed.runs[s] ?? [];
-                    for (let r = segRuns.length - 1; r >= 0; r--) {
-                      if (!segRuns[r]!.obstructed) {
-                        lastVisibleIdx = { seg: s, run: r };
-                        break;
-                      }
-                    }
-                    if (lastVisibleIdx) break;
-                  }
+                  const lastSeg = ed.segs.length - 1;
+                  const lastRunOfLastSeg =
+                    (ed.runs[lastSeg]?.length ?? 1) - 1;
                   return ed.segs.map((seg, segIdx) => {
                     const segRuns = ed.runs[segIdx] ?? [];
-                    return segRuns
-                      .filter((r) => !r.obstructed)
-                      .map((r, rIdx) => {
-                        const start = interpolatePoint(
-                          seg.ax,
-                          seg.ay,
-                          seg.bx,
-                          seg.by,
-                          r.start
-                        );
-                        const end = interpolatePoint(
-                          seg.ax,
-                          seg.ay,
-                          seg.bx,
-                          seg.by,
-                          r.end
-                        );
-                        // Map filtered-rIdx back to original index for
-                        // the arrow comparison.
-                        const originalIdx = segRuns.indexOf(r);
-                        const isArrowEnd =
-                          directed &&
-                          lastVisibleIdx !== null &&
-                          lastVisibleIdx.seg === segIdx &&
-                          lastVisibleIdx.run === originalIdx;
-                        return (
-                          <line
-                            key={`base-${ed.key}-${segIdx}-${rIdx}`}
-                            className={cx(
-                              "vf-chart-dep-graph__edge",
-                              ed.incident &&
-                                "vf-chart-dep-graph__edge--highlighted",
-                              ed.dim && "vf-chart-dep-graph__edge--dimmed"
-                            )}
-                            x1={start.x}
-                            y1={start.y}
-                            x2={end.x}
-                            y2={end.y}
-                            stroke="currentColor"
-                            strokeWidth={1.2}
-                            markerEnd={
-                              isArrowEnd
-                                ? "url(#vf-dep-arrow)"
-                                : undefined
-                            }
-                            onPointerEnter={(ev) =>
-                              onEdgeEnter(ed.edge, ev)
-                            }
-                            onPointerMove={onEdgeMove}
-                            onPointerLeave={() => setHover(null)}
-                          />
-                        );
-                      });
+                    return segRuns.map((r, rIdx) => {
+                      const start = interpolatePoint(
+                        seg.ax,
+                        seg.ay,
+                        seg.bx,
+                        seg.by,
+                        r.start
+                      );
+                      const end = interpolatePoint(
+                        seg.ax,
+                        seg.ay,
+                        seg.bx,
+                        seg.by,
+                        r.end
+                      );
+                      const isArrowEnd =
+                        directed &&
+                        segIdx === lastSeg &&
+                        rIdx === lastRunOfLastSeg;
+                      return (
+                        <line
+                          key={`${ed.key}-${segIdx}-${rIdx}`}
+                          className={cx(
+                            "vf-chart-dep-graph__edge",
+                            r.obstructed &&
+                              "vf-chart-dep-graph__edge--obstructed",
+                            ed.incident &&
+                              "vf-chart-dep-graph__edge--highlighted",
+                            ed.dim && "vf-chart-dep-graph__edge--dimmed"
+                          )}
+                          x1={start.x}
+                          y1={start.y}
+                          x2={end.x}
+                          y2={end.y}
+                          stroke="currentColor"
+                          strokeWidth={1.2}
+                          strokeDasharray={r.obstructed ? "3 3" : undefined}
+                          markerEnd={
+                            isArrowEnd ? "url(#vf-dep-arrow)" : undefined
+                          }
+                          onPointerEnter={(ev) => onEdgeEnter(ed.edge, ev)}
+                          onPointerMove={onEdgeMove}
+                          onPointerLeave={() => setHover(null)}
+                        />
+                      );
+                    });
                   });
                 })}
               </>
@@ -592,10 +523,6 @@ export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
               </g>
             );
           })}
-          {/* No dashed overlay needed: the routing function above
-              swaps to the side-gutter detour any time the direct route
-              would cross an unrelated node, so by construction every
-              rendered segment is visible end-to-end. */}
         </svg>
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover?.kind === "node" ? (

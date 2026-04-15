@@ -544,17 +544,15 @@ button.vf-chart-legend__item:focus-visible {
 .vf-chart-dep-graph__edge--dimmed {
   opacity: 0.25;
 }
-.vf-chart-dep-graph__edge-obstructed {
-  stroke: var(--vf-text-3);
-  stroke-width: 1.2;
-  stroke-dasharray: 4 3;
-  stroke-opacity: 0.85;
+/* Obstructed runs are edges passing under unrelated nodes. Rendered
+ * with a softer stroke + dashes (dash pattern applied inline on the
+ * line) so the reader sees the edge is hidden but still understands
+ * the endpoints. */
+.vf-chart-dep-graph__edge--obstructed {
+  stroke-opacity: 0.7;
 }
-.vf-chart-dep-graph__edge-obstructed--highlighted {
-  stroke: var(--vf-accent, var(--vf-amber));
-}
-.vf-chart-dep-graph__edge-obstructed--dimmed {
-  stroke-opacity: 0.25;
+.vf-chart-dep-graph__edge--obstructed.vf-chart-dep-graph__edge--dimmed {
+  stroke-opacity: 0.2;
 }
 .vf-chart-dep-graph__node {
   cursor: pointer;
