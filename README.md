@@ -331,7 +331,24 @@ Charts — hand-rolled SVG library. Math uses d3-scale / d3-shape / d3-array / d
 | `ScatterMatrix` | N × N scatter grid (SPLOM) |
 | `SmallMultiples<T>` | generic faceting wrapper used by SPLOM and any chart repeated over categories |
 
-**Math utilities:** `linearScale`, `logScale`, `sqrtScale`, `timeScale`, `bandScale`, `pointScale`, `quantizeScale`, `generateTicks`, `stackSeries`, `resolveCurve`, `bisectNearest`, `scanNearest`, `seriesPalette`.
+**Geo + Network (Phase 24):**
+
+| Chart | Peer deps | Notes |
+|-------|-----------|-------|
+| `DependencyGraph` | none | layered DAG, longest-path layering, top-down or left-right with arrowed orthogonal edges |
+| `TileGridMap` | none | equal-area square tiles, ships with `US_STATES_GRID` preset (50 + DC) |
+| `NetworkGraph` | `d3-force` (optional) | force-directed simulation, drag to pin nodes, auto-cools after `coolDownAfter` ms of quiet |
+| `ChoroplethMap` | `d3-geo`, `topojson-client` (optional) | quantized fill per feature, supports `geoMercator`/`geoEqualEarth`/`geoNaturalEarth1`/`geoAlbersUsa` |
+| `BubbleMap` | `d3-geo`, `topojson-client` (optional) | sized circles at `[lon, lat]` over a TopoJSON base layer |
+
+If a chart's optional peer is not installed when it renders, voidframe throws `MissingPeerDependencyError` with the exact `npm install` command. Install only what you use:
+
+```sh
+npm install d3-force                 # NetworkGraph
+npm install d3-geo topojson-client   # ChoroplethMap + BubbleMap
+```
+
+**Math utilities:** `linearScale`, `logScale`, `sqrtScale`, `timeScale`, `bandScale`, `pointScale`, `quantizeScale`, `generateTicks`, `stackSeries`, `resolveCurve`, `bisectNearest`, `scanNearest`, `seriesPalette`, `formatChartNumber`.
 
 Calendars: `Calendar` (month/week/day views, range selection).
 

@@ -60,6 +60,10 @@ import {
   TreeMap,
   ViolinPlot,
   WaterfallChart,
+  DependencyGraph,
+  NetworkGraph,
+  TileGridMap,
+  US_STATES_GRID,
   Axis,
   Brush,
   Crosshair,
@@ -1647,6 +1651,110 @@ function AdvancedChartsSection() {
           dimensions={["x", "y", "z"]}
           facetHeight={140}
         />
+      </Block>
+    </Frame>
+  );
+}
+
+function GeoNetworkChartsSection() {
+  const networkNodes: import("../src").NetworkNode[] = [
+    { id: "ui", label: "UI", group: "client" },
+    { id: "api", label: "API", group: "service" },
+    { id: "auth", label: "Auth", group: "service" },
+    { id: "db", label: "Postgres", group: "data" },
+    { id: "cache", label: "Redis", group: "data" },
+    { id: "queue", label: "Queue", group: "data" },
+    { id: "worker", label: "Worker", group: "service" },
+    { id: "search", label: "Search", group: "service" },
+  ];
+  const networkLinks: import("../src").NetworkLink[] = [
+    { source: "ui", target: "api" },
+    { source: "ui", target: "auth" },
+    { source: "api", target: "db" },
+    { source: "api", target: "cache" },
+    { source: "api", target: "queue" },
+    { source: "queue", target: "worker" },
+    { source: "worker", target: "db" },
+    { source: "worker", target: "search" },
+    { source: "auth", target: "db" },
+  ];
+  const depNodes: import("../src").DependencyNode[] = [
+    { id: "build", group: "core" },
+    { id: "test", group: "core" },
+    { id: "lint", group: "core" },
+    { id: "typecheck", group: "core" },
+    { id: "package", group: "release" },
+    { id: "ship", group: "release" },
+  ];
+  const depEdges: import("../src").DependencyEdge[] = [
+    { source: "test", target: "build" },
+    { source: "lint", target: "build" },
+    { source: "typecheck", target: "build" },
+    { source: "package", target: "test" },
+    { source: "package", target: "lint" },
+    { source: "package", target: "typecheck" },
+    { source: "ship", target: "package" },
+  ];
+  const stateValues: Record<string, number> = {
+    CA: 38,
+    TX: 30,
+    FL: 22,
+    NY: 19,
+    PA: 13,
+    IL: 13,
+    OH: 12,
+    GA: 11,
+    NC: 11,
+    MI: 10,
+    WA: 8,
+    MA: 7,
+    CO: 6,
+    OR: 4,
+    NV: 3,
+    AK: 1,
+    HI: 1,
+    DC: 1,
+  };
+  return (
+    <Frame
+      title="Geo + Network — Phase 24"
+      description="DependencyGraph + TileGridMap ship without peer deps. NetworkGraph (d3-force), ChoroplethMap and BubbleMap (d3-geo + topojson-client) are loaded on demand from optional peer packages."
+    >
+      <Block label="DependencyGraph (top-down DAG, layered)">
+        <DependencyGraph
+          nodes={depNodes}
+          edges={depEdges}
+          direction="top-down"
+        />
+      </Block>
+      <Block label="DependencyGraph (left-right)">
+        <DependencyGraph
+          nodes={depNodes}
+          edges={depEdges}
+          direction="left-right"
+        />
+      </Block>
+      <Block label="NetworkGraph (force-directed via d3-force)">
+        <NetworkGraph
+          nodes={networkNodes}
+          links={networkLinks}
+          height={360}
+        />
+      </Block>
+      <Block label="TileGridMap — US states (built-in grid)">
+        <TileGridMap
+          cells={US_STATES_GRID}
+          values={stateValues}
+        />
+      </Block>
+      <Block label="ChoroplethMap / BubbleMap (peer deps)">
+        <Text size="sm" color="var(--vf-text-3)">
+          ChoroplethMap and BubbleMap render TopoJSON via d3-geo +
+          topojson-client. They live in <Code inline>voidframe</Code> but
+          require those packages to be installed by the consuming app — the
+          demo intentionally skips wiring sample TopoJSON to keep the bundle
+          small. See the README for usage.
+        </Text>
       </Block>
     </Frame>
   );
@@ -4228,6 +4336,7 @@ const SECTIONS: DemoSection[] = [
   { id: "data-metrics", group: "Data", title: "Metrics", render: () => <MetricsSection /> },
   { id: "data-charts", group: "Data", title: "Charts", render: () => <ChartsSection /> },
   { id: "data-chart-advanced", group: "Data", title: "Advanced charts (Phase 23)", render: () => <AdvancedChartsSection /> },
+  { id: "data-chart-geonet", group: "Data", title: "Geo + Network (Phase 24)", render: () => <GeoNetworkChartsSection /> },
   { id: "data-chart-primitives", group: "Data", title: "Chart primitives (Phase 21)", render: () => <ChartPrimitivesSection /> },
   { id: "data-viewers", group: "Data", title: "Viewers", render: () => <ViewersSection /> },
   { id: "data-calendars", group: "Data", title: "Calendars", render: () => <CalendarsSection /> },

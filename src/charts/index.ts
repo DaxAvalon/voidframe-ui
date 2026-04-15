@@ -226,3 +226,32 @@ export type {
   ScatterMatrixDatum,
   ScatterMatrixProps,
 } from "./ScatterMatrix";
+
+// ── Phase 24: geospatial + network ─────────────────────────
+export { NetworkGraph } from "./NetworkGraph";
+export type {
+  NetworkGraphProps,
+  NetworkLink,
+  NetworkNode,
+} from "./NetworkGraph";
+
+export { DependencyGraph } from "./DependencyGraph";
+export type {
+  DependencyEdge,
+  DependencyGraphProps,
+  DependencyNode,
+} from "./DependencyGraph";
+
+export { ChoroplethMap } from "./ChoroplethMap";
+export type {
+  ChoroplethMapProps,
+  TopologyInput,
+} from "./ChoroplethMap";
+
+export { BubbleMap } from "./BubbleMap";
+export type { BubbleMapPoint, BubbleMapProps } from "./BubbleMap";
+
+export { TileGridMap, US_STATES_GRID } from "./TileGridMap";
+export type { TileGridCell, TileGridMapProps } from "./TileGridMap";
+
+export { MissingPeerDependencyError } from "./peer";

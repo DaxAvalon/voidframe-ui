@@ -459,6 +459,84 @@ button.vf-chart-legend__item:focus-visible {
   letter-spacing: 0.05em;
 }
 
+/* ── NetworkGraph ─────────────────────────────────────────── */
+.vf-chart-network,
+.vf-chart-bubble-map,
+.vf-chart-choropleth,
+.vf-chart-tile-map,
+.vf-chart-dep-graph {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+}
+.vf-chart-network__link {
+  stroke: var(--vf-border-2);
+  stroke-opacity: 0.65;
+}
+.vf-chart-network__node {
+  cursor: grab;
+}
+.vf-chart-network__node--dragging {
+  cursor: grabbing;
+}
+.vf-chart-network__label {
+  fill: var(--vf-text-2);
+  font-size: var(--vf-font-xxs);
+  font-family: var(--vf-font-family);
+  pointer-events: none;
+}
+.vf-chart-network__error-message,
+.vf-chart-bubble-map__error-message,
+.vf-chart-choropleth__error-message {
+  padding: var(--vf-sp-3);
+  border: 1px dashed var(--vf-border-2);
+  color: var(--vf-text-2);
+  font-size: var(--vf-font-sm);
+  background: var(--vf-bg-2);
+}
+
+/* ── DependencyGraph ──────────────────────────────────────── */
+.vf-chart-dep-graph__edge {
+  color: var(--vf-text-3);
+  shape-rendering: geometricPrecision;
+}
+.vf-chart-dep-graph__label {
+  fill: var(--vf-text-1);
+  font-size: var(--vf-font-xs);
+  font-family: var(--vf-font-family);
+  pointer-events: none;
+}
+
+/* ── Choropleth + BubbleMap ───────────────────────────────── */
+.vf-chart-choropleth__feature {
+  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-choropleth__feature:hover {
+  opacity: 0.82;
+}
+.vf-chart-bubble-map__bubble {
+  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-bubble-map__bubble:hover {
+  opacity: 1;
+}
+
+/* ── TileGridMap ──────────────────────────────────────────── */
+.vf-chart-tile-map__cell {
+  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+}
+.vf-chart-tile-map__cell:hover {
+  opacity: 0.82;
+}
+.vf-chart-tile-map__label {
+  fill: var(--vf-text-0);
+  font-size: var(--vf-font-xxs);
+  font-family: var(--vf-font-family);
+  pointer-events: none;
+  letter-spacing: 0.05em;
+}
+
 /* ── Density overrides ────────────────────────────────────── */
 [data-vf-density="compact"] .vf-chart-axis__label,
 [data-vf-density="compact"] .vf-chart-tooltip,

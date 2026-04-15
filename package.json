@@ -77,7 +77,15 @@
   ],
   "peerDependencies": {
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react-dom": ">=18.0.0",
+    "d3-force": ">=3.0.0",
+    "d3-geo": ">=3.0.0",
+    "topojson-client": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "d3-force": { "optional": true },
+    "d3-geo": { "optional": true },
+    "topojson-client": { "optional": true }
   },
   "dependencies": {
     "d3-array": "^3.2.4",
@@ -89,11 +97,18 @@
   },
   "devDependencies": {
     "@types/d3-array": "^3.2.1",
+    "@types/d3-force": "^3.0.10",
+    "@types/d3-geo": "^3.1.0",
     "@types/d3-hierarchy": "^3.1.7",
     "@types/d3-sankey": "^0.12.4",
     "@types/d3-scale": "^4.0.9",
     "@types/d3-shape": "^3.1.7",
     "@types/d3-time": "^3.0.4",
+    "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
+    "d3-force": "^3.0.0",
+    "d3-geo": "^3.1.1",
+    "topojson-client": "^3.1.0",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^15.0.0",
     "@testing-library/user-event": "^14.5.2",
