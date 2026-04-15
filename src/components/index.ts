@@ -231,6 +231,122 @@ export type {
   TagInputProps,
 } from "./FormAdvanced";
 
+// ── Phase 10: feedback + overlays ───────────────────────────
+export {
+  Dialog,
+  AlertDialog,
+  ConfirmDialogV2,
+  ConfirmProvider,
+  useConfirm,
+} from "./Dialog";
+export type {
+  DialogProps,
+  DialogTriggerProps,
+  DialogContentProps,
+  DialogCloseProps,
+  DialogSize,
+  AlertDialogProps,
+  ConfirmDialogPropsV2,
+  ConfirmProviderProps,
+} from "./Dialog";
+
+export { DrawerV2, Sheet } from "./DrawerCompound";
+export type {
+  DrawerV2Props,
+  DrawerV2ContentProps,
+  DrawerSide,
+  SheetProps,
+} from "./DrawerCompound";
+
+export {
+  PopoverV2,
+  Tooltip as TooltipV2,
+  TooltipProvider,
+  HoverCard,
+  Backdrop,
+} from "./Popovers";
+export type {
+  PopoverV2Props,
+  PopoverTriggerProps,
+  PopoverContentProps,
+  TooltipProps as TooltipV2Props,
+  TooltipProviderProps,
+  HoverCardProps,
+  HoverCardContentProps,
+  BackdropProps,
+  Placement,
+} from "./Popovers";
+
+export {
+  CommandPalette,
+  useCommand,
+  useCommandRegistry,
+} from "./CommandPalette";
+export type {
+  CommandPaletteProps,
+  CommandPaletteInputProps,
+  CommandPaletteGroupProps,
+  CommandPaletteItemProps,
+  RegisteredCommand,
+  UseCommandOptions,
+} from "./CommandPalette";
+
+export { Spotlight, CoachMark } from "./Spotlight";
+export type {
+  SpotlightProps,
+  SpotlightStep,
+  CoachMarkProps,
+} from "./Spotlight";
+
+export { Toaster, Snackbar, toast, useToast } from "./ToastSystem";
+export type {
+  ToastApi,
+  ToasterProps,
+  SnackbarProps,
+  ToastEntry,
+  ToastV2Options,
+  ToastTone,
+  ToasterPosition,
+} from "./ToastSystem";
+
+export {
+  NotificationCenter,
+  BannerAlert,
+  Callout,
+  Quote,
+  AlertV2,
+} from "./Notifications";
+export type {
+  NotificationCenterProps,
+  NotificationItem,
+  BannerAlertProps,
+  CalloutProps,
+  QuoteProps,
+  AlertV2Props,
+  AlertTone,
+} from "./Notifications";
+
+export {
+  LoadingOverlay,
+  SpinnerV2,
+  Shimmer,
+  ErrorState,
+} from "./Loading";
+export type {
+  LoadingOverlayProps,
+  SpinnerV2Props,
+  SpinnerVariant,
+  ShimmerProps,
+  ErrorStateProps,
+} from "./Loading";
+
+export { OfflineBanner, ConnectionStatus } from "./Network";
+export type {
+  OfflineBannerProps,
+  ConnectionStatusProps,
+  ConnectionState,
+} from "./Network";
+
 // ── Phase 9: data display ───────────────────────────────────
 export { DataGrid } from "./DataGrid";
 export type {
