@@ -6,33 +6,68 @@ import { Label } from "./Text";
 
 // ── Avatar ────────────────────────────────────────────────────
 
+export type AvatarStatus = "online" | "offline" | "away" | "busy";
+
 export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   name?: string;
   src?: string;
   size?: number;
   /** Color (sets `--vf-accent`). */
   color?: string;
+  /** Explicit fallback text (overrides derived initials). */
+  fallback?: string;
+  status?: AvatarStatus;
+  /** Render a square (non-rounded) avatar. */
+  square?: boolean;
   style?: CSSProperties;
 }
 
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
-  { name, src, size = 28, color, className, style, ...props },
+  { name, src, size = 28, color, fallback, status, square, className, style, ...props },
   ref
 ) {
-  const initials = name
-    ? name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()
-    : "?";
+  const [imgErrored, setImgErrored] = useState(false);
+  const initials =
+    fallback ??
+    (name
+      ? name
+          .split(" ")
+          .map((w) => w[0])
+          .join("")
+          .slice(0, 2)
+          .toUpperCase()
+      : "?");
+  const showImg = src && !imgErrored;
   const composed: CSSProperties = {
     width: size,
     height: size,
     fontSize: size * 0.38,
     ...(color ? ({ "--vf-accent": color } as CSSProperties) : {}),
-    ...(src ? { background: "transparent" } : {}),
+    ...(showImg ? { background: "transparent" } : {}),
     ...style,
   };
   return (
-    <div ref={ref} className={cx("vf-avatar", className)} style={composed} {...props}>
-      {src ? <img src={src} alt={name ?? ""} /> : initials}
+    <div
+      ref={ref}
+      className={cx(
+        "vf-avatar",
+        square && "vf-avatar--square",
+        className
+      )}
+      style={composed}
+      {...props}
+    >
+      {showImg ? (
+        <img src={src} alt={name ?? ""} onError={() => setImgErrored(true)} />
+      ) : (
+        initials
+      )}
+      {status && (
+        <span
+          aria-label={`status ${status}`}
+          className={cx("vf-avatar__status", `vf-avatar__status--${status}`)}
+        />
+      )}
     </div>
   );
 });
@@ -183,54 +218,144 @@ export interface TimelineEvent {
 }
 
 export interface TimelineProps extends HTMLAttributes<HTMLDivElement> {
-  events: TimelineEvent[];
+  /** Legacy events array. Compound `<Timeline.Item>` children are preferred. */
+  events?: TimelineEvent[];
+  orientation?: "vertical" | "horizontal";
+  children?: ReactNode;
   style?: CSSProperties;
 }
 
-export const Timeline = forwardRef<HTMLDivElement, TimelineProps>(
-  function Timeline({ events, className, style, ...props }, ref) {
+const TimelineBase = forwardRef<HTMLDivElement, TimelineProps>(
+  function Timeline(
+    { events, className, style, orientation = "vertical", children, ...props },
+    ref
+  ) {
     return (
-      <div ref={ref} className={cx("vf-timeline", className)} style={style} {...props}>
-        {events.map((ev, i) => (
-          <div key={i} className="vf-timeline__event">
-            <div
-              className="vf-timeline__dot"
-              style={ev.color ? { background: ev.color } : undefined}
-            />
-            <div className="vf-timeline__head">
-              <span className="vf-timeline__title">{ev.title}</span>
-              {ev.time && <Label style={{ flexShrink: 0 }}>{ev.time}</Label>}
-            </div>
-            {ev.content && <div className="vf-timeline__content">{ev.content}</div>}
-          </div>
-        ))}
+      <div
+        ref={ref}
+        className={cx(
+          "vf-timeline",
+          `vf-timeline--${orientation}`,
+          className
+        )}
+        style={style}
+        {...props}
+      >
+        {events
+          ? events.map((ev, i) => (
+              <div key={i} className="vf-timeline__event">
+                <div
+                  className="vf-timeline__dot"
+                  style={ev.color ? { background: ev.color } : undefined}
+                />
+                <div className="vf-timeline__head">
+                  <span className="vf-timeline__title">{ev.title}</span>
+                  {ev.time && <Label style={{ flexShrink: 0 }}>{ev.time}</Label>}
+                </div>
+                {ev.content && (
+                  <div className="vf-timeline__content">{ev.content}</div>
+                )}
+              </div>
+            ))
+          : children}
       </div>
     );
   }
 );
-Timeline.displayName = "Timeline";
+TimelineBase.displayName = "Timeline";
+
+export interface TimelineItemProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
+  time?: ReactNode;
+  icon?: ReactNode;
+  tone?: "neutral" | "success" | "warning" | "danger";
+  title?: ReactNode;
+  description?: ReactNode;
+  children?: ReactNode;
+}
+
+const TimelineItemComponent = forwardRef<HTMLDivElement, TimelineItemProps>(
+  function TimelineItem(
+    { time, icon, tone = "neutral", title, description, children, className, ...props },
+    ref
+  ) {
+    return (
+      <div
+        ref={ref}
+        className={cx(
+          "vf-timeline__event",
+          `vf-timeline__event--${tone}`,
+          className
+        )}
+        {...props}
+      >
+        <div className="vf-timeline__dot" aria-hidden="true">
+          {icon}
+        </div>
+        <div className="vf-timeline__body">
+          <div className="vf-timeline__head">
+            {title && <span className="vf-timeline__title">{title}</span>}
+            {time && <Label style={{ flexShrink: 0 }}>{time}</Label>}
+          </div>
+          {(description || children) && (
+            <div className="vf-timeline__content">{description ?? children}</div>
+          )}
+        </div>
+      </div>
+    );
+  }
+);
+TimelineItemComponent.displayName = "TimelineItem";
+
+export const Timeline = Object.assign(TimelineBase, {
+  Item: TimelineItemComponent,
+});
 
 // ── Skeleton ──────────────────────────────────────────────────
 
+export type SkeletonShape = "rect" | "circle" | "text";
+export type SkeletonAnimation = "pulse" | "shimmer" | "none";
+
 export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
   width?: number | string;
-  height?: number;
+  height?: number | string;
   lines?: number;
+  shape?: SkeletonShape;
+  animation?: SkeletonAnimation;
   style?: CSSProperties;
 }
 
 export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(function Skeleton(
-  { width, height = 14, lines = 1, className, style, ...props },
+  {
+    width,
+    height = 14,
+    lines = 1,
+    shape = "text",
+    animation = "pulse",
+    className,
+    style,
+    ...props
+  },
   ref
 ) {
+  const sharedProps = {
+    className: cx(
+      "vf-skeleton",
+      `vf-skeleton--${shape}`,
+      `vf-skeleton--anim-${animation}`,
+      className
+    ),
+    "aria-hidden": true as const,
+  };
+  if (shape !== "text") {
+    const merged: CSSProperties = {
+      width: width ?? (shape === "circle" ? height : "100%"),
+      height,
+      ...style,
+    };
+    return <div ref={ref} {...sharedProps} style={merged} {...props} />;
+  }
   return (
-    <div
-      ref={ref}
-      className={cx("vf-skeleton", className)}
-      style={style}
-      aria-hidden="true"
-      {...props}
-    >
+    <div ref={ref} {...sharedProps} style={style} {...props}>
       {Array.from({ length: lines }).map((_, i) => (
         <div
           key={i}
@@ -273,14 +398,16 @@ EmptyState.displayName = "EmptyState";
 // ── List ──────────────────────────────────────────────────────
 
 export interface ListProps extends HTMLAttributes<HTMLDivElement> {
-  items: ReactNode[];
+  /** Legacy array API. Compound `<List.Item>` children are preferred. */
+  items?: ReactNode[];
   marker?: ReactNode | false;
   gap?: number | string;
   style?: CSSProperties;
+  children?: ReactNode;
 }
 
-export const List = forwardRef<HTMLDivElement, ListProps>(function List(
-  { items, marker, gap, className, style, ...props },
+const ListBase = forwardRef<HTMLDivElement, ListProps>(function List(
+  { items, marker, gap, className, style, children, ...props },
   ref
 ) {
   const inline: CSSProperties = {
@@ -289,16 +416,45 @@ export const List = forwardRef<HTMLDivElement, ListProps>(function List(
   };
   return (
     <div ref={ref} className={cx("vf-list", className)} style={inline} {...props}>
-      {items.map((item, i) => (
-        <div key={i} className="vf-list__item">
-          {marker !== false && <span className="vf-list__marker">{marker ?? "●"}</span>}
-          <div>{item}</div>
-        </div>
-      ))}
+      {items
+        ? items.map((item, i) => (
+            <div key={i} className="vf-list__item">
+              {marker !== false && (
+                <span className="vf-list__marker">{marker ?? "●"}</span>
+              )}
+              <div>{item}</div>
+            </div>
+          ))
+        : children}
     </div>
   );
 });
-List.displayName = "List";
+ListBase.displayName = "List";
+
+export interface ListItemProps extends HTMLAttributes<HTMLDivElement> {
+  leading?: ReactNode;
+  trailing?: ReactNode;
+  children?: ReactNode;
+}
+
+const ListItemComponent = forwardRef<HTMLDivElement, ListItemProps>(
+  function ListItem({ leading, trailing, className, children, ...props }, ref) {
+    return (
+      <div
+        ref={ref}
+        className={cx("vf-list__item", "vf-list__item--compound", className)}
+        {...props}
+      >
+        {leading && <span className="vf-list__leading">{leading}</span>}
+        <span className="vf-list__content">{children}</span>
+        {trailing && <span className="vf-list__trailing">{trailing}</span>}
+      </div>
+    );
+  }
+);
+ListItemComponent.displayName = "ListItem";
+
+export const List = Object.assign(ListBase, { Item: ListItemComponent });
 
 // ── KeyValue ──────────────────────────────────────────────────
 

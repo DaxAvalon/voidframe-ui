@@ -39,7 +39,13 @@ export type {
 
 // ── Indicators ──────────────────────────────────────────────
 export { Badge, Dots } from "./Badge";
-export type { BadgeProps, DotsProps } from "./Badge";
+export type {
+  BadgeProps,
+  BadgeVariant,
+  BadgeTone,
+  BadgeSize,
+  DotsProps,
+} from "./Badge";
 
 // ── Containers ──────────────────────────────────────────────
 export { Card, ScrollRow, StatusBar, SegmentBar } from "./Card";
@@ -90,8 +96,13 @@ export { Table, Stat, Progress } from "./Data";
 export type {
   TableProps,
   TableColumn,
+  TableAlign,
+  SortDirection,
   StatProps,
+  StatTone,
   ProgressProps,
+  ProgressVariant,
+  ProgressTone,
 } from "./Data";
 
 // ── Data Display (Extended) ─────────────────────────────────
@@ -110,15 +121,20 @@ export {
 } from "./DataExtended";
 export type {
   AvatarProps,
+  AvatarStatus,
   AvatarGroupProps,
   TagProps,
   TooltipProps,
   CodeProps,
   TimelineProps,
   TimelineEvent,
+  TimelineItemProps,
   SkeletonProps,
+  SkeletonShape,
+  SkeletonAnimation,
   EmptyStateProps,
   ListProps,
+  ListItemProps,
   KeyValueProps,
   KeyValueItem,
   SpinnerProps,
@@ -214,6 +230,111 @@ export type {
   PinInputProps,
   TagInputProps,
 } from "./FormAdvanced";
+
+// ── Phase 9: data display ───────────────────────────────────
+export { DataGrid } from "./DataGrid";
+export type {
+  DataGridColumn,
+  DataGridProps,
+  RowSelectionMode,
+  DataGridDensity,
+} from "./DataGrid";
+
+export { TreeTable } from "./TreeTable";
+export type { TreeTableProps } from "./TreeTable";
+
+export { TreeView } from "./TreeView";
+export type {
+  TreeNode as TreeViewNode,
+  TreeViewProps,
+  TreeViewRenderState,
+} from "./TreeView";
+
+export { VirtualList, VirtualGrid, InfiniteScroll } from "./Virtualization";
+export type {
+  VirtualListProps,
+  VirtualGridProps,
+  InfiniteScrollProps,
+} from "./Virtualization";
+
+export { DataList, DescriptionList } from "./DataList";
+export type {
+  DataListItem,
+  DataListProps,
+  DataListItemProps,
+  DescriptionListProps,
+} from "./DataList";
+
+export {
+  StatGroup,
+  MetricCard,
+  CircularProgress,
+  SegmentedProgress,
+  Gauge,
+  TrendIndicator,
+  StatusIndicator,
+} from "./Metrics";
+export type {
+  StatGroupProps,
+  MetricCardProps,
+  CircularProgressProps,
+  SegmentedProgressProps,
+  SegmentedProgressSegment,
+  GaugeProps,
+  GaugeZone,
+  TrendIndicatorProps,
+  StatusIndicatorProps,
+  StatusIndicatorStatus,
+} from "./Metrics";
+
+export { Sparkline, Heatmap, ChartContainer } from "./Charts";
+export type {
+  SparklineProps,
+  HeatmapProps,
+  HeatmapCell,
+  ChartContainerProps,
+} from "./Charts";
+
+export {
+  CodeBlock,
+  JSONViewer,
+  DiffViewer,
+  LogViewer,
+  Terminal,
+  MarkdownRenderer,
+  escapeCodeHTML,
+} from "./Viewers";
+export type {
+  CodeBlockProps,
+  JSONViewerProps,
+  DiffViewerProps,
+  LogViewerProps,
+  LogLevel,
+  LogEntry,
+  TerminalProps,
+  MarkdownRendererProps,
+} from "./Viewers";
+
+export { Calendar } from "./Calendar";
+export type {
+  CalendarProps,
+  CalendarView as CalendarDisplayView,
+  CalendarEvent,
+} from "./Calendar";
+
+export { Gantt } from "./Gantt";
+export type { GanttProps, GanttTask, GanttGranularity } from "./Gantt";
+
+export { Activity } from "./Activity";
+export type { ActivityProps, ActivityItemProps } from "./Activity";
+
+export { Kanban } from "./Kanban";
+export type {
+  KanbanProps,
+  KanbanColumn,
+  KanbanItem,
+  KanbanMoveEvent,
+} from "./Kanban";
 
 // ── Phase 8: layout + navigation shell ──────────────────────
 export {

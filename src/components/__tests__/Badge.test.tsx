@@ -12,7 +12,7 @@ describe("Badge", () => {
 
   it("injects the accent color via --vf-accent", () => {
     renderWithTheme(<Badge color="#4ade80">OK</Badge>);
-    const el = screen.getByText("OK");
+    const el = screen.getByText("OK").closest(".vf-badge") as HTMLElement;
     expect(el.style.getPropertyValue("--vf-accent")).toBe("#4ade80");
   });
 

@@ -3,16 +3,38 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";
 import { cx } from "../utils/cx";
 
+export type BadgeVariant = "solid" | "outline" | "subtle";
+export type BadgeTone = "neutral" | "success" | "danger" | "warning" | "info";
+export type BadgeSize = "sm" | "md" | "lg";
+
 export interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
   /** Accent color (hex). Sets `--vf-accent`. */
   color?: string;
+  variant?: BadgeVariant;
+  tone?: BadgeTone;
+  size?: BadgeSize;
+  /** Render a leading dot glyph instead of full background. */
+  dot?: boolean;
+  icon?: ReactNode;
   asChild?: boolean;
   children?: ReactNode;
   style?: CSSProperties;
 }
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
-  { children, color, asChild, className, style, ...props },
+  {
+    children,
+    color,
+    variant = "solid",
+    tone = "neutral",
+    size = "md",
+    dot,
+    icon,
+    asChild,
+    className,
+    style,
+    ...props
+  },
   ref
 ) {
   const composedStyle: CSSProperties = {
@@ -20,15 +42,38 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
     ...style,
   };
   const Component = asChild ? Slot : "span";
+  const badgeClass = cx(
+    "vf-badge",
+    `vf-badge--${variant}`,
+    `vf-badge--${tone}`,
+    `vf-badge--${size}`,
+    dot && "vf-badge--with-dot",
+    className
+  );
+  // In asChild mode we pass through to avoid wrapping the consumer's element.
+  if (asChild) {
+    return (
+      <Component
+        ref={ref as never}
+        className={badgeClass}
+        style={composedStyle}
+        {...props}
+      >
+        {children}
+      </Component>
+    );
+  }
   return (
-    <Component
-      ref={ref as never}
-      className={cx("vf-badge", className)}
+    <span
+      ref={ref}
+      className={badgeClass}
       style={composedStyle}
       {...props}
     >
-      {children}
-    </Component>
+      {dot && <span className="vf-badge__dot" aria-hidden="true" />}
+      {icon && <span className="vf-badge__icon" aria-hidden="true">{icon}</span>}
+      <span className="vf-badge__label">{children}</span>
+    </span>
   );
 });
 Badge.displayName = "Badge";
