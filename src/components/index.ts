@@ -236,6 +236,10 @@ export { DataGrid } from "./DataGrid";
 export type {
   DataGridColumn,
   DataGridProps,
+  DataGridExportProps,
+  DataGridExportFormat,
+  DataGridRowReorderEvent,
+  DataGridColumnReorderEvent,
   RowSelectionMode,
   DataGridDensity,
 } from "./DataGrid";
@@ -313,6 +317,8 @@ export type {
   LogEntry,
   TerminalProps,
   MarkdownRendererProps,
+  MarkdownComponentMap,
+  MarkdownPlugin,
 } from "./Viewers";
 
 export { Calendar } from "./Calendar";
@@ -320,10 +326,16 @@ export type {
   CalendarProps,
   CalendarView as CalendarDisplayView,
   CalendarEvent,
+  CalendarRange,
 } from "./Calendar";
 
 export { Gantt } from "./Gantt";
-export type { GanttProps, GanttTask, GanttGranularity } from "./Gantt";
+export type {
+  GanttProps,
+  GanttTask,
+  GanttGranularity,
+  GanttUpdate,
+} from "./Gantt";
 
 export { Activity } from "./Activity";
 export type { ActivityProps, ActivityItemProps } from "./Activity";

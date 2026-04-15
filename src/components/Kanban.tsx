@@ -59,11 +59,29 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
   },
   ref
 ) {
-  const dragRef = useRef<{ id: string; fromColumn: string } | null>(null);
-  const [dropTarget, setDropTarget] = useState<{ columnId: string; index: number } | null>(null);
+  const dragRef = useRef<{ id: string; fromColumn: string; fromIndex: number } | null>(
+    null
+  );
+  const [dropTarget, setDropTarget] = useState<{
+    columnId: string;
+    index: number;
+  } | null>(null);
 
   const columnItems = (colId: string) =>
     items.filter((it) => it.columnId === colId);
+
+  // Compute the drop index for a pointer event over an item by comparing
+  // pointer Y to the item's vertical midpoint. Above midpoint = before,
+  // below = after.
+  const computeDropIndex = (
+    e: { clientY: number; currentTarget: Element },
+    itemIndex: number
+  ): number => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const midY = rect.top + rect.height / 2;
+    const before = e.clientY < midY;
+    return before ? itemIndex : itemIndex + 1;
+  };
 
   const handleKey = (e: KeyboardEvent<HTMLLIElement>, item: KanbanItem) => {
     if (readOnly) return;
@@ -108,14 +126,23 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
             onDragOver={(e) => {
               if (readOnly) return;
               e.preventDefault();
-              setDropTarget({ columnId: col.id, index: list.length });
+              if (!dropTarget || dropTarget.columnId !== col.id) {
+                setDropTarget({ columnId: col.id, index: list.length });
+              }
             }}
             onDrop={(e) => {
               if (readOnly) return;
               e.preventDefault();
               const drag = dragRef.current;
               if (!drag) return;
-              const toIndex = dropTarget?.columnId === col.id ? dropTarget.index : list.length;
+              let toIndex =
+                dropTarget?.columnId === col.id ? dropTarget.index : list.length;
+              // Drop after the source position within the same column needs to
+              // shift down by 1 because removing the source first reduces the
+              // target index.
+              if (drag.fromColumn === col.id && toIndex > drag.fromIndex) {
+                toIndex -= 1;
+              }
               onItemMove?.({
                 itemId: drag.id,
                 fromColumn: drag.fromColumn,
@@ -125,7 +152,11 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
               dragRef.current = null;
               setDropTarget(null);
             }}
-            onDragLeave={() => setDropTarget(null)}
+            onDragLeave={(e) => {
+              const next = e.relatedTarget as Node | null;
+              if (next && (e.currentTarget as Node).contains(next)) return;
+              setDropTarget(null);
+            }}
           >
             <header className="vf-kanban__column-header">
               {renderColumnHeader ? (
@@ -154,7 +185,11 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
                       "vf-kanban__item--drop-hint"
                   )}
                   onDragStart={() => {
-                    dragRef.current = { id: item.id, fromColumn: col.id };
+                    dragRef.current = {
+                      id: item.id,
+                      fromColumn: col.id,
+                      fromIndex: i,
+                    };
                   }}
                   onDragEnd={() => {
                     dragRef.current = null;
@@ -164,7 +199,10 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
                     if (readOnly) return;
                     e.preventDefault();
                     e.stopPropagation();
-                    setDropTarget({ columnId: col.id, index: i });
+                    setDropTarget({
+                      columnId: col.id,
+                      index: computeDropIndex(e, i),
+                    });
                   }}
                   onKeyDown={(e) => handleKey(e, item)}
                   aria-grabbed={dragRef.current?.id === item.id || undefined}

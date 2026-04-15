@@ -7,6 +7,7 @@
 import {
   forwardRef,
   useId,
+  useState,
   type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
@@ -114,6 +115,10 @@ export interface HeatmapProps extends HTMLAttributes<HTMLDivElement> {
   cellSize?: number;
   onCellClick?: (cell: HeatmapCell) => void;
   showAxes?: boolean;
+  /** Render a hover tooltip with the cell value. Default true. */
+  showTooltip?: boolean;
+  /** Custom tooltip content. */
+  renderTooltip?: (cell: HeatmapCell) => ReactNode;
 }
 
 function defaultScale(min: number, max: number): (v: number) => string {
@@ -134,11 +139,18 @@ export const Heatmap = forwardRef<HTMLDivElement, HeatmapProps>(function Heatmap
     cellSize = 18,
     onCellClick,
     showAxes = true,
+    showTooltip = true,
+    renderTooltip,
     className,
     ...props
   },
   ref
 ) {
+  const [hover, setHover] = useState<{
+    cell: HeatmapCell;
+    x: number;
+    y: number;
+  } | null>(null);
   const min = data.reduce((m, d) => Math.min(m, d.value), Infinity);
   const max = data.reduce((m, d) => Math.max(m, d.value), -Infinity);
   const scale = colorScale ?? defaultScale(isFinite(min) ? min : 0, isFinite(max) ? max : 1);
@@ -151,6 +163,8 @@ export const Heatmap = forwardRef<HTMLDivElement, HeatmapProps>(function Heatmap
       className={cx("vf-heatmap", className)}
       role="grid"
       aria-label="Heatmap"
+      onMouseLeave={() => setHover(null)}
+      style={{ position: "relative" }}
       {...props}
     >
       {showAxes && (
@@ -164,6 +178,17 @@ export const Heatmap = forwardRef<HTMLDivElement, HeatmapProps>(function Heatmap
               {c}
             </div>
           ))}
+        </div>
+      )}
+      {hover && (
+        <div
+          role="tooltip"
+          className="vf-heatmap__tooltip"
+          style={{ left: hover.x, top: hover.y }}
+        >
+          {renderTooltip
+            ? renderTooltip(hover.cell)
+            : `${hover.cell.y} × ${hover.cell.x}: ${hover.cell.value}`}
         </div>
       )}
       {rows.map((r) => (
@@ -189,6 +214,31 @@ export const Heatmap = forwardRef<HTMLDivElement, HeatmapProps>(function Heatmap
                   background: cell ? scale(cell.value) : "transparent",
                 }}
                 onClick={cell ? () => onCellClick?.(cell) : undefined}
+                onMouseEnter={(e) => {
+                  if (!cell || !showTooltip) return;
+                  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                  const parent =
+                    (e.currentTarget as HTMLElement).closest(".vf-heatmap")?.getBoundingClientRect() ??
+                    rect;
+                  setHover({
+                    cell,
+                    x: rect.left + rect.width / 2 - parent.left,
+                    y: rect.top - parent.top,
+                  });
+                }}
+                onFocus={(e) => {
+                  if (!cell || !showTooltip) return;
+                  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                  const parent =
+                    (e.currentTarget as HTMLElement).closest(".vf-heatmap")?.getBoundingClientRect() ??
+                    rect;
+                  setHover({
+                    cell,
+                    x: rect.left + rect.width / 2 - parent.left,
+                    y: rect.top - parent.top,
+                  });
+                }}
+                onBlur={() => setHover(null)}
               />
             );
           })}

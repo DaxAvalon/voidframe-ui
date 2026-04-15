@@ -192,6 +192,11 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(function TreeV
     if (!focusId && flat[0]) setFocusId(flat[0].node.id);
   }, [flat, focusId]);
 
+  // Type-to-search: accumulate keystrokes for 700 ms and jump focus to the
+  // first item whose label (lowercase) starts with the buffered prefix.
+  const searchBuffer = useRef<string>("");
+  const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
     const idx = flat.findIndex((f) => f.node.id === focusId);
     if (idx < 0) return;
@@ -237,6 +242,32 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(function TreeV
     } else if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       if (!current.node.disabled) select(current.node.id);
+    } else if (
+      e.key.length === 1 &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !e.altKey &&
+      /\S/.test(e.key)
+    ) {
+      // Type-to-search.
+      searchBuffer.current += e.key.toLowerCase();
+      if (searchTimer.current) clearTimeout(searchTimer.current);
+      searchTimer.current = setTimeout(() => {
+        searchBuffer.current = "";
+      }, 700);
+      const needle = searchBuffer.current;
+      const startFrom = idx + 1;
+      const findMatch = (from: number, to: number): string | null => {
+        for (let i = from; i < to; i++) {
+          const label = flat[i]!.node.label;
+          const text = typeof label === "string" ? label.toLowerCase() : "";
+          if (text.startsWith(needle)) return flat[i]!.node.id;
+        }
+        return null;
+      };
+      const match =
+        findMatch(startFrom, flat.length) ?? findMatch(0, startFrom);
+      if (match) setFocusId(match);
     }
   };
 
