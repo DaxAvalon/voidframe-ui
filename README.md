@@ -4,7 +4,7 @@ Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-
 
 Built for dashboards, dev tools, data interfaces, internal consoles, AI chat products, and anything that needs to feel like it was forged from the void.
 
-**230+ accessible components** across primitives, layout, forms, navigation, data, overlays, interaction, a full chat/AI surface, and a specialty tier (dev tools, identity, numeric, time, help, encoding, widgets, print). WAI-ARIA patterns. Controllable / uncontrollable duality on every input. Compound APIs on every complex surface. No runtime dependencies beyond React.
+**230+ accessible components + a brutalist icon system** across primitives, layout, forms, navigation, data, overlays, interaction, a full chat/AI surface, a specialty tier (dev tools, identity, numeric, time, help, encoding, widgets, print), and ~60 bundled monoline icons. WAI-ARIA patterns. Controllable / uncontrollable duality on every input. Compound APIs on every complex surface. No runtime dependencies beyond React.
 
 ---
 
@@ -262,6 +262,30 @@ Domain surfaces that round out the tier-1 offering. Everything below is in the t
 
 **Print:** `PrintLayout` (`@media print` optimized), `PrintButton` (prints a ref'd subtree via a transient iframe, preserving styles).
 
+### Icons
+
+Monoline, 1px-stroke, 24×24 brutalist icon system. Decorative by default; supplying `label` promotes to `role="img"`. Directional icons auto-mirror under `[dir="rtl"]`. `spin` and `pulse` animations respect `prefers-reduced-motion`.
+
+**Primitive:** `Icon` (size `xs`/`sm`/`md`/`lg`/`xl`/`xxl` or raw number, flipX/flipY/rotate/spin/pulse/directional).
+
+**Bundled set (~60):** `PlusIcon`, `MinusIcon`, `CheckIcon`, `XIcon`, `EditIcon`, `TrashIcon`, `CopyIcon`, `DownloadIcon`, `UploadIcon`, `RefreshIcon`, `SaveIcon`, `ShareIcon`, `SendIcon`, `BookmarkIcon`, `PinIcon`, `ChevronUp/Down/Left/RightIcon`, `ArrowUp/Down/Left/RightIcon`, `HomeIcon`, `ExternalLinkIcon`, `MoreHorizontal/VerticalIcon`, `MenuIcon`, `FileIcon`, `FileTextIcon`, `FolderIcon`, `FolderOpenIcon`, `BoldIcon`, `ItalicIcon`, `UnderlineIcon`, `CodeIcon`, `QuoteIcon`, `LinkIcon`, `InfoIcon`, `WarningIcon`, `ErrorIcon`, `SuccessIcon`, `QuestionIcon`, `SpinnerIcon`, `CircleIcon`, `SquareIcon`, `StarIcon`, `HeartIcon`, `SettingsIcon`, `UserIcon`, `UsersIcon`, `LockIcon`, `UnlockIcon`, `EyeIcon`, `EyeOffIcon`, `SearchIcon`, `FilterIcon`, `SortIcon`, `MailIcon`, `BellIcon`, `MessageIcon`, `PlayIcon`, `PauseIcon`, `StopIcon`, `ClockIcon`, `CalendarIcon`, `SunIcon`, `MoonIcon`, `ChartBarIcon`, `ChartLineIcon`, `DatabaseIcon`, `TerminalIcon`, `CloudIcon`, `CaretIcon`, `LoadingDotsIcon`.
+
+**Composition:** `IconButton` (square, required `aria-label`, optional `tooltip`, `active` for toggles), `IconGroup` (row with gap or interleaved separator).
+
+**Third-party adapter:** `adaptIcon(Component, { defaultLabel, directional })` wraps any Lucide/Phosphor/Heroicons/Tabler icon so framework sizing, color, spin, and RTL mirroring all apply.
+
+```jsx
+import { SearchIcon, IconButton, adaptIcon } from "voidframe";
+import { Compass } from "lucide-react";
+
+const CompassIcon = adaptIcon(Compass, { defaultLabel: "Compass" });
+
+<IconButton aria-label="Search" tooltip="Search docs (⌘K)">
+  <SearchIcon />
+</IconButton>
+<CompassIcon size="xl" />
+```
+
 ### Providers
 
 `VoidframeProvider` — theme context.
@@ -370,7 +394,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (1130+ tests)
+npm run test      # full vitest suite (1150+ tests)
 npm run typecheck # tsc --noEmit
 ```
 

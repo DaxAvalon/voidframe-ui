@@ -173,6 +173,69 @@ import {
   Zoomable,
   toast,
   useConfirm,
+  // Phase 14: icons
+  Icon,
+  IconButton,
+  IconGroup,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  BellIcon,
+  BoldIcon,
+  CaretIcon,
+  CalendarIcon,
+  ChartBarIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  ClockIcon,
+  CloudIcon,
+  CodeIcon,
+  CopyIcon,
+  DatabaseIcon,
+  DownloadIcon,
+  EditIcon,
+  ErrorIcon,
+  EyeIcon,
+  FileIcon,
+  FilterIcon,
+  FolderIcon,
+  HeartIcon,
+  HomeIcon,
+  InfoIcon,
+  LinkIcon,
+  LoadingDotsIcon,
+  LockIcon,
+  MailIcon,
+  MenuIcon,
+  MessageIcon,
+  MoonIcon,
+  MoreHorizontalIcon,
+  PauseIcon,
+  PinIcon,
+  PlayIcon,
+  PlusIcon,
+  QuestionIcon,
+  RefreshIcon,
+  SaveIcon,
+  SearchIcon,
+  SendIcon,
+  SettingsIcon,
+  ShareIcon,
+  SortIcon,
+  SpinnerIcon,
+  StarIcon,
+  StopIcon,
+  SunIcon,
+  SuccessIcon,
+  TerminalIcon,
+  TrashIcon,
+  UploadIcon,
+  UserIcon,
+  UsersIcon,
+  WarningIcon,
+  XIcon,
   // Phase 13: specialty
   Barcode,
   BigNumber,
@@ -1601,6 +1664,281 @@ function UtilitySection() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// PHASE 14 — ICONS
+// ─────────────────────────────────────────────────────────────
+
+function IconsPrimitiveSection() {
+  return (
+    <Frame
+      title="Icons — Primitive + Sizes"
+      description="Monoline 1px-stroke brutalist set. xs=12 sm=14 md=16 lg=20 xl=24 xxl=32."
+    >
+      <Block label="Size scale">
+        <Flex gap={12} align="center">
+          {(["xs", "sm", "md", "lg", "xl", "xxl"] as const).map((s) => (
+            <Flex key={s} direction="column" align="center" gap={4}>
+              <SearchIcon size={s} />
+              <Text size="xs" color="var(--vf-text-4)">
+                {s}
+              </Text>
+            </Flex>
+          ))}
+        </Flex>
+      </Block>
+      <Block label="Color follows currentColor">
+        <Flex gap={16} align="center">
+          <span style={{ color: "var(--vf-text-0)" }}>
+            <HeartIcon size="xl" />
+          </span>
+          <span style={{ color: "var(--vf-success)" }}>
+            <SuccessIcon size="xl" />
+          </span>
+          <span style={{ color: "var(--vf-warning)" }}>
+            <WarningIcon size="xl" />
+          </span>
+          <span style={{ color: "var(--vf-danger)" }}>
+            <ErrorIcon size="xl" />
+          </span>
+          <span style={{ color: "var(--vf-info)" }}>
+            <InfoIcon size="xl" />
+          </span>
+        </Flex>
+      </Block>
+      <Block label="Flip / rotate / spin / pulse">
+        <Flex gap={24} align="center">
+          <Flex direction="column" align="center" gap={4}>
+            <ArrowRightIcon size="xl" />
+            <Text size="xs" color="var(--vf-text-4)">
+              default
+            </Text>
+          </Flex>
+          <Flex direction="column" align="center" gap={4}>
+            <ArrowRightIcon size="xl" flipX />
+            <Text size="xs" color="var(--vf-text-4)">
+              flipX
+            </Text>
+          </Flex>
+          <Flex direction="column" align="center" gap={4}>
+            <ArrowRightIcon size="xl" rotate={90} />
+            <Text size="xs" color="var(--vf-text-4)">
+              rotate 90°
+            </Text>
+          </Flex>
+          <Flex direction="column" align="center" gap={4}>
+            <SpinnerIcon size="xl" spin />
+            <Text size="xs" color="var(--vf-text-4)">
+              spin
+            </Text>
+          </Flex>
+          <Flex direction="column" align="center" gap={4}>
+            <HeartIcon size="xl" pulse />
+            <Text size="xs" color="var(--vf-text-4)">
+              pulse
+            </Text>
+          </Flex>
+          <Flex direction="column" align="center" gap={4}>
+            <LoadingDotsIcon size="xl" />
+            <Text size="xs" color="var(--vf-text-4)">
+              dots
+            </Text>
+          </Flex>
+        </Flex>
+      </Block>
+      <Block label="Custom Icon (consumer draws SVG children)">
+        <Flex gap={16} align="center">
+          <Icon size="xl" label="Diamond">
+            <path d="M12 3l9 9-9 9-9-9z" />
+          </Icon>
+          <Icon size="xl" label="Tile">
+            <rect x="4" y="4" width="8" height="8" />
+            <rect x="12" y="12" width="8" height="8" />
+          </Icon>
+        </Flex>
+      </Block>
+    </Frame>
+  );
+}
+
+function IconsSetSection() {
+  const icons: { name: string; Comp: typeof SearchIcon }[] = [
+    { name: "Plus", Comp: PlusIcon },
+    { name: "Check", Comp: CheckIcon },
+    { name: "X", Comp: XIcon },
+    { name: "Edit", Comp: EditIcon },
+    { name: "Trash", Comp: TrashIcon },
+    { name: "Copy", Comp: CopyIcon },
+    { name: "Download", Comp: DownloadIcon },
+    { name: "Upload", Comp: UploadIcon },
+    { name: "Refresh", Comp: RefreshIcon },
+    { name: "Save", Comp: SaveIcon },
+    { name: "Share", Comp: ShareIcon },
+    { name: "Send", Comp: SendIcon },
+    { name: "Pin", Comp: PinIcon },
+    { name: "ChevronUp", Comp: ChevronUpIcon },
+    { name: "ChevronDown", Comp: ChevronDownIcon },
+    { name: "ChevronLeft", Comp: ChevronLeftIcon },
+    { name: "ChevronRight", Comp: ChevronRightIcon },
+    { name: "ArrowLeft", Comp: ArrowLeftIcon },
+    { name: "ArrowRight", Comp: ArrowRightIcon },
+    { name: "Home", Comp: HomeIcon },
+    { name: "More", Comp: MoreHorizontalIcon },
+    { name: "Menu", Comp: MenuIcon },
+    { name: "File", Comp: FileIcon },
+    { name: "Folder", Comp: FolderIcon },
+    { name: "Bold", Comp: BoldIcon },
+    { name: "Code", Comp: CodeIcon },
+    { name: "Link", Comp: LinkIcon },
+    { name: "Info", Comp: InfoIcon },
+    { name: "Warning", Comp: WarningIcon },
+    { name: "Error", Comp: ErrorIcon },
+    { name: "Success", Comp: SuccessIcon },
+    { name: "Question", Comp: QuestionIcon },
+    { name: "Star", Comp: StarIcon },
+    { name: "Heart", Comp: HeartIcon },
+    { name: "Settings", Comp: SettingsIcon },
+    { name: "User", Comp: UserIcon },
+    { name: "Users", Comp: UsersIcon },
+    { name: "Lock", Comp: LockIcon },
+    { name: "Eye", Comp: EyeIcon },
+    { name: "Search", Comp: SearchIcon },
+    { name: "Filter", Comp: FilterIcon },
+    { name: "Sort", Comp: SortIcon },
+    { name: "Mail", Comp: MailIcon },
+    { name: "Bell", Comp: BellIcon },
+    { name: "Message", Comp: MessageIcon },
+    { name: "Play", Comp: PlayIcon },
+    { name: "Pause", Comp: PauseIcon },
+    { name: "Stop", Comp: StopIcon },
+    { name: "Clock", Comp: ClockIcon },
+    { name: "Calendar", Comp: CalendarIcon },
+    { name: "Sun", Comp: SunIcon },
+    { name: "Moon", Comp: MoonIcon },
+    { name: "ChartBar", Comp: ChartBarIcon },
+    { name: "Database", Comp: DatabaseIcon },
+    { name: "Terminal", Comp: TerminalIcon },
+    { name: "Cloud", Comp: CloudIcon },
+    { name: "Caret", Comp: CaretIcon },
+  ];
+  return (
+    <Frame
+      title="Icons — Bundled set"
+      description="~60 core icons across actions, navigation, files, editors, status, shapes, system, communication, media, time, and data."
+    >
+      <Block label="Core library">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(96px, 1fr))",
+            gap: 8,
+          }}
+        >
+          {icons.map(({ name, Comp }) => (
+            <div
+              key={name}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 6,
+                padding: 8,
+                border: "1px solid var(--vf-border-1)",
+                background: "var(--vf-bg-2)",
+              }}
+            >
+              <Comp size="xl" />
+              <Text size="xs" color="var(--vf-text-3)">
+                {name}
+              </Text>
+            </div>
+          ))}
+        </div>
+      </Block>
+    </Frame>
+  );
+}
+
+function IconsButtonSection() {
+  const [bold, setBold] = useState(false);
+  const [italic, setItalic] = useState(true);
+  return (
+    <Frame
+      title="Icons — IconButton + IconGroup"
+      description="Square icon-only buttons with required aria-label. IconGroup composes rows with optional separators."
+    >
+      <Block label="IconButton variants + sizes">
+        <Flex gap={8} align="center">
+          <IconButton aria-label="Search">
+            <SearchIcon />
+          </IconButton>
+          <IconButton aria-label="Edit" variant="ghost">
+            <EditIcon />
+          </IconButton>
+          <IconButton aria-label="Save" variant="solid" accent="#4ade80">
+            <SaveIcon />
+          </IconButton>
+          <IconButton aria-label="Refresh" variant="accent" accent="#60a5fa">
+            <RefreshIcon />
+          </IconButton>
+          <IconButton aria-label="Disabled" disabled>
+            <CopyIcon />
+          </IconButton>
+        </Flex>
+        <Flex gap={8} align="center" style={{ marginTop: 8 }}>
+          <IconButton size="xs" aria-label="Tiny">
+            <PlusIcon />
+          </IconButton>
+          <IconButton size="sm" aria-label="Small">
+            <PlusIcon />
+          </IconButton>
+          <IconButton size="md" aria-label="Medium">
+            <PlusIcon />
+          </IconButton>
+          <IconButton size="lg" aria-label="Large">
+            <PlusIcon />
+          </IconButton>
+        </Flex>
+      </Block>
+      <Block label="Toggle + tooltip">
+        <Flex gap={8} align="center">
+          <IconButton
+            aria-label="Bold"
+            active={bold}
+            onClick={() => setBold((b) => !b)}
+            tooltip="Bold (⌘B)"
+          >
+            <BoldIcon />
+          </IconButton>
+          <IconButton
+            aria-label="Italic"
+            active={italic}
+            onClick={() => setItalic((b) => !b)}
+            tooltip="Italic (⌘I)"
+          >
+            <Icon size="md">
+              <path d="M10 4h8" />
+              <path d="M6 20h8" />
+              <path d="M14 4l-4 16" />
+            </Icon>
+          </IconButton>
+        </Flex>
+      </Block>
+      <Block label="IconGroup">
+        <IconGroup gap={8}>
+          <FileIcon />
+          <Text size="sm">demo/App.tsx</Text>
+          <SuccessIcon size="sm" color="var(--vf-success)" />
+        </IconGroup>
+        <IconGroup gap={8} separator="·" style={{ marginTop: 8 }}>
+          <Text size="sm">Home</Text>
+          <Text size="sm">Dashboard</Text>
+          <Text size="sm">Settings</Text>
+        </IconGroup>
+      </Block>
+    </Frame>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // PHASE 13 — SPECIALTY
 // ─────────────────────────────────────────────────────────────
 
@@ -2591,6 +2929,10 @@ const SECTIONS: DemoSection[] = [
   { id: "animation", group: "Interactive", title: "Animation atoms", render: () => <AnimationSection /> },
   { id: "media", group: "Interactive", title: "Media", render: () => <MediaSection /> },
   { id: "utility", group: "Interactive", title: "Utility", render: () => <UtilitySection /> },
+
+  { id: "icons-primitive", group: "Icons", title: "Primitive", render: () => <IconsPrimitiveSection /> },
+  { id: "icons-set", group: "Icons", title: "Bundled set", render: () => <IconsSetSection /> },
+  { id: "icons-button", group: "Icons", title: "IconButton + Group", render: () => <IconsButtonSection /> },
 
   { id: "specialty-devtools", group: "Specialty", title: "Dev tools", render: () => <SpecialtyDevToolsSection /> },
   { id: "specialty-identity", group: "Specialty", title: "Identity + Color", render: () => <SpecialtyIdentitySection /> },

@@ -29,6 +29,9 @@ export * from "./primitives";
 // ── Components ──────────────────────────────────────────────
 export * from "./components";
 
+// ── Icons (Phase 14) ────────────────────────────────────────
+export * from "./icons";
+
 // ── Hooks ───────────────────────────────────────────────────
 export {
   useHover,

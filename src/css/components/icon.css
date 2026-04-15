@@ -1,0 +1,158 @@
+/* Phase 14 — Icon primitive + IconButton + IconGroup */
+
+.vf-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.vf-icon--xs  { width: 12px; height: 12px; }
+.vf-icon--sm  { width: 14px; height: 14px; }
+.vf-icon--md  { width: 16px; height: 16px; }
+.vf-icon--lg  { width: 20px; height: 20px; }
+.vf-icon--xl  { width: 24px; height: 24px; }
+.vf-icon--xxl { width: 32px; height: 32px; }
+
+.vf-icon--spin {
+  animation: vf-icon-spin 0.8s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+.vf-icon--pulse {
+  animation: vf-icon-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes vf-icon-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes vf-icon-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+[dir="rtl"] .vf-icon[data-directional="true"] {
+  transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-icon--spin,
+  .vf-icon--pulse {
+    animation: none;
+  }
+  .vf-icon--spin circle,
+  .vf-icon--pulse circle,
+  .vf-icon--spin path,
+  .vf-icon--pulse path {
+    animation: none;
+  }
+}
+
+/* ── IconButton ───────────────────────────────────────────── */
+
+.vf-icon-button-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.vf-icon-button {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-1);
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.vf-icon-button:hover:not([disabled]) {
+  color: var(--vf-text-0);
+  border-color: var(--vf-border-3);
+  background: var(--vf-bg-2);
+}
+
+.vf-icon-button:focus-visible {
+  outline: 2px solid var(--vf-accent, var(--vf-text-2));
+  outline-offset: 1px;
+}
+
+.vf-icon-button[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.vf-icon-button--xs { width: 20px; height: 20px; }
+.vf-icon-button--sm { width: 24px; height: 24px; }
+.vf-icon-button--md { width: 28px; height: 28px; }
+.vf-icon-button--lg { width: 36px; height: 36px; }
+
+.vf-icon-button--ghost {
+  border-color: transparent;
+}
+
+.vf-icon-button--solid {
+  background: var(--vf-accent, var(--vf-bg-3));
+  color: var(--vf-bg-0);
+  border-color: var(--vf-accent, var(--vf-bg-3));
+}
+
+.vf-icon-button--solid:hover:not([disabled]) {
+  background: var(--vf-accent, var(--vf-bg-4));
+  color: var(--vf-bg-0);
+  border-color: var(--vf-accent, var(--vf-bg-4));
+}
+
+.vf-icon-button--accent {
+  color: var(--vf-accent, var(--vf-text-0));
+  border-color: var(--vf-accent, var(--vf-border-3));
+}
+
+.vf-icon-button--active {
+  background: var(--vf-bg-2);
+  border-color: var(--vf-border-3);
+  color: var(--vf-text-0);
+}
+
+.vf-icon-button__tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 2px 6px;
+  background: var(--vf-bg-3);
+  border: 1px solid var(--vf-border-2);
+  color: var(--vf-text-0);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  z-index: 20;
+}
+
+.vf-icon-button-wrap:hover .vf-icon-button__tooltip,
+.vf-icon-button-wrap:focus-within .vf-icon-button__tooltip {
+  opacity: 1;
+}
+
+/* ── IconGroup ────────────────────────────────────────────── */
+
+.vf-icon-group {
+  display: inline-flex;
+  flex-wrap: nowrap;
+}
+
+.vf-icon-group__sep {
+  color: var(--vf-border-3);
+  display: inline-flex;
+  align-items: center;
+}
