@@ -1,0 +1,86 @@
+/* Popconfirm — inline confirmation popover */
+
+.vf-popconfirm {
+  position: relative;
+  display: inline-block;
+}
+
+.vf-popconfirm__overlay {
+  position: absolute;
+  z-index: 50;
+  min-width: 220px;
+  padding: var(--vf-sp-5);
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-1);
+  border-radius: var(--vf-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Placement modifiers */
+.vf-popconfirm__overlay--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: var(--vf-sp-2);
+}
+
+.vf-popconfirm__overlay--bottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: var(--vf-sp-2);
+}
+
+.vf-popconfirm__overlay--left {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: var(--vf-sp-2);
+}
+
+.vf-popconfirm__overlay--right {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: var(--vf-sp-2);
+}
+
+.vf-popconfirm__icon {
+  display: inline-flex;
+  margin-bottom: var(--vf-sp-2);
+  color: var(--vf-text-2);
+}
+
+.vf-popconfirm__title {
+  font-weight: 600;
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-1);
+  margin-bottom: var(--vf-sp-1);
+}
+
+.vf-popconfirm__description {
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-3);
+  margin-bottom: var(--vf-sp-4);
+}
+
+.vf-popconfirm__actions {
+  display: flex;
+  gap: var(--vf-sp-2);
+  justify-content: flex-end;
+  margin-top: var(--vf-sp-3);
+}
+
+/* Danger variant — override accent color for confirm button */
+.vf-popconfirm--danger .vf-button--danger {
+  --vf-accent: var(--vf-danger, #e53e3e);
+  background: color-mix(in srgb, var(--vf-accent) 8%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent) 22%, transparent);
+  color: color-mix(in srgb, var(--vf-accent) 80%, transparent);
+}
+
+.vf-popconfirm--danger .vf-button--danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--vf-accent) 15%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent) 33%, transparent);
+  color: var(--vf-accent);
+}

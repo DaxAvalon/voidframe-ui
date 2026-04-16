@@ -1,0 +1,199 @@
+/* SplitButton */
+
+.vf-split-button {
+  display: inline-flex;
+  position: relative;
+  font-family: var(--vf-font-family);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+}
+
+/* ── Primary button ────────────────────────────────────────── */
+
+.vf-split-button__primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--vf-border-1);
+  border-right: none;
+  border-radius: var(--vf-radius) 0 0 var(--vf-radius);
+  background: transparent;
+  color: var(--vf-text-3);
+  cursor: pointer;
+  outline: none;
+  transition: var(--vf-transition);
+  user-select: none;
+}
+
+/* ── Caret button ──────────────────────────────────────────── */
+
+.vf-split-button__caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--vf-border-1);
+  border-radius: 0 var(--vf-radius) var(--vf-radius) 0;
+  background: transparent;
+  color: var(--vf-text-3);
+  cursor: pointer;
+  outline: none;
+  transition: var(--vf-transition);
+  user-select: none;
+  font-size: 0.6em;
+}
+
+/* ── Size modifiers ────────────────────────────────────────── */
+
+.vf-split-button--sm .vf-split-button__primary {
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-split-button--sm .vf-split-button__caret {
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+  font-size: calc(var(--vf-font-xs) * 0.7);
+}
+
+.vf-split-button--md .vf-split-button__primary {
+  padding: var(--vf-sp-3) var(--vf-sp-7);
+  font-size: var(--vf-font-sm);
+}
+.vf-split-button--md .vf-split-button__caret {
+  padding: var(--vf-sp-3) var(--vf-sp-3);
+  font-size: calc(var(--vf-font-sm) * 0.7);
+}
+
+.vf-split-button--lg .vf-split-button__primary {
+  padding: var(--vf-sp-4) var(--vf-sp-9);
+  font-size: var(--vf-font-md);
+}
+.vf-split-button--lg .vf-split-button__caret {
+  padding: var(--vf-sp-4) var(--vf-sp-4);
+  font-size: calc(var(--vf-font-md) * 0.7);
+}
+
+/* ── Variant: default ──────────────────────────────────────── */
+
+.vf-split-button--default .vf-split-button__primary:hover:not([data-disabled="true"]),
+.vf-split-button--default .vf-split-button__caret:hover:not([data-disabled="true"]) {
+  background: var(--vf-bg-4);
+  border-color: var(--vf-border-2);
+  color: var(--vf-text-1);
+}
+
+/* ── Variant: accent ───────────────────────────────────────── */
+
+.vf-split-button--accent .vf-split-button__primary,
+.vf-split-button--accent .vf-split-button__caret {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 8%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 22%, transparent);
+  color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 80%, transparent);
+}
+.vf-split-button--accent .vf-split-button__primary {
+  border-right: none;
+}
+.vf-split-button--accent .vf-split-button__primary:hover:not([data-disabled="true"]),
+.vf-split-button--accent .vf-split-button__caret:hover:not([data-disabled="true"]) {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 15%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 33%, transparent);
+  color: var(--vf-accent, var(--vf-text-1));
+}
+
+/* ── Variant: solid ────────────────────────────────────────── */
+
+.vf-split-button--solid .vf-split-button__primary,
+.vf-split-button--solid .vf-split-button__caret {
+  background: var(--vf-accent, var(--vf-text-1));
+  border-color: var(--vf-accent, var(--vf-text-1));
+  color: var(--vf-bg-0);
+}
+.vf-split-button--solid .vf-split-button__primary {
+  border-right: none;
+}
+.vf-split-button--solid .vf-split-button__primary:hover:not([data-disabled="true"]),
+.vf-split-button--solid .vf-split-button__caret:hover:not([data-disabled="true"]) {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 86%, var(--vf-bg-0));
+}
+
+/* ── Disabled state ────────────────────────────────────────── */
+
+.vf-split-button__primary[data-disabled="true"],
+.vf-split-button__caret[data-disabled="true"] {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ── Spinner ───────────────────────────────────────────────── */
+
+.vf-split-button__spinner {
+  display: inline-block;
+  animation: vf-icon-spin 0.8s linear infinite;
+  margin-inline-end: var(--vf-sp-1);
+}
+
+/* ── Icon ──────────────────────────────────────────────────── */
+
+.vf-split-button__icon {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-end: var(--vf-sp-1);
+}
+
+/* ── Dropdown menu ─────────────────────────────────────────── */
+
+.vf-split-button__menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  min-width: 100%;
+  margin-top: var(--vf-sp-1);
+  padding: var(--vf-sp-1) 0;
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-1);
+  border-radius: var(--vf-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* ── Menu item ─────────────────────────────────────────────── */
+
+.vf-split-button__menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  padding: var(--vf-sp-2) var(--vf-sp-4);
+  cursor: pointer;
+  color: var(--vf-text-2);
+  font-size: var(--vf-font-sm);
+  text-transform: none;
+  white-space: nowrap;
+  outline: none;
+  transition: var(--vf-transition);
+}
+
+.vf-split-button__menu-item:hover,
+.vf-split-button__menu-item:focus,
+.vf-split-button__menu-item[data-focused="true"] {
+  background: var(--vf-bg-4);
+  color: var(--vf-text-0);
+}
+
+.vf-split-button__menu-item--danger {
+  color: var(--vf-danger, #e53e3e);
+}
+.vf-split-button__menu-item--danger:hover,
+.vf-split-button__menu-item--danger:focus,
+.vf-split-button__menu-item--danger[data-focused="true"] {
+  color: var(--vf-danger, #e53e3e);
+  background: color-mix(in srgb, var(--vf-danger, #e53e3e) 10%, transparent);
+}
+
+.vf-split-button__menu-item--disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.vf-split-button__menu-item-icon {
+  display: inline-flex;
+  align-items: center;
+}

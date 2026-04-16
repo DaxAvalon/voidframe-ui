@@ -1,0 +1,109 @@
+/* ToggleGroup */
+
+.vf-toggle-group {
+  display: inline-flex;
+  gap: var(--vf-sp-1);
+}
+
+.vf-toggle-group--vertical {
+  flex-direction: column;
+}
+
+/* ── Item base ── */
+
+.vf-toggle-group__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--vf-font-family);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+  border-radius: var(--vf-radius);
+  outline: none;
+  cursor: pointer;
+  transition: var(--vf-transition);
+  user-select: none;
+  background: transparent;
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-3);
+}
+
+/* ── Sizes ── */
+
+.vf-toggle-group--sm .vf-toggle-group__item {
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-toggle-group--md .vf-toggle-group__item {
+  padding: var(--vf-sp-3) var(--vf-sp-7);
+  font-size: var(--vf-font-sm);
+}
+.vf-toggle-group--lg .vf-toggle-group__item {
+  padding: var(--vf-sp-4) var(--vf-sp-9);
+  font-size: var(--vf-font-md);
+}
+
+/* ── Variant: default ── */
+
+.vf-toggle-group--default .vf-toggle-group__item:hover:not(:disabled) {
+  background: var(--vf-bg-4);
+  border-color: var(--vf-border-2);
+  color: var(--vf-text-1);
+}
+.vf-toggle-group--default .vf-toggle-group__item--active {
+  background: var(--vf-bg-5);
+  border-color: var(--vf-border-3);
+  color: var(--vf-text-0);
+}
+
+/* ── Variant: ghost ── */
+
+.vf-toggle-group--ghost .vf-toggle-group__item {
+  background: transparent;
+  border-color: transparent;
+}
+.vf-toggle-group--ghost .vf-toggle-group__item:hover:not(:disabled) {
+  color: var(--vf-text-1);
+}
+.vf-toggle-group--ghost .vf-toggle-group__item--active {
+  background: var(--vf-bg-4);
+  color: var(--vf-text-0);
+}
+
+/* ── Variant: accent ── */
+
+.vf-toggle-group--accent .vf-toggle-group__item {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 8%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 22%, transparent);
+  color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 80%, transparent);
+}
+.vf-toggle-group--accent .vf-toggle-group__item:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 15%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 33%, transparent);
+  color: var(--vf-accent, var(--vf-text-1));
+}
+.vf-toggle-group--accent .vf-toggle-group__item--active {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 22%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 55%, transparent);
+  color: var(--vf-accent, var(--vf-text-1));
+}
+
+/* ── Disabled ── */
+
+.vf-toggle-group__item:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.vf-toggle-group[data-disabled="true"] .vf-toggle-group__item {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ── Icon ── */
+
+.vf-toggle-group__icon {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-end: var(--vf-sp-1);
+}

@@ -1,0 +1,106 @@
+/* InlineEdit */
+
+.vf-inline-edit {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+  font-family: var(--vf-font-family);
+  position: relative;
+}
+
+/* ── Display ────────────────────────────────────────────── */
+
+.vf-inline-edit__display {
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: var(--vf-transition);
+  color: var(--vf-text-0);
+  padding: var(--vf-sp-1) 0;
+  outline: none;
+}
+
+.vf-inline-edit__display:hover {
+  border-bottom-color: var(--vf-border-2);
+}
+
+.vf-inline-edit__display:focus-visible {
+  border-bottom-color: var(--vf-border-3);
+}
+
+.vf-inline-edit__placeholder {
+  color: var(--vf-text-4);
+  font-style: italic;
+}
+
+/* ── Input / Textarea ───────────────────────────────────── */
+
+.vf-inline-edit__input {
+  font-family: var(--vf-font-family);
+  color: var(--vf-text-0);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--vf-accent, var(--vf-blue));
+  outline: none;
+  width: 100%;
+  padding: var(--vf-sp-1) 0;
+  transition: var(--vf-transition);
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.vf-inline-edit__input:focus-visible {
+  border-bottom-color: var(--vf-accent, var(--vf-blue));
+}
+
+/* ── Error ──────────────────────────────────────────────── */
+
+.vf-inline-edit__error {
+  font-size: var(--vf-font-xs);
+  color: var(--vf-red);
+  line-height: 1.4;
+}
+
+/* ── State modifiers ────────────────────────────────────── */
+
+.vf-inline-edit--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.vf-inline-edit--disabled .vf-inline-edit__display {
+  cursor: not-allowed;
+}
+
+.vf-inline-edit--readonly .vf-inline-edit__display {
+  cursor: default;
+}
+
+.vf-inline-edit--readonly .vf-inline-edit__display:hover {
+  border-bottom-color: transparent;
+}
+
+/* ── Size modifiers ─────────────────────────────────────── */
+
+.vf-inline-edit--sm {
+  font-size: var(--vf-font-xs);
+}
+
+.vf-inline-edit--sm .vf-inline-edit__input {
+  font-size: var(--vf-font-xs);
+}
+
+.vf-inline-edit--md {
+  font-size: var(--vf-font-sm);
+}
+
+.vf-inline-edit--md .vf-inline-edit__input {
+  font-size: var(--vf-font-sm);
+}
+
+.vf-inline-edit--lg {
+  font-size: var(--vf-font-md);
+}
+
+.vf-inline-edit--lg .vf-inline-edit__input {
+  font-size: var(--vf-font-md);
+}

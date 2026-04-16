@@ -47,6 +47,9 @@ export type {
   ButtonGroupOption,
 } from "./Button";
 
+export { CopyButton } from "./CopyButton";
+export type { CopyButtonProps } from "./CopyButton";
+
 // ── Indicators ──────────────────────────────────────────────
 export { Badge, Dots } from "./Badge";
 export type {
@@ -241,6 +244,10 @@ export type {
   PinInputProps,
   TagInputProps,
 } from "./FormAdvanced";
+
+// ── Form Controls (Stepper) ────────────────────────────────
+export { NumberStepper } from "./NumberStepper";
+export type { NumberStepperProps } from "./NumberStepper";
 
 // ── Phase 11: interactive + media ───────────────────────────
 export { Carousel, CarouselImageGallery } from "./Carousel";
@@ -1105,6 +1112,24 @@ export type {
   SimpleChatProps,
   AgentRunnerProps,
 } from "./ChatModel";
+
+// ── Skeleton Composites ────────────────────────────────────
+export {
+  SkeletonText,
+  SkeletonAvatar,
+  SkeletonButton,
+  SkeletonCard,
+  SkeletonTable,
+  SkeletonForm,
+} from "./SkeletonComposites";
+export type {
+  SkeletonTextProps,
+  SkeletonAvatarProps,
+  SkeletonButtonProps,
+  SkeletonCardProps,
+  SkeletonTableProps,
+  SkeletonFormProps,
+} from "./SkeletonComposites";
 
 // ── Phase 40: Form system + AsyncData ────────────────────────
 export {

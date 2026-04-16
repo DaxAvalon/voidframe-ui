@@ -1,0 +1,71 @@
+/* CopyButton */
+
+.vf-copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--vf-sp-1);
+  font-family: var(--vf-font-family);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+  border-radius: var(--vf-radius);
+  outline: none;
+  cursor: pointer;
+  transition: var(--vf-transition);
+  user-select: none;
+  background: transparent;
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-3);
+}
+
+/* sizes */
+.vf-copy-button--sm { padding: var(--vf-sp-1) var(--vf-sp-4); font-size: var(--vf-font-xs); }
+.vf-copy-button--md { padding: var(--vf-sp-3) var(--vf-sp-7); font-size: var(--vf-font-sm); }
+.vf-copy-button--lg { padding: var(--vf-sp-4) var(--vf-sp-9); font-size: var(--vf-font-md); }
+
+/* variants — default */
+.vf-copy-button--default:hover:not([data-disabled="true"]) {
+  background: var(--vf-bg-4);
+  border-color: var(--vf-border-2);
+  color: var(--vf-text-1);
+}
+
+/* variants — ghost */
+.vf-copy-button--ghost {
+  background: transparent;
+  border-color: transparent;
+}
+.vf-copy-button--ghost:hover:not([data-disabled="true"]) {
+  color: var(--vf-text-1);
+}
+
+/* variants — accent */
+.vf-copy-button--accent {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 8%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 22%, transparent);
+  color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 80%, transparent);
+}
+.vf-copy-button--accent:hover:not([data-disabled="true"]) {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 15%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 33%, transparent);
+  color: var(--vf-accent, var(--vf-text-1));
+}
+
+/* copied (success) state */
+.vf-copy-button--copied {
+  border-color: var(--vf-accent, #22c55e);
+  color: var(--vf-accent, #22c55e);
+  background: color-mix(in srgb, var(--vf-accent, #22c55e) 8%, transparent);
+}
+
+/* disabled */
+.vf-copy-button[data-disabled="true"] {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* icon */
+.vf-copy-button__icon {
+  display: inline-flex;
+  align-items: center;
+}

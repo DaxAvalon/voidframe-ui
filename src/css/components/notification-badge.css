@@ -1,0 +1,60 @@
+/* NotificationBadge */
+
+.vf-notification-badge {
+  position: relative;
+  display: inline-flex;
+}
+
+.vf-notification-badge__indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--vf-accent, var(--vf-red));
+  color: #fff;
+  font-size: var(--vf-font-xxs);
+  font-family: var(--vf-font-family);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--vf-sp-1);
+  line-height: 1;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.vf-notification-badge__indicator--dot {
+  min-width: 8px;
+  width: 8px;
+  height: 8px;
+  padding-inline: 0;
+}
+
+.vf-notification-badge__indicator--hidden {
+  display: none;
+}
+
+/* sizes */
+.vf-notification-badge--sm .vf-notification-badge__indicator {
+  min-width: 14px;
+  height: 14px;
+  font-size: 10px;
+  padding-inline: 2px;
+}
+
+.vf-notification-badge--sm .vf-notification-badge__indicator--dot {
+  min-width: 6px;
+  width: 6px;
+  height: 6px;
+  padding-inline: 0;
+}
+
+/* standalone — no children, badge renders inline without absolute positioning */
+.vf-notification-badge--standalone .vf-notification-badge__indicator {
+  position: static;
+  transform: none;
+}
