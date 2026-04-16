@@ -30,7 +30,10 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci --no-fund --no-audit
+        run: npm ci --no-fund
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=low
 
       - name: Typecheck
         run: npm run typecheck
@@ -44,7 +47,9 @@ jobs:
       - name: Build library
         run: npm run build
 
-      # Verify the multi-entry build produced all expected outputs.
+      - name: Check bundle size
+        run: npm run size
+
       - name: Verify dist
         run: |
           test -f dist/voidframe.es.js  || { echo "Missing voidframe.es.js"; exit 1; }
@@ -54,9 +59,11 @@ jobs:
           echo "All dist files present:"
           ls -lh dist/*.es.js dist/*.cjs.js dist/voidframe.css
 
-      # Artifact uploads are best-effort — the Forgejo artifact
-      # service may not be configured. The CI gates above (typecheck,
-      # test, coverage, build) are the actual quality checks.
+      - name: Dry-run pack
+        run: npm pack --dry-run
+
+      # Artifact uploads require Forgejo artifact storage to be
+      # configured. If it's not, these steps fail silently (continue-on-error).
       - name: Upload coverage report
         if: always()
         uses: actions/upload-artifact@v3
@@ -100,10 +107,23 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci --no-fund --no-audit
+        run: npm ci --no-fund
 
       - name: Build
         run: npm run build
+
+      - name: Verify dist
+        run: |
+          test -f dist/voidframe.es.js  || { echo "Missing voidframe.es.js"; exit 1; }
+          test -f dist/charts.es.js     || { echo "Missing charts.es.js"; exit 1; }
+          test -f dist/dev.es.js        || { echo "Missing dev.es.js"; exit 1; }
+          test -f dist/voidframe.css    || { echo "Missing voidframe.css"; exit 1; }
+
+      - name: Check bundle size
+        run: npm run size
+
+      - name: Dry-run pack
+        run: npm pack --dry-run
 
       - name: Package dist tarball
         run: |
@@ -125,3 +145,15 @@ jobs:
           name: voidframe-release-${{ github.ref_name }}
           path: voidframe-*.tgz
           retention-days: 90
+
+      # npm publish is gated behind the NPM_TOKEN secret.
+      # To enable: add NPM_TOKEN to Forgejo repository secrets,
+      # then create .npmrc with registry auth. Until then this
+      # step is skipped automatically.
+      - name: Publish to npm
+        if: ${{ secrets.NPM_TOKEN != '' }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+          npm publish --access public
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

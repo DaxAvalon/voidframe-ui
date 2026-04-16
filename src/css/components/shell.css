@@ -18,7 +18,7 @@
 .vf-section__title-block {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
 }
 .vf-section__title {
   margin: 0;
@@ -51,7 +51,7 @@
 .vf-page-header__title-block {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
 }
 .vf-page-header__eyebrow { color: var(--vf-text-3); }
 .vf-page-header__title {
@@ -205,7 +205,7 @@
   background: transparent;
   border: 1px solid var(--vf-border-1);
   color: var(--vf-text-2);
-  padding: 2px 8px;
+  padding: var(--vf-sp-1) var(--vf-sp-4);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
   cursor: pointer;

@@ -21,7 +21,7 @@
   gap: var(--vf-sp-3);
 }
 .vf-breadcrumb__sep { color: var(--vf-text-4); }
-.vf-breadcrumb__ellipsis { color: var(--vf-text-4); padding: 0 2px; }
+.vf-breadcrumb__ellipsis { color: var(--vf-text-4); padding: 0 var(--vf-sp-1); }
 .vf-breadcrumb__link {
   color: var(--vf-text-3);
   cursor: pointer;
@@ -52,7 +52,7 @@
   flex-wrap: wrap;
 }
 .vf-breadcrumb-menu__item-wrap { display: inline-flex; align-items: center; gap: var(--vf-sp-3); }
-.vf-breadcrumb-menu__segment { position: relative; display: inline-flex; align-items: center; gap: 2px; }
+.vf-breadcrumb-menu__segment { position: relative; display: inline-flex; align-items: center; gap: var(--vf-sp-1); }
 .vf-breadcrumb-menu__sep { color: var(--vf-text-4); }
 .vf-breadcrumb-menu__link {
   color: var(--vf-text-3);
@@ -66,7 +66,7 @@
   border: none;
   color: var(--vf-text-4);
   cursor: pointer;
-  padding: 0 2px;
+  padding: 0 var(--vf-sp-1);
   font-size: var(--vf-font-xs);
 }
 .vf-breadcrumb-menu__caret:hover { color: var(--vf-text-0); }
@@ -74,17 +74,17 @@
   position: absolute;
   inset-block-start: 100%;
   inset-inline-start: 0;
-  margin-block-start: 4px;
+  margin-block-start: var(--vf-sp-2);
   min-width: 160px;
   background: var(--vf-bg-1);
   border: 1px solid var(--vf-border-2);
-  padding: 4px 0;
+  padding: var(--vf-sp-2) 0;
   list-style: none;
   z-index: var(--vf-z-popover);
 }
 .vf-breadcrumb-menu__sibling {
   display: block;
-  padding: 4px 12px;
+  padding: var(--vf-sp-2) var(--vf-sp-6);
   color: var(--vf-text-1);
   text-decoration: none;
   font-size: var(--vf-font-sm);
@@ -94,7 +94,7 @@
 /* Pagination */
 .vf-pagination {
   display: flex;
-  gap: 2px;
+  gap: var(--vf-sp-1);
   align-items: center;
   flex-wrap: wrap;
 }
@@ -113,13 +113,13 @@
   color: var(--vf-text-0);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
-  padding: 2px 6px;
+  padding: var(--vf-sp-1) var(--vf-sp-3);
 }
 .vf-pagination__btn {
   background: transparent;
   border: 1px solid var(--vf-border-1);
   color: var(--vf-text-3);
-  padding: 3px 8px;
+  padding: var(--vf-sp-1) var(--vf-sp-4);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
   cursor: pointer;
@@ -142,7 +142,7 @@
 }
 .vf-pagination__ellipsis {
   color: var(--vf-text-4);
-  padding: 0 4px;
+  padding: 0 var(--vf-sp-2);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
 }
@@ -187,7 +187,7 @@
 .vf-stepper__label-block {
   display: inline-flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--vf-sp-1);
   text-align: start;
 }
 .vf-stepper__description {
@@ -256,7 +256,7 @@
 .vf-nav-item__content { flex: 1; min-width: 0; }
 .vf-nav-item__badge {
   margin-inline-start: auto;
-  padding: 0 6px;
+  padding: 0 var(--vf-sp-3);
   background: var(--vf-bg-5);
   border: 1px solid var(--vf-border-2);
   color: var(--vf-text-2);
@@ -313,7 +313,7 @@
   color: var(--vf-text-0);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
-  padding: 4px 10px;
+  padding: var(--vf-sp-2) var(--vf-sp-5);
   cursor: pointer;
   transition: var(--vf-transition);
 }
@@ -322,7 +322,7 @@
   position: absolute;
   inset-block-start: 100%;
   inset-inline-start: 0;
-  margin-block-start: 4px;
+  margin-block-start: var(--vf-sp-2);
   display: grid;
   gap: var(--vf-sp-5);
   padding: var(--vf-sp-5);
@@ -341,7 +341,7 @@
 .vf-megamenu__link-item { margin: 0; }
 .vf-megamenu__link {
   display: block;
-  padding: 4px 0;
+  padding: var(--vf-sp-2) 0;
   color: var(--vf-text-1);
   text-decoration: none;
   font-size: var(--vf-font-sm);
@@ -391,7 +391,7 @@
   background: transparent;
   border: 1px solid var(--vf-border-1);
   color: var(--vf-text-2);
-  padding: 2px 8px;
+  padding: var(--vf-sp-1) var(--vf-sp-4);
   font-family: var(--vf-font-family);
   cursor: pointer;
 }
@@ -403,13 +403,13 @@
   letter-spacing: var(--vf-label-spacing);
   text-transform: uppercase;
 }
-.vf-shortcut-guide__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.vf-shortcut-guide__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--vf-sp-2); }
 .vf-shortcut-guide__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--vf-sp-3);
-  padding: 4px 8px;
+  padding: var(--vf-sp-2) var(--vf-sp-4);
   background: var(--vf-bg-2);
   border: 1px solid var(--vf-border-1);
 }

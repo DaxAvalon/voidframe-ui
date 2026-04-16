@@ -108,9 +108,9 @@
 .vf-segmented__item:last-child {
   border-inline-end: none;
 }
-.vf-segmented--sm .vf-segmented__item { padding: 3px 10px; font-size: var(--vf-font-xs); }
-.vf-segmented--md .vf-segmented__item { padding: 6px 14px; font-size: var(--vf-font-sm); }
-.vf-segmented--lg .vf-segmented__item { padding: 8px 18px; font-size: var(--vf-font-md); }
+.vf-segmented--sm .vf-segmented__item { padding: var(--vf-sp-1) var(--vf-sp-5); font-size: var(--vf-font-xs); }
+.vf-segmented--md .vf-segmented__item { padding: var(--vf-sp-3) var(--vf-sp-7); font-size: var(--vf-font-sm); }
+.vf-segmented--lg .vf-segmented__item { padding: var(--vf-sp-4) var(--vf-sp-9); font-size: var(--vf-font-md); }
 .vf-segmented__item:hover:not(:disabled) {
   background: var(--vf-bg-4);
   color: var(--vf-text-1);
@@ -206,7 +206,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--vf-sp-1);
-  padding: 1px 4px 1px 7px;
+  padding: 1px var(--vf-sp-2) 1px 7px;
   background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 22%, transparent);
   color: var(--vf-accent, var(--vf-text-1));
@@ -223,7 +223,7 @@
   opacity: 0.6;
   font-size: var(--vf-font-md);
   line-height: 1;
-  padding: 0 2px;
+  padding: 0 var(--vf-sp-1);
 }
 .vf-tag-input__remove:hover {
   opacity: 1;
@@ -237,7 +237,7 @@
   color: var(--vf-text-0);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
-  padding: 2px 4px;
+  padding: var(--vf-sp-1) var(--vf-sp-2);
 }
 .vf-tag-input__field::placeholder {
   color: var(--vf-text-4);

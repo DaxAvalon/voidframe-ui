@@ -5,7 +5,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
   width: 100%;
   font-family: var(--vf-font-family);
 }
@@ -17,7 +17,7 @@
   top: 100%;
   left: 0;
   right: 0;
-  margin: 4px 0 0 0;
+  margin: var(--vf-sp-2) 0 0 0;
   padding: 0;
   list-style: none;
   max-height: 240px;
@@ -66,9 +66,9 @@
 .vf-multi-select__control {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: var(--vf-sp-2);
   align-items: center;
-  padding: 2px 4px;
+  padding: var(--vf-sp-1) var(--vf-sp-2);
   background: var(--vf-bg-3);
   border: 1px solid var(--vf-border-1);
   min-height: 32px;
@@ -77,8 +77,8 @@
 .vf-multi-select__tag {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 6px;
+  gap: var(--vf-sp-2);
+  padding: var(--vf-sp-1) var(--vf-sp-3);
   background: var(--vf-bg-5);
   border: 1px solid var(--vf-border-2);
   color: var(--vf-text-0);
@@ -90,7 +90,7 @@
   border: none;
   color: var(--vf-text-3);
   cursor: pointer;
-  padding: 0 2px;
+  padding: 0 var(--vf-sp-1);
   line-height: 1;
   font-size: var(--vf-font-sm);
 }
@@ -106,7 +106,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
   outline: none;
-  padding: 2px;
+  padding: var(--vf-sp-1);
 }
 
 /* ── TreeSelect ─────────────────────────────────────────────── */
@@ -114,7 +114,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
   width: 100%;
   font-family: var(--vf-font-family);
 }
@@ -127,7 +127,7 @@
   top: 100%;
   left: 0;
   right: 0;
-  margin-top: 4px;
+  margin-top: var(--vf-sp-2);
   background: var(--vf-bg-1);
   border: 1px solid var(--vf-border-2);
   max-height: 320px;
@@ -136,13 +136,13 @@
 }
 .vf-tree-select__tree {
   list-style: none;
-  padding: 4px 0;
+  padding: var(--vf-sp-2) 0;
   margin: 0;
 }
 .vf-tree-select__node {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--vf-sp-2);
   padding: var(--vf-sp-2) var(--vf-sp-3);
   color: var(--vf-text-1);
   font-size: var(--vf-font-sm);
@@ -170,7 +170,7 @@
   background: transparent;
   border: none;
   color: var(--vf-text-3);
-  padding: 0 4px;
+  padding: 0 var(--vf-sp-2);
   font-size: var(--vf-font-sm);
   cursor: pointer;
   line-height: 1;
@@ -183,7 +183,7 @@
 .vf-currency-input {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
   width: 100%;
   font-family: var(--vf-font-family);
 }
@@ -192,12 +192,12 @@
 .vf-rating-input {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
   font-family: var(--vf-font-family);
 }
 .vf-rating-input__stars {
   display: inline-flex;
-  gap: 2px;
+  gap: var(--vf-sp-1);
   outline: none;
 }
 .vf-rating-input__stars:focus-visible {

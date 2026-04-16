@@ -4,7 +4,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
   width: 100%;
   font-family: var(--vf-font-family);
 }
@@ -13,7 +13,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  margin-top: 4px;
+  margin-top: var(--vf-sp-2);
   background: var(--vf-bg-1);
   border: 1px solid var(--vf-border-2);
   padding: var(--vf-sp-5);
@@ -43,7 +43,7 @@
   background: transparent;
   border: 1px solid var(--vf-border-1);
   color: var(--vf-text-3);
-  padding: 3px 8px;
+  padding: var(--vf-sp-1) var(--vf-sp-4);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
   cursor: pointer;
@@ -158,7 +158,7 @@
   background: transparent;
   border: 1px solid var(--vf-border-1);
   color: var(--vf-text-3);
-  padding: 4px 8px;
+  padding: var(--vf-sp-2) var(--vf-sp-4);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
   text-transform: uppercase;
@@ -181,7 +181,7 @@
 .vf-time-picker {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
   font-family: var(--vf-font-family);
 }
 .vf-time-picker__row {
@@ -195,7 +195,7 @@
   color: var(--vf-text-0);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
-  padding: 4px 8px;
+  padding: var(--vf-sp-2) var(--vf-sp-4);
   appearance: none;
   cursor: pointer;
   outline: none;
@@ -205,7 +205,7 @@
 }
 .vf-time-picker__sep {
   color: var(--vf-text-3);
-  padding: 0 2px;
+  padding: 0 var(--vf-sp-1);
 }
 .vf-time-picker__ampm {
   display: inline-flex;
@@ -217,7 +217,7 @@
   border: none;
   border-inline-end: 1px solid var(--vf-border-1);
   color: var(--vf-text-3);
-  padding: 4px 10px;
+  padding: var(--vf-sp-2) var(--vf-sp-5);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-letter-spacing);
@@ -241,7 +241,7 @@
 .vf-datetime-picker {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
 }
 .vf-datetime-picker__row {
   display: flex;

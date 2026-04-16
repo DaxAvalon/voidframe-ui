@@ -207,6 +207,54 @@ describe("MessageFeedback", () => {
     await userEvent.click(screen.getByRole("button", { name: "Thumbs up" }));
     expect(onChange).toHaveBeenLastCalledWith(null);
   });
+
+  it("shows reasons on thumbs down and tracks selected reason", async () => {
+    const onReasonSelect = vi.fn();
+    const reasons = [
+      { id: "wrong", label: "Wrong answer" },
+      { id: "harmful", label: "Harmful" },
+    ];
+    renderWithTheme(
+      <MessageFeedback reasons={reasons} onReasonSelect={onReasonSelect} />
+    );
+    // Reasons not visible until thumbs down
+    expect(screen.queryByText("Wrong answer")).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Thumbs down" }));
+    expect(screen.getByText("Wrong answer")).toBeInTheDocument();
+    // Click a reason — aria-checked becomes true
+    const wrongBtn = screen.getByRole("radio", { name: "Wrong answer" });
+    expect(wrongBtn).toHaveAttribute("aria-checked", "false");
+    await userEvent.click(wrongBtn);
+    expect(wrongBtn).toHaveAttribute("aria-checked", "true");
+    expect(onReasonSelect).toHaveBeenCalledWith("wrong");
+    // Other reason stays unchecked
+    expect(screen.getByRole("radio", { name: "Harmful" })).toHaveAttribute(
+      "aria-checked",
+      "false"
+    );
+  });
+
+  it("supports controlled selectedReason", () => {
+    const reasons = [
+      { id: "wrong", label: "Wrong answer" },
+      { id: "harmful", label: "Harmful" },
+    ];
+    renderWithTheme(
+      <MessageFeedback
+        value="down"
+        reasons={reasons}
+        selectedReason="harmful"
+      />
+    );
+    expect(screen.getByRole("radio", { name: "Wrong answer" })).toHaveAttribute(
+      "aria-checked",
+      "false"
+    );
+    expect(screen.getByRole("radio", { name: "Harmful" })).toHaveAttribute(
+      "aria-checked",
+      "true"
+    );
+  });
 });
 
 describe("ReactionBar", () => {

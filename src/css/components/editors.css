@@ -9,7 +9,7 @@
 .vf-color-picker {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
   width: 100%;
   font-family: var(--vf-font-family);
 }
@@ -26,8 +26,8 @@
 .vf-md__toolbar {
   display: flex;
   flex-wrap: wrap;
-  gap: 2px;
-  padding: 4px;
+  gap: var(--vf-sp-1);
+  padding: var(--vf-sp-2);
   border-bottom: 1px solid var(--vf-border-1);
   background: var(--vf-bg-3);
 }
@@ -36,7 +36,7 @@
 .vf-md__tool {
   min-width: 28px;
   height: 26px;
-  padding: 2px 6px;
+  padding: var(--vf-sp-1) var(--vf-sp-3);
   background: transparent;
   border: 1px solid transparent;
   color: var(--vf-text-2);
@@ -123,7 +123,7 @@
 .vf-md__preview-body h3 { margin: 0.5em 0 0.25em; }
 .vf-md__preview-body code {
   background: var(--vf-bg-4);
-  padding: 1px 4px;
+  padding: 1px var(--vf-sp-2);
   font-family: var(--vf-font-mono, monospace);
   font-size: 0.9em;
 }
@@ -216,7 +216,7 @@
   position: absolute;
   inset-block-start: 100%;
   inset-inline-start: 0;
-  margin-block-start: 4px;
+  margin-block-start: var(--vf-sp-2);
   padding: 0;
   list-style: none;
   min-width: 220px;
@@ -284,7 +284,7 @@
 .vf-color-picker__swatches {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: var(--vf-sp-2);
 }
 .vf-color-picker__swatch-btn {
   width: 22px;

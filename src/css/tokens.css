@@ -88,12 +88,15 @@
 
   /* z-index */
   --vf-z-base: 0;
+  --vf-z-raised: 1;
+  --vf-z-overlay-sub: 20;
   --vf-z-dropdown: 1000;
   --vf-z-sticky: 1100;
   --vf-z-modal: 1300;
   --vf-z-popover: 1400;
   --vf-z-tooltip: 1500;
   --vf-z-toast: 1600;
+  --vf-z-dev: 9999;
 
   /* brand accent — the default for inline accent overrides. Components
    * reference it via var(--vf-accent, ...) so consumers can set a brand

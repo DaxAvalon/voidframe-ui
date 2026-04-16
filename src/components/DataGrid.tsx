@@ -25,6 +25,7 @@ import {
 } from "react";
 import { cx } from "../utils/cx";
 import { formatNumber } from "../utils/formatters";
+import { warnOnce } from "../utils/warn";
 import type { SortDirection, TableColumn } from "./Data";
 import { VirtualList } from "./Virtualization";
 
@@ -198,6 +199,7 @@ function DataGridRoot<T = Record<string, unknown>>({
   filters,
   onFiltersChange,
   groupBy,
+  onGroupByChange,
   pagination,
   virtualized = false,
   virtualRowHeight,
@@ -283,9 +285,20 @@ function DataGridRoot<T = Record<string, unknown>>({
   const currentFilters = filters ?? filtersInternal;
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(() => new Set());
 
+  // Reset collapsed groups when the groupBy key changes.
+  const prevGroupBy = useRef(groupBy);
+  useEffect(() => {
+    if (prevGroupBy.current !== groupBy) {
+      prevGroupBy.current = groupBy;
+      setCollapsedGroups(new Set());
+      onGroupByChange?.(groupBy);
+    }
+  }, [groupBy, onGroupByChange]);
+
   // Column order resolution — re-sort the source columns to match `order`.
   const columnsInOrder = useMemo(() => {
     const byKey = new Map(columns.map((c) => [c.key, c] as const));
+    const orderSet = new Set(order);
     const out: DataGridColumn<T>[] = [];
     for (const key of order) {
       const col = byKey.get(key);
@@ -293,7 +306,7 @@ function DataGridRoot<T = Record<string, unknown>>({
     }
     // Append any columns that weren't in `order` (props may have added new).
     for (const col of columns) {
-      if (!order.includes(col.key)) out.push(col);
+      if (!orderSet.has(col.key)) out.push(col);
     }
     return out;
   }, [columns, order]);
@@ -1000,6 +1013,13 @@ function DataGridBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   }
 
   const virtualHeight = ctx.virtualHeight ?? 400;
+  if (ctx.virtualized && ctx.virtualRowHeight && ctx.groupBy) {
+    warnOnce(
+      "DataGrid:virtual+groupBy",
+      "<DataGrid> virtualization is disabled when groupBy is active. Remove groupBy or virtualized to silence this warning."
+    );
+  }
+
   if (ctx.virtualized && ctx.virtualRowHeight && !ctx.groupBy) {
     return (
       <div

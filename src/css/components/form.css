@@ -3,7 +3,7 @@
 .vf-field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--vf-sp-2);
 }
 
 .vf-input,
@@ -15,7 +15,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
   letter-spacing: 0.5px;
-  padding: 6px 10px;
+  padding: var(--vf-sp-3) var(--vf-sp-5);
   outline: none;
   transition: var(--vf-transition);
   width: 100%;
@@ -35,7 +35,7 @@
 }
 
 .vf-textarea {
-  padding: 8px 10px;
+  padding: var(--vf-sp-4) var(--vf-sp-5);
   resize: vertical;
   line-height: 1.6;
 }
@@ -49,7 +49,7 @@
 .vf-toggle {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--vf-sp-4);
   cursor: pointer;
 }
 .vf-toggle__track {
@@ -80,7 +80,7 @@
 
 /* ── FormErrorSummary ────────────────────────────────────── */
 .vf-form-error-summary {
-  border: 1px solid var(--vf-red, #c03030);
+  border: 1px solid var(--vf-red);
   background: color-mix(in srgb, var(--vf-red) 6%, transparent);
   padding: var(--vf-sp-3) var(--vf-sp-4);
   font-family: var(--vf-font-family);
@@ -90,7 +90,7 @@
 .vf-form-error-summary__heading {
   font-weight: 600;
   margin-bottom: var(--vf-sp-2);
-  color: var(--vf-red, #c03030);
+  color: var(--vf-red);
 }
 .vf-form-error-summary__list {
   margin: 0;
@@ -139,7 +139,7 @@
   align-items: center;
   gap: var(--vf-sp-2);
   padding: var(--vf-sp-3);
-  border: 1px solid var(--vf-red, #c03030);
+  border: 1px solid var(--vf-red);
   background: color-mix(in srgb, var(--vf-red) 6%, transparent);
   color: var(--vf-text-0);
   font-family: var(--vf-font-family);

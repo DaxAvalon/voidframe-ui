@@ -46,7 +46,7 @@
   text-transform: uppercase;
   letter-spacing: var(--vf-letter-spacing);
   text-decoration: none;
-  z-index: 9999;
+  z-index: var(--vf-z-dev);
   transition: transform var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-skip-to-content:focus,
