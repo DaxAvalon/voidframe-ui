@@ -71,6 +71,12 @@ import {
   ar,
   // Phase 18 — hydration
   HydrationBoundary,
+  // Phase 10 — compound overlays
+  Dialog,
+  Combobox,
+  Calendar,
+  CommandPalette,
+  DataGrid,
 } from "..";
 
 function wrap(node: React.ReactNode) {
@@ -304,6 +310,72 @@ describe("SSR — renderToString smoke tests", () => {
         )
       ).not.toThrow();
     }
+  });
+
+  it("renders Dialog compound (closed state)", () => {
+    expect(() =>
+      renderToString(
+        wrap(
+          <Dialog>
+            <Dialog.Trigger>Open</Dialog.Trigger>
+            <Dialog.Content>
+              <Dialog.Header>
+                <Dialog.Title>Hello</Dialog.Title>
+              </Dialog.Header>
+              <Dialog.Body>Body</Dialog.Body>
+            </Dialog.Content>
+          </Dialog>
+        )
+      )
+    ).not.toThrow();
+  });
+
+  it("renders Combobox with minimal props", () => {
+    expect(() =>
+      renderToString(
+        wrap(
+          <Combobox
+            label="Fruit"
+            options={[
+              { value: "apple", label: "Apple" },
+              { value: "banana", label: "Banana" },
+            ]}
+          />
+        )
+      )
+    ).not.toThrow();
+  });
+
+  it("renders Calendar with no props", () => {
+    expect(() =>
+      renderToString(wrap(<Calendar />))
+    ).not.toThrow();
+  });
+
+  it("renders CommandPalette (closed state)", () => {
+    expect(() =>
+      renderToString(
+        wrap(
+          <CommandPalette shortcut={null}>
+            <CommandPalette.Input placeholder="Search..." />
+          </CommandPalette>
+        )
+      )
+    ).not.toThrow();
+  });
+
+  it("renders DataGrid with minimal props", () => {
+    expect(() =>
+      renderToString(
+        wrap(
+          <DataGrid
+            columns={[{ key: "name", header: "Name" }]}
+            data={[{ name: "Ada" }]}
+            rowKey={(row) => String(row.name)}
+          />
+        )
+      )
+    ).not.toThrow();
   });
 
   it("HydrationBoundary renders the fallback on server", () => {
