@@ -19,10 +19,12 @@ import {
   useState,
   type CSSProperties,
   type HTMLAttributes,
+  type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { formatNumber } from "../utils/formatters";
 import type { SortDirection, TableColumn } from "./Data";
 import { VirtualList } from "./Virtualization";
 
@@ -39,6 +41,10 @@ export interface DataGridColumn<T = Record<string, unknown>> extends TableColumn
   /** Allow drag-reorder of this column's header. */
   reorderable?: boolean;
   pin?: "left" | "right";
+  /** When true, the cell renders an editable input on double-click. */
+  editable?: boolean;
+  /** Called when the user commits an edit (blur or Enter). */
+  onCellEdit?: (row: T, value: unknown) => void;
 }
 
 export interface DataGridRowReorderEvent {
@@ -50,6 +56,19 @@ export interface DataGridColumnReorderEvent {
   from: string;
   to: string;
   nextOrder: string[];
+}
+
+export interface DataGridPaginationConfig {
+  pageSize: number;
+  page: number;
+  onPageChange: (p: number) => void;
+  onPageSizeChange?: (size: number) => void;
+  pageSizeOptions?: number[];
+}
+
+export interface DataGridBulkActionsProps extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
+  /** Render function receiving the count of selected items. */
+  children: (selectedCount: number) => ReactNode;
 }
 
 export interface DataGridProps<T = Record<string, unknown>>
@@ -69,7 +88,7 @@ export interface DataGridProps<T = Record<string, unknown>>
   onFiltersChange?: (next: Record<string, string>) => void;
   groupBy?: string;
   onGroupByChange?: (key: string | undefined) => void;
-  pagination?: { pageSize: number; page: number; onPageChange: (p: number) => void };
+  pagination?: DataGridPaginationConfig;
   /** When true, delegates body rendering to a VirtualList. Requires `virtualRowHeight`. */
   virtualized?: boolean;
   virtualRowHeight?: number;
@@ -151,7 +170,8 @@ interface DataGridContextValue<T = Record<string, unknown>> {
   virtualized: boolean;
   virtualRowHeight?: number;
   virtualHeight?: number;
-  pagination?: DataGridProps["pagination"];
+  pagination?: DataGridPaginationConfig;
+  totalCount?: number;
 }
 
 const DataGridContext = createContext<DataGridContextValue | null>(null);
@@ -166,6 +186,7 @@ function useDataGrid<T = Record<string, unknown>>(): DataGridContextValue<T> {
 function DataGridRoot<T = Record<string, unknown>>({
   columns,
   data,
+  totalCount,
   rowKey,
   rowSelection = "none",
   selectedKeys,
@@ -461,6 +482,7 @@ function DataGridRoot<T = Record<string, unknown>>({
     virtualRowHeight,
     virtualHeight,
     pagination,
+    totalCount,
   };
 
   return (
@@ -473,6 +495,73 @@ function DataGridRoot<T = Record<string, unknown>>({
         {children ?? <DataGridBody />}
       </div>
     </DataGridContext.Provider>
+  );
+}
+
+// ── Inline Cell Editor ──────────────────────────────────────
+
+function EditableCell<T>({
+  column,
+  row,
+  children,
+}: {
+  column: DataGridColumn<T>;
+  row: T;
+  children: ReactNode;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const startEdit = () => {
+    const raw = (row as Record<string, unknown>)[column.key];
+    setValue(String(raw ?? ""));
+    setEditing(true);
+  };
+
+  useEffect(() => {
+    if (editing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [editing]);
+
+  const commit = () => {
+    setEditing(false);
+    column.onCellEdit?.(row, value);
+  };
+
+  const cancel = () => {
+    setEditing(false);
+  };
+
+  const handleKeyDown = (e: ReactKeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      commit();
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      cancel();
+    }
+  };
+
+  if (editing) {
+    return (
+      <input
+        ref={inputRef}
+        type="text"
+        className="vf-datagrid__cell-editor"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={commit}
+        onKeyDown={handleKeyDown}
+      />
+    );
+  }
+
+  return (
+    <span onDoubleClick={startEdit} style={{ cursor: "default" }}>
+      {children}
+    </span>
   );
 }
 
@@ -672,6 +761,9 @@ function DataGridBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
               : {}),
             ...(c.align ? { textAlign: c.align } : {}),
           };
+          const cellContent = c.render
+            ? c.render(row as never, ri)
+            : ((row as Record<string, unknown>)[c.key] as ReactNode);
           return (
             <div
               key={`${key}-${c.key}`}
@@ -683,9 +775,13 @@ function DataGridBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
               )}
               style={inline}
             >
-              {c.render
-                ? c.render(row as never, ri)
-                : ((row as Record<string, unknown>)[c.key] as ReactNode)}
+              {c.editable ? (
+                <EditableCell column={c} row={row as never}>
+                  {cellContent}
+                </EditableCell>
+              ) : (
+                cellContent
+              )}
             </div>
           );
         })}
@@ -1118,9 +1214,28 @@ function DataGridPagination({
   const ctx = useDataGrid();
   const p = ctx.pagination;
   if (!p) return null;
-  const total = Math.max(1, Math.ceil(ctx.filteredData.length / p.pageSize));
+  const rawTotal = ctx.totalCount ?? ctx.rawData.length;
+  const totalPages = Math.max(1, Math.ceil(rawTotal / p.pageSize));
+  const start = (p.page - 1) * p.pageSize + 1;
+  const end = Math.min(p.page * p.pageSize, rawTotal);
+  const sizeOptions = p.pageSizeOptions ?? [10, 25, 50, 100];
+  const [jumpValue, setJumpValue] = useState("");
+
+  const handleJumpKeyDown = (e: ReactKeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const n = parseInt(jumpValue, 10);
+      if (!isNaN(n) && n >= 1 && n <= totalPages) {
+        p.onPageChange(n);
+      }
+      setJumpValue("");
+    }
+  };
+
   return (
     <div className={cx("vf-datagrid__pagination", className)} {...props}>
+      <span className="vf-datagrid__range">
+        {formatNumber(start)}–{formatNumber(end)} of {formatNumber(rawTotal)}
+      </span>
       <button
         type="button"
         className="vf-button"
@@ -1130,16 +1245,55 @@ function DataGridPagination({
         Prev
       </button>
       <span>
-        Page {p.page} / {total}
+        Page {p.page} / {totalPages}
       </span>
       <button
         type="button"
         className="vf-button"
-        disabled={p.page >= total}
+        disabled={p.page >= totalPages}
         onClick={() => p.onPageChange(p.page + 1)}
       >
         Next
       </button>
+      {p.onPageSizeChange && (
+        <select
+          className="vf-datagrid__page-size"
+          value={p.pageSize}
+          onChange={(e) => p.onPageSizeChange!(Number(e.target.value))}
+          aria-label="Page size"
+        >
+          {sizeOptions.map((n) => (
+            <option key={n} value={n}>
+              {n} / page
+            </option>
+          ))}
+        </select>
+      )}
+      <input
+        type="number"
+        className="vf-datagrid__page-jump"
+        min={1}
+        max={totalPages}
+        placeholder="#"
+        value={jumpValue}
+        onChange={(e) => setJumpValue(e.target.value)}
+        onKeyDown={handleJumpKeyDown}
+        aria-label="Jump to page"
+      />
+    </div>
+  );
+}
+
+function DataGridBulkActions({
+  children,
+  className,
+  ...props
+}: DataGridBulkActionsProps) {
+  const ctx = useDataGrid();
+  if (ctx.selected.size === 0) return null;
+  return (
+    <div className={cx("vf-datagrid__bulk-actions", className)} {...props}>
+      {children(ctx.selected.size)}
     </div>
   );
 }
@@ -1159,4 +1313,5 @@ export const DataGrid = Object.assign(DataGridRoot, {
   Export: DataGridExport,
   Footer: DataGridFooter,
   Pagination: DataGridPagination,
+  BulkActions: DataGridBulkActions,
 });

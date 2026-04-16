@@ -459,6 +459,8 @@ export type {
   DataGridExportFormat,
   DataGridRowReorderEvent,
   DataGridColumnReorderEvent,
+  DataGridPaginationConfig,
+  DataGridBulkActionsProps,
   RowSelectionMode,
   DataGridDensity,
 } from "./DataGrid";

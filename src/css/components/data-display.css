@@ -704,3 +704,43 @@
 .vf-infinite-scroll { display: flex; flex-direction: column; }
 .vf-infinite-scroll__sentinel { height: 1px; }
 .vf-infinite-scroll__loader { padding: var(--vf-sp-3); text-align: center; color: var(--vf-text-4); font-size: var(--vf-font-sm); }
+
+/* ── DataGrid power features ────────────────────────────── */
+.vf-datagrid__cell-editor {
+  width: 100%;
+  background: var(--vf-bg-0);
+  border: 1px solid var(--vf-accent, var(--vf-blue));
+  color: var(--vf-text-0);
+  font-family: var(--vf-font-family);
+  font-size: inherit;
+  padding: 1px 4px;
+  outline: none;
+}
+.vf-datagrid__bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 8%, transparent);
+  border: 1px solid var(--vf-border-1);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-0);
+}
+.vf-datagrid__page-size {
+  margin-inline-start: var(--vf-sp-2);
+}
+.vf-datagrid__page-jump {
+  width: 48px;
+  background: var(--vf-bg-3);
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-0);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  text-align: center;
+  padding: 1px 2px;
+}
+.vf-datagrid__range {
+  color: var(--vf-text-2);
+  font-variant-numeric: tabular-nums;
+}
