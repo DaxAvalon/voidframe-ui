@@ -22,6 +22,7 @@ import {
   type ReactNode,
 } from "react";
 import { useId } from "../hooks/useId";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { cx } from "../utils/cx";
 
 export type CarouselAlign = "start" | "center" | "end";
@@ -137,11 +138,14 @@ function CarouselRoot({
 
   // Auto-play.
   const [hovered, setHovered] = useState(false);
+  const prefersReduced = usePrefersReducedMotion();
+  const indexRef = useRef(index);
+  indexRef.current = index;
   useEffect(() => {
-    if (!autoPlay || hovered || total <= 1) return;
-    const tick = setInterval(() => setIndex(index + 1), interval);
+    if (!autoPlay || hovered || total <= 1 || prefersReduced) return;
+    const tick = setInterval(() => setIndex(indexRef.current + 1), interval);
     return () => clearInterval(tick);
-  }, [autoPlay, hovered, total, interval, index, setIndex]);
+  }, [autoPlay, hovered, total, interval, prefersReduced, setIndex]);
 
   const ctx = useMemo<CarouselContextValue>(
     () => ({

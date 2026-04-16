@@ -97,13 +97,17 @@ const DrawerTrigger = forwardRef<HTMLElement, { asChild?: boolean } & HTMLAttrib
     };
     if (asChild && isValidElement(children)) {
       const child = children as ReactElement<Record<string, unknown>>;
+      const childProps = child.props as Record<string, unknown>;
       return cloneElement(child, {
         id: ctx.triggerId,
         "aria-haspopup": "dialog",
         "aria-expanded": ctx.open,
         "aria-controls": ctx.contentId,
-        onClick: handle,
         ...props,
+        onClick: (e: React.MouseEvent<HTMLElement>) => {
+          (childProps.onClick as ((e: React.MouseEvent<HTMLElement>) => void) | undefined)?.(e);
+          handle(e);
+        },
       });
     }
     return (

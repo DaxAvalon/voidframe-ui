@@ -13,6 +13,7 @@ import {
   type HTMLAttributes,
   type ReactNode,
 } from "react";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { cx } from "../utils/cx";
 
 // ── Marquee ─────────────────────────────────────────────────
@@ -44,10 +45,12 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(function Marquee
   },
   ref
 ) {
+  const reduced = usePrefersReducedMotion();
   const trackRef = useRef<HTMLDivElement>(null);
   const [duration, setDuration] = useState(20);
 
   useEffect(() => {
+    if (reduced) return;
     const el = trackRef.current;
     if (!el) return;
     const measure = () => {
@@ -66,7 +69,15 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(function Marquee
       return () => ro.disconnect();
     }
     return;
-  }, [direction, speed, children]);
+  }, [direction, speed, children, reduced]);
+
+  if (reduced) {
+    return (
+      <div ref={ref} className={cx("vf-marquee", className)} style={style} {...props}>
+        {children}
+      </div>
+    );
+  }
 
   const axis = direction === "left" || direction === "right" ? "x" : "y";
   const reverse = direction === "right" || direction === "down";
@@ -129,11 +140,17 @@ export const Typewriter = forwardRef<HTMLSpanElement, TypewriterProps>(
     },
     ref
   ) {
+    const reduced = usePrefersReducedMotion();
     const [shown, setShown] = useState("");
     const idxRef = useRef(0);
     const handleRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
+      if (reduced) {
+        setShown(text);
+        onComplete?.();
+        return;
+      }
       const stepMs = Math.max(8, 1000 / Math.max(1, speed));
       idxRef.current = 0;
       setShown("");
@@ -158,7 +175,7 @@ export const Typewriter = forwardRef<HTMLSpanElement, TypewriterProps>(
       return () => {
         if (handleRef.current) clearTimeout(handleRef.current);
       };
-    }, [text, speed, loop, loopDelay, onComplete]);
+    }, [text, speed, loop, loopDelay, onComplete, reduced]);
 
     return (
       <span

@@ -121,9 +121,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const [open, setOpen] = useState(false);
     const [highlighted, setHighlighted] = useState(-1);
 
-    useEffect(() => {
-      setQuery(selectedOption?.label ?? (allowCustomValue ? current ?? "" : ""));
-    }, [selectedOption, allowCustomValue, current]);
+    const displayText = open ? query : (selectedOption?.label ?? (allowCustomValue ? query : ""));
 
     const filtered = useMemo(() => {
       const q = open ? query : "";
@@ -227,7 +225,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           type="text"
           role="combobox"
           className="vf-input vf-combobox__input"
-          value={query}
+          value={displayText}
           onChange={(e) => {
             setQuery(e.target.value);
             setOpen(true);

@@ -35,7 +35,10 @@ type InputBaseProps = Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onC
 
 export interface InputProps extends InputBaseProps {
   value?: string | number | readonly string[];
+  /** Raw event handler — kept for backward compatibility. Prefer `onValueChange`. */
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  /** Value-emit handler — matches the convention used by every other voidframe form component. */
+  onValueChange?: (value: string) => void;
   placeholder?: string;
   label?: string;
   type?: string;
@@ -47,7 +50,7 @@ export interface InputProps extends InputBaseProps {
  * A single-line text field with optional label and standard HTML input types.
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { value, onChange, placeholder, label, type = "text", width, className, style, id, ...props },
+  { value, onChange, onValueChange, placeholder, label, type = "text", width, className, style, id, ...props },
   ref
 ) {
   warn(
@@ -68,7 +71,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         id={inputId}
         type={type}
         value={value}
-        onChange={onChange}
+        onChange={(e) => {
+          onChange?.(e);
+          onValueChange?.(e.target.value);
+        }}
         placeholder={placeholder}
         className={cx("vf-input", className)}
         style={inline}
@@ -86,7 +92,10 @@ type TextareaBaseProps = Omit<
 
 export interface TextareaProps extends TextareaBaseProps {
   value?: string | number | readonly string[];
+  /** Raw event handler — kept for backward compatibility. Prefer `onValueChange`. */
   onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  /** Value-emit handler — matches the convention used by every other voidframe form component. */
+  onValueChange?: (value: string) => void;
   label?: string;
   rows?: number;
   style?: CSSProperties;
@@ -97,7 +106,7 @@ export interface TextareaProps extends TextareaBaseProps {
  */
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea(
-    { value, onChange, placeholder, label, rows = 3, className, style, id, ...props },
+    { value, onChange, onValueChange, placeholder, label, rows = 3, className, style, id, ...props },
     ref
   ) {
     warn(
@@ -116,7 +125,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={textareaId}
           value={value}
-          onChange={onChange}
+          onChange={(e) => {
+            onChange?.(e);
+            onValueChange?.(e.target.value);
+          }}
           placeholder={placeholder}
           rows={rows}
           className={cx("vf-textarea", className)}
