@@ -18,6 +18,7 @@ import {
   useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
   type CSSProperties,
   type HTMLAttributes,
@@ -28,6 +29,7 @@ import { DismissableLayer } from "../primitives/DismissableLayer";
 import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
 import { Presence } from "../primitives/Presence";
+import { ScrollLock } from "../primitives/ScrollLock";
 import { cx } from "../utils/cx";
 
 export type DialogSize = "sm" | "md" | "lg" | "xl" | "full";
@@ -176,6 +178,10 @@ export interface DialogContentProps extends HTMLAttributes<HTMLDivElement> {
   onInteractOutside?: (e: PointerEvent) => void;
   /** When false, the dialog renders inline without a Portal. */
   modal?: boolean;
+  /** Focus this element when the dialog opens instead of the first focusable child. */
+  initialFocus?: React.RefObject<HTMLElement>;
+  /** Focus this element when the dialog closes instead of the previously-focused element. */
+  finalFocus?: React.RefObject<HTMLElement>;
   children?: ReactNode;
   style?: CSSProperties;
 }
@@ -189,6 +195,8 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
       onEscape,
       onInteractOutside,
       modal = true,
+      initialFocus,
+      finalFocus,
       className,
       style,
       children,
@@ -197,8 +205,28 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
     ref
   ) {
     const ctx = useDialog();
+    const scopeRef = useRef<HTMLDivElement>(null);
+
+    // Focus initialFocus ref after mount (overrides FocusScope autoFocus).
+    useEffect(() => {
+      if (!ctx.open || !initialFocus?.current) return;
+      requestAnimationFrame(() => initialFocus.current?.focus());
+    }, [ctx.open, initialFocus]);
+
+    // Override restore-focus target on unmount when finalFocus is provided.
+    useEffect(() => {
+      if (!finalFocus) return;
+      return () => {
+        if (finalFocus.current) {
+          const el = finalFocus.current;
+          setTimeout(() => el.focus(), 0);
+        }
+      };
+    }, [finalFocus]);
+
     const inner = (
       <div className="vf-dialog">
+        <ScrollLock enabled={ctx.open && modal} />
         <div
           className="vf-dialog__backdrop"
           onClick={() => ctx.setOpen(false)}
@@ -217,8 +245,8 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
           <FocusScope
             ref={ref as never}
             trapped={trapFocus}
-            autoFocus
-            restoreFocus={restoreFocus}
+            autoFocus={!initialFocus}
+            restoreFocus={!finalFocus && restoreFocus}
             loop
             id={ctx.contentId}
             role={ctx.variant === "alertdialog" ? "alertdialog" : "dialog"}

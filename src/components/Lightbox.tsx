@@ -20,6 +20,7 @@ import {
 import { DismissableLayer } from "../primitives/DismissableLayer";
 import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
+import { ScrollLock } from "../primitives/ScrollLock";
 import { cx } from "../utils/cx";
 import { safeHref } from "../utils/safeHref";
 
@@ -108,6 +109,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(function Light
 
   return (
     <Portal>
+      <ScrollLock enabled={open} />
       <div
         ref={ref}
         role="dialog"

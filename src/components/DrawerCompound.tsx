@@ -12,6 +12,7 @@ import {
   isValidElement,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -26,6 +27,7 @@ import { DismissableLayer } from "../primitives/DismissableLayer";
 import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
 import { Presence } from "../primitives/Presence";
+import { ScrollLock } from "../primitives/ScrollLock";
 import { cx } from "../utils/cx";
 
 export type DrawerSide = "left" | "right" | "top" | "bottom";
@@ -136,6 +138,10 @@ export interface DrawerV2ContentProps extends HTMLAttributes<HTMLDivElement> {
   adaptive?: boolean;
   onEscape?: (e: KeyboardEvent) => void;
   onInteractOutside?: (e: PointerEvent) => void;
+  /** Focus this element when the drawer opens instead of the first focusable child. */
+  initialFocus?: React.RefObject<HTMLElement>;
+  /** Focus this element when the drawer closes instead of the previously-focused element. */
+  finalFocus?: React.RefObject<HTMLElement>;
   children?: ReactNode;
 }
 
@@ -148,6 +154,8 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
       adaptive = true,
       onEscape,
       onInteractOutside,
+      initialFocus,
+      finalFocus,
       className,
       style,
       children,
@@ -162,8 +170,27 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
       [dimension]: typeof size === "number" ? `${size}px` : size,
       ...style,
     };
+
+    // Focus initialFocus ref after mount (overrides FocusScope autoFocus).
+    useEffect(() => {
+      if (!ctx.open || !initialFocus?.current) return;
+      requestAnimationFrame(() => initialFocus.current?.focus());
+    }, [ctx.open, initialFocus]);
+
+    // Override restore-focus target on unmount when finalFocus is provided.
+    useEffect(() => {
+      if (!finalFocus) return;
+      return () => {
+        if (finalFocus.current) {
+          const el = finalFocus.current;
+          setTimeout(() => el.focus(), 0);
+        }
+      };
+    }, [finalFocus]);
+
     const inner = (
       <div className={cx("vf-drawer-v2", `vf-drawer-v2--${ctx.side}`)}>
+        <ScrollLock enabled={ctx.open} />
         {ctx.modal && (
           <div
             className="vf-drawer-v2__backdrop"
@@ -184,8 +211,8 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
           <FocusScope
             ref={ref as never}
             trapped={trapFocus}
-            autoFocus
-            restoreFocus={restoreFocus}
+            autoFocus={!initialFocus}
+            restoreFocus={!finalFocus && restoreFocus}
             loop
             id={ctx.contentId}
             role="dialog"
@@ -397,6 +424,7 @@ function SheetContent({
     : { height: `${heightRatio * 100}vh`, ...style };
   const inner = (
     <div className="vf-sheet">
+      <ScrollLock enabled={ctx.open} />
       {ctx.modal && (
         <div
           className="vf-sheet__backdrop"

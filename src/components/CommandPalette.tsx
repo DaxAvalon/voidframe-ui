@@ -26,6 +26,7 @@ import { DismissableLayer } from "../primitives/DismissableLayer";
 import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
 import { Presence } from "../primitives/Presence";
+import { ScrollLock } from "../primitives/ScrollLock";
 
 // ── Fuzzy filter ────────────────────────────────────────────
 
@@ -370,6 +371,7 @@ function CommandPaletteShell({
         {open && (
           <Portal>
             <Presence present={open}>
+              <ScrollLock enabled={open} />
               <div
                 className={cx(
                   "vf-cmd-overlay",

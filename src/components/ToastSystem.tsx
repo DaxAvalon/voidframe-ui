@@ -11,6 +11,7 @@
 
 import {
   forwardRef,
+  useCallback,
   useEffect,
   useReducer,
   useRef,
@@ -222,26 +223,58 @@ export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(function Toaster
   const { toast: toastApi, entries } = useToast();
   const visible = entries.slice(-max);
 
-  // Auto-dismiss timers per entry.
-  const timers = useRef(new Map<string, ReturnType<typeof setTimeout>>());
+  // Auto-dismiss timers per entry with pause-on-hover support.
+  // Track { timeout handle, end timestamp, remaining ms } per toast id.
+  const timers = useRef(
+    new Map<string, { handle: ReturnType<typeof setTimeout>; endTime: number; remaining: number }>()
+  );
+
+  const startTimer = useCallback(
+    (id: string, ms: number) => {
+      const handle = setTimeout(() => {
+        toastApi.dismiss(id);
+        timers.current.delete(id);
+      }, ms);
+      timers.current.set(id, { handle, endTime: Date.now() + ms, remaining: ms });
+    },
+    [toastApi]
+  );
+
+  const pauseTimer = useCallback((id: string) => {
+    const t = timers.current.get(id);
+    if (!t) return;
+    clearTimeout(t.handle);
+    t.remaining = Math.max(0, t.endTime - Date.now());
+  }, []);
+
+  const resumeTimer = useCallback(
+    (id: string) => {
+      const t = timers.current.get(id);
+      if (!t || t.remaining <= 0) return;
+      const handle = setTimeout(() => {
+        toastApi.dismiss(id);
+        timers.current.delete(id);
+      }, t.remaining);
+      t.handle = handle;
+      t.endTime = Date.now() + t.remaining;
+    },
+    [toastApi]
+  );
+
   useEffect(() => {
     for (const entry of visible) {
       if (timers.current.has(entry.id)) continue;
       if (!entry.duration || entry.duration <= 0) continue;
-      const t = setTimeout(() => {
-        toastApi.dismiss(entry.id);
-        timers.current.delete(entry.id);
-      }, entry.duration);
-      timers.current.set(entry.id, t);
+      startTimer(entry.id, entry.duration);
     }
     // Clean up timers for entries no longer visible.
     for (const [id, t] of timers.current.entries()) {
       if (!visible.find((e) => e.id === id)) {
-        clearTimeout(t);
+        clearTimeout(t.handle);
         timers.current.delete(id);
       }
     }
-  }, [visible, toastApi]);
+  }, [visible, startTimer]);
 
   return (
     <Portal>
@@ -258,7 +291,15 @@ export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(function Toaster
         {visible.map((entry) => {
           const api = { dismiss: () => toastApi.dismiss(entry.id) };
           if (renderToast) return renderToast(entry, api);
-          return <ToastBubble key={entry.id} entry={entry} dismiss={api.dismiss} />;
+          return (
+            <ToastBubble
+              key={entry.id}
+              entry={entry}
+              dismiss={api.dismiss}
+              onMouseEnter={() => pauseTimer(entry.id)}
+              onMouseLeave={() => resumeTimer(entry.id)}
+            />
+          );
         })}
       </div>
     </Portal>
@@ -269,9 +310,13 @@ Toaster.displayName = "Toaster";
 function ToastBubble({
   entry,
   dismiss,
+  onMouseEnter,
+  onMouseLeave,
 }: {
   entry: ToastEntry;
   dismiss: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }) {
   const role =
     entry.tone === "danger" || entry.tone === "warning" ? "alert" : "status";
@@ -279,6 +324,8 @@ function ToastBubble({
     <div
       role={role}
       className={cx("vf-toast-v2", `vf-toast-v2--${entry.tone ?? "neutral"}`)}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {entry.render ? (
         entry.render({ dismiss })
