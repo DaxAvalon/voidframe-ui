@@ -195,6 +195,27 @@
     "file": "src/utils/date.ts"
   },
   {
+    "name": "safeHref",
+    "kind": "function",
+    "signature": "export function safeHref( url: unknown, options: SafeHrefOptions = {} ): string",
+    "description": "Returns the URL if it's safe to render in an `href`/`src` attribute,\notherwise returns `fallback` (default `\"#\"`).\n\nSafe inputs:\n  - `http(s)://…`\n  - `mailto:…`, `tel:…`, `sms:…`\n  - relative paths (`/foo`, `./x`, `../y`), query fragments (`?q=1`),\n    and in-page hash links (`#main`)\n  - empty string (passes through unchanged — consumers often use \"\" as a no-op)\n\nUnsafe inputs (returns fallback):\n  - `javascript:…`, `data:…`, `vbscript:…`, `file:…`, etc.\n  - Whitespace-prefixed schemes that the browser would tolerate\n    (e.g. ` javascript:…`)\n  - Anything non-string",
+    "file": "src/utils/safeHref.ts"
+  },
+  {
+    "name": "safeHrefOrWarn",
+    "kind": "function",
+    "signature": "export function safeHrefOrWarn( url: unknown, component: string, options: SafeHrefOptions = {} ): string",
+    "description": "Same as `safeHref` but throws a dev warning when rejecting. Intended\nfor places where the consumer is passing untrusted data and we want\nto surface the attempt rather than silently fall back.",
+    "file": "src/utils/safeHref.ts"
+  },
+  {
+    "name": "sanitizeHtml",
+    "kind": "function",
+    "signature": "export function sanitizeHtml( html: string, profile: SanitizeProfile = \"rich-text\" ): string",
+    "description": "Sanitize an HTML string against one of the built-in allowlists.\nReturns the empty string in SSR / non-browser contexts — callers\nshould treat the output as client-only.",
+    "file": "src/utils/sanitizeHtml.ts"
+  },
+  {
     "name": "setLogger",
     "kind": "function",
     "signature": "export function setLogger(next: Partial<VoidframeLogger>): void",

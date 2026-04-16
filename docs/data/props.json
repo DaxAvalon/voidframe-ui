@@ -11762,6 +11762,13 @@
         "required": false
       },
       {
+        "name": "securityLevel",
+        "type": "enum",
+        "defaultValue": "strict",
+        "description": "Mermaid security level. Defaults to `\"strict\"` — inline HTML in\nnode labels, click handlers, and anchor execution are disabled.\nOpt into `\"loose\"` only if you trust every chart source.\n@see https://mermaid.js.org/config/usage.html#securityLevel",
+        "required": false
+      },
+      {
         "name": "loader",
         "type": "(() => Promise<MermaidApi>)",
         "description": "Override loader. Useful for tests + SSR.",
@@ -15744,7 +15751,7 @@
       {
         "name": "value",
         "type": "string",
-        "description": "HTML string. Sanitize before passing user content.",
+        "description": "HTML string. Sanitized against a conservative allowlist on every write.",
         "required": false
       },
       {
@@ -15802,6 +15809,12 @@
         "name": "readOnly",
         "type": "boolean",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "sanitize",
+        "type": "((html: string) => string)",
+        "description": "Override the HTML sanitizer. Defaults to a DOMPurify-based allowlist\nfor common formatting tags (`a`, `b`, `em`, `strong`, `u`, `s`,\n`h1`–`h6`, `p`, `ul`/`ol`/`li`, `blockquote`, `pre`, `code`, `br`,\n`span`, `div`) + a URL scheme filter on anchors. Pass a function to\nlock the surface down further.",
         "required": false
       },
       {

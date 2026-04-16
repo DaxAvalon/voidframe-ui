@@ -21,43 +21,82 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "..");
 const extDir = join(repoRoot, "tools", "vscode-voidframe");
 
-function step(label, fn) {
-  console.log(`\n[${label}]`);
+export const paths = { repoRoot, extDir };
+
+/**
+ * Execute one build step under a named log group.
+ */
+export function step(label, fn, log = console) {
+  log.log(`\n[${label}]`);
   fn();
 }
 
-step("regenerate snippets", () => {
-  const r = spawnSync(
-    "node",
-    [join(repoRoot, "scripts", "generate-vscode-snippets.mjs")],
-    { stdio: "inherit" }
+/**
+ * Package the VS Code extension. Exported so tests can exercise it
+ * with injected runners (spawnSync and the filesystem ops can be
+ * mocked).
+ */
+export function packageExtension({
+  runner = spawnSync,
+  copy = copyFileSync,
+  ensureDir = mkdirSync,
+  log = console,
+  exit = (code) => process.exit(code),
+} = {}) {
+  step(
+    "regenerate snippets",
+    () => {
+      const r = runner(
+        "node",
+        [join(repoRoot, "scripts", "generate-vscode-snippets.mjs")],
+        { stdio: "inherit" }
+      );
+      if (r.status !== 0) exit(r.status ?? 1);
+    },
+    log
   );
-  if (r.status !== 0) process.exit(r.status ?? 1);
-});
 
-step("bundle props.json into extension", () => {
-  const src = join(repoRoot, "docs", "data", "props.json");
-  const destDir = join(extDir, "data");
-  mkdirSync(destDir, { recursive: true });
-  copyFileSync(src, join(destDir, "props.json"));
-  console.log(`  copied → ${join("tools/vscode-voidframe/data", "props.json")}`);
-});
-
-step("package .vsix", () => {
-  // vsce is installed as a devDep at the repo root; invoke via npx.
-  const r = spawnSync(
-    "npx",
-    [
-      "--no-install",
-      "vsce",
-      "package",
-      "--no-dependencies",
-      "--allow-star-activation",
-    ],
-    { stdio: "inherit", cwd: extDir }
+  step(
+    "bundle props.json into extension",
+    () => {
+      const src = join(repoRoot, "docs", "data", "props.json");
+      const destDir = join(extDir, "data");
+      ensureDir(destDir, { recursive: true });
+      copy(src, join(destDir, "props.json"));
+      log.log(
+        `  copied → ${join("tools/vscode-voidframe/data", "props.json")}`
+      );
+    },
+    log
   );
-  if (r.status !== 0) process.exit(r.status ?? 1);
-});
 
-console.log("\n✔ VS Code extension packaged. Install locally with:");
-console.log("  code --install-extension tools/vscode-voidframe/*.vsix");
+  step(
+    "package .vsix",
+    () => {
+      // vsce is installed as a devDep at the repo root; invoke via npx.
+      const r = runner(
+        "npx",
+        [
+          "--no-install",
+          "vsce",
+          "package",
+          "--no-dependencies",
+          "--allow-star-activation",
+        ],
+        { stdio: "inherit", cwd: extDir }
+      );
+      if (r.status !== 0) exit(r.status ?? 1);
+    },
+    log
+  );
+
+  log.log("\n✔ VS Code extension packaged. Install locally with:");
+  log.log("  code --install-extension tools/vscode-voidframe/*.vsix");
+}
+
+// Only execute when invoked directly.
+const invokedDirectly =
+  process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+if (invokedDirectly) {
+  packageExtension();
+}

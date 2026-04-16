@@ -76,8 +76,11 @@ function shortDescription(raw) {
   return first.length > 160 ? first.slice(0, 157) + "…" : first;
 }
 
-function main() {
-  const docs = JSON.parse(readFileSync(propsJson, "utf-8"));
+/**
+ * Build the snippets object from an array of component docs. Pure
+ * function — no IO. Exported for testing.
+ */
+export function buildSnippets(docs) {
   const snippets = {};
   let count = 0;
   for (const comp of docs) {
@@ -99,7 +102,12 @@ function main() {
     };
     count++;
   }
+  return { snippets, count };
+}
 
+export function main() {
+  const docs = JSON.parse(readFileSync(propsJson, "utf-8"));
+  const { snippets, count } = buildSnippets(docs);
   mkdirSync(dirname(outFile), { recursive: true });
   writeFileSync(outFile, JSON.stringify(snippets, null, 2));
   console.log(
@@ -108,6 +116,14 @@ function main() {
       ""
     )}`
   );
+  return { snippets, count };
 }
 
-main();
+export { buildBody, shortDescription, placeholderFor };
+
+// Only execute when invoked directly.
+const invokedDirectly =
+  process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+if (invokedDirectly) {
+  main();
+}

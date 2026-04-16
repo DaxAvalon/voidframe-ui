@@ -227,7 +227,12 @@ async function extractFromDir(dir, accept) {
 
 // ── Main ─────────────────────────────────────────────────────
 
-async function main() {
+/**
+ * Run the full extraction pipeline. Exported so tests can invoke it
+ * without spawning a subprocess (and therefore without losing coverage
+ * on the extraction helpers).
+ */
+export async function main() {
   mkdirSync(outDir, { recursive: true });
 
   const components = await extractComponents();
@@ -252,9 +257,27 @@ async function main() {
   );
   writeFileSync(join(outDir, "utils.json"), JSON.stringify(utils, null, 2));
   console.log(`[extract-props] ${utils.length} utils → utils.json`);
+  return { components, hooks, utils };
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+// Also expose the helpers so tests can exercise them in isolation.
+export {
+  tsFilter,
+  tsxFilter,
+  walk,
+  commentFor,
+  signatureFor,
+  extractExports,
+  extractFromDir,
+  extractComponents,
+};
+
+// Only run the pipeline when invoked directly (not when imported by tests).
+const invokedDirectly =
+  process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+if (invokedDirectly) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

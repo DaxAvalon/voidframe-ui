@@ -18,7 +18,7 @@
     "body": [
       "<Accordion />"
     ],
-    "description": "Voidframe Accordion component.",
+    "description": "Compound vertically-stacked collapsible sections. `type=\"single\"`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Activity": {
@@ -29,7 +29,7 @@
     "body": [
       "<Activity />"
     ],
-    "description": "Voidframe Activity component.",
+    "description": "Vertical activity feed. Pair with `Activity.Item` children — each",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AgentRunner": {
@@ -106,7 +106,7 @@
     "body": [
       "<AppShell />"
     ],
-    "description": "Voidframe AppShell component.",
+    "description": "The top-level layout shell combining a sidebar, header, and main content area.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Arc": {
@@ -502,7 +502,7 @@
     "body": [
       "<Calendar />"
     ],
-    "description": "Voidframe Calendar component.",
+    "description": "A date-grid calendar for navigating months and selecting dates.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CalendarHeatmap": {
@@ -975,7 +975,7 @@
     "body": [
       "<Combobox\n  options={${1:/* options: ComboboxOption[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe Combobox component.",
+    "description": "A searchable single-select that pairs a text input with a filterable listbox.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CommandPalette": {
@@ -986,7 +986,7 @@
     "body": [
       "<CommandPalette />"
     ],
-    "description": "Voidframe CommandPalette component.",
+    "description": "A cmd+K search overlay for fuzzy-finding actions, pages, and commands.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CommitGraph": {
@@ -1294,7 +1294,7 @@
     "body": [
       "<DataGrid\n  columns={${1:/* columns: DataGridColumn<T>[] */}}\n  data={${2:/* data: T[] */}}\n  rowKey={${3:/* rowKey: (row: T, index: number) => string */}}\n/>"
     ],
-    "description": "Voidframe DataGrid component.",
+    "description": "A high-density data table with built-in sorting, filtering, pagination, and column management.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DataList": {
@@ -1316,7 +1316,7 @@
     "body": [
       "<DatePicker\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe DatePicker component.",
+    "description": "A text input paired with a popover calendar; selecting a date fills the input.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DateRangePicker": {
@@ -1415,7 +1415,7 @@
     "body": [
       "<Dialog\n  variant={${1:/* variant: enum */}}\n/>"
     ],
-    "description": "Voidframe Dialog component.",
+    "description": "Modal overlay with focus trap, escape-to-close, and portaled content.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DiffViewer": {
@@ -1536,7 +1536,7 @@
     "body": [
       "<DrawerV2 />"
     ],
-    "description": "Voidframe DrawerV2 component.",
+    "description": "Side-anchored panel (top / right / bottom / left) with focus trap",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Dropdown": {
@@ -1888,7 +1888,7 @@
     "body": [
       "<Gantt\n  tasks={${1:/* tasks: GanttTask[] */}}\n  start={${2:/* start: Date */}}\n  end={${3:/* end: Date */}}\n/>"
     ],
-    "description": "Voidframe Gantt component.",
+    "description": "A horizontal timeline that renders tasks as bars across a day, week, or month axis.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Gauge": {
@@ -2174,7 +2174,7 @@
     "body": [
       "<Input\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe Input component.",
+    "description": "A single-line text field with optional label and standard HTML input types.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "InputGroup.Addon": {
@@ -2218,7 +2218,7 @@
     "body": [
       "<Kanban\n  columns={${1:/* columns: KanbanColumn[] */}}\n  items={${2:/* items: KanbanItem[] */}}\n  renderItem={${3:/* renderItem: (item: KanbanItem) => ReactNode */}}\n/>"
     ],
-    "description": "Voidframe Kanban component.",
+    "description": "A column-based task board that supports dragging items between columns.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Kbd": {
@@ -2515,7 +2515,7 @@
     "body": [
       "<Menu />"
     ],
-    "description": "Voidframe Menu component.",
+    "description": "A keyboard-navigable dropdown of actions, anchored to a trigger.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuBar": {
@@ -3197,7 +3197,7 @@
     "body": [
       "<PopoverV2 />"
     ],
-    "description": "Voidframe PopoverV2 component.",
+    "description": "Anchored popover with viewport-flip + edge-clamp positioning.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Portal": {
@@ -3802,7 +3802,7 @@
     "body": [
       "<Select\n  options={${1:/* options: SelectOption[] */}}\n  value=\"${2:value}\"\n  onChange={${3:/* onChange: (value: string) => void */}}\n  label=\"${4:label}\"\n/>"
     ],
-    "description": "Voidframe Select component.",
+    "description": "A native dropdown for choosing one value from a fixed list of options.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SendIcon": {
@@ -4561,7 +4561,7 @@
     "body": [
       "<Textarea\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe Textarea component.",
+    "description": "A multi-line text field for longer free-form input, with configurable rows and optional label.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ThemeScope": {
@@ -4671,7 +4671,7 @@
     "body": [
       "<Toaster />"
     ],
-    "description": "Voidframe Toaster component.",
+    "description": "A portaled queue of transient notifications rendered at a configurable viewport corner.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Toggle": {
@@ -4682,7 +4682,7 @@
     "body": [
       "<Toggle\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Voidframe Toggle component.",
+    "description": "A switch control for binary on/off state, with an accessible label and keyboard support.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TokenCounter": {
@@ -4836,7 +4836,7 @@
     "body": [
       "<TreeView\n  items={${1:/* items: TreeNode[] */}}\n/>"
     ],
-    "description": "Voidframe TreeView component.",
+    "description": "A hierarchical tree for displaying and navigating nested data structures.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TrendIndicator": {

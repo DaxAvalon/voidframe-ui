@@ -16,6 +16,8 @@ export default defineConfig({
       "src/**/*.{test,spec}.{ts,tsx}",
       "test/**/*.{test,spec}.{ts,tsx}",
       "tools/**/*.{test,spec}.{ts,tsx}",
+      "docs/**/*.{test,spec}.{ts,tsx}",
+      "scripts/**/*.{test,spec}.{ts,tsx}",
     ],
     coverage: {
       provider: "v8",
@@ -28,6 +30,17 @@ export default defineConfig({
         "**/*.test.*",
         "test/**",
         "vite.config.ts",
+        // CLI template files — scaffolded verbatim into consumer
+        // projects by `voidframe init`. They run in the consumer's
+        // environment, not ours. Indirectly validated by
+        // tools/cli/__tests__/init.test.ts which copies + asserts on
+        // the output tree.
+        "tools/cli/templates/**",
+        // VS Code extension entry — requires the vscode runtime API
+        // (only available inside a running editor) to execute. The
+        // logic it wires is in tools/vscode-voidframe/src/docs.js,
+        // which IS covered by __tests__/docs.test.ts.
+        "tools/vscode-voidframe/src/extension.js",
       ],
       thresholds: {
         // Library-wide floors. Phase 19 sets a pragmatic baseline so
