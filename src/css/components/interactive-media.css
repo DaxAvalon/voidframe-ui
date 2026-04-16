@@ -296,6 +296,11 @@
 .vf-media__volume { width: 80px; }
 .vf-media__captions { display: inline-flex; gap: 2px; }
 .vf-media--audio { background: var(--vf-bg-2); border: 1px solid var(--vf-border-1); }
+.vf-media__rate, .vf-media__pip {
+  background: none; border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-1); font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs); padding: 1px var(--vf-sp-1); cursor: pointer;
+}
 
 /* ── VoiceWaveform ───────────────────────────────────────── */
 .vf-voice-waveform {

@@ -33,7 +33,7 @@ import {
 } from "../utils/date";
 import { Label } from "./Text";
 
-export type CalendarView = "month" | "week" | "day";
+export type CalendarView = "month" | "week" | "day" | "agenda";
 
 export interface CalendarEvent {
   date: Date;
@@ -153,6 +153,10 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calen
       const start = startOfWeek(current, firstDayOfWeek);
       return { start, end: addDays(start, 6) };
     }
+    if (view === "agenda") {
+      const today = startOfDay(new Date());
+      return { start: today, end: addDays(today, 30) };
+    }
     const day = startOfDay(current);
     return { start: day, end: day };
   }, [view, current, firstDayOfWeek]);
@@ -169,11 +173,13 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calen
   const navPrev = () => {
     if (view === "month") setMonth(addMonths(current, -1));
     else if (view === "week") setMonth(addDays(current, -7));
+    else if (view === "agenda") setMonth(addDays(current, -30));
     else setMonth(addDays(current, -1));
   };
   const navNext = () => {
     if (view === "month") setMonth(addMonths(current, 1));
     else if (view === "week") setMonth(addDays(current, 7));
+    else if (view === "agenda") setMonth(addDays(current, 30));
     else setMonth(addDays(current, 1));
   };
 
@@ -235,6 +241,13 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calen
     }
     return [];
   }, [view, weekStart, current]);
+
+  const agendaEvents = useMemo(() => {
+    if (view !== "agenda") return [];
+    return [...(events ?? [])]
+      .filter((ev) => ev.date >= range.start && ev.date <= range.end)
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
+  }, [view, events, range]);
 
   const hourRows = 24;
   const pxPerHour = 32;
@@ -354,11 +367,13 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calen
             ? `${monthName(current, locale)} ${current.getFullYear()}`
             : view === "week"
               ? `Week of ${weekStart.toLocaleDateString(locale)}`
-              : current.toLocaleDateString(locale, {
-                  weekday: "long",
-                  month: "long",
-                  day: "numeric",
-                })}
+              : view === "agenda"
+                ? "Upcoming"
+                : current.toLocaleDateString(locale, {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                  })}
         </Label>
         <button
           type="button"
@@ -370,7 +385,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calen
         </button>
         {onViewChange && (
           <div role="tablist" className="vf-calendar-view__view-switch">
-            {(["month", "week", "day"] as const).map((v) => (
+            {(["month", "week", "day", "agenda"] as const).map((v) => (
               <button
                 key={v}
                 role="tab"
@@ -413,6 +428,30 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calen
             cells.push(renderMonthDayCell(day));
             return <div key={i} style={{ display: "contents" }}>{cells}</div>;
           })}
+        </div>
+      ) : view === "agenda" ? (
+        <div className="vf-calendar__agenda">
+          {agendaEvents.length === 0 && (
+            <div className="vf-calendar__agenda-item">
+              <span className="vf-calendar__agenda-date" />
+              <span className="vf-calendar__agenda-title">No upcoming events</span>
+            </div>
+          )}
+          {agendaEvents.map((ev, i) => (
+            <button
+              key={i}
+              type="button"
+              className="vf-calendar__agenda-item"
+              onClick={() => onEventClick?.(ev)}
+            >
+              <span className="vf-calendar__agenda-date">
+                {ev.date.toLocaleDateString(locale, { month: "short", day: "numeric" })}
+                {" "}
+                {ev.date.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" })}
+              </span>
+              <span className="vf-calendar__agenda-title">{ev.label}</span>
+            </button>
+          ))}
         </div>
       ) : (
         renderHourGrid()

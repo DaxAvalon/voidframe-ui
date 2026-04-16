@@ -8,6 +8,7 @@
 
 import {
   forwardRef,
+  useMemo,
   useRef,
   useState,
   type CSSProperties,
@@ -44,6 +45,10 @@ export interface KanbanProps extends HTMLAttributes<HTMLDivElement> {
   renderItem: (item: KanbanItem) => ReactNode;
   renderColumnHeader?: (column: KanbanColumn, count: number) => ReactNode;
   readOnly?: boolean;
+  /** Show a search input above the board. */
+  searchable?: boolean;
+  /** Callback for search input changes. When omitted, client-side filtering is used. */
+  onSearch?: (query: string) => void;
   style?: CSSProperties;
 }
 
@@ -59,12 +64,15 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
     renderItem,
     renderColumnHeader,
     readOnly,
+    searchable,
+    onSearch,
     className,
     style,
     ...props
   },
   ref
 ) {
+  const [searchQuery, setSearchQuery] = useState("");
   const dragRef = useRef<{ id: string; fromColumn: string; fromIndex: number } | null>(
     null
   );
@@ -73,8 +81,18 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
     index: number;
   } | null>(null);
 
+  const filteredItems = useMemo(() => {
+    if (!searchable || onSearch || !searchQuery) return items;
+    const q = searchQuery.toLowerCase();
+    return items.filter((it) => {
+      const title = typeof it.title === "string" ? it.title : "";
+      const label = typeof it.label === "string" ? it.label : "";
+      return title.toLowerCase().includes(q) || label.toLowerCase().includes(q);
+    });
+  }, [items, searchable, onSearch, searchQuery]);
+
   const columnItems = (colId: string) =>
-    items.filter((it) => it.columnId === colId);
+    filteredItems.filter((it) => it.columnId === colId);
 
   // Compute the drop index for a pointer event over an item by comparing
   // pointer Y to the item's vertical midpoint. Above midpoint = before,
@@ -117,6 +135,24 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
       aria-label="Kanban board"
       {...props}
     >
+      {searchable && (
+        <div className="vf-kanban__search">
+          <input
+            type="text"
+            placeholder="Search cards..."
+            aria-label="Search cards"
+            value={onSearch ? undefined : searchQuery}
+            onChange={(e) => {
+              const v = e.target.value;
+              if (onSearch) {
+                onSearch(v);
+              } else {
+                setSearchQuery(v);
+              }
+            }}
+          />
+        </div>
+      )}
       {columns.map((col) => {
         const list = columnItems(col.id);
         const atLimit = col.wip !== undefined && list.length >= col.wip;

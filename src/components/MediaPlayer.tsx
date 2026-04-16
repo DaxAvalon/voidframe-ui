@@ -89,6 +89,10 @@ export interface VideoPlayerProps
   children?: ReactNode;
   className?: string;
   style?: CSSProperties;
+  /** Show a playback rate selector in default controls. */
+  showPlaybackRate?: boolean;
+  /** Show a Picture-in-Picture button in default controls. */
+  showPiP?: boolean;
 }
 
 function MediaShell({
@@ -290,6 +294,8 @@ const VideoPlayerRoot = forwardRef<HTMLVideoElement, VideoPlayerProps>(
       className,
       style,
       children,
+      showPlaybackRate,
+      showPiP,
       ...props
     },
     ref
@@ -337,7 +343,7 @@ const VideoPlayerRoot = forwardRef<HTMLVideoElement, VideoPlayerProps>(
             />
           ))}
         </video>
-        {controls === "custom" && (children ?? <DefaultControls />)}
+        {controls === "custom" && (children ?? <DefaultControls showPlaybackRate={showPlaybackRate} showPiP={showPiP} />)}
       </MediaShell>
     );
   }
@@ -545,13 +551,57 @@ function CaptionsMenu({
   );
 }
 
-function DefaultControls({ audioOnly }: { audioOnly?: boolean }) {
+function PlaybackRateSelect() {
+  const ctx = useMediaCtx();
+  const [rate, setRate] = useState(1);
+  return (
+    <select
+      className="vf-media__rate"
+      aria-label="Playback rate"
+      value={rate}
+      onChange={(e) => {
+        const r = Number(e.target.value);
+        setRate(r);
+        const m = ctx.el.current;
+        if (m) m.playbackRate = r;
+      }}
+    >
+      {[0.5, 0.75, 1, 1.25, 1.5, 2].map((r) => (
+        <option key={r} value={r}>{r}x</option>
+      ))}
+    </select>
+  );
+}
+
+function PiPButton() {
+  const ctx = useMediaCtx();
+  if (typeof document === "undefined" || !document.pictureInPictureEnabled) return null;
+  return (
+    <button
+      type="button"
+      className="vf-media__pip"
+      aria-label="Picture-in-Picture"
+      onClick={() => {
+        const v = ctx.el.current as HTMLVideoElement | null;
+        if (v?.requestPictureInPicture) {
+          void v.requestPictureInPicture();
+        }
+      }}
+    >
+      PiP
+    </button>
+  );
+}
+
+function DefaultControls({ audioOnly, showPlaybackRate, showPiP }: { audioOnly?: boolean; showPlaybackRate?: boolean; showPiP?: boolean }) {
   return (
     <div className="vf-media__controls">
       <PlayButton />
       <ProgressBar />
       <TimeDisplay />
       <VolumeControl />
+      {showPlaybackRate && <PlaybackRateSelect />}
+      {!audioOnly && showPiP && <PiPButton />}
       {!audioOnly && <FullscreenButton />}
       <CaptionsMenu />
     </div>
@@ -565,6 +615,8 @@ export const VideoPlayer = Object.assign(VideoPlayerRoot, {
   Time: TimeDisplay,
   Fullscreen: FullscreenButton,
   CaptionsMenu,
+  PlaybackRate: PlaybackRateSelect,
+  PiP: PiPButton,
 });
 
 // ── VoiceWaveform ───────────────────────────────────────────

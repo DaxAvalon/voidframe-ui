@@ -604,6 +604,17 @@
 .vf-calendar-view__hour-event--warning { background: var(--vf-amber); }
 .vf-calendar-view__hour-event--danger { background: var(--vf-red, #c44); }
 .vf-calendar-view__hour-event--info { background: var(--vf-blue, #38b); }
+.vf-calendar__agenda { display: flex; flex-direction: column; gap: var(--vf-sp-1); }
+.vf-calendar__agenda-item {
+  display: flex; gap: var(--vf-sp-2); padding: var(--vf-sp-1) var(--vf-sp-2);
+  border-bottom: 1px solid var(--vf-border-0);
+  font-family: var(--vf-font-family); font-size: var(--vf-font-sm);
+  background: none; border-top: none; border-inline: none;
+  text-align: start; cursor: pointer; width: 100%;
+}
+.vf-calendar__agenda-item:hover { background: var(--vf-bg-4); }
+.vf-calendar__agenda-date { color: var(--vf-text-2); white-space: nowrap; min-width: 80px; }
+.vf-calendar__agenda-title { color: var(--vf-text-0); }
 
 /* ── Gantt ──────────────────────────────────────────────── */
 .vf-gantt { font-family: var(--vf-font-family); color: var(--vf-text-0); overflow: auto; border: 1px solid var(--vf-border-1); }
@@ -655,6 +666,8 @@
   color: var(--vf-text-3);
 }
 .vf-gantt__ticks { background: var(--vf-bg-3); }
+.vf-gantt__today { stroke: var(--vf-amber); stroke-width: 2; stroke-dasharray: 4 3; }
+.vf-gantt__milestone { fill: var(--vf-accent, var(--vf-amber)); color: var(--vf-accent, var(--vf-amber)); }
 
 /* ── Activity ───────────────────────────────────────────── */
 .vf-activity { display: flex; flex-direction: column; gap: var(--vf-sp-3); font-family: var(--vf-font-family); }
@@ -693,6 +706,15 @@
 }
 .vf-kanban__item:focus-visible { outline: 1px solid var(--vf-border-3); outline-offset: -1px; }
 .vf-kanban__item--drop-hint { border-color: var(--vf-accent, var(--vf-green)); }
+.vf-kanban__search {
+  padding: var(--vf-sp-2); border-bottom: 1px solid var(--vf-border-0);
+  grid-column: 1 / -1; width: 100%;
+}
+.vf-kanban__search input {
+  width: 100%; background: var(--vf-bg-0); border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-0); font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm); padding: var(--vf-sp-1) var(--vf-sp-2);
+}
 
 /* ── Timeline upgrades ──────────────────────────────────── */
 .vf-timeline--horizontal { flex-direction: row; }

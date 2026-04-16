@@ -51,21 +51,25 @@ export interface WizardProps
   onComplete?: () => void;
   /** Per-step validation gate. Return `false` to block Next. */
   canAdvance?: (stepId: string) => boolean;
+  /** Show a built-in step indicator above the content. Default true. */
+  showStepper?: boolean;
   children?: ReactNode;
 }
 
 const WizardBase = forwardRef<HTMLDivElement, WizardProps>(function Wizard(
-  { value, defaultValue, onChange, onComplete, canAdvance, className, children, ...props },
+  { value, defaultValue, onChange, onComplete, canAdvance, showStepper = true, className, children, ...props },
   ref
 ) {
-  // Collect step ids from children.
+  // Collect step ids and labels from children.
   const steps: string[] = [];
+  const stepLabels: Record<string, string> = {};
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) return;
-    const el = child as ReactElement<{ id?: string }>;
+    const el = child as ReactElement<{ id?: string; label?: string }>;
     const type = el.type as { displayName?: string };
     if (type.displayName === "WizardStep" && el.props.id) {
       steps.push(el.props.id);
+      stepLabels[el.props.id] = el.props.label ?? el.props.id;
     }
   });
 
@@ -125,6 +129,23 @@ const WizardBase = forwardRef<HTMLDivElement, WizardProps>(function Wizard(
         className={cx("vf-wizard", className)}
         {...props}
       >
+        {showStepper && steps.length > 0 && (
+          <ol className="vf-wizard__stepper">
+            {steps.map((stepId, i) => (
+              <li
+                key={stepId}
+                className={cx(
+                  "vf-wizard__step-label",
+                  i === idx && "vf-wizard__step-label--active",
+                  i < idx && "vf-wizard__step-label--completed"
+                )}
+                aria-current={i === idx ? "step" : undefined}
+              >
+                {stepLabels[stepId]}
+              </li>
+            ))}
+          </ol>
+        )}
         {Children.map(children, (child) => {
           if (!isValidElement(child)) return child;
           const typed = child as ReactElement<{ id?: string; active?: boolean }>;
@@ -141,6 +162,8 @@ const WizardBase = forwardRef<HTMLDivElement, WizardProps>(function Wizard(
 
 export interface WizardStepProps extends HTMLAttributes<HTMLDivElement> {
   id: string;
+  /** Display label for the step indicator. Falls back to `id`. */
+  label?: string;
   /** @internal */
   active?: boolean;
   children?: ReactNode;

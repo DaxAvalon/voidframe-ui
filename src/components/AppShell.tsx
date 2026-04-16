@@ -13,6 +13,7 @@ import {
   type HTMLAttributes,
   type ReactNode,
 } from "react";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import { cx } from "../utils/cx";
 
 export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
@@ -33,6 +34,8 @@ export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
   onSidebarCollapsedChange?: (collapsed: boolean) => void;
   /** Height of the header in pixels/CSS value. Default "auto". */
   headerHeight?: number | string;
+  /** Viewport width at which the sidebar becomes a mobile overlay drawer. Default 768. */
+  mobileBreakpoint?: number;
   children?: ReactNode;
   style?: CSSProperties;
 }
@@ -59,6 +62,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
       sidebarCollapsed,
       onSidebarCollapsedChange,
       headerHeight,
+      mobileBreakpoint = 768,
       children,
       className,
       style,
@@ -66,6 +70,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
     },
     ref
   ) {
+    const isMobile = useMediaQuery(`(max-width: ${mobileBreakpoint}px)`);
     const [internalCollapsed, setInternalCollapsed] = useState<boolean>(
       sidebarDefaultCollapsed ?? false
     );
@@ -77,7 +82,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
       onSidebarCollapsedChange?.(next);
     };
 
-    const sbW = collapsed ? "0px" : sizeToCss(sidebarWidth);
+    const sbW = isMobile || collapsed ? "0px" : sizeToCss(sidebarWidth);
     const rpW = rightPanel ? sizeToCss(rightPanelWidth) : "0px";
     const hH = headerHeight !== undefined ? sizeToCss(headerHeight) : "auto";
 
@@ -120,13 +125,25 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
             {header}
           </div>
         )}
-        {sidebar && !collapsed && (
+        {sidebar && !collapsed && !isMobile && (
           <aside
             className="vf-appshell__sidebar"
             style={{ gridArea: "sidebar" }}
           >
             {sidebar}
           </aside>
+        )}
+        {sidebar && isMobile && !collapsed && (
+          <>
+            <div
+              className="vf-app-shell__mobile-backdrop"
+              onClick={toggle}
+              aria-hidden="true"
+            />
+            <aside className="vf-app-shell__sidebar--mobile">
+              {sidebar}
+            </aside>
+          </>
         )}
         <main
           className="vf-appshell__main"

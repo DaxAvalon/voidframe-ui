@@ -25,6 +25,8 @@ export interface GanttTask {
   end: Date;
   dependencies?: string[];
   tone?: "neutral" | "success" | "warning" | "danger" | "info";
+  /** When true, render as a diamond milestone marker instead of a bar. */
+  milestone?: boolean;
 }
 
 export type GanttGranularity = "day" | "week" | "month";
@@ -47,6 +49,8 @@ export interface GanttProps extends HTMLAttributes<HTMLDivElement> {
   onTaskUpdate?: (update: GanttUpdate) => void;
   /** Disable drag interactions. */
   readOnly?: boolean;
+  /** Show a vertical marker line at today's date. Default true. */
+  showToday?: boolean;
   style?: CSSProperties;
 }
 
@@ -83,6 +87,7 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
     onTaskClick,
     onTaskUpdate,
     readOnly,
+    showToday = true,
     className,
     style,
     ...props
@@ -228,6 +233,13 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
   const trackWidth = columns.length * unitPx;
   const trackHeight = visibleTasks.length * rowHeight;
 
+  const todayX = useMemo(() => {
+    if (!showToday) return null;
+    const now = new Date();
+    if (now < start || now > end) return null;
+    return unitsBetween(start, now, granularity) * unitPx;
+  }, [showToday, start, end, granularity, unitPx]);
+
   const composedStyle: CSSProperties = {
     ...({ "--vf-gantt-unit-px": `${unitPx}px` } as CSSProperties),
     ...style,
@@ -293,36 +305,60 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
                 className="vf-gantt__track"
                 style={{ height: rowHeight, position: "relative" }}
               >
-                <div
-                  className={cx(
-                    "vf-gantt__bar",
-                    task.tone && `vf-gantt__bar--${task.tone}`
-                  )}
-                  style={{
-                    position: "absolute",
-                    top: 4,
-                    bottom: 4,
-                    left: `${pos.left}px`,
-                    width: `${pos.width}px`,
-                    cursor: readOnly ? "pointer" : "grab",
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${task.name}: ${task.start.toDateString()} → ${task.end.toDateString()}`}
-                  onPointerDown={(e) => beginDrag(task, "move", e)}
-                  onClick={() => onTaskClick?.(task)}
-                >
-                  <span className="vf-gantt__bar-label">{task.name}</span>
-                  {!readOnly && (
-                    <span
-                      className="vf-gantt__resize"
-                      role="separator"
-                      aria-orientation="vertical"
-                      aria-label={`Resize ${task.name}`}
-                      onPointerDown={(e) => beginDrag(task, "resize", e)}
-                    />
-                  )}
-                </div>
+                {task.milestone ? (
+                  <svg
+                    className={cx(
+                      "vf-gantt__milestone",
+                      task.tone && `vf-gantt__milestone--${task.tone}`
+                    )}
+                    style={{
+                      position: "absolute",
+                      top: 4,
+                      left: `${pos.left - (rowHeight - 8) / 2}px`,
+                      cursor: "pointer",
+                    }}
+                    width={rowHeight - 8}
+                    height={rowHeight - 8}
+                    viewBox="0 0 16 16"
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Milestone: ${task.name} — ${task.start.toDateString()}`}
+                    onClick={() => onTaskClick?.(task)}
+                  >
+                    <polygon points="8,0 16,8 8,16 0,8" fill="currentColor" />
+                  </svg>
+                ) : (
+                  <div
+                    className={cx(
+                      "vf-gantt__bar",
+                      task.tone && `vf-gantt__bar--${task.tone}`
+                    )}
+                    style={{
+                      position: "absolute",
+                      top: 4,
+                      bottom: 4,
+                      left: `${pos.left}px`,
+                      width: `${pos.width}px`,
+                      cursor: readOnly ? "pointer" : "grab",
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`${task.name}: ${task.start.toDateString()} → ${task.end.toDateString()}`}
+                    onPointerDown={(e) => beginDrag(task, "move", e)}
+                    onClick={() => onTaskClick?.(task)}
+                  >
+                    <span className="vf-gantt__bar-label">{task.name}</span>
+                    {!readOnly && (
+                      <span
+                        className="vf-gantt__resize"
+                        role="separator"
+                        aria-orientation="vertical"
+                        aria-label={`Resize ${task.name}`}
+                        onPointerDown={(e) => beginDrag(task, "resize", e)}
+                      />
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           );
@@ -370,6 +406,32 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
                 </g>
               );
             })}
+          </svg>
+        )}
+        {todayX !== null && (
+          <svg
+            aria-hidden="true"
+            className="vf-gantt__today-layer"
+            style={{
+              position: "absolute",
+              top: 0,
+              insetInlineStart: 200,
+              width: trackWidth,
+              height: trackHeight,
+              pointerEvents: "none",
+              zIndex: 2,
+            }}
+            width={trackWidth}
+            height={trackHeight}
+            viewBox={`0 0 ${trackWidth} ${trackHeight}`}
+          >
+            <line
+              className="vf-gantt__today"
+              x1={todayX}
+              y1={0}
+              x2={todayX}
+              y2={trackHeight}
+            />
           </svg>
         )}
       </div>
