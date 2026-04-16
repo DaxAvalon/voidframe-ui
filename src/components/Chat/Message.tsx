@@ -78,6 +78,11 @@ export interface MessageProps extends Omit<HTMLAttributes<HTMLDivElement>, "cont
   edited?: boolean;
   pinned?: boolean;
   error?: ReactNode;
+  /** Quoted message this is replying to. */
+  replyTo?: {
+    author?: string;
+    content?: string;
+  };
   children?: ReactNode;
 }
 
@@ -94,6 +99,7 @@ export const Message = forwardRef<HTMLDivElement, MessageProps>(function Message
     edited,
     pinned,
     error,
+    replyTo,
     className,
     children,
     ...props
@@ -136,6 +142,12 @@ export const Message = forwardRef<HTMLDivElement, MessageProps>(function Message
             <time className="vf-message__time">{timestamp}</time>
           )}
         </header>
+      )}
+      {replyTo && (
+        <div className="vf-message__reply-to">
+          {replyTo.author && <span className="vf-message__reply-author">{replyTo.author}</span>}
+          <span className="vf-message__reply-text">{replyTo.content}</span>
+        </div>
       )}
       <div className="vf-message__body">
         {content !== undefined ? (

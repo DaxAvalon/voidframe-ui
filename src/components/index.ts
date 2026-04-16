@@ -931,6 +931,7 @@ export type {
 
 export {
   ModelSelector,
+  ModelPicker,
   SystemPromptEditor,
   TokenCounter as ChatTokenCounter,
   ContextWindow,
@@ -1087,6 +1088,8 @@ export type {
 export type {
   ChatModelOption,
   ModelSelectorProps,
+  ModelPickerOption,
+  ModelPickerProps,
   SystemPromptTemplate,
   SystemPromptEditorProps,
   TokenCounterProps,

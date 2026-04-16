@@ -37,6 +37,7 @@ interface ComposerContextValue {
   showCount: boolean;
   maxLength?: number;
   textareaId: string;
+  onSlashCommand?: (command: string) => void;
 }
 
 const ComposerContext = createContext<ComposerContextValue | null>(null);
@@ -55,6 +56,7 @@ export interface ComposerProps
   onChange?: (next: string) => void;
   onSubmit?: (value: string) => void;
   onStop?: () => void;
+  onSlashCommand?: (command: string) => void;
   status?: ComposerStatus;
   disabled?: boolean;
   submitOnEnter?: boolean;
@@ -71,6 +73,7 @@ function ComposerRoot(
     onChange,
     onSubmit,
     onStop,
+    onSlashCommand,
     status = "idle",
     disabled = false,
     submitOnEnter = true,
@@ -114,6 +117,7 @@ function ComposerRoot(
       showCount,
       maxLength,
       textareaId,
+      onSlashCommand,
     }),
     [
       current,
@@ -127,6 +131,7 @@ function ComposerRoot(
       showCount,
       maxLength,
       textareaId,
+      onSlashCommand,
     ]
   );
 
@@ -220,6 +225,31 @@ const ComposerInput = forwardRef<HTMLTextAreaElement, ComposerInputProps>(
     const handleKey = (e: KeyboardEvent<HTMLTextAreaElement>) => {
       onKeyDown?.(e);
       if (e.defaultPrevented) return;
+
+      // Slash-command detection: when user presses Space or Enter after `/word`
+      if (
+        ctx.onSlashCommand &&
+        (e.key === " " || e.key === "Enter") &&
+        !e.nativeEvent.isComposing
+      ) {
+        const el = e.currentTarget;
+        const before = el.value.slice(0, el.selectionStart);
+        // Find the current line
+        const lineStart = before.lastIndexOf("\n") + 1;
+        const line = before.slice(lineStart);
+        const match = line.match(/^\/(\S+)$/);
+        if (match && match[1]) {
+          e.preventDefault();
+          const cmd = match[1];
+          // Remove the slash command from input
+          const newValue =
+            el.value.slice(0, lineStart) + el.value.slice(el.selectionStart);
+          ctx.setValue(newValue);
+          ctx.onSlashCommand?.(cmd);
+          return;
+        }
+      }
+
       if (!ctx.submitOnEnter) return;
       if (e.key !== "Enter") return;
       if (ctx.shiftEnterNewline && e.shiftKey) return;

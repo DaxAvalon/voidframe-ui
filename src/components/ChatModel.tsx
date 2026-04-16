@@ -686,6 +686,51 @@ export const SimpleChat = forwardRef<HTMLDivElement, SimpleChatProps>(
 );
 SimpleChat.displayName = "SimpleChat";
 
+// ── ModelPicker — simple themed dropdown ───────────────────
+
+export interface ModelPickerOption {
+  id: string;
+  name: string;
+  description?: string;
+  disabled?: boolean;
+}
+
+export interface ModelPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+  models: ModelPickerOption[];
+  value: string;
+  onChange: (modelId: string) => void;
+  label?: string;
+}
+
+export const ModelPicker = forwardRef<HTMLDivElement, ModelPickerProps>(
+  function ModelPicker(
+    { models, value, onChange, label, className, ...props },
+    ref
+  ) {
+    return (
+      <div
+        ref={ref}
+        className={cx("vf-model-picker", className)}
+        {...props}
+      >
+        {label && <span className="vf-model-picker__label">{label}</span>}
+        <select
+          className="vf-model-picker__select"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        >
+          {models.map((m) => (
+            <option key={m.id} value={m.id} disabled={m.disabled}>
+              {m.name}{m.description ? ` — ${m.description}` : ""}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+);
+ModelPicker.displayName = "ModelPicker";
+
 export interface AgentRunnerProps extends HTMLAttributes<HTMLDivElement> {
   conversation: ReactNode;
   plan?: ReactNode;

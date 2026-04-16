@@ -315,6 +315,8 @@ export interface AgentTraceProps extends HTMLAttributes<HTMLDivElement> {
   cost?: ReactNode;
   duration?: number;
   status?: ToolStatus;
+  /** Called when the user clicks the stop button during a running/streaming agent. */
+  onStop?: () => void;
   children?: ReactNode;
 }
 
@@ -326,6 +328,7 @@ export const AgentTrace = forwardRef<HTMLDivElement, AgentTraceProps>(
       cost,
       duration,
       status,
+      onStop,
       className,
       children,
       ...props
@@ -368,6 +371,15 @@ export const AgentTrace = forwardRef<HTMLDivElement, AgentTraceProps>(
               </span>
             )}
           </header>
+        )}
+        {onStop && status === "running" && (
+          <button
+            type="button"
+            className="vf-agent__stop-btn"
+            onClick={onStop}
+          >
+            Stop
+          </button>
         )}
         <div className="vf-agent-trace__steps">
           {steps}
