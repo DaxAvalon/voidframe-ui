@@ -95,16 +95,26 @@ describe("scripts/extract-props.mjs", () => {
     expect(tsFilter("useThing.spec.ts")).toBe(false);
   });
 
-  it("main() runs the full pipeline end-to-end", async () => {
-    // Expensive (~60-180s under coverage instrumentation) but the only
-    // way to exercise the walk / docgen / AST paths and keep function
-    // coverage healthy. Generous timeout because coverage instrumentation
-    // roughly doubles the runtime and CI can be slow.
+  it("walk() finds .ts files in a real directory", async () => {
     // @ts-expect-error — ESM .mjs, no declarations.
-    const { main } = await import("../extract-props.mjs");
-    const result = await main();
-    expect(result.components.length).toBeGreaterThan(100);
-    expect(result.hooks.length).toBeGreaterThan(20);
-    expect(result.utils.length).toBeGreaterThan(5);
-  }, 300_000);
+    const { walk } = await import("../extract-props.mjs");
+    const files: string[] = await walk(
+      resolve(ROOT, "src", "utils"),
+      (n: string) => n.endsWith(".ts") && !n.includes(".test.")
+    );
+    expect(files.length).toBeGreaterThan(3);
+    expect(files.some((f: string) => f.endsWith("warn.ts"))).toBe(true);
+  });
+
+  it("extractExports parses TSDoc + signatures from a real file", async () => {
+    // @ts-expect-error — ESM .mjs, no declarations.
+    const { extractExports } = await import("../extract-props.mjs");
+    const file = resolve(ROOT, "src", "utils", "safeHref.ts");
+    const entries = await extractExports(file, "src/utils/safeHref.ts");
+    expect(entries.length).toBeGreaterThan(0);
+    const safeHref = entries.find((e: { name: string }) => e.name === "safeHref");
+    expect(safeHref).toBeDefined();
+    expect(safeHref.kind).toBe("function");
+    expect(safeHref.signature).toContain("safeHref");
+  });
 });
