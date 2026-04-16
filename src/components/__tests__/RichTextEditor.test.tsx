@@ -69,4 +69,63 @@ describe("RichTextEditor", () => {
     );
     expect(screen.getByText("MyBold")).toBeInTheDocument();
   });
+
+  it("disabled prevents command dispatch", async () => {
+    const bridge = vi.fn().mockReturnValue(true);
+    Object.defineProperty(document, "execCommand", {
+      configurable: true,
+      value: bridge,
+    });
+    renderWithTheme(<RichTextEditor label="Body" disabled />);
+    await userEvent.click(screen.getByRole("button", { name: "Bold" }));
+    expect(bridge).not.toHaveBeenCalled();
+  });
+
+  it("renders all toolbar commands when no subset is given", () => {
+    renderWithTheme(<RichTextEditor label="Body" />);
+    expect(screen.getByRole("button", { name: "Underline" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Strikethrough" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Block quote" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Inline code" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Insert link" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Clear formatting" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Ordered list" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Bulleted list" })).toBeInTheDocument();
+  });
+
+  it("contentEditable is false when readOnly", () => {
+    renderWithTheme(<RichTextEditor label="Body" readOnly />);
+    const textbox = screen.getByRole("textbox", { name: "Body" });
+    expect(textbox.getAttribute("contenteditable")).toBe("false");
+  });
+
+  it("contentEditable is false when disabled", () => {
+    renderWithTheme(<RichTextEditor label="Body" disabled />);
+    const textbox = screen.getByRole("textbox", { name: "Body" });
+    expect(textbox.getAttribute("contenteditable")).toBe("false");
+  });
+
+  it("renders with placeholder text", () => {
+    renderWithTheme(<RichTextEditor label="Body" placeholder="Write..." />);
+    const textbox = screen.getByRole("textbox", { name: "Body" });
+    expect(textbox.getAttribute("data-placeholder")).toBe("Write...");
+  });
+
+  it("renders with custom minHeight", () => {
+    renderWithTheme(<RichTextEditor label="Body" minHeight={300} />);
+    const textbox = screen.getByRole("textbox", { name: "Body" });
+    expect(textbox.style.minHeight).toBe("300px");
+  });
+
+  it("renders default aria-label when no label given", () => {
+    renderWithTheme(<RichTextEditor />);
+    expect(
+      screen.getByRole("textbox", { name: "Rich text editor" })
+    ).toBeInTheDocument();
+  });
+
+  it("uses controlled value", () => {
+    renderWithTheme(<RichTextEditor label="Body" value="<p>controlled</p>" />);
+    expect(screen.getByRole("textbox", { name: "Body" })).toBeInTheDocument();
+  });
 });

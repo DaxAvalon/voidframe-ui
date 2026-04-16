@@ -8,11 +8,13 @@ import {
   SessionListItem,
 } from "../ChatSession";
 import {
+  AgentRunner,
   ChatLayout,
   ContextWindow,
   CostDisplay,
   DebugPanel,
   LatencyIndicator,
+  ModelPicker,
   ModelSelector,
   SystemPromptEditor,
   TokenCounter,
@@ -117,6 +119,18 @@ describe("ConversationEmptyState", () => {
     );
     await userEvent.click(screen.getByText("Summarize"));
     expect(onSuggestionSelect).toHaveBeenCalled();
+  });
+
+  it("renders suggestion icon and description", () => {
+    renderWithTheme(
+      <ConversationEmptyState
+        suggestions={[
+          { text: "Summarize", icon: "S", description: "Create a summary" },
+        ]}
+      />
+    );
+    expect(screen.getByText("S")).toBeInTheDocument();
+    expect(screen.getByText("Create a summary")).toBeInTheDocument();
   });
 });
 
@@ -277,5 +291,57 @@ describe("ChatLayout", () => {
     expect(layout).toHaveClass("vf-chat-layout--with-sidebar");
     expect(layout).toHaveClass("vf-chat-layout--with-inspector");
     expect(screen.getByText("conv")).toBeInTheDocument();
+  });
+});
+
+describe("ModelPicker", () => {
+  it("renders select with model options and fires onChange", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(
+      <ModelPicker
+        label="Model"
+        value="opus"
+        onChange={onChange}
+        models={[
+          { id: "opus", name: "Opus", description: "Large model" },
+          { id: "haiku", name: "Haiku", disabled: true },
+        ]}
+      />
+    );
+    expect(screen.getByText("Model")).toBeInTheDocument();
+    const select = document.querySelector(".vf-model-picker__select") as HTMLSelectElement;
+    expect(select).toBeInTheDocument();
+    // Option text should include description
+    const options = Array.from(select.options);
+    expect(options[0]?.text).toContain("Large model");
+    // Haiku has no description so just the name
+    expect(options[1]?.disabled).toBe(true);
+  });
+});
+
+describe("AgentRunner", () => {
+  it("renders conversation, plan, trace, and header", () => {
+    renderWithTheme(
+      <AgentRunner
+        conversation={<div>Conv</div>}
+        plan={<div>Plan</div>}
+        trace={<div>Trace</div>}
+        header={<div>Header</div>}
+      />
+    );
+    expect(screen.getByText("Conv")).toBeInTheDocument();
+    expect(screen.getByText("Plan")).toBeInTheDocument();
+    expect(screen.getByText("Trace")).toBeInTheDocument();
+    expect(screen.getByText("Header")).toBeInTheDocument();
+    expect(document.querySelector(".vf-agent-runner__side")).toBeInTheDocument();
+  });
+
+  it("renders without optional side panels", () => {
+    renderWithTheme(
+      <AgentRunner conversation={<div>Conv Only</div>} />
+    );
+    expect(screen.getByText("Conv Only")).toBeInTheDocument();
+    expect(document.querySelector(".vf-agent-runner__side")).not.toBeInTheDocument();
+    expect(document.querySelector(".vf-agent-runner__header")).not.toBeInTheDocument();
   });
 });

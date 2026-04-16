@@ -180,6 +180,24 @@ describe("Network components", () => {
       get: () => true,
     });
   });
+
+  it("OfflineBanner dismiss button hides the banner and calls onDismiss", async () => {
+    Object.defineProperty(navigator, "onLine", {
+      configurable: true,
+      get: () => false,
+    });
+    const onDismiss = vi.fn();
+    renderWithTheme(<OfflineBanner onDismiss={onDismiss} />);
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Dismiss" }));
+    expect(onDismiss).toHaveBeenCalled();
+    // Banner should be hidden after dismiss
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    Object.defineProperty(navigator, "onLine", {
+      configurable: true,
+      get: () => true,
+    });
+  });
 });
 
 // ── CoachMark (Spotlight tested separately due to mask SVG quirks) ──

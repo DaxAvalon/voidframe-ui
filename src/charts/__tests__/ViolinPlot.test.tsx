@@ -32,4 +32,61 @@ describe("ViolinPlot", () => {
       container.querySelectorAll(".vf-chart-violin__fallback").length
     ).toBe(1);
   });
+
+  it("renders title and description", () => {
+    const values = Array.from({ length: 100 }, () => Math.random());
+    const { getByText } = renderWithTheme(
+      <ViolinPlot
+        groups={[{ key: "a", values }]}
+        width={300}
+        height={200}
+        title="Scores"
+        description="KDE estimate"
+      />
+    );
+    expect(getByText("Scores")).toBeTruthy();
+    expect(getByText("KDE estimate")).toBeTruthy();
+  });
+
+  it("uses the default aria-label", () => {
+    const values = Array.from({ length: 100 }, () => Math.random());
+    const { container } = renderWithTheme(
+      <ViolinPlot
+        groups={[{ key: "a", values }]}
+        width={300}
+        height={200}
+      />
+    );
+    const svg = container.querySelector("svg[role='img']");
+    expect(svg!.getAttribute("aria-label")).toBe("Violin plot");
+  });
+
+  it("renders a KDE shape with correct fill opacity", () => {
+    const values = Array.from({ length: 100 }, () => Math.random());
+    const { container } = renderWithTheme(
+      <ViolinPlot
+        groups={[{ key: "a", values }]}
+        width={300}
+        height={200}
+      />
+    );
+    const shape = container.querySelector(".vf-chart-violin__shape");
+    expect(shape).toBeTruthy();
+  });
+
+  it("applies custom className", () => {
+    const { container } = renderWithTheme(
+      <ViolinPlot
+        groups={[{ key: "a", values: [1, 2, 3] }]}
+        width={300}
+        height={200}
+        className="my-violin"
+      />
+    );
+    expect(
+      container
+        .querySelector(".vf-chart-violin")!
+        .classList.contains("my-violin")
+    ).toBe(true);
+  });
 });

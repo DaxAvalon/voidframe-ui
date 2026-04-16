@@ -53,6 +53,44 @@ describe("Resizable", () => {
     const h = screen.getByRole("separator");
     expect(h).toHaveAttribute("aria-orientation", "horizontal");
   });
+
+  it("pointer drag and release resizes panels", () => {
+    const onLayout = vi.fn();
+    const { container } = renderWithTheme(
+      <ResizableGroup onLayout={onLayout}>
+        <ResizablePanel />
+        <ResizableHandle />
+        <ResizablePanel />
+      </ResizableGroup>
+    );
+    const handle = container.querySelector(".vf-resizable__handle") as HTMLElement;
+    // Mock pointer capture APIs (not in happy-dom)
+    handle.setPointerCapture = vi.fn();
+    handle.releasePointerCapture = vi.fn();
+    // Mock getBoundingClientRect for the handle's parent
+    vi.spyOn(handle.parentElement!, "getBoundingClientRect").mockReturnValue({
+      width: 800, height: 400, x: 0, y: 0, top: 0, left: 0, right: 800, bottom: 400, toJSON: () => {},
+    });
+    fireEvent.pointerDown(handle, { clientX: 400, clientY: 200, pointerId: 1 });
+    fireEvent.pointerMove(handle, { clientX: 450, clientY: 200, pointerId: 1 });
+    fireEvent.pointerUp(handle, { clientX: 450, clientY: 200, pointerId: 1 });
+    expect(onLayout).toHaveBeenCalled();
+  });
+
+  it("vertical keyboard ArrowDown resizes", async () => {
+    const onLayout = vi.fn();
+    const { container } = renderWithTheme(
+      <ResizableGroup direction="vertical" onLayout={onLayout}>
+        <ResizablePanel />
+        <ResizableHandle keyboardStep={5} />
+        <ResizablePanel />
+      </ResizableGroup>
+    );
+    const handle = container.querySelector(".vf-resizable__handle") as HTMLElement;
+    handle.focus();
+    await userEvent.keyboard("{ArrowDown}");
+    expect(onLayout).toHaveBeenCalled();
+  });
 });
 
 describe("ResizableBox", () => {

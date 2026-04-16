@@ -43,4 +43,51 @@ describe("CandlestickChart", () => {
       container.querySelectorAll(".vf-chart-candle__tick").length
     ).toBe(6);
   });
+
+  it("renders wicks for each candle", () => {
+    const { container } = renderWithTheme(
+      <CandlestickChart data={data} width={400} height={240} />
+    );
+    expect(
+      container.querySelectorAll(".vf-chart-candle__wick").length
+    ).toBe(3);
+  });
+
+  it("renders title and description", () => {
+    const { getByText } = renderWithTheme(
+      <CandlestickChart
+        data={data}
+        width={400}
+        height={240}
+        title="AAPL"
+        description="Stock price"
+      />
+    );
+    expect(getByText("AAPL")).toBeTruthy();
+    expect(getByText("Stock price")).toBeTruthy();
+  });
+
+  it("uses the default aria-label", () => {
+    const { container } = renderWithTheme(
+      <CandlestickChart data={data} width={400} height={240} />
+    );
+    const svg = container.querySelector("svg[role='img']");
+    expect(svg!.getAttribute("aria-label")).toBe("Candlestick chart");
+  });
+
+  it("applies custom className", () => {
+    const { container } = renderWithTheme(
+      <CandlestickChart
+        data={data}
+        width={400}
+        height={240}
+        className="my-candle"
+      />
+    );
+    expect(
+      container
+        .querySelector(".vf-chart-candle")!
+        .classList.contains("my-candle")
+    ).toBe(true);
+  });
 });

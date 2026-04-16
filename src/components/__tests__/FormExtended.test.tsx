@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
   Checkbox,
@@ -174,6 +174,83 @@ describe("FormField", () => {
   });
 });
 
+describe("NumberInput — extended", () => {
+  it("respects max clamp on increment", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(<NumberInput value={10} max={10} onChange={onChange} />);
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }));
+    expect(onChange).toHaveBeenCalledWith(10);
+  });
+
+  it("uses custom step", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(<NumberInput value={5} step={5} onChange={onChange} />);
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }));
+    expect(onChange).toHaveBeenCalledWith(10);
+  });
+
+  it("renders label", () => {
+    renderWithTheme(<NumberInput value={0} label="Count" onChange={() => {}} />);
+    expect(screen.getByText("Count")).toBeInTheDocument();
+  });
+});
+
+describe("RadioGroup — extended", () => {
+  const options = [
+    { value: "a", label: "A" },
+    { value: "b", label: "B" },
+  ];
+
+  it("renders horizontal direction class", () => {
+    const { container } = renderWithTheme(
+      <RadioGroup options={options} value="a" onChange={() => {}} direction="horizontal" />
+    );
+    expect(
+      container.querySelector(".vf-radio-group__items--horizontal")
+    ).toBeInTheDocument();
+  });
+
+  it("renders label when provided", () => {
+    renderWithTheme(
+      <RadioGroup options={options} value="a" onChange={() => {}} label="Choice" />
+    );
+    expect(screen.getByText("Choice")).toBeInTheDocument();
+  });
+
+  it("renders with defaultValue (uncontrolled)", () => {
+    renderWithTheme(
+      <RadioGroup options={options} defaultValue="b" onChange={() => {}} />
+    );
+    const radios = screen.getAllByRole("radio");
+    expect(radios[1]!.getAttribute("aria-checked")).toBe("true");
+  });
+});
+
+describe("Checkbox — keyboard", () => {
+  it("toggles on Space key", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(<Checkbox checked={false} onChange={onChange} />);
+    const cb = screen.getByRole("checkbox");
+    cb.focus();
+    await userEvent.keyboard(" ");
+    expect(onChange).toHaveBeenCalledWith(true);
+  });
+
+  it("toggles on Enter key", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(<Checkbox checked={false} onChange={onChange} />);
+    const cb = screen.getByRole("checkbox");
+    cb.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(onChange).toHaveBeenCalledWith(true);
+  });
+
+  it("renders label", () => {
+    renderWithTheme(<Checkbox label="Accept" onChange={() => {}} />);
+    expect(screen.getByText("Accept")).toBeInTheDocument();
+  });
+});
+
 describe("DropZone", () => {
   it("renders default label", () => {
     renderWithTheme(<DropZone />);
@@ -185,5 +262,22 @@ describe("DropZone", () => {
   it("renders custom label when given", () => {
     renderWithTheme(<DropZone label="DROP ASSETS" />);
     expect(screen.getByText("DROP ASSETS")).toBeInTheDocument();
+  });
+
+  it("has button role and is keyboard-activatable", () => {
+    renderWithTheme(<DropZone />);
+    const zone = screen.getByRole("button", { name: "DROP FILES HERE OR CLICK TO BROWSE" });
+    expect(zone).toBeInTheDocument();
+    expect(zone.getAttribute("tabindex")).toBe("0");
+  });
+
+  it("fires onFiles when files are dropped", () => {
+    const onFiles = vi.fn();
+    renderWithTheme(<DropZone onFiles={onFiles} />);
+    const zone = screen.getByRole("button", { name: "DROP FILES HERE OR CLICK TO BROWSE" });
+    const file = new File(["content"], "test.txt", { type: "text/plain" });
+    const dataTransfer = { files: [file] };
+    fireEvent.drop(zone, { dataTransfer });
+    expect(onFiles).toHaveBeenCalledWith([file]);
   });
 });

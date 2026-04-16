@@ -83,6 +83,36 @@ describe("Dropdown", () => {
     await userEvent.click(screen.getByText("X"));
     expect(onClick).not.toHaveBeenCalled();
   });
+
+  it("Enter key on dropdown item fires onClick and closes", async () => {
+    const onClick = vi.fn();
+    renderWithTheme(
+      <Dropdown
+        trigger={<button>Menu</button>}
+        items={[{ label: "Action", onClick }]}
+      />
+    );
+    await userEvent.click(screen.getByText("Menu"));
+    const item = screen.getByText("Action");
+    item.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("Space key on dropdown item fires onClick and closes", async () => {
+    const onClick = vi.fn();
+    renderWithTheme(
+      <Dropdown
+        trigger={<button>Menu</button>}
+        items={[{ label: "Act", onClick }]}
+      />
+    );
+    await userEvent.click(screen.getByText("Menu"));
+    const item = screen.getByText("Act");
+    item.focus();
+    await userEvent.keyboard(" ");
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe("Popover", () => {

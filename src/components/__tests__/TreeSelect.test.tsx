@@ -96,6 +96,74 @@ describe("TreeSelect", () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
+  it("keyboard ArrowDown/ArrowUp navigates focus", async () => {
+    renderWithTheme(
+      <TreeSelect label="Category" nodes={tree} defaultExpanded={["fruits"]} />
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Category" }));
+    const popover = document.querySelector(".vf-tree-select__popover") as HTMLElement;
+    popover.focus();
+    // ArrowDown twice to move from Fruits -> Apple -> Banana
+    await userEvent.keyboard("{ArrowDown}{ArrowDown}");
+    // ArrowUp to go back
+    await userEvent.keyboard("{ArrowUp}");
+    // Should still have tree visible
+    expect(screen.getByRole("tree")).toBeInTheDocument();
+  });
+
+  it("ArrowRight expands a collapsed branch", async () => {
+    renderWithTheme(
+      <TreeSelect label="Category" nodes={tree} />
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Category" }));
+    const popover = document.querySelector(".vf-tree-select__popover") as HTMLElement;
+    popover.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    // Now children should be visible
+    expect(screen.getByRole("treeitem", { name: /Apple/ })).toBeInTheDocument();
+  });
+
+  it("ArrowLeft collapses an expanded branch", async () => {
+    renderWithTheme(
+      <TreeSelect label="Category" nodes={tree} defaultExpanded={["fruits"]} />
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Category" }));
+    const popover = document.querySelector(".vf-tree-select__popover") as HTMLElement;
+    popover.focus();
+    expect(screen.getByRole("treeitem", { name: /Apple/ })).toBeInTheDocument();
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(screen.queryByRole("treeitem", { name: /Apple/ })).not.toBeInTheDocument();
+  });
+
+  it("Enter selects the focused item", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(
+      <TreeSelect
+        label="Category"
+        nodes={tree}
+        defaultExpanded={["fruits"]}
+        onChange={onChange}
+      />
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Category" }));
+    const popover = document.querySelector(".vf-tree-select__popover") as HTMLElement;
+    popover.focus();
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    expect(onChange).toHaveBeenCalledWith("apple");
+  });
+
+  it("Escape closes the tree", async () => {
+    renderWithTheme(
+      <TreeSelect label="Category" nodes={tree} />
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Category" }));
+    const popover = document.querySelector(".vf-tree-select__popover") as HTMLElement;
+    popover.focus();
+    expect(screen.getByRole("tree")).toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByRole("tree")).not.toBeInTheDocument();
+  });
+
   it("has no a11y violations (closed)", async () => {
     const { container } = renderWithTheme(
       <TreeSelect label="Category" nodes={tree} />

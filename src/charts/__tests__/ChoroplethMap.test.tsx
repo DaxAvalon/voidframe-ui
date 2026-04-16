@@ -156,4 +156,113 @@ describe("ChoroplethMap", () => {
       ).toBe(3);
     });
   });
+
+  it("applies custom className", () => {
+    const { container } = renderWithTheme(
+      <ChoroplethMap
+        topology={topology}
+        objectKey="regions"
+        featureIdProp="id"
+        values={{ A: 5 }}
+        width={400}
+        height={300}
+        className="my-map"
+      />
+    );
+    expect(
+      container.querySelector(".vf-chart-choropleth")!.classList.contains("my-map")
+    ).toBe(true);
+  });
+
+  it("uses the default aria-label", () => {
+    const { container } = renderWithTheme(
+      <ChoroplethMap
+        topology={topology}
+        objectKey="regions"
+        featureIdProp="id"
+        values={{ A: 5 }}
+        width={400}
+        height={300}
+      />
+    );
+    const svg = container.querySelector(".vf-chart-choropleth__svg");
+    expect(svg!.getAttribute("aria-label")).toBe("Choropleth map");
+  });
+
+  it("renders features with missing values as 'no data' fill", async () => {
+    const { container } = renderWithTheme(
+      <ChoroplethMap
+        topology={topology}
+        objectKey="regions"
+        featureIdProp="id"
+        values={{ A: 5 }}
+        width={400}
+        height={300}
+      />
+    );
+    await waitFor(() => {
+      const features = container.querySelectorAll(".vf-chart-choropleth__feature");
+      expect(features.length).toBe(2);
+      // B has no value → should use no-data fill
+      const bFeature = features[1];
+      expect(bFeature!.getAttribute("fill")).toBe("var(--vf-bg-3)");
+    });
+  });
+
+  it("renders with geoEqualEarth projection", async () => {
+    const { container } = renderWithTheme(
+      <ChoroplethMap
+        topology={topology}
+        objectKey="regions"
+        featureIdProp="id"
+        values={{ A: 5, B: 10 }}
+        projection="geoEqualEarth"
+        width={400}
+        height={300}
+      />
+    );
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll(".vf-chart-choropleth__feature").length
+      ).toBe(2);
+    });
+  });
+
+  it("renders with geoNaturalEarth1 projection", async () => {
+    const { container } = renderWithTheme(
+      <ChoroplethMap
+        topology={topology}
+        objectKey="regions"
+        featureIdProp="id"
+        values={{ A: 5, B: 10 }}
+        projection="geoNaturalEarth1"
+        width={400}
+        height={300}
+      />
+    );
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll(".vf-chart-choropleth__feature").length
+      ).toBe(2);
+    });
+  });
+
+  it("uses custom valueFormat", async () => {
+    const { container } = renderWithTheme(
+      <ChoroplethMap
+        topology={topology}
+        objectKey="regions"
+        featureIdProp="id"
+        values={{ A: 5, B: 10 }}
+        valueFormat={(v) => `$${v}`}
+        width={400}
+        height={300}
+      />
+    );
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll(".vf-chart-choropleth__feature").length
+      ).toBe(2);
+    });
+  });
 });

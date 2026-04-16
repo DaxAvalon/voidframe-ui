@@ -32,4 +32,58 @@ describe("CalendarHeatmap", () => {
     const months = container.querySelectorAll(".vf-chart-calheat__month");
     expect(months.length).toBeGreaterThan(0);
   });
+
+  it("renders title and description", () => {
+    const { getByText } = renderWithTheme(
+      <CalendarHeatmap
+        start={new Date(2026, 0, 1)}
+        end={new Date(2026, 0, 7)}
+        data={[]}
+        title="Commits"
+        description="Daily activity"
+      />
+    );
+    expect(getByText("Commits")).toBeTruthy();
+    expect(getByText("Daily activity")).toBeTruthy();
+  });
+
+  it("uses the default aria-label", () => {
+    const { container } = renderWithTheme(
+      <CalendarHeatmap
+        start={new Date(2026, 0, 1)}
+        end={new Date(2026, 0, 7)}
+        data={[]}
+      />
+    );
+    const svg = container.querySelector("svg[role='img']");
+    expect(svg!.getAttribute("aria-label")).toBe("Calendar heatmap");
+  });
+
+  it("applies custom className", () => {
+    const { container } = renderWithTheme(
+      <CalendarHeatmap
+        start={new Date(2026, 0, 1)}
+        end={new Date(2026, 0, 7)}
+        data={[]}
+        className="my-cal"
+      />
+    );
+    expect(
+      container
+        .querySelector(".vf-chart-calheat")!
+        .classList.contains("my-cal")
+    ).toBe(true);
+  });
+
+  it("renders day-of-week labels", () => {
+    const { container } = renderWithTheme(
+      <CalendarHeatmap
+        start={new Date(2026, 0, 1)}
+        end={new Date(2026, 0, 14)}
+        data={[]}
+      />
+    );
+    const dayLabels = container.querySelectorAll(".vf-chart-calheat__day");
+    expect(dayLabels.length).toBeGreaterThan(0);
+  });
 });

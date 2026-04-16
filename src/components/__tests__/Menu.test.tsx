@@ -88,6 +88,98 @@ describe("Menu", () => {
     );
     expect(screen.getByRole("separator")).toBeInTheDocument();
   });
+
+  it("Label renders label text", () => {
+    renderWithTheme(
+      <Menu defaultOpen>
+        <Menu.Trigger>x</Menu.Trigger>
+        <Menu.Content>
+          <Menu.Label>Actions</Menu.Label>
+          <Menu.Item>Copy</Menu.Item>
+        </Menu.Content>
+      </Menu>
+    );
+    expect(screen.getByText("Actions")).toBeInTheDocument();
+  });
+
+  it("keyboard ArrowDown navigates between items", async () => {
+    renderWithTheme(
+      <Menu defaultOpen>
+        <Menu.Trigger>x</Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item>First</Menu.Item>
+          <Menu.Item>Second</Menu.Item>
+        </Menu.Content>
+      </Menu>
+    );
+    const menu = screen.getByRole("menu");
+    fireEvent.keyDown(menu, { key: "ArrowDown" });
+    const items = screen.getAllByRole("menuitem");
+    expect(document.activeElement).toBe(items[0]);
+  });
+
+  it("keyboard Enter on item activates it", async () => {
+    const onSelect = vi.fn();
+    renderWithTheme(
+      <Menu defaultOpen>
+        <Menu.Trigger>x</Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item onSelect={onSelect}>Action</Menu.Item>
+        </Menu.Content>
+      </Menu>
+    );
+    const item = screen.getByRole("menuitem", { name: "Action" });
+    item.focus();
+    fireEvent.keyDown(item, { key: "Enter" });
+    expect(onSelect).toHaveBeenCalled();
+  });
+
+  it("disabled Item does not fire onSelect", async () => {
+    const onSelect = vi.fn();
+    renderWithTheme(
+      <Menu defaultOpen>
+        <Menu.Trigger>x</Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item disabled onSelect={onSelect}>
+            Disabled
+          </Menu.Item>
+        </Menu.Content>
+      </Menu>
+    );
+    await userEvent.click(screen.getByRole("menuitem", { name: "Disabled" }));
+    expect(onSelect).not.toHaveBeenCalled();
+  });
+
+  it("Sub menu opens on hover", async () => {
+    renderWithTheme(
+      <Menu defaultOpen>
+        <Menu.Trigger>x</Menu.Trigger>
+        <Menu.Content>
+          <Menu.Sub>
+            <Menu.SubTrigger>More</Menu.SubTrigger>
+            <Menu.SubContent>
+              <Menu.Item>Sub item</Menu.Item>
+            </Menu.SubContent>
+          </Menu.Sub>
+        </Menu.Content>
+      </Menu>
+    );
+    const trigger = screen.getByText("More");
+    await userEvent.hover(trigger);
+    expect(screen.getByText("Sub item")).toBeInTheDocument();
+  });
+
+  it("Item renders shortcut text", () => {
+    renderWithTheme(
+      <Menu defaultOpen>
+        <Menu.Trigger>x</Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item shortcut="Ctrl+C">Copy</Menu.Item>
+        </Menu.Content>
+      </Menu>
+    );
+    expect(screen.getByText("Ctrl+C")).toBeInTheDocument();
+  });
 });
 
 describe("ContextMenu", () => {

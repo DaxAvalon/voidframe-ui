@@ -88,6 +88,61 @@ describe("AudioPlayer", () => {
   });
 });
 
+describe("VideoPlayer - custom controls", () => {
+  it("renders Play button", () => {
+    renderWithTheme(<VideoPlayer src="test.mp4" />);
+    expect(screen.getByRole("button", { name: "Play" })).toBeInTheDocument();
+  });
+
+  it("renders Seek slider", () => {
+    renderWithTheme(<VideoPlayer src="test.mp4" />);
+    expect(screen.getByRole("slider", { name: "Seek" })).toBeInTheDocument();
+  });
+
+  it("renders Volume slider", () => {
+    renderWithTheme(<VideoPlayer src="test.mp4" />);
+    expect(screen.getByRole("slider", { name: "Volume" })).toBeInTheDocument();
+  });
+
+  it("renders Time display", () => {
+    renderWithTheme(<VideoPlayer src="test.mp4" />);
+    expect(screen.getByText(/0:00/)).toBeInTheDocument();
+  });
+
+  it("renders Fullscreen button", () => {
+    renderWithTheme(<VideoPlayer src="test.mp4" />);
+    expect(screen.getByRole("button", { name: "Enter fullscreen" })).toBeInTheDocument();
+  });
+
+  it("renders playback rate selector when showPlaybackRate", () => {
+    renderWithTheme(<VideoPlayer src="test.mp4" showPlaybackRate />);
+    expect(screen.getByRole("combobox", { name: "Playback rate" })).toBeInTheDocument();
+  });
+
+  it("renders captions menu when captions provided", () => {
+    renderWithTheme(
+      <VideoPlayer
+        src="test.mp4"
+        captions={[{ src: "en.vtt", srcLang: "en", label: "English" }]}
+      />
+    );
+    expect(screen.getByText("English")).toBeInTheDocument();
+    expect(screen.getByText("Off")).toBeInTheDocument();
+  });
+});
+
+describe("AudioPlayer - custom controls", () => {
+  it("renders Play button", () => {
+    renderWithTheme(<AudioPlayer src="test.mp3" />);
+    expect(screen.getByRole("button", { name: "Play" })).toBeInTheDocument();
+  });
+
+  it("has Audio player aria label", () => {
+    renderWithTheme(<AudioPlayer src="test.mp3" />);
+    expect(screen.getByRole("group", { name: "Audio player" })).toBeInTheDocument();
+  });
+});
+
 describe("VoiceWaveform", () => {
   it("renders SVG waveform bars from audioData", () => {
     const data = [0.1, 0.5, 0.8, 0.3, 0.6];

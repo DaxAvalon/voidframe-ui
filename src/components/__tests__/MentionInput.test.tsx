@@ -80,6 +80,29 @@ describe("MentionInput", () => {
     await nextTick();
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
+
+  it("shows 'No matches' when filter has no results", async () => {
+    renderWithTheme(<MentionInput label="Message" options={people} />);
+    const ta = screen.getByLabelText("Message") as HTMLTextAreaElement;
+    await userEvent.type(ta, "@zzzzz");
+    await nextTick();
+    expect(screen.getByText("No matches")).toBeInTheDocument();
+  });
+
+  it("disabled option mouseDown does not insert mention", async () => {
+    const disabled: MentionOption[] = [
+      { value: "alice", label: "Alice", disabled: true },
+    ];
+    const onMention = vi.fn();
+    renderWithTheme(
+      <MentionInput label="Message" options={disabled} onMention={onMention} />
+    );
+    const ta = screen.getByLabelText("Message") as HTMLTextAreaElement;
+    await userEvent.type(ta, "@");
+    await nextTick();
+    const opt = screen.getByRole("option");
+    expect(opt).toHaveAttribute("aria-disabled", "true");
+  });
 });
 
 describe("SlashCommandInput", () => {

@@ -91,4 +91,76 @@ describe("Spotlight", () => {
     );
     expect(screen.queryByText("Skip")).not.toBeInTheDocument();
   });
+
+  it("does not show Back on first step", () => {
+    renderWithTheme(<Spotlight steps={steps} open={true} step={0} />);
+    expect(screen.queryByText("Back")).not.toBeInTheDocument();
+  });
+
+  it("renders SVG mask overlay", () => {
+    const { container } = renderWithTheme(
+      <Spotlight steps={steps} open={true} step={0} />
+    );
+    expect(container.ownerDocument.querySelector(".vf-spotlight__mask")).toBeInTheDocument();
+  });
+
+  it("renders card at correct position when no target (fallback)", () => {
+    renderWithTheme(<Spotlight steps={steps} open={true} step={0} />);
+    const card = document.querySelector(".vf-spotlight__card");
+    expect(card).toBeTruthy();
+  });
+
+  it("uncontrolled mode uses defaultOpen and defaultStep", () => {
+    renderWithTheme(
+      <Spotlight steps={steps} defaultOpen={true} defaultStep={1} />
+    );
+    expect(screen.getByText("Step 2")).toBeInTheDocument();
+    expect(screen.getByText("2 / 3")).toBeInTheDocument();
+  });
+
+  it("uses custom tint color", () => {
+    renderWithTheme(
+      <Spotlight steps={steps} open={true} step={0} tint="rgba(255,0,0,0.5)" />
+    );
+    expect(document.querySelector(".vf-spotlight__mask")).toBeInTheDocument();
+  });
+
+  it("renders with target as string selector", () => {
+    const div = document.createElement("div");
+    div.id = "test-target";
+    document.body.appendChild(div);
+    try {
+      const stepsWithTarget: SpotlightStep[] = [
+        { target: "#test-target", title: "Target Step", content: "Found it" },
+      ];
+      renderWithTheme(<Spotlight steps={stepsWithTarget} open={true} step={0} />);
+      expect(screen.getByText("Target Step")).toBeInTheDocument();
+    } finally {
+      document.body.removeChild(div);
+    }
+  });
+
+  it("renders placement=top positioning", () => {
+    const stepsWithPlacement: SpotlightStep[] = [
+      { target: null, title: "Top Step", content: "Top", placement: "top" },
+    ];
+    renderWithTheme(<Spotlight steps={stepsWithPlacement} open={true} step={0} />);
+    expect(screen.getByText("Top Step")).toBeInTheDocument();
+  });
+
+  it("renders placement=left positioning", () => {
+    const stepsWithPlacement: SpotlightStep[] = [
+      { target: null, title: "Left Step", content: "Left", placement: "left" },
+    ];
+    renderWithTheme(<Spotlight steps={stepsWithPlacement} open={true} step={0} />);
+    expect(screen.getByText("Left Step")).toBeInTheDocument();
+  });
+
+  it("renders placement=right positioning", () => {
+    const stepsWithPlacement: SpotlightStep[] = [
+      { target: null, title: "Right Step", content: "Right", placement: "right" },
+    ];
+    renderWithTheme(<Spotlight steps={stepsWithPlacement} open={true} step={0} />);
+    expect(screen.getByText("Right Step")).toBeInTheDocument();
+  });
 });

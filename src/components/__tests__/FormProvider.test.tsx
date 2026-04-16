@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { fireEvent } from "@testing-library/react";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 import { useForm } from "../../hooks/useForm";
-import { Form, FormErrorSummary, useFormContext } from "../FormProvider";
+import { Form, FormErrorSummary, focusFirstInvalid, useFormContext } from "../FormProvider";
 
 function SimpleForm({
   onSubmit,
@@ -92,6 +92,74 @@ describe("Form + FormProvider", () => {
     }
     const { getByTestId } = renderWithTheme(<Harness />);
     expect(getByTestId("dirty").textContent).toBe("false");
+  });
+});
+
+describe("focusFirstInvalid", () => {
+  it("focuses the first field matching an error key", () => {
+    const container = document.createElement("div");
+    document.body.appendChild(container);
+    const input = document.createElement("input");
+    input.name = "email";
+    container.appendChild(input);
+    const focusSpy = vi.spyOn(input, "focus");
+    focusFirstInvalid({ email: "Required", name: undefined }, container);
+    expect(focusSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
+  it("skips fields with no error message", () => {
+    const container = document.createElement("div");
+    document.body.appendChild(container);
+    const input = document.createElement("input");
+    input.name = "email";
+    container.appendChild(input);
+    const focusSpy = vi.spyOn(input, "focus");
+    focusFirstInvalid({ email: undefined }, container);
+    expect(focusSpy).not.toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
+  it("does nothing when no matching DOM element exists", () => {
+    const container = document.createElement("div");
+    // No inputs at all
+    focusFirstInvalid({ email: "Required" }, container);
+    // Should not throw
+  });
+});
+
+describe("FormErrorSummary — link click focuses field", () => {
+  it("clicking an error link focuses the matching input", async () => {
+    function FocusForm() {
+      const form = useForm({
+        initialValues: { email: "" },
+        validate: (values) => {
+          if (!values.email) return { email: "Email is required" };
+          return null;
+        },
+      });
+      return (
+        <Form form={form}>
+          <input name="email" {...form.register("email")} />
+          <FormErrorSummary />
+          <button type="submit">Submit</button>
+        </Form>
+      );
+    }
+    const { container } = renderWithTheme(<FocusForm />);
+    const form = container.querySelector("form")!;
+    fireEvent.submit(form);
+    await vi.waitFor(() =>
+      expect(
+        container.querySelector(".vf-form-error-summary")
+      ).toBeTruthy()
+    );
+    const link = container.querySelector(".vf-form-error-summary__link");
+    expect(link).toBeTruthy();
+    fireEvent.click(link!);
+    // The email input should be focused
+    const emailInput = container.querySelector("input[name='email']");
+    expect(document.activeElement).toBe(emailInput);
   });
 });
 

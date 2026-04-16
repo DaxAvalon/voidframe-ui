@@ -73,6 +73,40 @@ describe("CodeBlock", () => {
     );
     expect(container.querySelector("[data-language='typescript']")).toBeInTheDocument();
   });
+
+  it("search highlights matching text with <mark>", async () => {
+    const { container } = renderWithTheme(
+      <CodeBlock code={sample} searchable />
+    );
+    const search = screen.getByRole("textbox", { name: "Search in code" });
+    await userEvent.type(search, "const b");
+    const marks = container.querySelectorAll("mark.vf-code-block__match");
+    expect(marks.length).toBeGreaterThanOrEqual(1);
+    expect(marks[0]!.textContent).toBe("const b");
+  });
+
+  it("highlight function returning string writes to HTMLPane", () => {
+    const { container } = renderWithTheme(
+      <CodeBlock
+        code="x = 1"
+        highlight={(code) => `<span class="hl">${code}</span>`}
+      />
+    );
+    expect(container.querySelector(".vf-codeblock__highlight")).toBeInTheDocument();
+  });
+
+  it("download button triggers download", () => {
+    const createObjectURL = vi.fn().mockReturnValue("blob:test");
+    const revokeObjectURL = vi.fn();
+    Object.defineProperty(URL, "createObjectURL", { value: createObjectURL, configurable: true });
+    Object.defineProperty(URL, "revokeObjectURL", { value: revokeObjectURL, configurable: true });
+
+    renderWithTheme(<CodeBlock code={sample} downloadable downloadFilename="test.ts" />);
+    const btn = screen.getByRole("button", { name: "Download code" });
+    fireEvent.click(btn);
+    expect(createObjectURL).toHaveBeenCalled();
+    expect(revokeObjectURL).toHaveBeenCalled();
+  });
 });
 
 describe("DiffViewer", () => {
@@ -128,5 +162,43 @@ describe("LogViewer", () => {
     const { container } = renderWithTheme(<LogViewer entries={entries} />);
     expect(container.querySelector(".vf-log-viewer__level--info")).toBeInTheDocument();
     expect(container.querySelector(".vf-log-viewer__level--error")).toBeInTheDocument();
+  });
+
+  it("filters by log level", () => {
+    renderWithTheme(<LogViewer entries={entries} level="warn" />);
+    expect(screen.queryByText("Started")).not.toBeInTheDocument();
+    expect(screen.getByText("Failed")).toBeInTheDocument();
+    expect(screen.getByText("Slow query")).toBeInTheDocument();
+  });
+
+  it("shows filter input when filterable", () => {
+    renderWithTheme(<LogViewer entries={entries} filterable />);
+    expect(screen.getByRole("textbox", { name: "Filter log entries" })).toBeInTheDocument();
+  });
+
+  it("filters entries by text input", async () => {
+    renderWithTheme(<LogViewer entries={entries} filterable />);
+    const input = screen.getByRole("textbox", { name: "Filter log entries" });
+    await userEvent.type(input, "Slow");
+    expect(screen.queryByText("Started")).not.toBeInTheDocument();
+    expect(screen.getByText("Slow query")).toBeInTheDocument();
+  });
+
+  it("shows pause/resume button", () => {
+    renderWithTheme(<LogViewer entries={entries} pausable />);
+    expect(screen.getByText(/Pause/)).toBeInTheDocument();
+  });
+
+  it("pauses scrolling on button click", async () => {
+    renderWithTheme(<LogViewer entries={entries} pausable />);
+    await userEvent.click(screen.getByText(/Pause/));
+    expect(screen.getByText(/Resume/)).toBeInTheDocument();
+  });
+
+  it("fires onEntryClick", async () => {
+    const onEntryClick = vi.fn();
+    renderWithTheme(<LogViewer entries={entries} onEntryClick={onEntryClick} />);
+    await userEvent.click(screen.getByText("Started"));
+    expect(onEntryClick).toHaveBeenCalled();
   });
 });
