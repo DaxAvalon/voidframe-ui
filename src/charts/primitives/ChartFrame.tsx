@@ -10,6 +10,7 @@
 
 import {
   forwardRef,
+  useImperativeHandle,
   useMemo,
   useRef,
   type CSSProperties,
@@ -26,6 +27,13 @@ import {
   type ChartContextValue,
   type ChartMargins,
 } from "./ChartContext";
+
+export interface ChartFrameHandle {
+  /** Returns the chart SVG markup as a string. */
+  toSVG: () => string;
+  /** Renders the chart to a PNG data URL. */
+  toPNG: (scale?: number) => Promise<string>;
+}
 
 export interface ChartFrameProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
@@ -74,8 +82,56 @@ export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
     ref
   ) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const svgRef = useRef<SVGSVGElement>(null);
     const mergedRef = useMergedRefs(ref, containerRef);
     const measured = useElementSize(containerRef);
+
+    useImperativeHandle(
+      ref,
+      () => {
+        const div = containerRef.current!;
+        const handle = div as HTMLDivElement & ChartFrameHandle;
+        handle.toSVG = () => {
+          const svg = svgRef.current;
+          if (!svg) return "";
+          return svg.outerHTML;
+        };
+        handle.toPNG = async (scale = 2) => {
+          const svg = svgRef.current;
+          if (!svg) return "";
+          const svgString = svg.outerHTML;
+          const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const img = new Image();
+          const w = svg.viewBox.baseVal.width || svg.clientWidth;
+          const h = svg.viewBox.baseVal.height || svg.clientHeight;
+          return new Promise<string>((resolve, reject) => {
+            img.onload = () => {
+              const canvas = document.createElement("canvas");
+              canvas.width = w * scale;
+              canvas.height = h * scale;
+              const ctx2d = canvas.getContext("2d");
+              if (!ctx2d) {
+                URL.revokeObjectURL(url);
+                reject(new Error("Canvas 2D context unavailable"));
+                return;
+              }
+              ctx2d.scale(scale, scale);
+              ctx2d.drawImage(img, 0, 0, w, h);
+              URL.revokeObjectURL(url);
+              resolve(canvas.toDataURL("image/png"));
+            };
+            img.onerror = () => {
+              URL.revokeObjectURL(url);
+              reject(new Error("Failed to load SVG into image"));
+            };
+            img.src = url;
+          });
+        };
+        return handle;
+      },
+      []
+    );
 
     const resolvedWidth = Math.max(
       1,
@@ -141,6 +197,7 @@ export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
           </div>
         )}
         <svg
+          ref={svgRef}
           className={cx("vf-chart-frame__svg", svgClassName)}
           role="img"
           aria-label={accessibleLabel}

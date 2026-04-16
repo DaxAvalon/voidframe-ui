@@ -26,6 +26,8 @@ import { bisectNearest } from "./math/bisector";
 import { formatChartNumber, seriesPalette } from "./math/color";
 import {
   linearScale,
+  logScale,
+  sqrtScale,
   pointScale,
   timeScale,
   type PointScale,
@@ -69,6 +71,10 @@ export interface AreaChartProps
   valueFormat?: (value: number) => string;
   xFormat?: (value: number | Date | string) => string;
   accessibleLabel?: string;
+  /** Y-axis scale kind. Default "linear". */
+  scaleKind?: "linear" | "log" | "sqrt";
+  /** Series keys to hide (for interactive legend toggling). */
+  hiddenKeys?: string[];
 }
 
 export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
@@ -91,6 +97,8 @@ export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
       valueFormat = (v) => formatChartNumber(v),
       xFormat,
       accessibleLabel,
+      scaleKind = "linear",
+      hiddenKeys: hiddenKeysProp,
       className,
       ...props
     },
@@ -100,6 +108,12 @@ export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
       const palette = seriesPalette(series.length);
       return series.map((s, i) => s.color ?? palette[i]!);
     }, [series]);
+    const [hiddenKeysInternal, setHiddenKeysInternal] = useState<string[]>([]);
+    const hiddenKeys = hiddenKeysProp ?? hiddenKeysInternal;
+    const visibleSeries = useMemo(
+      () => series.filter((s) => !hiddenKeys.includes(s.key)),
+      [series, hiddenKeys]
+    );
     const [hover, setHover] = useState<{
       datum: AreaChartDatum;
       clientX: number;
@@ -118,16 +132,19 @@ export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
         >
           <AreaChartInner
             data={data}
-            series={series}
+            series={visibleSeries}
             mode={mode}
             xKind={xKind}
             valueTicks={valueTicks}
             xTicks={xTicks}
             valueFormat={valueFormat}
             xFormat={xFormat}
-            colors={colors}
+            colors={visibleSeries.map(
+              (s) => colors[series.findIndex((orig) => orig.key === s.key)]!
+            )}
             showGrid={showGrid}
             showStroke={showStroke}
+            scaleKind={scaleKind}
             onHover={setHover}
           />
         </ChartFrame>
@@ -139,7 +156,16 @@ export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
               label: s.label ?? s.key,
               color: colors[i]!,
               glyph: "square",
+              disabled: hiddenKeys.includes(s.key),
             }))}
+            onToggle={(key) => {
+              if (hiddenKeysProp !== undefined) return;
+              setHiddenKeysInternal((prev) =>
+                prev.includes(key)
+                  ? prev.filter((k) => k !== key)
+                  : [...prev, key]
+              );
+            }}
           />
         )}
         <ChartTooltip
@@ -189,6 +215,7 @@ interface AreaChartInnerProps {
   colors: string[];
   showGrid: boolean;
   showStroke: boolean;
+  scaleKind: "linear" | "log" | "sqrt";
   onHover: (
     h: { datum: AreaChartDatum; clientX: number; clientY: number } | null
   ) => void;
@@ -206,6 +233,7 @@ function AreaChartInner({
   colors,
   showGrid,
   showStroke,
+  scaleKind,
   onHover,
 }: AreaChartInnerProps) {
   const { innerWidth, innerHeight } = useChart();
@@ -281,15 +309,16 @@ function AreaChartInner({
     return [lo, hi];
   }, [data, series, stackedResult]);
 
-  const yScale = useMemo(
-    () =>
-      linearScale({
-        domain: [yMin, yMax],
-        range: [innerHeight, 0],
-        nice: true,
-      }),
-    [yMin, yMax, innerHeight]
-  );
+  const yScale = useMemo(() => {
+    const opts = {
+      domain: [yMin, yMax] as [number, number],
+      range: [innerHeight, 0] as [number, number],
+      nice: true as const,
+    };
+    if (scaleKind === "log") return logScale(opts);
+    if (scaleKind === "sqrt") return sqrtScale(opts);
+    return linearScale(opts);
+  }, [yMin, yMax, innerHeight, scaleKind]);
 
   return (
     <g className="vf-chart-area-chart__inner">

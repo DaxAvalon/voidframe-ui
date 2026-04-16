@@ -42,6 +42,28 @@ export function defaultSeriesPalette(): string[] {
   return DEFAULT_PALETTE.slice();
 }
 
+/** Color-blind-safe palette (Okabe-Ito). */
+export const CVD_PALETTE: string[] = [
+  "#E69F00", "#56B4E9", "#009E73", "#F0E442",
+  "#0072B2", "#D55E00", "#CC79A7", "#000000",
+];
+
+/** Diverging palette (blue -> white -> red). */
+export const DIVERGING_PALETTE: string[] = [
+  "#2166ac", "#4393c3", "#92c5de", "#d1e5f0",
+  "#f7f7f7",
+  "#fddbc7", "#f4a582", "#d6604d", "#b2182b",
+];
+
+export function cvdPalette(n: number): string[] {
+  return seriesPalette(n, { palette: CVD_PALETTE });
+}
+
+export function divergingPalette(n: number): string[] {
+  if (n <= DIVERGING_PALETTE.length) return DIVERGING_PALETTE.slice(0, n);
+  return DIVERGING_PALETTE.slice();
+}
+
 /**
  * Format a number for display in tooltips / axes with sensible defaults:
  * - Integers rendered without a decimal.

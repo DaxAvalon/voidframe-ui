@@ -5,7 +5,7 @@
 // --vf-* CSS tokens, zero animation.
 
 export { ChartFrame } from "./primitives/ChartFrame";
-export type { ChartFrameProps } from "./primitives/ChartFrame";
+export type { ChartFrameHandle, ChartFrameProps } from "./primitives/ChartFrame";
 
 export {
   ChartContext,
@@ -44,6 +44,12 @@ export type { CrosshairProps } from "./primitives/Crosshair";
 
 export { Brush } from "./primitives/Brush";
 export type { BrushProps, BrushSelection } from "./primitives/Brush";
+
+export { ReferenceLine } from "./primitives/ReferenceLine";
+export type { ReferenceLineProps } from "./primitives/ReferenceLine";
+
+export { ReferenceBand } from "./primitives/ReferenceBand";
+export type { ReferenceBandProps } from "./primitives/ReferenceBand";
 
 // ── Math layer ──────────────────────────────────────────────
 export {
@@ -94,6 +100,10 @@ export {
   seriesPalette,
   defaultSeriesPalette,
   formatChartNumber,
+  cvdPalette,
+  divergingPalette,
+  CVD_PALETTE,
+  DIVERGING_PALETTE,
 } from "./math/color";
 export type { SeriesPaletteOptions } from "./math/color";
 

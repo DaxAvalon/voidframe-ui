@@ -25,6 +25,8 @@ import { bisectNearest } from "./math/bisector";
 import { formatChartNumber, seriesPalette } from "./math/color";
 import {
   linearScale,
+  logScale,
+  sqrtScale,
   pointScale,
   timeScale,
   type PointScale,
@@ -68,6 +70,12 @@ export interface LineChartProps
   valueFormat?: (value: number) => string;
   xFormat?: (value: number | Date | string) => string;
   accessibleLabel?: string;
+  /** Y-axis scale kind. Default "linear". */
+  scaleKind?: "linear" | "log" | "sqrt";
+  /** Series keys to hide (for interactive legend toggling). */
+  hiddenKeys?: string[];
+  /** When true, null / undefined values are skipped and surrounding points connect. Default false. */
+  connectNulls?: boolean;
 }
 
 const fmtDefault = (v: number) => formatChartNumber(v);
@@ -91,11 +99,20 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       valueFormat = fmtDefault,
       xFormat,
       accessibleLabel,
+      scaleKind = "linear",
+      hiddenKeys: hiddenKeysProp,
+      connectNulls = false,
       className,
       ...props
     },
     ref
   ) {
+    const [hiddenKeysInternal, setHiddenKeysInternal] = useState<string[]>([]);
+    const hiddenKeys = hiddenKeysProp ?? hiddenKeysInternal;
+    const visibleSeries = useMemo(
+      () => series.filter((s) => !hiddenKeys.includes(s.key)),
+      [series, hiddenKeys]
+    );
     const colors = useMemo(() => {
       const palette = seriesPalette(series.length);
       return series.map((s, i) => s.color ?? palette[i]!);
@@ -119,15 +136,19 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
         >
           <LineChartInner
             data={data}
-            series={series}
+            series={visibleSeries}
             xKind={xKind}
             valueTicks={valueTicks}
             xTicks={xTicks}
             valueFormat={valueFormat}
             xFormat={xFormat}
-            colors={colors}
+            colors={visibleSeries.map(
+              (s) => colors[series.findIndex((orig) => orig.key === s.key)]!
+            )}
             showGrid={showGrid}
             showCrosshair={showCrosshair}
+            scaleKind={scaleKind}
+            connectNulls={connectNulls}
             onHover={setHover}
           />
         </ChartFrame>
@@ -139,7 +160,16 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
               label: s.label ?? s.key,
               color: colors[i]!,
               glyph: "line",
+              disabled: hiddenKeys.includes(s.key),
             }))}
+            onToggle={(key) => {
+              if (hiddenKeysProp !== undefined) return; // controlled externally
+              setHiddenKeysInternal((prev) =>
+                prev.includes(key)
+                  ? prev.filter((k) => k !== key)
+                  : [...prev, key]
+              );
+            }}
           />
         )}
         <ChartTooltip
@@ -188,6 +218,8 @@ interface LineChartInnerProps {
   colors: string[];
   showGrid: boolean;
   showCrosshair: boolean;
+  scaleKind: "linear" | "log" | "sqrt";
+  connectNulls: boolean;
   onHover: (h: LineChartInnerHover | null) => void;
 }
 
@@ -208,6 +240,8 @@ function LineChartInner({
   colors,
   showGrid,
   showCrosshair,
+  scaleKind,
+  connectNulls,
   onHover,
 }: LineChartInnerProps) {
   const { innerWidth, innerHeight } = useChart();
@@ -264,15 +298,16 @@ function LineChartInner({
     return [lo, hi];
   }, [data, series]);
 
-  const yScale = useMemo(
-    () =>
-      linearScale({
-        domain: [valueMin, valueMax],
-        range: [innerHeight, 0],
-        nice: true,
-      }),
-    [valueMin, valueMax, innerHeight]
-  );
+  const yScale = useMemo(() => {
+    const opts = {
+      domain: [valueMin, valueMax] as [number, number],
+      range: [innerHeight, 0] as [number, number],
+      nice: true as const,
+    };
+    if (scaleKind === "log") return logScale(opts);
+    if (scaleKind === "sqrt") return sqrtScale(opts);
+    return linearScale(opts);
+  }, [valueMin, valueMax, innerHeight, scaleKind]);
 
   const [crosshair, setCrosshair] = useState<{
     x: number;
@@ -318,17 +353,25 @@ function LineChartInner({
         format={(v) => valueFormat(v as number)}
       />
       {series.map((s, sIdx) => {
-        const points = data
-          .map((d) => {
-            const value = Number(d[s.key]);
-            if (!Number.isFinite(value)) return null;
-            return { x: xAt(d.x) as number, y: yScale(value) };
-          })
-          .filter((p): p is { x: number; y: number } => p !== null);
+        const rawPoints = data.map((d) => {
+          const value = Number(d[s.key]);
+          const valid = Number.isFinite(value);
+          return {
+            x: xAt(d.x) as number,
+            y: valid ? yScale(value) : 0,
+            defined: valid,
+          };
+        });
+        // When connectNulls is true, remove undefined points so the line connects.
+        // When false, keep them with defined=false so the Line primitive gaps.
+        const linePoints = connectNulls
+          ? rawPoints.filter((p) => p.defined)
+          : rawPoints;
+        const visiblePoints = rawPoints.filter((p) => p.defined);
         return (
           <g key={s.key}>
             <Line
-              data={points}
+              data={linePoints}
               stroke={colors[sIdx]}
               strokeWidth={1.5}
               curve={s.curve ?? "linear"}
@@ -336,7 +379,7 @@ function LineChartInner({
             />
             {s.showPoints !== false && (
               <Point
-                data={points}
+                data={visiblePoints}
                 shape="square"
                 size={4}
                 fill={colors[sIdx]}

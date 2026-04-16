@@ -21,7 +21,7 @@ import {
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { Gridlines } from "./primitives/Gridlines";
 import { formatChartNumber, seriesPalette } from "./math/color";
-import { linearScale, sqrtScale } from "./math/scales";
+import { linearScale, logScale, sqrtScale } from "./math/scales";
 import { Point, type PointShape } from "./series/Point";
 import { cx } from "../utils/cx";
 
@@ -61,6 +61,8 @@ export interface ScatterPlotProps
   accessibleLabel?: string;
   /** Use a circle glyph instead of the brutalist square. Default square. */
   shape?: PointShape;
+  /** Y-axis scale kind. Default "linear". */
+  scaleKind?: "linear" | "log" | "sqrt";
 }
 
 export const ScatterPlot = forwardRef<HTMLDivElement, ScatterPlotProps>(
@@ -83,6 +85,7 @@ export const ScatterPlot = forwardRef<HTMLDivElement, ScatterPlotProps>(
       accessibleLabel,
       className,
       shape = "square",
+      scaleKind = "linear",
       ...props
     },
     ref
@@ -120,6 +123,7 @@ export const ScatterPlot = forwardRef<HTMLDivElement, ScatterPlotProps>(
             yFormat={yFormat}
             showGrid={showGrid}
             shape={shape}
+            scaleKind={scaleKind}
             onHover={setHover}
           />
         </ChartFrame>
@@ -181,6 +185,7 @@ interface ScatterInnerProps {
   yFormat: (v: number) => string;
   showGrid: boolean;
   shape: PointShape;
+  scaleKind: "linear" | "log" | "sqrt";
   onHover: (h: { datum: ScatterDatum; x: number; y: number } | null) => void;
 }
 
@@ -195,6 +200,7 @@ function ScatterInner({
   yFormat,
   showGrid,
   shape,
+  scaleKind,
   onHover,
 }: ScatterInnerProps) {
   const { innerWidth, innerHeight } = useChart();
@@ -238,11 +244,12 @@ function ScatterInner({
     range: [0, innerWidth],
     nice: true,
   });
-  const yScale = linearScale({
-    domain: yExtent,
-    range: [innerHeight, 0],
-    nice: true,
-  });
+  const yScaleOpts = { domain: yExtent, range: [innerHeight, 0] as [number, number], nice: true as const };
+  const yScale = scaleKind === "log"
+    ? logScale(yScaleOpts)
+    : scaleKind === "sqrt"
+      ? sqrtScale(yScaleOpts)
+      : linearScale(yScaleOpts);
   const sScale = sqrtScale({ domain: sizeExtent, range: sizeRange });
 
   const bySeries = new Map<string, ScatterDatum[]>();

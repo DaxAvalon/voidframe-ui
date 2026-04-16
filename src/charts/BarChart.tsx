@@ -21,7 +21,7 @@ import {
 } from "./primitives/ChartTooltipBody";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { Gridlines } from "./primitives/Gridlines";
-import { bandScale, linearScale, type BandScale } from "./math/scales";
+import { bandScale, linearScale, logScale, sqrtScale, type BandScale } from "./math/scales";
 import { formatChartNumber, seriesPalette } from "./math/color";
 import { stackSeries, type StackOffset } from "./math/stack";
 import { Bar } from "./series/Bar";
@@ -74,6 +74,10 @@ export interface BarChartProps
   valueTicks?: number;
   valueFormat?: (value: number) => string;
   accessibleLabel?: string;
+  /** Y-axis scale kind. Default "linear". */
+  scaleKind?: "linear" | "log" | "sqrt";
+  /** Series keys to hide (for interactive legend toggling). */
+  hiddenKeys?: string[];
   onBarClick?: (payload: {
     datum: BarChartDatum;
     seriesKey: string;
@@ -102,6 +106,8 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       valueTicks = 5,
       valueFormat = fmtDefault,
       accessibleLabel,
+      scaleKind = "linear",
+      hiddenKeys: hiddenKeysProp,
       className,
       onBarClick,
       ...props
@@ -112,6 +118,13 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       const palette = seriesPalette(series.length);
       return series.map((s, i) => s.color ?? palette[i]!);
     }, [series]);
+
+    const [hiddenKeysInternal, setHiddenKeysInternal] = useState<string[]>([]);
+    const hiddenKeys = hiddenKeysProp ?? hiddenKeysInternal;
+    const visibleSeries = useMemo(
+      () => series.filter((s) => !hiddenKeys.includes(s.key)),
+      [series, hiddenKeys]
+    );
 
     const [hover, setHover] = useState<BarChartHoverPayload | null>(null);
 
@@ -127,15 +140,18 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         >
           <BarChartInner
             data={data}
-            series={series}
+            series={visibleSeries}
             orientation={orientation}
             mode={mode}
             padding={padding}
             innerPadding={innerPadding}
             valueTicks={valueTicks}
             valueFormat={valueFormat}
-            colors={colors}
+            colors={visibleSeries.map(
+              (s) => colors[series.findIndex((orig) => orig.key === s.key)]!
+            )}
             showGrid={showGrid}
+            scaleKind={scaleKind}
             onHover={setHover}
             onBarClick={onBarClick}
           />
@@ -149,7 +165,16 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
               color: colors[i]!,
               tone: s.tone,
               glyph: "square",
+              disabled: hiddenKeys.includes(s.key),
             }))}
+            onToggle={(key) => {
+              if (hiddenKeysProp !== undefined) return;
+              setHiddenKeysInternal((prev) =>
+                prev.includes(key)
+                  ? prev.filter((k) => k !== key)
+                  : [...prev, key]
+              );
+            }}
           />
         )}
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
@@ -195,6 +220,7 @@ interface BarChartInnerProps {
   valueFormat: (v: number) => string;
   colors: string[];
   showGrid: boolean;
+  scaleKind: "linear" | "log" | "sqrt";
   onHover: (payload: BarChartHoverPayload | null) => void;
   onBarClick?: BarChartProps["onBarClick"];
 }
@@ -210,6 +236,7 @@ function BarChartInner({
   valueFormat,
   colors,
   showGrid,
+  scaleKind,
   onHover,
   onBarClick,
 }: BarChartInnerProps) {
@@ -265,15 +292,12 @@ function BarChartInner({
   const valueRange: [number, number] = isVertical
     ? [innerHeight, 0]
     : [0, innerWidth];
-  const valueScale = useMemo(
-    () =>
-      linearScale({
-        domain: valueExtent,
-        range: valueRange,
-        nice: true,
-      }),
-    [valueExtent, valueRange[0], valueRange[1]]
-  );
+  const valueScale = useMemo(() => {
+    const opts = { domain: valueExtent, range: valueRange, nice: true as const };
+    if (scaleKind === "log") return logScale(opts);
+    if (scaleKind === "sqrt") return sqrtScale(opts);
+    return linearScale(opts);
+  }, [valueExtent, valueRange[0], valueRange[1], scaleKind]);
 
   const subBand = useMemo(
     () =>
