@@ -1099,3 +1099,20 @@ export type {
   SimpleChatProps,
   AgentRunnerProps,
 } from "./ChatModel";
+
+// ── Phase 40: Form system + AsyncData ────────────────────────
+export {
+  Form,
+  FormErrorSummary,
+  useFormContext,
+  focusFirstInvalid,
+} from "./FormProvider";
+export type {
+  FormProps,
+  FormErrorSummaryProps,
+} from "./FormProvider";
+export { AsyncData } from "./AsyncData";
+export type {
+  AsyncDataProps,
+  AsyncDataStatus,
+} from "./AsyncData";

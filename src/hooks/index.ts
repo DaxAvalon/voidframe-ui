@@ -27,6 +27,8 @@ export {
 
 // Phase 7.5 — form state manager
 export { useForm } from "./useForm";
+export { useFieldArray } from "./useFieldArray";
+export type { UseFieldArrayReturn } from "./useFieldArray";
 
 // Phase 8 — shortcut registry + hook
 export {

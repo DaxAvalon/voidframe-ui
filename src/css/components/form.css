@@ -77,3 +77,83 @@
   background: var(--vf-accent, var(--vf-green));
   left: 15px;
 }
+
+/* ── FormErrorSummary ────────────────────────────────────── */
+.vf-form-error-summary {
+  border: 1px solid var(--vf-red, #c03030);
+  background: color-mix(in srgb, var(--vf-red) 6%, transparent);
+  padding: var(--vf-sp-3) var(--vf-sp-4);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-0);
+}
+.vf-form-error-summary__heading {
+  font-weight: 600;
+  margin-bottom: var(--vf-sp-2);
+  color: var(--vf-red, #c03030);
+}
+.vf-form-error-summary__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+}
+.vf-form-error-summary__link {
+  background: none;
+  border: none;
+  color: var(--vf-text-1);
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+.vf-form-error-summary__link:hover {
+  color: var(--vf-text-0);
+}
+
+/* ── AsyncData ───────────────────────────────────────────── */
+.vf-async-data__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--vf-sp-6);
+  color: var(--vf-text-3);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+}
+.vf-async-data__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--vf-sp-6);
+  color: var(--vf-text-3);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  font-style: italic;
+}
+.vf-async-data__error {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  padding: var(--vf-sp-3);
+  border: 1px solid var(--vf-red, #c03030);
+  background: color-mix(in srgb, var(--vf-red) 6%, transparent);
+  color: var(--vf-text-0);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+}
+.vf-async-data__retry {
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-2);
+  color: var(--vf-text-0);
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+.vf-async-data__retry:hover {
+  background: var(--vf-bg-3);
+}
