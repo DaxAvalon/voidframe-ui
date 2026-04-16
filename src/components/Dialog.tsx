@@ -385,6 +385,7 @@ DialogAction.displayName = "DialogAction";
  * `Dialog.Content`, `Dialog.Header`, `Dialog.Footer`, and the action
  * sub-components for confirm flows.
  */
+DialogRoot.displayName = "Dialog";
 export const Dialog = Object.assign(DialogRoot, {
   Trigger: DialogTrigger,
   Content: DialogContent,

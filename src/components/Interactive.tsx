@@ -10,6 +10,7 @@ import { Portal } from "../primitives/Portal";
 import { Presence } from "../primitives/Presence";
 import type { ToastType } from "../types";
 import { cx } from "../utils/cx";
+import { deprecatedComponent } from "../utils/deprecate";
 import { warn, warnOnce } from "../utils/warn";
 import { Button } from "./Button";
 import { Label } from "./Text";
@@ -283,10 +284,12 @@ export interface ToastProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/** @deprecated Use `Toaster` + `toast()` from `voidframe` instead. */
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
   { message, type = "info", visible = true, onDismiss, className, style, ...props },
   ref
 ) {
+  deprecatedComponent("Toast", "Toaster", "v1.1");
   if (!visible) return null;
   const composedStyle: CSSProperties = {
     ["--vf-toast-color" as never]: TOAST_VAR[type],

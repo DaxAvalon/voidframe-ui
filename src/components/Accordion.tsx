@@ -300,6 +300,7 @@ function AccordionContent({
  * number be open simultaneously. Compose with `Accordion.Item`,
  * `Accordion.Trigger`, and `Accordion.Content`.
  */
+AccordionRoot.displayName = "Accordion";
 export const Accordion = Object.assign(AccordionRoot, {
   Item: AccordionItem,
   Trigger: AccordionTrigger,

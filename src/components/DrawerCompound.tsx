@@ -269,6 +269,7 @@ function DrawerClose({
  * with `DrawerV2.Trigger`, `DrawerV2.Content`, and the header/body/
  * footer sub-components.
  */
+DrawerRoot.displayName = "DrawerV2";
 export const DrawerV2 = Object.assign(DrawerRoot, {
   Trigger: DrawerTrigger,
   Content: DrawerContent,

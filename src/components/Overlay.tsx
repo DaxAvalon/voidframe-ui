@@ -11,6 +11,7 @@ import { Presence } from "../primitives/Presence";
 import type { Side, ToastType } from "../types";
 import { cx } from "../utils/cx";
 import { warn } from "../utils/warn";
+import { deprecatedComponent } from "../utils/deprecate";
 import { Button } from "./Button";
 import { Label } from "./Text";
 
@@ -38,6 +39,7 @@ export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/** @deprecated Use `DrawerV2` from `voidframe` instead. Will be removed in v1.1. */
 export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
   {
     open,
@@ -54,6 +56,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
   },
   ref
 ) {
+  deprecatedComponent("Drawer", "DrawerV2", "v1.1");
   warn(
     Boolean(
       title ||
@@ -144,10 +147,12 @@ export interface DropdownProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/** @deprecated Use `Menu` from `voidframe` instead. Will be removed in v1.1. */
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(function Dropdown(
   { trigger, items, align = "left", className, style, ...props },
   ref
 ) {
+  deprecatedComponent("Dropdown", "Menu", "v1.1");
   const [open, setOpen] = useState(false);
   const clickOutsideRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
   const mergedRef = useMergedRefs(ref, clickOutsideRef);
@@ -216,10 +221,12 @@ export interface PopoverProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/** @deprecated Use `PopoverV2` from `voidframe` instead. Will be removed in v1.1. */
 export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover(
   { trigger, children, on = "click", position = "bottom", width = "240px", className, style, ...props },
   ref
 ) {
+  deprecatedComponent("Popover", "PopoverV2", "v1.1");
   const [show, setShow] = useState(false);
   const clickOutsideRef = useClickOutside<HTMLDivElement>(() => {
     if (on === "click") setShow(false);
@@ -261,10 +268,12 @@ export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/** @deprecated Use `AlertV2` from `voidframe` instead. Will be removed in v1.1. */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   { type = "info", title, children, onDismiss, className, style, ...props },
   ref
 ) {
+  deprecatedComponent("Alert", "AlertV2", "v1.1");
   const composedStyle: CSSProperties = {
     ["--vf-alert-color" as never]: ALERT_VAR[type],
     ...style,
@@ -317,6 +326,7 @@ export interface ConfirmDialogProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/** @deprecated Use `ConfirmDialogV2` from `voidframe` instead. Will be removed in v1.1. */
 export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
   function ConfirmDialog(
     {
@@ -335,6 +345,7 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
     },
     ref
   ) {
+    deprecatedComponent("ConfirmDialog", "ConfirmDialogV2", "v1.1");
     const inner = (
       <DismissableLayer onDismiss={onCancel} className="vf-modal__backdrop">
         <FocusScope

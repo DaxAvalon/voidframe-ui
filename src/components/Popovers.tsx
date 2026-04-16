@@ -214,6 +214,7 @@ PopoverContent.displayName = "PopoverContent";
  * Compose with `PopoverV2.Trigger` and `PopoverV2.Content`. The content
  * is portaled to the document body so it escapes overflow clipping.
  */
+PopoverRoot.displayName = "PopoverV2";
 export const PopoverV2 = Object.assign(PopoverRoot, {
   Trigger: PopoverTrigger,
   Content: PopoverContent,

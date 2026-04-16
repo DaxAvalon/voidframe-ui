@@ -4,6 +4,7 @@ import { forwardRef, memo, useState } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import type { Side } from "../types";
 import { cx } from "../utils/cx";
+import { deprecatedComponent } from "../utils/deprecate";
 import { Label } from "./Text";
 
 // ── Avatar ────────────────────────────────────────────────────
@@ -508,10 +509,12 @@ export interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/** @deprecated Use `SpinnerV2` from `voidframe` instead. Will be removed in v1.1. */
 const SpinnerImpl = forwardRef<HTMLDivElement, SpinnerProps>(function Spinner(
   { size = 16, color, className, style, ...props },
   ref
 ) {
+  deprecatedComponent("Spinner", "SpinnerV2", "v1.1");
   const composed: CSSProperties = {
     width: size,
     height: size,

@@ -88,15 +88,30 @@ describe("Overlay dev-warnings", () => {
         content
       </Drawer>
     );
-    expect(logged.some((l) => String(l[0]).includes("<Drawer>"))).toBe(true);
+    expect(
+      logged.some(
+        (l) =>
+          String(l[0]).includes("<Drawer>") &&
+          String(l[0]).includes("title")
+      )
+    ).toBe(true);
   });
 
-  it("Drawer does not warn with title", () => {
+  it("Drawer does not warn about title when title is provided", () => {
     render(
       <Drawer open onClose={() => {}} title="Settings">
         content
       </Drawer>
     );
-    expect(logged.some((l) => String(l[0]).includes("<Drawer>"))).toBe(false);
+    // The deprecation warning fires (expected), but the title a11y
+    // warning should NOT fire when title is provided.
+    expect(
+      logged.some(
+        (l) =>
+          String(l[0]).includes("<Drawer>") &&
+          String(l[0]).includes("title") &&
+          !String(l[0]).includes("deprecated")
+      )
+    ).toBe(false);
   });
 });
