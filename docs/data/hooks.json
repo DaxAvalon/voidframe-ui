@@ -219,7 +219,7 @@
     "kind": "function",
     "signature": "export function useMediaQuery(query: string): boolean",
     "description": "Responsive media query hook.\n@param query e.g. `\"(max-width: 768px)\"`",
-    "file": "src/hooks/index.ts"
+    "file": "src/hooks/useMediaQuery.ts"
   },
   {
     "name": "useMergedRefs",

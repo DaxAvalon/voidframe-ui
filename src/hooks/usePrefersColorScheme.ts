@@ -1,4 +1,4 @@
-import { useMediaQuery } from "./index";
+import { useMediaQuery } from "./useMediaQuery";
 
 /** `"dark" | "light"` — user's system preference. Returns `null` pre-match. */
 export function usePrefersColorScheme(): "dark" | "light" {

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { Playground, Text } from "../src";
+import { Text } from "../src";
+import { Playground } from "../src/dev";
 import { playgroundScope } from "./scope";
 
 export interface Guide {

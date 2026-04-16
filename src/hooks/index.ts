@@ -256,26 +256,10 @@ export function useDebounce<T>(value: T, delay: number = 300): T {
 }
 
 // ───────────────────────────────────────────────────────────────
-// Media query
+// Media query (moved to its own file to break the barrel-cycle
+// from usePrefersReducedMotion / usePrefersColorScheme)
 // ───────────────────────────────────────────────────────────────
-
-/**
- * Responsive media query hook.
- * @param query e.g. `"(max-width: 768px)"`
- */
-export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia(query).matches;
-  });
-  useEffect(() => {
-    const mql = window.matchMedia(query);
-    const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, [query]);
-  return matches;
-}
+export { useMediaQuery } from "./useMediaQuery";
 
 // ───────────────────────────────────────────────────────────────
 // Local storage

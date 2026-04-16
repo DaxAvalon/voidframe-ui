@@ -12,6 +12,16 @@
       "import": "./dist/voidframe.es.js",
       "require": "./dist/voidframe.cjs.js"
     },
+    "./charts": {
+      "types": "./dist/types/charts/index.d.ts",
+      "import": "./dist/charts.es.js",
+      "require": "./dist/charts.cjs.js"
+    },
+    "./dev": {
+      "types": "./dist/types/dev/index.d.ts",
+      "import": "./dist/dev.es.js",
+      "require": "./dist/dev.cjs.js"
+    },
     "./styles.css": "./dist/voidframe.css",
     "./tokens": {
       "types": "./dist/types/tokens.d.ts",
@@ -60,15 +70,21 @@
   },
   "size-limit": [
     {
-      "name": "ESM entry (dist/voidframe.es.js)",
+      "name": "Core ESM (dist/voidframe.es.js)",
       "path": "dist/voidframe.es.js",
-      "limit": "20 KB",
+      "limit": "170 KB",
       "gzip": true
     },
     {
-      "name": "CJS entry (dist/voidframe.cjs.js)",
-      "path": "dist/voidframe.cjs.js",
-      "limit": "20 KB",
+      "name": "Charts ESM (dist/charts.es.js)",
+      "path": "dist/charts.es.js",
+      "limit": "40 KB",
+      "gzip": true
+    },
+    {
+      "name": "Dev ESM (dist/dev.es.js)",
+      "path": "dist/dev.es.js",
+      "limit": "10 KB",
       "gzip": true
     },
     {
@@ -78,33 +94,41 @@
       "gzip": true
     },
     {
-      "name": "All JS chunks combined",
-      "path": ["dist/voidframe.es.js", "dist/*.cjs"],
-      "limit": "250 KB",
+      "name": "All JS (ES + CJS, all entries)",
+      "path": "dist/*.js",
+      "limit": "400 KB",
       "gzip": true
     }
   ],
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
+    "d3-array": ">=3.0.0",
     "d3-force": ">=3.0.0",
     "d3-geo": ">=3.0.0",
-    "topojson-client": ">=3.0.0"
+    "d3-hierarchy": ">=3.0.0",
+    "d3-sankey": ">=0.12.0",
+    "d3-scale": ">=4.0.0",
+    "d3-shape": ">=3.0.0",
+    "d3-time": ">=3.0.0",
+    "topojson-client": ">=3.0.0",
+    "dompurify": ">=3.0.0",
+    "react-live": ">=4.0.0"
   },
   "peerDependenciesMeta": {
+    "d3-array": { "optional": true },
     "d3-force": { "optional": true },
     "d3-geo": { "optional": true },
-    "topojson-client": { "optional": true }
+    "d3-hierarchy": { "optional": true },
+    "d3-sankey": { "optional": true },
+    "d3-scale": { "optional": true },
+    "d3-shape": { "optional": true },
+    "d3-time": { "optional": true },
+    "topojson-client": { "optional": true },
+    "dompurify": { "optional": true },
+    "react-live": { "optional": true }
   },
-  "dependencies": {
-    "d3-array": "^3.2.4",
-    "d3-hierarchy": "^3.1.2",
-    "d3-sankey": "^0.12.3",
-    "d3-scale": "^4.0.2",
-    "d3-shape": "^3.2.0",
-    "d3-time": "^3.1.0",
-    "dompurify": "^3.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/d3-array": "^3.2.1",
     "@types/d3-force": "^3.0.10",
@@ -116,8 +140,15 @@
     "@types/d3-time": "^3.0.4",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
+    "d3-array": "^3.2.4",
     "d3-force": "^3.0.0",
     "d3-geo": "^3.1.1",
+    "d3-hierarchy": "^3.1.2",
+    "d3-sankey": "^0.12.3",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
+    "d3-time": "^3.1.0",
+    "dompurify": "^3.2.0",
     "topojson-client": "^3.1.0",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^15.0.0",

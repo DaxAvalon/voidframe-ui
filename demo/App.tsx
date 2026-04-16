@@ -31,46 +31,6 @@ import {
   Callout,
   Card,
   Carousel,
-  AreaChart,
-  BarChart,
-  BoxPlot,
-  BubbleChart,
-  CalendarHeatmap,
-  CandlestickChart,
-  ChartFrame,
-  ChartLegend,
-  ChartTooltip,
-  ChordDiagram,
-  ComposedChart,
-  DonutChart,
-  FunnelChart,
-  Histogram,
-  HorizonChart,
-  LineChart,
-  OHLCChart,
-  ParallelCoordinates,
-  PieChart,
-  RadarChart,
-  Sankey,
-  ScatterMatrix,
-  ScatterPlot,
-  SmallMultiples,
-  StreamGraph,
-  Sunburst,
-  TreeMap,
-  ViolinPlot,
-  WaterfallChart,
-  DependencyGraph,
-  NetworkGraph,
-  TileGridMap,
-  US_STATES_GRID,
-  Axis,
-  Brush,
-  Crosshair,
-  Gridlines,
-  bandScale,
-  linearScale,
-  seriesPalette,
   Checkbox,
   CheckboxGroup,
   CircularProgress,
@@ -84,6 +44,7 @@ import {
   ConfirmProvider,
   ConnectionStatus,
   Container,
+  ErrorBoundary,
   CurrencyInput,
   CursorPagination,
   DataGrid,
@@ -106,7 +67,6 @@ import {
   Gauge,
   Grid,
   HStack,
-  Heatmap,
   HoverCard,
   IFrame,
   Image,
@@ -171,7 +131,6 @@ import {
   Skeleton,
   Slider,
   Sortable,
-  Sparkline,
   Spinner,
   SpinnerV2,
   SplitView,
@@ -213,6 +172,7 @@ import {
   Zoomable,
   toast,
   useConfirm,
+  warnOnce,
   // Phase 17: i18n
   LOCALE_PACKS,
   formatCurrency,
@@ -392,9 +352,59 @@ import {
   DevErrorFallback,
   ProfilerScope,
   useRenderProfiler,
-  warnOnce,
-  ErrorBoundary,
-} from "../src";
+} from "../src/dev";
+import {
+  AreaChart,
+  BarChart,
+  BoxPlot,
+  BubbleChart,
+  CalendarHeatmap,
+  CandlestickChart,
+  ChartFrame,
+  ChartLegend,
+  ChartTooltip,
+  ChordDiagram,
+  ComposedChart,
+  DonutChart,
+  FunnelChart,
+  Histogram,
+  HorizonChart,
+  LineChart,
+  OHLCChart,
+  ParallelCoordinates,
+  PieChart,
+  RadarChart,
+  Sankey,
+  ScatterMatrix,
+  ScatterPlot,
+  SmallMultiples,
+  StreamGraph,
+  Sunburst,
+  TreeMap,
+  ViolinPlot,
+  WaterfallChart,
+  DependencyGraph,
+  NetworkGraph,
+  TileGridMap,
+  US_STATES_GRID,
+  Axis,
+  Brush,
+  Crosshair,
+  Gridlines,
+  bandScale,
+  linearScale,
+  seriesPalette,
+  Heatmap,
+  Sparkline,
+} from "../src/charts";
+import type {
+  CalendarHeatmapCell,
+  WaterfallStep,
+  NetworkNode,
+  NetworkLink,
+  DependencyNode,
+  DependencyEdge,
+} from "../src/charts";
 
 // ── Section helpers ─────────────────────────────────────────
 
@@ -1286,7 +1296,7 @@ function ChartsSection() {
   };
   const calHeatmapStart = new Date(2026, 0, 1);
   const calHeatmapEnd = new Date(2026, 3, 30);
-  const calHeatmapData: import("../src").CalendarHeatmapCell[] = [];
+  const calHeatmapData: CalendarHeatmapCell[] = [];
   for (let i = 0; i < 120; i++) {
     const d = new Date(calHeatmapStart);
     d.setDate(d.getDate() + i);
@@ -1469,7 +1479,7 @@ function AdvancedChartsSection() {
     { key: "activated", label: "Activated", value: 260 },
     { key: "paid", label: "Paid", value: 85 },
   ];
-  const waterfallSteps: import("../src").WaterfallStep[] = [
+  const waterfallSteps: WaterfallStep[] = [
     { key: "open", label: "Opening", value: 120 },
     { key: "inc1", label: "New users", value: 34 },
     { key: "dec1", label: "Churn", value: -12 },
@@ -1665,7 +1675,7 @@ function AdvancedChartsSection() {
 }
 
 function GeoNetworkChartsSection() {
-  const networkNodes: import("../src").NetworkNode[] = [
+  const networkNodes: NetworkNode[] = [
     { id: "ui", label: "UI", group: "client" },
     { id: "api", label: "API", group: "service" },
     { id: "auth", label: "Auth", group: "service" },
@@ -1675,7 +1685,7 @@ function GeoNetworkChartsSection() {
     { id: "worker", label: "Worker", group: "service" },
     { id: "search", label: "Search", group: "service" },
   ];
-  const networkLinks: import("../src").NetworkLink[] = [
+  const networkLinks: NetworkLink[] = [
     { source: "ui", target: "api", value: 3, label: "REST + WS" },
     { source: "ui", target: "auth", value: 1, label: "OAuth bootstrap" },
     { source: "api", target: "db", value: 4, label: "primary store" },
@@ -1686,7 +1696,7 @@ function GeoNetworkChartsSection() {
     { source: "worker", target: "search", value: 2, label: "indexing" },
     { source: "auth", target: "db", value: 1, label: "session lookup" },
   ];
-  const depNodes: import("../src").DependencyNode[] = [
+  const depNodes: DependencyNode[] = [
     { id: "build", group: "core" },
     { id: "test", group: "core" },
     { id: "lint", group: "core" },
@@ -1694,7 +1704,7 @@ function GeoNetworkChartsSection() {
     { id: "package", group: "release" },
     { id: "ship", group: "release" },
   ];
-  const depEdges: import("../src").DependencyEdge[] = [
+  const depEdges: DependencyEdge[] = [
     { source: "test", target: "build", label: "needs build artefacts" },
     { source: "lint", target: "build", label: "needs source map" },
     { source: "typecheck", target: "build", label: "needs declarations" },

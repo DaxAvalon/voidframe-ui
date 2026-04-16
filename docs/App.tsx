@@ -5,10 +5,12 @@ import {
   Text,
   Label,
   Input,
+} from "../src";
+import {
   Playground,
   PropsTable,
-} from "../src";
-import type { ComponentDoc } from "../src";
+} from "../src/dev";
+import type { ComponentDoc } from "../src/dev";
 import propsData from "./data/props.json";
 import hooksData from "./data/hooks.json";
 import utilsData from "./data/utils.json";

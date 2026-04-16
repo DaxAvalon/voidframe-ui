@@ -92,13 +92,32 @@ export default defineConfig({
     // emitted as `dist/voidframe.css`. Consumers do `import "voidframe/styles.css"`.
     cssCodeSplit: false,
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      // Multi-entry: core (root barrel), charts (subpath), and dev
+      // (subpath) each get their own entry so consumers who never
+      // touch charts or dev tools don't pay their bundle cost.
+      entry: {
+        voidframe: resolve(__dirname, "src/index.ts"),
+        charts: resolve(__dirname, "src/charts/index.ts"),
+        dev: resolve(__dirname, "src/dev/index.ts"),
+      },
       name: "Voidframe",
       formats: ["es", "cjs"],
-      fileName: (format) => `voidframe.${format}.js`,
+      fileName: (format, entryName) => `${entryName}.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime"],
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        // d3 math packages — promoted to optional peer deps so chart
+        // consumers install what they need.
+        /^d3-/,
+        "topojson-client",
+        // DOMPurify — runtime dep of RichTextEditor + Mermaid only.
+        "dompurify",
+        // react-live — runtime dep of Playground (dev subpath only).
+        "react-live",
+      ],
       output: {
         globals: {
           react: "React",

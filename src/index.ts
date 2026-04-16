@@ -63,7 +63,9 @@ export * from "./icons";
 export * from "./lazy";
 
 // ── Dev Experience (Phase 25) ───────────────────────────────
-export * from "./dev";
+// Dev tools are available via `import { ... } from "voidframe/dev"`.
+// They're excluded from the root barrel so production builds don't
+// ship react-live, DevPanel, or Playground code.
 
 // ── Responsive system (Phase 16) ────────────────────────────
 export * from "./responsive";
@@ -105,41 +107,8 @@ export type {
 } from "./i18n";
 
 // ── Hooks ───────────────────────────────────────────────────
-export {
-  useHover,
-  useFocus,
-  useToggle,
-  useClickOutside,
-  useDebounce,
-  useMediaQuery,
-  useLocalStorage,
-  useInterval,
-  useKeyboardShortcut,
-  useCopyToClipboard,
-  useScroll,
-  useWindowSize,
-  usePrevious,
-  useForceUpdate,
-  useControllableState,
-  useMergedRefs,
-  useId,
-  useIsomorphicLayoutEffect,
-  ShortcutProvider,
-  useShortcut,
-  useShortcutRegistry,
-  useThemePersistence,
-} from "./hooks";
-export type {
-  HoverBindings,
-  UseHoverReturn,
-  FocusBindings,
-  UseFocusReturn,
-  KeyModifiers,
-  UseCopyToClipboardReturn,
-  ScrollPosition,
-  WindowSize,
-  UseControllableStateOptions,
-} from "./hooks";
+// Every hook is re-exported — the manual list was incomplete (22 of 55).
+export * from "./hooks";
 
 // ── Architecture utilities ──────────────────────────────────
 export {

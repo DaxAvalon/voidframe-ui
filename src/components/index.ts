@@ -1072,8 +1072,10 @@ export type {
 export { PrintLayout, PrintButton } from "./Print";
 export type { PrintLayoutProps, PrintButtonProps } from "./Print";
 
-// ── Phase 21: chart foundations ──────────────────────────────
-export * from "../charts";
+// ── Charts ──────────────────────────────────────────────────
+// Charts are available via `import { ... } from "voidframe/charts"`.
+// They're excluded from the root barrel so consumers who don't use
+// charts don't pay the d3-* bundle cost.
 
 // ── Phase 15: theming ────────────────────────────────────────
 export { ThemeSelector } from "./ThemeSelector";
