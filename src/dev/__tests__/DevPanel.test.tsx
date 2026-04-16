@@ -63,6 +63,30 @@ describe("DevPanel", () => {
     expect(container.textContent).toContain("panel-test");
   });
 
+  it("starts collapsed when defaultCollapsed is true", () => {
+    const { container } = renderWithTheme(<DevPanel defaultCollapsed />);
+    expect(container.querySelector(".vf-dev-panel--collapsed")).toBeTruthy();
+    expect(container.querySelector(".vf-dev-panel__tabs")).toBeNull();
+  });
+
+  it("renders custom title", () => {
+    const { container } = renderWithTheme(<DevPanel title="Custom" />);
+    expect(container.textContent).toContain("Custom");
+  });
+
+  it("shows version on About tab", () => {
+    const { container } = renderWithTheme(
+      <DevPanel defaultTab="about" version="2.0.0" />
+    );
+    expect(container.textContent).toContain("2.0.0");
+    expect(container.textContent).toContain("voidframe");
+  });
+
+  it("shows Theme tab with token info", () => {
+    const { container } = renderWithTheme(<DevPanel defaultTab="theme" />);
+    expect(container.textContent).toContain("tokens");
+  });
+
   it("clears warnings via action button", () => {
     const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
     warn(false, "clearable-warning");

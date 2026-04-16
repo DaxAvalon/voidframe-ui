@@ -35,6 +35,9 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=low
 
+      - name: Lint (voidframe rules)
+        run: npm run lint:voidframe -- src/
+
       - name: Typecheck
         run: npm run typecheck
 
