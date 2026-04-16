@@ -17,6 +17,12 @@ export interface ButtonProps
   size?: ButtonSize;
   active?: boolean;
   disabled?: boolean;
+  /** When true, renders a spinner before children and disables the button. */
+  loading?: boolean;
+  /** Icon rendered before children. Replaced by spinner when loading. */
+  iconLeft?: ReactNode;
+  /** Icon rendered after children. */
+  iconRight?: ReactNode;
   onClick?: () => void;
   /** Render through `<Slot>` and merge styles onto a single child element. */
   asChild?: boolean;
@@ -32,6 +38,9 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     size = "md",
     active,
     disabled,
+    loading,
+    iconLeft,
+    iconRight,
     onClick,
     asChild,
     className,
@@ -50,9 +59,10 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     `vf-button--${size}`,
     className
   );
+  const isDisabled = disabled || loading;
   const dataAttrs = {
     "data-active": active ? "true" : undefined,
-    "data-disabled": disabled ? "true" : undefined,
+    "data-disabled": isDisabled ? "true" : undefined,
   };
 
   if (asChild) {
@@ -79,14 +89,20 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     <button
       ref={ref}
       type={typeProp ?? "button"}
-      onClick={disabled ? undefined : onClick}
-      aria-disabled={disabled || undefined}
+      onClick={isDisabled ? undefined : onClick}
+      aria-disabled={isDisabled || undefined}
       className={composedClass}
       style={composedStyle}
       {...dataAttrs}
       {...restProps}
     >
+      {loading ? (
+        <span className="vf-button__spinner" aria-hidden="true">&#x27F3;</span>
+      ) : iconLeft ? (
+        <span className="vf-button__icon vf-button__icon--left">{iconLeft}</span>
+      ) : null}
       {children}
+      {iconRight && <span className="vf-button__icon vf-button__icon--right">{iconRight}</span>}
     </button>
   );
 });

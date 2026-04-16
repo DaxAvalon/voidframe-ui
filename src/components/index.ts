@@ -128,6 +128,7 @@ export {
   List,
   KeyValue,
   Spinner,
+  avatarColorFromName,
 } from "./DataExtended";
 export type {
   AvatarProps,

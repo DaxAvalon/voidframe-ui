@@ -18,6 +18,14 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, "color
   /** Render a leading dot glyph instead of full background. */
   dot?: boolean;
   icon?: ReactNode;
+  /** Renders a close button after the label. */
+  dismissible?: boolean;
+  /** Callback when the close button is clicked. */
+  onDismiss?: () => void;
+  /** When set, renders the count as the label (ignoring children). */
+  count?: number;
+  /** When count exceeds this, displays `{overflowCount}+`. */
+  overflowCount?: number;
   asChild?: boolean;
   children?: ReactNode;
   style?: CSSProperties;
@@ -32,6 +40,10 @@ const BadgeImpl = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
     size = "md",
     dot,
     icon,
+    dismissible,
+    onDismiss,
+    count,
+    overflowCount,
     asChild,
     className,
     style,
@@ -74,7 +86,18 @@ const BadgeImpl = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
     >
       {dot && <span className="vf-badge__dot" aria-hidden="true" />}
       {icon && <span className="vf-badge__icon" aria-hidden="true">{icon}</span>}
-      <span className="vf-badge__label">{children}</span>
+      <span className="vf-badge__label">
+        {count !== undefined
+          ? count > (overflowCount ?? Infinity)
+            ? `${overflowCount}+`
+            : String(count)
+          : children}
+      </span>
+      {dismissible && (
+        <button type="button" className="vf-badge__close" aria-label="Dismiss" onClick={onDismiss}>
+          &times;
+        </button>
+      )}
     </span>
   );
 });

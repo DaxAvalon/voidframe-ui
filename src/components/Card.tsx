@@ -11,13 +11,17 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   subtitle?: string;
   headerRight?: ReactNode;
   padding?: number;
+  /** Adds hover elevation effect via CSS class. */
+  hoverable?: boolean;
+  /** Renders in a footer actions slot after children. */
+  actions?: ReactNode;
   asChild?: boolean;
   children?: ReactNode;
   style?: CSSProperties;
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-  { children, title, subtitle, padding, headerRight, asChild, className, style, ...props },
+  { children, title, subtitle, padding, headerRight, hoverable, actions, asChild, className, style, ...props },
   ref
 ) {
   const composedStyle: CSSProperties =
@@ -37,7 +41,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
   }
 
   return (
-    <div ref={ref} className={cx("vf-card", className)} style={composedStyle} {...props}>
+    <div ref={ref} className={cx("vf-card", hoverable && "vf-card--hoverable", className)} style={composedStyle} {...props}>
       {(title || subtitle || headerRight) && (
         <div className="vf-card__header">
           <div>
@@ -48,6 +52,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
         </div>
       )}
       {children}
+      {actions && <div className="vf-card__actions">{actions}</div>}
     </div>
   );
 });

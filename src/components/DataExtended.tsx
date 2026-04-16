@@ -7,6 +7,18 @@ import { cx } from "../utils/cx";
 import { deprecatedComponent } from "../utils/deprecate";
 import { Label } from "./Text";
 
+// ── Avatar utilities ─────────────────────────────────────────
+
+export function avatarColorFromName(name: string): string {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    hash &= hash;
+  }
+  const hue = ((hash % 360) + 360) % 360;
+  return `hsl(${hue}, 55%, 45%)`;
+}
+
 // ── Avatar ────────────────────────────────────────────────────
 
 export type AvatarStatus = "online" | "offline" | "away" | "busy";

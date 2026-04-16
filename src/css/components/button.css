@@ -74,6 +74,20 @@
   cursor: not-allowed;
 }
 
+.vf-button__spinner {
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.vf-button__icon {
+  display: inline-flex;
+  align-items: center;
+}
+.vf-button__icon--left { margin-inline-end: var(--vf-sp-1); }
+.vf-button__icon--right { margin-inline-start: var(--vf-sp-1); }
+
 .vf-button-group {
   display: flex;
   gap: 2px;

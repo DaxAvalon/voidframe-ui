@@ -68,3 +68,20 @@
   text-transform: uppercase;
   border-bottom: 2px solid var(--vf-border-2);
 }
+
+.vf-card--hoverable {
+  transition: border-color var(--vf-duration-base) ease,
+              box-shadow var(--vf-duration-base) ease;
+  cursor: pointer;
+}
+.vf-card--hoverable:hover {
+  border-color: var(--vf-border-3);
+  box-shadow: var(--vf-shadow-sm);
+}
+.vf-card__actions {
+  display: flex;
+  gap: var(--vf-sp-2);
+  justify-content: flex-end;
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  border-top: 1px solid var(--vf-border-0);
+}
