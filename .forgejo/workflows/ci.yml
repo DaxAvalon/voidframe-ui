@@ -40,28 +40,45 @@ jobs:
 
       - name: Coverage
         run: npm run test:coverage
-        continue-on-error: true
 
+      - name: Build library
+        run: npm run build
+
+      # Verify the multi-entry build produced all expected outputs.
+      - name: Verify dist
+        run: |
+          test -f dist/voidframe.es.js  || { echo "Missing voidframe.es.js"; exit 1; }
+          test -f dist/charts.es.js     || { echo "Missing charts.es.js"; exit 1; }
+          test -f dist/dev.es.js        || { echo "Missing dev.es.js"; exit 1; }
+          test -f dist/voidframe.css    || { echo "Missing voidframe.css"; exit 1; }
+          echo "All dist files present:"
+          ls -lh dist/*.es.js dist/*.cjs.js dist/voidframe.css
+
+      # Artifact uploads are best-effort — the Forgejo artifact
+      # service may not be configured. The CI gates above (typecheck,
+      # test, coverage, build) are the actual quality checks.
       - name: Upload coverage report
         if: always()
         uses: actions/upload-artifact@v3
+        continue-on-error: true
         with:
           name: coverage
           path: coverage/
           retention-days: 14
 
-      - name: Build library
-        run: npm run build
-
       - name: Upload dist
         uses: actions/upload-artifact@v3
+        continue-on-error: true
         with:
           name: voidframe-dist
           path: |
             dist/voidframe.es.js
             dist/voidframe.cjs.js
+            dist/charts.es.js
+            dist/charts.cjs.js
+            dist/dev.es.js
+            dist/dev.cjs.js
             dist/voidframe.css
-            dist/types/
           retention-days: 30
 
   release:
@@ -94,12 +111,16 @@ jobs:
           tar -czf "voidframe-${TAG}.tgz" \
             dist/voidframe.es.js \
             dist/voidframe.cjs.js \
+            dist/charts.es.js \
+            dist/charts.cjs.js \
+            dist/dev.es.js \
+            dist/dev.cjs.js \
             dist/voidframe.css \
-            dist/types/ \
             package.json README.md LICENSE
 
       - name: Upload release tarball
         uses: actions/upload-artifact@v3
+        continue-on-error: true
         with:
           name: voidframe-release-${{ github.ref_name }}
           path: voidframe-*.tgz
