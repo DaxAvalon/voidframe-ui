@@ -55,6 +55,12 @@ export interface CodeBlockProps extends HTMLAttributes<HTMLDivElement> {
    * HTMLPane; callers are expected to sanitize.
    */
   highlight?: (code: string, language?: string) => string | ReactNode;
+  /** Show a search bar above the code. Default false. */
+  searchable?: boolean;
+  /** Show a download button. Default false. */
+  downloadable?: boolean;
+  /** Filename for download. Defaults to "code.txt". */
+  downloadFilename?: string;
 }
 
 function escapeHTML(s: string): string {
@@ -78,6 +84,9 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
       fileName,
       maxHeight,
       highlight,
+      searchable = false,
+      downloadable = false,
+      downloadFilename = "code.txt",
       className,
       style,
       ...props
@@ -85,6 +94,7 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
     ref
   ) {
     const [copied, setCopied] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
     const lines = useMemo(() => code.split("\n"), [code]);
     const highlightSet = useMemo(
       () => new Set(highlightLines ?? []),
@@ -105,6 +115,38 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
         /* noop */
       }
     };
+
+    const download = () => {
+      const blob = new Blob([code], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = downloadFilename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+
+    /** Render line text with search matches highlighted. */
+    const renderLineContent = (text: string): ReactNode => {
+      if (!searchQuery || !text) return text || " ";
+      const parts: ReactNode[] = [];
+      let last = 0;
+      const lower = text.toLowerCase();
+      const q = searchQuery.toLowerCase();
+      let idx = lower.indexOf(q, last);
+      while (idx !== -1) {
+        if (idx > last) parts.push(text.slice(last, idx));
+        parts.push(<mark key={idx} className="vf-code-block__match">{text.slice(idx, idx + q.length)}</mark>);
+        last = idx + q.length;
+        idx = lower.indexOf(q, last);
+      }
+      if (last < text.length) parts.push(text.slice(last));
+      return parts.length > 0 ? parts : (text || " ");
+    };
+
+    const showToolbar = searchable || downloadable;
 
     return (
       <div
@@ -135,6 +177,30 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
             )}
           </div>
         )}
+        {showToolbar && (
+          <div className="vf-code-block__toolbar">
+            {searchable && (
+              <input
+                type="text"
+                className="vf-code-block__search"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label="Search in code"
+              />
+            )}
+            {downloadable && (
+              <button
+                type="button"
+                className="vf-codeblock__copy"
+                onClick={download}
+                aria-label="Download code"
+              >
+                Download
+              </button>
+            )}
+          </div>
+        )}
         <pre className="vf-codeblock__pre">
           {typeof highlighted === "string" ? (
             <HTMLPane
@@ -159,7 +225,7 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
                       {i + 1}
                     </span>
                   )}
-                  <span className="vf-codeblock__linecontent">{line || " "}</span>
+                  <span className="vf-codeblock__linecontent">{renderLineContent(line)}</span>
                 </div>
               ))}
             </code>

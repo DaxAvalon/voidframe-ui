@@ -31,6 +31,10 @@ export interface LogViewerProps extends HTMLAttributes<HTMLDivElement> {
   highlight?: RegExp;
   onEntryClick?: (entry: LogEntry, index: number) => void;
   height?: number | string;
+  /** Show pause/resume button. Default true. */
+  pausable?: boolean;
+  /** Show regex filter input. Default true. */
+  filterable?: boolean;
 }
 
 const levelWeight: Record<LogLevel, number> = {
@@ -50,6 +54,8 @@ export const LogViewer = forwardRef<HTMLDivElement, LogViewerProps>(
       highlight,
       onEntryClick,
       height = 280,
+      pausable = true,
+      filterable = true,
       className,
       style,
       ...props
@@ -57,22 +63,70 @@ export const LogViewer = forwardRef<HTMLDivElement, LogViewerProps>(
     ref
   ) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [paused, setPaused] = useState(false);
+    const [filterText, setFilterText] = useState("");
+    const bufferRef = useRef<LogEntry[]>([]);
+    const [displayEntries, setDisplayEntries] = useState<LogEntry[]>(entries);
+    const lastEntriesRef = useRef(entries);
+
+    // Track incoming entries and buffer when paused.
+    useEffect(() => {
+      if (entries === lastEntriesRef.current) return;
+      const prevLen = lastEntriesRef.current.length;
+      lastEntriesRef.current = entries;
+      if (paused) {
+        // Buffer new entries (ones beyond what we had before).
+        const newOnes = entries.slice(prevLen);
+        if (newOnes.length > 0) {
+          bufferRef.current = [...bufferRef.current, ...newOnes];
+        }
+      } else {
+        setDisplayEntries(entries);
+      }
+    }, [entries, paused]);
+
+    const handleResume = () => {
+      setPaused(false);
+      // Merge buffer into display.
+      const merged = [...displayEntries, ...bufferRef.current];
+      bufferRef.current = [];
+      setDisplayEntries(merged);
+    };
+
+    const handlePause = () => {
+      setPaused(true);
+      setDisplayEntries(lastEntriesRef.current);
+    };
+
+    // Build regex filter.
+    const filterRegex = useMemo(() => {
+      if (!filterText) return null;
+      try { return new RegExp(filterText, "i"); } catch { return null; }
+    }, [filterText]);
+
     const visible = useMemo(
       () =>
-        entries.filter((e) => {
+        displayEntries.filter((e) => {
           if (level && e.level && levelWeight[e.level] < levelWeight[level]) return false;
           if (filter && !filter(e)) return false;
+          if (filterText) {
+            if (filterRegex) {
+              if (!filterRegex.test(e.message)) return false;
+            } else {
+              if (!e.message.includes(filterText)) return false;
+            }
+          }
           return true;
         }),
-      [entries, level, filter]
+      [displayEntries, level, filter, filterText, filterRegex]
     );
 
     useEffect(() => {
-      if (!autoScroll) return;
+      if (!autoScroll || paused) return;
       const el = containerRef.current;
       if (!el) return;
       el.scrollTop = el.scrollHeight;
-    }, [visible, autoScroll]);
+    }, [visible, autoScroll, paused]);
 
     const renderMessage = (msg: string) => {
       if (!highlight) return msg;
@@ -92,22 +146,48 @@ export const LogViewer = forwardRef<HTMLDivElement, LogViewerProps>(
       return parts;
     };
 
+    const showControls = pausable || filterable;
+
     return (
-      <div
-        ref={(el) => {
-          (containerRef as { current: HTMLDivElement | null }).current = el;
-          if (typeof ref === "function") ref(el);
-          else if (ref) (ref as { current: HTMLDivElement | null }).current = el;
-        }}
-        role="log"
-        aria-live="polite"
-        className={cx("vf-log-viewer", className)}
-        style={{
-          height: typeof height === "number" ? `${height}px` : height,
-          ...style,
-        }}
-        {...props}
-      >
+      <div className={cx("vf-log-viewer__wrapper", className)} style={style}>
+        {showControls && (
+          <div className="vf-log-viewer__controls">
+            {pausable && (
+              <button
+                type="button"
+                className="vf-log-viewer__pause-btn"
+                onClick={paused ? handleResume : handlePause}
+              >
+                {paused ? "\u25B6 Resume" : "\u23F8 Pause"}
+                {paused && bufferRef.current.length > 0 && ` (${bufferRef.current.length})`}
+              </button>
+            )}
+            {filterable && (
+              <input
+                type="text"
+                className="vf-log-viewer__filter-input"
+                placeholder="Filter (regex)..."
+                value={filterText}
+                onChange={(e) => setFilterText(e.target.value)}
+                aria-label="Filter log entries"
+              />
+            )}
+          </div>
+        )}
+        <div
+          ref={(el) => {
+            (containerRef as { current: HTMLDivElement | null }).current = el;
+            if (typeof ref === "function") ref(el);
+            else if (ref) (ref as { current: HTMLDivElement | null }).current = el;
+          }}
+          role="log"
+          aria-live="polite"
+          className="vf-log-viewer"
+          style={{
+            height: typeof height === "number" ? `${height}px` : height,
+          }}
+          {...props}
+        >
         {visible.map((entry, i) => (
           <div
             key={i}
@@ -135,6 +215,7 @@ export const LogViewer = forwardRef<HTMLDivElement, LogViewerProps>(
             <span className="vf-log-viewer__message">{renderMessage(entry.message)}</span>
           </div>
         ))}
+        </div>
       </div>
     );
   }

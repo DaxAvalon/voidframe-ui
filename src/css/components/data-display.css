@@ -744,3 +744,53 @@
   color: var(--vf-text-2);
   font-variant-numeric: tabular-nums;
 }
+
+/* ── DiffViewer word-level diff ────────────────────────────── */
+.vf-diff__word--added { background: color-mix(in srgb, var(--vf-green) 20%, transparent); }
+.vf-diff__word--removed { background: color-mix(in srgb, var(--vf-red) 20%, transparent); text-decoration: line-through; }
+
+/* ── JSONViewer toolbar + copy-path ────────────────────────── */
+.vf-json-viewer__toolbar {
+  display: flex; gap: var(--vf-sp-2); padding: var(--vf-sp-1) var(--vf-sp-2);
+  border-bottom: 1px solid var(--vf-border-0);
+}
+.vf-json-viewer__toolbar button {
+  background: none; border: 1px solid var(--vf-border-1); color: var(--vf-text-2);
+  font-family: var(--vf-font-family); font-size: var(--vf-font-xs);
+  padding: 1px var(--vf-sp-1); cursor: pointer;
+}
+.vf-json-viewer__toolbar button:hover { background: var(--vf-bg-3); }
+.vf-json-viewer__copy-path {
+  background: none; border: none; color: var(--vf-text-3); cursor: pointer;
+  font-size: 10px; padding: 0 2px; opacity: 0; transition: opacity 0.1s;
+}
+.vf-json-viewer__row:hover .vf-json-viewer__copy-path { opacity: 1; }
+
+/* ── LogViewer controls ────────────────────────────────────── */
+.vf-log-viewer__controls {
+  display: flex; gap: var(--vf-sp-2); padding: var(--vf-sp-1) var(--vf-sp-2);
+  border-bottom: 1px solid var(--vf-border-0);
+  align-items: center;
+}
+.vf-log-viewer__filter-input {
+  flex: 1; background: var(--vf-bg-0); border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-0); font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs); padding: 2px var(--vf-sp-2);
+}
+.vf-log-viewer__pause-btn {
+  background: none; border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-1); font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs); padding: 1px var(--vf-sp-2); cursor: pointer;
+}
+
+/* ── CodeBlock toolbar + search ────────────────────────────── */
+.vf-code-block__toolbar {
+  display: flex; gap: var(--vf-sp-2); padding: var(--vf-sp-1) var(--vf-sp-2);
+  border-bottom: 1px solid var(--vf-border-0); align-items: center;
+}
+.vf-code-block__search {
+  flex: 1; background: var(--vf-bg-0); border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-0); font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs); padding: 2px var(--vf-sp-2);
+}
+.vf-code-block__match { background: color-mix(in srgb, var(--vf-amber) 30%, transparent); }
