@@ -1,48 +1,99 @@
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import {
   MarkdownEditor,
   applyMarkdownCommand,
-  renderMarkdown,
+  renderMarkdownBlocks,
 } from "../MarkdownEditor";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 
-describe("renderMarkdown", () => {
+describe("renderMarkdownBlocks", () => {
   it("renders headings", () => {
-    expect(renderMarkdown("# Hello")).toContain("<h1>Hello</h1>");
-    expect(renderMarkdown("## Sub")).toContain("<h2>Sub</h2>");
+    const { container } = render(<>{renderMarkdownBlocks("# Hello")}</>);
+    expect(container.querySelector("h1")?.textContent).toBe("Hello");
+    const { container: c2 } = render(<>{renderMarkdownBlocks("## Sub")}</>);
+    expect(c2.querySelector("h2")?.textContent).toBe("Sub");
   });
 
   it("renders bold + italic inline", () => {
-    const out = renderMarkdown("**hi** and *bye*");
-    expect(out).toContain("<strong>hi</strong>");
-    expect(out).toContain("<em>bye</em>");
+    const { container } = render(
+      <>{renderMarkdownBlocks("**hi** and *bye*")}</>
+    );
+    expect(container.querySelector("strong")?.textContent).toBe("hi");
+    expect(container.querySelector("em")?.textContent).toBe("bye");
   });
 
   it("renders bulleted lists", () => {
-    const out = renderMarkdown("- a\n- b");
-    expect(out).toContain("<ul><li>a</li><li>b</li></ul>");
+    const { container } = render(<>{renderMarkdownBlocks("- a\n- b")}</>);
+    const items = container.querySelectorAll("ul li");
+    expect(items).toHaveLength(2);
+    expect(items[0]?.textContent).toBe("a");
+    expect(items[1]?.textContent).toBe("b");
   });
 
   it("renders fenced code", () => {
-    const out = renderMarkdown("```\nconst x = 1;\n```");
-    expect(out).toContain("<pre><code>const x = 1;</code></pre>");
+    const { container } = render(
+      <>{renderMarkdownBlocks("```\nconst x = 1;\n```")}</>
+    );
+    expect(container.querySelector("pre code")?.textContent).toBe(
+      "const x = 1;"
+    );
   });
 
-  it("renders links", () => {
-    const out = renderMarkdown("[vf](https://example.com)");
-    expect(out).toContain('<a href="https://example.com">vf</a>');
+  it("renders links with safe href + noopener", () => {
+    const { container } = render(
+      <>{renderMarkdownBlocks("[vf](https://example.com)")}</>
+    );
+    const a = container.querySelector("a");
+    expect(a?.getAttribute("href")).toBe("https://example.com");
+    expect(a?.getAttribute("rel")).toBe("noreferrer noopener");
+    expect(a?.textContent).toBe("vf");
   });
 
-  it("escapes HTML in raw input", () => {
-    const out = renderMarkdown("<script>alert(1)</script>");
-    expect(out).not.toContain("<script>");
-    expect(out).toContain("&lt;script&gt;");
+  it("blocks javascript: URLs in links", () => {
+    const { container } = render(
+      <>{renderMarkdownBlocks("[pwn](javascript:alert(1))")}</>
+    );
+    const a = container.querySelector("a");
+    expect(a?.getAttribute("href")).toBe("#");
+  });
+
+  it("never produces <script> even with raw HTML in source", () => {
+    const { container } = render(
+      <>{renderMarkdownBlocks("<script>alert(1)</script>")}</>
+    );
+    // React escapes text content — no real <script> tag should exist.
+    expect(container.querySelector("script")).toBeNull();
+    expect(container.textContent).toContain("<script>alert(1)</script>");
   });
 
   it("renders a horizontal rule", () => {
-    expect(renderMarkdown("---")).toContain("<hr/>");
+    const { container } = render(<>{renderMarkdownBlocks("---")}</>);
+    expect(container.querySelector("hr")).toBeTruthy();
+  });
+
+  it("respects linkTarget=_self (no target/rel)", () => {
+    const { container } = render(
+      <>
+        {renderMarkdownBlocks("[x](https://example.com)", {
+          linkTarget: "_self",
+        })}
+      </>
+    );
+    const a = container.querySelector("a");
+    expect(a?.getAttribute("target")).toBeNull();
+    expect(a?.getAttribute("rel")).toBeNull();
+  });
+
+  it("honors components override", () => {
+    const H1 = (p: { children?: React.ReactNode }) => (
+      <div data-testid="custom-h1">{p.children}</div>
+    );
+    const { getByTestId } = render(
+      <>{renderMarkdownBlocks("# Hi", { components: { h1: H1 } })}</>
+    );
+    expect(getByTestId("custom-h1").textContent).toBe("Hi");
   });
 });
 

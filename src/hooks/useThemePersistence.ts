@@ -74,15 +74,21 @@ export function useThemePersistence<T extends string = string>(
   } = options;
   const backend = storage ?? defaultStorage()!;
 
-  const readInitial = (): T => {
+  // Start with the default on both server and client. Under SSR the
+  // server has no access to localStorage, so hydrating with a persisted
+  // value would produce an HTML/DOM mismatch with the server-rendered
+  // output. Instead, we read the persisted value in a post-mount
+  // effect and promote it to state, accepting one re-render in
+  // exchange for hydration safety.
+  const [theme, setThemeState] = useState<T>(defaultTheme);
+
+  useEffect(() => {
     const raw = backend.get(key);
     if (raw && (!allowed || (allowed as readonly string[]).includes(raw))) {
-      return raw as T;
+      setThemeState(raw as T);
     }
-    return defaultTheme;
-  };
-
-  const [theme, setThemeState] = useState<T>(readInitial);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Cross-tab sync.
   useEffect(() => {

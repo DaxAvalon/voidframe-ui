@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { sanitizeHtml } from "../utils/sanitizeHtml";
 
 // ── LegalText ───────────────────────────────────────────────
 
@@ -50,6 +51,13 @@ export interface MermaidProps extends HTMLAttributes<HTMLDivElement> {
   chart: string;
   /** Theme string passed to mermaid.initialize. Default "dark". */
   theme?: string;
+  /**
+   * Mermaid security level. Defaults to `"strict"` — inline HTML in
+   * node labels, click handlers, and anchor execution are disabled.
+   * Opt into `"loose"` only if you trust every chart source.
+   * @see https://mermaid.js.org/config/usage.html#securityLevel
+   */
+  securityLevel?: "strict" | "loose" | "antiscript" | "sandbox";
   /** Override loader. Useful for tests + SSR. */
   loader?: () => Promise<MermaidApi>;
 }
@@ -63,7 +71,17 @@ interface MermaidApi {
 }
 
 export const Mermaid = forwardRef<HTMLDivElement, MermaidProps>(
-  function Mermaid({ chart, theme = "dark", loader, className, ...props }, ref) {
+  function Mermaid(
+    {
+      chart,
+      theme = "dark",
+      securityLevel = "strict",
+      loader,
+      className,
+      ...props
+    },
+    ref
+  ) {
     const [state, setState] = useState<
       { svg: string } | { error: string } | { loading: true }
     >({ loading: true });
@@ -87,7 +105,7 @@ export const Mermaid = forwardRef<HTMLDivElement, MermaidProps>(
               setState({ error: "Mermaid loader returned null." });
             return;
           }
-          api.initialize({ theme, securityLevel: "loose" });
+          api.initialize({ theme, securityLevel });
           const id = `vf-mermaid-${Math.random().toString(36).slice(2)}`;
           const { svg, bindFunctions } = await api.render(id, chart);
           if (cancelled) return;
@@ -106,14 +124,17 @@ export const Mermaid = forwardRef<HTMLDivElement, MermaidProps>(
       return () => {
         cancelled = true;
       };
-    }, [chart, theme, loader]);
+    }, [chart, theme, securityLevel, loader]);
 
-    // Write mermaid SVG imperatively (trusted output from mermaid itself).
+    // Write mermaid SVG imperatively. Even under `securityLevel: "strict"`
+    // we run it through our SVG sanitizer as defense-in-depth — a mermaid
+    // bug or future config drift shouldn't give a bad chart source a path
+    // to script execution.
     useEffect(() => {
       if (!("svg" in state)) return;
       const el = svgRef.current;
       if (!el) return;
-      writeHTML(el, state.svg);
+      writeHTML(el, sanitizeHtml(state.svg, "svg"));
     }, [state]);
 
     const mergedRef = (node: HTMLDivElement | null) => {

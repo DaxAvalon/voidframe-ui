@@ -19,6 +19,7 @@ import {
   type TextareaHTMLAttributes,
 } from "react";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 
 // ── Context ─────────────────────────────────────────────────
 
@@ -919,7 +920,7 @@ export const Mention = forwardRef<HTMLSpanElement, MentionProps>(
     if (href) {
       return (
         <a
-          href={href}
+          href={safeHref(href)}
           ref={ref as React.Ref<HTMLAnchorElement>}
           className={cx("vf-mention-chip", `vf-mention-chip--${kind}`, className)}
           style={composed}

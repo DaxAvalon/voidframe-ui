@@ -44,6 +44,8 @@ export type {
 } from "./polymorphic";
 export { genericForwardRef } from "./forwardRef";
 export { deprecatedProp, deprecatedComponent } from "./deprecate";
+export { safeHref, safeHrefOrWarn, type SafeHrefOptions } from "./safeHref";
+export { sanitizeHtml, type SanitizeProfile } from "./sanitizeHtml";
 
 // Date helpers (Phase 7.2).
 export {

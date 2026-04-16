@@ -194,15 +194,13 @@ function DataGridRoot<T = Record<string, unknown>>({
   children,
   ...props
 }: DataGridProps<T>) {
-  const persisted = useMemo(
-    () => (persistKey ? readPersisted(persistKey) : null),
-    [persistKey]
-  );
-
+  // Initial state is always derived from props — reading `localStorage`
+  // during render would produce a server/client hydration mismatch
+  // under SSR (the server has no persisted widths). We hydrate the
+  // persisted state in a post-mount effect below.
   const [hiddenInternal, setHiddenInternal] = useState<Set<string>>(() => {
     const initial = new Set<string>();
     columns.forEach((c) => c.hidden && initial.add(c.key));
-    if (persisted?.hidden) for (const k of persisted.hidden) initial.add(k);
     return initial;
   });
   const [widths, setWidths] = useState<Record<string, number | undefined>>(() => {
@@ -210,17 +208,39 @@ function DataGridRoot<T = Record<string, unknown>>({
     columns.forEach((c) => {
       initial[c.key] = c.initialWidth;
     });
-    if (persisted?.widths) Object.assign(initial, persisted.widths);
     return initial;
   });
-  const [order, setOrder] = useState<string[]>(() => {
-    if (persisted?.order && persisted.order.length === columns.length) {
-      // Only honor persisted order if it covers the same key set.
-      const keySet = new Set(columns.map((c) => c.key));
-      if (persisted.order.every((k) => keySet.has(k))) return persisted.order;
+  const [order, setOrder] = useState<string[]>(() =>
+    columns.map((c) => c.key)
+  );
+
+  // Hydrate persisted state on first client render. Safe under SSR
+  // because this never runs server-side and the initial paint matches
+  // the server output exactly.
+  useEffect(() => {
+    if (!persistKey) return;
+    const persisted = readPersisted(persistKey);
+    if (!persisted) return;
+    if (persisted.hidden) {
+      setHiddenInternal((prev) => {
+        const next = new Set(prev);
+        for (const k of persisted.hidden!) next.add(k);
+        return next;
+      });
     }
-    return columns.map((c) => c.key);
-  });
+    if (persisted.widths) {
+      setWidths((prev) => ({ ...prev, ...persisted.widths }));
+    }
+    if (persisted.order && persisted.order.length === columns.length) {
+      const keySet = new Set(columns.map((c) => c.key));
+      if (persisted.order.every((k) => keySet.has(k))) {
+        setOrder(persisted.order);
+      }
+    }
+    // We only hydrate once per persistKey — ignoring `columns` changes
+    // by design, otherwise layout thrashes every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [persistKey]);
 
   useEffect(() => {
     if (!persistKey) return;

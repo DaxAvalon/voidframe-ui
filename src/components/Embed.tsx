@@ -13,6 +13,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 import { Label } from "./Text";
 
 // ── IFrame ──────────────────────────────────────────────────
@@ -164,7 +165,7 @@ export const DocumentPreview = forwardRef<HTMLDivElement, DocumentPreviewProps>(
             )}
             {(onDownload || src) && (
               <a
-                href={src}
+                href={safeHref(src)}
                 download={filename}
                 className="vf-button vf-button--ghost"
                 onClick={onDownload}

@@ -24,6 +24,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 
 // ── CursorPagination ─────────────────────────────────────────
 
@@ -365,7 +366,7 @@ export const TreeNav = forwardRef<HTMLDivElement, TreeNavProps>(function TreeNav
           {item.href ? (
             <a
               className="vf-treenav__link"
-              href={item.href}
+              href={safeHref(item.href)}
               aria-current={isActive ? "page" : undefined}
               onClick={(e) => {
                 if (onSelect) {

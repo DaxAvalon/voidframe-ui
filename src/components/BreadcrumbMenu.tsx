@@ -16,6 +16,7 @@ import {
 } from "react";
 import { useClickOutside, useId } from "../hooks";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 
 export interface BreadcrumbMenuSibling {
   label: ReactNode;
@@ -166,7 +167,7 @@ function LinkOrSpan({
   }
   return (
     <a
-      href={href ?? "#"}
+      href={safeHref(href ?? "#")}
       role={role}
       className={className}
       onClick={(e) => {

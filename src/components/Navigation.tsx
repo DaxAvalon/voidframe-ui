@@ -14,6 +14,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 import { Label } from "./Text";
 
 // ── Breadcrumb ────────────────────────────────────────────────
@@ -149,7 +150,7 @@ const BreadcrumbItemComponent = forwardRef<
   return (
     <a
       ref={ref}
-      href={href ?? "#"}
+      href={safeHref(href ?? "#")}
       onClick={(e) => {
         if (onClick) {
           e.preventDefault();
@@ -628,7 +629,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
   if (href) {
     return (
       <a
-        href={href}
+        href={safeHref(href)}
         onClick={onClick}
         {...(commonProps as unknown as AnchorHTMLAttributes<HTMLAnchorElement>)}
         {...(props as unknown as AnchorHTMLAttributes<HTMLAnchorElement>)}

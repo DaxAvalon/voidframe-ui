@@ -21,6 +21,7 @@ import { DismissableLayer } from "../primitives/DismissableLayer";
 import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 
 export interface LightboxImage {
   src: string;
@@ -169,7 +170,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(function Light
                 <span className="vf-lightbox__caption">{current.caption}</span>
                 {download && (
                   <a
-                    href={current.src}
+                    href={safeHref(current.src)}
                     download
                     className="vf-lightbox__download"
                   >

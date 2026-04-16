@@ -709,9 +709,14 @@ export type {
 export {
   MarkdownEditor,
   applyMarkdownCommand,
-  renderMarkdown,
+  renderMarkdownBlocks,
 } from "./MarkdownEditor";
-export type { MarkdownCommand, MarkdownEditorProps } from "./MarkdownEditor";
+export type {
+  MarkdownCommand,
+  MarkdownEditorProps,
+  MarkdownComponents,
+  RenderMarkdownOptions,
+} from "./MarkdownEditor";
 export { CodeEditor } from "./CodeEditor";
 export type { CodeEditorProps } from "./CodeEditor";
 export { MentionInput, SlashCommandInput } from "./MentionInput";

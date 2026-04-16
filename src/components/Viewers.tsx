@@ -22,7 +22,10 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
-import { renderMarkdown } from "./MarkdownEditor";
+import {
+  renderMarkdownBlocks,
+  type MarkdownComponents,
+} from "./MarkdownEditor";
 
 const HTML_PROP = "innerHTML" as const;
 function writeHTML(el: HTMLElement, html: string): void {
@@ -803,72 +806,6 @@ export interface MarkdownRendererProps extends HTMLAttributes<HTMLDivElement> {
   components?: MarkdownComponentMap;
 }
 
-interface ParsedNode {
-  tag: string;
-  attrs: Record<string, string>;
-  children: Array<ParsedNode | string>;
-}
-
-function parseRenderedMarkdown(html: string): Array<ParsedNode | string> {
-  if (typeof DOMParser === "undefined") return [html];
-  const doc = new DOMParser().parseFromString(`<root>${html}</root>`, "text/html");
-  const root = doc.querySelector("root");
-  if (!root) return [html];
-  const convert = (node: ChildNode): ParsedNode | string | null => {
-    if (node.nodeType === 3) return (node as Text).data;
-    if (node.nodeType !== 1) return null;
-    const el = node as Element;
-    const attrs: Record<string, string> = {};
-    for (const attr of Array.from(el.attributes)) {
-      attrs[attr.name] = attr.value;
-    }
-    const children: Array<ParsedNode | string> = [];
-    for (const child of Array.from(el.childNodes)) {
-      const conv = convert(child);
-      if (conv !== null) children.push(conv);
-    }
-    return { tag: el.tagName.toLowerCase(), attrs, children };
-  };
-  const out: Array<ParsedNode | string> = [];
-  for (const child of Array.from(root.childNodes)) {
-    const conv = convert(child);
-    if (conv !== null) out.push(conv);
-  }
-  return out;
-}
-
-function renderParsed(
-  nodes: Array<ParsedNode | string>,
-  components: MarkdownComponentMap | undefined,
-  linkTarget: "_blank" | "_self" | undefined,
-  keyPrefix = ""
-): ReactNode {
-  return nodes.map((node, i) => {
-    if (typeof node === "string") return node;
-    const Tag =
-      (components && (components as Record<string, React.ElementType>)[node.tag]) ?? node.tag;
-    const props: Record<string, unknown> = {};
-    for (const [name, value] of Object.entries(node.attrs)) {
-      const propName =
-        name === "class" ? "className" : name === "for" ? "htmlFor" : name;
-      props[propName] = value;
-    }
-    if (node.tag === "a" && linkTarget === "_blank") {
-      props.target = "_blank";
-      props.rel = "noreferrer noopener";
-    }
-    const keyVal = `${keyPrefix}${i}`;
-    if (node.children.length === 0) {
-      return <Tag key={keyVal} {...props} />;
-    }
-    return (
-      <Tag key={keyVal} {...props}>
-        {renderParsed(node.children, components, linkTarget, `${keyPrefix}${i}-`)}
-      </Tag>
-    );
-  });
-}
-
 export const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
   function MarkdownRenderer(
     { content, linkTarget, plugins, components, className, ...props },
@@ -880,28 +817,18 @@ export const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps
       return src;
     }, [content, plugins]);
 
-    const html = useMemo(() => {
-      let out = renderMarkdown(processed);
-      if (linkTarget === "_blank" && !components) {
-        out = out.replace(/<a\s+href="/g, '<a target="_blank" rel="noreferrer noopener" href="');
-      }
-      return out;
-    }, [processed, linkTarget, components]);
-
-    const tree = useMemo(() => {
-      if (!components && linkTarget !== "_blank") return null;
-      return parseRenderedMarkdown(html);
-    }, [html, components, linkTarget]);
+    const tree = useMemo(
+      () =>
+        renderMarkdownBlocks(processed, {
+          components: components as MarkdownComponents | undefined,
+          linkTarget,
+        }),
+      [processed, linkTarget, components]
+    );
 
     return (
       <div ref={ref} className={cx("vf-markdown-renderer", className)} {...props}>
-        {tree ? (
-          <div className="vf-markdown-renderer__body">
-            {renderParsed(tree, components, linkTarget)}
-          </div>
-        ) : (
-          <HTMLPane html={html} className="vf-markdown-renderer__body" />
-        )}
+        <div className="vf-markdown-renderer__body">{tree}</div>
       </div>
     );
   }

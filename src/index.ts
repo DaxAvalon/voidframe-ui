@@ -152,6 +152,9 @@ export {
   genericForwardRef,
   deprecatedProp,
   deprecatedComponent,
+  safeHref,
+  safeHrefOrWarn,
+  sanitizeHtml,
 } from "./utils";
 export type {
   ClassValue,
@@ -162,6 +165,8 @@ export type {
   PolymorphicComponentProps,
   PolymorphicComponentPropsWithRef,
   PolymorphicRef,
+  SafeHrefOptions,
+  SanitizeProfile,
 } from "./utils";
 
 // ── Utilities ───────────────────────────────────────────────

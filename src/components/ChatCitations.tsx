@@ -4,6 +4,7 @@
 
 import { forwardRef, useState, type HTMLAttributes, type ReactNode } from "react";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 
 export interface SourceRef {
   id?: string | number;
@@ -155,9 +156,9 @@ function CitationListEntry({
     return (
       <a
         className="vf-citation-list__entry vf-citation-list__entry--link"
-        href={source.url}
+        href={safeHref(source.url)}
         target="_blank"
-        rel="noreferrer"
+        rel="noreferrer noopener"
       >
         {body}
       </a>
@@ -240,9 +241,9 @@ export const SourceCard = forwardRef<HTMLElement, SourceCardProps>(
         <a
           ref={ref as React.Ref<HTMLAnchorElement>}
           className={cx("vf-source-card", "vf-source-card--link", className)}
-          href={url}
+          href={safeHref(url)}
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
           {...(props as HTMLAttributes<HTMLAnchorElement>)}
         >
           {body}

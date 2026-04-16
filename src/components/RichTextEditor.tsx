@@ -7,14 +7,18 @@
 // but still the broadly-supported path for simple formatting without shipping
 // a full editor engine (Lexical/TipTap) as a dependency.
 //
-// SECURITY: This component intentionally renders HTML sourced from the
-// contenteditable element. Consumers passing external (user-authored) HTML
-// into `value`/`defaultValue` MUST sanitize it first with e.g. DOMPurify.
+// SECURITY: Every write to the contenteditable surface and the `value`
+// read back out of it flow through `sanitizeHtml("rich-text")`, which
+// applies a tag + attribute allowlist via DOMPurify. The `link` command
+// passes its URL through `safeHref` before delegating to `createLink`,
+// so `javascript:` / `data:` URLs are neutralized. Consumers can
+// override with a custom `sanitize` prop.
 
 import {
   forwardRef,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   type CSSProperties,
   type HTMLAttributes,
@@ -23,6 +27,8 @@ import {
 import { useControllableState } from "../hooks/useControllableState";
 import { useId } from "../hooks/useId";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
+import { sanitizeHtml } from "../utils/sanitizeHtml";
 import { Label } from "./Text";
 
 const HTML_PROP = "innerHTML" as const;
@@ -51,7 +57,7 @@ export type RichTextCommand =
 
 export interface RichTextEditorProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
-  /** HTML string. Sanitize before passing user content. */
+  /** HTML string. Sanitized against a conservative allowlist on every write. */
   value?: string;
   defaultValue?: string;
   onChange?: (html: string) => void;
@@ -62,6 +68,14 @@ export interface RichTextEditorProps
   minHeight?: number | string;
   disabled?: boolean;
   readOnly?: boolean;
+  /**
+   * Override the HTML sanitizer. Defaults to a DOMPurify-based allowlist
+   * for common formatting tags (`a`, `b`, `em`, `strong`, `u`, `s`,
+   * `h1`–`h6`, `p`, `ul`/`ol`/`li`, `blockquote`, `pre`, `code`, `br`,
+   * `span`, `div`) + a URL scheme filter on anchors. Pass a function to
+   * lock the surface down further.
+   */
+  sanitize?: (html: string) => string;
   id?: string;
   style?: CSSProperties;
 }
@@ -151,7 +165,10 @@ function applyCommand(cmd: RichTextCommand, arg?: string): void {
         break;
       case "link": {
         const url = arg ?? (typeof window !== "undefined" ? window.prompt("URL") : null);
-        if (url) bridge.call(document, "createLink", false, url);
+        if (url) {
+          const sanitized = safeHref(url);
+          if (sanitized !== "#") bridge.call(document, "createLink", false, sanitized);
+        }
         break;
       }
       case "clear":
@@ -177,6 +194,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorProps>(
       minHeight = 160,
       disabled,
       readOnly,
+      sanitize: sanitizeProp,
       id,
       className,
       style,
@@ -191,14 +209,20 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorProps>(
       componentName: "RichTextEditor",
     });
 
+    const sanitize = useMemo(
+      () =>
+        sanitizeProp ?? ((input: string) => sanitizeHtml(input, "rich-text")),
+      [sanitizeProp]
+    );
     const editableRef = useRef<HTMLDivElement>(null);
     const editorId = useId(id);
 
     useEffect(() => {
       const el = editableRef.current;
       if (!el) return;
-      if (readHTML(el) !== html) writeHTML(el, html);
-    }, [html]);
+      const clean = sanitize(html);
+      if (readHTML(el) !== clean) writeHTML(el, clean);
+    }, [html, sanitize]);
 
     const runCommand = useCallback(
       (command: RichTextCommand, arg?: string) => {
@@ -206,9 +230,9 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorProps>(
         if (!el || disabled || readOnly) return;
         el.focus();
         applyCommand(command, arg);
-        setHtml(readHTML(el));
+        setHtml(sanitize(readHTML(el)));
       },
-      [disabled, readOnly, setHtml]
+      [disabled, readOnly, sanitize, setHtml]
     );
 
     const focus = useCallback(() => editableRef.current?.focus(), []);
@@ -218,10 +242,11 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorProps>(
     );
     const setHTMLProgrammatic = useCallback(
       (next: string) => {
-        if (editableRef.current) writeHTML(editableRef.current, next);
-        setHtml(next);
+        const clean = sanitize(next);
+        if (editableRef.current) writeHTML(editableRef.current, clean);
+        setHtml(clean);
       },
-      [setHtml]
+      [sanitize, setHtml]
     );
     const api: RichTextEditorApi = {
       run: runCommand,
@@ -275,6 +300,25 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorProps>(
             className="vf-rte__content"
             style={{ minHeight }}
             onInput={(e) => setHtml(readHTML(e.target as HTMLDivElement))}
+            onPaste={(e) => {
+              // Intercept paste so any HTML payload flows through the
+              // sanitizer before touching the DOM. Plain-text pastes
+              // fall through to the default handler.
+              if (disabled || readOnly) return;
+              const clip = e.clipboardData;
+              const htmlPayload = clip?.getData("text/html");
+              if (!htmlPayload) return;
+              e.preventDefault();
+              const clean = sanitize(htmlPayload);
+              const bridge = (document as unknown as {
+                execCommand?: (c: string, ui?: boolean, v?: string) => boolean;
+              }).execCommand;
+              if (bridge) {
+                bridge.call(document, "insertHTML", false, clean);
+                const el = editableRef.current;
+                if (el) setHtml(readHTML(el));
+              }
+            }}
           />
         </div>
       </div>

@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 
 // ── UserCard ────────────────────────────────────────────────
 
@@ -213,9 +214,9 @@ export const OrganizationCard = forwardRef<HTMLElement, OrganizationCardProps>(
             {organization.website && (
               <a
                 className="vf-org-card__website"
-                href={organization.website}
+                href={safeHref(organization.website)}
                 target="_blank"
-                rel="noreferrer"
+                rel="noreferrer noopener"
                 onClick={(e) => e.stopPropagation()}
               >
                 {organization.website.replace(/^https?:\/\//, "")}

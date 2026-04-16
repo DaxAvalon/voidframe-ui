@@ -2,6 +2,7 @@
 
 import { forwardRef, type AnchorHTMLAttributes, type ReactNode } from "react";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 
 export interface SkipToContentProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   /** Fragment or ID of the main content target. */
@@ -21,7 +22,7 @@ export const SkipToContent = forwardRef<HTMLAnchorElement, SkipToContentProps>(
     return (
       <a
         ref={ref}
-        href={href}
+        href={safeHref(href)}
         className={cx("vf-skip-to-content", className)}
         {...props}
       >

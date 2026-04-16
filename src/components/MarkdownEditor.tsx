@@ -9,26 +9,30 @@
 // subset (headers, emphasis, inline code, code fences, links, lists, hr,
 // blockquote, hard breaks). For richer rendering, pass your own `renderPreview`.
 //
-// SECURITY: The bundled renderer escapes input text before emitting HTML, so
-// it is safe to display in the preview pane. If you pass a custom `renderPreview`,
-// you are responsible for sanitization.
+// SECURITY: The bundled renderer emits React elements — never innerHTML
+// strings — and validates link URLs through `safeHref`. User input can
+// never escape into a script context because React automatically escapes
+// text and attribute values. If you pass a custom `renderPreview`, you
+// are responsible for sanitization.
 
 import {
+  Fragment,
   forwardRef,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
   type ChangeEvent,
   type CSSProperties,
   type HTMLAttributes,
+  type ReactElement,
   type ReactNode,
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { useId } from "../hooks/useId";
 import { useMergedRefs } from "../hooks/useMergedRefs";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 import { Label } from "./Text";
 
 export type MarkdownCommand =
@@ -161,33 +165,218 @@ export function applyMarkdownCommand(
   }
 }
 
-// ── tiny markdown renderer ────────────────────────────────────
+// ── Safe markdown renderer ────────────────────────────────────
+//
+// Emits React elements directly — user text lives inside text-node
+// children or attribute values that React escapes, so no innerHTML,
+// no regex-chain composition, no attribute injection. Links pass
+// through `safeHref` which rejects `javascript:`, `data:`,
+// `vbscript:` etc.
 
-const ESC_MAP: Record<string, string> = {
-  "&": "&amp;",
-  "<": "&lt;",
-  ">": "&gt;",
-  '"': "&quot;",
-  "'": "&#39;",
-};
-function esc(s: string): string {
-  return s.replace(/[&<>"']/g, (c) => ESC_MAP[c]!);
-}
+type InlineToken =
+  | { type: "text"; value: string }
+  | { type: "strong"; children: InlineToken[] }
+  | { type: "em"; children: InlineToken[] }
+  | { type: "code"; value: string }
+  | { type: "link"; href: string; children: InlineToken[] }
+  | { type: "br" };
 
-function renderInline(src: string): string {
-  let out = esc(src);
-  out = out.replace(/`([^`]+)`/g, (_, g) => `<code>${g}</code>`);
-  out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, t, u) => `<a href="${u}">${t}</a>`);
-  out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  out = out.replace(/\*([^*]+)\*/g, "<em>$1</em>");
-  out = out.replace(/  \n/g, "<br/>");
-  return out;
-}
-
-export function renderMarkdown(src: string): string {
-  const lines = src.split("\n");
-  const out: string[] = [];
+/**
+ * Tokenize an inline-level markdown string. The tokenizer walks the
+ * source once without chaining regex `replace` calls, so later stages
+ * can never re-match already-emitted markup (the previous regex
+ * pipeline was vulnerable to that class of bug).
+ */
+function tokenizeInline(src: string): InlineToken[] {
+  const tokens: InlineToken[] = [];
+  let buffer = "";
   let i = 0;
+  const flush = () => {
+    if (buffer) {
+      tokens.push({ type: "text", value: buffer });
+      buffer = "";
+    }
+  };
+  while (i < src.length) {
+    const ch = src[i]!;
+
+    // Hard break: "  \n"
+    if (ch === " " && src[i + 1] === " " && src[i + 2] === "\n") {
+      flush();
+      tokens.push({ type: "br" });
+      i += 3;
+      continue;
+    }
+
+    // Inline code: `...`
+    if (ch === "`") {
+      const end = src.indexOf("`", i + 1);
+      if (end !== -1) {
+        flush();
+        tokens.push({ type: "code", value: src.slice(i + 1, end) });
+        i = end + 1;
+        continue;
+      }
+    }
+
+    // Link: [text](href)
+    if (ch === "[") {
+      const close = src.indexOf("]", i + 1);
+      if (close !== -1 && src[close + 1] === "(") {
+        const paren = src.indexOf(")", close + 2);
+        if (paren !== -1) {
+          flush();
+          const label = src.slice(i + 1, close);
+          const href = src.slice(close + 2, paren);
+          tokens.push({
+            type: "link",
+            href,
+            children: tokenizeInline(label),
+          });
+          i = paren + 1;
+          continue;
+        }
+      }
+    }
+
+    // Bold: **...**
+    if (ch === "*" && src[i + 1] === "*") {
+      const end = src.indexOf("**", i + 2);
+      if (end !== -1) {
+        flush();
+        tokens.push({
+          type: "strong",
+          children: tokenizeInline(src.slice(i + 2, end)),
+        });
+        i = end + 2;
+        continue;
+      }
+    }
+
+    // Emphasis: *...*
+    if (ch === "*") {
+      const end = src.indexOf("*", i + 1);
+      if (end !== -1 && end > i + 1) {
+        flush();
+        tokens.push({
+          type: "em",
+          children: tokenizeInline(src.slice(i + 1, end)),
+        });
+        i = end + 1;
+        continue;
+      }
+    }
+
+    buffer += ch;
+    i++;
+  }
+  flush();
+  return tokens;
+}
+
+/** Element overrides for the safe markdown renderer. Any omitted tag
+ *  falls back to the built-in element. */
+export type MarkdownComponents = Partial<{
+  h1: React.ElementType;
+  h2: React.ElementType;
+  h3: React.ElementType;
+  h4: React.ElementType;
+  h5: React.ElementType;
+  h6: React.ElementType;
+  p: React.ElementType;
+  a: React.ElementType;
+  code: React.ElementType;
+  pre: React.ElementType;
+  ul: React.ElementType;
+  ol: React.ElementType;
+  li: React.ElementType;
+  blockquote: React.ElementType;
+  hr: React.ElementType;
+  strong: React.ElementType;
+  em: React.ElementType;
+  br: React.ElementType;
+}>;
+
+export interface RenderMarkdownOptions {
+  /** Replace specific tags with custom React components. */
+  components?: MarkdownComponents;
+  /** Opens links in a new tab when set. Default: `"_blank"` (+noopener+noreferrer). */
+  linkTarget?: "_blank" | "_self";
+}
+
+function resolveTag(
+  tag: keyof MarkdownComponents,
+  components: MarkdownComponents | undefined
+): React.ElementType {
+  return (components?.[tag] ?? tag) as React.ElementType;
+}
+
+function renderInlineTokens(
+  tokens: InlineToken[],
+  key: string,
+  opts: RenderMarkdownOptions
+): ReactNode[] {
+  const Code = resolveTag("code", opts.components);
+  const Strong = resolveTag("strong", opts.components);
+  const Em = resolveTag("em", opts.components);
+  const Br = resolveTag("br", opts.components);
+  const A = resolveTag("a", opts.components);
+  const linkTarget = opts.linkTarget ?? "_blank";
+  return tokens.map((tok, idx) => {
+    const k = `${key}-${idx}`;
+    switch (tok.type) {
+      case "text":
+        // React will HTML-escape this automatically.
+        return <Fragment key={k}>{tok.value}</Fragment>;
+      case "code":
+        return <Code key={k}>{tok.value}</Code>;
+      case "strong":
+        return <Strong key={k}>{renderInlineTokens(tok.children, k, opts)}</Strong>;
+      case "em":
+        return <Em key={k}>{renderInlineTokens(tok.children, k, opts)}</Em>;
+      case "br":
+        return <Br key={k} />;
+      case "link": {
+        // `safeHref` rejects `javascript:`, `data:`, etc. — the
+        // resulting attribute value is a plain URL, and React escapes
+        // it into the `href` attribute.
+        const href = safeHref(tok.href);
+        const targetProps =
+          linkTarget === "_blank"
+            ? { target: "_blank", rel: "noreferrer noopener" as const }
+            : {};
+        return (
+          <A key={k} href={href} {...targetProps}>
+            {renderInlineTokens(tok.children, k, opts)}
+          </A>
+        );
+      }
+    }
+  });
+}
+
+/**
+ * Public: render a markdown string to a React element tree. Intended
+ * for use inside JSX — no `innerHTML`, no `dangerouslySetInnerHTML`,
+ * no HTML string output to sanitize. Safe with arbitrary user input.
+ */
+export function renderMarkdownBlocks(
+  src: string,
+  options: RenderMarkdownOptions = {}
+): ReactElement {
+  const lines = src.split("\n");
+  const blocks: ReactElement[] = [];
+  let i = 0;
+  const inline = (text: string, key: string) =>
+    renderInlineTokens(tokenizeInline(text), key, options);
+  const Pre = resolveTag("pre", options.components);
+  const CodeTag = resolveTag("code", options.components);
+  const Blockquote = resolveTag("blockquote", options.components);
+  const Ul = resolveTag("ul", options.components);
+  const Ol = resolveTag("ol", options.components);
+  const Li = resolveTag("li", options.components);
+  const Hr = resolveTag("hr", options.components);
+  const P = resolveTag("p", options.components);
   while (i < lines.length) {
     const line = lines[i]!;
     if (/^```/.test(line)) {
@@ -198,18 +387,26 @@ export function renderMarkdown(src: string): string {
         i++;
       }
       i++;
-      out.push(`<pre><code>${esc(body.join("\n"))}</code></pre>`);
+      blocks.push(
+        <Pre key={`p-${blocks.length}`}>
+          <CodeTag>{body.join("\n")}</CodeTag>
+        </Pre>
+      );
       continue;
     }
     const headingMatch = line.match(/^(#{1,6})\s+(.*)$/);
     if (headingMatch) {
       const level = headingMatch[1]!.length;
-      out.push(`<h${level}>${renderInline(headingMatch[2]!)}</h${level}>`);
+      const key = `h-${blocks.length}`;
+      const children = inline(headingMatch[2]!, key);
+      const tagName = `h${level}` as keyof MarkdownComponents;
+      const H = resolveTag(tagName, options.components);
+      blocks.push(<H key={key}>{children}</H>);
       i++;
       continue;
     }
     if (/^(-{3,}|_{3,}|\*{3,})$/.test(line.trim())) {
-      out.push("<hr/>");
+      blocks.push(<Hr key={`hr-${blocks.length}`} />);
       i++;
       continue;
     }
@@ -219,25 +416,40 @@ export function renderMarkdown(src: string): string {
         quote.push(lines[i]!.replace(/^>\s?/, ""));
         i++;
       }
-      out.push(`<blockquote>${renderInline(quote.join(" "))}</blockquote>`);
+      const key = `q-${blocks.length}`;
+      blocks.push(<Blockquote key={key}>{inline(quote.join(" "), key)}</Blockquote>);
       continue;
     }
     if (/^[-*]\s+/.test(line)) {
       const items: string[] = [];
       while (i < lines.length && /^[-*]\s+/.test(lines[i]!)) {
-        items.push(`<li>${renderInline(lines[i]!.replace(/^[-*]\s+/, ""))}</li>`);
+        items.push(lines[i]!.replace(/^[-*]\s+/, ""));
         i++;
       }
-      out.push(`<ul>${items.join("")}</ul>`);
+      const key = `ul-${blocks.length}`;
+      blocks.push(
+        <Ul key={key}>
+          {items.map((it, idx) => (
+            <Li key={`${key}-${idx}`}>{inline(it, `${key}-${idx}`)}</Li>
+          ))}
+        </Ul>
+      );
       continue;
     }
     if (/^\d+\.\s+/.test(line)) {
       const items: string[] = [];
       while (i < lines.length && /^\d+\.\s+/.test(lines[i]!)) {
-        items.push(`<li>${renderInline(lines[i]!.replace(/^\d+\.\s+/, ""))}</li>`);
+        items.push(lines[i]!.replace(/^\d+\.\s+/, ""));
         i++;
       }
-      out.push(`<ol>${items.join("")}</ol>`);
+      const key = `ol-${blocks.length}`;
+      blocks.push(
+        <Ol key={key}>
+          {items.map((it, idx) => (
+            <Li key={`${key}-${idx}`}>{inline(it, `${key}-${idx}`)}</Li>
+          ))}
+        </Ol>
+      );
       continue;
     }
     if (line.trim() === "") {
@@ -254,24 +466,10 @@ export function renderMarkdown(src: string): string {
       para.push(lines[i]!);
       i++;
     }
-    out.push(`<p>${renderInline(para.join(" "))}</p>`);
+    const key = `para-${blocks.length}`;
+    blocks.push(<P key={key}>{inline(para.join(" "), key)}</P>);
   }
-  return out.join("");
-}
-
-// Render the preview HTML by writing through innerHTML on an imperative ref.
-// This keeps us off React's dangerouslySetInnerHTML attribute — the rendered
-// markup still originates solely from our `renderMarkdown` output, which
-// escapes user text.
-function PreviewPane({ html }: { html: string }): JSX.Element {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const target = el as unknown as Record<string, string>;
-    target.innerHTML = html;
-  }, [html]);
-  return <div ref={ref} className="vf-md__preview-body" />;
+  return <>{blocks}</>;
 }
 
 export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
@@ -322,7 +520,7 @@ export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
       ta.focus();
     }, []);
 
-    const previewHtml = useMemo(() => renderMarkdown(md), [md]);
+    const previewNode = useMemo(() => renderMarkdownBlocks(md), [md]);
 
     const layoutClass =
       preview === "below" ? "vf-md__frame--stacked" : "vf-md__frame--side";
@@ -386,7 +584,9 @@ export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
               role="region"
               style={{ minHeight }}
             >
-              {renderPreview ? renderPreview(md) : <PreviewPane html={previewHtml} />}
+              <div className="vf-md__preview-body">
+                {renderPreview ? renderPreview(md) : previewNode}
+              </div>
             </div>
           )}
         </div>

@@ -20,7 +20,6 @@ import {
   useContext,
   useEffect,
   useId,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -31,6 +30,7 @@ import {
 } from "react";
 import { MarkdownRenderer } from "./Viewers";
 import { cx } from "../utils/cx";
+import { useIsomorphicLayoutEffect } from "../hooks/useIsomorphicLayoutEffect";
 
 // ── Types shared across chat ────────────────────────────────
 
@@ -198,7 +198,7 @@ export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
       }
     };
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       if (!autoScroll || !isPinned) return;
       const el = innerRef.current;
       if (!el) return;
