@@ -125,7 +125,7 @@
 }
 
 .vf-message__time {
-  margin-left: auto;
+  margin-inline-start: auto;
   font-variant-numeric: tabular-nums;
   color: var(--vf-text-4);
 }
@@ -161,7 +161,7 @@
 }
 
 .vf-message__actions {
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 /* ── MessageContent ─────────────────────────────────────────── */
@@ -178,7 +178,7 @@
 
 .vf-message-content__cursor {
   display: inline-block;
-  margin-left: 2px;
+  margin-inline-start: 2px;
   animation: vf-cursor-blink 1s steps(2, end) infinite;
 }
 
@@ -197,7 +197,7 @@
   gap: var(--vf-sp-1);
   padding: var(--vf-sp-2);
   background: var(--vf-bg-0);
-  border-left: 2px solid var(--vf-border-3);
+  border-inline-start: 2px solid var(--vf-border-3);
   color: var(--vf-text-3);
   font-size: var(--vf-font-sm);
 }
@@ -243,7 +243,7 @@
 
 .vf-streaming-text__cursor {
   display: inline-block;
-  margin-left: 2px;
+  margin-inline-start: 2px;
   animation: vf-cursor-blink 1s steps(2, end) infinite;
 }
 
@@ -340,7 +340,7 @@
 }
 
 .vf-reasoning-trace__duration {
-  margin-left: auto;
+  margin-inline-start: auto;
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -428,7 +428,7 @@
   display: flex;
   gap: var(--vf-sp-1);
   flex-wrap: wrap;
-  margin-left: var(--vf-sp-2);
+  margin-inline-start: var(--vf-sp-2);
 }
 
 .vf-message-feedback__reason {
@@ -587,7 +587,7 @@
 .vf-attachment__actions {
   display: inline-flex;
   gap: 4px;
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .vf-attachment__action {
@@ -638,7 +638,7 @@
 .vf-image-attachment__remove {
   position: absolute;
   top: 4px;
-  right: 4px;
+  inset-inline-end: 4px;
   background: var(--vf-bg-0);
   border: 1px solid var(--vf-border-2);
 }
@@ -775,7 +775,7 @@
 }
 
 .vf-tool-call__duration {
-  margin-left: auto;
+  margin-inline-start: auto;
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -891,7 +891,7 @@
 }
 
 .vf-agent-step__duration {
-  margin-left: auto;
+  margin-inline-start: auto;
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -1092,7 +1092,7 @@
 }
 
 .vf-citation-list__favicon {
-  margin-right: 4px;
+  margin-inline-end: 4px;
 }
 
 .vf-citation-list__title-line {
@@ -1203,7 +1203,7 @@
 }
 
 .vf-rag-context__count {
-  margin-left: auto;
+  margin-inline-start: auto;
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -1237,7 +1237,7 @@
 }
 
 .vf-rag-context__chunk-score {
-  margin-left: auto;
+  margin-inline-start: auto;
   color: var(--vf-text-4);
   font-variant-numeric: tabular-nums;
 }
@@ -1300,7 +1300,7 @@
 .vf-composer__count {
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
-  margin-right: auto;
+  margin-inline-end: auto;
   font-variant-numeric: tabular-nums;
 }
 
@@ -1565,7 +1565,7 @@
 .vf-slash-picker__desc {
   color: var(--vf-text-3);
   font-size: var(--vf-font-xs);
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 /* Mention chip (inline — distinct class from the MentionInput editor wrapper
@@ -1599,7 +1599,7 @@
   gap: var(--vf-sp-1);
   padding: var(--vf-sp-2);
   background: var(--vf-bg-1);
-  border-right: 1px solid var(--vf-border-1);
+  border-inline-end: 1px solid var(--vf-border-1);
 }
 
 .vf-session-list__header,
@@ -1776,7 +1776,7 @@
   gap: var(--vf-sp-3);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-3);
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .vf-conversation-header__actions {
@@ -1840,7 +1840,7 @@
   border: 1px solid var(--vf-border-1);
   cursor: pointer;
   width: calc(100% - var(--vf-sp-2) * 2);
-  text-align: left;
+  text-align: start;
 }
 
 .vf-conversation-empty__btn:hover {
@@ -2074,7 +2074,7 @@
   width: 360px;
   height: 100%;
   background: var(--vf-bg-1);
-  border-left: 1px solid var(--vf-border-1);
+  border-inline-start: 1px solid var(--vf-border-1);
   color: var(--vf-text-1);
 }
 
@@ -2199,7 +2199,7 @@
 }
 
 .vf-trace-viewer__span-duration {
-  text-align: right;
+  text-align: end;
   color: var(--vf-text-4);
   font-variant-numeric: tabular-nums;
 }
@@ -2257,11 +2257,11 @@
 }
 
 .vf-chat-layout__sidebar {
-  border-right: 1px solid var(--vf-border-1);
+  border-inline-end: 1px solid var(--vf-border-1);
 }
 
 .vf-chat-layout__inspector {
-  border-left: 1px solid var(--vf-border-1);
+  border-inline-start: 1px solid var(--vf-border-1);
 }
 
 .vf-simple-chat {
@@ -2303,6 +2303,6 @@
 .vf-agent-runner__side {
   display: flex;
   flex-direction: column;
-  border-left: 1px solid var(--vf-border-1);
+  border-inline-start: 1px solid var(--vf-border-1);
   overflow-y: auto;
 }

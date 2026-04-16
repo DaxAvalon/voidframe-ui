@@ -46,7 +46,7 @@
 }
 .vf-status-bar__sep {
   color: var(--vf-border-1);
-  margin-right: var(--vf-sp-3);
+  margin-inline-end: var(--vf-sp-3);
 }
 .vf-status-bar__value {
   font-family: var(--vf-font-family);

@@ -76,8 +76,8 @@
 }
 .vf-tooltip__bubble--top    { bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 6px; }
 .vf-tooltip__bubble--bottom { top: 100%; left: 50%; transform: translateX(-50%); margin-top: 6px; }
-.vf-tooltip__bubble--left   { right: 100%; top: 50%; transform: translateY(-50%); margin-right: 6px; }
-.vf-tooltip__bubble--right  { left: 100%; top: 50%; transform: translateY(-50%); margin-left: 6px; }
+.vf-tooltip__bubble--left   { inset-inline-end: 100%; top: 50%; transform: translateY(-50%); margin-inline-end: 6px; }
+.vf-tooltip__bubble--right  { inset-inline-start: 100%; top: 50%; transform: translateY(-50%); margin-inline-start: 6px; }
 
 /* Code */
 .vf-code--inline {
@@ -104,12 +104,12 @@
 /* Timeline */
 .vf-timeline {
   position: relative;
-  padding-left: 20px;
+  padding-inline-start: 20px;
 }
 .vf-timeline::before {
   content: "";
   position: absolute;
-  left: 5px;
+  inset-inline-start: 5px;
   top: 0;
   bottom: 0;
   width: 1px;
@@ -118,11 +118,11 @@
 .vf-timeline__event {
   position: relative;
   margin-bottom: var(--vf-sp-7);
-  padding-left: var(--vf-sp-6);
+  padding-inline-start: var(--vf-sp-6);
 }
 .vf-timeline__dot {
   position: absolute;
-  left: -18px;
+  inset-inline-start: -18px;
   top: 4px;
   width: 8px;
   height: 8px;

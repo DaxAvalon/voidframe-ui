@@ -29,8 +29,8 @@
   padding: 4px 10px;
   cursor: pointer;
 }
-.vf-carousel__prev { left: 6px; }
-.vf-carousel__next { right: 6px; }
+.vf-carousel__prev { inset-inline-start: 6px; }
+.vf-carousel__next { inset-inline-end: 6px; }
 .vf-carousel__prev:disabled,
 .vf-carousel__next:disabled { opacity: 0.4; cursor: not-allowed; }
 .vf-carousel__dots {
@@ -82,7 +82,7 @@
   outline: none;
 }
 .vf-lightbox__close {
-  position: absolute; top: 12px; right: 12px;
+  position: absolute; top: 12px; inset-inline-end: 12px;
   background: transparent; color: var(--vf-text-1);
   border: 1px solid var(--vf-border-2); padding: 2px 8px;
   font-family: var(--vf-font-family); cursor: pointer;
@@ -172,8 +172,8 @@
 .vf-swipe-actions__trailing {
   position: absolute; top: 0; bottom: 0; display: flex;
 }
-.vf-swipe-actions__leading { left: 0; }
-.vf-swipe-actions__trailing { right: 0; }
+.vf-swipe-actions__leading { inset-inline-start: 0; }
+.vf-swipe-actions__trailing { inset-inline-end: 0; }
 .vf-swipe-actions__content {
   position: relative; flex: 1; background: var(--vf-bg-2);
   transition: transform 0.2s ease;

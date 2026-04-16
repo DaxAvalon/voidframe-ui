@@ -48,11 +48,11 @@
 .vf-playground__pane {
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--vf-border-1);
+  border-inline-end: 1px solid var(--vf-border-1);
   min-width: 0;
 }
 .vf-playground__pane:last-child {
-  border-right: none;
+  border-inline-end: none;
 }
 .vf-playground__label {
   padding: 2px var(--vf-sp-2);
@@ -133,7 +133,7 @@
 }
 .vf-docs__nav {
   background: var(--vf-bg-1);
-  border-right: 1px solid var(--vf-border-1);
+  border-inline-end: 1px solid var(--vf-border-1);
   padding: var(--vf-sp-3);
   overflow-y: auto;
   display: flex;
@@ -170,7 +170,7 @@
 .vf-docs__nav-link {
   display: block;
   width: 100%;
-  text-align: left;
+  text-align: start;
   padding: 2px var(--vf-sp-2);
   background: transparent;
   border: 1px solid transparent;
@@ -240,7 +240,7 @@
 .vf-props-table__table th,
 .vf-props-table__table td {
   padding: var(--vf-sp-1) var(--vf-sp-2);
-  text-align: left;
+  text-align: start;
   vertical-align: top;
   border-bottom: 1px solid var(--vf-border-0);
 }
@@ -260,7 +260,7 @@
 }
 .vf-props-table__required {
   color: var(--vf-red, #c03030);
-  margin-left: 2px;
+  margin-inline-start: 2px;
 }
 .vf-props-table__type code,
 .vf-props-table__default code {
@@ -370,19 +370,19 @@
 }
 .vf-dev-panel--tl {
   top: 12px;
-  left: 12px;
+  inset-inline-start: 12px;
 }
 .vf-dev-panel--tr {
   top: 12px;
-  right: 12px;
+  inset-inline-end: 12px;
 }
 .vf-dev-panel--bl {
   bottom: 12px;
-  left: 12px;
+  inset-inline-start: 12px;
 }
 .vf-dev-panel--br {
   bottom: 12px;
-  right: 12px;
+  inset-inline-end: 12px;
 }
 .vf-dev-panel--collapsed {
   max-height: none;
@@ -431,14 +431,14 @@
   padding: var(--vf-sp-1) var(--vf-sp-2);
   background: transparent;
   border: none;
-  border-right: 1px solid var(--vf-border-1);
+  border-inline-end: 1px solid var(--vf-border-1);
   color: var(--vf-text-2);
   font-family: inherit;
   font-size: inherit;
   cursor: pointer;
 }
 .vf-dev-panel__tab:last-child {
-  border-right: none;
+  border-inline-end: none;
 }
 .vf-dev-panel__tab:hover {
   background: var(--vf-bg-2);
@@ -503,7 +503,7 @@
 .vf-dev-panel__table th,
 .vf-dev-panel__table td {
   padding: 2px var(--vf-sp-2);
-  text-align: left;
+  text-align: start;
   border-bottom: 1px solid var(--vf-border-0);
   color: var(--vf-text-1);
 }
@@ -548,7 +548,7 @@
   display: inline-block;
   width: 10px;
   height: 10px;
-  margin-right: var(--vf-sp-1);
+  margin-inline-end: var(--vf-sp-1);
   border: 1px solid var(--vf-border-2);
   vertical-align: middle;
 }

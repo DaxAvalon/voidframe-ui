@@ -19,7 +19,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
   color: var(--vf-text-2);
-  border-right: 1px solid var(--vf-border-1);
+  border-inline-end: 1px solid var(--vf-border-1);
   transition: background 0.12s ease, color 0.12s ease;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .vf-theme-selector__option:last-child {
-  border-right: none;
+  border-inline-end: none;
 }
 
 .vf-theme-selector__option:hover {
@@ -100,7 +100,7 @@
   align-items: flex-start;
   padding: var(--vf-sp-1) var(--vf-sp-2);
   cursor: pointer;
-  border-left: 2px solid transparent;
+  border-inline-start: 2px solid transparent;
 }
 
 .vf-commit-graph__row[disabled] {
@@ -113,7 +113,7 @@
 
 .vf-commit-graph__row--active {
   background: var(--vf-bg-2);
-  border-left-color: var(--vf-accent, var(--vf-info));
+  border-inline-start-color: var(--vf-accent, var(--vf-info));
 }
 
 .vf-commit-graph__row--info .vf-commit-graph__node { color: var(--vf-info); }
@@ -170,13 +170,13 @@
 }
 
 .vf-commit-graph__time {
-  margin-left: auto;
+  margin-inline-start: auto;
   color: var(--vf-text-4);
 }
 
 .vf-commit-graph__message {
   color: var(--vf-text-0);
-  text-align: left;
+  text-align: start;
 }
 
 .vf-commit-graph__author {
@@ -227,7 +227,7 @@
 
 .vf-network-inspector__table th,
 .vf-network-inspector__table td {
-  text-align: left;
+  text-align: start;
   padding: 4px 8px;
   border-bottom: 1px solid var(--vf-border-1);
   font-variant-numeric: tabular-nums;
@@ -632,7 +632,7 @@
 
 .vf-user-card__status-dot {
   position: absolute;
-  right: -2px;
+  inset-inline-end: -2px;
   bottom: -2px;
   width: 10px;
   height: 10px;
@@ -676,7 +676,7 @@
 .vf-user-card__actions,
 .vf-team-card__actions,
 .vf-org-card__actions {
-  margin-left: auto;
+  margin-inline-start: auto;
   display: inline-flex;
   gap: var(--vf-sp-1);
 }
@@ -860,7 +860,7 @@
   padding: 0 6px;
   border: 1px solid var(--vf-border-2);
   font-size: var(--vf-font-xs);
-  margin-left: var(--vf-sp-1);
+  margin-inline-start: var(--vf-sp-1);
   font-variant-numeric: tabular-nums;
 }
 
@@ -957,8 +957,8 @@
 
 .vf-help-tooltip--top .vf-help-tooltip__content { bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
 .vf-help-tooltip--bottom .vf-help-tooltip__content { top: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
-.vf-help-tooltip--left .vf-help-tooltip__content { right: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
-.vf-help-tooltip--right .vf-help-tooltip__content { left: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+.vf-help-tooltip--left .vf-help-tooltip__content { inset-inline-end: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+.vf-help-tooltip--right .vf-help-tooltip__content { inset-inline-start: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
 
 /* ── ContextHelp ───────────────────────────────────────────── */
 
@@ -968,7 +968,7 @@
   width: 320px;
   height: 100%;
   background: var(--vf-bg-1);
-  border-left: 1px solid var(--vf-border-1);
+  border-inline-start: 1px solid var(--vf-border-1);
 }
 
 .vf-context-help__header {
@@ -1373,7 +1373,7 @@
 
 .vf-widget__resize-handle {
   position: absolute;
-  right: 0;
+  inset-inline-end: 0;
   bottom: 0;
   width: 10px;
   height: 10px;
@@ -1433,7 +1433,7 @@
 
 .vf-dashboard-grid__resize {
   position: absolute;
-  right: 0;
+  inset-inline-end: 0;
   bottom: 0;
   width: 14px;
   height: 14px;

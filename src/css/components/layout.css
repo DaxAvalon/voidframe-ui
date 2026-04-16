@@ -31,8 +31,7 @@
 
 .vf-container {
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
   padding: 0 var(--vf-sp-9);
   box-sizing: border-box;
 }

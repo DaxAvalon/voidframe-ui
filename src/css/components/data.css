@@ -19,7 +19,7 @@
   font-family: var(--vf-font-family);
   border-bottom: 1px solid var(--vf-border-3);
   background: var(--vf-bg-2);
-  text-align: left;
+  text-align: start;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -31,7 +31,7 @@
   font-weight: 400;
   font-size: var(--vf-font-sm);
   font-family: var(--vf-font-family);
-  text-align: left;
+  text-align: start;
 }
 .vf-table__cell-value {
   display: inline;
@@ -44,7 +44,7 @@
 }
 .vf-table__sort-indicator {
   color: var(--vf-text-3);
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 .vf-table__cell--bold { font-weight: 700; }
 
@@ -83,10 +83,10 @@
 .vf-progress__fill {
   height: 100%;
   background: color-mix(in srgb, var(--vf-accent, var(--vf-green)) 40%, transparent);
-  border-right: 1px solid var(--vf-accent, var(--vf-green));
+  border-inline-end: 1px solid var(--vf-accent, var(--vf-green));
   transition: width 0.3s ease;
 }
 .vf-progress__fill[data-empty="true"],
 .vf-progress__fill[data-full="true"] {
-  border-right: none;
+  border-inline-end: none;
 }
