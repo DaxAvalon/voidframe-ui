@@ -33,13 +33,7 @@
 
 /* Opt-in content-visibility. Apply to the scrolling ancestor of long
  * lists (DataGrid body rows, LogViewer, Heatmap cells). */
-.vf-cv-auto,
 [data-content-visibility="auto"] {
   content-visibility: auto;
   contain-intrinsic-size: auto 400px;
 }
-
-/* Use on elements that animate frequently. Don't broadcast globally —
- * will-change makes the browser promote layers; that costs GPU memory. */
-.vf-will-change-transform { will-change: transform; }
-.vf-will-change-opacity { will-change: opacity; }

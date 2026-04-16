@@ -41,18 +41,8 @@
   transform: scaleX(-1);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .vf-icon--spin,
-  .vf-icon--pulse {
-    animation: none;
-  }
-  .vf-icon--spin circle,
-  .vf-icon--pulse circle,
-  .vf-icon--spin path,
-  .vf-icon--pulse path {
-    animation: none;
-  }
-}
+/* Reduced-motion for icon animations is handled by the global
+ * @media (prefers-reduced-motion) block in keyframes.css. */
 
 /* ── IconButton ───────────────────────────────────────────── */
 

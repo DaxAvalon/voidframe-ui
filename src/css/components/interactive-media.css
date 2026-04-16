@@ -69,7 +69,7 @@
   font-family: var(--vf-font-family);
 }
 .vf-lightbox__backdrop {
-  position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85);
+  position: absolute; inset: 0; background: var(--vf-scrim-strong);
 }
 .vf-lightbox__panel {
   position: relative;
@@ -83,14 +83,14 @@
 }
 .vf-lightbox__close {
   position: absolute; top: 12px; right: 12px;
-  background: transparent; color: #eee;
-  border: 1px solid #444; padding: 2px 8px;
+  background: transparent; color: var(--vf-text-1);
+  border: 1px solid var(--vf-border-2); padding: 2px 8px;
   font-family: var(--vf-font-family); cursor: pointer;
 }
 .vf-lightbox__prev,
 .vf-lightbox__next {
-  background: transparent; color: #eee;
-  border: 1px solid #444;
+  background: transparent; color: var(--vf-text-1);
+  border: 1px solid var(--vf-border-2);
   padding: 6px 12px; align-self: center;
   cursor: pointer; font-size: var(--vf-font-lg);
 }
@@ -106,10 +106,10 @@
 .vf-lightbox__footer {
   grid-column: 1 / -1; grid-row: 2 / 3;
   display: flex; justify-content: space-between; align-items: center;
-  color: #ddd; font-size: var(--vf-font-sm);
+  color: var(--vf-text-1); font-size: var(--vf-font-sm);
   padding: var(--vf-sp-2) 0;
 }
-.vf-lightbox__download { color: #eee; text-decoration: underline; }
+.vf-lightbox__download { color: var(--vf-text-0); text-decoration: underline; }
 .vf-lightbox__thumbs {
   grid-column: 1 / -1; grid-row: 3 / 4;
   display: flex; gap: 4px; overflow-x: auto;
@@ -117,7 +117,7 @@
 }
 .vf-lightbox__thumb {
   width: 64px; height: 48px; flex-shrink: 0;
-  background: transparent; border: 1px solid #555; padding: 0;
+  background: transparent; border: 1px solid var(--vf-border-2); padding: 0;
   cursor: pointer; opacity: 0.6;
 }
 .vf-lightbox__thumb img { width: 100%; height: 100%; object-fit: cover; }

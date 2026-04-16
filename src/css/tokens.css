@@ -95,6 +95,20 @@
   --vf-z-tooltip: 1500;
   --vf-z-toast: 1600;
 
+  /* brand accent — the default for inline accent overrides. Components
+   * reference it via var(--vf-accent, ...) so consumers can set a brand
+   * color at the theme level instead of per-component. */
+  --vf-accent: var(--vf-blue);
+
+  /* scrim / backdrop overlay */
+  --vf-scrim: rgba(0, 0, 0, 0.6);
+  --vf-scrim-strong: rgba(0, 0, 0, 0.85);
+
+  /* shadows */
+  --vf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --vf-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --vf-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.6);
+
   /* focus */
   --vf-focus-ring: 2px solid var(--vf-text-0);
   --vf-focus-offset: 0;
@@ -129,6 +143,12 @@
   --vf-danger: var(--vf-red);
   --vf-warning: var(--vf-amber);
   --vf-info: var(--vf-blue);
+  --vf-accent: var(--vf-blue);
+  --vf-scrim: rgba(0, 0, 0, 0.6);
+  --vf-scrim-strong: rgba(0, 0, 0, 0.85);
+  --vf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --vf-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.6);
+  --vf-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.7);
 }
 
 [data-vf-theme="light"] {
@@ -160,6 +180,13 @@
   --vf-danger: var(--vf-red);
   --vf-warning: var(--vf-amber);
   --vf-info: var(--vf-blue);
+  --vf-accent: var(--vf-blue);
+  /* Light themes use a dark scrim so modal backdrops dim white content. */
+  --vf-scrim: rgba(0, 0, 0, 0.5);
+  --vf-scrim-strong: rgba(0, 0, 0, 0.8);
+  --vf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --vf-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.16);
+  --vf-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 [data-vf-theme="grey"] {
@@ -191,6 +218,12 @@
   --vf-danger: var(--vf-red);
   --vf-warning: var(--vf-amber);
   --vf-info: var(--vf-blue);
+  --vf-accent: var(--vf-blue);
+  --vf-scrim: rgba(0, 0, 0, 0.55);
+  --vf-scrim-strong: rgba(0, 0, 0, 0.82);
+  --vf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --vf-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.45);
+  --vf-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.55);
 }
 
 /* ── Density modes ──────────────────────────────────────── */

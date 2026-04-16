@@ -59,3 +59,41 @@
   background: var(--vf-bg-0);
   color: var(--vf-text-0);
 }
+
+/* ── Print ────────────────────────────────────────────────── */
+/* Hide overlays, toasts, tooltips, and backdrops when printing.
+ * Force ink-on-paper defaults. Components marked with
+ * [data-print-layout] opt out of `display: none` via the
+ * specialty print stylesheet. */
+@media print {
+  .vf-dialog,
+  .vf-drawer,
+  .vf-drawer-v2,
+  .vf-sheet,
+  .vf-modal__backdrop,
+  .vf-dialog__backdrop,
+  .vf-drawer-v2__backdrop,
+  .vf-sheet__backdrop,
+  .vf-backdrop,
+  .vf-popover-v2,
+  .vf-tooltip,
+  .vf-hovercard,
+  .vf-cmd-overlay,
+  .vf-toaster,
+  .vf-spotlight,
+  .vf-lightbox,
+  .vf-loading-overlay,
+  .vf-dev-panel {
+    display: none !important;
+  }
+
+  .vf-root {
+    background: white !important;
+    color: black !important;
+  }
+
+  .vf-root * {
+    color: inherit;
+    border-color: #ccc;
+  }
+}

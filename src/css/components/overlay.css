@@ -22,7 +22,7 @@
 .vf-drawer__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--vf-scrim);
 }
 .vf-drawer__panel {
   position: absolute;
