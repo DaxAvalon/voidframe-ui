@@ -1039,4 +1039,1024 @@ render(<Example />);`,
       },
     ],
   },
+  Checkbox: {
+    summary: (
+      <p>
+        Styled checkbox with label, checked state, and disabled variant.
+        Supports controlled and uncontrolled modes via <code>checked</code> or{" "}
+        <code>defaultChecked</code>.
+      </p>
+    ),
+    examples: [
+      {
+        title: "States",
+        code: `function Example() {
+  const [a, setA] = useState(true);
+  const [b, setB] = useState(false);
+  return (
+    <VStack gap={8}>
+      <Checkbox checked={a} onChange={() => setA(!a)} label="Enabled and checked" />
+      <Checkbox checked={b} onChange={() => setB(!b)} label="Unchecked" />
+      <Checkbox checked={true} disabled label="Disabled checked" />
+    </VStack>
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  RadioGroup: {
+    summary: (
+      <p>
+        Accessible radio group for single-selection from a list.
+        Arrow keys cycle between options. Supports horizontal and vertical layouts.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Plan selection",
+        code: `function Example() {
+  const [plan, setPlan] = useState("pro");
+  return (
+    <RadioGroup
+      label="Choose a plan"
+      value={plan}
+      onChange={setPlan}
+      options={[
+        { value: "free", label: "Free" },
+        { value: "pro", label: "Pro" },
+        { value: "enterprise", label: "Enterprise" },
+      ]}
+    />
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  Slider: {
+    summary: (
+      <p>
+        Range slider with optional label and live value display.
+        Wraps a native <code>&lt;input type="range"&gt;</code> with custom
+        track and thumb styling.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Volume control",
+        code: `function Example() {
+  const [vol, setVol] = useState(50);
+  return (
+    <Slider
+      label="Volume"
+      value={vol}
+      onChange={setVol}
+      min={0}
+      max={100}
+      step={1}
+      showValue
+    />
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  Toggle: {
+    summary: (
+      <p>
+        Binary on/off switch with keyboard support.
+        Renders as <code>role="switch"</code> with accessible labeling.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Toggle states",
+        code: `function Example() {
+  const [a, setA] = useState(true);
+  const [b, setB] = useState(false);
+  return (
+    <VStack gap={8}>
+      <Toggle checked={a} onChange={setA} label="Notifications" />
+      <Toggle checked={b} onChange={setB} label="Dark mode" />
+      <Toggle checked={true} readOnly label="Read-only (locked)" />
+    </VStack>
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  Textarea: {
+    summary: (
+      <p>
+        Multi-line text field with configurable rows and optional label.
+        Supports both <code>onChange</code> and <code>onValueChange</code> handlers.
+      </p>
+    ),
+    examples: [
+      {
+        title: "With character count",
+        code: `function Example() {
+  const [text, setText] = useState("");
+  const max = 200;
+  return (
+    <div>
+      <Textarea
+        label="Bio"
+        placeholder="Tell us about yourself..."
+        value={text}
+        onValueChange={setText}
+        rows={4}
+      />
+      <div style={{ textAlign: "right", fontSize: 12, color: text.length > max ? "var(--vf-red)" : "var(--vf-text-4)" }}>
+        {text.length} / {max}
+      </div>
+    </div>
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  SearchInput: {
+    summary: (
+      <p>
+        Text input with a search icon and built-in clear button.
+        The clear button appears when the value is non-empty.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Stateful search",
+        code: `function Example() {
+  const [query, setQuery] = useState("");
+  return (
+    <SearchInput
+      value={query}
+      onValueChange={setQuery}
+      placeholder="Search components..."
+    />
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  PasswordInput: {
+    summary: (
+      <p>
+        Password field with a visibility toggle button.
+        Includes accessible labeling and configurable auto-complete.
+      </p>
+    ),
+    examples: [
+      {
+        title: "With strength hint",
+        code: `function Example() {
+  const [pw, setPw] = useState("");
+  const strength = pw.length < 4 ? "Weak" : pw.length < 8 ? "Fair" : "Strong";
+  const color = pw.length < 4 ? "var(--vf-red)" : pw.length < 8 ? "var(--vf-amber)" : "var(--vf-green)";
+  return (
+    <div>
+      <PasswordInput
+        label="Password"
+        value={pw}
+        onValueChange={setPw}
+        placeholder="Enter password"
+      />
+      {pw.length > 0 && (
+        <div style={{ fontSize: 12, marginTop: 4, color }}>
+          Strength: {strength}
+        </div>
+      )}
+    </div>
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  PinInput: {
+    summary: (
+      <p>
+        Multi-slot code entry with auto-advance, backspace navigation,
+        and paste support. Fires <code>onComplete</code> when all digits
+        are filled.
+      </p>
+    ),
+    examples: [
+      {
+        title: "6-digit code",
+        code: `function Example() {
+  const [code, setCode] = useState("");
+  const [done, setDone] = useState(false);
+  return (
+    <VStack gap={8}>
+      <PinInput
+        label="Verification code"
+        length={6}
+        value={code}
+        onChange={setCode}
+        onComplete={() => setDone(true)}
+      />
+      {done && <div style={{ color: "var(--vf-green)" }}>Code entered: {code}</div>}
+    </VStack>
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  TagInput: {
+    summary: (
+      <p>
+        Chip-based multi-entry field. Type and press Enter (or comma) to add
+        tags. Backspace removes the last tag. Supports paste of multiple values.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Editable tags",
+        code: `function Example() {
+  const [tags, setTags] = useState(["react", "typescript"]);
+  return (
+    <TagInput
+      label="Skills"
+      value={tags}
+      onChange={setTags}
+      placeholder="Add a skill..."
+      maxTags={8}
+    />
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  DatePicker: {
+    summary: (
+      <p>
+        Calendar-based date selector with keyboard navigation, min/max
+        constraints, and configurable date format.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Pick a date",
+        code: `function Example() {
+  const [date, setDate] = useState(null);
+  return (
+    <VStack gap={8}>
+      <DatePicker
+        label="Start date"
+        value={date}
+        onChange={setDate}
+        placeholder="YYYY-MM-DD"
+      />
+      {date && <div>Selected: {date.toLocaleDateString()}</div>}
+    </VStack>
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  SegmentedControl: {
+    summary: (
+      <p>
+        Pill-style radio group for switching between a small set of options.
+        Supports arrow-key navigation and disabled segments.
+      </p>
+    ),
+    examples: [
+      {
+        title: "View switcher",
+        code: `function Example() {
+  const [view, setView] = useState("grid");
+  return (
+    <SegmentedControl
+      value={view}
+      onChange={setView}
+      options={[
+        { value: "list", label: "List" },
+        { value: "grid", label: "Grid" },
+        { value: "board", label: "Board" },
+      ]}
+    />
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  FormField: {
+    summary: (
+      <p>
+        Layout wrapper that adds a label, optional required marker,
+        help text, and error message around any form control.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Complete field",
+        code: `function Example() {
+  const [val, setVal] = useState("");
+  const error = val.length > 0 && val.length < 3 ? "Must be at least 3 characters" : "";
+  return (
+    <FormField
+      label="Username"
+      required
+      error={error}
+      help={!error ? "Choose a unique username" : undefined}
+    >
+      <Input value={val} onValueChange={setVal} placeholder="e.g. janedoe" />
+    </FormField>
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  Avatar: {
+    summary: (
+      <p>
+        Circular (or square) identity badge with image, initials fallback,
+        and optional status indicator.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Sizes and status",
+        code: `<div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+  <Avatar name="Alice Park" size={24} status="online" />
+  <Avatar name="Bob Chen" size={32} status="busy" />
+  <Avatar name="Carol Wu" size={40} status="away" />
+  <Avatar name="Dan Kim" size={48} status="offline" />
+  <Avatar name="Eve Rho" size={56} square />
+</div>`,
+      },
+    ],
+  },
+  Tag: {
+    summary: (
+      <p>
+        Compact inline label with optional remove button and accent color.
+        Use for status tags, filter chips, and category markers.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Variants",
+        code: `function Example() {
+  const [tags, setTags] = useState(["Default", "Danger", "Success", "Removable"]);
+  return (
+    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      <Tag>Default</Tag>
+      <Tag color="var(--vf-red)">Danger</Tag>
+      <Tag color="var(--vf-green)">Success</Tag>
+      <Tag color="var(--vf-blue)" onRemove={() => {}}>Removable</Tag>
+    </div>
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  Tooltip: {
+    summary: (
+      <p>
+        Hover-triggered tooltip that displays contextual information above,
+        below, or beside the trigger element.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Hover tooltip",
+        code: `<div style={{ display: "flex", gap: 16 }}>
+  <Tooltip content="Save your work" position="top">
+    <Button>Hover me</Button>
+  </Tooltip>
+  <Tooltip content="Opens settings panel" position="bottom">
+    <Button variant="ghost">Settings</Button>
+  </Tooltip>
+</div>`,
+      },
+    ],
+  },
+  Code: {
+    summary: (
+      <p>
+        Inline or block code display. Use <code>inline</code> for short
+        snippets within text, or the default block mode for multi-line output.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Inline and block",
+        code: `<VStack gap={8}>
+  <p>
+    Run <Code inline>npm install voidframe</Code> to get started.
+  </p>
+  <Code>{"const x = 42;\\nconst y = x * 2;\\nconsole.log(y);"}</Code>
+</VStack>`,
+      },
+    ],
+  },
+  Kbd: {
+    summary: (
+      <p>
+        Keyboard key display styled as a physical keycap.
+        Accepts a <code>keys</code> string for combos or children for a single key.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Keyboard shortcuts",
+        code: `<div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+  <Kbd keys="Ctrl+Shift+P" />
+  <Kbd keys="Cmd+K" />
+  <Kbd>Esc</Kbd>
+  <Kbd>Enter</Kbd>
+</div>`,
+      },
+    ],
+  },
+  Skeleton: {
+    summary: (
+      <p>
+        Animated placeholder shapes for content that has not loaded yet.
+        Supports text lines, rectangles, and circles with pulse or shimmer
+        animation.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Loading shapes",
+        code: `<VStack gap={12}>
+  <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+    <Skeleton shape="circle" height={40} />
+    <div style={{ flex: 1 }}>
+      <Skeleton shape="text" lines={2} height={12} />
+    </div>
+  </div>
+  <Skeleton shape="rect" height={120} width="100%" />
+  <Skeleton shape="text" lines={3} animation="shimmer" />
+</VStack>`,
+      },
+    ],
+  },
+  Progress: {
+    summary: (
+      <p>
+        Horizontal progress bar with label, value display, and multiple
+        tones. Supports determinate and indeterminate variants.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Multiple bars",
+        code: `<VStack gap={12}>
+  <Progress label="Upload" value={75} max={100} showValue tone="neutral" />
+  <Progress label="Build" value={100} max={100} showValue tone="success" />
+  <Progress label="Errors" value={30} max={100} showValue tone="danger" />
+  <Progress label="Processing" variant="indeterminate" />
+</VStack>`,
+      },
+    ],
+  },
+  Spinner: {
+    summary: (
+      <p>
+        Spinning loading indicator in multiple sizes. Renders with{" "}
+        <code>role="status"</code> for screen readers.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Sizes",
+        code: `<div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+  <Spinner size={12} />
+  <Spinner size={20} />
+  <Spinner size={32} />
+  <Spinner size={48} color="var(--vf-blue)" />
+</div>`,
+      },
+    ],
+  },
+  StatusIndicator: {
+    summary: (
+      <p>
+        Colored dot with an optional label to convey presence or
+        system status at a glance.
+      </p>
+    ),
+    examples: [
+      {
+        title: "All statuses",
+        code: `<div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+  <StatusIndicator status="online" label="Online" />
+  <StatusIndicator status="offline" label="Offline" />
+  <StatusIndicator status="busy" label="Busy" />
+  <StatusIndicator status="away" label="Away" />
+  <StatusIndicator status="loading" label="Loading" />
+</div>`,
+      },
+    ],
+  },
+  EmptyState: {
+    summary: (
+      <p>
+        Centered placeholder for pages or panels with no data.
+        Includes an optional icon, title, description, and call-to-action button.
+      </p>
+    ),
+    examples: [
+      {
+        title: "No data",
+        code: `<EmptyState
+  icon={<span style={{ fontSize: 32 }}>📭</span>}
+  title="No messages yet"
+  description="When you receive messages they will appear here."
+  action={<Button variant="primary">Compose</Button>}
+/>`,
+      },
+    ],
+  },
+  Timeline: {
+    summary: (
+      <p>
+        Vertical event timeline with colored dots, timestamps, and optional
+        content. Use the compound <code>Timeline.Item</code> API for rich entries.
+      </p>
+    ),
+    examples: [
+      {
+        title: "4-event timeline",
+        code: `<Timeline>
+  <Timeline.Item title="Created" time="9:00 AM" tone="success" description="Project repository initialized." />
+  <Timeline.Item title="In Progress" time="10:30 AM" tone="warning" description="Development work started." />
+  <Timeline.Item title="Review" time="2:00 PM" tone="neutral" description="Pull request opened for review." />
+  <Timeline.Item title="Deployed" time="4:15 PM" tone="success" description="Released to production." />
+</Timeline>`,
+      },
+    ],
+  },
+  MetricCard: {
+    summary: (
+      <p>
+        KPI display card with title, large value, trend delta, and optional
+        sparkline. Use inside a grid for dashboard layouts.
+      </p>
+    ),
+    examples: [
+      {
+        title: "KPI with trend",
+        code: `<div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+  <MetricCard
+    title="Revenue"
+    value="\$48,200"
+    delta={{ value: 12.5, direction: "up" }}
+    tone="success"
+  />
+  <MetricCard
+    title="Churn"
+    value="3.2%"
+    delta={{ value: 0.8, direction: "down" }}
+    tone="danger"
+  />
+  <MetricCard
+    title="Users"
+    value="1,284"
+    subtitle="Last 30 days"
+  />
+</div>`,
+      },
+    ],
+  },
+  Table: {
+    summary: (
+      <p>
+        Data table with sortable columns, striped rows, and adaptive
+        mobile layout. Supports controlled and uncontrolled sort state.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Sortable table",
+        code: `<Table
+  striped
+  bordered
+  columns={[
+    { key: "name", header: "Name", sortable: true },
+    { key: "role", header: "Role", sortable: true },
+    { key: "status", header: "Status" },
+    { key: "joined", header: "Joined", sortable: true },
+  ]}
+  data={[
+    { name: "Alice Park", role: "Engineer", status: "Active", joined: "2024-01" },
+    { name: "Bob Chen", role: "Designer", status: "Active", joined: "2024-03" },
+    { name: "Carol Wu", role: "PM", status: "On leave", joined: "2023-11" },
+    { name: "Dan Kim", role: "Engineer", status: "Active", joined: "2024-06" },
+    { name: "Eve Rho", role: "QA", status: "Active", joined: "2024-02" },
+  ]}
+  defaultSort={{ key: "name", direction: "asc" }}
+/>`,
+      },
+    ],
+  },
+  Breadcrumb: {
+    summary: (
+      <p>
+        Accessible breadcrumb navigation with separator customization
+        and optional collapse for deep hierarchies.
+      </p>
+    ),
+    examples: [
+      {
+        title: "3-level trail",
+        code: `<Breadcrumb
+  items={[
+    { label: "Home", href: "#" },
+    { label: "Projects", href: "#" },
+    { label: "voidframe" },
+  ]}
+  separator="/"
+/>`,
+      },
+    ],
+  },
+  Pagination: {
+    summary: (
+      <p>
+        Page navigation with previous/next buttons, ellipsis collapse,
+        and optional first/last jumps.
+      </p>
+    ),
+    examples: [
+      {
+        title: "10-page navigation",
+        code: `function Example() {
+  const [page, setPage] = useState(1);
+  return (
+    <VStack gap={8}>
+      <Pagination
+        page={page}
+        totalPages={10}
+        onChange={setPage}
+        showFirstLast
+      />
+      <div style={{ fontSize: 12, color: "var(--vf-text-4)" }}>
+        Page {page} of 10
+      </div>
+    </VStack>
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  Stepper: {
+    summary: (
+      <p>
+        Step-by-step wizard indicator with numbered or dotted bullets.
+        Supports horizontal and vertical orientations and clickable steps.
+      </p>
+    ),
+    examples: [
+      {
+        title: "4-step wizard",
+        code: `function Example() {
+  const [step, setStep] = useState(1);
+  return (
+    <VStack gap={12}>
+      <Stepper
+        steps={["Account", "Profile", "Settings", "Confirm"]}
+        current={step}
+        clickable
+        onChange={setStep}
+      />
+      <div style={{ display: "flex", gap: 8 }}>
+        <Button disabled={step <= 0} onClick={() => setStep(step - 1)}>Back</Button>
+        <Button variant="primary" disabled={step >= 3} onClick={() => setStep(step + 1)}>Next</Button>
+      </div>
+    </VStack>
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  Accordion: {
+    summary: (
+      <p>
+        Compound collapsible sections with WAI-ARIA keyboard navigation.
+        Supports single or multiple open panels.
+      </p>
+    ),
+    examples: [
+      {
+        title: "3 panels",
+        code: `<Accordion type="single" defaultValue="item-1" collapsible>
+  <Accordion.Item value="item-1">
+    <Accordion.Trigger>What is voidframe?</Accordion.Trigger>
+    <Accordion.Content>
+      <div style={{ padding: "8px 0" }}>
+        A developer-focused React component library with 200+ components, dark-first theming, and built-in dev tools.
+      </div>
+    </Accordion.Content>
+  </Accordion.Item>
+  <Accordion.Item value="item-2">
+    <Accordion.Trigger>Is it accessible?</Accordion.Trigger>
+    <Accordion.Content>
+      <div style={{ padding: "8px 0" }}>
+        Yes. All interactive components follow WAI-ARIA patterns with full keyboard support.
+      </div>
+    </Accordion.Content>
+  </Accordion.Item>
+  <Accordion.Item value="item-3">
+    <Accordion.Trigger>How do I install it?</Accordion.Trigger>
+    <Accordion.Content>
+      <div style={{ padding: "8px 0" }}>
+        Run npm install voidframe and import the components you need.
+      </div>
+    </Accordion.Content>
+  </Accordion.Item>
+</Accordion>`,
+      },
+    ],
+  },
+  Collapsible: {
+    summary: (
+      <p>
+        Single collapsible panel with a clickable header.
+        Supports controlled and uncontrolled open state.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Expand and collapse",
+        code: `<Collapsible title="Advanced options" defaultOpen={false}>
+  <div style={{ padding: "8px 0" }}>
+    <VStack gap={8}>
+      <Toggle label="Enable caching" defaultChecked />
+      <Toggle label="Verbose logging" />
+      <Toggle label="Experimental features" />
+    </VStack>
+  </div>
+</Collapsible>`,
+      },
+    ],
+  },
+  Card: {
+    summary: (
+      <p>
+        Bordered content container with optional title, subtitle, and
+        footer actions. Add <code>hoverable</code> for interactive cards.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Card with actions",
+        code: `<Card
+  title="Deployment"
+  subtitle="Production environment"
+  padding={16}
+  hoverable
+  actions={
+    <div style={{ display: "flex", gap: 8 }}>
+      <Button variant="ghost">Cancel</Button>
+      <Button variant="primary">Deploy</Button>
+    </div>
+  }
+>
+  <div style={{ padding: "8px 0", color: "var(--vf-text-3)" }}>
+    Last deployed 2 hours ago. All health checks passing.
+  </div>
+</Card>`,
+      },
+    ],
+  },
+  AlertV2: {
+    summary: (
+      <p>
+        Inline alert banner with tone-based coloring, optional icon,
+        dismiss button, and action slot.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Warning with dismiss",
+        code: `<VStack gap={8}>
+  <AlertV2 tone="warning" title="Rate limit approaching" dismissible>
+    You have used 90% of your API quota this month.
+  </AlertV2>
+  <AlertV2 tone="success" title="Deployment complete">
+    Version 2.4.1 is now live in production.
+  </AlertV2>
+  <AlertV2 tone="danger" title="Build failed" action={<Button size="sm">View logs</Button>}>
+    Exit code 1 in step 3 of 5.
+  </AlertV2>
+</VStack>`,
+      },
+    ],
+  },
+  Callout: {
+    summary: (
+      <p>
+        Aside block for tips, notes, and warnings. Five tones match the
+        platform semantic colors.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Info callout",
+        code: `<Callout tone="info" title="Good to know" icon="i">
+  <p style={{ margin: 0 }}>
+    All voidframe components support the <code>className</code> and{" "}
+    <code>style</code> props for custom overrides.
+  </p>
+</Callout>`,
+      },
+    ],
+  },
+  BannerAlert: {
+    summary: (
+      <p>
+        Full-width banner for page-level announcements. Supports an icon,
+        action button, and dismissible close.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Success banner",
+        code: `<BannerAlert
+  tone="success"
+  dismissible
+  icon={<span>✓</span>}
+  action={<Button size="sm" variant="ghost">View</Button>}
+>
+  Your changes have been saved successfully.
+</BannerAlert>`,
+      },
+    ],
+  },
+  CodeBlock: {
+    summary: (
+      <p>
+        Syntax-highlighted code display with line numbers, line highlighting,
+        copy button, and optional search.
+      </p>
+    ),
+    examples: [
+      {
+        title: "JavaScript snippet",
+        code: `<CodeBlock
+  language="javascript"
+  lineNumbers
+  copyable
+  fileName="example.js"
+  code={\`function greet(name) {
+  const message = "Hello, " + name + "!";
+  console.log(message);
+  return message;
+}
+
+greet("World");\`}
+/>`,
+      },
+    ],
+  },
+  JSONViewer: {
+    summary: (
+      <p>
+        Interactive JSON tree with expandable nodes, data type badges,
+        and path copying. Configurable default expansion depth.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Nested object",
+        code: `<JSONViewer
+  data={{
+    name: "voidframe",
+    version: "1.0.0",
+    features: ["components", "charts", "dev-tools"],
+    config: {
+      theme: "dark",
+      locale: "en",
+      debug: false,
+    },
+    stats: {
+      components: 200,
+      downloads: 15000,
+    },
+  }}
+  defaultExpanded={2}
+  showDataTypes
+/>`,
+      },
+    ],
+  },
+  DiffViewer: {
+    summary: (
+      <p>
+        Side-by-side or unified diff display with word-level highlighting
+        for changed lines.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Code diff",
+        code: `<DiffViewer
+  variant="split"
+  showLineNumbers
+  oldValue={\`function add(a, b) {
+  return a + b;
+}
+
+const result = add(1, 2);
+console.log(result);\`}
+  newValue={\`function add(a, b) {
+  if (typeof a !== "number") throw new Error("a must be number");
+  return a + b;
+}
+
+const result = add(1, 2);
+console.log("Result:", result);\`}
+/>`,
+      },
+    ],
+  },
+  Terminal: {
+    summary: (
+      <p>
+        Terminal emulator with command input, history navigation (up/down
+        arrows), and configurable prompt.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Interactive terminal",
+        code: `function Example() {
+  const [lines, setLines] = useState([
+    "Welcome to voidframe terminal.",
+    "Type a command and press Enter.",
+  ]);
+  return (
+    <Terminal
+      lines={lines}
+      prompt="\$"
+      height={200}
+      autoFocus
+      onCommand={(cmd) => {
+        setLines((prev) => [...prev, "\$ " + cmd, "command not found: " + cmd]);
+      }}
+    />
+  );
+}
+render(<Example />);`,
+      },
+    ],
+  },
+  LogViewer: {
+    summary: (
+      <p>
+        Scrollable log output with level filtering, regex search, auto-scroll,
+        and pause/resume for streaming logs.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Log entries",
+        code: `<LogViewer
+  height={200}
+  entries={[
+    { timestamp: "10:00:01", level: "info", message: "Server started on port 3000" },
+    { timestamp: "10:00:02", level: "info", message: "Connected to database" },
+    { timestamp: "10:00:05", level: "warn", message: "Cache miss for key: user_123" },
+    { timestamp: "10:00:08", level: "error", message: "Failed to fetch /api/data: timeout" },
+    { timestamp: "10:00:09", level: "debug", message: "Retrying request (attempt 2/3)" },
+    { timestamp: "10:00:10", level: "info", message: "Request succeeded after retry" },
+  ]}
+/>`,
+      },
+    ],
+  },
+  Quote: {
+    summary: (
+      <p>
+        Styled blockquote with optional citation source and author attribution.
+      </p>
+    ),
+    examples: [
+      {
+        title: "With attribution",
+        code: `<Quote source="Grace Hopper">
+  The most dangerous phrase in the language is: we have always done it this way.
+</Quote>`,
+      },
+    ],
+  },
 };
