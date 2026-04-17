@@ -6098,12 +6098,6 @@
     ]
   },
   {
-    "name": "Context",
-    "description": "Context lets components pass information deep down without explicitly\npassing props.\n\nCreated from {@link createContext}",
-    "file": "src/provider/VoidframeProvider.tsx",
-    "props": []
-  },
-  {
     "name": "ContextHelp",
     "description": "",
     "file": "src/components/HelpChangelog.tsx",
@@ -16941,12 +16935,6 @@
     ]
   },
   {
-    "name": "ReactNode",
-    "description": "Represents all of the things React can render.\n\nWhere {@link ReactElement} only represents JSX, `ReactNode` represents everything that can be rendered.",
-    "file": "src/components/CommandPalette.tsx",
-    "props": []
-  },
-  {
     "name": "ReasoningTrace",
     "description": "",
     "file": "src/components/Chat/Indicators.tsx",
@@ -17508,12 +17496,6 @@
         "required": false
       }
     ]
-  },
-  {
-    "name": "RESPONSIVE_SIZE_PRESETS",
-    "description": "Pre-baked responsive size ladders. `responsive-xl` = { base: lg, md: xl,\nxl: xxl } — intended for Heading-ish use cases where a single prop\nshould scale automatically across breakpoints.",
-    "file": "src/components/Text.tsx",
-    "props": []
   },
   {
     "name": "ResponsiveBox",
