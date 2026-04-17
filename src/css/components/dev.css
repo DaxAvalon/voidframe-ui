@@ -254,6 +254,60 @@
   min-height: 0;
 }
 
+/* ── Hook cards ─────────────────────────────────────────── */
+.vf-docs__hook-link {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--vf-sp-1) var(--vf-sp-3);
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-1);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  cursor: pointer;
+  transition: var(--vf-transition);
+}
+.vf-docs__hook-link:hover {
+  background: var(--vf-bg-3);
+  border-color: var(--vf-border-2);
+  color: var(--vf-text-0);
+}
+.vf-docs__hook-link--internal {
+  border-color: var(--vf-border-2);
+  color: var(--vf-text-2);
+}
+
+.vf-docs__hook-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+  padding: var(--vf-sp-3) var(--vf-sp-4);
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-1);
+  cursor: pointer;
+  transition: var(--vf-transition);
+  text-align: start;
+  font-family: var(--vf-font-family);
+}
+.vf-docs__hook-card:hover {
+  background: var(--vf-bg-2);
+  border-color: var(--vf-border-2);
+}
+.vf-docs__hook-card-name {
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-0);
+  font-weight: 600;
+}
+.vf-docs__hook-card-name::before {
+  content: "\27F6  ";
+  color: var(--vf-text-3);
+}
+.vf-docs__hook-card-reason {
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-3);
+  line-height: 1.4;
+}
+
 /* ── PropsTable (Phase 27) ───────────────────────────────── */
 .vf-props-table {
   border: 1px solid var(--vf-border-2);

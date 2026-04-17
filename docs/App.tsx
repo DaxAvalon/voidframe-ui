@@ -41,7 +41,7 @@ interface NavItem {
   title: string;
   section: string;
   group?: string;
-  render: () => ReactNode;
+  render: (onNavigate?: (id: string) => void) => ReactNode;
   searchText: string;
 }
 
@@ -104,7 +104,7 @@ function OverviewPage() {
   );
 }
 
-function ComponentPage({ name }: { name: string }) {
+function ComponentPage({ name, onNavigate }: { name: string; onNavigate?: (id: string) => void }) {
   const doc = getPropsFor(name);
   const over = curated[name];
   const hasDescription = Boolean(doc.description && doc.description.trim());
@@ -146,36 +146,6 @@ function ComponentPage({ name }: { name: string }) {
               doc={doc}
               exclude={["className", "style", "children"]}
             />
-          </section>
-        )}
-
-        {/* Hook relationships */}
-        {componentHooks[name] && (
-          <section className="vf-docs__block">
-            <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
-              Hooks
-            </Text>
-            {componentHooks[name]!.internal.length > 0 && (
-              <div style={{ marginBottom: 8 }}>
-                <Text size="xs" color="var(--vf-text-3)" style={{ marginBottom: 4 }}>Uses internally:</Text>
-                <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                  {componentHooks[name]!.internal.map(h => (
-                    <Badge key={h} size="sm" variant="outline">{h}</Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-            <div>
-              <Text size="xs" color="var(--vf-text-3)" style={{ marginBottom: 4 }}>Recommended:</Text>
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                {componentHooks[name]!.recommended.map(r => (
-                  <div key={r.hook} style={{ display: "flex", gap: 8, alignItems: "baseline" }}>
-                    <Badge size="sm" tone="info">{r.hook}</Badge>
-                    <Text size="xs" color="var(--vf-text-3)">{r.reason}</Text>
-                  </div>
-                ))}
-              </div>
-            </div>
           </section>
         )}
 
@@ -227,11 +197,53 @@ function ComponentPage({ name }: { name: string }) {
           </Text>
         )}
       </div>
+
+      {/* Hook relationships */}
+      {componentHooks[name] && (
+        <section className="vf-docs__block" style={{ marginTop: 16 }}>
+          <hr className="vf-docs__divider" />
+          <Text size="sm" upper spacing={2} color="var(--vf-text-2)" style={{ marginTop: 16, marginBottom: 12 }}>
+            Compatible Hooks
+          </Text>
+
+          {componentHooks[name]!.internal.length > 0 && (
+            <div style={{ marginBottom: 12 }}>
+              <Text size="xs" color="var(--vf-text-3)" style={{ marginBottom: 6 }}>Used internally by this component:</Text>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                {componentHooks[name]!.internal.map(h => (
+                  <button
+                    key={h}
+                    type="button"
+                    className="vf-docs__hook-link vf-docs__hook-link--internal"
+                    onClick={() => onNavigate?.(`hook-${h}`)}
+                  >
+                    {h}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 8 }}>
+            {componentHooks[name]!.recommended.map(r => (
+              <button
+                key={r.hook}
+                type="button"
+                className="vf-docs__hook-card"
+                onClick={() => onNavigate?.(`hook-${r.hook}`)}
+              >
+                <span className="vf-docs__hook-card-name">{r.hook}</span>
+                <span className="vf-docs__hook-card-reason">{r.reason}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
 
-function ApiEntryPage({ entry }: { entry: ApiEntry }) {
+function ApiEntryPage({ entry, onNavigate }: { entry: ApiEntry; onNavigate?: (id: string) => void }) {
   return (
     <div>
       {entry.description && (
@@ -282,7 +294,16 @@ function ApiEntryPage({ entry }: { entry: ApiEntry }) {
               <div style={{ marginBottom: 8 }}>
                 <Text size="xs" color="var(--vf-text-3)" style={{ marginBottom: 4 }}>Used internally by:</Text>
                 <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                  {usedBy.map(c => <Badge key={c} size="sm" variant="outline">{c}</Badge>)}
+                  {usedBy.map(c => (
+                    <button
+                      key={c}
+                      type="button"
+                      className="vf-docs__hook-link"
+                      onClick={() => onNavigate?.(`component-${c}`)}
+                    >
+                      {c}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
@@ -290,7 +311,16 @@ function ApiEntryPage({ entry }: { entry: ApiEntry }) {
               <div>
                 <Text size="xs" color="var(--vf-text-3)" style={{ marginBottom: 4 }}>Recommended for:</Text>
                 <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                  {recommendedFor.map(c => <Badge key={c} size="sm" tone="info">{c}</Badge>)}
+                  {recommendedFor.map(c => (
+                    <button
+                      key={c}
+                      type="button"
+                      className="vf-docs__hook-link"
+                      onClick={() => onNavigate?.(`component-${c}`)}
+                    >
+                      {c}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
@@ -472,21 +502,21 @@ const items: NavItem[] = [
     title: c.name,
     section: "Components",
     group: categorize(c.file, c.name),
-    render: () => <ComponentPage name={c.name} />,
+    render: (onNavigate?: (id: string) => void) => <ComponentPage name={c.name} onNavigate={onNavigate} />,
     searchText: `${c.name} ${c.description ?? ""}`,
   })),
   ...allHooks.map((h) => ({
     id: `hook-${h.name}`,
     title: h.name,
     section: "Hooks",
-    render: () => <ApiEntryPage entry={h} />,
+    render: (onNavigate?: (id: string) => void) => <ApiEntryPage entry={h} onNavigate={onNavigate} />,
     searchText: `${h.name} ${h.description ?? ""}`,
   })),
   ...allUtils.map((u) => ({
     id: `util-${u.name}`,
     title: u.name,
     section: "Utilities",
-    render: () => <ApiEntryPage entry={u} />,
+    render: (onNavigate?: (id: string) => void) => <ApiEntryPage entry={u} onNavigate={onNavigate} />,
     searchText: `${u.name} ${u.description ?? ""}`,
   })),
 ];
@@ -657,7 +687,7 @@ export default function DocsApp() {
                   {active.group ? ` · ${active.group}` : ""}
                 </Text>
               </header>
-              <div key={active.id}>{active.render()}</div>
+              <div key={active.id}>{active.render(setActiveId)}</div>
             </article>
           </main>
         </div>
