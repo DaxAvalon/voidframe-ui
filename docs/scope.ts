@@ -1,15 +1,14 @@
 // Shared scope for every <Playground> on the docs site. Kept as a single
-// module so each content page imports from one place and the bundle stays
-// tree-shake-friendly for the demo app.
+// module so each content page imports from one place.
 import * as React from "react";
 import * as voidframe from "../src";
-// Import OrgChart directly to avoid pulling in the full charts barrel
-// (which has d3 peer dependencies that may not be installed).
-import { OrgChart } from "../src/charts/OrgChart";
+import * as charts from "../src/charts";
 
 export const playgroundScope: Record<string, unknown> = {
   ...voidframe,
-  OrgChart,
+  // Charts — spread the full barrel so every chart component is available.
+  // D3 peer deps are installed as devDependencies, resolved by Vite.
+  ...charts,
   // Aliases for components exported under different names
   TokenCounter: (voidframe as any).ChatTokenCounter,
   React,
