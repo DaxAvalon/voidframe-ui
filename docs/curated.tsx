@@ -187,27 +187,17 @@ render(<Example />);`,
       <p>
         Vertical bar chart with tooltip, legend, and axis primitives. Pairs
         with <code>AreaChart</code>, <code>LineChart</code>, and other
-        core-chart surfaces.
+        core-chart surfaces. Available from <code>@voidframe/ui/charts</code>.
       </p>
     ),
     examples: [
       {
-        title: "Single series",
-        code: `<div style={{ width: "100%", maxWidth: 520 }}>
-  <BarChart
-    width={480}
-    height={220}
-    data={[
-      { name: "Mon", value: 12 },
-      { name: "Tue", value: 22 },
-      { name: "Wed", value: 18 },
-      { name: "Thu", value: 30 },
-      { name: "Fri", value: 26 },
-    ]}
-    xKey="name"
-    yKeys={["value"]}
-  />
-</div>`,
+        title: "Usage",
+        code: `<VStack gap={8}>
+  <Text size="sm" color="var(--vf-text-2)">Chart components require D3 peer dependencies and are imported from the charts subpath:</Text>
+  <Code>import {"{"} BarChart {"}"} from "@voidframe/ui/charts"</Code>
+  <Text size="sm" color="var(--vf-text-3)">Props: width, height, data (array), xKey, yKeys, stacked, horizontal, tooltip, legend.</Text>
+</VStack>`,
       },
     ],
   },

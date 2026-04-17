@@ -10,6 +10,8 @@ import { OrgChart } from "../src/charts/OrgChart";
 export const playgroundScope: Record<string, unknown> = {
   ...voidframe,
   OrgChart,
+  // Aliases for components exported under different names
+  TokenCounter: (voidframe as any).ChatTokenCounter,
   React,
   useState: React.useState,
   useEffect: React.useEffect,
