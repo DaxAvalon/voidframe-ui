@@ -136,14 +136,15 @@ render(<Example />);`,
         code: `function Example() {
   const [open, setOpen] = useState(false);
   return (
-    <PopoverV2
-      open={open}
-      onOpenChange={setOpen}
-      trigger={<Button onClick={() => setOpen(!open)}>Open popover</Button>}
-    >
-      <div style={{ padding: 8 }}>
-        <div>Hello from a popover.</div>
-      </div>
+    <PopoverV2 open={open} onOpenChange={setOpen}>
+      <PopoverV2.Trigger asChild>
+        <Button onClick={() => setOpen(!open)}>Open popover</Button>
+      </PopoverV2.Trigger>
+      <PopoverV2.Content>
+        <div style={{ padding: 8 }}>
+          <div>Hello from a popover.</div>
+        </div>
+      </PopoverV2.Content>
     </PopoverV2>
   );
 }
