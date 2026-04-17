@@ -24,6 +24,7 @@ import { playgroundScope } from "./scope";
 import { generatePlaygroundCode } from "./autoPlayground";
 import { categorize, CATEGORIES, type Category } from "./taxonomy";
 import { patterns, type Pattern } from "./patterns";
+import { componentHooks, getComponentsForHook } from "./hookMap";
 
 // ── Types ────────────────────────────────────────────────────
 
@@ -148,6 +149,36 @@ function ComponentPage({ name }: { name: string }) {
           </section>
         )}
 
+        {/* Hook relationships */}
+        {componentHooks[name] && (
+          <section className="vf-docs__block">
+            <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
+              Hooks
+            </Text>
+            {componentHooks[name]!.internal.length > 0 && (
+              <div style={{ marginBottom: 8 }}>
+                <Text size="xs" color="var(--vf-text-3)" style={{ marginBottom: 4 }}>Uses internally:</Text>
+                <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                  {componentHooks[name]!.internal.map(h => (
+                    <Badge key={h} size="sm" variant="outline">{h}</Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+            <div>
+              <Text size="xs" color="var(--vf-text-3)" style={{ marginBottom: 4 }}>Recommended:</Text>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                {componentHooks[name]!.recommended.map(r => (
+                  <div key={r.hook} style={{ display: "flex", gap: 8, alignItems: "baseline" }}>
+                    <Badge size="sm" tone="info">{r.hook}</Badge>
+                    <Text size="xs" color="var(--vf-text-3)">{r.reason}</Text>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Source link */}
         {doc.file && (
           <Text size="sm" color="var(--vf-text-3)">
@@ -238,6 +269,33 @@ function ApiEntryPage({ entry }: { entry: ApiEntry }) {
           Source: <code>{entry.file}</code>
         </Text>
       )}
+      {entry.name.startsWith("use") && (() => {
+        const { usedBy, recommendedFor } = getComponentsForHook(entry.name);
+        if (usedBy.length === 0 && recommendedFor.length === 0) return null;
+        return (
+          <section className="vf-docs__block">
+            <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
+              Components
+            </Text>
+            {usedBy.length > 0 && (
+              <div style={{ marginBottom: 8 }}>
+                <Text size="xs" color="var(--vf-text-3)" style={{ marginBottom: 4 }}>Used internally by:</Text>
+                <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                  {usedBy.map(c => <Badge key={c} size="sm" variant="outline">{c}</Badge>)}
+                </div>
+              </div>
+            )}
+            {recommendedFor.length > 0 && (
+              <div>
+                <Text size="xs" color="var(--vf-text-3)" style={{ marginBottom: 4 }}>Recommended for:</Text>
+                <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                  {recommendedFor.map(c => <Badge key={c} size="sm" tone="info">{c}</Badge>)}
+                </div>
+              </div>
+            )}
+          </section>
+        );
+      })()}
       {!entry.description && !entry.signature && (
         <Text size="sm" color="var(--vf-text-3)">
           No docstring available for <code>{entry.name}</code>.
