@@ -30,4 +30,31 @@ describe("Sunburst", () => {
       container.querySelectorAll(".vf-chart-sunburst__slice").length
     ).toBe(6);
   });
+
+  it("renders title and description", () => {
+    const { getByText } = renderWithTheme(
+      <Sunburst data={data} size={240} title="Hierarchy" description="Nested" />
+    );
+    expect(getByText("Hierarchy")).toBeTruthy();
+    expect(getByText("Nested")).toBeTruthy();
+  });
+
+  it("uses the default aria-label", () => {
+    const { container } = renderWithTheme(
+      <Sunburst data={data} size={240} />
+    );
+    const svg = container.querySelector("svg[role='img']");
+    expect(svg!.getAttribute("aria-label")).toBe("Sunburst chart");
+  });
+
+  it("applies custom className", () => {
+    const { container } = renderWithTheme(
+      <Sunburst data={data} size={240} className="my-sunburst" />
+    );
+    expect(
+      container
+        .querySelector(".vf-chart-sunburst")!
+        .classList.contains("my-sunburst")
+    ).toBe(true);
+  });
 });

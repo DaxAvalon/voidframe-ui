@@ -1,0 +1,99 @@
+/* ModelCompare */
+
+.vf-model-compare {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+  border: 1px solid var(--vf-border-2);
+  background: var(--vf-bg-1);
+  padding: var(--vf-sp-3);
+}
+
+.vf-model-compare__prompt {
+  display: flex;
+  gap: var(--vf-sp-2);
+}
+
+.vf-model-compare__prompt textarea {
+  flex: 1;
+  font-family: inherit;
+  font-size: var(--vf-fs-1);
+  padding: var(--vf-sp-2);
+  background: var(--vf-bg-0);
+  border: 1px solid var(--vf-border-2);
+  color: var(--vf-text-0);
+  resize: vertical;
+  min-height: 60px;
+}
+
+.vf-model-compare__prompt button {
+  align-self: flex-end;
+  padding: var(--vf-sp-2) var(--vf-sp-4);
+  background: var(--vf-accent, var(--vf-text-0));
+  color: var(--vf-bg-0);
+  border: none;
+  font-family: inherit;
+  font-size: var(--vf-fs-1);
+  cursor: pointer;
+}
+
+.vf-model-compare__prompt button:hover {
+  opacity: 0.9;
+}
+
+.vf-model-compare__panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--vf-sp-3);
+}
+
+.vf-model-compare__panel {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--vf-border-2);
+  background: var(--vf-bg-0);
+}
+
+.vf-model-compare__panel-header {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  border-bottom: 1px solid var(--vf-border-1);
+  font-weight: 600;
+  font-size: var(--vf-fs-0);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--vf-text-0);
+}
+
+.vf-model-compare__panel-content {
+  padding: var(--vf-sp-3);
+  flex: 1;
+  font-size: var(--vf-fs-1);
+  color: var(--vf-text-1);
+  white-space: pre-wrap;
+  min-height: 100px;
+}
+
+.vf-model-compare__panel-metrics {
+  display: flex;
+  gap: var(--vf-sp-3);
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  border-top: 1px solid var(--vf-border-1);
+  font-size: var(--vf-fs-0);
+  color: var(--vf-text-2);
+}
+
+.vf-model-compare__panel--streaming {
+  border-color: var(--vf-amber, #f59e0b);
+}
+
+.vf-model-compare__panel--error {
+  border-color: var(--vf-red, #ef4444);
+}
+
+/* Size modifiers */
+.vf-model-compare--sm { padding: var(--vf-sp-2); gap: var(--vf-sp-2); }
+.vf-model-compare--sm .vf-model-compare__panel-content { font-size: var(--vf-fs-0); min-height: 60px; }

@@ -346,6 +346,43 @@ import {
   ToolCallGroup,
   TraceViewer,
   UnreadBadge,
+  // Phase 1: new components
+  Transfer,
+  Popconfirm,
+  SplitButton,
+  InlineEdit,
+  NotificationBadge,
+  ToggleGroup,
+  NumberStepper,
+  Anchor,
+  CopyButton,
+  SkeletonText,
+  SkeletonAvatar,
+  SkeletonButton,
+  SkeletonCard,
+  SkeletonTable,
+  SkeletonForm,
+  Cascader,
+  HorizontalTimeline,
+  Comment,
+  CommentList,
+  Result,
+  Descriptions,
+  FloatingActionButton,
+  CommandInput,
+  LiveIndicator,
+  MultiProgress,
+  HexDump,
+  CronBuilder,
+  EnvironmentVars,
+  FilterBuilder,
+  CSVViewer,
+  ImageDiff,
+  ColorContrast,
+  RegExpTester,
+  ModelCompare,
+  TokenVisualizer,
+  ConfidenceMeter,
 } from "../src";
 import {
   DevPanel,
@@ -396,6 +433,7 @@ import {
   seriesPalette,
   Heatmap,
   Sparkline,
+  OrgChart,
 } from "../src/charts";
 import type {
   CalendarHeatmapCell,
@@ -4472,6 +4510,336 @@ function DevExperienceSection() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// PHASE 1 SECTIONS
+// ─────────────────────────────────────────────────────────────
+
+function NewFormsSection() {
+  const [transferValue, setTransferValue] = useState<string[]>(["react"]);
+  const [editValue, setEditValue] = useState("Click to edit this text");
+  const [toggles, setToggles] = useState<string[]>(["bug", "feature"]);
+  const [quantity, setQuantity] = useState(3);
+  const [cascaderPath, setCascaderPath] = useState<string[]>([]);
+  const [filterRules, setFilterRules] = useState<any[]>([]);
+
+  return (
+    <Frame title="New Forms" description="Transfer, InlineEdit, ToggleGroup, NumberStepper, Cascader, CommandInput, FilterBuilder.">
+      <Block label="Transfer">
+        <Transfer
+          items={[
+            { key: "react", label: "React" },
+            { key: "vue", label: "Vue" },
+            { key: "angular", label: "Angular" },
+            { key: "svelte", label: "Svelte" },
+            { key: "solid", label: "Solid" },
+          ]}
+          value={transferValue}
+          onChange={setTransferValue}
+          titles={["Available", "Selected"]}
+          searchable
+        />
+      </Block>
+      <Block label="InlineEdit">
+        <InlineEdit value={editValue} onSave={setEditValue} />
+      </Block>
+      <Block label="ToggleGroup">
+        <ToggleGroup
+          items={[
+            { key: "bug", label: "Bug" },
+            { key: "feature", label: "Feature" },
+            { key: "docs", label: "Docs" },
+            { key: "chore", label: "Chore" },
+          ]}
+          value={toggles}
+          onValueChange={setToggles}
+          variant="accent"
+        />
+      </Block>
+      <Block label="NumberStepper">
+        <NumberStepper value={quantity} onValueChange={setQuantity} min={0} max={99} label="Quantity" />
+      </Block>
+      <Block label="Cascader">
+        <Cascader
+          label="Location"
+          options={[
+            { value: "us", label: "United States", children: [
+              { value: "ca", label: "California", children: [
+                { value: "sf", label: "San Francisco" },
+                { value: "la", label: "Los Angeles" },
+              ]},
+              { value: "ny", label: "New York", children: [
+                { value: "nyc", label: "New York City" },
+              ]},
+            ]},
+          ]}
+          value={cascaderPath}
+          onValueChange={(path) => setCascaderPath(path)}
+          placeholder="Select location"
+        />
+      </Block>
+      <Block label="CommandInput">
+        <CommandInput
+          onSubmit={(cmd) => alert("Command: " + cmd)}
+          suggestions={[
+            { value: "deploy" },
+            { value: "build" },
+            { value: "test" },
+            { value: "lint" },
+          ]}
+          placeholder="Type a command..."
+        />
+      </Block>
+      <Block label="FilterBuilder">
+        <FilterBuilder
+          fields={[
+            { key: "name", label: "Name", type: "string" },
+            { key: "age", label: "Age", type: "number" },
+            { key: "active", label: "Active", type: "boolean" },
+          ]}
+          value={filterRules}
+          onValueChange={setFilterRules}
+        />
+      </Block>
+    </Frame>
+  );
+}
+
+function NewCoreSection() {
+  return (
+    <Frame title="New Core" description="SplitButton, CopyButton, Result, Popconfirm, NotificationBadge.">
+      <Block label="SplitButton">
+        <SplitButton
+          label="Save"
+          onClick={() => alert("Saved!")}
+          actions={[
+            { key: "draft", label: "Save as Draft" },
+            { key: "template", label: "Save as Template" },
+            { key: "export", label: "Export JSON" },
+          ]}
+          onAction={(key) => alert("Action: " + key)}
+        />
+      </Block>
+      <Block label="CopyButton">
+        <div style={{ display: "flex", gap: 8 }}>
+          <CopyButton text="npm install voidframe" label="Copy install command" />
+          <CopyButton text="import { Button } from 'voidframe'" variant="ghost" />
+        </div>
+      </Block>
+      <Block label="Result — Success">
+        <Result status="success" title="Operation Complete" description="Your changes have been saved successfully." />
+      </Block>
+      <Block label="Result — 404">
+        <Result status="404" title="Page Not Found" description="The page you are looking for does not exist." />
+      </Block>
+      <Block label="Popconfirm">
+        <Popconfirm title="Delete this item?" description="This action cannot be undone." onConfirm={() => alert("Deleted!")}>
+          <Button variant="ghost">Delete Item</Button>
+        </Popconfirm>
+      </Block>
+      <Block label="NotificationBadge">
+        <div style={{ display: "flex", gap: 24 }}>
+          <NotificationBadge count={3}><Button>Messages</Button></NotificationBadge>
+          <NotificationBadge count={128} max={99}><Button>Notifications</Button></NotificationBadge>
+          <NotificationBadge dot><Button>Updates</Button></NotificationBadge>
+        </div>
+      </Block>
+    </Frame>
+  );
+}
+
+function NewDataSection() {
+  return (
+    <Frame title="New Data Display" description="HorizontalTimeline, Descriptions, MultiProgress, ConfidenceMeter, CSVViewer, Skeletons.">
+      <Block label="HorizontalTimeline">
+        <HorizontalTimeline
+          events={[
+            { key: "1", label: "Order Placed", status: "completed", date: "Jan 1" },
+            { key: "2", label: "Processing", status: "completed", date: "Jan 2" },
+            { key: "3", label: "Shipped", status: "active", date: "Jan 3" },
+            { key: "4", label: "Delivered", status: "pending", date: "Jan 5" },
+          ]}
+          activeKey="3"
+        />
+      </Block>
+      <Block label="Descriptions">
+        <Descriptions
+          title="User Profile"
+          items={[
+            { key: "name", label: "Name", value: "Jane Doe" },
+            { key: "email", label: "Email", value: "jane@example.com" },
+            { key: "role", label: "Role", value: "Admin" },
+            { key: "status", label: "Status", value: "Active" },
+            { key: "joined", label: "Joined", value: "2024-01-15" },
+            { key: "team", label: "Team", value: "Engineering" },
+          ]}
+          columns={2}
+          bordered
+        />
+      </Block>
+      <Block label="MultiProgress">
+        <MultiProgress
+          items={[
+            { key: "1", label: "Build", value: 100, status: "success" },
+            { key: "2", label: "Tests", value: 100, status: "success" },
+            { key: "3", label: "Deploy", value: 65, status: "active" },
+            { key: "4", label: "Verify", value: 0, status: "pending" },
+          ]}
+          striped
+        />
+      </Block>
+      <Block label="ConfidenceMeter">
+        <div style={{ display: "flex", gap: 24 }}>
+          <ConfidenceMeter value={0.92} variant="bar" label="Confidence" size="md" />
+          <ConfidenceMeter value={0.45} variant="ring" label="Certainty" size="md" />
+          <ConfidenceMeter value={0.15} variant="text-only" label="Score" />
+        </div>
+      </Block>
+      <Block label="CSVViewer">
+        <CSVViewer
+          data={"Name,Age,City,Role\nAlice,30,NYC,Engineer\nBob,25,SF,Designer\nCharlie,35,LA,Manager\nDiana,28,Chicago,Analyst"}
+          striped
+          showRowNumbers
+          showStats
+        />
+      </Block>
+      <Block label="Skeleton Composites">
+        <div style={{ display: "flex", gap: 16 }}>
+          <SkeletonAvatar />
+          <SkeletonText lines={3} />
+        </div>
+        <SkeletonCard hasImage lines={2} hasActions />
+        <SkeletonTable rows={3} columns={4} />
+      </Block>
+    </Frame>
+  );
+}
+
+function NewDevToolsSection() {
+  const [cron, setCron] = useState("0 */6 * * *");
+  const [envVars, setEnvVars] = useState<import("../src").EnvVar[]>([
+    { key: "API_KEY", value: "sk-proj-abc123", secret: true, type: "string" },
+    { key: "PORT", value: "3000", type: "number" },
+    { key: "DEBUG", value: "true", type: "boolean" },
+    { key: "DATABASE_URL", value: "postgres://localhost:5432/app", type: "url" },
+  ]);
+  return (
+    <Frame title="New Dev Tools" description="HexDump, CronBuilder, EnvironmentVars, ColorContrast, RegExpTester.">
+      <Block label="HexDump">
+        <HexDump
+          data={new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x56, 0x6f, 0x69, 0x64, 0x66, 0x72, 0x61, 0x6d, 0x65, 0x21,
+            0x00, 0x01, 0x02, 0xff, 0xfe, 0xfd, 0x0a, 0x0d, 0x20, 0x7e, 0x80, 0x90, 0xa0, 0xb0, 0xc0, 0xd0])}
+          bytesPerRow={16}
+        />
+      </Block>
+      <Block label="CronBuilder">
+        <CronBuilder value={cron} onValueChange={setCron} showPreview />
+      </Block>
+      <Block label="EnvironmentVars">
+        <EnvironmentVars
+          variables={envVars}
+          onChange={setEnvVars}
+          searchable
+          showTypes
+          copyable
+        />
+      </Block>
+      <Block label="ColorContrast">
+        <ColorContrast foreground="#ffffff" background="#1a1a1a" showPreview showDetails />
+      </Block>
+      <Block label="RegExpTester">
+        <RegExpTester
+          defaultPattern="\\d+"
+          defaultTestString="There are 42 cats and 7 dogs in 3 houses"
+          showFlags
+          showMatches
+          showCaptures
+        />
+      </Block>
+    </Frame>
+  );
+}
+
+function NewAISection() {
+  return (
+    <Frame title="New AI / ML" description="ModelCompare, TokenVisualizer, LiveIndicator.">
+      <Block label="ModelCompare">
+        <ModelCompare
+          models={[
+            { id: "gpt4", name: "GPT-4" },
+            { id: "claude", name: "Claude" },
+          ]}
+          responses={[
+            { modelId: "gpt4", content: "The capital of France is Paris, known for the Eiffel Tower.", status: "complete", tokens: { input: 12, output: 18 }, latency: 850 },
+            { modelId: "claude", content: "Paris is the capital of France. It is famous for landmarks like the Eiffel Tower and the Louvre Museum.", status: "complete", tokens: { input: 12, output: 24 }, latency: 620 },
+          ]}
+          showMetrics
+        />
+      </Block>
+      <Block label="TokenVisualizer">
+        <TokenVisualizer
+          tokens={[
+            { text: "The", id: 464 },
+            { text: " capital", id: 5765 },
+            { text: " of", id: 286 },
+            { text: " France", id: 4832 },
+            { text: " is", id: 318 },
+            { text: " Paris", id: 6342, logprob: -0.01 },
+            { text: ".", id: 13, special: false },
+          ]}
+          colorMode="alternating"
+          showBoundaries
+        />
+      </Block>
+      <Block label="LiveIndicator">
+        <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+          <LiveIndicator variant="typing" label="Alice is typing" />
+          <LiveIndicator variant="recording" label="Recording" />
+          <LiveIndicator variant="active" label="Online" />
+          <LiveIndicator variant="live" />
+        </div>
+      </Block>
+    </Frame>
+  );
+}
+
+function NewNavSection() {
+  return (
+    <Frame title="New Navigation & Content" description="Anchor, FloatingActionButton, Comment.">
+      <Block label="Anchor (Table of Contents)">
+        <Anchor
+          items={[
+            { key: "intro", label: "Introduction", href: "#intro" },
+            { key: "install", label: "Installation", href: "#install" },
+            { key: "usage", label: "Usage", href: "#usage", children: [
+              { key: "basic", label: "Basic", href: "#basic" },
+              { key: "advanced", label: "Advanced", href: "#advanced" },
+            ]},
+            { key: "api", label: "API Reference", href: "#api" },
+          ]}
+          activeKey="usage"
+          indicator="line"
+        />
+      </Block>
+      <Block label="Comment Thread">
+        <CommentList>
+          <Comment author="Alice" content="This looks great! Ship it." datetime="2 hours ago"
+            actions={<Button variant="ghost" size="sm">Reply</Button>}>
+            <Comment author="Bob" content="Agreed, tests are passing." datetime="1 hour ago" />
+          </Comment>
+          <Comment author="Charlie" content="One small nit on line 42." datetime="30 min ago" />
+        </CommentList>
+      </Block>
+      <Block label="ImageDiff">
+        <ImageDiff
+          before="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120'%3E%3Crect fill='%23222' width='200' height='120'/%3E%3Ctext fill='%23888' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle'%3EBefore%3C/text%3E%3C/svg%3E"
+          after="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120'%3E%3Crect fill='%23333' width='200' height='120'/%3E%3Ctext fill='%23aaa' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle'%3EAfter%3C/text%3E%3C/svg%3E"
+          mode="slider"
+        />
+      </Block>
+    </Frame>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // REGISTRY + APP SHELL
 // ─────────────────────────────────────────────────────────────
 
@@ -4530,6 +4898,13 @@ const SECTIONS: DemoSection[] = [
   { id: "specialty-encoding", group: "Specialty", title: "Encoding", render: () => <SpecialtyEncodingSection /> },
   { id: "specialty-widgets", group: "Specialty", title: "Widgets + Print", render: () => <SpecialtyWidgetsSection /> },
   { id: "specialty-dev", group: "Specialty", title: "Dev Experience (Phase 25)", render: () => <DevExperienceSection /> },
+
+  { id: "new-forms", group: "Phase 1", title: "Forms & Input", render: () => <NewFormsSection /> },
+  { id: "new-core", group: "Phase 1", title: "Core & Actions", render: () => <NewCoreSection /> },
+  { id: "new-data", group: "Phase 1", title: "Data Display", render: () => <NewDataSection /> },
+  { id: "new-devtools", group: "Phase 1", title: "Dev Tools", render: () => <NewDevToolsSection /> },
+  { id: "new-ai", group: "Phase 1", title: "AI / ML", render: () => <NewAISection /> },
+  { id: "new-nav", group: "Phase 1", title: "Navigation & Content", render: () => <NewNavSection /> },
 
   { id: "chat-messages", group: "Chat & AI", title: "Messages", render: () => <ChatMessagesSection /> },
   { id: "chat-agents", group: "Chat & AI", title: "Agents & Tools", render: () => <ChatAgentSection /> },
@@ -4600,7 +4975,7 @@ function App() {
                   aria-label="Locale"
                 />
                 <Text size="xs" color="var(--vf-text-3)">
-                  {SECTIONS.length} sections · 230+ components
+                  {SECTIONS.length} sections · 260+ components
                 </Text>
               </Flex>
             }

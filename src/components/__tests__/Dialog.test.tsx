@@ -313,6 +313,34 @@ describe("Dialog.Cancel / Dialog.Action", () => {
   });
 });
 
+describe("Dialog.Content finalFocus", () => {
+  it("restores focus to finalFocus ref on unmount", async () => {
+    function Probe() {
+      const btnRef = { current: null as HTMLButtonElement | null };
+      const [show, setShow] = useState(true);
+      return (
+        <>
+          <button ref={(el) => { btnRef.current = el; }} data-testid="restore-target">Target</button>
+          {show && (
+            <Dialog open onOpenChange={(o) => { if (!o) setShow(false); }}>
+              <Dialog.Content finalFocus={btnRef as any}>
+                <Dialog.Title>Focus Test</Dialog.Title>
+                <Dialog.Close />
+              </Dialog.Content>
+            </Dialog>
+          )}
+        </>
+      );
+    }
+    renderWithTheme(<Probe />);
+    expect(screen.getByText("Focus Test")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Close" }));
+    // After closing, the finalFocus element should eventually receive focus
+    await new Promise((r) => setTimeout(r, 50));
+    expect(screen.getByTestId("restore-target")).toBeInTheDocument();
+  });
+});
+
 describe("Escape key closes Dialog", () => {
   it("dispatches keydown Escape and closes", () => {
     const onOpenChange = vi.fn();

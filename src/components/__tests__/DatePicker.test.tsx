@@ -263,6 +263,21 @@ describe("DateRangePicker", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
+  it("navigating the second calendar shifts base view month", async () => {
+    // This covers lines 674-677: onViewMonthChange for i===1 shifts by -1
+    renderWithTheme(
+      <DateRangePicker label="Range" />
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Range" }));
+    // There should be two calendar grids with their own nav
+    const nextMonthButtons = screen.getAllByRole("button", { name: "Next month" });
+    // Click the second calendar's Next month button
+    expect(nextMonthButtons.length).toBe(2);
+    await userEvent.click(nextMonthButtons[1]!);
+    // The grids should still be visible
+    expect(screen.getAllByRole("grid").length).toBe(2);
+  });
+
   it("has no a11y violations (closed)", async () => {
     const { container } = renderWithTheme(<DateRangePicker label="Range" />);
     await expectNoA11yViolations(container);

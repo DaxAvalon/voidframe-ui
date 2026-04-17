@@ -82,6 +82,33 @@ describe("TreeNav", () => {
     expect(active).toBeInTheDocument();
     expect(active!.textContent).toContain("B");
   });
+
+  it("defaultExpanded opens specified nodes", () => {
+    renderWithTheme(<TreeNav items={items} defaultExpanded={["a"]} />);
+    expect(screen.getByText("A1")).toBeInTheDocument();
+    expect(screen.getByText("A2")).toBeInTheDocument();
+  });
+
+  it("collapse button hides children", async () => {
+    renderWithTheme(<TreeNav items={items} defaultExpanded={["a"]} />);
+    expect(screen.getByText("A1")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Collapse" }));
+    expect(screen.queryByText("A1")).not.toBeInTheDocument();
+  });
+
+  it("renders links with href when provided", () => {
+    const linkItems: TreeNavItem[] = [
+      { id: "link", label: "Link Item", href: "/page" },
+    ];
+    renderWithTheme(<TreeNav items={linkItems} />);
+    const link = screen.getByRole("link", { name: "Link Item" });
+    expect(link).toHaveAttribute("href", "/page");
+  });
+
+  it("has tree role", () => {
+    renderWithTheme(<TreeNav items={items} />);
+    expect(screen.getByRole("tree")).toBeInTheDocument();
+  });
 });
 
 describe("UserMenu", () => {

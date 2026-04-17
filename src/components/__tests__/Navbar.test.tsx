@@ -21,6 +21,19 @@ describe("Navbar", () => {
       "page"
     );
   });
+
+  it("renders Actions slot", () => {
+    renderWithTheme(
+      <Navbar>
+        <Navbar.Brand>VF</Navbar.Brand>
+        <Navbar.Actions>
+          <button>Login</button>
+        </Navbar.Actions>
+      </Navbar>
+    );
+    expect(screen.getByRole("button", { name: "Login" })).toBeInTheDocument();
+    expect(document.querySelector(".vf-navbar__actions")).toBeInTheDocument();
+  });
 });
 
 describe("TabBar", () => {

@@ -229,6 +229,15 @@ describe("deepMerge", () => {
     deepMerge(target, { a: 2 });
     expect(target.a).toBe(1);
   });
+
+  it("ignores __proto__, constructor, and prototype keys", () => {
+    const malicious = JSON.parse('{"__proto__": {"polluted": true}, "constructor": {"bad": true}}');
+    const result = deepMerge({ safe: 1 }, malicious);
+    expect(result.safe).toBe(1);
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined();
+    expect(result).not.toHaveProperty("__proto__");
+    expect(result).not.toHaveProperty("constructor");
+  });
 });
 
 // ── uid ────────────────────────────────────────────────────

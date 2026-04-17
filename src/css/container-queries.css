@@ -1,0 +1,59 @@
+/* ═══════════════════════════════════════════════════════════════
+   Container Queries — CSS @container support.
+   Progressive enhancement — gracefully ignored in older browsers.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Container types */
+.vf-container { container-type: inline-size; }
+.vf-container-normal { container-type: normal; }
+.vf-container-size { container-type: size; }
+
+/* Named containers */
+.vf-container-name-card { container-name: card; }
+.vf-container-name-panel { container-name: panel; }
+.vf-container-name-sidebar { container-name: sidebar; }
+
+/* Container breakpoints: 400 / 640 / 800 / 1024 */
+
+@container (min-width: 400px) {
+  .cq-sm\:vf-hidden { display: none; }
+  .cq-sm\:vf-block { display: block; }
+  .cq-sm\:vf-flex { display: flex; }
+  .cq-sm\:vf-flex-row { flex-direction: row; }
+  .cq-sm\:vf-flex-col { flex-direction: column; }
+  .cq-sm\:vf-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .cq-sm\:vf-grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@container (min-width: 640px) {
+  .cq-md\:vf-hidden { display: none; }
+  .cq-md\:vf-block { display: block; }
+  .cq-md\:vf-flex { display: flex; }
+  .cq-md\:vf-flex-row { flex-direction: row; }
+  .cq-md\:vf-flex-col { flex-direction: column; }
+  .cq-md\:vf-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .cq-md\:vf-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .cq-md\:vf-grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+@container (min-width: 800px) {
+  .cq-lg\:vf-hidden { display: none; }
+  .cq-lg\:vf-block { display: block; }
+  .cq-lg\:vf-flex { display: flex; }
+  .cq-lg\:vf-flex-row { flex-direction: row; }
+  .cq-lg\:vf-flex-col { flex-direction: column; }
+  .cq-lg\:vf-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .cq-lg\:vf-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .cq-lg\:vf-grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+@container (min-width: 1024px) {
+  .cq-xl\:vf-hidden { display: none; }
+  .cq-xl\:vf-block { display: block; }
+  .cq-xl\:vf-flex { display: flex; }
+  .cq-xl\:vf-flex-row { flex-direction: row; }
+  .cq-xl\:vf-flex-col { flex-direction: column; }
+  .cq-xl\:vf-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .cq-xl\:vf-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .cq-xl\:vf-grid-5 { grid-template-columns: repeat(5, 1fr); }
+}

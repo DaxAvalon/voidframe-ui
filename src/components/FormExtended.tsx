@@ -313,9 +313,13 @@ NumberInput.displayName = "NumberInput";
 
 export interface SearchInputProps {
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  /** Raw event handler — kept for backward compatibility. Prefer `onValueChange`. */
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  /** Value-emit handler — matches the convention used by every other voidframe form component. */
+  onValueChange?: (value: string) => void;
   placeholder?: string;
   onClear?: () => void;
+  readOnly?: boolean;
   width?: string | number;
   className?: string;
   style?: CSSProperties;
@@ -323,12 +327,15 @@ export interface SearchInputProps {
 
 export const SearchInput = forwardRef<HTMLDivElement, SearchInputProps>(
   function SearchInput(
-    { value, onChange, placeholder = "Search...", onClear, width, className, style },
+    { value, onChange, onValueChange, placeholder = "Search...", onClear, readOnly, width, className, style },
     ref
   ) {
     const handleClear = () => {
       if (onClear) onClear();
-      else onChange({ target: { value: "" } } as ChangeEvent<HTMLInputElement>);
+      else {
+        onChange?.({ target: { value: "" } } as ChangeEvent<HTMLInputElement>);
+        onValueChange?.("");
+      }
     };
     const inline: CSSProperties = width !== undefined ? { width, ...style } : (style ?? {});
     return (
@@ -338,7 +345,11 @@ export const SearchInput = forwardRef<HTMLDivElement, SearchInputProps>(
           className="vf-search-input__field"
           type="text"
           value={value}
-          onChange={onChange}
+          readOnly={readOnly}
+          onChange={(e) => {
+            onChange?.(e);
+            onValueChange?.(e.target.value);
+          }}
           placeholder={placeholder}
         />
         {value && (

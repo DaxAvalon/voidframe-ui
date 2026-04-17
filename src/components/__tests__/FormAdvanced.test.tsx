@@ -191,6 +191,18 @@ describe("PasswordInput", () => {
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
 
+  it("fires onChange and onValueChange when typing", async () => {
+    const onChange = vi.fn();
+    const onValueChange = vi.fn();
+    renderWithTheme(
+      <PasswordInput label="PW" onChange={onChange} onValueChange={onValueChange} />
+    );
+    const input = screen.getByLabelText("PW");
+    await userEvent.type(input, "abc");
+    expect(onChange).toHaveBeenCalled();
+    expect(onValueChange).toHaveBeenLastCalledWith("abc");
+  });
+
   it("has no a11y violations", async () => {
     const { container } = renderWithTheme(<PasswordInput label="Password" />);
     await expectNoA11yViolations(container);
@@ -360,6 +372,58 @@ describe("TagInput", () => {
     await userEvent.clear(field);
     await userEvent.type(field, "a@b.com{Enter}");
     expect(onChange).toHaveBeenLastCalledWith(["a@b.com"]);
+  });
+
+  it("multi-item paste splits on comma/newline and adds all", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(
+      <TagInput label="T" onChange={onChange} />
+    );
+    const field = screen.getByRole("textbox");
+    // Simulate pasting comma-separated text
+    const clipboardData = {
+      getData: () => "one, two, three",
+    };
+    field.focus();
+    // Use fireEvent for paste
+    const { fireEvent: fe } = await import("@testing-library/react");
+    fe.paste(field, { clipboardData } as any);
+    expect(onChange).toHaveBeenCalledWith(["one", "two", "three"]);
+  });
+
+  it("paste respects maxTags limit", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(
+      <TagInput label="T" maxTags={2} onChange={onChange} />
+    );
+    const field = screen.getByRole("textbox");
+    const clipboardData = {
+      getData: () => "a, b, c, d",
+    };
+    field.focus();
+    const { fireEvent: fe } = await import("@testing-library/react");
+    fe.paste(field, { clipboardData } as any);
+    const last = onChange.mock.calls.at(-1)![0];
+    expect(last.length).toBeLessThanOrEqual(2);
+  });
+
+  it("paste with validate skips invalid entries", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(
+      <TagInput
+        label="T"
+        onChange={onChange}
+        validate={(t) => t.length > 1}
+      />
+    );
+    const field = screen.getByRole("textbox");
+    const clipboardData = {
+      getData: () => "ok, x, good",
+    };
+    field.focus();
+    const { fireEvent: fe } = await import("@testing-library/react");
+    fe.paste(field, { clipboardData } as any);
+    expect(onChange).toHaveBeenCalledWith(["ok", "good"]);
   });
 
   it("has no a11y violations", async () => {

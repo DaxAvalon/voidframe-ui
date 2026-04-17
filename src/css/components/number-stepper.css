@@ -1,0 +1,114 @@
+/* NumberStepper — standalone +/- quantity stepper */
+
+.vf-number-stepper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-2);
+}
+
+.vf-number-stepper__controls {
+  display: flex;
+  align-items: center;
+}
+
+.vf-number-stepper__decrement,
+.vf-number-stepper__increment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--vf-font-family);
+  letter-spacing: var(--vf-letter-spacing);
+  background: var(--vf-bg-4);
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-3);
+  cursor: pointer;
+  transition: var(--vf-transition);
+  outline: none;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.vf-number-stepper__decrement:hover:not(:disabled),
+.vf-number-stepper__increment:hover:not(:disabled) {
+  background: var(--vf-bg-5);
+  border-color: var(--vf-border-2);
+  color: var(--vf-text-1);
+}
+
+.vf-number-stepper__decrement:disabled,
+.vf-number-stepper__increment:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.vf-number-stepper__decrement { border-inline-end: none; }
+.vf-number-stepper__increment { border-inline-start: none; }
+
+.vf-number-stepper__value {
+  background: var(--vf-bg-3);
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-1);
+  font-family: var(--vf-font-family);
+  letter-spacing: var(--vf-letter-spacing);
+  text-align: center;
+  outline: none;
+  transition: var(--vf-transition);
+}
+
+input.vf-number-stepper__value:focus-visible {
+  border-color: var(--vf-border-3);
+}
+
+/* ── Size modifiers ─────────────────────────────────────────── */
+
+/* sm */
+.vf-number-stepper--sm .vf-number-stepper__decrement,
+.vf-number-stepper--sm .vf-number-stepper__increment {
+  width: 24px;
+  height: 24px;
+  font-size: var(--vf-font-xs);
+}
+.vf-number-stepper--sm .vf-number-stepper__value {
+  min-width: 40px;
+  height: 24px;
+  font-size: var(--vf-font-xs);
+  padding: 0 var(--vf-sp-2);
+}
+
+/* md (default) */
+.vf-number-stepper--md .vf-number-stepper__decrement,
+.vf-number-stepper--md .vf-number-stepper__increment {
+  width: 32px;
+  height: 32px;
+  font-size: var(--vf-font-sm);
+}
+.vf-number-stepper--md .vf-number-stepper__value {
+  min-width: 56px;
+  height: 32px;
+  font-size: var(--vf-font-sm);
+  padding: 0 var(--vf-sp-3);
+}
+
+/* lg */
+.vf-number-stepper--lg .vf-number-stepper__decrement,
+.vf-number-stepper--lg .vf-number-stepper__increment {
+  width: 40px;
+  height: 40px;
+  font-size: var(--vf-font-md);
+}
+.vf-number-stepper--lg .vf-number-stepper__value {
+  min-width: 72px;
+  height: 40px;
+  font-size: var(--vf-font-md);
+  padding: 0 var(--vf-sp-4);
+}
+
+/* ── Disabled state ─────────────────────────────────────────── */
+
+.vf-number-stepper--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.vf-number-stepper--disabled .vf-number-stepper__value {
+  cursor: not-allowed;
+}

@@ -47,6 +47,9 @@ export type {
   ButtonGroupOption,
 } from "./Button";
 
+export { CopyButton } from "./CopyButton";
+export type { CopyButtonProps } from "./CopyButton";
+
 // ── Indicators ──────────────────────────────────────────────
 export { Badge, Dots } from "./Badge";
 export type {
@@ -241,6 +244,10 @@ export type {
   PinInputProps,
   TagInputProps,
 } from "./FormAdvanced";
+
+// ── Form Controls (Stepper) ────────────────────────────────
+export { NumberStepper } from "./NumberStepper";
+export type { NumberStepperProps } from "./NumberStepper";
 
 // ── Phase 11: interactive + media ───────────────────────────
 export { Carousel, CarouselImageGallery } from "./Carousel";
@@ -1106,6 +1113,24 @@ export type {
   AgentRunnerProps,
 } from "./ChatModel";
 
+// ── Skeleton Composites ────────────────────────────────────
+export {
+  SkeletonText,
+  SkeletonAvatar,
+  SkeletonButton,
+  SkeletonCard,
+  SkeletonTable,
+  SkeletonForm,
+} from "./SkeletonComposites";
+export type {
+  SkeletonTextProps,
+  SkeletonAvatarProps,
+  SkeletonButtonProps,
+  SkeletonCardProps,
+  SkeletonTableProps,
+  SkeletonFormProps,
+} from "./SkeletonComposites";
+
 // ── Phase 40: Form system + AsyncData ────────────────────────
 export {
   Form,
@@ -1122,3 +1147,59 @@ export type {
   AsyncDataProps,
   AsyncDataStatus,
 } from "./AsyncData";
+
+// ── Phase 1: New Components ─────────────────────────────────
+export { Transfer } from "./Transfer";
+export type { TransferProps, TransferItem } from "./Transfer";
+export { Popconfirm } from "./Popconfirm";
+export type { PopconfirmProps } from "./Popconfirm";
+export { SplitButton } from "./SplitButton";
+export type { SplitButtonProps, SplitButtonAction } from "./SplitButton";
+export { InlineEdit } from "./InlineEdit";
+export type { InlineEditProps } from "./InlineEdit";
+export { NotificationBadge } from "./NotificationBadge";
+export type { NotificationBadgeProps } from "./NotificationBadge";
+export { ToggleGroup } from "./ToggleGroup";
+export type { ToggleGroupProps, ToggleGroupItem } from "./ToggleGroup";
+export { Anchor } from "./Anchor";
+export type { AnchorProps, AnchorItem } from "./Anchor";
+export { Cascader } from "./Cascader";
+export type { CascaderProps, CascaderOption } from "./Cascader";
+export { HorizontalTimeline } from "./HorizontalTimeline";
+export type { HorizontalTimelineProps, HorizontalTimelineEvent } from "./HorizontalTimeline";
+export { Comment, CommentList } from "./Comment";
+export type { CommentProps, CommentListProps } from "./Comment";
+export { Result } from "./Result";
+export type { ResultProps } from "./Result";
+export { Descriptions } from "./Descriptions";
+export type { DescriptionsProps, DescriptionItem } from "./Descriptions";
+export { FloatingActionButton } from "./FloatingActionButton";
+export type { FloatingActionButtonProps, FABAction } from "./FloatingActionButton";
+export { CommandInput } from "./CommandInput";
+export type { CommandInputProps, CommandInputSuggestion } from "./CommandInput";
+export { LiveIndicator } from "./LiveIndicator";
+export type { LiveIndicatorProps } from "./LiveIndicator";
+export { MultiProgress } from "./MultiProgress";
+export type { MultiProgressProps, MultiProgressItem } from "./MultiProgress";
+export { HexDump } from "./HexDump";
+export type { HexDumpProps, HexHighlight } from "./HexDump";
+export { CronBuilder } from "./CronBuilder";
+export type { CronBuilderProps, CronPreset } from "./CronBuilder";
+export { EnvironmentVars } from "./EnvironmentVars";
+export type { EnvironmentVarsProps, EnvVar } from "./EnvironmentVars";
+export { FilterBuilder } from "./FilterBuilder";
+export type { FilterBuilderProps, FilterField, FilterRule, FilterOperator } from "./FilterBuilder";
+export { CSVViewer } from "./CSVViewer";
+export type { CSVViewerProps } from "./CSVViewer";
+export { ImageDiff } from "./ImageDiff";
+export type { ImageDiffProps } from "./ImageDiff";
+export { ColorContrast } from "./ColorContrast";
+export type { ColorContrastProps } from "./ColorContrast";
+export { RegExpTester } from "./RegExpTester";
+export type { RegExpTesterProps } from "./RegExpTester";
+export { ModelCompare } from "./ModelCompare";
+export type { ModelCompareProps, ModelCompareModel, ModelCompareResponse } from "./ModelCompare";
+export { TokenVisualizer } from "./TokenVisualizer";
+export type { TokenVisualizerProps } from "./TokenVisualizer";
+export { ConfidenceMeter } from "./ConfidenceMeter";
+export type { ConfidenceMeterProps, ConfidenceZone } from "./ConfidenceMeter";

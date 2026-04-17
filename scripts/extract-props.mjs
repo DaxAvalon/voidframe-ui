@@ -54,7 +54,10 @@ const tsFilter = (name) =>
 
 // ── Components (react-docgen-typescript) ────────────────────
 
-const parser = docgen.withCustomConfig(join(repoRoot, "tsconfig.json"), {
+// Use a lightweight tsconfig that only includes src/ — the full tsconfig
+// pulls in demo/, docs/, and tools/ which massively inflates the TS program.
+const extractTsConfig = join(repoRoot, "tsconfig.extract.json");
+const parser = docgen.withCustomConfig(extractTsConfig, {
   savePropValueAsString: true,
   shouldExtractLiteralValuesFromEnum: true,
   shouldRemoveUndefinedFromOptional: true,
@@ -69,17 +72,28 @@ const parser = docgen.withCustomConfig(join(repoRoot, "tsconfig.json"), {
 
 async function extractComponents() {
   const files = await walk(srcDir, tsxFilter);
+  console.log(`[extract-props] found ${files.length} .tsx files to parse…`);
   const docs = [];
-  for (const file of files) {
+  let skipped = 0;
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const rel = file.replace(repoRoot + "/", "");
     try {
+      // Skip testing mocks and dev tools — they confuse the parser
+      if (rel.includes("/testing/") || rel.includes("/dev/")) continue;
       const parsed = parser.parse(file);
       for (const comp of parsed) {
         if (!comp.displayName || !/^[A-Z]/.test(comp.displayName)) continue;
         if (comp.displayName === "__type") continue;
+        // Skip non-component exports that react-docgen mistakenly picks up
+        const EXCLUDED_NAMES = new Set([
+          'ReactNode', 'RESPONSIVE_SIZE_PRESETS', 'Context',
+        ]);
+        if (EXCLUDED_NAMES.has(comp.displayName)) continue;
         docs.push({
           name: comp.displayName,
           description: comp.description,
-          file: file.replace(repoRoot + "/", ""),
+          file: rel,
           props: Object.values(comp.props).map((p) => ({
             name: p.name,
             type: p.type?.name ?? "unknown",
@@ -90,9 +104,15 @@ async function extractComponents() {
         });
       }
     } catch (err) {
-      console.warn(`[extract-props] skipped ${file}: ${err.message}`);
+      skipped++;
+      console.warn(`[extract-props] skipped ${rel}: ${err.message}`);
+    }
+    // Progress indicator every 20 files
+    if ((i + 1) % 20 === 0) {
+      console.log(`[extract-props] parsed ${i + 1}/${files.length}…`);
     }
   }
+  if (skipped > 0) console.log(`[extract-props] skipped ${skipped} files with errors`);
   const byName = new Map();
   for (const d of docs) byName.set(d.name, d);
   return Array.from(byName.values()).sort((a, b) =>

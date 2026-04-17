@@ -84,6 +84,17 @@ describe("SourceGrid", () => {
     expect(screen.getByText("First")).toBeInTheDocument();
     expect(screen.getByText("Second")).toBeInTheDocument();
   });
+
+  it("applies custom columns to grid style", () => {
+    const { container } = renderWithTheme(
+      <SourceGrid
+        columns={3}
+        sources={[{ id: 1, title: "A" }]}
+      />
+    );
+    const grid = container.querySelector(".vf-source-grid") as HTMLElement;
+    expect(grid.style.gridTemplateColumns).toContain("repeat(3");
+  });
 });
 
 describe("RAGContext", () => {
@@ -107,5 +118,15 @@ describe("RAGContext", () => {
     );
     await userEvent.click(screen.getByRole("button"));
     expect(screen.getByText("hidden body")).toBeInTheDocument();
+  });
+
+  it("displays chunk score when provided", async () => {
+    renderWithTheme(
+      <RAGContext
+        chunks={[{ source: "Doc B", content: "body", score: 0.95 }]}
+      />
+    );
+    await userEvent.click(screen.getByRole("button"));
+    expect(screen.getByText("0.95")).toBeInTheDocument();
   });
 });

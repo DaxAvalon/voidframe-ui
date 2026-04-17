@@ -93,6 +93,36 @@ describe("TimePicker (12h)", () => {
     expect(onChange).toHaveBeenCalledWith("09:00");
   });
 
+  it("12h setHour clamps correctly for hour 12 PM", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(
+      <TimePicker
+        label="Time"
+        defaultValue="12:00"
+        format="12h"
+        onChange={onChange}
+      />
+    );
+    // 12:00 PM → hour 12 in 24h. Change minute to verify we're at 12:xx
+    await userEvent.selectOptions(screen.getByLabelText("Minutes"), "30");
+    expect(onChange).toHaveBeenCalledWith("12:30");
+  });
+
+  it("12h setHour handles hour 12 AM (midnight)", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(
+      <TimePicker
+        label="Time"
+        defaultValue="00:00"
+        format="12h"
+        onChange={onChange}
+      />
+    );
+    // 00:00 is 12 AM. Change minute.
+    await userEvent.selectOptions(screen.getByLabelText("Minutes"), "15");
+    expect(onChange).toHaveBeenCalledWith("00:15");
+  });
+
   it("has no a11y violations", async () => {
     const { container } = renderWithTheme(
       <TimePicker label="Start" defaultValue="09:30" format="12h" />

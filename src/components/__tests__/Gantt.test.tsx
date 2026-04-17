@@ -72,4 +72,64 @@ describe("Gantt", () => {
     );
     expect(container.querySelectorAll(".vf-gantt__resize").length).toBe(0);
   });
+
+  it("renders milestone as diamond SVG instead of bar", () => {
+    const milestoneTasks: GanttTask[] = [
+      { id: "m", name: "Release", start: new Date("2026-04-07"), end: new Date("2026-04-07"), milestone: true },
+    ];
+    const { container } = renderWithTheme(
+      <Gantt tasks={milestoneTasks} start={start} end={end} />
+    );
+    expect(container.querySelector(".vf-gantt__milestone")).toBeTruthy();
+    expect(container.querySelector(".vf-gantt__bar")).toBeFalsy();
+  });
+
+  it("renders today marker when showToday=true and today is in range", () => {
+    const now = new Date();
+    const rangeStart = new Date(now.getTime() - 86400000 * 5);
+    const rangeEnd = new Date(now.getTime() + 86400000 * 5);
+    const todayTasks: GanttTask[] = [
+      { id: "a", name: "Task", start: rangeStart, end: rangeEnd },
+    ];
+    const { container } = renderWithTheme(
+      <Gantt tasks={todayTasks} start={rangeStart} end={rangeEnd} showToday />
+    );
+    expect(container.querySelector(".vf-gantt__today")).toBeTruthy();
+  });
+
+  it("hides today marker when showToday=false", () => {
+    const { container } = renderWithTheme(
+      <Gantt tasks={tasks} start={start} end={end} showToday={false} />
+    );
+    expect(container.querySelector(".vf-gantt__today")).toBeFalsy();
+  });
+
+  it("renders with week granularity", () => {
+    const { container } = renderWithTheme(
+      <Gantt tasks={tasks} start={start} end={end} granularity="week" />
+    );
+    expect(container.querySelector(".vf-gantt--week")).toBeTruthy();
+  });
+
+  it("renders with month granularity", () => {
+    const monthEnd = new Date("2026-07-01");
+    const { container } = renderWithTheme(
+      <Gantt tasks={tasks} start={start} end={monthEnd} granularity="month" />
+    );
+    expect(container.querySelector(".vf-gantt--month")).toBeTruthy();
+  });
+
+  it("renders with custom unitWidth and rowHeight", () => {
+    const { container } = renderWithTheme(
+      <Gantt tasks={tasks} start={start} end={end} unitWidth={40} rowHeight={48} />
+    );
+    expect(container.querySelector(".vf-gantt")).toBeTruthy();
+  });
+
+  it("applies tone class to bar", () => {
+    const { container } = renderWithTheme(
+      <Gantt tasks={tasks} start={start} end={end} />
+    );
+    expect(container.querySelector(".vf-gantt__bar--success")).toBeTruthy();
+  });
 });

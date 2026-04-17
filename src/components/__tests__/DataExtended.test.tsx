@@ -146,6 +146,30 @@ describe("List", () => {
     // Only the item container, no marker span
     expect(container.querySelectorAll("div > div > span")).toHaveLength(0);
   });
+
+  it("renders children when no items prop is given", () => {
+    renderWithTheme(
+      <List>
+        <div>Child One</div>
+        <div>Child Two</div>
+      </List>
+    );
+    expect(screen.getByText("Child One")).toBeInTheDocument();
+    expect(screen.getByText("Child Two")).toBeInTheDocument();
+  });
+
+  it("List.Item renders leading and trailing slots", () => {
+    renderWithTheme(
+      <List>
+        <List.Item leading={<span>L</span>} trailing={<span>T</span>}>
+          Content
+        </List.Item>
+      </List>
+    );
+    expect(screen.getByText("L")).toBeInTheDocument();
+    expect(screen.getByText("T")).toBeInTheDocument();
+    expect(screen.getByText("Content")).toBeInTheDocument();
+  });
 });
 
 describe("KeyValue", () => {

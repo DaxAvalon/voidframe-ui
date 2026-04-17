@@ -78,7 +78,13 @@ export function Menu({ open, defaultOpen, onOpenChange, children }: MenuProps) {
     () => ({ open: isOpen, setOpen, contentId, triggerId, menuRef }),
     [isOpen, setOpen, contentId, triggerId]
   );
-  return <MenuContext.Provider value={value}>{children}</MenuContext.Provider>;
+  return (
+    <MenuContext.Provider value={value}>
+      <div className="vf-menu" style={{ position: "relative", display: "inline-block" }}>
+        {children}
+      </div>
+    </MenuContext.Provider>
+  );
 }
 
 // ── Menu.Trigger ──────────────────────────────────────────────

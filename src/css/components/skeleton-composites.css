@@ -1,0 +1,171 @@
+/* SkeletonComposites — pre-composed skeleton loading placeholders */
+
+/* ── Shared skeleton bar ─────────────────────────────────────── */
+/* Each composite element that should shimmer gets `.vf-skeleton`
+   alongside its own BEM class.  The shimmer animation comes from
+   keyframes.css (`vf-shimmer`). */
+
+.vf-skeleton-text,
+.vf-skeleton-card__body,
+.vf-skeleton-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── SkeletonText ────────────────────────────────────────────── */
+
+.vf-skeleton-text {
+  gap: var(--vf-sp-3);
+}
+
+.vf-skeleton-text__line {
+  width: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+}
+
+.vf-skeleton-text--sm .vf-skeleton-text__line { height: 10px; }
+.vf-skeleton-text--md .vf-skeleton-text__line { height: 14px; }
+.vf-skeleton-text--lg .vf-skeleton-text__line { height: 20px; }
+
+/* ── SkeletonAvatar ──────────────────────────────────────────── */
+
+.vf-skeleton-avatar {
+  flex-shrink: 0;
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+}
+
+.vf-skeleton-avatar--sm  { width: 24px; height: 24px; }
+.vf-skeleton-avatar--md  { width: 36px; height: 36px; }
+.vf-skeleton-avatar--lg  { width: 48px; height: 48px; }
+.vf-skeleton-avatar--xl  { width: 64px; height: 64px; }
+
+.vf-skeleton-avatar--circle { border-radius: 50%; }
+.vf-skeleton-avatar--square { border-radius: var(--vf-radius, 4px); }
+
+/* ── SkeletonButton ──────────────────────────────────────────── */
+
+.vf-skeleton-button {
+  width: 100px;
+  border-radius: var(--vf-radius, 4px);
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+}
+
+.vf-skeleton-button--sm { height: 28px; }
+.vf-skeleton-button--md { height: 36px; }
+.vf-skeleton-button--lg { height: 44px; }
+
+/* ── SkeletonCard ────────────────────────────────────────────── */
+
+.vf-skeleton-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--vf-border-1);
+  border-radius: var(--vf-radius, 4px);
+  overflow: hidden;
+}
+
+.vf-skeleton-card__image {
+  width: 100%;
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+}
+
+.vf-skeleton-card__body {
+  padding: var(--vf-sp-5);
+  gap: var(--vf-sp-3);
+}
+
+.vf-skeleton-card__line {
+  height: 14px;
+  width: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+}
+
+.vf-skeleton-card__actions {
+  display: flex;
+  gap: var(--vf-sp-3);
+  padding: 0 var(--vf-sp-5) var(--vf-sp-5);
+}
+
+.vf-skeleton-card__action {
+  height: 32px;
+  width: 72px;
+  border-radius: var(--vf-radius, 4px);
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+}
+
+/* ── SkeletonTable ───────────────────────────────────────────── */
+
+.vf-skeleton-table {
+  display: grid;
+  gap: var(--vf-sp-3);
+}
+
+.vf-skeleton-table__header-cell {
+  height: 16px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+  opacity: 0.8;
+}
+
+.vf-skeleton-table__cell {
+  height: 14px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+}
+
+/* ── SkeletonForm ────────────────────────────────────────────── */
+
+.vf-skeleton-form {
+  gap: var(--vf-sp-6);
+}
+
+.vf-skeleton-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-2);
+}
+
+.vf-skeleton-form__label {
+  height: 12px;
+  width: 30%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+}
+
+.vf-skeleton-form__input {
+  height: 36px;
+  width: 100%;
+  border-radius: var(--vf-radius, 4px);
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+}
+
+.vf-skeleton-form__submit {
+  height: 36px;
+  width: 120px;
+  border-radius: var(--vf-radius, 4px);
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
+}

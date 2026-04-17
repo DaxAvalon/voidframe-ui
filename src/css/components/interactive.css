@@ -2,7 +2,7 @@
 
 .vf-tabs {
   display: flex;
-  gap: 2px;
+  gap: var(--vf-sp-1);
 }
 
 /* Collapsible */
@@ -10,14 +10,14 @@
   background: transparent;
   border: 1px solid var(--vf-border-1);
   color: var(--vf-text-3);
-  padding: 5px 12px;
+  padding: var(--vf-sp-1) var(--vf-sp-6);
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-label-spacing);
   font-family: var(--vf-font-family);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--vf-sp-4);
   text-transform: uppercase;
   width: 100%;
   text-align: left;
@@ -82,18 +82,18 @@
   cursor: pointer;
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-lg);
-  padding: 2px 6px;
+  padding: var(--vf-sp-1) var(--vf-sp-3);
 }
 
 /* Toast */
 .vf-toast {
-  padding: 8px 14px;
+  padding: var(--vf-sp-4) var(--vf-sp-7);
   font-size: var(--vf-font-sm);
   font-family: var(--vf-font-family);
   letter-spacing: 0.5px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--vf-sp-4);
   background: color-mix(in srgb, var(--vf-toast-color, var(--vf-info)) 8%, transparent);
   border: 1px solid color-mix(in srgb, var(--vf-toast-color, var(--vf-info)) 20%, transparent);
   color: var(--vf-toast-color, var(--vf-info));
@@ -111,7 +111,7 @@
   cursor: pointer;
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-md);
-  padding: 0 4px;
+  padding: 0 var(--vf-sp-2);
   opacity: 0.6;
 }
 

@@ -14,7 +14,7 @@
   },
   {
     "name": "Accordion",
-    "description": "Compound vertically-stacked collapsible sections. `type=\"single\"`\n(default) allows one open at a time; `type=\"multiple\"` lets any\nnumber be open simultaneously. Compose with `Accordion.Item`,\n`Accordion.Trigger`, and `Accordion.Content`.",
+    "description": "",
     "file": "src/components/Accordion.tsx",
     "props": [
       {
@@ -184,6 +184,12 @@
         "defaultValue": "complete",
         "description": "",
         "required": false
+      },
+      {
+        "name": "onStop",
+        "type": "(() => void)",
+        "description": "Called when the user clicks the stop button during a running/streaming agent.",
+        "required": false
       }
     ]
   },
@@ -284,6 +290,78 @@
     ]
   },
   {
+    "name": "Anchor",
+    "description": "",
+    "file": "src/components/Anchor.tsx",
+    "props": [
+      {
+        "name": "items",
+        "type": "AnchorItem[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "activeKey",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultActiveKey",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onActiveChange",
+        "type": "((key: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "offset",
+        "type": "number",
+        "defaultValue": "80",
+        "description": "Scroll offset for fixed headers. Default 80.",
+        "required": false
+      },
+      {
+        "name": "smooth",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Smooth scroll on click. Default true.",
+        "required": false
+      },
+      {
+        "name": "affix",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Make the nav sticky. Default false.",
+        "required": false
+      },
+      {
+        "name": "affixOffset",
+        "type": "number",
+        "description": "Top offset when affix is true.",
+        "required": false
+      },
+      {
+        "name": "orientation",
+        "type": "enum",
+        "defaultValue": "vertical",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "indicator",
+        "type": "enum",
+        "defaultValue": "line",
+        "description": "Active indicator style. Default \"line\".",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "AppShell",
     "description": "The top-level layout shell combining a sidebar, header, and main content area.\nProvides a consistent application chrome with configurable sizing for each region.",
     "file": "src/components/AppShell.tsx",
@@ -354,6 +432,13 @@
         "name": "headerHeight",
         "type": "string | number",
         "description": "Height of the header in pixels/CSS value. Default \"auto\".",
+        "required": false
+      },
+      {
+        "name": "mobileBreakpoint",
+        "type": "number",
+        "defaultValue": "768",
+        "description": "Viewport width at which the sidebar becomes a mobile overlay drawer. Default 768.",
         "required": false
       }
     ]
@@ -586,6 +671,19 @@
         "name": "accessibleLabel",
         "type": "string",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "scaleKind",
+        "type": "enum",
+        "defaultValue": "linear",
+        "description": "Y-axis scale kind. Default \"linear\".",
+        "required": false
+      },
+      {
+        "name": "hiddenKeys",
+        "type": "string[]",
+        "description": "Series keys to hide (for interactive legend toggling).",
         "required": false
       }
     ]
@@ -892,6 +990,55 @@
         "type": "number",
         "defaultValue": "16 / 9",
         "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "AsyncData",
+    "description": "Universal async-data envelope. Eliminates per-component\n`loading ? <Skeleton /> : data ? <Table /> : <Empty />` boilerplate\nby routing to the correct slot based on `status`.",
+    "file": "src/components/AsyncData.tsx",
+    "props": [
+      {
+        "name": "status",
+        "type": "enum",
+        "description": "The current state. Determines which slot renders.",
+        "required": true
+      },
+      {
+        "name": "data",
+        "type": "T",
+        "description": "The data, available when `status === \"success\"`.",
+        "required": false
+      },
+      {
+        "name": "error",
+        "type": "unknown",
+        "description": "Error payload, available when `status === \"error\"`.",
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "Render while loading. Defaults to a minimal skeleton.",
+        "required": false
+      },
+      {
+        "name": "empty",
+        "type": "ReactNode",
+        "description": "Render when the dataset is empty.",
+        "required": false
+      },
+      {
+        "name": "renderError",
+        "type": "((error: unknown, retry?: (() => void)) => ReactNode)",
+        "description": "Render when loading failed. Receives the error + a retry handle.",
+        "required": false
+      },
+      {
+        "name": "onRetry",
+        "type": "(() => void)",
+        "description": "Callback wired into the default error UI's retry button.",
         "required": false
       }
     ]
@@ -1335,6 +1482,30 @@
         "required": false
       },
       {
+        "name": "dismissible",
+        "type": "boolean",
+        "description": "Renders a close button after the label.",
+        "required": false
+      },
+      {
+        "name": "onDismiss",
+        "type": "(() => void)",
+        "description": "Callback when the close button is clicked.",
+        "required": false
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "When set, renders the count as the label (ignoring children).",
+        "required": false
+      },
+      {
+        "name": "overflowCount",
+        "type": "number",
+        "description": "When count exceeds this, displays `{overflowCount}+`.",
+        "required": false
+      },
+      {
         "name": "asChild",
         "type": "boolean",
         "description": "",
@@ -1532,6 +1703,19 @@
         "name": "accessibleLabel",
         "type": "string",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "scaleKind",
+        "type": "enum",
+        "defaultValue": "linear",
+        "description": "Y-axis scale kind. Default \"linear\".",
+        "required": false
+      },
+      {
+        "name": "hiddenKeys",
+        "type": "string[]",
+        "description": "Series keys to hide (for interactive legend toggling).",
         "required": false
       },
       {
@@ -2196,6 +2380,13 @@
         "defaultValue": "square",
         "description": "Use a circle glyph instead of the brutalist square. Default square.",
         "required": false
+      },
+      {
+        "name": "scaleKind",
+        "type": "enum",
+        "defaultValue": "linear",
+        "description": "Y-axis scale kind. Default \"linear\".",
+        "required": false
       }
     ]
   },
@@ -2324,6 +2515,24 @@
         "name": "active",
         "type": "boolean",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "description": "When true, renders a spinner before children and disables the button.",
+        "required": false
+      },
+      {
+        "name": "iconLeft",
+        "type": "ReactNode",
+        "description": "Icon rendered before children. Replaced by spinner when loading.",
+        "required": false
+      },
+      {
+        "name": "iconRight",
+        "type": "ReactNode",
+        "description": "Icon rendered after children.",
         "required": false
       },
       {
@@ -2793,6 +3002,18 @@
         "required": false
       },
       {
+        "name": "hoverable",
+        "type": "boolean",
+        "description": "Adds hover elevation effect via CSS class.",
+        "required": false
+      },
+      {
+        "name": "actions",
+        "type": "ReactNode",
+        "description": "Renders in a footer actions slot after children.",
+        "required": false
+      },
+      {
         "name": "asChild",
         "type": "boolean",
         "description": "",
@@ -3032,6 +3253,78 @@
       {
         "name": "index",
         "type": "number",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "Cascader",
+    "description": "",
+    "file": "src/components/Cascader.tsx",
+    "props": [
+      {
+        "name": "defaultValue",
+        "type": "string[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "options",
+        "type": "CascaderOption[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "string[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((path: string[], options: CascaderOption[]) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "defaultValue": "Select...",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "expandTrigger",
+        "type": "enum",
+        "defaultValue": "click",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "allowClear",
+        "type": "boolean",
+        "defaultValue": "false",
         "description": "",
         "required": false
       }
@@ -4518,7 +4811,7 @@
   {
     "name": "CodeBlock",
     "description": "",
-    "file": "src/components/Viewers.tsx",
+    "file": "src/components/Viewers/CodeBlock.tsx",
     "props": [
       {
         "name": "code",
@@ -4573,6 +4866,27 @@
         "name": "highlight",
         "type": "((code: string, language?: string) => ReactNode)",
         "description": "Optional highlight function. Must return safe HTML (escapes its input)\nOR ReactNode. When given a string, the CodeBlock writes through the\nHTMLPane; callers are expected to sanitize.",
+        "required": false
+      },
+      {
+        "name": "searchable",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Show a search bar above the code. Default false.",
+        "required": false
+      },
+      {
+        "name": "downloadable",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Show a download button. Default false.",
+        "required": false
+      },
+      {
+        "name": "downloadFilename",
+        "type": "string",
+        "defaultValue": "code.txt",
+        "description": "Filename for download. Defaults to \"code.txt\".",
         "required": false
       }
     ]
@@ -4778,6 +5092,72 @@
     ]
   },
   {
+    "name": "ColorContrast",
+    "description": "",
+    "file": "src/components/ColorContrast.tsx",
+    "props": [
+      {
+        "name": "foreground",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "background",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "onForegroundChange",
+        "type": "((color: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onBackgroundChange",
+        "type": "((color: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "editable",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showPreview",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showDetails",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "previewText",
+        "type": "string",
+        "defaultValue": "Sample Text",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "ColorPicker",
     "description": "",
     "file": "src/components/ColorPicker.tsx",
@@ -4960,6 +5340,89 @@
     ]
   },
   {
+    "name": "CommandInput",
+    "description": "",
+    "file": "src/components/CommandInput.tsx",
+    "props": [
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "defaultValue": "",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onSubmit",
+        "type": "(command: string) => void",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "autoFocus",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "history",
+        "type": "string[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "maxHistory",
+        "type": "number",
+        "defaultValue": "100",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "suggestions",
+        "type": "CommandInputSuggestion[] | ((partial: string) => CommandInputSuggestion[])",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "prompt",
+        "type": "ReactNode",
+        "defaultValue": "$",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "CommandPalette",
     "description": "A cmd+K search overlay for fuzzy-finding actions, pages, and commands.\nRegister commands with `useCommand` and compose results via the Input, List, Group, and Item subcomponents.",
     "file": "src/components/CommandPalette.tsx",
@@ -5001,6 +5464,49 @@
         "required": false
       }
     ]
+  },
+  {
+    "name": "Comment",
+    "description": "",
+    "file": "src/components/Comment.tsx",
+    "props": [
+      {
+        "name": "content",
+        "type": "ReactNode",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "author",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "avatar",
+        "type": "ReactNode",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "datetime",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "actions",
+        "type": "ReactNode",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "CommentList",
+    "description": "",
+    "file": "src/components/Comment.tsx",
+    "props": []
   },
   {
     "name": "CommitGraph",
@@ -5173,6 +5679,12 @@
         "required": false
       },
       {
+        "name": "onSlashCommand",
+        "type": "((command: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
         "name": "status",
         "type": "enum",
         "defaultValue": "idle",
@@ -5294,6 +5806,80 @@
       {
         "name": "onRecordingChange",
         "type": "((next: boolean) => void)",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "ConfidenceMeter",
+    "description": "",
+    "file": "src/components/ConfidenceMeter.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "number",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "defaultValue": "1",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "defaultValue": "bar",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "zones",
+        "type": "ConfidenceZone[]",
+        "defaultValue": "[\n  { min: 0, max: 0.3, label: \"Low\", color: \"var(--vf-red, #ef4444)\" },\n  { min: 0.3, max: 0.7, label: \"Medium\", color: \"var(--vf-amber, #f59e0b)\" },\n  { min: 0.7, max: 1.0, label: \"High\", color: \"var(--vf-green, #22c55e)\" },\n]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showLabel",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showValue",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "valueFormat",
+        "type": "((value: number) => string)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "animate",
+        "type": "boolean",
+        "defaultValue": "true",
         "description": "",
         "required": false
       }
@@ -5512,12 +6098,6 @@
     ]
   },
   {
-    "name": "Context",
-    "description": "Context lets components pass information deep down without explicitly\npassing props.\n\nCreated from {@link createContext}",
-    "file": "src/provider/VoidframeProvider.tsx",
-    "props": []
-  },
-  {
     "name": "ContextHelp",
     "description": "",
     "file": "src/components/HelpChangelog.tsx",
@@ -5593,7 +6173,7 @@
   {
     "name": "Conversation",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Conversation.tsx",
     "props": [
       {
         "name": "status",
@@ -5737,6 +6317,72 @@
       {
         "name": "status",
         "type": "ReactNode",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "CopyButton",
+    "description": "Memoized leaf — skips re-render when props are referentially stable.",
+    "file": "src/components/CopyButton.tsx",
+    "props": [
+      {
+        "name": "onCopy",
+        "type": "((text: string) => void)",
+        "description": "Fires after a successful clipboard write with the copied text.",
+        "required": false
+      },
+      {
+        "name": "onError",
+        "type": "((error: Error) => void)",
+        "description": "Fires when the clipboard write fails.",
+        "required": false
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "description": "The text to copy to the clipboard.",
+        "required": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "defaultValue": "Copy",
+        "description": "Label shown in default (idle) state. Defaults to \"Copy\".",
+        "required": false
+      },
+      {
+        "name": "copiedLabel",
+        "type": "string",
+        "defaultValue": "Copied",
+        "description": "Label shown after a successful copy. Defaults to \"Copied\".",
+        "required": false
+      },
+      {
+        "name": "copiedDuration",
+        "type": "number",
+        "defaultValue": "2000",
+        "description": "Duration in ms the \"copied\" state is shown. Defaults to 2000.",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
         "description": "",
         "required": false
       }
@@ -5894,6 +6540,80 @@
     ]
   },
   {
+    "name": "CronBuilder",
+    "description": "",
+    "file": "src/components/CronBuilder.tsx",
+    "props": [
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((expression: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "mode",
+        "type": "enum",
+        "defaultValue": "both",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "presets",
+        "type": "CronPreset[]",
+        "defaultValue": "[\n  { label: \"Every minute\", value: \"* * * * *\" },\n  { label: \"Every hour\", value: \"0 * * * *\" },\n  { label: \"Daily midnight\", value: \"0 0 * * *\" },\n  { label: \"Weekly Monday 9am\", value: \"0 9 * * 1\" },\n  { label: \"Monthly 1st\", value: \"0 0 1 * *\" },\n]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showPreview",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "previewCount",
+        "type": "number",
+        "defaultValue": "5",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "fields",
+        "type": "enum",
+        "defaultValue": "5",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "Crosshair",
     "description": "",
     "file": "src/charts/primitives/Crosshair.tsx",
@@ -5932,6 +6652,12 @@
         "required": false
       }
     ]
+  },
+  {
+    "name": "CSVViewer",
+    "description": "Parse CSV with support for quoted fields containing delimiters and newlines.",
+    "file": "src/components/CSVViewer.tsx",
+    "props": []
   },
   {
     "name": "CurrencyDisplay",
@@ -6376,7 +7102,7 @@
       },
       {
         "name": "pagination",
-        "type": "{ pageSize: number; page: number; onPageChange: (p: number) => void; }",
+        "type": "DataGridPaginationConfig",
         "description": "",
         "required": false
       },
@@ -6911,75 +7637,62 @@
     "props": []
   },
   {
-    "name": "DevErrorFallback",
-    "description": "Brutalist fallback UI suitable for the `fallback` render prop of\n`<ErrorBoundary>`. Shows the error name + message + collapsible stack\nand a Reset button.",
-    "file": "src/dev/ErrorBoundary.tsx",
-    "props": [
-      {
-        "name": "error",
-        "type": "Error",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "reset",
-        "type": "() => void",
-        "description": "",
-        "required": true
-      }
-    ]
-  },
-  {
-    "name": "DevPanel",
+    "name": "Descriptions",
     "description": "",
-    "file": "src/dev/DevPanel.tsx",
+    "file": "src/components/Descriptions.tsx",
     "props": [
-      {
-        "name": "position",
-        "type": "enum",
-        "defaultValue": "br",
-        "description": "Corner to anchor to. Default: \"br\".",
-        "required": false
-      },
-      {
-        "name": "showInProduction",
-        "type": "boolean",
-        "defaultValue": "false",
-        "description": "If true, renders even in production. Default: false.",
-        "required": false
-      },
-      {
-        "name": "defaultTab",
-        "type": "enum",
-        "defaultValue": "renders",
-        "description": "Starting tab.",
-        "required": false
-      },
-      {
-        "name": "defaultCollapsed",
-        "type": "boolean",
-        "defaultValue": "false",
-        "description": "Starting collapsed state.",
-        "required": false
-      },
       {
         "name": "title",
         "type": "string",
-        "defaultValue": "voidframe dev",
-        "description": "Optional title shown in the header.",
+        "description": "",
         "required": false
       },
       {
-        "name": "version",
-        "type": "string",
-        "description": "Package/version info shown on the \"about\" tab.",
+        "name": "items",
+        "type": "DescriptionItem[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "columns",
+        "type": "number",
+        "defaultValue": "3",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "layout",
+        "type": "enum",
+        "defaultValue": "horizontal",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "bordered",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "colon",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
         "required": false
       }
     ]
   },
   {
     "name": "Dialog",
-    "description": "Modal overlay with focus trap, escape-to-close, and portaled content.\nControlled via `open` / `onOpenChange`. Compose with `Dialog.Trigger`,\n`Dialog.Content`, `Dialog.Header`, `Dialog.Footer`, and the action\nsub-components for confirm flows.",
+    "description": "",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -7011,7 +7724,7 @@
   {
     "name": "DiffViewer",
     "description": "",
-    "file": "src/components/Viewers.tsx",
+    "file": "src/components/Viewers/DiffViewer.tsx",
     "props": [
       {
         "name": "oldValue",
@@ -7453,7 +8166,7 @@
   },
   {
     "name": "DrawerV2",
-    "description": "Side-anchored panel (top / right / bottom / left) with focus trap\nand escape-to-close. Controlled via `open` / `onOpenChange`. Compose\nwith `DrawerV2.Trigger`, `DrawerV2.Content`, and the header/body/\nfooter sub-components.",
+    "description": "",
     "file": "src/components/DrawerCompound.tsx",
     "props": [
       {
@@ -7685,6 +8398,86 @@
       {
         "name": "action",
         "type": "ReactNode",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "EnvironmentVars",
+    "description": "",
+    "file": "src/components/EnvironmentVars.tsx",
+    "props": [
+      {
+        "name": "onChange",
+        "type": "((variables: EnvVar[]) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "variables",
+        "type": "EnvVar[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "onAdd",
+        "type": "((variable: EnvVar) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onRemove",
+        "type": "((key: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "searchable",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "groupBy",
+        "type": "enum",
+        "defaultValue": "none",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showTypes",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "addable",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "copyable",
+        "type": "boolean",
+        "defaultValue": "true",
         "description": "",
         "required": false
       }
@@ -8388,6 +9181,71 @@
     ]
   },
   {
+    "name": "FilterBuilder",
+    "description": "",
+    "file": "src/components/FilterBuilder.tsx",
+    "props": [
+      {
+        "name": "defaultValue",
+        "type": "FilterRule[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "fields",
+        "type": "FilterField[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "FilterRule[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((rules: FilterRule[]) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "maxRules",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "addLabel",
+        "type": "string",
+        "defaultValue": "Add filter",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showClearAll",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "FilterIcon",
     "description": "",
     "file": "src/icons/set.tsx",
@@ -8499,6 +9357,64 @@
         "name": "as",
         "type": "ElementType",
         "defaultValue": "div",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "FloatingActionButton",
+    "description": "",
+    "file": "src/components/FloatingActionButton.tsx",
+    "props": [
+      {
+        "name": "onClick",
+        "type": "(() => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "actions",
+        "type": "FABAction[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "position",
+        "type": "enum",
+        "defaultValue": "bottom-right",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "offset",
+        "type": "{ bottom?: number; right?: number; left?: number | undefined; } | undefined",
         "description": "",
         "required": false
       }
@@ -8686,6 +9602,12 @@
     ]
   },
   {
+    "name": "Form",
+    "description": "Read the nearest `<Form>` context. Throws if not inside a `<Form>`.",
+    "file": "src/components/FormProvider.tsx",
+    "props": []
+  },
+  {
     "name": "FormActions",
     "description": "Right-aligned footer for submit/cancel buttons. Flex container with\nconsistent gap. Respects LTR/RTL via `justify-content: flex-end` (maps\nto end of the inline axis).",
     "file": "src/components/FormStructure.tsx",
@@ -8695,6 +9617,20 @@
         "type": "enum",
         "defaultValue": "end",
         "description": "Alignment — default `end` (right-justified for LTR).",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "FormErrorSummary",
+    "description": "Renders a list of current form errors. Reads from `useFormContext`.\nOnly renders when there are errors.",
+    "file": "src/components/FormProvider.tsx",
+    "props": [
+      {
+        "name": "heading",
+        "type": "ReactNode",
+        "defaultValue": "Please fix the following:",
+        "description": "Override the heading. Default \"Please fix the following:\".",
         "required": false
       }
     ]
@@ -8861,6 +9797,13 @@
         "name": "readOnly",
         "type": "boolean",
         "description": "Disable drag interactions.",
+        "required": false
+      },
+      {
+        "name": "showToday",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Show a vertical marker line at today's date. Default true.",
         "required": false
       }
     ]
@@ -9227,6 +10170,86 @@
     ]
   },
   {
+    "name": "HexDump",
+    "description": "",
+    "file": "src/components/HexDump.tsx",
+    "props": [
+      {
+        "name": "data",
+        "type": "Uint8Array<ArrayBufferLike> | number[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "bytesPerRow",
+        "type": "number",
+        "defaultValue": "16",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showOffset",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showAscii",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "offsetBase",
+        "type": "enum",
+        "defaultValue": "hex",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "highlightRanges",
+        "type": "HexHighlight[]",
+        "defaultValue": "[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onByteClick",
+        "type": "((offset: number) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onByteHover",
+        "type": "((offset: number | null) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "selectedRange",
+        "type": "[number, number]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "groupSize",
+        "type": "enum",
+        "defaultValue": "1",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "Hide",
     "description": "",
     "file": "src/responsive/Show.tsx",
@@ -9503,6 +10526,52 @@
       {
         "name": "xFormat",
         "type": "((v: string | number | Date) => string)",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "HorizontalTimeline",
+    "description": "",
+    "file": "src/components/HorizontalTimeline.tsx",
+    "props": [
+      {
+        "name": "events",
+        "type": "HorizontalTimelineEvent[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "activeKey",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onEventClick",
+        "type": "((key: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "scrollable",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "connector",
+        "type": "enum",
+        "defaultValue": "line",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
         "description": "",
         "required": false
       }
@@ -9978,6 +11047,85 @@
     ]
   },
   {
+    "name": "ImageDiff",
+    "description": "",
+    "file": "src/components/ImageDiff.tsx",
+    "props": [
+      {
+        "name": "before",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "after",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "beforeLabel",
+        "type": "string",
+        "defaultValue": "Before",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "afterLabel",
+        "type": "string",
+        "defaultValue": "After",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "mode",
+        "type": "enum",
+        "defaultValue": "slider",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "overlayOpacity",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "zoom",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onZoomChange",
+        "type": "((zoom: number) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showZoomControls",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "fit",
+        "type": "enum",
+        "defaultValue": "contain",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "ImageGallery",
     "description": "",
     "file": "src/components/Lightbox.tsx",
@@ -10141,6 +11289,104 @@
     ]
   },
   {
+    "name": "InlineEdit",
+    "description": "",
+    "file": "src/components/InlineEdit.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "onSave",
+        "type": "(value: string) => void",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "onCancel",
+        "type": "(() => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "validation",
+        "type": "((value: string) => string)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "multiline",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "renderDisplay",
+        "type": "((value: string) => ReactNode)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "maxLength",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "autoSelect",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Select all text on entering edit mode. Default true.",
+        "required": false
+      },
+      {
+        "name": "submitOnBlur",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Save on blur. Default true.",
+        "required": false
+      },
+      {
+        "name": "submitOnEnter",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Save on Enter key. Default true.",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "Input",
     "description": "A single-line text field with optional label and standard HTML input types.",
     "file": "src/components/Form.tsx",
@@ -10154,7 +11400,13 @@
       {
         "name": "onChange",
         "type": "((e: ChangeEvent<HTMLInputElement>) => void)",
-        "description": "",
+        "description": "Raw event handler — kept for backward compatibility. Prefer `onValueChange`.",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void)",
+        "description": "Value-emit handler — matches the convention used by every other voidframe form component.",
         "required": false
       },
       {
@@ -10266,7 +11518,7 @@
   {
     "name": "JSONViewer",
     "description": "",
-    "file": "src/components/Viewers.tsx",
+    "file": "src/components/Viewers/JSONViewer.tsx",
     "props": [
       {
         "name": "data",
@@ -10279,6 +11531,12 @@
         "type": "number | boolean",
         "defaultValue": "1",
         "description": "Depth to expand initially. Default 1. Pass `true` for all.",
+        "required": false
+      },
+      {
+        "name": "defaultExpandAll",
+        "type": "boolean",
+        "description": "Start with all nodes expanded.",
         "required": false
       },
       {
@@ -10334,6 +11592,18 @@
         "name": "readOnly",
         "type": "boolean",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "searchable",
+        "type": "boolean",
+        "description": "Show a search input above the board.",
+        "required": false
+      },
+      {
+        "name": "onSearch",
+        "type": "((query: string) => void)",
+        "description": "Callback for search input changes. When omitted, client-side filtering is used.",
         "required": false
       }
     ]
@@ -10688,6 +11958,26 @@
         "type": "string",
         "description": "",
         "required": false
+      },
+      {
+        "name": "scaleKind",
+        "type": "enum",
+        "defaultValue": "linear",
+        "description": "Y-axis scale kind. Default \"linear\".",
+        "required": false
+      },
+      {
+        "name": "hiddenKeys",
+        "type": "string[]",
+        "description": "Series keys to hide (for interactive legend toggling).",
+        "required": false
+      },
+      {
+        "name": "connectNulls",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "When true, null / undefined values are skipped and surrounding points connect. Default false.",
+        "required": false
       }
     ]
   },
@@ -10784,6 +12074,46 @@
       {
         "name": "gap",
         "type": "string | number",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "LiveIndicator",
+    "description": "",
+    "file": "src/components/LiveIndicator.tsx",
+    "props": [
+      {
+        "name": "variant",
+        "type": "enum",
+        "defaultValue": "typing",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "avatar",
+        "type": "ReactNode",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "animated",
+        "type": "boolean",
+        "defaultValue": "true",
         "description": "",
         "required": false
       }
@@ -10997,7 +12327,7 @@
   {
     "name": "LogViewer",
     "description": "",
-    "file": "src/components/Viewers.tsx",
+    "file": "src/components/Viewers/LogViewer.tsx",
     "props": [
       {
         "name": "entries",
@@ -11041,6 +12371,20 @@
         "type": "string | number",
         "defaultValue": "300",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "pausable",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Show pause/resume button. Default true.",
+        "required": false
+      },
+      {
+        "name": "filterable",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Show regex filter input. Default true.",
         "required": false
       }
     ]
@@ -11204,7 +12548,7 @@
   {
     "name": "MarkdownRenderer",
     "description": "",
-    "file": "src/components/Viewers.tsx",
+    "file": "src/components/Viewers/MarkdownRenderer.tsx",
     "props": [
       {
         "name": "content",
@@ -11779,7 +13123,7 @@
   {
     "name": "Message",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Message.tsx",
     "props": [
       {
         "name": "role",
@@ -11809,7 +13153,6 @@
       {
         "name": "status",
         "type": "enum",
-        "defaultValue": "idle",
         "description": "",
         "required": false
       },
@@ -11848,19 +13191,25 @@
         "type": "ReactNode",
         "description": "",
         "required": false
+      },
+      {
+        "name": "replyTo",
+        "type": "{ author?: string; content?: string; } | undefined",
+        "description": "Quoted message this is replying to.",
+        "required": false
       }
     ]
   },
   {
     "name": "MessageActions",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Actions.tsx",
     "props": []
   },
   {
     "name": "MessageContent",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Message.tsx",
     "props": [
       {
         "name": "content",
@@ -11898,7 +13247,7 @@
   {
     "name": "MessageEdit",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Edit.tsx",
     "props": [
       {
         "name": "value",
@@ -11956,7 +13305,7 @@
   {
     "name": "MessageFeedback",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Reactions.tsx",
     "props": [
       {
         "name": "value",
@@ -11984,6 +13333,12 @@
         "required": false
       },
       {
+        "name": "selectedReason",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
         "name": "onReasonSelect",
         "type": "((reasonId: string) => void)",
         "description": "",
@@ -11994,7 +13349,7 @@
   {
     "name": "MessageGroup",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Message.tsx",
     "props": [
       {
         "name": "author",
@@ -12093,7 +13448,7 @@
   {
     "name": "MessageList",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Conversation.tsx",
     "props": [
       {
         "name": "autoScroll",
@@ -12106,37 +13461,6 @@
         "name": "pinThreshold",
         "type": "number",
         "description": "Pixels from bottom that still count as \"pinned\".",
-        "required": false
-      }
-    ]
-  },
-  {
-    "name": "MessageReactions",
-    "description": "Alias — same component, different name for emoji-style chip collections.",
-    "file": "src/components/Chat.tsx",
-    "props": [
-      {
-        "name": "reactions",
-        "type": "MessageReactionEntry[]",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "onReact",
-        "type": "((emoji: string) => void)",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "onUnreact",
-        "type": "((emoji: string) => void)",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "onAdd",
-        "type": "(() => void)",
-        "description": "",
         "required": false
       }
     ]
@@ -12350,6 +13674,103 @@
         "type": "boolean",
         "defaultValue": "true",
         "description": "Go full-screen below the `md` breakpoint. Default true.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "ModelCompare",
+    "description": "",
+    "file": "src/components/ModelCompare.tsx",
+    "props": [
+      {
+        "name": "onSubmit",
+        "type": "((prompt: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "models",
+        "type": "[ModelCompareModel, ModelCompareModel]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "responses",
+        "type": "ModelCompareResponse[]",
+        "defaultValue": "[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "prompt",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultPrompt",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onPromptChange",
+        "type": "((prompt: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showMetrics",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "syncScroll",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "ModelPicker",
+    "description": "",
+    "file": "src/components/ChatModel.tsx",
+    "props": [
+      {
+        "name": "models",
+        "type": "ModelPickerOption[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "onChange",
+        "type": "(modelId: string) => void",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "defaultValue": "Unread",
+        "description": "",
         "required": false
       }
     ]
@@ -12615,6 +14036,60 @@
         "name": "pulse",
         "type": "boolean",
         "description": "Opacity pulse. Disabled under prefers-reduced-motion.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "MultiProgress",
+    "description": "",
+    "file": "src/components/MultiProgress.tsx",
+    "props": [
+      {
+        "name": "items",
+        "type": "MultiProgressItem[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showValues",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "animated",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "striped",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onCancel",
+        "type": "((key: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "compact",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
         "required": false
       }
     ]
@@ -12928,6 +14403,59 @@
     ]
   },
   {
+    "name": "NotificationBadge",
+    "description": "",
+    "file": "src/components/NotificationBadge.tsx",
+    "props": [
+      {
+        "name": "count",
+        "type": "number",
+        "description": "Number to display in the badge.",
+        "required": false
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "defaultValue": "99",
+        "description": "Maximum count before showing `{max}+`. Default 99.",
+        "required": false
+      },
+      {
+        "name": "dot",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Show a dot instead of a count.",
+        "required": false
+      },
+      {
+        "name": "showZero",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Show badge even when count is 0. Default false.",
+        "required": false
+      },
+      {
+        "name": "offset",
+        "type": "[number, number]",
+        "description": "Pixel offset from default corner position as [x, y].",
+        "required": false
+      },
+      {
+        "name": "color",
+        "type": "string",
+        "description": "Override badge color (sets `--vf-accent` on the indicator).",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Badge indicator size.",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "NotificationCenter",
     "description": "",
     "file": "src/components/Notifications.tsx",
@@ -13106,6 +14634,85 @@
     ]
   },
   {
+    "name": "NumberStepper",
+    "description": "",
+    "file": "src/components/NumberStepper.tsx",
+    "props": [
+      {
+        "name": "defaultValue",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: number) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "min",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "step",
+        "type": "number",
+        "description": "Increment/decrement amount. Default: 1.",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "formatValue",
+        "type": "((value: number) => string)",
+        "description": "Custom display formatter, e.g. `(v) => \"$\" + v`.",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "hideInput",
+        "type": "boolean",
+        "description": "Show value as text only (no editable input).",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "OfflineBanner",
     "description": "",
     "file": "src/components/Network.tsx",
@@ -13264,6 +14871,117 @@
       {
         "name": "onSelect",
         "type": "(() => void)",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "OrgChart",
+    "description": "",
+    "file": "src/charts/OrgChart.tsx",
+    "props": [
+      {
+        "name": "data",
+        "type": "OrgChartNode",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "direction",
+        "type": "enum",
+        "defaultValue": "top-down",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "nodeWidth",
+        "type": "number",
+        "defaultValue": "180",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "nodeHeight",
+        "type": "number",
+        "defaultValue": "80",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "horizontalGap",
+        "type": "number",
+        "defaultValue": "40",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "verticalGap",
+        "type": "number",
+        "defaultValue": "60",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "renderNode",
+        "type": "((node: OrgChartNode, depth: number) => ReactNode)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onNodeClick",
+        "type": "((node: OrgChartNode) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "collapsible",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "expandedIds",
+        "type": "string[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultExpandedIds",
+        "type": "string[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onExpandChange",
+        "type": "((ids: string[]) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "connectorStyle",
+        "type": "enum",
+        "defaultValue": "step",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "zoom",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onZoomChange",
+        "type": "((zoom: number) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
         "description": "",
         "required": false
       }
@@ -13532,7 +15250,13 @@
       {
         "name": "onChange",
         "type": "((e: ChangeEvent<HTMLInputElement>) => void)",
-        "description": "",
+        "description": "Raw event handler — kept for backward compatibility. Prefer `onValueChange`.",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void)",
+        "description": "Value-emit handler — matches the convention used by every other voidframe form component.",
         "required": false
       },
       {
@@ -13556,6 +15280,12 @@
       },
       {
         "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "readOnly",
         "type": "boolean",
         "description": "",
         "required": false
@@ -14011,46 +15741,6 @@
     ]
   },
   {
-    "name": "Playground",
-    "description": "",
-    "file": "src/dev/Playground.tsx",
-    "props": [
-      {
-        "name": "code",
-        "type": "string",
-        "description": "Initial source snippet. May be a bare JSX expression or a full `render(<...>)` call.",
-        "required": true
-      },
-      {
-        "name": "scope",
-        "type": "Record<string, unknown>",
-        "description": "Identifiers available to the snippet. Typically voidframe exports.",
-        "required": false
-      },
-      {
-        "name": "paneHeight",
-        "type": "string | number",
-        "defaultValue": "220",
-        "description": "Height of the code and preview panes. Default: \"auto\".",
-        "required": false
-      },
-      {
-        "name": "title",
-        "type": "string",
-        "defaultValue": "Playground",
-        "description": "Label above the playground.",
-        "required": false
-      },
-      {
-        "name": "noInline",
-        "type": "boolean",
-        "defaultValue": "false",
-        "description": "When true, the snippet is treated as an expression; otherwise it's a full block ending with `render(...)`.",
-        "required": false
-      }
-    ]
-  },
-  {
     "name": "PlayIcon",
     "description": "",
     "file": "src/icons/set.tsx",
@@ -14255,6 +15945,95 @@
     ]
   },
   {
+    "name": "Popconfirm",
+    "description": "",
+    "file": "src/components/Popconfirm.tsx",
+    "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onConfirm",
+        "type": "() => void",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "onCancel",
+        "type": "(() => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "confirmLabel",
+        "type": "string",
+        "defaultValue": "Confirm",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "cancelLabel",
+        "type": "string",
+        "defaultValue": "Cancel",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "confirmVariant",
+        "type": "enum",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "placement",
+        "type": "enum",
+        "defaultValue": "top",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onOpenChange",
+        "type": "((open: boolean) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "Popover",
     "description": "",
     "file": "src/components/Overlay.tsx",
@@ -14290,7 +16069,7 @@
   },
   {
     "name": "PopoverV2",
-    "description": "Anchored popover with viewport-flip + edge-clamp positioning.\nCompose with `PopoverV2.Trigger` and `PopoverV2.Content`. The content\nis portaled to the document body so it escapes overflow clipping.",
+    "description": "",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -14438,26 +16217,6 @@
     ]
   },
   {
-    "name": "ProfilerScope",
-    "description": "",
-    "file": "src/dev/ProfilerScope.tsx",
-    "props": [
-      {
-        "name": "id",
-        "type": "string",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "enabled",
-        "type": "boolean",
-        "defaultValue": "true",
-        "description": "When false, the scope renders children without profiling overhead.",
-        "required": false
-      }
-    ]
-  },
-  {
     "name": "Progress",
     "description": "",
     "file": "src/components/Data.tsx",
@@ -14569,31 +16328,6 @@
         "name": "title",
         "type": "ReactNode",
         "description": "",
-        "required": false
-      }
-    ]
-  },
-  {
-    "name": "PropsTable",
-    "description": "",
-    "file": "src/dev/PropsTable.tsx",
-    "props": [
-      {
-        "name": "doc",
-        "type": "ComponentDoc",
-        "description": "Component doc object, typically loaded from docs/data/props.json.",
-        "required": true
-      },
-      {
-        "name": "only",
-        "type": "string[]",
-        "description": "Pre-filter to this subset of prop names.",
-        "required": false
-      },
-      {
-        "name": "exclude",
-        "type": "string[]",
-        "description": "Exclude these prop names (e.g. HTML-attribute noise).",
         "required": false
       }
     ]
@@ -15134,7 +16868,7 @@
   {
     "name": "ReactionBar",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Reactions.tsx",
     "props": [
       {
         "name": "reactions",
@@ -15201,15 +16935,9 @@
     ]
   },
   {
-    "name": "ReactNode",
-    "description": "Represents all of the things React can render.\n\nWhere {@link ReactElement} only represents JSX, `ReactNode` represents everything that can be rendered.",
-    "file": "src/components/CommandPalette.tsx",
-    "props": []
-  },
-  {
     "name": "ReasoningTrace",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Indicators.tsx",
     "props": [
       {
         "name": "content",
@@ -15253,6 +16981,92 @@
         "type": "ReactNode",
         "defaultValue": "Reasoning",
         "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "ReferenceBand",
+    "description": "",
+    "file": "src/charts/primitives/ReferenceBand.tsx",
+    "props": [
+      {
+        "name": "from",
+        "type": "number",
+        "description": "Start value on the axis.",
+        "required": true
+      },
+      {
+        "name": "to",
+        "type": "number",
+        "description": "End value on the axis.",
+        "required": true
+      },
+      {
+        "name": "orientation",
+        "type": "enum",
+        "defaultValue": "horizontal",
+        "description": "Orientation: \"horizontal\" shades a Y range, \"vertical\" shades an X range.",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Optional label rendered inside the band.",
+        "required": false
+      },
+      {
+        "name": "fill",
+        "type": "string",
+        "defaultValue": "var(--vf-text-3)",
+        "description": "Fill color. Default: var(--vf-text-3).",
+        "required": false
+      },
+      {
+        "name": "fillOpacity",
+        "type": "number",
+        "defaultValue": "0.1",
+        "description": "Fill opacity. Default: 0.1.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "ReferenceLine",
+    "description": "",
+    "file": "src/charts/primitives/ReferenceLine.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "number",
+        "description": "The value on the axis where the line should appear.",
+        "required": true
+      },
+      {
+        "name": "orientation",
+        "type": "enum",
+        "defaultValue": "horizontal",
+        "description": "Orientation: \"horizontal\" draws at a Y value, \"vertical\" at an X value.",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Label rendered next to the line.",
+        "required": false
+      },
+      {
+        "name": "stroke",
+        "type": "string",
+        "defaultValue": "var(--vf-text-3)",
+        "description": "Stroke color. Default: var(--vf-text-3).",
+        "required": false
+      },
+      {
+        "name": "strokeDasharray",
+        "type": "string",
+        "defaultValue": "4 3",
+        "description": "Stroke dash array. Default: \"4 3\" (dashed).",
         "required": false
       }
     ]
@@ -15345,6 +17159,109 @@
         "name": "label",
         "type": "ReactNode",
         "defaultValue": "Regenerate",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "RegExpTester",
+    "description": "",
+    "file": "src/components/RegExpTester.tsx",
+    "props": [
+      {
+        "name": "pattern",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultPattern",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onPatternChange",
+        "type": "((pattern: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "testString",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultTestString",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onTestStringChange",
+        "type": "((text: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "flags",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultFlags",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onFlagsChange",
+        "type": "((flags: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showFlags",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showMatches",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showCaptures",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showReplace",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "defaultValue": "false",
         "description": "",
         "required": false
       }
@@ -15581,12 +17498,6 @@
     ]
   },
   {
-    "name": "RESPONSIVE_SIZE_PRESETS",
-    "description": "Pre-baked responsive size ladders. `responsive-xl` = { base: lg, md: xl,\nxl: xxl } — intended for Heading-ish use cases where a single prop\nshould scale automatically across breakpoints.",
-    "file": "src/components/Text.tsx",
-    "props": []
-  },
-  {
     "name": "ResponsiveBox",
     "description": "",
     "file": "src/responsive/ResponsiveBox.tsx",
@@ -15738,6 +17649,43 @@
       {
         "name": "height",
         "type": "Responsive<string | number>",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "Result",
+    "description": "",
+    "file": "src/components/Result.tsx",
+    "props": [
+      {
+        "name": "status",
+        "type": "enum",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "extra",
+        "type": "ReactNode",
         "description": "",
         "required": false
       }
@@ -16232,6 +18180,13 @@
         "defaultValue": "square",
         "description": "Use a circle glyph instead of the brutalist square. Default square.",
         "required": false
+      },
+      {
+        "name": "scaleKind",
+        "type": "enum",
+        "defaultValue": "linear",
+        "description": "Y-axis scale kind. Default \"linear\".",
+        "required": false
       }
     ]
   },
@@ -16441,9 +18396,15 @@
       },
       {
         "name": "onChange",
-        "type": "(e: ChangeEvent<HTMLInputElement>) => void",
-        "description": "",
-        "required": true
+        "type": "((e: ChangeEvent<HTMLInputElement>) => void)",
+        "description": "Raw event handler — kept for backward compatibility. Prefer `onValueChange`.",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void)",
+        "description": "Value-emit handler — matches the convention used by every other voidframe form component.",
+        "required": false
       },
       {
         "name": "placeholder",
@@ -16455,6 +18416,12 @@
       {
         "name": "onClear",
         "type": "(() => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
         "description": "",
         "required": false
       },
@@ -17392,6 +19359,165 @@
     ]
   },
   {
+    "name": "SkeletonAvatar",
+    "description": "",
+    "file": "src/components/SkeletonComposites.tsx",
+    "props": [
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "shape",
+        "type": "enum",
+        "defaultValue": "circle",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SkeletonButton",
+    "description": "",
+    "file": "src/components/SkeletonComposites.tsx",
+    "props": [
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "width",
+        "type": "string",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SkeletonCard",
+    "description": "",
+    "file": "src/components/SkeletonComposites.tsx",
+    "props": [
+      {
+        "name": "lines",
+        "type": "number",
+        "defaultValue": "3",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "hasImage",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "imageHeight",
+        "type": "string",
+        "defaultValue": "160px",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "hasActions",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SkeletonForm",
+    "description": "",
+    "file": "src/components/SkeletonComposites.tsx",
+    "props": [
+      {
+        "name": "fields",
+        "type": "number",
+        "defaultValue": "3",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "hasSubmit",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SkeletonTable",
+    "description": "",
+    "file": "src/components/SkeletonComposites.tsx",
+    "props": [
+      {
+        "name": "rows",
+        "type": "number",
+        "defaultValue": "5",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "columns",
+        "type": "number",
+        "defaultValue": "4",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "hasHeader",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SkeletonText",
+    "description": "",
+    "file": "src/components/SkeletonComposites.tsx",
+    "props": [
+      {
+        "name": "lines",
+        "type": "number",
+        "defaultValue": "3",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "lastLineWidth",
+        "type": "string",
+        "defaultValue": "60%",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "spacing",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "SkipToContent",
     "description": "Keyboard-only skip link. Hidden visually until focused (Tab as the first\ninteractive element on the page), then renders as a prominent button.\nJumps focus to the target (typically `<main id=\"main\">`).\n\nPlace as the first element inside your page root.",
     "file": "src/primitives/SkipToContent.tsx",
@@ -18092,6 +20218,69 @@
     ]
   },
   {
+    "name": "SplitButton",
+    "description": "",
+    "file": "src/components/SplitButton.tsx",
+    "props": [
+      {
+        "name": "onClick",
+        "type": "() => void",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "actions",
+        "type": "SplitButtonAction[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "onAction",
+        "type": "(key: string) => void",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "SplitView",
     "description": "",
     "file": "src/components/Layout.tsx",
@@ -18734,7 +20923,7 @@
   {
     "name": "StreamingText",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Message.tsx",
     "props": [
       {
         "name": "text",
@@ -19124,6 +21313,12 @@
         "type": "string",
         "description": "Active color (sets `--vf-accent`).",
         "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "description": "",
+        "required": false
       }
     ]
   },
@@ -19450,7 +21645,7 @@
   {
     "name": "Terminal",
     "description": "",
-    "file": "src/components/Viewers.tsx",
+    "file": "src/components/Viewers/LogViewer.tsx",
     "props": [
       {
         "name": "lines",
@@ -19633,7 +21828,13 @@
       {
         "name": "onChange",
         "type": "((e: ChangeEvent<HTMLTextAreaElement>) => void)",
-        "description": "",
+        "description": "Raw event handler — kept for backward compatibility. Prefer `onValueChange`.",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void)",
+        "description": "Value-emit handler — matches the convention used by every other voidframe form component.",
         "required": false
       },
       {
@@ -19755,7 +21956,7 @@
   {
     "name": "ThinkingIndicator",
     "description": "",
-    "file": "src/components/Chat.tsx",
+    "file": "src/components/Chat/Indicators.tsx",
     "props": [
       {
         "name": "message",
@@ -20069,6 +22270,78 @@
         "type": "string",
         "description": "Active color (sets `--vf-accent`).",
         "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "ToggleGroup",
+    "description": "",
+    "file": "src/components/ToggleGroup.tsx",
+    "props": [
+      {
+        "name": "defaultValue",
+        "type": "string[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "items",
+        "type": "ToggleGroupItem[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "string[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((keys: string[]) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "orientation",
+        "type": "enum",
+        "defaultValue": "horizontal",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "allowEmpty",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "When false, prevents deselecting the last active toggle. Default: true.",
+        "required": false
       }
     ]
   },
@@ -20106,6 +22379,80 @@
         "name": "variant",
         "type": "enum",
         "defaultValue": "compact",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "TokenVisualizer",
+    "description": "",
+    "file": "src/components/TokenVisualizer.tsx",
+    "props": [
+      {
+        "name": "tokens",
+        "type": "Token[] | string[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "colorMode",
+        "type": "enum",
+        "defaultValue": "alternating",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showIds",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showLogprobs",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "showBoundaries",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onTokenClick",
+        "type": "((token: Token, index: number) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onTokenHover",
+        "type": "((token: Token | null, index: number) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "selectedTokens",
+        "type": "number[]",
+        "defaultValue": "[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "wrap",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
         "description": "",
         "required": false
       }
@@ -20301,6 +22648,71 @@
       {
         "name": "totalMs",
         "type": "number",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "Transfer",
+    "description": "",
+    "file": "src/components/Transfer.tsx",
+    "props": [
+      {
+        "name": "onChange",
+        "type": "((selectedKeys: string[]) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string[]",
+        "description": "Uncontrolled initial selected keys.",
+        "required": false
+      },
+      {
+        "name": "items",
+        "type": "TransferItem[]",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "string[]",
+        "description": "Controlled: selected keys (items in the right panel).",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((selectedKeys: string[]) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "titles",
+        "type": "[string, string]",
+        "defaultValue": "[\"Available\", \"Selected\"]",
+        "description": "Panel titles — `[left, right]`.",
+        "required": false
+      },
+      {
+        "name": "searchable",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Show search inputs inside each panel.",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Disable the entire component.",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
         "description": "",
         "required": false
       }
@@ -20796,33 +23208,6 @@
     ]
   },
   {
-    "name": "TypingIndicator",
-    "description": "Alias for human-chat use cases.",
-    "file": "src/components/Chat.tsx",
-    "props": [
-      {
-        "name": "message",
-        "type": "ReactNode",
-        "defaultValue": "Thinking",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "duration",
-        "type": "number",
-        "description": "Elapsed time in ms, displayed as \"thought for Xs\".",
-        "required": false
-      },
-      {
-        "name": "variant",
-        "type": "enum",
-        "defaultValue": "dots",
-        "description": "",
-        "required": false
-      }
-    ]
-  },
-  {
     "name": "UnderlineIcon",
     "description": "",
     "file": "src/icons/set.tsx",
@@ -21269,6 +23654,18 @@
     "description": "",
     "file": "src/components/MediaPlayer.tsx",
     "props": [
+      {
+        "name": "showPlaybackRate",
+        "type": "boolean",
+        "description": "Show a playback rate selector in default controls.",
+        "required": false
+      },
+      {
+        "name": "showPiP",
+        "type": "boolean",
+        "description": "Show a Picture-in-Picture button in default controls.",
+        "required": false
+      },
       {
         "name": "src",
         "type": "string",
@@ -22042,6 +24439,13 @@
         "name": "canAdvance",
         "type": "((stepId: string) => boolean)",
         "description": "Per-step validation gate. Return `false` to block Next.",
+        "required": false
+      },
+      {
+        "name": "showStepper",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Show a built-in step indicator above the content. Default true.",
         "required": false
       }
     ]

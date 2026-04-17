@@ -43,4 +43,59 @@ describe("Brush", () => {
     fireEvent.pointerUp(track, { clientX: 15, clientY: 10, pointerId: 1 });
     expect(onChangeEnd).toHaveBeenCalledWith(null);
   });
+
+  it("renders with axis=y variant", () => {
+    const { container } = renderWithTheme(
+      <ChartFrame width={400} height={200}>
+        <Brush axis="y" />
+      </ChartFrame>
+    );
+    expect(container.querySelector(".vf-chart-brush--y")).toBeTruthy();
+  });
+
+  it("renders the x-axis variant by default", () => {
+    const { container } = renderWithTheme(
+      <ChartFrame width={400} height={200}>
+        <Brush />
+      </ChartFrame>
+    );
+    expect(container.querySelector(".vf-chart-brush--x")).toBeTruthy();
+  });
+
+  it("fires onChange during drag", () => {
+    const onChange = vi.fn();
+    const { container } = renderWithTheme(
+      <ChartFrame width={400} height={200}>
+        <Brush onChange={onChange} />
+      </ChartFrame>
+    );
+    const track = container.querySelector(
+      ".vf-chart-brush__track"
+    ) as SVGRectElement;
+    fireEvent.pointerDown(track, { clientX: 10, clientY: 10, pointerId: 1 });
+    expect(onChange).toHaveBeenCalledTimes(1);
+    fireEvent.pointerMove(track, { clientX: 50, clientY: 10, pointerId: 1 });
+    expect(onChange).toHaveBeenCalledTimes(2);
+  });
+
+  it("renders selection for y-axis brush", () => {
+    const { container } = renderWithTheme(
+      <ChartFrame width={400} height={200}>
+        <Brush axis="y" value={[20, 100]} />
+      </ChartFrame>
+    );
+    const sel = container.querySelector(".vf-chart-brush__selection");
+    expect(sel).toBeTruthy();
+    expect(sel!.getAttribute("y")).toBe("20");
+  });
+
+  it("renders with defaultValue", () => {
+    const { container } = renderWithTheme(
+      <ChartFrame width={400} height={200}>
+        <Brush defaultValue={[10, 50]} />
+      </ChartFrame>
+    );
+    const sel = container.querySelector(".vf-chart-brush__selection");
+    expect(sel).toBeTruthy();
+  });
 });

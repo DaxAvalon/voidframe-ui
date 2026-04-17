@@ -63,6 +63,31 @@ describe("DataGrid (closeout)", () => {
     expect(screen.getByText("Beta")).toBeInTheDocument();
   });
 
+  it("fires onGroupByChange and resets collapsed groups when groupBy changes", () => {
+    const onGroupByChange = vi.fn();
+    function Wrapper() {
+      const [gb, setGb] = useState<string | undefined>("group");
+      return (
+        <>
+          <button onClick={() => setGb("score")}>Switch</button>
+          <DataGrid
+            columns={cols}
+            data={data}
+            rowKey={(r) => r.id}
+            groupBy={gb}
+            onGroupByChange={onGroupByChange}
+          />
+        </>
+      );
+    }
+    renderWithTheme(<Wrapper />);
+    // Groups by "group" initially — A and B headers visible
+    expect(screen.getByText("A")).toBeInTheDocument();
+    // Switch groupBy
+    fireEvent.click(screen.getByText("Switch"));
+    expect(onGroupByChange).toHaveBeenCalledWith("score");
+  });
+
   it("column resize handle has separator role", () => {
     renderWithTheme(
       <DataGrid columns={cols} data={data} rowKey={(r) => r.id} />

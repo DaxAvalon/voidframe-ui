@@ -1,0 +1,184 @@
+/* MultiProgress */
+
+.vf-multi-progress {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--vf-font-family);
+}
+
+/* ── Item ────────────────────────────────────────────────────── */
+
+.vf-multi-progress__item {
+  display: flex;
+  flex-direction: column;
+}
+
+.vf-multi-progress__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vf-multi-progress__label {
+  color: var(--vf-text-1);
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vf-multi-progress__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  flex-shrink: 0;
+}
+
+/* ── Bar ─────────────────────────────────────────────────────── */
+
+.vf-multi-progress__bar {
+  width: 100%;
+  background: var(--vf-bg-3);
+  border-radius: var(--vf-radius);
+  overflow: hidden;
+}
+
+.vf-multi-progress__fill {
+  height: 100%;
+  border-radius: var(--vf-radius);
+  background: var(--vf-accent, var(--vf-blue));
+  transition: width 300ms ease;
+}
+
+/* ── Striped animation ───────────────────────────────────────── */
+
+@keyframes vf-stripe-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 0; }
+}
+
+.vf-multi-progress__fill--striped {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 40px 40px;
+  animation: vf-stripe-move 1s linear infinite;
+}
+
+/* ── Value / Status / Cancel ─────────────────────────────────── */
+
+.vf-multi-progress__value {
+  color: var(--vf-text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.vf-multi-progress__status {
+  display: inline-flex;
+  align-items: center;
+}
+
+.vf-multi-progress__cancel {
+  background: none;
+  border: none;
+  color: var(--vf-text-3);
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.1em;
+  line-height: 1;
+}
+.vf-multi-progress__cancel:hover {
+  color: var(--vf-text-1);
+}
+
+.vf-multi-progress__description {
+  color: var(--vf-text-3);
+}
+
+/* ── Status modifiers ────────────────────────────────────────── */
+
+.vf-multi-progress__item--success .vf-multi-progress__fill {
+  background: var(--vf-green, #22c55e);
+}
+.vf-multi-progress__item--success .vf-multi-progress__status {
+  color: var(--vf-green, #22c55e);
+}
+
+.vf-multi-progress__item--error .vf-multi-progress__fill {
+  background: var(--vf-red, #ef4444);
+}
+.vf-multi-progress__item--error .vf-multi-progress__status {
+  color: var(--vf-red, #ef4444);
+}
+
+.vf-multi-progress__item--paused .vf-multi-progress__fill {
+  background: var(--vf-amber, #f59e0b);
+}
+
+.vf-multi-progress__item--pending .vf-multi-progress__fill {
+  background: var(--vf-text-3);
+}
+
+/* ── Tone modifiers ──────────────────────────────────────────── */
+
+.vf-multi-progress__item--success .vf-multi-progress__fill { background: var(--vf-green, #22c55e); }
+.vf-multi-progress__item--danger .vf-multi-progress__fill { background: var(--vf-red, #ef4444); }
+.vf-multi-progress__item--warning .vf-multi-progress__fill { background: var(--vf-amber, #f59e0b); }
+.vf-multi-progress__item--info .vf-multi-progress__fill { background: var(--vf-blue, #3b82f6); }
+
+/* ── Size modifiers ──────────────────────────────────────────── */
+
+.vf-multi-progress--sm {
+  gap: var(--vf-sp-2);
+}
+.vf-multi-progress--sm .vf-multi-progress__item { gap: var(--vf-sp-1); }
+.vf-multi-progress--sm .vf-multi-progress__bar { height: 4px; }
+.vf-multi-progress--sm .vf-multi-progress__label { font-size: var(--vf-font-xs); }
+.vf-multi-progress--sm .vf-multi-progress__value { font-size: var(--vf-font-xxs); }
+.vf-multi-progress--sm .vf-multi-progress__description { font-size: var(--vf-font-xxs); }
+
+.vf-multi-progress--md {
+  gap: var(--vf-sp-3);
+}
+.vf-multi-progress--md .vf-multi-progress__item { gap: var(--vf-sp-1); }
+.vf-multi-progress--md .vf-multi-progress__bar { height: 8px; }
+.vf-multi-progress--md .vf-multi-progress__label { font-size: var(--vf-font-sm); }
+.vf-multi-progress--md .vf-multi-progress__value { font-size: var(--vf-font-xs); }
+.vf-multi-progress--md .vf-multi-progress__description { font-size: var(--vf-font-xs); }
+
+.vf-multi-progress--lg {
+  gap: var(--vf-sp-4);
+}
+.vf-multi-progress--lg .vf-multi-progress__item { gap: var(--vf-sp-2); }
+.vf-multi-progress--lg .vf-multi-progress__bar { height: 12px; }
+.vf-multi-progress--lg .vf-multi-progress__label { font-size: var(--vf-font-md); }
+.vf-multi-progress--lg .vf-multi-progress__value { font-size: var(--vf-font-sm); }
+.vf-multi-progress--lg .vf-multi-progress__description { font-size: var(--vf-font-sm); }
+
+/* ── Compact ─────────────────────────────────────────────────── */
+
+.vf-multi-progress--compact {
+  gap: var(--vf-sp-1);
+}
+.vf-multi-progress--compact .vf-multi-progress__item {
+  gap: 0;
+}
+.vf-multi-progress--compact .vf-multi-progress__header {
+  margin-bottom: 2px;
+}
+
+/* ── Static (no animation) ───────────────────────────────────── */
+
+.vf-multi-progress--static .vf-multi-progress__fill {
+  transition: none;
+}
+.vf-multi-progress--static .vf-multi-progress__fill--striped {
+  animation: none;
+}

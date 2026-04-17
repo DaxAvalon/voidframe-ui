@@ -96,4 +96,79 @@ describe("ShortcutGuide", () => {
     );
     expect(handler).not.toHaveBeenCalled();
   });
+
+  it("renders close button when not alwaysVisible", () => {
+    renderWithTheme(
+      <ShortcutProvider>
+        <RegisterShortcuts />
+        <ShortcutGuide open={true} />
+      </ShortcutProvider>
+    );
+    expect(
+      screen.getByRole("button", { name: "Close shortcut guide" })
+    ).toBeInTheDocument();
+  });
+
+  it("hides close button when alwaysVisible", () => {
+    renderWithTheme(
+      <ShortcutProvider>
+        <RegisterShortcuts />
+        <ShortcutGuide alwaysVisible />
+      </ShortcutProvider>
+    );
+    expect(
+      screen.queryByRole("button", { name: "Close shortcut guide" })
+    ).not.toBeInTheDocument();
+  });
+
+  it("close button fires onOpenChange(false)", async () => {
+    const onOpenChange = vi.fn();
+    renderWithTheme(
+      <ShortcutProvider>
+        <RegisterShortcuts />
+        <ShortcutGuide open={true} onOpenChange={onOpenChange} />
+      </ShortcutProvider>
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Close shortcut guide" })
+    );
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it("backdrop click closes the guide", async () => {
+    const onOpenChange = vi.fn();
+    renderWithTheme(
+      <ShortcutProvider>
+        <ShortcutGuide open={true} onOpenChange={onOpenChange} />
+      </ShortcutProvider>
+    );
+    const dialog = screen.getByRole("dialog");
+    // Click on the dialog root (backdrop), not the panel
+    await userEvent.click(dialog);
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it("renders custom title", () => {
+    renderWithTheme(
+      <ShortcutProvider>
+        <ShortcutGuide alwaysVisible title="My Shortcuts" />
+      </ShortcutProvider>
+    );
+    expect(screen.getByText("My Shortcuts")).toBeInTheDocument();
+  });
+
+  it("displays shortcuts in General group when no group specified", () => {
+    function GenericShortcut() {
+      useShortcut("g", () => {}, { description: "Generic action" });
+      return null;
+    }
+    renderWithTheme(
+      <ShortcutProvider>
+        <GenericShortcut />
+        <ShortcutGuide alwaysVisible />
+      </ShortcutProvider>
+    );
+    expect(screen.getByText("General")).toBeInTheDocument();
+    expect(screen.getByText("Generic action")).toBeInTheDocument();
+  });
 });

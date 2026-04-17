@@ -10,7 +10,7 @@
   font-family: var(--vf-font-family);
 }
 .vf-table__header-cell {
-  padding: 6px 8px;
+  padding: var(--vf-sp-3) var(--vf-sp-4);
   font-size: var(--vf-font-xxs);
   letter-spacing: var(--vf-label-spacing);
   color: var(--vf-text-0);
@@ -22,10 +22,10 @@
   text-align: start;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--vf-sp-2);
 }
 .vf-table__cell {
-  padding: 6px 8px;
+  padding: var(--vf-sp-3) var(--vf-sp-4);
   border-bottom: 1px solid var(--vf-border-1);
   color: var(--vf-text-1);
   font-weight: 400;
@@ -53,14 +53,14 @@
   font-size: var(--vf-font-xl);
   color: var(--vf-text-0);
   font-weight: 400;
-  margin-top: 2px;
+  margin-top: var(--vf-sp-1);
   letter-spacing: 1px;
   font-family: var(--vf-font-family);
 }
 .vf-stat__sub {
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
-  margin-top: 2px;
+  margin-top: var(--vf-sp-1);
   font-family: var(--vf-font-family);
 }
 
@@ -68,7 +68,7 @@
 .vf-progress {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: var(--vf-sp-1);
 }
 .vf-progress__head {
   display: flex;

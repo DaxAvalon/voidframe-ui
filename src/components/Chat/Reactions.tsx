@@ -23,6 +23,7 @@ export interface MessageFeedbackProps
   defaultValue?: FeedbackValue;
   onChange?: (next: FeedbackValue) => void;
   reasons?: FeedbackReason[];
+  selectedReason?: string;
   onReasonSelect?: (reasonId: string) => void;
 }
 
@@ -33,6 +34,7 @@ export const MessageFeedback = forwardRef<HTMLDivElement, MessageFeedbackProps>(
       defaultValue = null,
       onChange,
       reasons,
+      selectedReason: selectedReasonProp,
       onReasonSelect,
       className,
       ...props
@@ -45,6 +47,16 @@ export const MessageFeedback = forwardRef<HTMLDivElement, MessageFeedbackProps>(
       if (value === undefined) setInternal(next);
       onChange?.(next);
     };
+
+    const [reasonInternal, setReasonInternal] = useState<string | undefined>();
+    const currentReason = selectedReasonProp ?? reasonInternal;
+
+    const selectReason = (reasonId: string) => {
+      const next = currentReason === reasonId ? undefined : reasonId;
+      if (selectedReasonProp === undefined) setReasonInternal(next);
+      if (next !== undefined) onReasonSelect?.(next);
+    };
+
     return (
       <div
         ref={ref}
@@ -84,9 +96,12 @@ export const MessageFeedback = forwardRef<HTMLDivElement, MessageFeedbackProps>(
                 key={reason.id}
                 type="button"
                 role="radio"
-                aria-checked="false"
-                className="vf-message-feedback__reason"
-                onClick={() => onReasonSelect?.(reason.id)}
+                aria-checked={currentReason === reason.id}
+                className={cx(
+                  "vf-message-feedback__reason",
+                  currentReason === reason.id && "vf-message-feedback__reason--selected"
+                )}
+                onClick={() => selectReason(reason.id)}
               >
                 {reason.label}
               </button>

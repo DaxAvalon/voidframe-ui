@@ -17,7 +17,7 @@
 .vf-card__subtitle {
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
-  margin-top: 2px;
+  margin-top: var(--vf-sp-1);
 }
 
 .vf-scroll-row {
@@ -60,7 +60,7 @@
   font-size: var(--vf-font-xxs);
   letter-spacing: var(--vf-label-spacing);
   color: var(--vf-text-4);
-  padding-bottom: 3px;
+  padding-bottom: var(--vf-sp-1);
   text-align: center;
   overflow: hidden;
   white-space: nowrap;

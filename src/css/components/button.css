@@ -18,9 +18,9 @@
 }
 
 /* sizes */
-.vf-button--sm { padding: 3px 8px; font-size: var(--vf-font-xs); }
-.vf-button--md { padding: 6px 14px; font-size: var(--vf-font-sm); }
-.vf-button--lg { padding: 8px 18px; font-size: var(--vf-font-md); }
+.vf-button--sm { padding: var(--vf-sp-1) var(--vf-sp-4); font-size: var(--vf-font-xs); }
+.vf-button--md { padding: var(--vf-sp-3) var(--vf-sp-7); font-size: var(--vf-font-sm); }
+.vf-button--lg { padding: var(--vf-sp-4) var(--vf-sp-9); font-size: var(--vf-font-md); }
 
 /* variants */
 .vf-button--default:hover:not(:disabled) {
@@ -74,12 +74,11 @@
   cursor: not-allowed;
 }
 
+/* Reuses vf-icon-spin from icon.css — loading spinners are
+ * intentional indicators, exempt from the no-animation policy. */
 .vf-button__spinner {
   display: inline-block;
-  animation: spin 0.8s linear infinite;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
+  animation: vf-icon-spin 0.8s linear infinite;
 }
 .vf-button__icon {
   display: inline-flex;
@@ -90,5 +89,5 @@
 
 .vf-button-group {
   display: flex;
-  gap: 2px;
+  gap: var(--vf-sp-1);
 }

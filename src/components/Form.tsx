@@ -148,6 +148,7 @@ export interface ToggleProps extends Omit<HTMLAttributes<HTMLDivElement>, "onCha
   label?: string;
   /** Active color (sets `--vf-accent`). */
   accent?: string;
+  readOnly?: boolean;
   style?: CSSProperties;
 }
 
@@ -155,7 +156,7 @@ export interface ToggleProps extends Omit<HTMLAttributes<HTMLDivElement>, "onCha
  * A switch control for binary on/off state, with an accessible label and keyboard support.
  */
 export const Toggle = forwardRef<HTMLDivElement, ToggleProps>(function Toggle(
-  { checked, defaultChecked, onChange, label, accent, className, style, ...props },
+  { checked, defaultChecked, onChange, label, accent, readOnly, className, style, ...props },
   ref
 ) {
   warn(
@@ -168,10 +169,11 @@ export const Toggle = forwardRef<HTMLDivElement, ToggleProps>(function Toggle(
     onChange,
     componentName: "Toggle",
   });
+  const toggle = () => { if (!readOnly) setValue(!value); };
   const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
-      setValue(!value);
+      toggle();
     }
   };
   const composedStyle: CSSProperties = accent
@@ -182,9 +184,10 @@ export const Toggle = forwardRef<HTMLDivElement, ToggleProps>(function Toggle(
       ref={ref}
       className={cx("vf-toggle", className)}
       style={composedStyle}
-      onClick={() => setValue(!value)}
+      onClick={toggle}
       role="switch"
       aria-checked={value}
+      aria-readonly={readOnly || undefined}
       tabIndex={0}
       onKeyDown={handleKey}
       {...props}

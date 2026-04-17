@@ -1,0 +1,91 @@
+/* Descriptions — structured label-value layout */
+
+.vf-descriptions {
+  font-family: var(--vf-font-family);
+}
+
+.vf-descriptions__title {
+  font-size: var(--vf-font-md);
+  font-weight: 600;
+  color: var(--vf-text-1);
+  margin-bottom: var(--vf-sp-3);
+}
+
+.vf-descriptions__list {
+  display: grid;
+  gap: var(--vf-sp-2) var(--vf-sp-3);
+  margin: 0;
+  padding: 0;
+}
+
+.vf-descriptions__item {
+  display: contents;
+}
+
+.vf-descriptions__label {
+  font-size: var(--vf-font-sm);
+  font-weight: 500;
+  color: var(--vf-text-2);
+  margin: 0;
+  padding: var(--vf-sp-1) 0;
+}
+
+.vf-descriptions__value {
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-1);
+  margin: 0;
+  padding: var(--vf-sp-1) 0;
+}
+
+/* Vertical layout: label above value */
+.vf-descriptions--vertical .vf-descriptions__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+}
+
+.vf-descriptions--vertical .vf-descriptions__list {
+  display: grid;
+}
+
+/* Bordered variant */
+.vf-descriptions--bordered .vf-descriptions__list {
+  border: 1px solid var(--vf-border);
+  border-radius: var(--vf-radius);
+  gap: 0;
+}
+
+.vf-descriptions--bordered .vf-descriptions__label {
+  background: color-mix(in srgb, var(--vf-surface-2) 50%, transparent);
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  border-bottom: 1px solid var(--vf-border);
+}
+
+.vf-descriptions--bordered .vf-descriptions__value {
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  border-bottom: 1px solid var(--vf-border);
+}
+
+.vf-descriptions--bordered .vf-descriptions__item:last-child .vf-descriptions__label,
+.vf-descriptions--bordered .vf-descriptions__item:last-child .vf-descriptions__value {
+  border-bottom: none;
+}
+
+/* Size modifiers */
+.vf-descriptions--sm .vf-descriptions__label,
+.vf-descriptions--sm .vf-descriptions__value {
+  font-size: var(--vf-font-xs);
+  padding: var(--vf-sp-1) 0;
+}
+.vf-descriptions--sm .vf-descriptions__title {
+  font-size: var(--vf-font-sm);
+}
+
+.vf-descriptions--lg .vf-descriptions__label,
+.vf-descriptions--lg .vf-descriptions__value {
+  font-size: var(--vf-font-md);
+  padding: var(--vf-sp-2) 0;
+}
+.vf-descriptions--lg .vf-descriptions__title {
+  font-size: var(--vf-font-lg);
+}

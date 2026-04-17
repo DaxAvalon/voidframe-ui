@@ -109,6 +109,34 @@ describe("Select", () => {
     expect(screen.getByText("ENV")).toBeInTheDocument();
   });
 
+  it("warns when options array is empty", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    renderWithTheme(
+      <Select label="Empty" options={[]} value="" onChange={() => {}} />
+    );
+    // The warnOnce for empty options should have fired
+    expect(spy).toHaveBeenCalledWith(
+      expect.stringContaining("empty")
+    );
+    spy.mockRestore();
+  });
+
+  it("warns when controlled value does not match any option", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    renderWithTheme(
+      <Select
+        label="Bad"
+        options={options}
+        value="nonexistent"
+        onChange={() => {}}
+      />
+    );
+    expect(spy).toHaveBeenCalledWith(
+      expect.stringContaining("nonexistent")
+    );
+    spy.mockRestore();
+  });
+
   it("Input has no a11y violations when labeled", async () => {
     const { container } = renderWithTheme(
       <Input

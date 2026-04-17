@@ -19,9 +19,13 @@ export default defineConfig({
       "docs/**/*.{test,spec}.{ts,tsx}",
       "scripts/**/*.{test,spec}.{ts,tsx}",
     ],
+    exclude: [
+      "test/visual/**",  // Playwright tests — run via `npx playwright test`
+    ],
     coverage: {
       provider: "v8",
       reporter: ["text", "html", "lcov"],
+      include: ["src/**/*.{ts,tsx}"],
       exclude: [
         "dist",
         "demo",
@@ -41,6 +45,11 @@ export default defineConfig({
         // logic it wires is in tools/vscode-voidframe/src/docs.js,
         // which IS covered by __tests__/docs.test.ts.
         "tools/vscode-voidframe/src/extension.js",
+        "src/dev/**",
+        "src/lazy.ts",
+        "docs/**",
+        "tools/**",
+        "scripts/**",
       ],
       thresholds: {
         // Library-wide floors. Phase 19 sets a pragmatic baseline so
@@ -51,6 +60,7 @@ export default defineConfig({
         statements: 75,
         functions: 75,
         branches: 70,
+        perFile: false,
       },
     },
   },

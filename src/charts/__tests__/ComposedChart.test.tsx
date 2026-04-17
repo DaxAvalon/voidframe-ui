@@ -140,4 +140,142 @@ describe("ComposedChart", () => {
     expect(container.querySelector(".vf-chart-axis--bottom")).toBeTruthy();
     expect(container.querySelector(".vf-chart-axis--left")).toBeTruthy();
   });
+
+  it("renders a dashed line series", () => {
+    const { container } = renderWithTheme(
+      <ComposedChart
+        data={data}
+        series={[{ key: "line", type: "line", dashed: true }]}
+        width={500}
+        height={300}
+      />
+    );
+    const path = container.querySelector("path.vf-chart-line");
+    expect(path!.getAttribute("stroke-dasharray")).toBeTruthy();
+  });
+
+  it("renders gridlines by default and hides when showGrid=false", () => {
+    const withGrid = renderWithTheme(
+      <ComposedChart
+        data={data}
+        series={[{ key: "bars", type: "bar" }]}
+        width={500}
+        height={300}
+      />
+    );
+    expect(withGrid.container.querySelector(".vf-chart-gridlines")).toBeTruthy();
+
+    const noGrid = renderWithTheme(
+      <ComposedChart
+        data={data}
+        series={[{ key: "bars", type: "bar" }]}
+        showGrid={false}
+        width={500}
+        height={300}
+      />
+    );
+    expect(noGrid.container.querySelector(".vf-chart-gridlines")).toBeFalsy();
+  });
+
+  it("applies custom className", () => {
+    const { container } = renderWithTheme(
+      <ComposedChart
+        data={data}
+        series={[{ key: "bars", type: "bar" }]}
+        width={500}
+        height={300}
+        className="my-composed"
+      />
+    );
+    expect(
+      container
+        .querySelector(".vf-chart-composed")!
+        .classList.contains("my-composed")
+    ).toBe(true);
+  });
+
+  it("renders bar+line+area+scatter all together", () => {
+    const { container } = renderWithTheme(
+      <ComposedChart
+        data={data}
+        series={[
+          { key: "bars", type: "bar" },
+          { key: "line", type: "line" },
+          { key: "bars", type: "area" },
+          { key: "line", type: "scatter" },
+        ]}
+        width={500}
+        height={300}
+      />
+    );
+    expect(container.querySelectorAll(".vf-chart-bar__rect").length).toBeGreaterThan(0);
+    expect(container.querySelector("path.vf-chart-line")).toBeTruthy();
+    expect(container.querySelector(".vf-chart-area")).toBeTruthy();
+    expect(container.querySelector(".vf-chart-point")).toBeTruthy();
+  });
+
+  it("renders with linear xKind (no bars)", () => {
+    const linearData = [
+      { x: 1, val: 10 },
+      { x: 2, val: 20 },
+      { x: 3, val: 30 },
+    ];
+    const { container } = renderWithTheme(
+      <ComposedChart
+        data={linearData}
+        series={[{ key: "val", type: "line" }]}
+        xKind="linear"
+        width={500}
+        height={300}
+      />
+    );
+    expect(container.querySelector("path.vf-chart-line")).toBeTruthy();
+  });
+
+  it("renders with time xKind", () => {
+    const timeData = [
+      { x: new Date(2026, 0, 1), val: 10 },
+      { x: new Date(2026, 1, 1), val: 20 },
+    ];
+    const { container } = renderWithTheme(
+      <ComposedChart
+        data={timeData}
+        series={[{ key: "val", type: "line" }]}
+        xKind="time"
+        width={500}
+        height={300}
+      />
+    );
+    expect(container.querySelector("path.vf-chart-line")).toBeTruthy();
+  });
+
+  it("uses custom xFormat and valueFormat", () => {
+    const { container } = renderWithTheme(
+      <ComposedChart
+        data={data}
+        series={[{ key: "bars", type: "bar" }]}
+        xFormat={(v) => `Q:${v}`}
+        valueFormat={(v) => `$${v}`}
+        width={500}
+        height={300}
+      />
+    );
+    expect(container.querySelector(".vf-chart-composed")).toBeTruthy();
+  });
+
+  it("handles equal min/max y values", () => {
+    const flatData = [
+      { x: "A", val: 5 },
+      { x: "B", val: 5 },
+    ];
+    const { container } = renderWithTheme(
+      <ComposedChart
+        data={flatData}
+        series={[{ key: "val", type: "bar" }]}
+        width={500}
+        height={300}
+      />
+    );
+    expect(container.querySelectorAll(".vf-chart-bar__rect").length).toBe(2);
+  });
 });

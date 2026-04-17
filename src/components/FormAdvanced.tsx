@@ -232,11 +232,15 @@ SegmentedControl.displayName = "SegmentedControl";
 export interface PasswordInputProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   value?: string;
+  /** Raw event handler — kept for backward compatibility. Prefer `onValueChange`. */
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  /** Value-emit handler — matches the convention used by every other voidframe form component. */
+  onValueChange?: (value: string) => void;
   placeholder?: string;
   label?: string;
   required?: boolean;
   disabled?: boolean;
+  readOnly?: boolean;
   autoComplete?: string;
   name?: string;
   id?: string;
@@ -252,10 +256,12 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     {
       value,
       onChange,
+      onValueChange,
       placeholder,
       label,
       required,
       disabled,
+      readOnly,
       autoComplete = "current-password",
       name,
       id,
@@ -286,10 +292,14 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             id={inputId}
             type={visible ? "text" : "password"}
             value={value}
-            onChange={onChange}
+            onChange={(e) => {
+              onChange?.(e);
+              onValueChange?.(e.target.value);
+            }}
             placeholder={placeholder}
             required={required}
             disabled={disabled}
+            readOnly={readOnly}
             autoComplete={autoComplete}
             name={name}
             aria-label={label}

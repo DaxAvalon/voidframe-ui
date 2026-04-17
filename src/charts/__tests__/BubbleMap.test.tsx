@@ -132,4 +132,141 @@ describe("BubbleMap", () => {
     });
     expect(container.querySelector(".vf-chart-bubble-map__svg")).toBeTruthy();
   });
+
+  it("applies custom className", () => {
+    const { container } = renderWithTheme(
+      <BubbleMap
+        topology={topology}
+        objectKey="shapes"
+        points={points}
+        width={400}
+        height={300}
+        className="my-bubble-map"
+      />
+    );
+    expect(
+      container
+        .querySelector(".vf-chart-bubble-map")!
+        .classList.contains("my-bubble-map")
+    ).toBe(true);
+  });
+
+  it("uses the default aria-label", () => {
+    const { container } = renderWithTheme(
+      <BubbleMap
+        topology={topology}
+        objectKey="shapes"
+        points={points}
+        width={400}
+        height={300}
+      />
+    );
+    const svg = container.querySelector(".vf-chart-bubble-map__svg");
+    expect(svg!.getAttribute("aria-label")).toBe("Bubble map");
+  });
+
+  it("applies custom bubble color", async () => {
+    const { container } = renderWithTheme(
+      <BubbleMap
+        topology={topology}
+        objectKey="shapes"
+        points={[
+          { id: "p1", coordinates: [2, 3] as [number, number], value: 10 },
+        ]}
+        color="var(--vf-red)"
+        width={400}
+        height={300}
+      />
+    );
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll(".vf-chart-bubble-map__bubble").length
+      ).toBe(1);
+    });
+    const bubble = container.querySelector(".vf-chart-bubble-map__bubble");
+    expect(bubble!.getAttribute("fill")).toBe("var(--vf-red)");
+  });
+
+  it("custom sizeRange affects bubble radii", async () => {
+    const { container } = renderWithTheme(
+      <BubbleMap
+        topology={topology}
+        objectKey="shapes"
+        points={points}
+        sizeRange={[5, 50]}
+        width={400}
+        height={300}
+      />
+    );
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll(".vf-chart-bubble-map__bubble").length
+      ).toBe(points.length);
+    });
+    const bubbles = container.querySelectorAll(".vf-chart-bubble-map__bubble");
+    const radii = Array.from(bubbles).map((b) => Number(b.getAttribute("r")));
+    // All radii should be between 5 and 50
+    for (const r of radii) {
+      expect(r).toBeGreaterThanOrEqual(5);
+      expect(r).toBeLessThanOrEqual(50);
+    }
+  });
+
+  it("renders with geoNaturalEarth1 projection", async () => {
+    const { container } = renderWithTheme(
+      <BubbleMap
+        topology={topology}
+        objectKey="shapes"
+        points={points}
+        projection="geoNaturalEarth1"
+        width={400}
+        height={300}
+      />
+    );
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll(".vf-chart-bubble-map__bubble").length
+      ).toBe(points.length);
+    });
+  });
+
+  it("handles single point (lo === hi fallback)", async () => {
+    const singlePoint = [
+      { id: "p1", coordinates: [5, 5] as [number, number], value: 42 },
+    ];
+    const { container } = renderWithTheme(
+      <BubbleMap
+        topology={topology}
+        objectKey="shapes"
+        points={singlePoint}
+        width={400}
+        height={300}
+      />
+    );
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll(".vf-chart-bubble-map__bubble").length
+      ).toBe(1);
+    });
+  });
+
+  it("uses point-level color overriding default", async () => {
+    const coloredPoints = [
+      { id: "p1", coordinates: [5, 5] as [number, number], value: 10, color: "#ff0000" },
+    ];
+    const { container } = renderWithTheme(
+      <BubbleMap
+        topology={topology}
+        objectKey="shapes"
+        points={coloredPoints}
+        color="var(--vf-green)"
+        width={400}
+        height={300}
+      />
+    );
+    await waitFor(() => {
+      const bubble = container.querySelector(".vf-chart-bubble-map__bubble");
+      expect(bubble!.getAttribute("fill")).toBe("#ff0000");
+    });
+  });
 });

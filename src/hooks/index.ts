@@ -453,3 +453,42 @@ export function useForceUpdate(): () => void {
   const [, setState] = useState(0);
   return useCallback(() => setState((n) => n + 1), []);
 }
+
+// ───────────────────────────────────────────────────────────────
+// Phase 2 new hooks
+// ───────────────────────────────────────────────────────────────
+
+export { useDocumentTitle } from "./useDocumentTitle";
+export { useUndoRedo } from "./useUndoRedo";
+export type { UseUndoRedoOptions, UseUndoRedoReturn } from "./useUndoRedo";
+export { useClipboardRead } from "./useClipboardRead";
+export type { UseClipboardReadReturn } from "./useClipboardRead";
+export { useMutationObserver } from "./useMutationObserver";
+export { useFullscreen } from "./useFullscreen";
+export type { UseFullscreenReturn } from "./useFullscreen";
+export { useEventSource } from "./useEventSource";
+export type { UseEventSourceOptions, UseEventSourceReturn } from "./useEventSource";
+export { useWebSocket } from "./useWebSocket";
+export type { UseWebSocketOptions, UseWebSocketReturn } from "./useWebSocket";
+export { useLockBodyScroll } from "./useLockBodyScroll";
+export { useOnlineStatus } from "./useOnlineStatus";
+export type { NetworkInfo } from "./useOnlineStatus";
+export { useMap } from "./useMap";
+export type { UseMapReturn } from "./useMap";
+export { useSet } from "./useSet";
+export type { UseSetReturn } from "./useSet";
+export { useList } from "./useList";
+export type { UseListReturn } from "./useList";
+export { usePermission } from "./usePermission";
+export type { UsePermissionReturn } from "./usePermission";
+export { useGeolocation } from "./useGeolocation";
+export type { GeolocationState, UseGeolocationOptions } from "./useGeolocation";
+export { useHistoryState } from "./useHistoryState";
+export type { UseHistoryStateReturn } from "./useHistoryState";
+export { useDerivedState } from "./useDerivedState";
+export { useOrientation } from "./useOrientation";
+export type { OrientationState } from "./useOrientation";
+export { usePreferredLanguage } from "./usePreferredLanguage";
+export type { PreferredLanguage } from "./usePreferredLanguage";
+export { useAbortController } from "./useAbortController";
+export type { UseAbortControllerReturn } from "./useAbortController";

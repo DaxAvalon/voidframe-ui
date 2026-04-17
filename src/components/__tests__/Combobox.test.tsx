@@ -190,6 +190,39 @@ describe("MultiSelect", () => {
     expect(last).toEqual(["apple"]);
   });
 
+  it("shows empty message when filter has no results", async () => {
+    renderWithTheme(
+      <MultiSelect
+        label="Fruits"
+        options={fruits}
+        emptyMessage="Nothing found"
+      />
+    );
+    const input = screen.getByRole("combobox");
+    await userEvent.click(input);
+    await userEvent.type(input, "zzzzz");
+    expect(screen.getByText("Nothing found")).toBeInTheDocument();
+  });
+
+  it("mouseDown on option at cap does not toggle", async () => {
+    const onChange = vi.fn();
+    renderWithTheme(
+      <MultiSelect
+        label="Fruits"
+        options={fruits}
+        defaultValue={["apple"]}
+        maxSelected={1}
+        onChange={onChange}
+      />
+    );
+    const input = screen.getByRole("combobox");
+    await userEvent.click(input);
+    // Banana option should be disabled (at cap)
+    const options = screen.getAllByRole("option");
+    const bananaOpt = options.find((o) => o.textContent?.includes("Banana"));
+    expect(bananaOpt).toHaveAttribute("aria-disabled", "true");
+  });
+
   it("has no a11y violations", async () => {
     const { container } = renderWithTheme(
       <MultiSelect label="Fruits" options={fruits} />

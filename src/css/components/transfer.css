@@ -1,0 +1,187 @@
+/* Transfer (Shuttle) */
+
+.vf-transfer {
+  display: flex;
+  flex-direction: row;
+  gap: var(--vf-sp-4);
+  align-items: stretch;
+  font-family: var(--vf-font-family);
+}
+
+/* ── Panel ────────────────────────────────────────────────────── */
+
+.vf-transfer__panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  border: 1px solid var(--vf-border-1);
+  border-radius: var(--vf-radius);
+  background: var(--vf-bg-1);
+  overflow: hidden;
+}
+
+.vf-transfer__panel-header {
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  font-size: var(--vf-font-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--vf-letter-spacing);
+  color: var(--vf-text-3);
+  border-bottom: 1px solid var(--vf-border-1);
+  user-select: none;
+}
+
+/* ── Search ───────────────────────────────────────────────────── */
+
+.vf-transfer__search {
+  display: block;
+  width: 100%;
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  border: none;
+  border-bottom: 1px solid var(--vf-border-1);
+  background: var(--vf-bg-2);
+  color: var(--vf-text-1);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  outline: none;
+}
+
+.vf-transfer__search::placeholder {
+  color: var(--vf-text-4);
+}
+
+/* ── Item list ────────────────────────────────────────────────── */
+
+.vf-transfer__list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  max-height: 240px;
+  min-height: 120px;
+}
+
+.vf-transfer__item {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  padding: var(--vf-sp-1) var(--vf-sp-3);
+  cursor: pointer;
+  user-select: none;
+  color: var(--vf-text-2);
+  transition: var(--vf-transition);
+}
+
+.vf-transfer__item:hover {
+  background: var(--vf-bg-3);
+}
+
+.vf-transfer__item--selected {
+  background: var(--vf-bg-4);
+  color: var(--vf-text-1);
+}
+
+.vf-transfer__item--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.vf-transfer__item--disabled:hover {
+  background: transparent;
+}
+
+/* Visual-only checkbox indicator (avoids nested-interactive a11y violation) */
+.vf-transfer__checkbox {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border: 1px solid var(--vf-border-2);
+  border-radius: 2px;
+  background: transparent;
+  transition: var(--vf-transition);
+}
+.vf-transfer__checkbox--checked {
+  background: var(--vf-text-2);
+  border-color: var(--vf-text-2);
+}
+
+.vf-transfer__empty {
+  padding: var(--vf-sp-4) var(--vf-sp-3);
+  text-align: center;
+  color: var(--vf-text-4);
+  font-size: var(--vf-font-sm);
+}
+
+/* ── Center actions ───────────────────────────────────────────── */
+
+.vf-transfer__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--vf-sp-2);
+}
+
+.vf-transfer__action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+  border: 1px solid var(--vf-border-1);
+  border-radius: var(--vf-radius);
+  background: transparent;
+  color: var(--vf-text-3);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  cursor: pointer;
+  transition: var(--vf-transition);
+}
+
+.vf-transfer__action-btn:hover:not(:disabled) {
+  background: var(--vf-bg-4);
+  border-color: var(--vf-border-2);
+  color: var(--vf-text-1);
+}
+
+.vf-transfer__action-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ── Size variants ────────────────────────────────────────────── */
+
+.vf-transfer--sm {
+  font-size: var(--vf-font-xs);
+}
+.vf-transfer--sm .vf-transfer__item {
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+  font-size: var(--vf-font-xs);
+}
+.vf-transfer--sm .vf-transfer__panel-header {
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+}
+
+.vf-transfer--md {
+  font-size: var(--vf-font-sm);
+}
+.vf-transfer--md .vf-transfer__item {
+  padding: var(--vf-sp-1) var(--vf-sp-3);
+  font-size: var(--vf-font-sm);
+}
+
+.vf-transfer--lg {
+  font-size: var(--vf-font-md);
+}
+.vf-transfer--lg .vf-transfer__item {
+  padding: var(--vf-sp-2) var(--vf-sp-4);
+  font-size: var(--vf-font-md);
+}
+.vf-transfer--lg .vf-transfer__panel-header {
+  padding: var(--vf-sp-3) var(--vf-sp-4);
+}
+
+/* ── Disabled state ───────────────────────────────────────────── */
+
+.vf-transfer--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

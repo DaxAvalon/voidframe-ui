@@ -96,6 +96,24 @@ describe("NavItem", () => {
     renderWithTheme(<NavItem icon={<span data-testid="icn">I</span>}>X</NavItem>);
     expect(screen.getByTestId("icn")).toBeInTheDocument();
   });
+
+  it("renders as <a> when href is given", () => {
+    renderWithTheme(<NavItem href="/about">About</NavItem>);
+    const link = screen.getByRole("link", { name: "About" });
+    expect(link).toHaveAttribute("href", "/about");
+    expect(link.tagName).toBe("A");
+  });
+
+  it("renders as asChild with custom element", () => {
+    renderWithTheme(
+      <NavItem asChild active>
+        <a href="/custom">Custom Link</a>
+      </NavItem>
+    );
+    const link = screen.getByText("Custom Link");
+    expect(link.tagName).toBe("A");
+    expect(link).toHaveAttribute("data-active", "true");
+  });
 });
 
 // ───────────────────────────────────────────────────────────────

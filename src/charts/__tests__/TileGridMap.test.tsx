@@ -43,4 +43,37 @@ describe("TileGridMap", () => {
     expect(ids.has("HI")).toBe(true);
     expect(ids.has("AK")).toBe(true);
   });
+
+  it("renders title and description", () => {
+    const cells = [{ id: "a", col: 0, row: 0 }];
+    const { getByText } = renderWithTheme(
+      <TileGridMap
+        cells={cells}
+        values={{ a: 1 }}
+        title="States"
+        description="By value"
+      />
+    );
+    expect(getByText("States")).toBeTruthy();
+    expect(getByText("By value")).toBeTruthy();
+  });
+
+  it("uses the default aria-label", () => {
+    const cells = [{ id: "a", col: 0, row: 0 }];
+    const { container } = renderWithTheme(
+      <TileGridMap cells={cells} values={{ a: 1 }} />
+    );
+    const svg = container.querySelector("svg[role='img']");
+    expect(svg!.getAttribute("aria-label")).toBe("Tile grid map");
+  });
+
+  it("applies custom className", () => {
+    const cells = [{ id: "a", col: 0, row: 0 }];
+    const { container } = renderWithTheme(
+      <TileGridMap cells={cells} values={{ a: 1 }} className="my-tiles" />
+    );
+    expect(
+      container.querySelector(".vf-chart-tile-map")!.classList.contains("my-tiles")
+    ).toBe(true);
+  });
 });

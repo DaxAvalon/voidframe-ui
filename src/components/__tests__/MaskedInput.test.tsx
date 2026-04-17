@@ -29,6 +29,11 @@ describe("applyMask", () => {
   it("stripMask removes separators", () => {
     expect(stripMask("(555) 123-4567", "(###) ###-####")).toBe("5551234567");
   });
+
+  it("stripMask handles non-matching characters by skipping them", () => {
+    // When a character doesn't match the token pattern, it should be skipped (lines 79-81)
+    expect(stripMask("A1B2", "##-##")).toBe("12");
+  });
 });
 
 describe("MaskedInput", () => {

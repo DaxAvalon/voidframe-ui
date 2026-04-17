@@ -6,6 +6,13 @@
     "file": "src/hooks/useShortcuts.tsx"
   },
   {
+    "name": "useAbortController",
+    "kind": "function",
+    "signature": "export function useAbortController(): UseAbortControllerReturn",
+    "description": "Manage an `AbortController` tied to a component's lifecycle.\n\nThe controller is automatically aborted on unmount. Use `reset()` to\nreplace the current controller (aborting the previous one) and `abort()`\nto cancel the current one in place.",
+    "file": "src/hooks/useAbortController.ts"
+  },
+  {
     "name": "useAnnouncer",
     "kind": "function",
     "signature": "export function useAnnouncer(): AnnouncerApi",
@@ -32,6 +39,13 @@
     "signature": "export function useClickOutside<T extends HTMLElement = HTMLElement>( onClickOutside: () => void ): RefObject<T>",
     "description": "Detect clicks outside a ref'd element.\n\n@returns A ref to attach to the element whose outside-clicks you want to detect.",
     "file": "src/hooks/index.ts"
+  },
+  {
+    "name": "useClipboardRead",
+    "kind": "function",
+    "signature": "export function useClipboardRead(): UseClipboardReadReturn",
+    "description": "Read from the clipboard. Manages loading/error state.",
+    "file": "src/hooks/useClipboardRead.ts"
   },
   {
     "name": "useColorScheme",
@@ -76,6 +90,20 @@
     "file": "src/hooks/useDebouncedCallback.ts"
   },
   {
+    "name": "useDerivedState",
+    "kind": "function",
+    "signature": "export function useDerivedState<T>( derive: () => T, deps: readonly unknown[], isEqual: (prev: T, next: T) => boolean = Object.is ): T",
+    "description": "Derive state from dependencies with explicit equality checking.\n\nUnlike `useMemo`, this stores the previous value and only triggers a\nre-render when the derived value actually changes according to `isEqual`.",
+    "file": "src/hooks/useDerivedState.ts"
+  },
+  {
+    "name": "useDocumentTitle",
+    "kind": "function",
+    "signature": "export function useDocumentTitle( title: string, options?: UseDocumentTitleOptions ): void",
+    "description": "Set the document title reactively.\n\nSupports a `%s` template and optional restore-on-unmount.",
+    "file": "src/hooks/useDocumentTitle.ts"
+  },
+  {
     "name": "useElementSize",
     "kind": "function",
     "signature": "export function useElementSize<T extends Element>(ref: RefObject<T>): ResizeSize",
@@ -95,6 +123,19 @@
     "signature": "export function useEvent<A extends unknown[], R>( fn: (...args: A) => R ): (...args: A) => R",
     "description": "Stable callback ref that always sees the latest closure.\nImplements the React `useEvent` RFC: the returned function's identity never\nchanges, but it always invokes the most-recent version of `fn`.\n\nUse when passing a callback to deeply-memoized children or to effects with\nrestrictive dependency arrays.",
     "file": "src/hooks/useEvent.ts"
+  },
+  {
+    "name": "useEventSource",
+    "kind": "function",
+    "signature": "export function useEventSource( url: string | null, options: UseEventSourceOptions = {} ): UseEventSourceReturn",
+    "file": "src/hooks/useEventSource.ts"
+  },
+  {
+    "name": "useFieldArray",
+    "kind": "function",
+    "signature": "export function useFieldArray< TForm extends FormValues, TKey extends keyof TForm & string, TItem = TForm[TKey] extends Array<infer U> ? U : never, >( form: UseFormReturn<TForm>, name: TKey ): UseFieldArrayReturn<TItem>",
+    "description": "Manage a dynamic list of fields inside a `useForm` instance.\n\n@example\nconst form = useForm({ initialValues: { addresses: [{ line1: \"\" }] } });\nconst addresses = useFieldArray(form, \"addresses\");\n\naddresses.fields.map((addr, i) => (\n  <Input key={i} {...form.register(`addresses.${i}.line1`)} />\n));\n<Button onClick={() => addresses.append({ line1: \"\" })}>Add</Button>",
+    "file": "src/hooks/useFieldArray.ts"
   },
   {
     "name": "useFocus",
@@ -138,11 +179,31 @@
     "file": "src/hooks/useForm.ts"
   },
   {
+    "name": "useFullscreen",
+    "kind": "function",
+    "signature": "export function useFullscreen( ref?: RefObject<Element | null> ): UseFullscreenReturn",
+    "description": "Enter, exit, and toggle fullscreen mode.",
+    "file": "src/hooks/useFullscreen.ts"
+  },
+  {
+    "name": "useGeolocation",
+    "kind": "function",
+    "signature": "export function useGeolocation( options: UseGeolocationOptions = {} ): GeolocationState",
+    "file": "src/hooks/useGeolocation.ts"
+  },
+  {
     "name": "useHasMounted",
     "kind": "function",
     "signature": "export function useHasMounted(): boolean",
     "description": "Returns `false` during the first render, `true` after mount.\nUse to gate client-only content and avoid SSR hydration mismatches.",
     "file": "src/hooks/useHasMounted.ts"
+  },
+  {
+    "name": "useHistoryState",
+    "kind": "function",
+    "signature": "export function useHistoryState<T>( initialState: T, key: string = \"__historyState\" ): UseHistoryStateReturn<T>",
+    "description": "Sync React state with the browser History API.\n\nState is namespaced under `key` inside `history.state` to avoid conflicts.\nSSR-safe — returns `initialState` and all methods are no-ops on the server.",
+    "file": "src/hooks/useHistoryState.ts"
   },
   {
     "name": "useHover",
@@ -201,6 +262,12 @@
     "file": "src/hooks/useKeyPress.ts"
   },
   {
+    "name": "useList",
+    "kind": "function",
+    "signature": "export function useList<T>(initialList?: T[]): UseListReturn<T>",
+    "file": "src/hooks/useList.ts"
+  },
+  {
     "name": "useLocalStorage",
     "kind": "function",
     "signature": "export function useLocalStorage<T>( key: string, initialValue: T ): [T, (value: T | ((prev: T) => T)) => void]",
@@ -208,11 +275,24 @@
     "file": "src/hooks/index.ts"
   },
   {
+    "name": "useLockBodyScroll",
+    "kind": "function",
+    "signature": "export function useLockBodyScroll(locked: boolean = true): void",
+    "description": "Lock body scroll by setting `overflow: hidden` on `document.body`.\nRestores original overflow on unlock or unmount. SSR-safe.",
+    "file": "src/hooks/useLockBodyScroll.ts"
+  },
+  {
     "name": "useLongPress",
     "kind": "function",
     "signature": "export function useLongPress( handler: (e: ReactPointerEvent) => void, { threshold = 500, onCancel }: UseLongPressOptions = {} ): LongPressBindings",
     "description": "Long-press detection. Returns bindings to spread onto the target element.",
     "file": "src/hooks/useLongPress.ts"
+  },
+  {
+    "name": "useMap",
+    "kind": "function",
+    "signature": "export function useMap<K, V>( initialEntries?: Iterable<[K, V]> ): UseMapReturn<K, V>",
+    "file": "src/hooks/useMap.ts"
   },
   {
     "name": "useMediaQuery",
@@ -236,6 +316,13 @@
     "file": "src/hooks/useMountEffect.ts"
   },
   {
+    "name": "useMutationObserver",
+    "kind": "function",
+    "signature": "export function useMutationObserver( ref: RefObject<Element | null>, callback: MutationCallback, options?: MutationObserverInit ): void",
+    "description": "Observe DOM mutations on a ref'd element.\n\nUses `useRef` to store the latest callback so the observer\ndoesn't need to be re-created on every render.",
+    "file": "src/hooks/useMutationObserver.ts"
+  },
+  {
     "name": "useNetworkStatus",
     "kind": "function",
     "signature": "export function useNetworkStatus(): NetworkStatus",
@@ -243,11 +330,38 @@
     "file": "src/hooks/useNetworkStatus.ts"
   },
   {
+    "name": "useOnlineStatus",
+    "kind": "function",
+    "signature": "export function useOnlineStatus(): NetworkInfo",
+    "description": "Track online/offline status and network quality via the Network Information API.\nSSR-safe: returns `{ online: true }` on the server.",
+    "file": "src/hooks/useOnlineStatus.ts"
+  },
+  {
+    "name": "useOrientation",
+    "kind": "function",
+    "signature": "export function useOrientation(): OrientationState",
+    "description": "Track device orientation via the Screen Orientation API.\n\nFalls back to comparing `innerWidth`/`innerHeight` when the API is\nunavailable. SSR-safe — returns portrait defaults with `isSupported: false`.",
+    "file": "src/hooks/useOrientation.ts"
+  },
+  {
     "name": "usePageVisibility",
     "kind": "function",
     "signature": "export function usePageVisibility(): PageVisibility",
     "description": "`document.visibilityState` reactive. Returns `\"visible\"` on the server.",
     "file": "src/hooks/usePageVisibility.ts"
+  },
+  {
+    "name": "usePermission",
+    "kind": "function",
+    "signature": "export function usePermission(name: PermissionName): UsePermissionReturn",
+    "file": "src/hooks/usePermission.ts"
+  },
+  {
+    "name": "usePreferredLanguage",
+    "kind": "function",
+    "signature": "export function usePreferredLanguage(): PreferredLanguage",
+    "description": "Track the user's preferred language(s) via `navigator.language`.\n\nListens for the `languagechange` event to stay in sync.\nSSR-safe — defaults to `\"en\"`.",
+    "file": "src/hooks/usePreferredLanguage.ts"
   },
   {
     "name": "usePrefersColorScheme",
@@ -306,6 +420,12 @@
     "file": "src/hooks/useScrollPosition.ts"
   },
   {
+    "name": "useSet",
+    "kind": "function",
+    "signature": "export function useSet<T>(initialValues?: Iterable<T>): UseSetReturn<T>",
+    "file": "src/hooks/useSet.ts"
+  },
+  {
     "name": "useShortcut",
     "kind": "function",
     "signature": "export function useShortcut( keys: string, handler: (e: KeyboardEvent) => void, options: UseShortcutOptions = {} ): void",
@@ -360,6 +480,13 @@
     "file": "src/hooks/index.ts"
   },
   {
+    "name": "useUndoRedo",
+    "kind": "function",
+    "signature": "export function useUndoRedo<T>( initialState: T, options?: UseUndoRedoOptions<T> ): UseUndoRedoReturn<T>",
+    "description": "Undo/redo state management with history tracking.",
+    "file": "src/hooks/useUndoRedo.ts"
+  },
+  {
     "name": "useUnmountEffect",
     "kind": "function",
     "signature": "export function useUnmountEffect(fn: () => void): void",
@@ -372,6 +499,12 @@
     "signature": "export function useUpdateEffect(effect: EffectCallback, deps?: DependencyList): void",
     "description": "Like `useEffect`, but skips the first render.",
     "file": "src/hooks/useUpdateEffect.ts"
+  },
+  {
+    "name": "useWebSocket",
+    "kind": "function",
+    "signature": "export function useWebSocket( url: string | null, options: UseWebSocketOptions = {} ): UseWebSocketReturn",
+    "file": "src/hooks/useWebSocket.ts"
   },
   {
     "name": "useWindowSize",

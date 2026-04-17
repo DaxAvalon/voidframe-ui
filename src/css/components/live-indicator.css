@@ -1,0 +1,147 @@
+/* LiveIndicator */
+
+.vf-live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  font-family: var(--vf-font-family);
+}
+
+/* ── Avatar ──────────────────────────────────────────────────── */
+
+.vf-live-indicator__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.vf-live-indicator--md .vf-live-indicator__avatar {
+  width: 24px;
+  height: 24px;
+}
+
+.vf-live-indicator--sm .vf-live-indicator__avatar {
+  width: 18px;
+  height: 18px;
+}
+
+.vf-live-indicator__avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ── Typing dots ─────────────────────────────────────────────── */
+
+.vf-live-indicator__dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.vf-live-indicator__dot {
+  display: block;
+  border-radius: 50%;
+  background: var(--vf-text-3);
+}
+
+.vf-live-indicator--md .vf-live-indicator__dot {
+  width: 6px;
+  height: 6px;
+}
+
+.vf-live-indicator--sm .vf-live-indicator__dot {
+  width: 4px;
+  height: 4px;
+}
+
+@keyframes vf-dot-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+
+.vf-live-indicator__dot {
+  animation: vf-dot-bounce 1.2s ease-in-out infinite;
+}
+
+.vf-live-indicator__dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.vf-live-indicator__dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ── Pulse (recording / active / live) ───────────────────────── */
+
+.vf-live-indicator__pulse {
+  display: block;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.vf-live-indicator--md .vf-live-indicator__pulse {
+  width: 8px;
+  height: 8px;
+}
+
+.vf-live-indicator--sm .vf-live-indicator__pulse {
+  width: 6px;
+  height: 6px;
+}
+
+.vf-live-indicator__pulse--recording {
+  background: var(--vf-red, #ef4444);
+  animation: vf-pulse 1.5s ease-in-out infinite;
+}
+
+.vf-live-indicator__pulse--active {
+  background: var(--vf-green, #22c55e);
+}
+
+.vf-live-indicator__pulse--live {
+  background: var(--vf-red, #ef4444);
+  animation: vf-pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Live text ───────────────────────────────────────────────── */
+
+.vf-live-indicator__live-text {
+  font-size: var(--vf-font-xxs);
+  font-weight: 700;
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: uppercase;
+  color: var(--vf-red, #ef4444);
+}
+
+/* ── Label ───────────────────────────────────────────────────── */
+
+.vf-live-indicator__label {
+  color: var(--vf-text-2);
+}
+
+.vf-live-indicator--md .vf-live-indicator__label {
+  font-size: var(--vf-font-sm);
+}
+
+.vf-live-indicator--sm .vf-live-indicator__label {
+  font-size: var(--vf-font-xs);
+}
+
+/* ── Static (no animation) ───────────────────────────────────── */
+
+.vf-live-indicator--static .vf-live-indicator__dot,
+.vf-live-indicator--static .vf-live-indicator__pulse {
+  animation: none;
+}
+
+/* ── Reduced motion ──────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-live-indicator__dot,
+  .vf-live-indicator__pulse {
+    animation: none;
+  }
+}

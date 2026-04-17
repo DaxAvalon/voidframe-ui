@@ -137,3 +137,49 @@ export function createMockStorage(seed?: Record<string, string>): MockStorageApi
     },
   };
 }
+
+// ───────────────────────────────────────────────────────────────
+// Mock components — lightweight replacements for heavy components.
+// Consumers use:
+//   vi.mock("voidframe", async () => ({
+//     ...(await vi.importActual("voidframe")),
+//     ...mockComponents,
+//   }));
+// ───────────────────────────────────────────────────────────────
+
+import type { FC, ReactNode } from "react";
+
+function createMock(name: string, dataProps?: string[]): FC<Record<string, unknown>> {
+  const Mock: FC<Record<string, unknown>> = (props) => {
+    const dataAttrs: Record<string, string> = {};
+    if (dataProps) {
+      for (const key of dataProps) {
+        const val = props[key];
+        if (val !== undefined) dataAttrs[`data-${key}`] = String(val);
+      }
+    }
+    return (
+      <div data-testid={`vf-mock-${name.toLowerCase()}`} {...dataAttrs}>
+        {props.children as ReactNode}
+      </div>
+    );
+  };
+  Mock.displayName = `Mock${name}`;
+  return Mock;
+}
+
+export const MockDataGrid = createMock("DataGrid", ["columns", "data"]);
+export const MockCalendar = createMock("Calendar", ["view", "selectedDate"]);
+export const MockRichTextEditor = createMock("RichTextEditor", ["value"]);
+export const MockMarkdownEditor = createMock("MarkdownEditor", ["value"]);
+export const MockCodeEditor = createMock("CodeEditor", ["value", "language"]);
+export const MockConversation = createMock("Conversation");
+
+export const mockComponents = {
+  DataGrid: MockDataGrid,
+  Calendar: MockCalendar,
+  RichTextEditor: MockRichTextEditor,
+  MarkdownEditor: MockMarkdownEditor,
+  CodeEditor: MockCodeEditor,
+  Conversation: MockConversation,
+} as const;
