@@ -219,6 +219,7 @@ function ComponentPage({ name }: { name: string }) {
             code={autoCode}
             scope={playgroundScope}
             paneHeight={260}
+            noInline={/\brender\s*\(/.test(autoCode)}
           />
         ) : (
           <Text size="sm" color="var(--vf-text-3)">
