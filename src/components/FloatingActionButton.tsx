@@ -1,0 +1,166 @@
+"use client";
+
+import {
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import { cx } from "../utils/cx";
+
+export interface FABAction {
+  key: string;
+  label: string;
+  icon: ReactNode;
+  onClick: () => void;
+}
+
+export interface FloatingActionButtonProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onClick"> {
+  icon: ReactNode;
+  label?: string;
+  onClick?: () => void;
+  actions?: FABAction[];
+  position?: "bottom-right" | "bottom-left" | "bottom-center";
+  size?: "sm" | "md" | "lg";
+  variant?: "default" | "accent";
+  offset?: { bottom?: number; right?: number; left?: number };
+  style?: CSSProperties;
+}
+
+const FloatingActionButtonImpl = forwardRef<
+  HTMLDivElement,
+  FloatingActionButtonProps
+>(function FloatingActionButton(
+  {
+    icon,
+    label,
+    onClick,
+    actions,
+    position = "bottom-right",
+    size = "md",
+    variant = "default",
+    offset,
+    className,
+    style,
+    ...props
+  },
+  ref
+) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleButtonClick = useCallback(() => {
+    if (actions && actions.length > 0) {
+      setOpen((prev) => !prev);
+    } else {
+      onClick?.();
+    }
+  }, [actions, onClick]);
+
+  const handleActionClick = useCallback(
+    (action: FABAction) => {
+      action.onClick();
+      setOpen(false);
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+  const composedStyle: CSSProperties = {
+    ...(offset?.bottom !== undefined
+      ? { "--vf-fab-bottom": `${offset.bottom}px` }
+      : {}),
+    ...(offset?.right !== undefined
+      ? { "--vf-fab-right": `${offset.right}px` }
+      : {}),
+    ...(offset?.left !== undefined
+      ? { "--vf-fab-left": `${offset.left}px` }
+      : {}),
+    ...style,
+  } as CSSProperties;
+
+  return (
+    <div
+      ref={(node) => {
+        (containerRef as React.MutableRefObject<HTMLDivElement | null>).current =
+          node;
+        if (typeof ref === "function") ref(node);
+        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      }}
+      className={cx(
+        "vf-fab",
+        `vf-fab--${position}`,
+        `vf-fab--${size}`,
+        `vf-fab--${variant}`,
+        className
+      )}
+      style={composedStyle}
+      {...props}
+    >
+      {open && actions && actions.length > 0 && (
+        <div className="vf-fab__speed-dial" role="menu">
+          {actions.map((action) => (
+            <div key={action.key} className="vf-fab__action">
+              <span className="vf-fab__action-label">{action.label}</span>
+              <button
+                type="button"
+                className="vf-fab__action-button"
+                aria-label={action.label}
+                role="menuitem"
+                onClick={() => handleActionClick(action)}
+              >
+                {action.icon}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+      <button
+        type="button"
+        className="vf-fab__button"
+        aria-label={label ?? "Floating action"}
+        aria-expanded={actions && actions.length > 0 ? open : undefined}
+        aria-haspopup={actions && actions.length > 0 ? "menu" : undefined}
+        onClick={handleButtonClick}
+      >
+        <span className="vf-fab__icon" aria-hidden="true">
+          {icon}
+        </span>
+        {label && <span className="vf-fab__label">{label}</span>}
+      </button>
+    </div>
+  );
+});
+FloatingActionButtonImpl.displayName = "FloatingActionButton";
+export const FloatingActionButton = memo(FloatingActionButtonImpl);
+(FloatingActionButton as unknown as { displayName: string }).displayName =
+  "FloatingActionButton";

@@ -264,4 +264,8 @@ export type { BubbleMapPoint, BubbleMapProps } from "./BubbleMap";
 export { TileGridMap, US_STATES_GRID } from "./TileGridMap";
 export type { TileGridCell, TileGridMapProps } from "./TileGridMap";
 
+// ── OrgChart (Phase 1) ──────────────────────────────────────
+export { OrgChart } from "./OrgChart";
+export type { OrgChartProps, OrgChartNode } from "./OrgChart";
+
 export { MissingPeerDependencyError } from "./peer";

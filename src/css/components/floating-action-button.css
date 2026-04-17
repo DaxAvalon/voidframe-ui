@@ -1,0 +1,145 @@
+/* FloatingActionButton */
+
+.vf-fab {
+  position: fixed;
+  z-index: var(--vf-z-fab, 1050);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--vf-sp-2);
+}
+
+/* ── Position modifiers ─────────────────────────────────────── */
+
+.vf-fab--bottom-right {
+  bottom: var(--vf-fab-bottom, 24px);
+  right: var(--vf-fab-right, 24px);
+}
+
+.vf-fab--bottom-left {
+  bottom: var(--vf-fab-bottom, 24px);
+  left: var(--vf-fab-left, 24px);
+}
+
+.vf-fab--bottom-center {
+  bottom: var(--vf-fab-bottom, 24px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ── Button ─────────────────────────────────────────────────── */
+
+.vf-fab__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--vf-sp-2);
+  border: 1px solid var(--vf-border);
+  border-radius: 50%;
+  background: var(--vf-bg-2);
+  color: var(--vf-text-1);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+.vf-fab__button:hover {
+  background: var(--vf-bg-3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.vf-fab__label {
+  white-space: nowrap;
+}
+
+/* When label is present, switch to pill shape */
+.vf-fab__button:has(.vf-fab__label) {
+  border-radius: var(--vf-radius);
+}
+
+/* ── Size modifiers ─────────────────────────────────────────── */
+
+.vf-fab--sm .vf-fab__button {
+  width: 40px;
+  height: 40px;
+  font-size: var(--vf-font-xs);
+}
+.vf-fab--sm .vf-fab__button:has(.vf-fab__label) {
+  width: auto;
+  padding: var(--vf-sp-2) var(--vf-sp-4);
+}
+
+.vf-fab--md .vf-fab__button {
+  width: 56px;
+  height: 56px;
+  font-size: var(--vf-font-sm);
+}
+.vf-fab--md .vf-fab__button:has(.vf-fab__label) {
+  width: auto;
+  padding: var(--vf-sp-3) var(--vf-sp-5);
+}
+
+.vf-fab--lg .vf-fab__button {
+  width: 72px;
+  height: 72px;
+  font-size: var(--vf-font-md);
+}
+.vf-fab--lg .vf-fab__button:has(.vf-fab__label) {
+  width: auto;
+  padding: var(--vf-sp-4) var(--vf-sp-6);
+}
+
+/* ── Variant modifiers ──────────────────────────────────────── */
+
+.vf-fab--accent .vf-fab__button {
+  background: var(--vf-accent, var(--vf-blue));
+  color: var(--vf-bg-1);
+  border-color: transparent;
+}
+.vf-fab--accent .vf-fab__button:hover {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 85%, black);
+}
+
+/* ── Speed dial ─────────────────────────────────────────────── */
+
+.vf-fab__speed-dial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--vf-sp-2);
+}
+
+.vf-fab__action {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+}
+
+.vf-fab__action-label {
+  background: var(--vf-bg-2);
+  color: var(--vf-text-2);
+  padding: var(--vf-sp-1) var(--vf-sp-3);
+  border-radius: var(--vf-radius);
+  font-size: var(--vf-font-xs);
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.vf-fab__action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--vf-border);
+  border-radius: 50%;
+  background: var(--vf-bg-2);
+  color: var(--vf-text-1);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  transition: background 150ms ease;
+}
+
+.vf-fab__action-button:hover {
+  background: var(--vf-bg-3);
+}

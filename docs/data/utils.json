@@ -21,6 +21,20 @@
     "file": "src/utils/formatters.ts"
   },
   {
+    "name": "announce",
+    "kind": "function",
+    "signature": "export function announce( message: string, options: { politeness?: \"polite\" | \"assertive\"; clearAfter?: number } = {} ): void",
+    "description": "Announce a message to screen readers via an aria-live region.\n\n@param message    The text to announce\n@param options.politeness  \"polite\" (default) or \"assertive\"\n@param options.clearAfter  Milliseconds before clearing the region (default 5000)",
+    "file": "src/utils/announce.ts"
+  },
+  {
+    "name": "breakpointClass",
+    "kind": "function",
+    "signature": "export function breakpointClass( prefix: string, value: string, breakpoint?: string, ): string",
+    "description": "Generate a single breakpoint-prefixed class.\n\n@example\nbreakpointClass(\"cols\", \"2\")        // \"vf-cols-2\"\nbreakpointClass(\"cols\", \"2\", \"md\")  // \"md:vf-cols-2\"",
+    "file": "src/utils/responsiveClasses.ts"
+  },
+  {
     "name": "clamp",
     "kind": "function",
     "signature": "export function clamp(value: number, min: number, max: number): number",
@@ -35,6 +49,13 @@
     "file": "src/utils/date.ts"
   },
   {
+    "name": "clearAnnouncer",
+    "kind": "function",
+    "signature": "export function clearAnnouncer(): void",
+    "description": "Remove all announcer regions from the DOM and reset internal state.",
+    "file": "src/utils/announce.ts"
+  },
+  {
     "name": "clearWarningHistory",
     "kind": "function",
     "signature": "export function clearWarningHistory(): void",
@@ -42,11 +63,32 @@
     "file": "src/utils/warn.ts"
   },
   {
+    "name": "composeEventHandlers",
+    "kind": "function",
+    "signature": "export function composeEventHandlers<E extends { defaultPrevented: boolean }>( ...handlers: (((event: E) => void) | undefined | null)[] ): (event: E) => void",
+    "description": "Compose event handlers. If any handler calls `event.preventDefault()`,\nsubsequent handlers are skipped.",
+    "file": "src/utils/composeEventHandlers.ts"
+  },
+  {
+    "name": "composeEventHandlersAlways",
+    "kind": "function",
+    "signature": "export function composeEventHandlersAlways<E extends { defaultPrevented: boolean }>( ...handlers: (((event: E) => void) | undefined | null)[] ): (event: E) => void",
+    "description": "Compose event handlers. All handlers are called regardless of\n`event.defaultPrevented`.",
+    "file": "src/utils/composeEventHandlers.ts"
+  },
+  {
     "name": "computeAnchoredPosition",
     "kind": "function",
     "signature": "export function computeAnchoredPosition( triggerRect: AnchorRect, contentSize: AnchorSize, placement: Placement, offset: number ): AnchorPosition",
     "description": "Compute the pixel top/left for a floating element anchored to a trigger.\n\nBehavior:\n- `placement` picks the primary side and alignment (e.g. `\"bottom-start\"`).\n- If the chosen side overflows the viewport, flips to the opposite side.\n- After placement, clamps the position 8px inside the viewport on both axes.",
     "file": "src/utils/anchor.ts"
+  },
+  {
+    "name": "contrastRatio",
+    "kind": "function",
+    "signature": "export function contrastRatio(fg: string, bg: string): number",
+    "description": "WCAG contrast ratio between two colors.\nReturns a value between 1 (identical) and 21 (black on white).",
+    "file": "src/utils/color.ts"
   },
   {
     "name": "copyToClipboard",
@@ -63,6 +105,13 @@
     "file": "src/utils/createSafeContext.ts"
   },
   {
+    "name": "customAdapter",
+    "kind": "function",
+    "signature": "export function customAdapter<T>( validate: (values: T) => Record<string, string | undefined> ): FormValidator<T>",
+    "description": "Wrap a plain validation function as a FormValidator.\nFilters out undefined values and returns null when no errors remain.",
+    "file": "src/utils/formValidation.ts"
+  },
+  {
     "name": "cx",
     "kind": "function",
     "signature": "export function cx(...args: ClassValue[]): string",
@@ -70,11 +119,31 @@
     "file": "src/utils/cx.ts"
   },
   {
+    "name": "darken",
+    "kind": "function",
+    "signature": "export function darken(hex: string, amount: number): string",
+    "description": "Darken a hex color by the given amount (0-1).",
+    "file": "src/utils/color.ts"
+  },
+  {
     "name": "deepMerge",
     "kind": "function",
     "signature": "export function deepMerge<T extends Record<string, unknown>>( target: T, source: Partial<T> ): T",
     "description": "Deep merge two objects (useful for theme composition).",
     "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "DEFAULT_PORTAL_ID",
+    "kind": "variable",
+    "signature": "DEFAULT_PORTAL_ID = \"vf-portal-root\"",
+    "file": "src/utils/portalContainer.ts"
+  },
+  {
+    "name": "deleteCookie",
+    "kind": "function",
+    "signature": "export function deleteCookie( name: string, options: Pick<CookieOptions, \"path\" | \"domain\"> = {}, ): void",
+    "description": "Delete a cookie by setting its expiry to the past.",
+    "file": "src/utils/cookie.ts"
   },
   {
     "name": "deprecatedComponent",
@@ -96,6 +165,13 @@
     "signature": "export function endOfMonth(d: Date): Date",
     "description": "Last day of the month at 23:59:59.999 local.",
     "file": "src/utils/date.ts"
+  },
+  {
+    "name": "FOCUSABLE_SELECTOR",
+    "kind": "variable",
+    "signature": "FOCUSABLE_SELECTOR = 'a[href], button, input, select, textarea, [tabindex], [contenteditable=\"true\"], details > summary'",
+    "description": "CSS selector for elements that can receive focus.",
+    "file": "src/utils/focus.ts"
   },
   {
     "name": "formatBytes",
@@ -133,6 +209,41 @@
     "file": "src/utils/forwardRef.ts"
   },
   {
+    "name": "getAllCookies",
+    "kind": "function",
+    "signature": "export function getAllCookies(): Record<string, string>",
+    "description": "Return all cookies as a plain object.",
+    "file": "src/utils/cookie.ts"
+  },
+  {
+    "name": "getCookie",
+    "kind": "function",
+    "signature": "export function getCookie(name: string): string | null",
+    "description": "Get a single cookie value by name, or null if not found.",
+    "file": "src/utils/cookie.ts"
+  },
+  {
+    "name": "getFirstFocusable",
+    "kind": "function",
+    "signature": "export function getFirstFocusable(container: Element): HTMLElement | null",
+    "description": "Get the first focusable element within a container.",
+    "file": "src/utils/focus.ts"
+  },
+  {
+    "name": "getFocusableElements",
+    "kind": "function",
+    "signature": "export function getFocusableElements( container: Element, options: { includeDisabled?: boolean; tabbableOnly?: boolean } = {} ): HTMLElement[]",
+    "description": "Get all focusable elements within a container.",
+    "file": "src/utils/focus.ts"
+  },
+  {
+    "name": "getLastFocusable",
+    "kind": "function",
+    "signature": "export function getLastFocusable(container: Element): HTMLElement | null",
+    "description": "Get the last focusable element within a container.",
+    "file": "src/utils/focus.ts"
+  },
+  {
     "name": "getLogger",
     "kind": "function",
     "signature": "export function getLogger(): VoidframeLogger",
@@ -144,6 +255,20 @@
     "signature": "export function getMonthGrid( month: Date, firstDayOfWeek: 0 | 1 = 0 ): Date[]",
     "description": "Build the six-row grid of days for a given month, padded with prior/next month days.",
     "file": "src/utils/date.ts"
+  },
+  {
+    "name": "getPortalContainer",
+    "kind": "function",
+    "signature": "export function getPortalContainer(name?: string): HTMLElement",
+    "description": "Get (or create) a portal container element.\nEach call increments the internal ref count.",
+    "file": "src/utils/portalContainer.ts"
+  },
+  {
+    "name": "getStaggerDelay",
+    "kind": "function",
+    "signature": "export function getStaggerDelay( index: number, total: number, options: AnimationSequenceOptions = {}, ): string",
+    "description": "Direction-aware stagger delay.\n\n- forward: index * stagger\n- reverse: (total - 1 - index) * stagger\n- center:  |index - floor(total/2)| * stagger",
+    "file": "src/utils/animationSequence.ts"
   },
   {
     "name": "getWarningHistory",
@@ -160,6 +285,83 @@
     "file": "src/utils/formatters.ts"
   },
   {
+    "name": "hasCookie",
+    "kind": "function",
+    "signature": "export function hasCookie(name: string): boolean",
+    "description": "Check whether a cookie exists.",
+    "file": "src/utils/cookie.ts"
+  },
+  {
+    "name": "hexToHsl",
+    "kind": "function",
+    "signature": "export function hexToHsl(hex: string): { h: number; s: number; l: number } | null",
+    "description": "Convert a hex color to HSL.",
+    "file": "src/utils/color.ts"
+  },
+  {
+    "name": "hexToRgb",
+    "kind": "function",
+    "signature": "export function hexToRgb(hex: string): { r: number; g: number; b: number } | null",
+    "description": "Parse a hex string (#rgb or #rrggbb) to RGB components.\nReturns null for invalid input.",
+    "file": "src/utils/color.ts"
+  },
+  {
+    "name": "hslToHex",
+    "kind": "function",
+    "signature": "export function hslToHex(h: number, s: number, l: number): string",
+    "description": "Convert HSL to a hex color.",
+    "file": "src/utils/color.ts"
+  },
+  {
+    "name": "hslToRgb",
+    "kind": "function",
+    "signature": "export function hslToRgb( h: number, s: number, l: number ): { r: number; g: number; b: number }",
+    "description": "Convert HSL (h: 0-360, s: 0-100, l: 0-100) to RGB (0-255).",
+    "file": "src/utils/color.ts"
+  },
+  {
+    "name": "invariant",
+    "kind": "function",
+    "signature": "export function invariant(condition: unknown, message: string): asserts condition",
+    "description": "Assert a condition at runtime. Throws if falsy.\n\n@example\ninvariant(user, \"User must be defined\");\n// TypeScript now narrows `user` to truthy",
+    "file": "src/utils/invariant.ts"
+  },
+  {
+    "name": "invariantViolation",
+    "kind": "function",
+    "signature": "export function invariantViolation(message: string): never",
+    "description": "Unconditionally throw an invariant violation.\nUseful in switch default branches or \"impossible\" code paths.\n\n@example\ndefault: invariantViolation(`Unknown status: ${status}`);",
+    "file": "src/utils/invariant.ts"
+  },
+  {
+    "name": "isAccessible",
+    "kind": "function",
+    "signature": "export function isAccessible( fg: string, bg: string, level: \"AA\" | \"AAA\" = \"AA\", size: \"normal\" | \"large\" = \"normal\" ): boolean",
+    "description": "Check if a foreground/background pair meets WCAG accessibility standards.\nAA normal: 4.5, AA large: 3, AAA normal: 7, AAA large: 4.5",
+    "file": "src/utils/color.ts"
+  },
+  {
+    "name": "isClient",
+    "kind": "variable",
+    "signature": "isClient: boolean = typeof window !== \"undefined\" && typeof document !== \"undefined\"",
+    "description": "`true` when running in a browser with a DOM.",
+    "file": "src/utils/environment.ts"
+  },
+  {
+    "name": "isDev",
+    "kind": "variable",
+    "signature": "isDev: boolean = typeof process !== \"undefined\" && process.env.NODE_ENV === \"development\"",
+    "description": "`true` when NODE_ENV is \"development\".",
+    "file": "src/utils/environment.ts"
+  },
+  {
+    "name": "isFocusable",
+    "kind": "function",
+    "signature": "export function isFocusable(element: Element): boolean",
+    "description": "Check whether an element can receive focus.",
+    "file": "src/utils/focus.ts"
+  },
+  {
     "name": "isSameDay",
     "kind": "function",
     "signature": "export function isSameDay(a: Date | null | undefined, b: Date | null | undefined): boolean",
@@ -174,11 +376,67 @@
     "file": "src/utils/date.ts"
   },
   {
+    "name": "isServer",
+    "kind": "variable",
+    "signature": "isServer: boolean = !isClient",
+    "description": "`true` when running on the server (Node, Deno, etc).",
+    "file": "src/utils/environment.ts"
+  },
+  {
+    "name": "isTabbable",
+    "kind": "function",
+    "signature": "export function isTabbable(element: Element): boolean",
+    "description": "Check whether an element is tabbable (focusable and not tabindex=-1).",
+    "file": "src/utils/focus.ts"
+  },
+  {
+    "name": "isTest",
+    "kind": "variable",
+    "signature": "isTest: boolean = typeof process !== \"undefined\" && (process.env.VITEST === \"true\" || process.env.NODE_ENV === \"test\")",
+    "description": "`true` when running inside a test runner (Vitest or Jest).",
+    "file": "src/utils/environment.ts"
+  },
+  {
+    "name": "isValidColor",
+    "kind": "function",
+    "signature": "export function isValidColor(input: string): boolean",
+    "description": "Check whether a string is a valid parseable color.",
+    "file": "src/utils/color.ts"
+  },
+  {
+    "name": "lighten",
+    "kind": "function",
+    "signature": "export function lighten(hex: string, amount: number): string",
+    "description": "Lighten a hex color by the given amount (0-1).",
+    "file": "src/utils/color.ts"
+  },
+  {
+    "name": "luminance",
+    "kind": "function",
+    "signature": "export function luminance(hex: string): number",
+    "description": "Relative luminance per WCAG 2.1.\nReturns a value between 0 (black) and 1 (white).",
+    "file": "src/utils/color.ts"
+  },
+  {
     "name": "mapRange",
     "kind": "function",
     "signature": "export function mapRange( value: number, inMin: number, inMax: number, outMin: number, outMax: number ): number",
     "description": "Map a value from one range to another.",
     "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "mergeStyles",
+    "kind": "function",
+    "signature": "export function mergeStyles( ...styles: (CSSProperties | undefined | null | false)[] ): CSSProperties",
+    "description": "Merge multiple CSSProperties objects. Later values override earlier ones,\nbut explicit `undefined` values are skipped (won't erase existing keys).\n\n@example\nmergeStyles({ color: \"red\" }, condition && { fontWeight: \"bold\" })",
+    "file": "src/utils/mergeStyles.ts"
+  },
+  {
+    "name": "mix",
+    "kind": "function",
+    "signature": "export function mix(color1: string, color2: string, weight: number = 0.5): string",
+    "description": "Mix two hex colors by weight (0-1, default 0.5).\nWeight 0 = all color2, weight 1 = all color1.",
+    "file": "src/utils/color.ts"
   },
   {
     "name": "monthName",
@@ -188,11 +446,67 @@
     "file": "src/utils/date.ts"
   },
   {
+    "name": "mostReadable",
+    "kind": "function",
+    "signature": "export function mostReadable(bg: string, candidates: string[]): string",
+    "description": "Find the most readable color from a list of candidates against a background.",
+    "file": "src/utils/color.ts"
+  },
+  {
+    "name": "omit",
+    "kind": "function",
+    "signature": "export function omit<T extends Record<string, unknown>, K extends keyof T>( obj: T, keys: K[], ): Omit<T, K>",
+    "description": "Return a new object without the specified keys.",
+    "file": "src/utils/object.ts"
+  },
+  {
+    "name": "parseColor",
+    "kind": "function",
+    "signature": "export function parseColor( input: string ): { r: number; g: number; b: number; a: number } | null",
+    "description": "Parse any common CSS color format to RGBA.\nSupports: #hex (3/6/8 digit), rgb(), rgba(), hsl(), hsla().\nNamed colors are NOT supported.",
+    "file": "src/utils/color.ts"
+  },
+  {
     "name": "parseDate",
     "kind": "function",
     "signature": "export function parseDate(input: string, pattern: string): Date | null",
     "description": "Parse a date string against a pattern using the same token set as\n`formatDate`. Returns `null` on failure.",
     "file": "src/utils/date.ts"
+  },
+  {
+    "name": "pick",
+    "kind": "function",
+    "signature": "export function pick<T extends Record<string, unknown>, K extends keyof T>( obj: T, keys: K[], ): Pick<T, K>",
+    "description": "Return a new object with only the specified keys.",
+    "file": "src/utils/object.ts"
+  },
+  {
+    "name": "releasePortalContainer",
+    "kind": "function",
+    "signature": "export function releasePortalContainer(name?: string): void",
+    "description": "Release a portal container. Decrements the ref count and\nremoves the element from the DOM when it reaches zero.",
+    "file": "src/utils/portalContainer.ts"
+  },
+  {
+    "name": "responsiveClasses",
+    "kind": "function",
+    "signature": "export function responsiveClasses<T extends string>( prefix: string, value: T | Partial<Record<string, T>>, ): string",
+    "description": "Generate responsive utility classes from a plain value or a\nbreakpoint-keyed object.\n\n@example\nresponsiveClasses(\"cols\", \"2\")           // \"vf-cols-2\"\nresponsiveClasses(\"cols\", { base: \"1\", md: \"2\", lg: \"3\" })\n// \"vf-cols-1 md:vf-cols-2 lg:vf-cols-3\"",
+    "file": "src/utils/responsiveClasses.ts"
+  },
+  {
+    "name": "rgbToHex",
+    "kind": "function",
+    "signature": "export function rgbToHex(r: number, g: number, b: number): string",
+    "description": "Convert RGB components (0-255) to a hex string.",
+    "file": "src/utils/color.ts"
+  },
+  {
+    "name": "rgbToHsl",
+    "kind": "function",
+    "signature": "export function rgbToHsl( r: number, g: number, b: number ): { h: number; s: number; l: number }",
+    "description": "Convert RGB (0-255) to HSL (h: 0-360, s: 0-100, l: 0-100).",
+    "file": "src/utils/color.ts"
   },
   {
     "name": "safeHref",
@@ -216,6 +530,20 @@
     "file": "src/utils/sanitizeHtml.ts"
   },
   {
+    "name": "setAlpha",
+    "kind": "function",
+    "signature": "export function setAlpha(hex: string, alpha: number): string",
+    "description": "Return a hex+alpha string (8-digit hex) with the given alpha (0-1).",
+    "file": "src/utils/color.ts"
+  },
+  {
+    "name": "setCookie",
+    "kind": "function",
+    "signature": "export function setCookie( name: string, value: string, options: CookieOptions = {}, ): void",
+    "description": "Set a cookie with optional configuration.",
+    "file": "src/utils/cookie.ts"
+  },
+  {
     "name": "setLogger",
     "kind": "function",
     "signature": "export function setLogger(next: Partial<VoidframeLogger>): void",
@@ -228,6 +556,27 @@
     "signature": "export function sortBy<T, K extends keyof T>( arr: T[], key: K, order: \"asc\" | \"desc\" = \"asc\" ): T[]",
     "description": "Sort an array of objects by key (returns new array).",
     "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "splitProps",
+    "kind": "function",
+    "signature": "export function splitProps<T extends Record<string, unknown>, K extends keyof T>( obj: T, keys: K[], ): [Pick<T, K>, Omit<T, K>]",
+    "description": "Split an object into two: [picked, rest].\n\n@example\nconst [styleProps, rest] = splitProps(props, [\"color\", \"size\"]);",
+    "file": "src/utils/object.ts"
+  },
+  {
+    "name": "staggerAnimation",
+    "kind": "function",
+    "signature": "export function staggerAnimation( elements: Element[], animationClass: string, options: AnimationSequenceOptions = {}, ): () => void",
+    "description": "Apply a staggered animation class to a list of elements.\nSets `--vf-stagger-delay` CSS custom property on each element.\n\n@returns Cleanup function that removes the class and property.",
+    "file": "src/utils/animationSequence.ts"
+  },
+  {
+    "name": "staggerDelay",
+    "kind": "function",
+    "signature": "export function staggerDelay(index: number, staggerMs?: number): string",
+    "description": "Simple stagger: return `${index * staggerMs}ms`.",
+    "file": "src/utils/animationSequence.ts"
   },
   {
     "name": "startOfDay",
@@ -278,6 +627,13 @@
     "file": "src/utils/formatters.ts"
   },
   {
+    "name": "valibotAdapter",
+    "kind": "function",
+    "signature": "export function valibotAdapter<T>( schema: unknown, safeParse: ( schema: unknown, data: T ) =>",
+    "description": "Adapt a Valibot schema to voidframe's FormValidator interface.\nTakes the schema object and the safeParse function separately\n(Valibot uses a functional API).",
+    "file": "src/utils/formValidation.ts"
+  },
+  {
     "name": "warn",
     "kind": "function",
     "signature": "export function warn(condition: boolean, message: string, ...args: unknown[]): void",
@@ -297,5 +653,19 @@
     "signature": "export function weekdayNames( locale: string, firstDayOfWeek: 0 | 1 = 0, length: \"narrow\" | \"short\" = \"short\" ): string[]",
     "description": "Localized short weekday names, rotated so index 0 is firstDayOfWeek.",
     "file": "src/utils/date.ts"
+  },
+  {
+    "name": "yupAdapter",
+    "kind": "function",
+    "signature": "export function yupAdapter<T>(schema:",
+    "description": "Adapt a Yup schema to voidframe's FormValidator interface.\nDuck-types on `validateSync` — no Yup import required.",
+    "file": "src/utils/formValidation.ts"
+  },
+  {
+    "name": "zodAdapter",
+    "kind": "function",
+    "signature": "export function zodAdapter<T>(schema:",
+    "description": "Adapt a Zod schema to voidframe's FormValidator interface.\nDuck-types on `safeParse` — no Zod import required.",
+    "file": "src/utils/formValidation.ts"
   }
 ]

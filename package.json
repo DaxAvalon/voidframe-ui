@@ -56,8 +56,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:ssr": "vitest run src/__tests__/ssr.test.tsx",
+    "test:ssr": "vitest run src/__tests__/ssr.test.tsx test/ssr/",
     "test:a11y": "vitest run src/components/__tests__/a11yAxe.test.tsx",
+    "test:types": "vitest run test/types/",
+    "test:coverage:report": "vitest run --coverage --reporter=html",
     "size": "size-limit",
     "analyze": "ANALYZE=1 vite build && echo 'Bundle analysis written to dist/stats.html'",
     "lint:build": "tsc -p tools/eslint-plugin-voidframe/tsconfig.json",
@@ -69,7 +71,10 @@
     "vscode:snippets": "node scripts/generate-vscode-snippets.mjs",
     "vscode:package": "node scripts/package-vscode.mjs",
     "prepublishOnly": "npm run typecheck && npm test -- --run && npm run build",
-    "pack:check": "npm pack --dry-run"
+    "test:visual": "npx playwright test",
+    "test:visual:update": "npx playwright test --update-snapshots",
+    "pack:check": "npm pack --dry-run",
+    "tokens:export": "node scripts/export-tokens.mjs --format all"
   },
   "size-limit": [
     {
@@ -93,7 +98,7 @@
     {
       "name": "Stylesheet (dist/voidframe.css)",
       "path": "dist/voidframe.css",
-      "limit": "40 KB",
+      "limit": "50 KB",
       "gzip": true
     },
     {

@@ -78,8 +78,11 @@
 .vf-playground__preview {
   padding: var(--vf-sp-3);
   background: var(--vf-bg-0);
-  overflow: auto;
+  overflow: hidden;
   color: var(--vf-text-0);
+  position: relative;
+  contain: layout paint;
+  isolation: isolate;
 }
 .vf-playground__error {
   padding: var(--vf-sp-2);
@@ -97,7 +100,7 @@
 .vf-docs {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   background: var(--vf-bg-0);
   color: var(--vf-text-1);
   font-family: var(--vf-font-family);
@@ -110,6 +113,10 @@
   padding: var(--vf-sp-2) var(--vf-sp-4);
   background: var(--vf-bg-1);
   border-bottom: 1px solid var(--vf-border-1);
+  position: sticky;
+  top: 0;
+  z-index: var(--vf-z-sticky);
+  flex-shrink: 0;
 }
 .vf-docs__brand {
   font-weight: 700;
@@ -125,6 +132,7 @@
   grid-template-columns: 240px 1fr;
   flex: 1 1 auto;
   min-height: 0;
+  overflow: hidden;
 }
 @media (max-width: 760px) {
   .vf-docs__layout {
@@ -159,7 +167,10 @@
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  background: none;
+  border: none;
   border-bottom: 1px dashed var(--vf-border-0);
+  font-family: inherit;
 }
 .vf-docs__nav-list {
   list-style: none;
@@ -222,6 +233,21 @@
   border: 1px solid var(--vf-border-0);
   padding: 0 var(--vf-sp-2);
   color: var(--vf-text-1);
+}
+.vf-docs__divider {
+  border: none;
+  border-top: 1px solid var(--vf-border-2);
+  margin: var(--vf-sp-4) 0;
+}
+.vf-docs__info-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-4);
+}
+.vf-docs__playground-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-4);
 }
 
 /* ── PropsTable (Phase 27) ───────────────────────────────── */

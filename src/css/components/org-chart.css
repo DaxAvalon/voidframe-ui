@@ -1,0 +1,123 @@
+/* OrgChart — hierarchical organization tree. Theme-token driven, 1px brutalist lines, no animation. */
+
+/* ── Root container ──────────────────────────────────────── */
+.vf-org-chart {
+  position: relative;
+  overflow: auto;
+  font-family: var(--vf-font-family);
+  color: var(--vf-text-1);
+  box-sizing: border-box;
+}
+
+/* ── SVG ─────────────────────────────────────────────────── */
+.vf-org-chart__svg {
+  overflow: visible;
+  display: block;
+}
+
+/* ── Nodes ───────────────────────────────────────────────── */
+.vf-org-chart__node {
+  cursor: pointer;
+}
+
+.vf-org-chart__node-card {
+  fill: var(--vf-surface-1);
+  stroke: var(--vf-border-2);
+  stroke-width: 1;
+}
+
+.vf-org-chart__node:hover .vf-org-chart__node-card {
+  stroke: var(--vf-text-1);
+}
+
+.vf-org-chart__node-label {
+  font-family: var(--vf-font-family);
+  fill: var(--vf-text-0);
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.vf-org-chart__node-description {
+  font-family: var(--vf-font-family);
+  fill: var(--vf-text-3);
+  pointer-events: none;
+}
+
+/* ── Connectors ──────────────────────────────────────────── */
+.vf-org-chart__connector {
+  stroke: var(--vf-border-2);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.vf-org-chart__connector--curved {
+  shape-rendering: auto;
+}
+
+/* ── Collapse toggle ─────────────────────────────────────── */
+.vf-org-chart__collapse-toggle {
+  cursor: pointer;
+}
+
+.vf-org-chart__collapse-toggle circle {
+  fill: var(--vf-surface-0);
+  stroke: var(--vf-border-2);
+  stroke-width: 1;
+}
+
+.vf-org-chart__collapse-toggle text {
+  fill: var(--vf-text-1);
+  font-family: var(--vf-font-family);
+  pointer-events: none;
+}
+
+.vf-org-chart__collapse-toggle:hover circle {
+  stroke: var(--vf-text-1);
+}
+
+/* ── Zoom controls ───────────────────────────────────────── */
+.vf-org-chart__controls {
+  position: absolute;
+  top: var(--vf-sp-2);
+  right: var(--vf-sp-2);
+  display: flex;
+  gap: var(--vf-sp-1);
+  z-index: 1;
+}
+
+.vf-org-chart__zoom-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  font-weight: 600;
+  background: var(--vf-surface-0);
+  color: var(--vf-text-1);
+  border: 1px solid var(--vf-border-2);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.vf-org-chart__zoom-btn:hover {
+  border-color: var(--vf-text-1);
+}
+
+/* ── Size modifiers ──────────────────────────────────────── */
+.vf-org-chart--sm .vf-org-chart__node-label {
+  font-size: var(--vf-font-xxs);
+}
+
+.vf-org-chart--sm .vf-org-chart__node-description {
+  font-size: 9px;
+}
+
+.vf-org-chart--md .vf-org-chart__node-label {
+  font-size: var(--vf-font-xs);
+}
+
+.vf-org-chart--md .vf-org-chart__node-description {
+  font-size: var(--vf-font-xxs);
+}

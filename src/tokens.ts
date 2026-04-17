@@ -40,6 +40,15 @@ export interface VoidframeTokens {
   cyan: string;
   rose: string;
 
+  // Accent opacity variants (hex with alpha)
+  green5: string;   green10: string;  green20: string;  green40: string;  green60: string;
+  red5: string;     red10: string;    red20: string;    red40: string;    red60: string;
+  amber5: string;   amber10: string;  amber20: string;  amber40: string;  amber60: string;
+  blue5: string;    blue10: string;   blue20: string;   blue40: string;   blue60: string;
+  purple5: string;  purple10: string; purple20: string; purple40: string; purple60: string;
+  cyan5: string;    cyan10: string;   cyan20: string;   cyan40: string;   cyan60: string;
+  rose5: string;    rose10: string;   rose20: string;   rose40: string;   rose60: string;
+
   // Semantic aliases
   success: string;
   danger: string;
@@ -84,6 +93,13 @@ export interface VoidframeTokens {
   // Misc
   radius: number;
   transition: string;
+
+  // Border widths
+  borderWidth0: number;
+  borderWidth1: number;
+  borderWidth2: number;
+  borderWidth3: number;
+  borderWidth4: number;
 }
 
 export type ThemeOverrides = Partial<VoidframeTokens>;
@@ -125,6 +141,15 @@ export const defaultTokens: VoidframeTokens = {
   purple: "#a855f7",
   cyan: "#22d3ee",
   rose: "#ff6b6b",
+
+  // ── ACCENT OPACITY VARIANTS ──────────────────────────────
+  green5: "#4ade800d", green10: "#4ade801a", green20: "#4ade8033", green40: "#4ade8066", green60: "#4ade8099",
+  red5: "#f871710d", red10: "#f871711a", red20: "#f8717133", red40: "#f8717166", red60: "#f8717199",
+  amber5: "#c8aa3e0d", amber10: "#c8aa3e1a", amber20: "#c8aa3e33", amber40: "#c8aa3e66", amber60: "#c8aa3e99",
+  blue5: "#6b9fdd0d", blue10: "#6b9fdd1a", blue20: "#6b9fdd33", blue40: "#6b9fdd66", blue60: "#6b9fdd99",
+  purple5: "#a855f70d", purple10: "#a855f71a", purple20: "#a855f733", purple40: "#a855f766", purple60: "#a855f799",
+  cyan5: "#22d3ee0d", cyan10: "#22d3ee1a", cyan20: "#22d3ee33", cyan40: "#22d3ee66", cyan60: "#22d3ee99",
+  rose5: "#ff6b6b0d", rose10: "#ff6b6b1a", rose20: "#ff6b6b33", rose40: "#ff6b6b66", rose60: "#ff6b6b99",
 
   // ── SEMANTIC ALIASES ──────────────────────────────────────
   success: "#4ade80",
@@ -173,6 +198,13 @@ export const defaultTokens: VoidframeTokens = {
   // ── MISC ──────────────────────────────────────────────────
   radius: 0,
   transition: "all 0.15s ease",
+
+  // ── BORDER WIDTHS ─────────────────────────────────────────
+  borderWidth0: 0,
+  borderWidth1: 1,
+  borderWidth2: 2,
+  borderWidth3: 3,
+  borderWidth4: 4,
 };
 
 /**
@@ -228,10 +260,22 @@ export const lightTheme: VoidframeTokens = createTheme({
   purple: "#6d28d9",
   cyan: "#0e7490",
   rose: "#be123c",
+  green5: "#0f7f380d", green10: "#0f7f381a", green20: "#0f7f3833", green40: "#0f7f3866", green60: "#0f7f3899",
+  red5: "#b91c1c0d", red10: "#b91c1c1a", red20: "#b91c1c33", red40: "#b91c1c66", red60: "#b91c1c99",
+  amber5: "#854d0e0d", amber10: "#854d0e1a", amber20: "#854d0e33", amber40: "#854d0e66", amber60: "#854d0e99",
+  blue5: "#1d4ed80d", blue10: "#1d4ed81a", blue20: "#1d4ed833", blue40: "#1d4ed866", blue60: "#1d4ed899",
+  purple5: "#6d28d90d", purple10: "#6d28d91a", purple20: "#6d28d933", purple40: "#6d28d966", purple60: "#6d28d999",
+  cyan5: "#0e74900d", cyan10: "#0e74901a", cyan20: "#0e749033", cyan40: "#0e749066", cyan60: "#0e749099",
+  rose5: "#be123c0d", rose10: "#be123c1a", rose20: "#be123c33", rose40: "#be123c66", rose60: "#be123c99",
   success: "#0f7f38",
   danger: "#b91c1c",
   warning: "#854d0e",
   info: "#1d4ed8",
+  borderWidth0: 0,
+  borderWidth1: 1,
+  borderWidth2: 2,
+  borderWidth3: 3,
+  borderWidth4: 4,
 });
 
 /**
@@ -264,8 +308,20 @@ export const greyTheme: VoidframeTokens = createTheme({
   purple: "#c4a3ff",
   cyan: "#7fe8f3",
   rose: "#ff95b6",
+  green5: "#6ee7a80d", green10: "#6ee7a81a", green20: "#6ee7a833", green40: "#6ee7a866", green60: "#6ee7a899",
+  red5: "#fb71850d", red10: "#fb71851a", red20: "#fb718533", red40: "#fb718566", red60: "#fb718599",
+  amber5: "#f1c96b0d", amber10: "#f1c96b1a", amber20: "#f1c96b33", amber40: "#f1c96b66", amber60: "#f1c96b99",
+  blue5: "#8fb8f00d", blue10: "#8fb8f01a", blue20: "#8fb8f033", blue40: "#8fb8f066", blue60: "#8fb8f099",
+  purple5: "#c4a3ff0d", purple10: "#c4a3ff1a", purple20: "#c4a3ff33", purple40: "#c4a3ff66", purple60: "#c4a3ff99",
+  cyan5: "#7fe8f30d", cyan10: "#7fe8f31a", cyan20: "#7fe8f333", cyan40: "#7fe8f366", cyan60: "#7fe8f399",
+  rose5: "#ff95b60d", rose10: "#ff95b61a", rose20: "#ff95b633", rose40: "#ff95b666", rose60: "#ff95b699",
   success: "#6ee7a8",
   danger: "#fb7185",
   warning: "#f1c96b",
   info: "#8fb8f0",
+  borderWidth0: 0,
+  borderWidth1: 1,
+  borderWidth2: 2,
+  borderWidth3: 3,
+  borderWidth4: 4,
 });

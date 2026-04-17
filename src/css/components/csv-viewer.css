@@ -1,0 +1,91 @@
+/* CSVViewer */
+
+.vf-csv-viewer {
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border);
+  border-radius: var(--vf-radius);
+  overflow: auto;
+}
+
+.vf-csv-viewer--sm {
+  font-size: var(--vf-font-xs);
+}
+
+.vf-csv-viewer--compact .vf-csv-viewer__cell,
+.vf-csv-viewer--compact .vf-csv-viewer__header-cell,
+.vf-csv-viewer--compact .vf-csv-viewer__row-number {
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+}
+
+.vf-csv-viewer__table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+.vf-csv-viewer__header {
+  background: var(--vf-bg-3);
+}
+
+.vf-csv-viewer__header--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.vf-csv-viewer__header-cell {
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  text-align: left;
+  font-weight: 600;
+  color: var(--vf-text-2);
+  border-bottom: 2px solid var(--vf-border);
+  text-transform: uppercase;
+  font-size: 0.85em;
+  letter-spacing: var(--vf-letter-spacing);
+}
+
+.vf-csv-viewer__row-number {
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  color: var(--vf-text-4);
+  font-family: var(--vf-font-mono, monospace);
+  text-align: right;
+  min-width: 4ch;
+  border-right: 1px solid var(--vf-border);
+  user-select: none;
+}
+
+.vf-csv-viewer__row {
+  border-bottom: 1px solid color-mix(in srgb, var(--vf-border) 40%, transparent);
+}
+
+.vf-csv-viewer__row--striped {
+  background: color-mix(in srgb, var(--vf-bg-3) 50%, transparent);
+}
+
+.vf-csv-viewer__row--highlighted {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 10%, transparent);
+}
+
+.vf-csv-viewer__cell {
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  color: var(--vf-text-1);
+  cursor: default;
+}
+
+.vf-csv-viewer__cell--number {
+  text-align: right;
+  font-family: var(--vf-font-mono, monospace);
+}
+
+.vf-csv-viewer__cell--highlighted {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 8%, transparent);
+}
+
+.vf-csv-viewer__footer {
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  border-top: 1px solid var(--vf-border);
+  color: var(--vf-text-3);
+  font-size: 0.85em;
+}

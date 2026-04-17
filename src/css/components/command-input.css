@@ -1,0 +1,125 @@
+/* CommandInput */
+
+.vf-command-input {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border);
+  border-radius: var(--vf-radius);
+  font-family: var(--vf-font-mono);
+  position: relative;
+}
+
+/* ── Prompt ──────────────────────────────────────────────────── */
+
+.vf-command-input__prompt {
+  color: var(--vf-text-3);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* ── Input wrapper (for ghost text overlay) ──────────────────── */
+
+.vf-command-input__input-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.vf-command-input__input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--vf-text-1);
+  font-family: inherit;
+  font-size: inherit;
+  caret-color: var(--vf-accent, var(--vf-text-1));
+}
+
+.vf-command-input__input::placeholder {
+  color: var(--vf-text-3);
+}
+
+/* ── Ghost suggestion text ───────────────────────────────────── */
+
+.vf-command-input__suggestion {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  color: transparent;
+  white-space: pre;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.vf-command-input__suggestion-ghost {
+  color: var(--vf-text-3);
+  opacity: 0.5;
+}
+
+/* ── Completions dropdown ────────────────────────────────────── */
+
+.vf-command-input__completions {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: var(--vf-sp-1) 0;
+  list-style: none;
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border);
+  border-radius: var(--vf-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.vf-command-input__completion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--vf-sp-1) var(--vf-sp-3);
+  cursor: pointer;
+  color: var(--vf-text-1);
+  font-size: inherit;
+}
+
+.vf-command-input__completion-item:hover,
+.vf-command-input__completion-item--active {
+  background: var(--vf-bg-3);
+}
+
+.vf-command-input__completion-desc {
+  color: var(--vf-text-3);
+  font-size: var(--vf-font-xs);
+  margin-left: var(--vf-sp-3);
+}
+
+/* ── Size modifiers ──────────────────────────────────────────── */
+
+.vf-command-input--sm {
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+  font-size: var(--vf-font-xs);
+}
+
+.vf-command-input--md {
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  font-size: var(--vf-font-sm);
+}
+
+.vf-command-input--lg {
+  padding: var(--vf-sp-3) var(--vf-sp-4);
+  font-size: var(--vf-font-md);
+}
+
+/* ── Disabled ────────────────────────────────────────────────── */
+
+.vf-command-input--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

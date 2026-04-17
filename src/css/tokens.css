@@ -41,6 +41,43 @@
   --vf-cyan: #22d3ee;
   --vf-rose: #ff6b6b;
 
+  /* accent opacity variants */
+  --vf-green-5: #4ade800d;
+  --vf-green-10: #4ade801a;
+  --vf-green-20: #4ade8033;
+  --vf-green-40: #4ade8066;
+  --vf-green-60: #4ade8099;
+  --vf-red-5: #f871710d;
+  --vf-red-10: #f871711a;
+  --vf-red-20: #f8717133;
+  --vf-red-40: #f8717166;
+  --vf-red-60: #f8717199;
+  --vf-amber-5: #c8aa3e0d;
+  --vf-amber-10: #c8aa3e1a;
+  --vf-amber-20: #c8aa3e33;
+  --vf-amber-40: #c8aa3e66;
+  --vf-amber-60: #c8aa3e99;
+  --vf-blue-5: #6b9fdd0d;
+  --vf-blue-10: #6b9fdd1a;
+  --vf-blue-20: #6b9fdd33;
+  --vf-blue-40: #6b9fdd66;
+  --vf-blue-60: #6b9fdd99;
+  --vf-purple-5: #a855f70d;
+  --vf-purple-10: #a855f71a;
+  --vf-purple-20: #a855f733;
+  --vf-purple-40: #a855f766;
+  --vf-purple-60: #a855f799;
+  --vf-cyan-5: #22d3ee0d;
+  --vf-cyan-10: #22d3ee1a;
+  --vf-cyan-20: #22d3ee33;
+  --vf-cyan-40: #22d3ee66;
+  --vf-cyan-60: #22d3ee99;
+  --vf-rose-5: #ff6b6b0d;
+  --vf-rose-10: #ff6b6b1a;
+  --vf-rose-20: #ff6b6b33;
+  --vf-rose-40: #ff6b6b66;
+  --vf-rose-60: #ff6b6b99;
+
   /* semantic aliases */
   --vf-success: var(--vf-green);
   --vf-danger: var(--vf-red);
@@ -83,6 +120,13 @@
   --vf-easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --vf-easing-emphasized: cubic-bezier(0.3, 0, 0, 1);
 
+  /* border widths */
+  --vf-border-width-0: 0px;
+  --vf-border-width-1: 1px;
+  --vf-border-width-2: 2px;
+  --vf-border-width-3: 3px;
+  --vf-border-width-4: 4px;
+
   /* geometry */
   --vf-radius: 0;
 
@@ -111,6 +155,23 @@
   --vf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --vf-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.5);
   --vf-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.6);
+  --vf-shadow-none: none;
+  --vf-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --vf-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  --vf-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+
+  /* transitions */
+  --vf-transition-default: color 150ms var(--vf-easing-standard), background-color 150ms var(--vf-easing-standard), border-color 150ms var(--vf-easing-standard), box-shadow 150ms var(--vf-easing-standard);
+  --vf-transition-transform: transform 200ms var(--vf-easing-emphasized);
+  --vf-transition-all: all 150ms var(--vf-easing-standard);
+  --vf-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --vf-easing-bounce: cubic-bezier(0.34, 1.3, 0.64, 1);
+  --vf-easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --vf-easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --vf-duration-instant: 0ms;
+  --vf-duration-faster: 50ms;
+  --vf-duration-slower: 400ms;
+  --vf-duration-slowest: 600ms;
 
   /* focus */
   --vf-focus-ring: 2px solid var(--vf-text-0);
@@ -142,6 +203,41 @@
   --vf-purple: #b983ff;
   --vf-cyan: #7fe8f3;
   --vf-rose: #ff95b6;
+  --vf-green-5: #6ee7a80d;
+  --vf-green-10: #6ee7a81a;
+  --vf-green-20: #6ee7a833;
+  --vf-green-40: #6ee7a866;
+  --vf-green-60: #6ee7a899;
+  --vf-red-5: #f47a7a0d;
+  --vf-red-10: #f47a7a1a;
+  --vf-red-20: #f47a7a33;
+  --vf-red-40: #f47a7a66;
+  --vf-red-60: #f47a7a99;
+  --vf-amber-5: #e2c2560d;
+  --vf-amber-10: #e2c2561a;
+  --vf-amber-20: #e2c25633;
+  --vf-amber-40: #e2c25666;
+  --vf-amber-60: #e2c25699;
+  --vf-blue-5: #7db0ee0d;
+  --vf-blue-10: #7db0ee1a;
+  --vf-blue-20: #7db0ee33;
+  --vf-blue-40: #7db0ee66;
+  --vf-blue-60: #7db0ee99;
+  --vf-purple-5: #b983ff0d;
+  --vf-purple-10: #b983ff1a;
+  --vf-purple-20: #b983ff33;
+  --vf-purple-40: #b983ff66;
+  --vf-purple-60: #b983ff99;
+  --vf-cyan-5: #7fe8f30d;
+  --vf-cyan-10: #7fe8f31a;
+  --vf-cyan-20: #7fe8f333;
+  --vf-cyan-40: #7fe8f366;
+  --vf-cyan-60: #7fe8f399;
+  --vf-rose-5: #ff95b60d;
+  --vf-rose-10: #ff95b61a;
+  --vf-rose-20: #ff95b633;
+  --vf-rose-40: #ff95b666;
+  --vf-rose-60: #ff95b699;
   --vf-success: var(--vf-green);
   --vf-danger: var(--vf-red);
   --vf-warning: var(--vf-amber);
@@ -179,6 +275,41 @@
   --vf-purple: #6d28d9;
   --vf-cyan: #0e7490;
   --vf-rose: #be123c;
+  --vf-green-5: #0f7f380d;
+  --vf-green-10: #0f7f381a;
+  --vf-green-20: #0f7f3833;
+  --vf-green-40: #0f7f3866;
+  --vf-green-60: #0f7f3899;
+  --vf-red-5: #b91c1c0d;
+  --vf-red-10: #b91c1c1a;
+  --vf-red-20: #b91c1c33;
+  --vf-red-40: #b91c1c66;
+  --vf-red-60: #b91c1c99;
+  --vf-amber-5: #854d0e0d;
+  --vf-amber-10: #854d0e1a;
+  --vf-amber-20: #854d0e33;
+  --vf-amber-40: #854d0e66;
+  --vf-amber-60: #854d0e99;
+  --vf-blue-5: #1d4ed80d;
+  --vf-blue-10: #1d4ed81a;
+  --vf-blue-20: #1d4ed833;
+  --vf-blue-40: #1d4ed866;
+  --vf-blue-60: #1d4ed899;
+  --vf-purple-5: #6d28d90d;
+  --vf-purple-10: #6d28d91a;
+  --vf-purple-20: #6d28d933;
+  --vf-purple-40: #6d28d966;
+  --vf-purple-60: #6d28d999;
+  --vf-cyan-5: #0e74900d;
+  --vf-cyan-10: #0e74901a;
+  --vf-cyan-20: #0e749033;
+  --vf-cyan-40: #0e749066;
+  --vf-cyan-60: #0e749099;
+  --vf-rose-5: #be123c0d;
+  --vf-rose-10: #be123c1a;
+  --vf-rose-20: #be123c33;
+  --vf-rose-40: #be123c66;
+  --vf-rose-60: #be123c99;
   --vf-success: var(--vf-green);
   --vf-danger: var(--vf-red);
   --vf-warning: var(--vf-amber);
@@ -217,6 +348,41 @@
   --vf-purple: #c4a3ff;
   --vf-cyan: #7fe8f3;
   --vf-rose: #ff95b6;
+  --vf-green-5: #6ee7a80d;
+  --vf-green-10: #6ee7a81a;
+  --vf-green-20: #6ee7a833;
+  --vf-green-40: #6ee7a866;
+  --vf-green-60: #6ee7a899;
+  --vf-red-5: #fb71850d;
+  --vf-red-10: #fb71851a;
+  --vf-red-20: #fb718533;
+  --vf-red-40: #fb718566;
+  --vf-red-60: #fb718599;
+  --vf-amber-5: #f1c96b0d;
+  --vf-amber-10: #f1c96b1a;
+  --vf-amber-20: #f1c96b33;
+  --vf-amber-40: #f1c96b66;
+  --vf-amber-60: #f1c96b99;
+  --vf-blue-5: #8fb8f00d;
+  --vf-blue-10: #8fb8f01a;
+  --vf-blue-20: #8fb8f033;
+  --vf-blue-40: #8fb8f066;
+  --vf-blue-60: #8fb8f099;
+  --vf-purple-5: #c4a3ff0d;
+  --vf-purple-10: #c4a3ff1a;
+  --vf-purple-20: #c4a3ff33;
+  --vf-purple-40: #c4a3ff66;
+  --vf-purple-60: #c4a3ff99;
+  --vf-cyan-5: #7fe8f30d;
+  --vf-cyan-10: #7fe8f31a;
+  --vf-cyan-20: #7fe8f333;
+  --vf-cyan-40: #7fe8f366;
+  --vf-cyan-60: #7fe8f399;
+  --vf-rose-5: #ff95b60d;
+  --vf-rose-10: #ff95b61a;
+  --vf-rose-20: #ff95b633;
+  --vf-rose-40: #ff95b666;
+  --vf-rose-60: #ff95b699;
   --vf-success: var(--vf-green);
   --vf-danger: var(--vf-red);
   --vf-warning: var(--vf-amber);
@@ -232,6 +398,9 @@
 /* ── Density modes ──────────────────────────────────────── */
 
 [data-vf-density="compact"] {
+  --vf-border-width-2: 1px;
+  --vf-border-width-3: 2px;
+  --vf-border-width-4: 3px;
   --vf-sp-1: 1px;
   --vf-sp-2: 2px;
   --vf-sp-3: 3px;
@@ -260,6 +429,9 @@
 [data-vf-density="compact"] .vf-form-control { padding: 3px 6px; }
 
 [data-vf-density="spacious"] {
+  --vf-border-width-2: 3px;
+  --vf-border-width-3: 4px;
+  --vf-border-width-4: 5px;
   --vf-sp-1: 3px;
   --vf-sp-2: 6px;
   --vf-sp-3: 9px;

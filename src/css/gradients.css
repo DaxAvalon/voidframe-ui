@@ -1,0 +1,31 @@
+/* ═══════════════════════════════════════════════════════════════
+   Gradients — predefined gradient tokens.
+   All use existing --vf-* color tokens so they adapt per theme.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root,
+[data-vf-theme="dark"] {
+  --vf-gradient-surface: linear-gradient(180deg, var(--vf-bg-1) 0%, var(--vf-bg-0) 100%);
+  --vf-gradient-surface-reverse: linear-gradient(0deg, var(--vf-bg-1) 0%, var(--vf-bg-0) 100%);
+  --vf-gradient-accent: linear-gradient(135deg, var(--vf-accent, var(--vf-blue)) 0%, color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 60%, var(--vf-bg-0)) 100%);
+  --vf-gradient-scrim-top: linear-gradient(180deg, var(--vf-scrim) 0%, transparent 100%);
+  --vf-gradient-scrim-bottom: linear-gradient(0deg, var(--vf-scrim) 0%, transparent 100%);
+  --vf-gradient-heat: linear-gradient(90deg, var(--vf-blue) 0%, var(--vf-green) 33%, var(--vf-amber) 66%, var(--vf-red) 100%);
+  --vf-gradient-cool: linear-gradient(90deg, var(--vf-cyan) 0%, var(--vf-blue) 50%, var(--vf-purple) 100%);
+  --vf-gradient-diverging: linear-gradient(90deg, var(--vf-red) 0%, var(--vf-bg-2) 50%, var(--vf-green) 100%);
+}
+
+/* Gradient utility classes */
+.vf-gradient-surface { background: var(--vf-gradient-surface); }
+.vf-gradient-surface-reverse { background: var(--vf-gradient-surface-reverse); }
+.vf-gradient-accent { background: var(--vf-gradient-accent); }
+.vf-gradient-scrim-top { background: var(--vf-gradient-scrim-top); }
+.vf-gradient-scrim-bottom { background: var(--vf-gradient-scrim-bottom); }
+
+.vf-gradient-text {
+  background: var(--vf-gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}

@@ -1,0 +1,99 @@
+/* ColorContrast */
+
+.vf-color-contrast {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  font-family: var(--vf-font-family);
+  border: 1px solid var(--vf-border-2);
+  background: var(--vf-bg-1);
+  padding: var(--vf-sp-4);
+}
+
+.vf-color-contrast__swatches {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-3);
+}
+
+.vf-color-contrast__swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--vf-sp-1);
+  font-size: var(--vf-fs-0);
+  color: var(--vf-text-1);
+}
+
+.vf-color-contrast__swatch-label {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--vf-radius);
+  border: 1px solid var(--vf-border-2);
+  display: block;
+}
+
+.vf-color-contrast__swap {
+  background: transparent;
+  border: 1px solid var(--vf-border-2);
+  color: var(--vf-text-1);
+  font-size: var(--vf-fs-2);
+  cursor: pointer;
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+  border-radius: var(--vf-radius);
+}
+
+.vf-color-contrast__swap:hover {
+  background: var(--vf-bg-3);
+}
+
+.vf-color-contrast__ratio {
+  font-size: var(--vf-fs-4);
+  font-weight: 700;
+  text-align: center;
+}
+
+.vf-color-contrast__ratio--pass {
+  color: var(--vf-green, #22c55e);
+}
+
+.vf-color-contrast__ratio--fail {
+  color: var(--vf-red, #ef4444);
+}
+
+.vf-color-contrast__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+}
+
+.vf-color-contrast__criterion {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  font-size: var(--vf-fs-0);
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+}
+
+.vf-color-contrast__criterion--pass {
+  color: var(--vf-green, #22c55e);
+}
+
+.vf-color-contrast__criterion--fail {
+  color: var(--vf-red, #ef4444);
+}
+
+.vf-color-contrast__preview {
+  padding: var(--vf-sp-4);
+  border-radius: var(--vf-radius);
+  font-size: var(--vf-fs-2);
+  text-align: center;
+}
+
+/* Size modifiers */
+.vf-color-contrast--sm {
+  padding: var(--vf-sp-2);
+  gap: var(--vf-sp-2);
+}
+.vf-color-contrast--sm .vf-color-contrast__ratio { font-size: var(--vf-fs-3); }
+.vf-color-contrast--sm .vf-color-contrast__swatch-label { width: 32px; height: 32px; }

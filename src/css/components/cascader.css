@@ -1,0 +1,130 @@
+/* Cascader — multi-level drill-down dropdown */
+
+.vf-cascader {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+  font-family: var(--vf-font-family);
+}
+
+.vf-cascader__label {
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-2);
+}
+
+.vf-cascader__container {
+  position: relative;
+}
+
+.vf-cascader__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--vf-sp-2);
+  width: 100%;
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  font-family: inherit;
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-1);
+  background: var(--vf-surface-1);
+  border: 1px solid var(--vf-border);
+  border-radius: var(--vf-radius);
+  cursor: pointer;
+  text-align: start;
+}
+.vf-cascader__trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.vf-cascader__trigger:hover:not(:disabled) {
+  border-color: var(--vf-accent, var(--vf-text-3));
+}
+
+.vf-cascader__display {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vf-cascader__clear {
+  cursor: pointer;
+  opacity: 0.6;
+  font-size: 1.1em;
+  line-height: 1;
+}
+.vf-cascader__clear:hover {
+  opacity: 1;
+}
+
+.vf-cascader__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  margin-top: var(--vf-sp-1);
+  background: var(--vf-surface-1);
+  border: 1px solid var(--vf-border);
+  border-radius: var(--vf-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.vf-cascader__panel {
+  min-width: 150px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: var(--vf-sp-1) 0;
+}
+.vf-cascader__panel + .vf-cascader__panel {
+  border-left: 1px solid var(--vf-border);
+}
+
+.vf-cascader__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--vf-sp-2);
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  cursor: pointer;
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-1);
+}
+.vf-cascader__option:hover {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 8%, transparent);
+}
+.vf-cascader__option--active {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 12%, transparent);
+  font-weight: 600;
+}
+.vf-cascader__option--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.vf-cascader__option--focused {
+  outline: 2px solid var(--vf-accent, var(--vf-text-3));
+  outline-offset: -2px;
+}
+
+.vf-cascader__option-arrow {
+  font-size: 1.2em;
+  opacity: 0.5;
+}
+
+/* Size modifiers */
+.vf-cascader--sm .vf-cascader__trigger {
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+  font-size: var(--vf-font-xs);
+}
+.vf-cascader--sm .vf-cascader__option {
+  padding: var(--vf-sp-1) var(--vf-sp-2);
+  font-size: var(--vf-font-xs);
+}
+.vf-cascader--lg .vf-cascader__trigger {
+  padding: var(--vf-sp-3) var(--vf-sp-4);
+  font-size: var(--vf-font-md);
+}
+.vf-cascader--lg .vf-cascader__option {
+  padding: var(--vf-sp-3) var(--vf-sp-4);
+  font-size: var(--vf-font-md);
+}

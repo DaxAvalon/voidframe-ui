@@ -60,6 +60,19 @@
   color: var(--vf-text-0);
 }
 
+[data-vf-theme="dark"],
+[data-vf-theme="midnight"] {
+  color-scheme: dark;
+}
+
+[data-vf-theme="light"] {
+  color-scheme: light;
+}
+
+[data-vf-theme="grey"] {
+  color-scheme: dark light;
+}
+
 /* ── Print ────────────────────────────────────────────────── */
 /* Hide overlays, toasts, tooltips, and backdrops when printing.
  * Force ink-on-paper defaults. Components marked with
@@ -95,5 +108,32 @@
   .vf-root * {
     color: inherit;
     border-color: #ccc;
+  }
+
+  /* Page break control */
+  .vf-break-before { break-before: page; }
+  .vf-break-after { break-after: page; }
+  .vf-break-inside-avoid { break-inside: avoid; }
+
+  /* Print visibility */
+  .vf-print-hidden { display: none !important; }
+  .vf-screen-only { display: none !important; }
+
+  /* Hide navigation elements */
+  .vf-sidebar { display: none !important; }
+  .vf-navbar { display: none !important; }
+  .vf-fab { display: none !important; }
+  .vf-back-to-top { display: none !important; }
+  .vf-scroll-indicator { display: none !important; }
+
+  /* Table print optimization */
+  .vf-data-grid { overflow: visible !important; }
+  .vf-data-grid thead { display: table-header-group; }
+
+  /* Ink-saving: replace backgrounds with borders */
+  .vf-tag,
+  .vf-notification-badge__indicator {
+    border: 1px solid currentColor;
+    background: transparent !important;
   }
 }

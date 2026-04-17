@@ -1,0 +1,97 @@
+/* HexDump */
+
+.vf-hex-dump {
+  font-family: var(--vf-font-mono, monospace);
+  font-size: var(--vf-font-sm);
+  line-height: 1.6;
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border);
+  border-radius: var(--vf-radius);
+  padding: var(--vf-sp-3);
+  overflow-x: auto;
+}
+
+.vf-hex-dump--sm {
+  font-size: var(--vf-font-xs);
+  padding: var(--vf-sp-2);
+  line-height: 1.4;
+}
+
+.vf-hex-dump__header {
+  display: flex;
+  gap: var(--vf-sp-4);
+  color: var(--vf-text-3);
+  border-bottom: 1px solid var(--vf-border);
+  padding-bottom: var(--vf-sp-1);
+  margin-bottom: var(--vf-sp-1);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  letter-spacing: var(--vf-letter-spacing);
+}
+
+.vf-hex-dump__row {
+  display: flex;
+  gap: var(--vf-sp-4);
+}
+
+.vf-hex-dump__offset {
+  color: var(--vf-text-3);
+  min-width: 6ch;
+  user-select: none;
+}
+
+.vf-hex-dump__hex {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0 var(--vf-sp-1);
+}
+
+.vf-hex-dump__byte {
+  cursor: pointer;
+  padding: 0 1px;
+  border-radius: 2px;
+  transition: background 0.1s;
+}
+
+.vf-hex-dump__byte:hover,
+.vf-hex-dump__byte--hovered {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 15%, transparent);
+}
+
+.vf-hex-dump__byte--highlighted {
+  background: color-mix(in srgb, var(--vf-hex-highlight, var(--vf-amber)) 20%, transparent);
+  color: var(--vf-hex-highlight, var(--vf-amber));
+}
+
+.vf-hex-dump__byte--selected {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 30%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 50%, transparent);
+}
+
+.vf-hex-dump__group-sep {
+  width: var(--vf-sp-2);
+  display: inline-block;
+}
+
+.vf-hex-dump__ascii {
+  display: inline-flex;
+  border-left: 1px solid var(--vf-border);
+  padding-left: var(--vf-sp-3);
+  white-space: pre;
+}
+
+.vf-hex-dump__char {
+  cursor: pointer;
+  padding: 0 0.5px;
+  border-radius: 2px;
+  transition: background 0.1s;
+}
+
+.vf-hex-dump__char:hover {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 15%, transparent);
+}
+
+.vf-hex-dump__char--nonprintable {
+  color: var(--vf-text-4);
+}

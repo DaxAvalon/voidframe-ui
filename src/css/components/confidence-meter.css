@@ -1,0 +1,68 @@
+/* ConfidenceMeter */
+
+.vf-confidence-meter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  font-family: var(--vf-font-family);
+}
+
+.vf-confidence-meter__bar {
+  width: 100%;
+  height: 8px;
+  background: var(--vf-border-1);
+  border-radius: var(--vf-radius);
+  overflow: hidden;
+}
+
+.vf-confidence-meter__bar-fill {
+  height: 100%;
+  border-radius: var(--vf-radius);
+}
+
+.vf-confidence-meter__gauge {
+  width: 100%;
+  max-width: 120px;
+}
+
+.vf-confidence-meter__ring {
+  width: 100%;
+  max-width: 100px;
+}
+
+.vf-confidence-meter__value {
+  font-size: var(--vf-fs-3);
+  font-weight: 700;
+  color: var(--vf-text-0);
+}
+
+.vf-confidence-meter__label {
+  font-size: var(--vf-fs-0);
+  color: var(--vf-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vf-confidence-meter--low .vf-confidence-meter__value {
+  color: var(--vf-red, #ef4444);
+}
+
+.vf-confidence-meter--medium .vf-confidence-meter__value {
+  color: var(--vf-amber, #f59e0b);
+}
+
+.vf-confidence-meter--high .vf-confidence-meter__value {
+  color: var(--vf-green, #22c55e);
+}
+
+/* Size modifiers */
+.vf-confidence-meter--sm .vf-confidence-meter__bar { height: 4px; }
+.vf-confidence-meter--sm .vf-confidence-meter__value { font-size: var(--vf-fs-1); }
+.vf-confidence-meter--sm .vf-confidence-meter__gauge { max-width: 80px; }
+.vf-confidence-meter--sm .vf-confidence-meter__ring { max-width: 60px; }
+
+.vf-confidence-meter--lg .vf-confidence-meter__bar { height: 12px; }
+.vf-confidence-meter--lg .vf-confidence-meter__value { font-size: var(--vf-fs-4); }
+.vf-confidence-meter--lg .vf-confidence-meter__gauge { max-width: 180px; }
+.vf-confidence-meter--lg .vf-confidence-meter__ring { max-width: 140px; }

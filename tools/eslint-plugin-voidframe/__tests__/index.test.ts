@@ -4,8 +4,11 @@ import plugin, { rules, configs } from "../index";
 describe("eslint-plugin-voidframe barrel", () => {
   it("exports all three rules under their kebab-case names", () => {
     expect(Object.keys(rules).sort()).toEqual([
+      "no-deprecated-props",
       "no-legacy-chart-imports",
       "no-raw-hex-colors",
+      "prefer-compound-pattern",
+      "require-a11y-label",
       "require-use-client",
     ]);
   });
