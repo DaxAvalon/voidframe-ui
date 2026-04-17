@@ -84,8 +84,7 @@
   overflow: auto;
   color: var(--vf-text-0);
   position: relative;
-  contain: layout paint;
-  isolation: isolate;
+  overflow: auto;
 }
 .vf-playground__error {
   padding: var(--vf-sp-2);

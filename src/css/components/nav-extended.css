@@ -15,7 +15,9 @@
 }
 .vf-menu__trigger:hover { background: var(--vf-bg-4); }
 .vf-menu__content {
-  position: relative;
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 0;
   display: inline-block;
   min-width: 180px;
   background: var(--vf-bg-1);

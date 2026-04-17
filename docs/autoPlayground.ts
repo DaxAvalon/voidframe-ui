@@ -113,8 +113,8 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   Pagination: '<Pagination page={3} totalPages={10} onChange={() => {}} />',
   Stepper: '<Stepper\n  steps={[\n    { label: "Account" },\n    { label: "Profile" },\n    { label: "Review" },\n  ]}\n  current={1}\n/>',
   Tabs: '<Tabs\n  tabs={[\n    { key: "tab1", label: "Overview", content: <Text>Overview content</Text> },\n    { key: "tab2", label: "Details", content: <Text>Details content</Text> },\n    { key: "tab3", label: "Settings", content: <Text>Settings content</Text> },\n  ]}\n  activeKey="tab1"\n  onChange={() => {}}\n/>',
-  NavItem: '<VStack gap={2}>\n  <NavItem label="Dashboard" active />\n  <NavItem label="Settings" />\n  <NavItem label="Profile" />\n</VStack>',
-  NavGroup: '<NavGroup label="Main">\n  <NavItem label="Dashboard" active />\n  <NavItem label="Analytics" />\n  <NavItem label="Settings" />\n</NavGroup>',
+  NavItem: '<VStack gap={2}>\n  <NavItem active>Dashboard</NavItem>\n  <NavItem>Settings</NavItem>\n  <NavItem>Profile</NavItem>\n</VStack>',
+  NavGroup: '<NavGroup title="Main">\n  <NavItem active>Dashboard</NavItem>\n  <NavItem>Analytics</NavItem>\n  <NavItem>Settings</NavItem>\n</NavGroup>',
   Link: '<Link href="#">Visit documentation</Link>',
   Anchor: '<Anchor href="#">Styled anchor link</Anchor>',
   BackButton: '<BackButton onClick={() => {}} />',
@@ -229,8 +229,8 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
 
   // ── AppShell / page layout ──────────────────────────────────────────
   AppShell: '<div style={{ height: 200, border: "1px solid var(--vf-border-1)", overflow: "hidden" }}>\n  <AppShell\n    header={<Text size="sm" style={{ padding: "4px 8px" }}>Header</Text>}\n    sidebar={<div style={{ padding: 8 }}><Text size="sm">Sidebar</Text></div>}\n    footer={<Text size="xs" style={{ padding: "4px 8px" }}>Footer</Text>}\n  >\n    <Text>Main content</Text>\n  </AppShell>\n</div>',
-  Navbar: '<div style={{ border: "1px solid var(--vf-border-1)" }}>\n  <Navbar>\n    <Text size="sm" style={{ fontWeight: 700 }}>MyApp</Text>\n    <NavItem label="Home" active />\n    <NavItem label="About" />\n    <NavItem label="Contact" />\n  </Navbar>\n</div>',
-  Sidebar: '<div style={{ display: "flex", height: 200, border: "1px solid var(--vf-border-1)" }}>\n  <Sidebar style={{ width: 180 }}>\n    <Sidebar.Brand>APP</Sidebar.Brand>\n    <Sidebar.Section label="Main">\n      <NavItem label="Dashboard" active />\n      <NavItem label="Analytics" />\n      <NavItem label="Settings" />\n    </Sidebar.Section>\n  </Sidebar>\n  <div style={{ flex: 1, padding: 12 }}>\n    <Text>Main content area</Text>\n  </div>\n</div>',
+  Navbar: '<div style={{ border: "1px solid var(--vf-border-1)" }}>\n  <Navbar>\n    <Text size="sm" style={{ fontWeight: 700 }}>MyApp</Text>\n    <NavItem active>Home</NavItem>\n    <NavItem>About</NavItem>\n    <NavItem>Contact</NavItem>\n  </Navbar>\n</div>',
+  Sidebar: '<div style={{ display: "flex", height: 200, border: "1px solid var(--vf-border-1)" }}>\n  <Sidebar style={{ width: 180 }}>\n    <Sidebar.Brand>APP</Sidebar.Brand>\n    <Sidebar.Section label="Main">\n      <NavItem active>Dashboard</NavItem>\n      <NavItem>Analytics</NavItem>\n      <NavItem>Settings</NavItem>\n    </Sidebar.Section>\n  </Sidebar>\n  <div style={{ flex: 1, padding: 12 }}>\n    <Text>Main content area</Text>\n  </div>\n</div>',
   Footer: '<Text size="sm" color="var(--vf-text-3)">Footer renders a page footer. Typically placed in AppShell footer slot.</Text>',
   Header: '<Text size="sm" color="var(--vf-text-3)">Header renders a page header. Typically placed in AppShell header slot.</Text>',
   PageHeader: '<PageHeader eyebrow="Settings" title="User Profile" description="Manage your account settings and preferences" />',
