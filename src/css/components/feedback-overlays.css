@@ -396,6 +396,7 @@
   border-bottom: 1px solid var(--vf-border-1);
   font-family: var(--vf-font-family); font-size: var(--vf-font-sm);
 }
+.vf-banner-alert--neutral { border-bottom-color: var(--vf-border-2); }
 .vf-banner-alert--info { border-bottom-color: var(--vf-blue); }
 .vf-banner-alert--success { border-bottom-color: var(--vf-green); }
 .vf-banner-alert--warning { border-bottom-color: var(--vf-amber); }

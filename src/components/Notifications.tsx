@@ -195,7 +195,7 @@ NotificationCenter.displayName = "NotificationCenter";
 // ── BannerAlert ─────────────────────────────────────────────
 
 export interface BannerAlertProps extends HTMLAttributes<HTMLDivElement> {
-  tone?: "info" | "success" | "warning" | "danger";
+  tone?: "neutral" | "info" | "success" | "warning" | "danger";
   dismissible?: boolean;
   onDismiss?: () => void;
   action?: ReactNode;

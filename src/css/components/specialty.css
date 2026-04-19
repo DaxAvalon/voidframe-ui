@@ -116,6 +116,7 @@
   border-inline-start-color: var(--vf-accent, var(--vf-info));
 }
 
+.vf-commit-graph__row--neutral .vf-commit-graph__node { color: var(--vf-text-2); }
 .vf-commit-graph__row--info .vf-commit-graph__node { color: var(--vf-info); }
 .vf-commit-graph__row--success .vf-commit-graph__node { color: var(--vf-success); }
 .vf-commit-graph__row--warning .vf-commit-graph__node { color: var(--vf-warning); }

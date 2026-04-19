@@ -26,7 +26,7 @@ export interface CommitNode {
   timestamp?: ReactNode;
   branch?: string;
   parents?: string[];
-  tone?: "default" | "info" | "success" | "warning" | "danger";
+  tone?: "neutral" | "info" | "success" | "warning" | "danger";
 }
 
 export interface CommitGraphProps extends HTMLAttributes<HTMLDivElement> {

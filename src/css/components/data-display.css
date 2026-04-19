@@ -217,10 +217,12 @@
 .vf-stat__change--success { color: var(--vf-green); }
 .vf-stat__change--danger { color: var(--vf-red); }
 .vf-stat__change--warning { color: var(--vf-amber); }
+.vf-stat__change--info { color: var(--vf-blue); }
 .vf-stat__trend { width: 100%; height: 28px; color: var(--vf-text-3); }
 .vf-stat__trend--success { color: var(--vf-green); }
 .vf-stat__trend--danger { color: var(--vf-red); }
 .vf-stat__trend--warning { color: var(--vf-amber); }
+.vf-stat__trend--info { color: var(--vf-blue); }
 .vf-stat__loading { color: var(--vf-text-4); }
 
 /* ── StatGroup / MetricCard ──────────────────────────────── */
@@ -251,6 +253,7 @@
 .vf-progress--success .vf-progress__fill { background: var(--vf-green); }
 .vf-progress--danger .vf-progress__fill { background: var(--vf-red); }
 .vf-progress--warning .vf-progress__fill { background: var(--vf-amber); }
+.vf-progress--info .vf-progress__fill { background: var(--vf-blue); }
 .vf-progress--indeterminate .vf-progress__fill {
   width: 40%;
   animation: vf-progress-indet 1.2s ease-in-out infinite;

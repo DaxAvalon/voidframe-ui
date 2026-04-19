@@ -265,7 +265,7 @@ export const Table = genericForwardRef(function Table<T = Record<string, unknown
 
 // ── Stat ──────────────────────────────────────────────────────
 
-export type StatTone = "neutral" | "success" | "danger" | "warning";
+export type StatTone = "neutral" | "info" | "success" | "danger" | "warning";
 
 export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   label: string;
@@ -361,7 +361,7 @@ function MiniTrend({ data, tone }: { data: number[]; tone: StatTone }) {
 // ── Progress ──────────────────────────────────────────────────
 
 export type ProgressVariant = "determinate" | "indeterminate";
-export type ProgressTone = "neutral" | "success" | "danger" | "warning";
+export type ProgressTone = "neutral" | "info" | "success" | "danger" | "warning";
 
 export interface ProgressProps extends HTMLAttributes<HTMLDivElement> {
   value?: number;
