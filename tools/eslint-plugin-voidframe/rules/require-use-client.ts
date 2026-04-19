@@ -1,8 +1,7 @@
 import { ESLintUtils, type TSESTree } from "@typescript-eslint/utils";
 
 const createRule = ESLintUtils.RuleCreator(
-  (name) =>
-    `https://git.ahadley.local/aeryn/VoidFrame/src/branch/main/tools/eslint-plugin-voidframe/rules/${name}.ts`
+  (name) => `https://voidframe.github.io/ui/eslint-plugin#${name}`
 );
 
 // Components that use client-only APIs (state, effects, portals, refs) and
