@@ -190,6 +190,60 @@ describe("MessageActions", () => {
     await userEvent.click(screen.getByRole("button", { name: "Copy" }));
     expect(onClick).toHaveBeenCalledTimes(1);
   });
+
+  it("MessageActions.Regenerate invokes Conversation onRegenerate by default", async () => {
+    const onRegenerate = vi.fn();
+    renderWithTheme(
+      <Conversation onRegenerate={onRegenerate}>
+        <MessageActions>
+          <MessageActions.Regenerate />
+        </MessageActions>
+      </Conversation>
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Regenerate" }));
+    expect(onRegenerate).toHaveBeenCalledTimes(1);
+  });
+
+  it("MessageActions.Retry invokes Conversation onRetry by default", async () => {
+    const onRetry = vi.fn();
+    renderWithTheme(
+      <Conversation onRetry={onRetry}>
+        <MessageActions>
+          <MessageActions.Retry />
+        </MessageActions>
+      </Conversation>
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Retry" }));
+    expect(onRetry).toHaveBeenCalledTimes(1);
+  });
+
+  it("MessageActions.Stop invokes Conversation onStop by default", async () => {
+    const onStop = vi.fn();
+    renderWithTheme(
+      <Conversation onStop={onStop}>
+        <MessageActions>
+          <MessageActions.Stop />
+        </MessageActions>
+      </Conversation>
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Stop" }));
+    expect(onStop).toHaveBeenCalledTimes(1);
+  });
+
+  it("explicit onClick on Regenerate takes precedence over Conversation onRegenerate (no double-fire)", async () => {
+    const explicit = vi.fn();
+    const fromContext = vi.fn();
+    renderWithTheme(
+      <Conversation onRegenerate={fromContext}>
+        <MessageActions>
+          <MessageActions.Regenerate onClick={explicit} />
+        </MessageActions>
+      </Conversation>
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Regenerate" }));
+    expect(explicit).toHaveBeenCalledTimes(1);
+    expect(fromContext).not.toHaveBeenCalled();
+  });
 });
 
 describe("MessageFeedback", () => {

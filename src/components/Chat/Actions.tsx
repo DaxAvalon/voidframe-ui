@@ -3,9 +3,11 @@
 import {
   forwardRef,
   type HTMLAttributes,
+  type MouseEvent,
   type ReactNode,
 } from "react";
 import { cx } from "../../utils/cx";
+import { useConversation } from "./Conversation";
 
 // ── MessageActions (compound) ───────────────────────────────
 
@@ -85,11 +87,58 @@ const namedAction = (
   return Component;
 };
 
+// Action that falls back to a Conversation-context callback when no explicit
+// `onClick` is provided. Explicit `onClick` always wins — no double-fire.
+function namedConversationAction(
+  name: string,
+  defaultIcon: string,
+  defaultLabel: string,
+  pick: (ctx: ReturnType<typeof useConversation>) => (() => void) | undefined
+) {
+  const Component = forwardRef<HTMLButtonElement, MessageActionButtonProps>(
+    function NamedConversationAction({ icon, label, onClick, ...props }, ref) {
+      const ctx = useConversation();
+      const contextHandler = pick(ctx);
+      const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+        if (onClick) {
+          onClick(e);
+          return;
+        }
+        contextHandler?.();
+      };
+      return (
+        <MessageActionButton
+          ref={ref}
+          icon={icon ?? defaultIcon}
+          label={label ?? defaultLabel}
+          onClick={handleClick}
+          {...props}
+        />
+      );
+    }
+  );
+  Component.displayName = name;
+  return Component;
+}
+
 const CopyAction = namedAction("MessageActions.Copy", "⧉", "Copy");
-const RegenerateAction = namedAction(
+const RegenerateAction = namedConversationAction(
   "MessageActions.Regenerate",
   "↻",
-  "Regenerate"
+  "Regenerate",
+  (ctx) => ctx?.onRegenerate
+);
+const RetryAction = namedConversationAction(
+  "MessageActions.Retry",
+  "↺",
+  "Retry",
+  (ctx) => ctx?.onRetry
+);
+const StopAction = namedConversationAction(
+  "MessageActions.Stop",
+  "■",
+  "Stop",
+  (ctx) => ctx?.onStop
 );
 const EditAction = namedAction("MessageActions.Edit", "✎", "Edit");
 const DeleteAction = namedAction("MessageActions.Delete", "✕", "Delete");
@@ -110,6 +159,8 @@ export const MessageActions = Object.assign(MessageActionsRoot, {
   Button: MessageActionButton,
   Copy: CopyAction,
   Regenerate: RegenerateAction,
+  Retry: RetryAction,
+  Stop: StopAction,
   Edit: EditAction,
   Delete: DeleteAction,
   Share: ShareAction,

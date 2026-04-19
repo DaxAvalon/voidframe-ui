@@ -61,6 +61,12 @@ export interface ConversationContextValue {
   setPinnedToBottom: (v: boolean) => void;
   scrollRef: React.MutableRefObject<HTMLDivElement | null>;
   threshold: number;
+  /** Invoked by descendant actions (MessageActions.Retry) when an operation should be re-attempted. */
+  onRetry?: () => void;
+  /** Invoked by descendant actions (MessageActions.Stop) to cancel an in-flight operation. */
+  onStop?: () => void;
+  /** Invoked by descendant actions (MessageActions.Regenerate) to request a fresh response. */
+  onRegenerate?: () => void;
 }
 
 export const ConversationContext = createContext<ConversationContextValue | null>(null);
@@ -91,9 +97,9 @@ export const Conversation = forwardRef<HTMLDivElement, ConversationProps>(
       status = "idle",
       autoScroll = true,
       scrollToBottomThreshold = 80,
-      onRetry: _onRetry,
-      onStop: _onStop,
-      onRegenerate: _onRegenerate,
+      onRetry,
+      onStop,
+      onRegenerate,
       emptyState,
       virtualized,
       className,
@@ -114,8 +120,19 @@ export const Conversation = forwardRef<HTMLDivElement, ConversationProps>(
         setPinnedToBottom,
         scrollRef,
         threshold: scrollToBottomThreshold,
+        onRetry,
+        onStop,
+        onRegenerate,
       }),
-      [status, autoScroll, pinnedToBottom, scrollToBottomThreshold]
+      [
+        status,
+        autoScroll,
+        pinnedToBottom,
+        scrollToBottomThreshold,
+        onRetry,
+        onStop,
+        onRegenerate,
+      ]
     );
 
     const showEmpty =
