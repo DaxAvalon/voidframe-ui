@@ -18,7 +18,7 @@ export interface TimeZoneSelectProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   value?: string;
   defaultValue?: string;
-  onChange?: (next: string) => void;
+  onValueChange?: (next: string) => void;
   zones?: string[];
   label?: ReactNode;
   /** Show UTC offset next to each name. */
@@ -30,7 +30,7 @@ export const TimeZoneSelect = forwardRef<HTMLDivElement, TimeZoneSelectProps>(
     {
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       zones,
       label = "Time zone",
       showOffset = true,
@@ -53,7 +53,7 @@ export const TimeZoneSelect = forwardRef<HTMLDivElement, TimeZoneSelectProps>(
     const current = value ?? internal;
     const set = (next: string) => {
       if (value === undefined) setInternal(next);
-      onChange?.(next);
+      onValueChange?.(next);
     };
     const [query, setQuery] = useState("");
     const filtered = query

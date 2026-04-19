@@ -142,7 +142,7 @@ describe("MarkdownEditor", () => {
 
   it("typing emits onChange", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<MarkdownEditor label="Notes" onChange={onChange} />);
+    renderWithTheme(<MarkdownEditor label="Notes" onValueChange={onChange} />);
     const ta = screen.getByLabelText("Notes");
     await userEvent.type(ta, "hi");
     expect(onChange).toHaveBeenCalled();

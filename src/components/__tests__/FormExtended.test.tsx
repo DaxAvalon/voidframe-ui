@@ -15,20 +15,20 @@ import { renderWithTheme } from "../../../test/renderWithTheme";
 
 describe("Checkbox", () => {
   it("renders with role=checkbox", () => {
-    renderWithTheme(<Checkbox checked={false} onChange={() => {}} />);
+    renderWithTheme(<Checkbox checked={false} onValueChange={() => {}} />);
     expect(screen.getByRole("checkbox")).toBeInTheDocument();
   });
 
   it("toggles on click", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Checkbox checked={false} onChange={onChange} />);
+    renderWithTheme(<Checkbox checked={false} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("checkbox"));
     expect(onChange).toHaveBeenCalledWith(true);
   });
 
   it("does not toggle when disabled", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Checkbox checked={false} disabled onChange={onChange} />);
+    renderWithTheme(<Checkbox checked={false} disabled onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("checkbox"));
     expect(onChange).not.toHaveBeenCalled();
   });
@@ -36,13 +36,13 @@ describe("Checkbox", () => {
 
 describe("Radio", () => {
   it("renders with role=radio", () => {
-    renderWithTheme(<Radio checked onChange={() => {}} />);
+    renderWithTheme(<Radio checked onValueChange={() => {}} />);
     expect(screen.getByRole("radio")).toBeInTheDocument();
   });
 
   it("fires onChange on click when unchecked", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Radio checked={false} onChange={onChange} />);
+    renderWithTheme(<Radio checked={false} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("radio"));
     expect(onChange).toHaveBeenCalledTimes(1);
   });
@@ -56,7 +56,7 @@ describe("RadioGroup", () => {
 
   it("renders all options", () => {
     renderWithTheme(
-      <RadioGroup options={options} value="a" onChange={() => {}} />
+      <RadioGroup options={options} value="a" onValueChange={() => {}} />
     );
     expect(screen.getAllByRole("radio")).toHaveLength(2);
   });
@@ -64,7 +64,7 @@ describe("RadioGroup", () => {
   it("calls onChange with selected value", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <RadioGroup options={options} value="a" onChange={onChange} />
+      <RadioGroup options={options} value="a" onValueChange={onChange} />
     );
     const [, second] = screen.getAllByRole("radio");
     await userEvent.click(second!);
@@ -74,12 +74,12 @@ describe("RadioGroup", () => {
 
 describe("Slider", () => {
   it("reflects current value in the range input", () => {
-    renderWithTheme(<Slider value={42} onChange={() => {}} />);
+    renderWithTheme(<Slider value={42} onValueChange={() => {}} />);
     expect((screen.getByRole("slider") as HTMLInputElement).value).toBe("42");
   });
 
   it("clamps within min/max", () => {
-    renderWithTheme(<Slider value={150} onChange={() => {}} max={100} />);
+    renderWithTheme(<Slider value={150} onValueChange={() => {}} max={100} />);
     const el = screen.getByRole("slider") as HTMLInputElement;
     expect(el.max).toBe("100");
   });
@@ -87,7 +87,7 @@ describe("Slider", () => {
 
 describe("NumberInput", () => {
   it("renders with value", () => {
-    renderWithTheme(<NumberInput value={5} onChange={() => {}} />);
+    renderWithTheme(<NumberInput value={5} onValueChange={() => {}} />);
     expect((screen.getByRole("spinbutton") as HTMLInputElement).value).toBe(
       "5"
     );
@@ -95,21 +95,21 @@ describe("NumberInput", () => {
 
   it("increments via the + button", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<NumberInput value={5} onChange={onChange} />);
+    renderWithTheme(<NumberInput value={5} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("button", { name: "Increment" }));
     expect(onChange).toHaveBeenCalledWith(6);
   });
 
   it("decrements via the − button", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<NumberInput value={5} onChange={onChange} />);
+    renderWithTheme(<NumberInput value={5} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("button", { name: "Decrement" }));
     expect(onChange).toHaveBeenCalledWith(4);
   });
 
   it("respects min clamp on decrement", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<NumberInput value={0} min={0} onChange={onChange} />);
+    renderWithTheme(<NumberInput value={0} min={0} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("button", { name: "Decrement" }));
     expect(onChange).toHaveBeenCalledWith(0);
   });
@@ -177,20 +177,20 @@ describe("FormField", () => {
 describe("NumberInput — extended", () => {
   it("respects max clamp on increment", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<NumberInput value={10} max={10} onChange={onChange} />);
+    renderWithTheme(<NumberInput value={10} max={10} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("button", { name: "Increment" }));
     expect(onChange).toHaveBeenCalledWith(10);
   });
 
   it("uses custom step", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<NumberInput value={5} step={5} onChange={onChange} />);
+    renderWithTheme(<NumberInput value={5} step={5} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("button", { name: "Increment" }));
     expect(onChange).toHaveBeenCalledWith(10);
   });
 
   it("renders label", () => {
-    renderWithTheme(<NumberInput value={0} label="Count" onChange={() => {}} />);
+    renderWithTheme(<NumberInput value={0} label="Count" onValueChange={() => {}} />);
     expect(screen.getByText("Count")).toBeInTheDocument();
   });
 });
@@ -203,7 +203,7 @@ describe("RadioGroup — extended", () => {
 
   it("renders horizontal direction class", () => {
     const { container } = renderWithTheme(
-      <RadioGroup options={options} value="a" onChange={() => {}} direction="horizontal" />
+      <RadioGroup options={options} value="a" onValueChange={() => {}} direction="horizontal" />
     );
     expect(
       container.querySelector(".vf-radio-group__items--horizontal")
@@ -212,14 +212,14 @@ describe("RadioGroup — extended", () => {
 
   it("renders label when provided", () => {
     renderWithTheme(
-      <RadioGroup options={options} value="a" onChange={() => {}} label="Choice" />
+      <RadioGroup options={options} value="a" onValueChange={() => {}} label="Choice" />
     );
     expect(screen.getByText("Choice")).toBeInTheDocument();
   });
 
   it("renders with defaultValue (uncontrolled)", () => {
     renderWithTheme(
-      <RadioGroup options={options} defaultValue="b" onChange={() => {}} />
+      <RadioGroup options={options} defaultValue="b" onValueChange={() => {}} />
     );
     const radios = screen.getAllByRole("radio");
     expect(radios[1]!.getAttribute("aria-checked")).toBe("true");
@@ -229,7 +229,7 @@ describe("RadioGroup — extended", () => {
 describe("Checkbox — keyboard", () => {
   it("toggles on Space key", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Checkbox checked={false} onChange={onChange} />);
+    renderWithTheme(<Checkbox checked={false} onValueChange={onChange} />);
     const cb = screen.getByRole("checkbox");
     cb.focus();
     await userEvent.keyboard(" ");
@@ -238,7 +238,7 @@ describe("Checkbox — keyboard", () => {
 
   it("toggles on Enter key", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Checkbox checked={false} onChange={onChange} />);
+    renderWithTheme(<Checkbox checked={false} onValueChange={onChange} />);
     const cb = screen.getByRole("checkbox");
     cb.focus();
     await userEvent.keyboard("{Enter}");
@@ -246,7 +246,7 @@ describe("Checkbox — keyboard", () => {
   });
 
   it("renders label", () => {
-    renderWithTheme(<Checkbox label="Accept" onChange={() => {}} />);
+    renderWithTheme(<Checkbox label="Accept" onValueChange={() => {}} />);
     expect(screen.getByText("Accept")).toBeInTheDocument();
   });
 });

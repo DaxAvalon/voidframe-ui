@@ -161,7 +161,7 @@ describe("QueryBuilder", () => {
       <QueryBuilder
         fields={[{ id: "name", label: "Name" }]}
         value={{ id: "root", combinator: "AND", rules: [] }}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "+ Rule" }));
@@ -183,7 +183,7 @@ describe("QueryBuilder", () => {
       <QueryBuilder
         fields={[{ id: "name", label: "Name" }]}
         value={tree}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     // There are two "+ Rule" buttons now (root + nested). Click the second (nested).
@@ -212,7 +212,7 @@ describe("QueryBuilder", () => {
       <QueryBuilder
         fields={[{ id: "name", label: "Name" }]}
         value={tree}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     const buttons = screen.getAllByRole("button", { name: "+ Group" });
@@ -237,7 +237,7 @@ describe("QueryBuilder", () => {
       <QueryBuilder
         fields={[{ id: "name", label: "Name" }]}
         value={tree}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     const combinators = screen.getAllByLabelText("Combinator");
@@ -253,7 +253,7 @@ describe("QueryBuilder", () => {
 describe("ShortcutEditor", () => {
   it("captures a chord on key press", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<ShortcutEditor onChange={onChange} />);
+    renderWithTheme(<ShortcutEditor onValueChange={onChange} />);
     const trigger = screen.getByRole("button", { name: "Edit shortcut" });
     await userEvent.click(trigger);
     trigger.focus();
@@ -265,7 +265,7 @@ describe("ShortcutEditor", () => {
   it("clears the chord", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <ShortcutEditor value="mod+k" onChange={onChange} />
+      <ShortcutEditor value="mod+k" onValueChange={onChange} />
     );
     await userEvent.click(
       screen.getByRole("button", { name: "Clear shortcut" })

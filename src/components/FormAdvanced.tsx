@@ -50,7 +50,7 @@ export interface CheckboxGroupProps
   value?: string[];
   /** Uncontrolled initial values. */
   defaultValue?: string[];
-  onChange?: (values: string[]) => void;
+  onValueChange?: (values: string[]) => void;
   label?: string;
   accent?: string;
   direction?: "horizontal" | "vertical";
@@ -63,7 +63,7 @@ export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
       options,
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       accent,
       direction = "vertical",
@@ -76,7 +76,7 @@ export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
     const [current, setCurrent] = useControllableState<string[]>({
       value,
       defaultValue: defaultValue ?? [],
-      onChange,
+      onChange: onValueChange,
       componentName: "CheckboxGroup",
     });
     const labelId = useId();
@@ -108,7 +108,7 @@ export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
             <Checkbox
               key={o.value}
               checked={current.includes(o.value)}
-              onChange={() => toggle(o.value)}
+              onValueChange={() => toggle(o.value)}
               label={o.label}
               accent={accent}
               disabled={o.disabled}
@@ -135,7 +135,7 @@ export interface SegmentedControlProps
   options: SegmentedOption[];
   value?: string;
   defaultValue?: string;
-  onChange?: (value: string) => void;
+  onValueChange?: (value: string) => void;
   /** Accent color (sets `--vf-accent`). */
   accent?: string;
   size?: "sm" | "md" | "lg";
@@ -144,13 +144,13 @@ export interface SegmentedControlProps
 
 export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   function SegmentedControl(
-    { options, value, defaultValue, onChange, accent, size = "md", className, style, ...props },
+    { options, value, defaultValue, onValueChange, accent, size = "md", className, style, ...props },
     ref
   ) {
     const [current, setCurrent] = useControllableState<string>({
       value,
       defaultValue: defaultValue ?? options[0]?.value ?? "",
-      onChange,
+      onChange: onValueChange,
       componentName: "SegmentedControl",
     });
 
@@ -331,7 +331,7 @@ export interface PinInputProps
   length?: number;
   value?: string;
   defaultValue?: string;
-  onChange?: (value: string) => void;
+  onValueChange?: (value: string) => void;
   onComplete?: (value: string) => void;
   /** "numeric" | "alphanumeric" | "alpha" — filters allowed input. */
   type?: "numeric" | "alphanumeric" | "alpha";
@@ -354,7 +354,7 @@ export const PinInput = forwardRef<HTMLDivElement, PinInputProps>(
       length = 6,
       value,
       defaultValue = "",
-      onChange,
+      onValueChange,
       onComplete,
       type = "numeric",
       mask,
@@ -370,7 +370,7 @@ export const PinInput = forwardRef<HTMLDivElement, PinInputProps>(
     const [current, setCurrent] = useControllableState<string>({
       value,
       defaultValue,
-      onChange,
+      onChange: onValueChange,
       componentName: "PinInput",
     });
     const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
@@ -488,7 +488,7 @@ export interface TagInputProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   value?: string[];
   defaultValue?: string[];
-  onChange?: (tags: string[]) => void;
+  onValueChange?: (tags: string[]) => void;
   placeholder?: string;
   label?: string;
   disabled?: boolean;
@@ -508,7 +508,7 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
     {
       value,
       defaultValue = [],
-      onChange,
+      onValueChange,
       placeholder = "Type and press Enter…",
       label,
       disabled,
@@ -525,7 +525,7 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
     const [tags, setTags] = useControllableState<string[]>({
       value,
       defaultValue,
-      onChange,
+      onChange: onValueChange,
       componentName: "TagInput",
     });
     const [draft, setDraft] = useState("");

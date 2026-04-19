@@ -15,7 +15,7 @@ import { cx } from "../../utils/cx";
 export interface MessageEditProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   value: string;
-  onChange: (next: string) => void;
+  onValueChange: (next: string) => void;
   onSave?: (next: string) => void;
   onCancel?: () => void;
   placeholder?: string;
@@ -28,7 +28,7 @@ export const MessageEdit = forwardRef<HTMLDivElement, MessageEditProps>(
   function MessageEdit(
     {
       value,
-      onChange,
+      onValueChange,
       onSave,
       onCancel,
       placeholder,
@@ -58,7 +58,7 @@ export const MessageEdit = forwardRef<HTMLDivElement, MessageEditProps>(
           className="vf-message-edit__input"
           value={value}
           placeholder={placeholder}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => onValueChange(e.target.value)}
           onKeyDown={(e) => {
             if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
               e.preventDefault();

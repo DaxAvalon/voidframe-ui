@@ -58,7 +58,7 @@ describe("CodeEditor", () => {
 
   it("emits onChange when typing", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<CodeEditor label="Source" onChange={onChange} />);
+    renderWithTheme(<CodeEditor label="Source" onValueChange={onChange} />);
     const ta = screen.getByLabelText("Source");
     await userEvent.type(ta, "x");
     expect(onChange).toHaveBeenCalledWith("x");

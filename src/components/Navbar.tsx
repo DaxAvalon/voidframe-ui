@@ -99,19 +99,19 @@ export interface TabBarProps
   extends Omit<HTMLAttributes<HTMLElement>, "onChange" | "defaultValue" | "value"> {
   value?: string;
   defaultValue?: string;
-  onChange?: (value: string) => void;
+  onValueChange?: (value: string) => void;
   children?: ReactNode;
 }
 
 const TabBarBase = forwardRef<HTMLElement, TabBarProps>(function TabBar(
-  { value, defaultValue, onChange, className, children, ...props },
+  { value, defaultValue, onValueChange, className, children, ...props },
   ref
 ) {
   const [internal, setInternal] = useState<string>(defaultValue ?? "");
   const current = value ?? internal;
   const setCurrent = (v: string) => {
     if (value === undefined) setInternal(v);
-    onChange?.(v);
+    onValueChange?.(v);
   };
   const ctx = useMemo<TabBarContextValue>(
     () => ({ value: current, setValue: setCurrent }),

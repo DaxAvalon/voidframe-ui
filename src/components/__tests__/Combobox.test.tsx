@@ -38,7 +38,7 @@ describe("Combobox", () => {
 
   it("ArrowDown+Enter selects the first option", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Combobox label="Fruit" options={fruits} onChange={onChange} />);
+    renderWithTheme(<Combobox label="Fruit" options={fruits} onValueChange={onChange} />);
     const input = screen.getByRole("combobox");
     await userEvent.click(input);
     await userEvent.keyboard("{ArrowDown}{Enter}");
@@ -47,7 +47,7 @@ describe("Combobox", () => {
 
   it("disabled options are not selectable", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Combobox label="Fruit" options={fruits} onChange={onChange} />);
+    renderWithTheme(<Combobox label="Fruit" options={fruits} onValueChange={onChange} />);
     const input = screen.getByRole("combobox");
     await userEvent.click(input);
     // Arrow down to "Date" (index 3).
@@ -76,7 +76,7 @@ describe("Combobox", () => {
         label="Fruit"
         options={fruits}
         allowCustomValue
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     const input = screen.getByRole("combobox");
@@ -90,7 +90,7 @@ describe("Combobox", () => {
       const [v, setV] = useState<string | null>(null);
       return (
         <>
-          <Combobox label="Fruit" options={fruits} value={v} onChange={setV} />
+          <Combobox label="Fruit" options={fruits} value={v} onValueChange={setV} />
           <span data-testid="v">{v ?? "none"}</span>
         </>
       );
@@ -121,7 +121,7 @@ describe("Combobox", () => {
 describe("MultiSelect", () => {
   it("selecting two options produces both values", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<MultiSelect label="Fruits" options={fruits} onChange={onChange} />);
+    renderWithTheme(<MultiSelect label="Fruits" options={fruits} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("combobox"));
     await userEvent.keyboard("{ArrowDown}{Enter}");
     await userEvent.keyboard("{ArrowDown}{ArrowDown}{Enter}");
@@ -149,7 +149,7 @@ describe("MultiSelect", () => {
         label="Fruits"
         options={fruits}
         defaultValue={["apple", "banana"]}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "Remove Apple" }));
@@ -163,7 +163,7 @@ describe("MultiSelect", () => {
         label="Fruits"
         options={fruits}
         defaultValue={["apple", "banana"]}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     const input = screen.getByRole("combobox");
@@ -179,7 +179,7 @@ describe("MultiSelect", () => {
         label="Fruits"
         options={fruits}
         maxSelected={1}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("combobox"));
@@ -212,7 +212,7 @@ describe("MultiSelect", () => {
         options={fruits}
         defaultValue={["apple"]}
         maxSelected={1}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     const input = screen.getByRole("combobox");

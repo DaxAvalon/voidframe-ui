@@ -55,7 +55,7 @@ export interface SignaturePadProps
   /** Background color; used for the canvas fill and on clear(). */
   background?: string;
   /** Emits the PNG data URL each time a stroke is completed. */
-  onChange?: (dataUrl: string) => void;
+  onValueChange?: (dataUrl: string) => void;
   /** Emits when the user starts drawing a stroke. */
   onStrokeStart?: () => void;
   /** Emits when a stroke completes. */
@@ -111,7 +111,7 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
       strokeColor,
       strokeWidth = 2,
       background = "transparent",
-      onChange,
+      onValueChange,
       onStrokeStart,
       onStrokeEnd,
       disabled,
@@ -221,9 +221,9 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
       }
       setHasInk(strokesRef.current.some((s) => s.length > 1));
       onStrokeEnd?.(strokesRef.current);
-      if (canvasRef.current && onChange && typeof canvasRef.current.toDataURL === "function") {
+      if (canvasRef.current && onValueChange && typeof canvasRef.current.toDataURL === "function") {
         try {
-          onChange(canvasRef.current.toDataURL());
+          onValueChange(canvasRef.current.toDataURL());
         } catch {
           /* headless envs without a real canvas */
         }

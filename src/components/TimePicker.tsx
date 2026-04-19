@@ -22,7 +22,7 @@ export interface TimePickerProps
   /** Canonical 24h string "HH:mm" or "HH:mm:ss". */
   value?: string;
   defaultValue?: string;
-  onChange?: (next: string) => void;
+  onValueChange?: (next: string) => void;
   label?: string;
   /** 12h view displays AM/PM toggle; value remains 24h. */
   format?: TimePickerFormat;
@@ -87,7 +87,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
     {
       value,
       defaultValue = "00:00",
-      onChange,
+      onValueChange,
       label,
       format = "24h",
       step = 1,
@@ -105,7 +105,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
     const [current, setCurrent] = useControllableState<string>({
       value,
       defaultValue,
-      onChange,
+      onChange: onValueChange,
       componentName: "TimePicker",
     });
 

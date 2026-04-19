@@ -108,7 +108,7 @@ render(<Example />);`,
     <Select
       label="Timezone"
       value={value}
-      onChange={setValue}
+      onValueChange={setValue}
       options={[
         { value: "pacific", label: "Pacific" },
         { value: "mountain", label: "Mountain" },
@@ -1046,8 +1046,8 @@ render(<Example />);`,
   const [b, setB] = useState(false);
   return (
     <VStack gap={8}>
-      <Checkbox checked={a} onChange={() => setA(!a)} label="Enabled and checked" />
-      <Checkbox checked={b} onChange={() => setB(!b)} label="Unchecked" />
+      <Checkbox checked={a} onValueChange={() => setA(!a)} label="Enabled and checked" />
+      <Checkbox checked={b} onValueChange={() => setB(!b)} label="Unchecked" />
       <Checkbox checked={true} disabled label="Disabled checked" />
     </VStack>
   );
@@ -1072,7 +1072,7 @@ render(<Example />);`,
     <RadioGroup
       label="Choose a plan"
       value={plan}
-      onChange={setPlan}
+      onValueChange={setPlan}
       options={[
         { value: "free", label: "Free" },
         { value: "pro", label: "Pro" },
@@ -1102,7 +1102,7 @@ render(<Example />);`,
     <Slider
       label="Volume"
       value={vol}
-      onChange={setVol}
+      onValueChange={setVol}
       min={0}
       max={100}
       step={1}
@@ -1129,8 +1129,8 @@ render(<Example />);`,
   const [b, setB] = useState(false);
   return (
     <VStack gap={8}>
-      <Toggle checked={a} onChange={setA} label="Notifications" />
-      <Toggle checked={b} onChange={setB} label="Dark mode" />
+      <Toggle checked={a} onValueChange={setA} label="Notifications" />
+      <Toggle checked={b} onValueChange={setB} label="Dark mode" />
       <Toggle checked={true} readOnly label="Read-only (locked)" />
     </VStack>
   );
@@ -1249,7 +1249,7 @@ render(<Example />);`,
         label="Verification code"
         length={6}
         value={code}
-        onChange={setCode}
+        onValueChange={setCode}
         onComplete={() => setDone(true)}
       />
       {done && <div style={{ color: "var(--vf-green)" }}>Code entered: {code}</div>}
@@ -1276,7 +1276,7 @@ render(<Example />);`,
     <TagInput
       label="Skills"
       value={tags}
-      onChange={setTags}
+      onValueChange={setTags}
       placeholder="Add a skill..."
       maxTags={8}
     />
@@ -1303,7 +1303,7 @@ render(<Example />);`,
       <DatePicker
         label="Start date"
         value={date}
-        onChange={setDate}
+        onValueChange={setDate}
         placeholder="YYYY-MM-DD"
       />
       {date && <div>Selected: {date.toLocaleDateString()}</div>}
@@ -1329,7 +1329,7 @@ render(<Example />);`,
   return (
     <SegmentedControl
       value={view}
-      onChange={setView}
+      onValueChange={setView}
       options={[
         { value: "list", label: "List" },
         { value: "grid", label: "Grid" },

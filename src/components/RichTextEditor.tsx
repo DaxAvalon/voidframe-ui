@@ -60,7 +60,7 @@ export interface RichTextEditorProps
   /** HTML string. Sanitized against a conservative allowlist on every write. */
   value?: string;
   defaultValue?: string;
-  onChange?: (html: string) => void;
+  onValueChange?: (html: string) => void;
   label?: string;
   placeholder?: string;
   toolbar?: RichTextCommand[];
@@ -186,7 +186,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorProps>(
     {
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       placeholder = "Type here…",
       toolbar = DEFAULT_TOOLBAR,
@@ -205,7 +205,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorProps>(
     const [html, setHtml] = useControllableState<string>({
       value,
       defaultValue: defaultValue ?? "",
-      onChange,
+      onChange: onValueChange,
       componentName: "RichTextEditor",
     });
 

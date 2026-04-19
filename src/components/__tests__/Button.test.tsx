@@ -56,7 +56,7 @@ describe("ButtonGroup", () => {
           { key: "b", label: "B" },
         ]}
         value="a"
-        onChange={() => {}}
+        onValueChange={() => {}}
       />
     );
     expect(screen.getByRole("button", { name: "A" })).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe("ButtonGroup", () => {
           { key: "b", label: "B" },
         ]}
         value="a"
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "B" }));

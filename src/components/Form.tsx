@@ -144,7 +144,7 @@ Textarea.displayName = "Textarea";
 export interface ToggleProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   checked?: boolean;
   defaultChecked?: boolean;
-  onChange?: (checked: boolean) => void;
+  onValueChange?: (checked: boolean) => void;
   label?: string;
   /** Active color (sets `--vf-accent`). */
   accent?: string;
@@ -154,12 +154,12 @@ export interface ToggleProps extends Omit<HTMLAttributes<HTMLDivElement>, "onCha
 
 /**
  * Binary on/off switch with WAI-ARIA `role="switch"` and
- * controlled/uncontrolled duality. Pass `checked` + `onChange(next)` or
+ * controlled/uncontrolled duality. Pass `checked` + `onValueChange(next)` or
  * `defaultChecked`. Space and Enter toggle; `readOnly` suppresses
  * changes. Requires `label`, `aria-label`, or `aria-labelledby`.
  */
 export const Toggle = forwardRef<HTMLDivElement, ToggleProps>(function Toggle(
-  { checked, defaultChecked, onChange, label, accent, readOnly, className, style, ...props },
+  { checked, defaultChecked, onValueChange, label, accent, readOnly, className, style, ...props },
   ref
 ) {
   warn(
@@ -169,7 +169,7 @@ export const Toggle = forwardRef<HTMLDivElement, ToggleProps>(function Toggle(
   const [value, setValue] = useControllableState<boolean>({
     value: checked,
     defaultValue: defaultChecked ?? false,
-    onChange,
+    onChange: onValueChange,
     componentName: "Toggle",
   });
   const toggle = () => { if (!readOnly) setValue(!value); };
@@ -217,7 +217,7 @@ type SelectBaseProps = Omit<
 export interface SelectProps extends SelectBaseProps {
   options: SelectOption[];
   value: string;
-  onChange: (value: string) => void;
+  onValueChange: (value: string) => void;
   label?: string;
   width?: string | number;
   style?: CSSProperties;
@@ -227,7 +227,7 @@ export interface SelectProps extends SelectBaseProps {
  * A native dropdown for choosing one value from a fixed list of options.
  */
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-  { options, value, onChange, label, width, className, style, id, ...props },
+  { options, value, onValueChange, label, width, className, style, id, ...props },
   ref
 ) {
   warn(
@@ -270,7 +270,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
         ref={ref}
         id={selectId}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onValueChange(e.target.value)}
         className={cx("vf-select", className)}
         style={inline}
         {...props}

@@ -46,7 +46,7 @@ describe("Form dev-warnings", () => {
 
   it("Select warns when no label/aria-label", () => {
     renderWithTheme(
-      <Select options={[{ value: "a", label: "A" }]} value="a" onChange={() => {}} />
+      <Select options={[{ value: "a", label: "A" }]} value="a" onValueChange={() => {}} />
     );
     expect(logged.some((l) => String(l[0]).includes("<Select>"))).toBe(true);
   });

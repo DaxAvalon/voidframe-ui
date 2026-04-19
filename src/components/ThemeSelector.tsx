@@ -3,7 +3,7 @@
 // Phase 15 — ThemeSelector
 //
 // SegmentedControl-style chooser with optional icon per theme. Works as
-// controlled (value + onChange) or uncontrolled.
+// controlled (value + onValueChange) or uncontrolled.
 
 import {
   forwardRef,
@@ -24,7 +24,7 @@ export interface ThemeSelectorProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   value?: string;
   defaultValue?: string;
-  onChange?: (next: string) => void;
+  onValueChange?: (next: string) => void;
   themes: ThemeSelectorOption[];
   kind?: "segmented" | "dropdown";
   label?: ReactNode;
@@ -36,7 +36,7 @@ export const ThemeSelector = forwardRef<HTMLDivElement, ThemeSelectorProps>(
     {
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       themes,
       kind = "segmented",
       label = "Theme",
@@ -52,7 +52,7 @@ export const ThemeSelector = forwardRef<HTMLDivElement, ThemeSelectorProps>(
     const current = value ?? internal;
     const set = (next: string) => {
       if (value === undefined) setInternal(next);
-      onChange?.(next);
+      onValueChange?.(next);
     };
 
     if (kind === "dropdown") {

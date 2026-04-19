@@ -25,7 +25,6 @@ export interface TransferProps
   value?: string[];
   /** Uncontrolled initial selected keys. */
   defaultValue?: string[];
-  onChange?: (selectedKeys: string[]) => void;
   onValueChange?: (selectedKeys: string[]) => void;
   /** Panel titles — `[left, right]`. */
   titles?: [string, string];
@@ -45,7 +44,6 @@ const TransferImpl = forwardRef<HTMLDivElement, TransferProps>(
       items,
       value,
       defaultValue,
-      onChange,
       onValueChange,
       titles = ["Available", "Selected"],
       searchable = false,
@@ -60,10 +58,7 @@ const TransferImpl = forwardRef<HTMLDivElement, TransferProps>(
     const [selectedKeys, setSelectedKeys] = useControllableState<string[]>({
       value,
       defaultValue: defaultValue ?? [],
-      onChange: (next) => {
-        onChange?.(next);
-        onValueChange?.(next);
-      },
+      onChange: onValueChange,
       componentName: "Transfer",
     });
 

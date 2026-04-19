@@ -52,21 +52,21 @@ describe("Textarea", () => {
 
 describe("Toggle", () => {
   it("renders with role=switch and aria-checked", () => {
-    renderWithTheme(<Toggle checked={false} onChange={() => {}} />);
+    renderWithTheme(<Toggle checked={false} onValueChange={() => {}} />);
     const sw = screen.getByRole("switch");
     expect(sw).toHaveAttribute("aria-checked", "false");
   });
 
   it("fires onChange on click", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Toggle checked={false} onChange={onChange} />);
+    renderWithTheme(<Toggle checked={false} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("switch"));
     expect(onChange).toHaveBeenCalledWith(true);
   });
 
   it("toggles on Space", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Toggle checked={false} onChange={onChange} />);
+    renderWithTheme(<Toggle checked={false} onValueChange={onChange} />);
     const sw = screen.getByRole("switch");
     sw.focus();
     await userEvent.keyboard(" ");
@@ -75,7 +75,7 @@ describe("Toggle", () => {
 
   it("toggles on Enter", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Toggle checked={true} onChange={onChange} />);
+    renderWithTheme(<Toggle checked={true} onValueChange={onChange} />);
     const sw = screen.getByRole("switch");
     sw.focus();
     await userEvent.keyboard("{Enter}");
@@ -90,21 +90,21 @@ describe("Select", () => {
   ];
 
   it("renders all options", () => {
-    renderWithTheme(<Select options={options} value="a" onChange={() => {}} />);
+    renderWithTheme(<Select options={options} value="a" onValueChange={() => {}} />);
     expect(screen.getByRole("option", { name: "Alpha" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "Beta" })).toBeInTheDocument();
   });
 
   it("emits new value from onChange", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Select options={options} value="a" onChange={onChange} />);
+    renderWithTheme(<Select options={options} value="a" onValueChange={onChange} />);
     await userEvent.selectOptions(screen.getByRole("combobox"), "b");
     expect(onChange).toHaveBeenCalledWith("b");
   });
 
   it("renders a visible label when given", () => {
     renderWithTheme(
-      <Select label="ENV" options={options} value="a" onChange={() => {}} />
+      <Select label="ENV" options={options} value="a" onValueChange={() => {}} />
     );
     expect(screen.getByText("ENV")).toBeInTheDocument();
   });
@@ -112,7 +112,7 @@ describe("Select", () => {
   it("warns when options array is empty", () => {
     const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
     renderWithTheme(
-      <Select label="Empty" options={[]} value="" onChange={() => {}} />
+      <Select label="Empty" options={[]} value="" onValueChange={() => {}} />
     );
     // The warnOnce for empty options should have fired
     expect(spy).toHaveBeenCalledWith(
@@ -128,7 +128,7 @@ describe("Select", () => {
         label="Bad"
         options={options}
         value="nonexistent"
-        onChange={() => {}}
+        onValueChange={() => {}}
       />
     );
     expect(spy).toHaveBeenCalledWith(

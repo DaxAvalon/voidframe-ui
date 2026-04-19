@@ -16,7 +16,7 @@ describe("RatingInput", () => {
 
   it("ArrowRight increments by 1", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<RatingInput label="Score" onChange={onChange} />);
+    renderWithTheme(<RatingInput label="Score" onValueChange={onChange} />);
     const slider = screen.getByRole("slider");
     slider.focus();
     await userEvent.keyboard("{ArrowRight}");
@@ -26,7 +26,7 @@ describe("RatingInput", () => {
   it("allowHalf uses 0.5 steps", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <RatingInput label="Score" allowHalf onChange={onChange} />
+      <RatingInput label="Score" allowHalf onValueChange={onChange} />
     );
     const slider = screen.getByRole("slider");
     slider.focus();
@@ -36,7 +36,7 @@ describe("RatingInput", () => {
 
   it("End sets value to count", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<RatingInput label="Score" count={5} onChange={onChange} />);
+    renderWithTheme(<RatingInput label="Score" count={5} onValueChange={onChange} />);
     screen.getByRole("slider").focus();
     await userEvent.keyboard("{End}");
     expect(onChange).toHaveBeenCalledWith(5);
@@ -45,7 +45,7 @@ describe("RatingInput", () => {
   it("Home sets value to 0", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <RatingInput label="Score" defaultValue={3} onChange={onChange} />
+      <RatingInput label="Score" defaultValue={3} onValueChange={onChange} />
     );
     screen.getByRole("slider").focus();
     await userEvent.keyboard("{Home}");
@@ -54,7 +54,7 @@ describe("RatingInput", () => {
 
   it("clicking a star sets the value to that index + 1", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<RatingInput label="Score" onChange={onChange} />);
+    renderWithTheme(<RatingInput label="Score" onValueChange={onChange} />);
     const stars = screen
       .getByRole("slider")
       .querySelectorAll(".vf-rating-input__star");
@@ -65,7 +65,7 @@ describe("RatingInput", () => {
   it("readOnly ignores keyboard input", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <RatingInput label="Score" defaultValue={2} readOnly onChange={onChange} />
+      <RatingInput label="Score" defaultValue={2} readOnly onValueChange={onChange} />
     );
     const slider = screen.getByRole("slider");
     slider.focus();

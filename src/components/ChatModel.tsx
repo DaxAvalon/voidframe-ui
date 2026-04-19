@@ -27,7 +27,7 @@ export interface ModelSelectorProps
   models: ChatModelOption[];
   value?: string;
   defaultValue?: string;
-  onChange?: (next: string) => void;
+  onValueChange?: (next: string) => void;
   showCapabilities?: boolean;
   label?: ReactNode;
 }
@@ -38,7 +38,7 @@ export const ModelSelector = forwardRef<HTMLDivElement, ModelSelectorProps>(
       models,
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       showCapabilities = false,
       label = "Model",
       className,
@@ -52,7 +52,7 @@ export const ModelSelector = forwardRef<HTMLDivElement, ModelSelectorProps>(
     const current = value ?? internal;
     const set = (next: string) => {
       if (value === undefined) setInternal(next);
-      onChange?.(next);
+      onValueChange?.(next);
     };
     const selected = models.find((m) => m.id === current);
     return (
@@ -119,7 +119,7 @@ export interface SystemPromptEditorProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   value?: string;
   defaultValue?: string;
-  onChange?: (next: string) => void;
+  onValueChange?: (next: string) => void;
   templates?: SystemPromptTemplate[];
   onTemplateSelect?: (template: SystemPromptTemplate) => void;
   placeholder?: string;
@@ -134,7 +134,7 @@ export const SystemPromptEditor = forwardRef<
   {
     value,
     defaultValue = "",
-    onChange,
+    onValueChange,
     templates,
     onTemplateSelect,
     placeholder,
@@ -149,7 +149,7 @@ export const SystemPromptEditor = forwardRef<
   const current = value ?? internal;
   const set = (next: string) => {
     if (value === undefined) setInternal(next);
-    onChange?.(next);
+    onValueChange?.(next);
   };
   return (
     <div
@@ -698,13 +698,13 @@ export interface ModelPickerOption {
 export interface ModelPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   models: ModelPickerOption[];
   value: string;
-  onChange: (modelId: string) => void;
+  onValueChange: (modelId: string) => void;
   label?: string;
 }
 
 export const ModelPicker = forwardRef<HTMLDivElement, ModelPickerProps>(
   function ModelPicker(
-    { models, value, onChange, label, className, ...props },
+    { models, value, onValueChange, label, className, ...props },
     ref
   ) {
     return (
@@ -717,7 +717,7 @@ export const ModelPicker = forwardRef<HTMLDivElement, ModelPickerProps>(
         <select
           className="vf-model-picker__select"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => onValueChange(e.target.value)}
         >
           {models.map((m) => (
             <option key={m.id} value={m.id} disabled={m.disabled}>

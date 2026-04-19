@@ -30,7 +30,7 @@ describe("RichTextEditor", () => {
 
   it("emits onChange when content changes via input event", () => {
     const onChange = vi.fn();
-    renderWithTheme(<RichTextEditor label="Body" onChange={onChange} />);
+    renderWithTheme(<RichTextEditor label="Body" onValueChange={onChange} />);
     const content = screen.getByRole("textbox", { name: "Body" }) as HTMLDivElement;
     setHTML(content, "<p>hello</p>");
     content.dispatchEvent(new Event("input", { bubbles: true }));

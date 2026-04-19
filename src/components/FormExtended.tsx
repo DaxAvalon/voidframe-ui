@@ -20,7 +20,7 @@ import { Label } from "./Text";
 export interface CheckboxProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   checked?: boolean;
   defaultChecked?: boolean;
-  onChange?: (checked: boolean) => void;
+  onValueChange?: (checked: boolean) => void;
   label?: string;
   accent?: string;
   disabled?: boolean;
@@ -29,17 +29,17 @@ export interface CheckboxProps extends Omit<HTMLAttributes<HTMLDivElement>, "onC
 
 /**
  * WAI-ARIA checkbox with controlled/uncontrolled duality. Pass `checked` +
- * `onChange(next)` controlled, or `defaultChecked` uncontrolled. Custom
+ * `onValueChange(next)` controlled, or `defaultChecked` uncontrolled. Custom
  * brutalist glyph; Space and Enter toggle. Optional `label` and `accent`.
  */
 export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(function Checkbox(
-  { checked, defaultChecked, onChange, label, accent, disabled, className, style, ...props },
+  { checked, defaultChecked, onValueChange, label, accent, disabled, className, style, ...props },
   ref
 ) {
   const [value, setValue] = useControllableState<boolean>({
     value: checked,
     defaultValue: defaultChecked ?? false,
-    onChange,
+    onChange: onValueChange,
     componentName: "Checkbox",
   });
   const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -75,9 +75,9 @@ Checkbox.displayName = "Checkbox";
 
 // ── Radio ─────────────────────────────────────────────────────
 
-export interface RadioProps extends HTMLAttributes<HTMLDivElement> {
+export interface RadioProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   checked: boolean;
-  onChange: () => void;
+  onValueChange: () => void;
   label?: string;
   accent?: string;
   disabled?: boolean;
@@ -85,13 +85,13 @@ export interface RadioProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const Radio = forwardRef<HTMLDivElement, RadioProps>(function Radio(
-  { checked, onChange, label, accent, disabled, className, style, ...props },
+  { checked, onValueChange, label, accent, disabled, className, style, ...props },
   ref
 ) {
   const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!disabled && (e.key === " " || e.key === "Enter")) {
       e.preventDefault();
-      onChange();
+      onValueChange();
     }
   };
   const composedStyle: CSSProperties = accent
@@ -103,7 +103,7 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(function Radio(
       className={cx("vf-radio", className)}
       style={composedStyle}
       data-disabled={disabled ? "true" : undefined}
-      onClick={() => !disabled && onChange()}
+      onClick={() => !disabled && onValueChange()}
       role="radio"
       aria-checked={checked}
       tabIndex={0}
@@ -128,7 +128,7 @@ export interface RadioGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, "o
   options: RadioGroupOption[];
   value?: string;
   defaultValue?: string;
-  onChange?: (value: string) => void;
+  onValueChange?: (value: string) => void;
   label?: string;
   accent?: string;
   direction?: "horizontal" | "vertical";
@@ -137,18 +137,18 @@ export interface RadioGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, "o
 
 /**
  * WAI-ARIA radio group with controlled/uncontrolled duality. Accepts an
- * `options` array and `value` + `onChange(value)` or `defaultValue`.
+ * `options` array and `value` + `onValueChange(value)` or `defaultValue`.
  * Renders label + radios in a `horizontal` or `vertical` `direction`.
  */
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
   function RadioGroup(
-    { options, value, defaultValue, onChange, label, accent, direction = "vertical", className, style, ...props },
+    { options, value, defaultValue, onValueChange, label, accent, direction = "vertical", className, style, ...props },
     ref
   ) {
     const [current, setCurrent] = useControllableState<string>({
       value,
       defaultValue: defaultValue ?? options[0]?.value ?? "",
-      onChange,
+      onChange: onValueChange,
       componentName: "RadioGroup",
     });
     const labelId = useId();
@@ -189,7 +189,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
             <Radio
               key={o.value}
               checked={current === o.value}
-              onChange={() => setCurrent(o.value)}
+              onValueChange={() => setCurrent(o.value)}
               label={o.label}
               accent={accent}
             />
@@ -205,7 +205,7 @@ RadioGroup.displayName = "RadioGroup";
 
 export interface SliderProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   value: number;
-  onChange: (value: number) => void;
+  onValueChange: (value: number) => void;
   min?: number;
   max?: number;
   step?: number;
@@ -216,7 +216,7 @@ export interface SliderProps extends Omit<HTMLAttributes<HTMLDivElement>, "onCha
 }
 
 export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
-  { value, onChange, min = 0, max = 100, step = 1, label, accent, showValue, className, style, ...props },
+  { value, onValueChange, min = 0, max = 100, step = 1, label, accent, showValue, className, style, ...props },
   ref
 ) {
   const pct = ((value - min) / (max - min)) * 100;
@@ -243,7 +243,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
           max={max}
           step={step}
           value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(e) => onValueChange(Number(e.target.value))}
         />
         <div className="vf-slider__thumb" style={{ left: `calc(${pct}% - 6px)` }} />
       </div>
@@ -256,7 +256,7 @@ Slider.displayName = "Slider";
 
 export interface NumberInputProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   value: number;
-  onChange: (value: number) => void;
+  onValueChange: (value: number) => void;
   min?: number;
   max?: number;
   step?: number;
@@ -267,7 +267,7 @@ export interface NumberInputProps extends Omit<HTMLAttributes<HTMLDivElement>, "
 
 export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
   function NumberInput(
-    { value, onChange, min, max, step = 1, label, width, className, style, ...props },
+    { value, onValueChange, min, max, step = 1, label, width, className, style, ...props },
     ref
   ) {
     const clamp = (v: number | string): number => {
@@ -293,7 +293,7 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
             type="button"
             aria-label="Decrement"
             className="vf-number-input__btn vf-number-input__btn--minus"
-            onClick={() => onChange(clamp(value - step))}
+            onClick={() => onValueChange(clamp(value - step))}
           >
             −
           </button>
@@ -302,13 +302,13 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
             type="number"
             aria-label={label}
             value={value}
-            onChange={(e) => onChange(clamp(e.target.value))}
+            onChange={(e) => onValueChange(clamp(e.target.value))}
           />
           <button
             type="button"
             aria-label="Increment"
             className="vf-number-input__btn vf-number-input__btn--plus"
-            onClick={() => onChange(clamp(value + step))}
+            onClick={() => onValueChange(clamp(value + step))}
           >
             +
           </button>

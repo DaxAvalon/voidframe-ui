@@ -21,7 +21,7 @@ describe("Switch", () => {
   it("forwards to Toggle controllable API", () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <Switch aria-label="X" defaultChecked={false} onChange={onChange} />
+      <Switch aria-label="X" defaultChecked={false} onValueChange={onChange} />
     );
     screen.getByRole("switch").click();
     expect(onChange).toHaveBeenCalledWith(true);
@@ -48,7 +48,7 @@ describe("CheckboxGroup", () => {
   it("uncontrolled: adds + removes from defaultValue", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <CheckboxGroup options={opts} defaultValue={["a"]} onChange={onChange} />
+      <CheckboxGroup options={opts} defaultValue={["a"]} onValueChange={onChange} />
     );
     const boxes = screen.getAllByRole("checkbox");
     expect(boxes[0]).toHaveAttribute("aria-checked", "true");
@@ -63,7 +63,7 @@ describe("CheckboxGroup", () => {
       const [v, setV] = useState<string[]>([]);
       return (
         <>
-          <CheckboxGroup options={opts} value={v} onChange={setV} />
+          <CheckboxGroup options={opts} value={v} onValueChange={setV} />
           <button onClick={() => setV(["a", "c"])} data-testid="set">
             set
           </button>
@@ -105,7 +105,7 @@ describe("SegmentedControl", () => {
   it("click selects option", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <SegmentedControl options={opts} defaultValue="grid" onChange={onChange} />
+      <SegmentedControl options={opts} defaultValue="grid" onValueChange={onChange} />
     );
     await userEvent.click(screen.getByRole("radio", { name: "Card" }));
     expect(onChange).toHaveBeenCalledWith("card");
@@ -114,7 +114,7 @@ describe("SegmentedControl", () => {
   it("ArrowRight wraps past end", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <SegmentedControl options={opts} defaultValue="card" onChange={onChange} />
+      <SegmentedControl options={opts} defaultValue="card" onValueChange={onChange} />
     );
     const group = screen.getByRole("radiogroup");
     group.focus();
@@ -130,7 +130,7 @@ describe("SegmentedControl", () => {
     ];
     const onChange = vi.fn();
     renderWithTheme(
-      <SegmentedControl options={mixed} defaultValue="c" onChange={onChange} />
+      <SegmentedControl options={mixed} defaultValue="c" onValueChange={onChange} />
     );
     const group = screen.getByRole("radiogroup");
     group.focus();
@@ -146,7 +146,7 @@ describe("SegmentedControl", () => {
     ];
     const onChange = vi.fn();
     renderWithTheme(
-      <SegmentedControl options={mixed} defaultValue="a" onChange={onChange} />
+      <SegmentedControl options={mixed} defaultValue="a" onValueChange={onChange} />
     );
     const group = screen.getByRole("radiogroup");
     group.focus();
@@ -226,7 +226,7 @@ describe("PinInput", () => {
   it("only accepts digits when type=numeric", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <PinInput length={3} label="Code" type="numeric" onChange={onChange} />
+      <PinInput length={3} label="Code" type="numeric" onValueChange={onChange} />
     );
     const slots = screen.getAllByRole("textbox");
     slots[0]!.focus();
@@ -239,7 +239,7 @@ describe("PinInput", () => {
   it("Backspace on empty slot moves focus back", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <PinInput length={3} label="Code" defaultValue="12" onChange={onChange} />
+      <PinInput length={3} label="Code" defaultValue="12" onValueChange={onChange} />
     );
     const slots = screen.getAllByRole("textbox");
     slots[2]!.focus();
@@ -273,7 +273,7 @@ describe("PinInput", () => {
   it("paste splits across slots", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <PinInput length={6} label="C" type="numeric" onChange={onChange} />
+      <PinInput length={6} label="C" type="numeric" onValueChange={onChange} />
     );
     const slots = screen.getAllByRole("textbox");
     slots[0]!.focus();
@@ -290,7 +290,7 @@ describe("PinInput", () => {
 describe("TagInput", () => {
   it("commits on Enter", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<TagInput label="TAGS" onChange={onChange} />);
+    renderWithTheme(<TagInput label="TAGS" onValueChange={onChange} />);
     const field = screen.getByRole("textbox");
     await userEvent.type(field, "react{Enter}");
     expect(onChange).toHaveBeenLastCalledWith(["react"]);
@@ -301,7 +301,7 @@ describe("TagInput", () => {
     renderWithTheme(
       <TagInput
         label="TAGS"
-        onChange={onChange}
+        onValueChange={onChange}
         delimiters={["Enter", ","]}
       />
     );
@@ -313,7 +313,7 @@ describe("TagInput", () => {
   it("dedupes case-insensitively by default", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <TagInput label="T" defaultValue={["React"]} onChange={onChange} />
+      <TagInput label="T" defaultValue={["React"]} onValueChange={onChange} />
     );
     const field = screen.getByRole("textbox");
     await userEvent.type(field, "react{Enter}");
@@ -323,7 +323,7 @@ describe("TagInput", () => {
   it("removes last tag when Backspace on empty draft", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <TagInput label="T" defaultValue={["a", "b"]} onChange={onChange} />
+      <TagInput label="T" defaultValue={["a", "b"]} onValueChange={onChange} />
     );
     const field = screen.getByRole("textbox");
     field.focus();
@@ -334,7 +334,7 @@ describe("TagInput", () => {
   it("explicit remove button removes the chip", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <TagInput label="T" defaultValue={["a", "b", "c"]} onChange={onChange} />
+      <TagInput label="T" defaultValue={["a", "b", "c"]} onValueChange={onChange} />
     );
     await userEvent.click(screen.getByRole("button", { name: "Remove b" }));
     expect(onChange).toHaveBeenLastCalledWith(["a", "c"]);
@@ -347,7 +347,7 @@ describe("TagInput", () => {
         label="T"
         defaultValue={["a", "b"]}
         maxTags={2}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     const field = screen.getByRole("textbox");
@@ -360,7 +360,7 @@ describe("TagInput", () => {
     renderWithTheme(
       <TagInput
         label="T"
-        onChange={onChange}
+        onValueChange={onChange}
         validate={(t) => t.includes("@") || "must be an email"}
       />
     );
@@ -377,7 +377,7 @@ describe("TagInput", () => {
   it("multi-item paste splits on comma/newline and adds all", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <TagInput label="T" onChange={onChange} />
+      <TagInput label="T" onValueChange={onChange} />
     );
     const field = screen.getByRole("textbox");
     // Simulate pasting comma-separated text
@@ -394,7 +394,7 @@ describe("TagInput", () => {
   it("paste respects maxTags limit", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <TagInput label="T" maxTags={2} onChange={onChange} />
+      <TagInput label="T" maxTags={2} onValueChange={onChange} />
     );
     const field = screen.getByRole("textbox");
     const clipboardData = {
@@ -412,7 +412,7 @@ describe("TagInput", () => {
     renderWithTheme(
       <TagInput
         label="T"
-        onChange={onChange}
+        onValueChange={onChange}
         validate={(t) => t.length > 1}
       />
     );

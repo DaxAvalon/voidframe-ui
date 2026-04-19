@@ -49,7 +49,7 @@ describe("Transfer", () => {
   it("uncontrolled: items move between panels on button click", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <Transfer items={items} defaultValue={[]} onChange={onChange} />
+      <Transfer items={items} defaultValue={[]} onValueChange={onChange} />
     );
     const listboxes = screen.getAllByRole("listbox");
 
@@ -76,7 +76,7 @@ describe("Transfer", () => {
       const [v, setV] = useState<string[]>(["a"]);
       return (
         <>
-          <Transfer items={items} value={v} onChange={setV} />
+          <Transfer items={items} value={v} onValueChange={setV} />
           <button onClick={() => setV(["a", "c"])} data-testid="set">
             set
           </button>
@@ -121,7 +121,7 @@ describe("Transfer", () => {
   it("double-click moves item immediately", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <Transfer items={items} defaultValue={[]} onChange={onChange} />
+      <Transfer items={items} defaultValue={[]} onValueChange={onChange} />
     );
     const listboxes = screen.getAllByRole("listbox");
     const alphaOption = listboxes[0]!.querySelectorAll("[role='option']")[0]!;
@@ -150,7 +150,7 @@ describe("Transfer", () => {
   it("move all buttons transfer entire panel contents", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <Transfer items={items} defaultValue={[]} onChange={onChange} />
+      <Transfer items={items} defaultValue={[]} onValueChange={onChange} />
     );
 
     // Move all right
@@ -173,7 +173,7 @@ describe("Transfer", () => {
     ];
     const onChange = vi.fn();
     renderWithTheme(
-      <Transfer items={disabledItems} defaultValue={[]} onChange={onChange} />
+      <Transfer items={disabledItems} defaultValue={[]} onValueChange={onChange} />
     );
     const listboxes = screen.getAllByRole("listbox");
     const disabledOption = listboxes[0]!.querySelectorAll("[role='option']")[0]!;

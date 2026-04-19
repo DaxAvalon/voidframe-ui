@@ -58,7 +58,7 @@ describe("ColorPicker", () => {
 
   it("typing a valid hex updates onChange", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<ColorPicker label="Accent" onChange={onChange} />);
+    renderWithTheme(<ColorPicker label="Accent" onValueChange={onChange} />);
     const input = screen.getByLabelText("Hex color") as HTMLInputElement;
     await userEvent.clear(input);
     await userEvent.type(input, "#00ff00");
@@ -67,7 +67,7 @@ describe("ColorPicker", () => {
 
   it("dragging the hue slider emits a color", () => {
     const onChange = vi.fn();
-    renderWithTheme(<ColorPicker label="Accent" onChange={onChange} />);
+    renderWithTheme(<ColorPicker label="Accent" onValueChange={onChange} />);
     const hue = screen.getByLabelText("Hue") as HTMLInputElement;
     fireEvent.change(hue, { target: { value: "120" } });
     expect(onChange).toHaveBeenCalled();
@@ -82,7 +82,7 @@ describe("ColorPicker", () => {
       <ColorPicker
         label="Accent"
         swatches={["#ff0000", "#00ff00", "#0000ff"]}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "#00ff00" }));

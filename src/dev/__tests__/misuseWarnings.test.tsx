@@ -22,7 +22,7 @@ describe("runtime misuse warnings", () => {
 
   it("RadioGroup warns on empty options", () => {
     withWarnSpy((spy) => {
-      renderWithTheme(<RadioGroup options={[]} value="a" onChange={() => {}} />);
+      renderWithTheme(<RadioGroup options={[]} value="a" onValueChange={() => {}} />);
       expect(
         (spy as unknown as { mock: { calls: unknown[][] } }).mock.calls.some(
           (c) =>
@@ -41,7 +41,7 @@ describe("runtime misuse warnings", () => {
             { value: "a", label: "Dup" },
           ]}
           value="a"
-          onChange={() => {}}
+          onValueChange={() => {}}
         />
       );
       expect(
@@ -84,7 +84,7 @@ describe("runtime misuse warnings", () => {
             { value: "a", label: "Dup" },
           ]}
           value="a"
-          onChange={() => {}}
+          onValueChange={() => {}}
         />
       );
       expect(

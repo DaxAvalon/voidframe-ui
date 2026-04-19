@@ -32,7 +32,7 @@ const LOGIN_FORM_CODE = `function LoginForm() {
         <Input label="Email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
         <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <HStack style={{ justifyContent: "space-between", alignItems: "center" }}>
-          <Checkbox checked={remember} onChange={() => setRemember(!remember)} label="Remember me" />
+          <Checkbox checked={remember} onValueChange={() => setRemember(!remember)} label="Remember me" />
           <Button variant="ghost" size="sm">Forgot password?</Button>
         </HStack>
         <Button type="submit" style={{ width: "100%" }}>Sign In</Button>
@@ -81,16 +81,16 @@ const SETTINGS_PAGE_CODE = `function SettingsPage() {
               { value: "cet", label: "Central European" },
             ]}
             value="utc"
-            onChange={() => {}}
+            onValueChange={() => {}}
           />
           <Button>Save Changes</Button>
         </VStack>
       )}
       {tab === "notifications" && (
         <VStack gap={16}>
-          <Toggle checked={emailNotifs} onChange={setEmailNotifs} label="Email notifications" />
-          <Toggle checked={pushNotifs} onChange={setPushNotifs} label="Push notifications" />
-          <Toggle checked={weeklyDigest} onChange={setWeeklyDigest} label="Weekly digest" />
+          <Toggle checked={emailNotifs} onValueChange={setEmailNotifs} label="Email notifications" />
+          <Toggle checked={pushNotifs} onValueChange={setPushNotifs} label="Push notifications" />
+          <Toggle checked={weeklyDigest} onValueChange={setWeeklyDigest} label="Weekly digest" />
         </VStack>
       )}
       {tab === "security" && (
@@ -146,7 +146,7 @@ const DATA_TABLE_CODE = `function DataTablePage() {
             { value: "viewer", label: "Viewer" },
           ]}
           value={roleFilter}
-          onChange={setRoleFilter}
+          onValueChange={setRoleFilter}
           width={140}
         />
       </HStack>
@@ -392,7 +392,7 @@ const ONBOARDING_WIZARD_CODE = `function OnboardingWizard() {
               { value: "enterprise", label: "Enterprise - \$99/mo" },
             ]}
             value={plan}
-            onChange={setPlan}
+            onValueChange={setPlan}
           />
         </VStack>
       )}

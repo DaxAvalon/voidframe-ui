@@ -249,7 +249,7 @@ describe("ThemeSelector", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <ThemeSelector
-        onChange={onChange}
+        onValueChange={onChange}
         themes={[
           { id: "dark", label: "Dark" },
           { id: "light", label: "Light" },

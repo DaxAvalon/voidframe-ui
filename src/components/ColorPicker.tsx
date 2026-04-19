@@ -27,7 +27,7 @@ export interface ColorPickerProps
   /** Hex color string like "#3366ff". */
   value?: string;
   defaultValue?: string;
-  onChange?: (hex: string) => void;
+  onValueChange?: (hex: string) => void;
   label?: string;
   /** Preset hex swatches. */
   swatches?: string[];
@@ -166,7 +166,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
     {
       value,
       defaultValue = "#000000",
-      onChange,
+      onValueChange,
       label,
       swatches,
       allowAlpha,
@@ -181,7 +181,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
     const [current, setCurrent] = useControllableState<string>({
       value,
       defaultValue,
-      onChange,
+      onChange: onValueChange,
       componentName: "ColorPicker",
     });
 

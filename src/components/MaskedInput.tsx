@@ -345,7 +345,7 @@ const DEFAULT_PHONE_MASKS: Record<string, string> = {
   IN: "#####-#####",
 };
 
-export interface PhoneInputProps extends Omit<MaskedInputProps, "mask"> {
+export interface PhoneInputProps extends Omit<MaskedInputProps, "mask" | "onChange"> {
   /** Two-letter country code (ISO 3166-1 alpha-2). Defaults to "US". */
   country?: keyof typeof DEFAULT_PHONE_MASKS | string;
   /** Override the mask entirely. */

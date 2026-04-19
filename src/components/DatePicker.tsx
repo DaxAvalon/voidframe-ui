@@ -299,7 +299,7 @@ export interface DatePickerProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   value?: Date | null;
   defaultValue?: Date | null;
-  onChange?: (date: Date | null) => void;
+  onValueChange?: (date: Date | null) => void;
   label?: string;
   placeholder?: string;
   min?: Date | null;
@@ -329,7 +329,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     {
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       placeholder = "yyyy-mm-dd",
       min,
@@ -373,9 +373,9 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const setValue = useCallback(
       (next: Date | null) => {
         if (!isControlled) setInternal(next);
-        onChange?.(next);
+        onValueChange?.(next);
       },
-      [isControlled, onChange]
+      [isControlled, onValueChange]
     );
 
     const displayFormat = useCallback(
@@ -520,7 +520,7 @@ export interface DateRangePickerProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   value?: DateRange;
   defaultValue?: DateRange;
-  onChange?: (range: DateRange) => void;
+  onValueChange?: (range: DateRange) => void;
   label?: string;
   min?: Date | null;
   max?: Date | null;
@@ -540,7 +540,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     {
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       min,
       max,
@@ -582,7 +582,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
 
     const setRange = (next: DateRange) => {
       if (!isControlled) setInternal(next);
-      onChange?.(next);
+      onValueChange?.(next);
     };
 
     const displayFormat = useCallback(

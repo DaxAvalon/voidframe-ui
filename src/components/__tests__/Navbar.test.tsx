@@ -40,7 +40,7 @@ describe("TabBar", () => {
   it("selects the value on click", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <TabBar defaultValue="home" onChange={onChange}>
+      <TabBar defaultValue="home" onValueChange={onChange}>
         <TabBar.Item value="home">Home</TabBar.Item>
         <TabBar.Item value="search">Search</TabBar.Item>
       </TabBar>

@@ -249,14 +249,14 @@ describe("MessageActions", () => {
 describe("MessageFeedback", () => {
   it("emits thumbs up / down", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<MessageFeedback onChange={onChange} />);
+    renderWithTheme(<MessageFeedback onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("button", { name: "Thumbs up" }));
     expect(onChange).toHaveBeenCalledWith("up");
   });
 
   it("toggles off when same direction clicked twice (uncontrolled)", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<MessageFeedback onChange={onChange} />);
+    renderWithTheme(<MessageFeedback onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("button", { name: "Thumbs up" }));
     await userEvent.click(screen.getByRole("button", { name: "Thumbs up" }));
     expect(onChange).toHaveBeenLastCalledWith(null);
@@ -350,7 +350,7 @@ describe("MessageEdit", () => {
   it("saves on cmd+Enter", async () => {
     const onSave = vi.fn();
     renderWithTheme(
-      <MessageEdit value="hello" onChange={() => {}} onSave={onSave} />
+      <MessageEdit value="hello" onValueChange={() => {}} onSave={onSave} />
     );
     const textarea = screen.getByRole("textbox");
     textarea.focus();
@@ -361,7 +361,7 @@ describe("MessageEdit", () => {
   it("cancels on Escape", async () => {
     const onCancel = vi.fn();
     renderWithTheme(
-      <MessageEdit value="hi" onChange={() => {}} onCancel={onCancel} />
+      <MessageEdit value="hi" onValueChange={() => {}} onCancel={onCancel} />
     );
     const textarea = screen.getByRole("textbox");
     textarea.focus();

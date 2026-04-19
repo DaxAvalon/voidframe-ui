@@ -28,7 +28,7 @@ export interface CodeEditorProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   value?: string;
   defaultValue?: string;
-  onChange?: (code: string) => void;
+  onValueChange?: (code: string) => void;
   label?: string;
   placeholder?: string;
   language?: string;
@@ -50,7 +50,7 @@ export const CodeEditor = forwardRef<HTMLDivElement, CodeEditorProps>(
     {
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       placeholder = "Type code…",
       language,
@@ -70,7 +70,7 @@ export const CodeEditor = forwardRef<HTMLDivElement, CodeEditorProps>(
     const [code, setCode] = useControllableState<string>({
       value,
       defaultValue: defaultValue ?? "",
-      onChange,
+      onChange: onValueChange,
       componentName: "CodeEditor",
     });
 

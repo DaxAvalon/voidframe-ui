@@ -55,7 +55,7 @@ describe("TreeSelect", () => {
         label="Category"
         nodes={tree}
         defaultExpanded={["fruits"]}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "Category" }));
@@ -71,7 +71,7 @@ describe("TreeSelect", () => {
         label="Category"
         nodes={tree}
         selectableBranches={false}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "Category" }));
@@ -88,7 +88,7 @@ describe("TreeSelect", () => {
         label="Category"
         nodes={tree}
         defaultExpanded={["veg"]}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "Category" }));
@@ -142,7 +142,7 @@ describe("TreeSelect", () => {
         label="Category"
         nodes={tree}
         defaultExpanded={["fruits"]}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "Category" }));

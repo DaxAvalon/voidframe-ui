@@ -14,7 +14,7 @@ import { renderWithTheme } from "../../../test/renderWithTheme";
 describe("Toggle — controllable", () => {
   it("uncontrolled: starts at defaultChecked and toggles internally", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Toggle defaultChecked={false} onChange={onChange} />);
+    renderWithTheme(<Toggle defaultChecked={false} onValueChange={onChange} />);
     const sw = screen.getByRole("switch");
     expect(sw).toHaveAttribute("aria-checked", "false");
     await userEvent.click(sw);
@@ -27,7 +27,7 @@ describe("Toggle — controllable", () => {
       const [v, setV] = useState(false);
       return (
         <>
-          <Toggle checked={v} onChange={setV} />
+          <Toggle checked={v} onValueChange={setV} />
           <span data-testid="state">{String(v)}</span>
         </>
       );
@@ -53,7 +53,7 @@ describe("Checkbox — controllable", () => {
   it("controlled honors parent state", async () => {
     function Ctl() {
       const [v, setV] = useState(true);
-      return <Checkbox checked={v} onChange={setV} />;
+      return <Checkbox checked={v} onValueChange={setV} />;
     }
     renderWithTheme(<Ctl />);
     const cb = screen.getByRole("checkbox");
@@ -72,7 +72,7 @@ describe("RadioGroup — controllable", () => {
   it("uncontrolled defaults to defaultValue", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <RadioGroup options={opts} defaultValue="a" onChange={onChange} />
+      <RadioGroup options={opts} defaultValue="a" onValueChange={onChange} />
     );
     const radios = screen.getAllByRole("radio");
     expect(radios[0]).toHaveAttribute("aria-checked", "true");
@@ -86,7 +86,7 @@ describe("RadioGroup — controllable", () => {
       const [v, setV] = useState("a");
       return (
         <>
-          <RadioGroup options={opts} value={v} onChange={setV} />
+          <RadioGroup options={opts} value={v} onValueChange={setV} />
           <button onClick={() => setV("b")} data-testid="set-b">
             set b
           </button>

@@ -119,7 +119,7 @@ export interface ButtonGroupOption {
 export interface ButtonGroupProps {
   options: ButtonGroupOption[];
   value: string;
-  onChange: (key: string) => void;
+  onValueChange: (key: string) => void;
   accent?: string;
   size?: ButtonSize;
   className?: string;
@@ -127,14 +127,14 @@ export interface ButtonGroupProps {
 }
 
 export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
-  function ButtonGroup({ options, value, onChange, accent, size, className, style }, ref) {
+  function ButtonGroup({ options, value, onValueChange, accent, size, className, style }, ref) {
     return (
       <div ref={ref} className={cx("vf-button-group", className)} style={style}>
         {options.map((o) => (
           <Button
             key={o.key}
             active={value === o.key}
-            onClick={() => onChange(o.key)}
+            onClick={() => onValueChange(o.key)}
             accent={accent}
             size={size}
             variant={accent ? "subtle" : "outline"}

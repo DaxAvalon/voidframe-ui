@@ -37,7 +37,7 @@ export interface TreeSelectProps
   nodes: TreeNode[];
   value?: string | null;
   defaultValue?: string | null;
-  onChange?: (value: string | null) => void;
+  onValueChange?: (value: string | null) => void;
   label?: string;
   placeholder?: string;
   /** Initially-expanded node values. */
@@ -77,7 +77,7 @@ export const TreeSelect = forwardRef<HTMLDivElement, TreeSelectProps>(
       nodes,
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       placeholder = "Select…",
       defaultExpanded = [],
@@ -93,7 +93,7 @@ export const TreeSelect = forwardRef<HTMLDivElement, TreeSelectProps>(
     const [current, setCurrent] = useControllableState<string | null>({
       value,
       defaultValue: defaultValue ?? null,
-      onChange,
+      onChange: onValueChange,
       componentName: "TreeSelect",
     });
 

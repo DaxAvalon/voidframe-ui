@@ -52,7 +52,7 @@ export interface ComboboxProps
   options: ComboboxOption[];
   value?: string | null;
   defaultValue?: string | null;
-  onChange?: (value: string | null) => void;
+  onValueChange?: (value: string | null) => void;
   label?: string;
   placeholder?: string;
   /** Custom predicate. Defaults to case-insensitive substring match on `label`. */
@@ -77,7 +77,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       options,
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       placeholder = "Search…",
       filter = defaultFilter,
@@ -95,7 +95,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const [current, setCurrent] = useControllableState<string | null>({
       value,
       defaultValue: defaultValue ?? null,
-      onChange,
+      onChange: onValueChange,
       componentName: "Combobox",
     });
 
@@ -304,7 +304,7 @@ export interface MultiSelectProps
   options: ComboboxOption[];
   value?: string[];
   defaultValue?: string[];
-  onChange?: (values: string[]) => void;
+  onValueChange?: (values: string[]) => void;
   label?: string;
   placeholder?: string;
   filter?: (query: string, option: ComboboxOption) => boolean;
@@ -322,7 +322,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       options,
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       placeholder = "Search…",
       filter = defaultFilter,
@@ -339,7 +339,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
     const [current, setCurrent] = useControllableState<string[]>({
       value,
       defaultValue: defaultValue ?? [],
-      onChange,
+      onChange: onValueChange,
       componentName: "MultiSelect",
     });
 

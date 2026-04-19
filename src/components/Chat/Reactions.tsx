@@ -21,7 +21,7 @@ export interface MessageFeedbackProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   value?: FeedbackValue;
   defaultValue?: FeedbackValue;
-  onChange?: (next: FeedbackValue) => void;
+  onValueChange?: (next: FeedbackValue) => void;
   reasons?: FeedbackReason[];
   selectedReason?: string;
   onReasonSelect?: (reasonId: string) => void;
@@ -32,7 +32,7 @@ export const MessageFeedback = forwardRef<HTMLDivElement, MessageFeedbackProps>(
     {
       value,
       defaultValue = null,
-      onChange,
+      onValueChange,
       reasons,
       selectedReason: selectedReasonProp,
       onReasonSelect,
@@ -45,7 +45,7 @@ export const MessageFeedback = forwardRef<HTMLDivElement, MessageFeedbackProps>(
     const current = value === undefined ? internal : value;
     const set = (next: FeedbackValue) => {
       if (value === undefined) setInternal(next);
-      onChange?.(next);
+      onValueChange?.(next);
     };
 
     const [reasonInternal, setReasonInternal] = useState<string | undefined>();

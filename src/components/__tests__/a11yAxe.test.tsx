@@ -196,7 +196,7 @@ describe("axe: form controls", () => {
           { value: "b", label: "B" },
         ]}
         value="a"
-        onChange={() => {}}
+        onValueChange={() => {}}
       />
     );
     await expectNoA11yViolations(container);
@@ -218,7 +218,7 @@ describe("axe: form controls", () => {
 
   it("Radio with label", async () => {
     const { container } = renderWithTheme(
-      <Radio checked={false} onChange={() => {}} label="PICK ME" />
+      <Radio checked={false} onValueChange={() => {}} label="PICK ME" />
     );
     await expectNoA11yViolations(container);
   });
@@ -239,14 +239,14 @@ describe("axe: form controls", () => {
 
   it("Slider with label", async () => {
     const { container } = renderWithTheme(
-      <Slider value={50} onChange={() => {}} label="VOLUME" />
+      <Slider value={50} onValueChange={() => {}} label="VOLUME" />
     );
     await expectNoA11yViolations(container);
   });
 
   it("NumberInput with label", async () => {
     const { container } = renderWithTheme(
-      <NumberInput value={5} onChange={() => {}} label="QUANTITY" />
+      <NumberInput value={5} onValueChange={() => {}} label="QUANTITY" />
     );
     await expectNoA11yViolations(container);
   });

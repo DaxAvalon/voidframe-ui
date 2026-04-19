@@ -46,7 +46,7 @@ export interface WizardProps
   value?: string;
   /** Uncontrolled default step id. Falls back to the first step. */
   defaultValue?: string;
-  onChange?: (stepId: string) => void;
+  onValueChange?: (stepId: string) => void;
   /** Called when the final step completes. */
   onComplete?: () => void;
   /** Per-step validation gate. Return `false` to block Next. */
@@ -57,7 +57,7 @@ export interface WizardProps
 }
 
 const WizardBase = forwardRef<HTMLDivElement, WizardProps>(function Wizard(
-  { value, defaultValue, onChange, onComplete, canAdvance, showStepper = true, className, children, ...props },
+  { value, defaultValue, onValueChange, onComplete, canAdvance, showStepper = true, className, children, ...props },
   ref
 ) {
   // Collect step ids and labels from children.
@@ -87,9 +87,9 @@ const WizardBase = forwardRef<HTMLDivElement, WizardProps>(function Wizard(
           : target;
       if (!resolvedId) return;
       if (value === undefined) setInternal(resolvedId);
-      onChange?.(resolvedId);
+      onValueChange?.(resolvedId);
     },
-    [value, onChange, steps]
+    [value, onValueChange, steps]
   );
 
   const next = useCallback(() => {
@@ -254,7 +254,7 @@ function WizardStepIndicator({ className, ...props }: HTMLAttributes<HTMLDivElem
  * Multi-step form/workflow container. Compose `Wizard.Step` (one per
  * step) and drive navigation with `Wizard.Previous` / `Wizard.Next` inside
  * `Wizard.Footer`; `Wizard.StepIndicator` shows "Step X of N". Controlled
- * via `value` (step id) + `onChange`, or uncontrolled via `defaultValue`.
+ * via `value` (step id) + `onValueChange`, or uncontrolled via `defaultValue`.
  * Per-step validation via `canAdvance(id)`; `onComplete` fires from the
  * last step.
  */

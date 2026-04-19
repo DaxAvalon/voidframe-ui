@@ -53,7 +53,7 @@ export interface ComposerProps
   extends Omit<HTMLAttributes<HTMLFormElement>, "onSubmit" | "onChange"> {
   value?: string;
   defaultValue?: string;
-  onChange?: (next: string) => void;
+  onValueChange?: (next: string) => void;
   onSubmit?: (value: string) => void;
   onStop?: () => void;
   onSlashCommand?: (command: string) => void;
@@ -70,7 +70,7 @@ function ComposerRoot(
   {
     value,
     defaultValue = "",
-    onChange,
+    onValueChange,
     onSubmit,
     onStop,
     onSlashCommand,
@@ -90,9 +90,9 @@ function ComposerRoot(
   const setValue = useCallback(
     (next: string) => {
       if (value === undefined) setInternal(next);
-      onChange?.(next);
+      onValueChange?.(next);
     },
-    [value, onChange]
+    [value, onValueChange]
   );
 
   const submit = useCallback(() => {

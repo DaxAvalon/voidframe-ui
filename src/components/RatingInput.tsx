@@ -30,7 +30,7 @@ export interface RatingInputProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   value?: number;
   defaultValue?: number;
-  onChange?: (value: number) => void;
+  onValueChange?: (value: number) => void;
   label?: string;
   /** Number of steps (stars). Default 5. */
   count?: number;
@@ -53,7 +53,7 @@ export const RatingInput = forwardRef<HTMLDivElement, RatingInputProps>(
     {
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       count = 5,
       allowHalf,
@@ -70,7 +70,7 @@ export const RatingInput = forwardRef<HTMLDivElement, RatingInputProps>(
     const [current, setCurrent] = useControllableState<number>({
       value,
       defaultValue: defaultValue ?? 0,
-      onChange,
+      onChange: onValueChange,
       componentName: "RatingInput",
     });
 

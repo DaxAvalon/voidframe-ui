@@ -50,7 +50,7 @@ export interface MarkdownEditorProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   value?: string;
   defaultValue?: string;
-  onChange?: (md: string) => void;
+  onValueChange?: (md: string) => void;
   label?: string;
   placeholder?: string;
   toolbar?: MarkdownCommand[];
@@ -477,7 +477,7 @@ export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
     {
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       placeholder = "# Write markdown…",
       toolbar = DEFAULT_TOOLBAR,
@@ -496,7 +496,7 @@ export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
     const [md, setMd] = useControllableState<string>({
       value,
       defaultValue: defaultValue ?? "",
-      onChange,
+      onChange: onValueChange,
       componentName: "MarkdownEditor",
     });
 

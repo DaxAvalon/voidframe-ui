@@ -32,7 +32,7 @@ describe("DatePicker", () => {
       <DatePicker
         label="Date"
         defaultValue={new Date(2026, 2, 7)}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByLabelText("Date"));
@@ -52,7 +52,7 @@ describe("DatePicker", () => {
 
   it("typing a valid date + Enter commits", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<DatePicker label="Date" onChange={onChange} />);
+    renderWithTheme(<DatePicker label="Date" onValueChange={onChange} />);
     const input = screen.getByLabelText("Date") as HTMLInputElement;
     await userEvent.clear(input);
     await userEvent.type(input, "2026-05-20{Enter}");
@@ -69,7 +69,7 @@ describe("DatePicker", () => {
       <DatePicker
         label="Date"
         defaultValue={new Date(2026, 2, 7)}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     const input = screen.getByLabelText("Date") as HTMLInputElement;
@@ -135,7 +135,7 @@ describe("DatePicker", () => {
       const [v, setV] = useState<Date | null>(new Date(2026, 2, 7));
       return (
         <>
-          <DatePicker label="Date" value={v} onChange={setV} />
+          <DatePicker label="Date" value={v} onValueChange={setV} />
           <button
             data-testid="advance"
             onClick={() => setV(new Date(2026, 5, 15))}
@@ -193,7 +193,7 @@ describe("DateRangePicker", () => {
         <DateRangePicker
           label="Range"
           value={v}
-          onChange={(next) => {
+          onValueChange={(next) => {
             setV(next);
             onChange(next);
           }}
@@ -220,7 +220,7 @@ describe("DateRangePicker", () => {
       <DateRangePicker
         label="Range"
         defaultValue={{ start: new Date(2026, 2, 15), end: null }}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "Range" }));
@@ -242,7 +242,7 @@ describe("DateRangePicker", () => {
     renderWithTheme(
       <DateRangePicker
         label="Range"
-        onChange={onChange}
+        onValueChange={onChange}
         presets={[
           {
             label: "Fixed",

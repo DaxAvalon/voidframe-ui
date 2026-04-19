@@ -684,7 +684,7 @@ function ButtonGroupDemo() {
   return (
     <ButtonGroup
       value={v}
-      onChange={setV}
+      onValueChange={setV}
       options={[
         { key: "day", label: "Day" },
         { key: "week", label: "Week" },
@@ -801,14 +801,14 @@ function FormsCoreSection() {
         <Select
           label="Option"
           value={sel}
-          onChange={setSel}
+          onValueChange={setSel}
           options={[
             { value: "opt1", label: "Option 1" },
             { value: "opt2", label: "Option 2" },
             { value: "opt3", label: "Option 3" },
           ]}
         />
-        <Toggle label="Notify me" checked={tog} onChange={setTog} />
+        <Toggle label="Notify me" checked={tog} onValueChange={setTog} />
       </Block>
     </Frame>
   );
@@ -885,11 +885,11 @@ function FormsExtendedSection() {
   return (
     <Frame title="Forms — Extended" description="Checkbox, Radio, Slider, Number, Search, Switch, Pin, Tags.">
       <Block label="Checkbox / Radio">
-        <Checkbox label="Subscribe" checked={check} onChange={setCheck} />
+        <Checkbox label="Subscribe" checked={check} onValueChange={setCheck} />
         <RadioGroup
           label="Plan"
           value={pick}
-          onChange={setPick}
+          onValueChange={setPick}
           options={[
             { value: "a", label: "Free" },
             { value: "b", label: "Pro" },
@@ -907,8 +907,8 @@ function FormsExtendedSection() {
         />
       </Block>
       <Block label="Number / Slider / Search">
-        <NumberInput label="Quantity" value={n} onChange={setN} min={0} max={100} />
-        <Slider label="Volume" value={s} onChange={setS} max={100} />
+        <NumberInput label="Quantity" value={n} onValueChange={setN} min={0} max={100} />
+        <Slider label="Volume" value={s} onValueChange={setS} max={100} />
         <SearchInputDemo />
       </Block>
       <Block label="Switch / Segmented / Password / Pin / Tags">
@@ -923,7 +923,7 @@ function FormsExtendedSection() {
         />
         <PasswordInput label="Password" />
         <PinInput label="OTP" length={4} />
-        <TagInput label="Tags" value={tags} onChange={setTags} />
+        <TagInput label="Tags" value={tags} onValueChange={setTags} />
       </Block>
     </Frame>
   );
@@ -1996,7 +1996,7 @@ function BrushPrimitiveDemo() {
             />
           );
         })()}
-        <Brush onChange={setSelection} />
+        <Brush onValueChange={setSelection} />
       </ChartFrame>
       <Flex
         gap={16}
@@ -2431,7 +2431,7 @@ function CommandPaletteSection() {
           <Toggle
             label="Dim page behind palette"
             checked={dim}
-            onChange={setDim}
+            onValueChange={setDim}
           />
         </Flex>
         <CommandPalette open={open} onOpenChange={setOpen} dim={dim}>
@@ -3001,7 +3001,7 @@ function ThemingSection() {
           <ThemeSelector
             size="sm"
             value={previewTheme}
-            onChange={(v) => setPreviewTheme(v as typeof previewTheme)}
+            onValueChange={(v) => setPreviewTheme(v as typeof previewTheme)}
             themes={[
               { id: "dark", label: "Dark" },
               { id: "light", label: "Light" },
@@ -3042,7 +3042,7 @@ function ThemingSection() {
         <ThemeSelector
           size="sm"
           value={density}
-          onChange={(v) => setDensity(v as typeof density)}
+          onValueChange={(v) => setDensity(v as typeof density)}
           themes={[
             { id: "comfortable", label: "Comfortable" },
             { id: "compact", label: "Compact" },
@@ -3505,7 +3505,7 @@ function SpecialtyDevToolsSection() {
               { key: "yaml", label: "YAML" },
             ]}
             value={debugFormat}
-            onChange={(k) => setDebugFormat(k as "json" | "yaml")}
+            onValueChange={(k) => setDebugFormat(k as "json" | "yaml")}
           />
         </Flex>
         <DebugTree
@@ -3531,13 +3531,13 @@ function SpecialtyDevToolsSection() {
             { id: "score", label: "Score", type: "number" },
           ]}
           value={query}
-          onChange={setQuery}
+          onValueChange={setQuery}
         />
       </Block>
       <Block label="ShortcutEditor">
         <ShortcutEditor
           value={shortcut}
-          onChange={setShortcut}
+          onValueChange={setShortcut}
           conflicts={["mod+shift+p"]}
         />
       </Block>
@@ -3694,7 +3694,7 @@ function SpecialtyTimeSection() {
       description="TimeZoneSelect, RelativeTime, DurationDisplay, Countdown."
     >
       <Block label="TimeZoneSelect">
-        <TimeZoneSelect value={zone} onChange={setZone} />
+        <TimeZoneSelect value={zone} onValueChange={setZone} />
       </Block>
       <Block label="RelativeTime / DurationDisplay / Countdown">
         <Flex gap={24} wrap>
@@ -3956,7 +3956,7 @@ function MessageEditDemo() {
   return (
     <MessageEdit
       value={value}
-      onChange={setValue}
+      onValueChange={setValue}
       onSave={(v) => toast.success(`Saved: ${v.slice(0, 24)}…`)}
       onCancel={() => toast.info("Cancelled")}
       autoFocus={false}
@@ -4146,7 +4146,7 @@ function ChatComposerSection() {
       <Block label="Composer with toolbar, mic, token counter, submit">
         <Composer
           value={draft}
-          onChange={setDraft}
+          onValueChange={setDraft}
           status={streaming ? "streaming" : "idle"}
           maxLength={500}
           onSubmit={(v) => {
@@ -4533,7 +4533,7 @@ function NewFormsSection() {
             { key: "solid", label: "Solid" },
           ]}
           value={transferValue}
-          onChange={setTransferValue}
+          onValueChange={setTransferValue}
           titles={["Available", "Selected"]}
           searchable
         />
@@ -4955,7 +4955,7 @@ function App() {
                 <ThemeSelector
                   size="sm"
                   value={themeName}
-                  onChange={(v) => setThemeName(v as typeof themeName)}
+                  onValueChange={(v) => setThemeName(v as typeof themeName)}
                   themes={[
                     { id: "dark", label: "Dark" },
                     { id: "light", label: "Light" },
@@ -4966,7 +4966,7 @@ function App() {
                 />
                 <Select
                   value={localeTag}
-                  onChange={setLocaleTag}
+                  onValueChange={setLocaleTag}
                   options={Object.keys(LOCALE_PACKS).map((tag) => ({
                     value: tag,
                     label: tag,

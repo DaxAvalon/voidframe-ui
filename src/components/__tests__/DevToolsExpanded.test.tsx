@@ -378,7 +378,7 @@ describe("QueryBuilder extended", () => {
       <QueryBuilder
         fields={[{ id: "name", label: "Name" }]}
         value={{ id: "root", combinator: "AND", rules: [] }}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "+ Group" }));
@@ -397,7 +397,7 @@ describe("QueryBuilder extended", () => {
           combinator: "AND",
           rules: [{ id: "r1", field: "name", operator: "=", value: "test" }],
         }}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "Remove rule" }));
@@ -412,7 +412,7 @@ describe("QueryBuilder extended", () => {
       <QueryBuilder
         fields={[{ id: "name", label: "Name" }]}
         value={{ id: "root", combinator: "AND", rules: [] }}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     const select = screen.getByRole("combobox", { name: "Combinator" });
@@ -435,7 +435,7 @@ describe("ShortcutEditor extended", () => {
 
   it("Escape during listening cancels capture", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<ShortcutEditor onChange={onChange} />);
+    renderWithTheme(<ShortcutEditor onValueChange={onChange} />);
     const btn = screen.getByRole("button", { name: "Edit shortcut" });
     await userEvent.click(btn);
     btn.focus();
@@ -445,7 +445,7 @@ describe("ShortcutEditor extended", () => {
 
   it("modifier-only key does not trigger capture", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<ShortcutEditor onChange={onChange} />);
+    renderWithTheme(<ShortcutEditor onValueChange={onChange} />);
     const btn = screen.getByRole("button", { name: "Edit shortcut" });
     await userEvent.click(btn);
     btn.focus();

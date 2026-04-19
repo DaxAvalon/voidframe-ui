@@ -169,7 +169,7 @@ describe("Composer controlled value", () => {
   it("onChange fires when typing", () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <Composer onChange={onChange}>
+      <Composer onValueChange={onChange}>
         <Composer.Input />
       </Composer>
     );

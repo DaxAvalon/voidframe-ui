@@ -156,15 +156,15 @@ describe("SSR — renderToString smoke tests", () => {
             <Button>OK</Button>
             <Input label="Name" value="" onChange={() => {}} />
             <Textarea label="Notes" value="" onChange={() => {}} />
-            <Toggle label="Enable" checked={false} onChange={() => {}} />
-            <Checkbox label="Agree" checked={false} onChange={() => {}} />
+            <Toggle label="Enable" checked={false} onValueChange={() => {}} />
+            <Checkbox label="Agree" checked={false} onValueChange={() => {}} />
             <RadioGroup
               label="Size"
               value="a"
-              onChange={() => {}}
+              onValueChange={() => {}}
               options={[{ value: "a", label: "A" }]}
             />
-            <NumberInput label="Count" value={0} onChange={() => {}} />
+            <NumberInput label="Count" value={0} onValueChange={() => {}} />
           </>
         )
       )

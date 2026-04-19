@@ -22,7 +22,7 @@ export interface BrushProps
   /** Default (uncontrolled) selection. */
   defaultValue?: BrushSelection;
   /** Fires while dragging and on release. */
-  onChange?: (selection: BrushSelection) => void;
+  onValueChange?: (selection: BrushSelection) => void;
   /** Fires only when the user releases the pointer. */
   onChangeEnd?: (selection: BrushSelection) => void;
   /** Minimum width of the selection, in px. Default 6. */
@@ -35,7 +35,7 @@ export const Brush = forwardRef<SVGGElement, BrushProps>(function Brush(
   {
     value,
     defaultValue = null,
-    onChange,
+    onValueChange,
     onChangeEnd,
     minWidth = 6,
     axis = "x",
@@ -54,7 +54,7 @@ export const Brush = forwardRef<SVGGElement, BrushProps>(function Brush(
 
   const setSelection = (next: BrushSelection) => {
     if (value === undefined) setInternal(next);
-    onChange?.(next);
+    onValueChange?.(next);
   };
 
   const clamp = (v: number) => Math.max(0, Math.min(span, v));

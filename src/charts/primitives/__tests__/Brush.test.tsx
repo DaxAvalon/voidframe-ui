@@ -66,7 +66,7 @@ describe("Brush", () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
       <ChartFrame width={400} height={200}>
-        <Brush onChange={onChange} />
+        <Brush onValueChange={onChange} />
       </ChartFrame>
     );
     const track = container.querySelector(

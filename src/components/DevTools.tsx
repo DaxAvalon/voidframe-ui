@@ -670,7 +670,7 @@ export interface QueryBuilderProps
   fields: QueryFieldDef[];
   operators?: QueryOperator[];
   value: QueryGroup;
-  onChange: (next: QueryGroup) => void;
+  onValueChange: (next: QueryGroup) => void;
 }
 
 const DEFAULT_OPERATORS: QueryOperator[] = [
@@ -691,10 +691,10 @@ function nextId(prefix: string): string {
 
 export const QueryBuilder = forwardRef<HTMLDivElement, QueryBuilderProps>(
   function QueryBuilder(
-    { fields, operators = DEFAULT_OPERATORS, value, onChange, className, ...props },
+    { fields, operators = DEFAULT_OPERATORS, value, onValueChange, className, ...props },
     ref
   ) {
-    const update = (next: QueryGroup) => onChange(next);
+    const update = (next: QueryGroup) => onValueChange(next);
 
     const replaceIn = (
       root: QueryGroup,
@@ -951,7 +951,7 @@ export interface ShortcutEditorProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   value?: string;
   defaultValue?: string;
-  onChange?: (next: string) => void;
+  onValueChange?: (next: string) => void;
   conflicts?: string[];
   placeholder?: ReactNode;
   label?: ReactNode;
@@ -962,7 +962,7 @@ export const ShortcutEditor = forwardRef<HTMLDivElement, ShortcutEditorProps>(
     {
       value,
       defaultValue = "",
-      onChange,
+      onValueChange,
       conflicts = [],
       placeholder = "Press a key combination…",
       label = "Shortcut",
@@ -976,7 +976,7 @@ export const ShortcutEditor = forwardRef<HTMLDivElement, ShortcutEditorProps>(
     const [listening, setListening] = useState(false);
     const set = (next: string) => {
       if (value === undefined) setInternal(next);
-      onChange?.(next);
+      onValueChange?.(next);
     };
     const conflict = conflicts.includes(current);
 

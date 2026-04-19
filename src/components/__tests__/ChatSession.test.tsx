@@ -165,7 +165,7 @@ describe("ModelSelector", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <ModelSelector
-        onChange={onChange}
+        onValueChange={onChange}
         models={[
           { id: "opus", name: "Opus" },
           { id: "haiku", name: "Haiku" },
@@ -200,7 +200,7 @@ describe("SystemPromptEditor", () => {
   it("updates value on typing (uncontrolled)", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <SystemPromptEditor onChange={onChange} placeholder="system" />
+      <SystemPromptEditor onValueChange={onChange} placeholder="system" />
     );
     const textarea = screen.getByRole("textbox");
     await userEvent.type(textarea, "hi");
@@ -211,7 +211,7 @@ describe("SystemPromptEditor", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <SystemPromptEditor
-        onChange={onChange}
+        onValueChange={onChange}
         templates={[{ id: "t", title: "Reset", body: "You are helpful." }]}
       />
     );
@@ -325,7 +325,7 @@ describe("ModelPicker", () => {
       <ModelPicker
         label="Model"
         value="opus"
-        onChange={onChange}
+        onValueChange={onChange}
         models={[
           { id: "opus", name: "Opus", description: "Large model" },
           { id: "haiku", name: "Haiku", disabled: true },

@@ -31,7 +31,7 @@ describe("TimePicker (24h)", () => {
   it("changing hour calls onChange with canonical HH:mm", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <TimePicker label="Time" defaultValue="09:00" onChange={onChange} />
+      <TimePicker label="Time" defaultValue="09:00" onValueChange={onChange} />
     );
     await userEvent.selectOptions(screen.getByLabelText("Hours"), "14");
     expect(onChange).toHaveBeenCalledWith("14:00");
@@ -44,7 +44,7 @@ describe("TimePicker (24h)", () => {
         label="Time"
         defaultValue="10:00"
         min="09:00"
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.selectOptions(screen.getByLabelText("Hours"), "8");
@@ -72,7 +72,7 @@ describe("TimePicker (12h)", () => {
         label="Time"
         defaultValue="09:00"
         format="12h"
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("radio", { name: "PM" }));
@@ -86,7 +86,7 @@ describe("TimePicker (12h)", () => {
         label="Time"
         defaultValue="21:00"
         format="12h"
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("radio", { name: "AM" }));
@@ -100,7 +100,7 @@ describe("TimePicker (12h)", () => {
         label="Time"
         defaultValue="12:00"
         format="12h"
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     // 12:00 PM → hour 12 in 24h. Change minute to verify we're at 12:xx
@@ -115,7 +115,7 @@ describe("TimePicker (12h)", () => {
         label="Time"
         defaultValue="00:00"
         format="12h"
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     // 00:00 is 12 AM. Change minute.
@@ -149,7 +149,7 @@ describe("DateTimePicker", () => {
       <DateTimePicker
         label="When"
         defaultValue={new Date(2026, 2, 7, 9, 0)}
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.selectOptions(screen.getByLabelText("Hours"), "15");
@@ -172,7 +172,7 @@ describe("DateTimePicker", () => {
       const [v, setV] = useState<Date | null>(new Date(2026, 2, 7, 9, 0));
       return (
         <>
-          <DateTimePicker label="When" value={v} onChange={setV} />
+          <DateTimePicker label="When" value={v} onValueChange={setV} />
           <span data-testid="h">{v?.getHours()}</span>
         </>
       );

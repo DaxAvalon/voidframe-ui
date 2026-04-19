@@ -21,10 +21,10 @@ export interface DateTimePickerProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   value?: Date | null;
   defaultValue?: Date | null;
-  onChange?: (date: Date | null) => void;
+  onValueChange?: (date: Date | null) => void;
   label?: string;
   /** DatePicker props forwarded through. */
-  datePickerProps?: Omit<DatePickerProps, "value" | "defaultValue" | "onChange" | "label">;
+  datePickerProps?: Omit<DatePickerProps, "value" | "defaultValue" | "onValueChange" | "label">;
   /** TimePicker format (12h / 24h). */
   timeFormat?: TimePickerFormat;
   timeStep?: number;
@@ -49,7 +49,7 @@ export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
     {
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       label,
       datePickerProps,
       timeFormat = "24h",
@@ -65,7 +65,7 @@ export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
     const [current, setCurrent] = useControllableState<Date | null>({
       value,
       defaultValue: defaultValue ?? null,
-      onChange,
+      onChange: onValueChange,
       componentName: "DateTimePicker",
     });
 
@@ -107,13 +107,13 @@ export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
         <div className="vf-datetime-picker__row">
           <DatePicker
             value={current ?? null}
-            onChange={handleDate}
+            onValueChange={handleDate}
             disabled={disabled}
             {...datePickerProps}
           />
           <TimePicker
             value={timeValue}
-            onChange={handleTime}
+            onValueChange={handleTime}
             format={timeFormat}
             step={timeStep}
             showSeconds={showSeconds}

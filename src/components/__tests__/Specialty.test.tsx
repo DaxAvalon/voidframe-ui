@@ -174,7 +174,7 @@ describe("TimeZoneSelect", () => {
       <TimeZoneSelect
         zones={["UTC", "Europe/London", "Asia/Tokyo"]}
         defaultValue="UTC"
-        onChange={onChange}
+        onValueChange={onChange}
       />
     );
     await userEvent.selectOptions(
