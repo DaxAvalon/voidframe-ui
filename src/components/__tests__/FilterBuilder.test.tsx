@@ -197,4 +197,53 @@ describe("FilterBuilder", () => {
     );
     await expectNoA11yViolations(container);
   });
+
+  it("between operator renders two value inputs", () => {
+    renderWithTheme(
+      <FilterBuilder
+        fields={fields}
+        defaultValue={[
+          { id: "1", field: "age", operator: "between", value: [18, 65] },
+        ]}
+      />
+    );
+    expect(screen.getByLabelText("Filter value lower bound")).toBeInTheDocument();
+    expect(screen.getByLabelText("Filter value upper bound")).toBeInTheDocument();
+  });
+
+  it("between operator emits [lo, hi] tuple via onValueChange", async () => {
+    const onValueChange = vi.fn();
+    renderWithTheme(
+      <FilterBuilder
+        fields={fields}
+        defaultValue={[
+          { id: "1", field: "age", operator: "between", value: ["", ""] },
+        ]}
+        onValueChange={onValueChange}
+      />
+    );
+    const lo = screen.getByLabelText("Filter value lower bound") as HTMLInputElement;
+    const hi = screen.getByLabelText("Filter value upper bound") as HTMLInputElement;
+    await userEvent.type(lo, "18");
+    await userEvent.type(hi, "65");
+    const last = onValueChange.mock.calls.at(-1)![0] as FilterRule[];
+    expect(last[0]!.value).toEqual(["18", "65"]);
+  });
+
+  it("between operator initializes to ['', ''] when user selects operator", async () => {
+    const onValueChange = vi.fn();
+    renderWithTheme(
+      <FilterBuilder
+        fields={fields}
+        defaultValue={[
+          { id: "1", field: "age", operator: "equals", value: "" },
+        ]}
+        onValueChange={onValueChange}
+      />
+    );
+    const opSelect = screen.getByLabelText("Filter operator");
+    await userEvent.selectOptions(opSelect, "between");
+    const last = onValueChange.mock.calls.at(-1)![0] as FilterRule[];
+    expect(last[0]!.value).toEqual(["", ""]);
+  });
 });

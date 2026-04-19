@@ -141,6 +141,39 @@ const FilterBuilderImpl = forwardRef<HTMLDivElement, FilterBuilderProps>(
         return null;
       }
 
+      if (rule.operator === "between") {
+        const inputType = fieldDef.type === "date" ? "date" : "number";
+        const tuple = Array.isArray(rule.value) ? rule.value : ["", ""];
+        const [lo, hi] = [tuple[0] ?? "", tuple[1] ?? ""];
+        return (
+          <span className="vf-filter-builder__value-range">
+            <input
+              type={inputType}
+              className="vf-filter-builder__value-input"
+              value={String(lo ?? "")}
+              disabled={disabled}
+              aria-label="Filter value lower bound"
+              onChange={(e) =>
+                updateRule(rule.id, { value: [e.target.value, hi] })
+              }
+            />
+            <span aria-hidden="true" className="vf-filter-builder__range-sep">
+              –
+            </span>
+            <input
+              type={inputType}
+              className="vf-filter-builder__value-input"
+              value={String(hi ?? "")}
+              disabled={disabled}
+              aria-label="Filter value upper bound"
+              onChange={(e) =>
+                updateRule(rule.id, { value: [lo, e.target.value] })
+              }
+            />
+          </span>
+        );
+      }
+
       if (fieldDef.type === "boolean") {
         return (
           <select
@@ -245,11 +278,20 @@ const FilterBuilderImpl = forwardRef<HTMLDivElement, FilterBuilderProps>(
                   value={rule.operator}
                   disabled={disabled}
                   aria-label="Filter operator"
-                  onChange={(e) =>
-                    updateRule(rule.id, {
-                      operator: e.target.value as FilterOperator,
-                    })
-                  }
+                  onChange={(e) => {
+                    const nextOp = e.target.value as FilterOperator;
+                    // Shape of `value` depends on operator: `between` needs a
+                    // 2-tuple, `is_empty`/`is_not_empty` take no value, everything
+                    // else is a scalar. Reset to a compatible shape when the
+                    // operator changes so consumers don't see a stale mismatch.
+                    const patch: Partial<FilterRule> = { operator: nextOp };
+                    if (nextOp === "between") {
+                      if (!Array.isArray(rule.value)) patch.value = ["", ""];
+                    } else if (Array.isArray(rule.value)) {
+                      patch.value = "";
+                    }
+                    updateRule(rule.id, patch);
+                  }}
                 >
                   {ops.map((op) => (
                     <option key={op} value={op}>
