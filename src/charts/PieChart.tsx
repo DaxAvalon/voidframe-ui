@@ -196,7 +196,11 @@ PieChart.displayName = "PieChart";
 
 export const DonutChart = forwardRef<HTMLDivElement, PieChartProps>(
   function DonutChart(props, ref) {
-    return <PieChart ref={ref} innerRatio={props.innerRatio ?? 0.6} {...props} />;
+    // Spread props FIRST, then apply the 0.6 default. Otherwise a caller
+    // forwarding `innerRatio={undefined}` (common in optional-prop wrappers)
+    // clobbers the default, and PieChart falls back to its own 0 default —
+    // rendering a pie instead of a donut.
+    return <PieChart ref={ref} {...props} innerRatio={props.innerRatio ?? 0.6} />;
   }
 );
 DonutChart.displayName = "DonutChart";

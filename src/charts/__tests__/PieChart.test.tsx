@@ -23,6 +23,72 @@ describe("PieChart", () => {
     expect(container.querySelectorAll(".vf-chart-arc path")).toHaveLength(3);
   });
 
+  it("DonutChart's default innerRatio actually reaches the rendered arcs (spread-order fix)", () => {
+    const pie = renderWithTheme(<PieChart data={data} size={200} />);
+    const donut = renderWithTheme(<DonutChart data={data} size={200} />);
+
+    const pieD = Array.from(
+      pie.container.querySelectorAll<SVGPathElement>(".vf-chart-arc path")
+    )
+      .map((p) => p.getAttribute("d") ?? "")
+      .join("|");
+    const donutD = Array.from(
+      donut.container.querySelectorAll<SVGPathElement>(".vf-chart-arc path")
+    )
+      .map((p) => p.getAttribute("d") ?? "")
+      .join("|");
+
+    // PieChart (innerRatio=0) and DonutChart (innerRatio=0.6) must produce
+    // visually distinct arc paths. If the caller's spread bug regresses,
+    // DonutChart's 0.6 default is clobbered by {...props} and donut renders
+    // as a pie — making these strings identical.
+    expect(donutD).not.toBe("");
+    expect(donutD).not.toBe(pieD);
+  });
+
+  it("DonutChart applies its 0.6 default even when caller passes innerRatio={undefined} (forwarding pattern)", () => {
+    // This reproduces the spread-order regression: when a wrapper forwards
+    // an optional-undefined value, props.innerRatio is explicitly `undefined`
+    // (an own enumerable key). The pre-fix code `innerRatio={props.innerRatio ?? 0.6} {...props}`
+    // let `{...props}` clobber the default with undefined, causing PieChart
+    // to fall back to its own `innerRatio = 0` default — rendering a pie.
+    const pie = renderWithTheme(<PieChart data={data} size={200} />);
+    const donut = renderWithTheme(
+      <DonutChart data={data} size={200} innerRatio={undefined} />
+    );
+    const pieD = Array.from(
+      pie.container.querySelectorAll<SVGPathElement>(".vf-chart-arc path")
+    )
+      .map((p) => p.getAttribute("d") ?? "")
+      .join("|");
+    const donutD = Array.from(
+      donut.container.querySelectorAll<SVGPathElement>(".vf-chart-arc path")
+    )
+      .map((p) => p.getAttribute("d") ?? "")
+      .join("|");
+    // After the fix, DonutChart must render the 0.6 donut shape regardless of
+    // whether innerRatio was passed as undefined or omitted entirely.
+    expect(donutD).not.toBe(pieD);
+  });
+
+  it("DonutChart with explicit innerRatio=0 renders as a pie", () => {
+    const pie = renderWithTheme(<PieChart data={data} size={200} />);
+    const flatDonut = renderWithTheme(
+      <DonutChart data={data} size={200} innerRatio={0} />
+    );
+    const pieD = Array.from(
+      pie.container.querySelectorAll<SVGPathElement>(".vf-chart-arc path")
+    )
+      .map((p) => p.getAttribute("d") ?? "")
+      .join("|");
+    const flatD = Array.from(
+      flatDonut.container.querySelectorAll<SVGPathElement>(".vf-chart-arc path")
+    )
+      .map((p) => p.getAttribute("d") ?? "")
+      .join("|");
+    expect(flatD).toBe(pieD);
+  });
+
   it("renders a legend", () => {
     const { container } = renderWithTheme(<PieChart data={data} size={200} />);
     expect(
