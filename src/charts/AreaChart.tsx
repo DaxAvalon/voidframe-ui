@@ -13,7 +13,11 @@ import {
 } from "react";
 import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
-import { useChart, type ChartMargins } from "./primitives/ChartContext";
+import {
+  ChartScales,
+  useChart,
+  type ChartMargins,
+} from "./primitives/ChartContext";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import {
@@ -321,6 +325,7 @@ function AreaChartInner({
   }, [yMin, yMax, innerHeight, scaleKind]);
 
   return (
+    <ChartScales xScale={xScale as never} yScale={yScale as never}>
     <g className="vf-chart-area-chart__inner">
       {showGrid && <Gridlines mode="both" ticks={valueTicks} />}
       <Axis
@@ -425,5 +430,6 @@ function AreaChartInner({
         }}
       />
     </g>
+    </ChartScales>
   );
 }

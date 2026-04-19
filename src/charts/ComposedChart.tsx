@@ -12,7 +12,11 @@ import {
 } from "react";
 import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
-import { useChart, type ChartMargins } from "./primitives/ChartContext";
+import {
+  ChartScales,
+  useChart,
+  type ChartMargins,
+} from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { Gridlines } from "./primitives/Gridlines";
@@ -263,6 +267,7 @@ function ComposedInner({
   });
 
   return (
+    <ChartScales xScale={xScale as never} yScale={yScale as never}>
     <g className="vf-chart-composed__inner">
       {showGrid && <Gridlines mode="both" ticks={valueTicks} />}
       <Axis
@@ -362,5 +367,6 @@ function ComposedInner({
         );
       })}
     </g>
+    </ChartScales>
   );
 }

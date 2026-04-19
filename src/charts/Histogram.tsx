@@ -13,7 +13,11 @@ import {
 import { bin as d3Bin } from "d3-array";
 import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
-import { useChart, type ChartMargins } from "./primitives/ChartContext";
+import {
+  ChartScales,
+  useChart,
+  type ChartMargins,
+} from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
 import { formatChartNumber } from "./math/color";
@@ -161,6 +165,7 @@ function HistogramInner({
   });
 
   return (
+    <ChartScales xScale={xScale as never} yScale={yScale as never}>
     <g className="vf-chart-histogram__inner">
       {showGrid && <Gridlines mode="y" ticks={yTicks} />}
       <Axis orientation="bottom" scale={xScale} ticks={xTicks} />
@@ -196,5 +201,6 @@ function HistogramInner({
         }}
       />
     </g>
+    </ChartScales>
   );
 }

@@ -12,7 +12,11 @@ import {
 } from "react";
 import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
-import { useChart, type ChartMargins } from "./primitives/ChartContext";
+import {
+  ChartScales,
+  useChart,
+  type ChartMargins,
+} from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import {
   ChartTooltipBody,
@@ -338,6 +342,7 @@ function LineChartInner({
   };
 
   return (
+    <ChartScales xScale={xScale as never} yScale={yScale as never}>
     <g className="vf-chart-line-chart__inner">
       {showGrid && <Gridlines mode="both" ticks={valueTicks} />}
       <Axis
@@ -402,5 +407,6 @@ function LineChartInner({
         onPointerLeave={handlePointerLeave}
       />
     </g>
+    </ChartScales>
   );
 }

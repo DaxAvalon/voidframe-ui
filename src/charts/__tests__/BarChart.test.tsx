@@ -180,6 +180,10 @@ describe("BarChart", () => {
       />
     );
     expect(withGrid.container.querySelector(".vf-chart-gridlines")).toBeTruthy();
+    // Scales reach Gridlines via ChartScales provider → actual line elements render.
+    expect(
+      withGrid.container.querySelectorAll(".vf-chart-gridlines__line").length
+    ).toBeGreaterThan(0);
 
     const noGrid = renderWithTheme(
       <BarChart

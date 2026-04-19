@@ -178,6 +178,24 @@ describe("AreaChart", () => {
     expect(container.querySelector(".vf-chart-gridlines")).toBeFalsy();
   });
 
+  it("renders actual gridline <line> elements when showGrid=true (scales reach Gridlines via context)", () => {
+    const { container } = renderWithTheme(
+      <AreaChart
+        data={data}
+        series={[{ key: "a" }]}
+        showGrid
+        valueTicks={5}
+        xTicks={5}
+        width={400}
+        height={240}
+      />
+    );
+    const group = container.querySelector(".vf-chart-gridlines");
+    expect(group).toBeTruthy();
+    const lines = group!.querySelectorAll(".vf-chart-gridlines__line");
+    expect(lines.length).toBeGreaterThan(0);
+  });
+
   it("supports hiddenKeys to hide series", () => {
     const { container } = renderWithTheme(
       <AreaChart

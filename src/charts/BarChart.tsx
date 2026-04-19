@@ -13,7 +13,11 @@ import {
 } from "react";
 import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
-import { useChart, type ChartMargins } from "./primitives/ChartContext";
+import {
+  ChartScales,
+  useChart,
+  type ChartMargins,
+} from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import {
   ChartTooltipBody,
@@ -310,6 +314,7 @@ function BarChartInner({
   );
 
   return (
+    <ChartScales xScale={bandScaleInst as never} yScale={valueScale as never}>
     <g className="vf-chart-bar-chart__inner">
       {showGrid && (
         <Gridlines mode={isVertical ? "y" : "x"} ticks={valueTicks} />
@@ -426,5 +431,6 @@ function BarChartInner({
             />
           ))}
     </g>
+    </ChartScales>
   );
 }

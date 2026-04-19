@@ -13,7 +13,11 @@ import {
 import { quantileSorted } from "d3-array";
 import { Axis } from "./primitives/Axis";
 import { ChartFrame } from "./primitives/ChartFrame";
-import { useChart, type ChartMargins } from "./primitives/ChartContext";
+import {
+  ChartScales,
+  useChart,
+  type ChartMargins,
+} from "./primitives/ChartContext";
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
 import { Gridlines } from "./primitives/Gridlines";
@@ -218,6 +222,7 @@ function BoxPlotInner({
   const midOffset = bw / 2;
 
   return (
+    <ChartScales xScale={band as never} yScale={y as never}>
     <g>
       {showGrid && <Gridlines mode="y" ticks={valueTicks} />}
       <Axis
@@ -314,5 +319,6 @@ function BoxPlotInner({
         );
       })}
     </g>
+    </ChartScales>
   );
 }

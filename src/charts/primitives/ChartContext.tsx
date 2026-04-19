@@ -5,7 +5,7 @@
 // and chart families (BarChart, LineChart, etc.) read from this context
 // instead of threading props through every level.
 
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo, type ReactNode } from "react";
 import type { AxisTickScale } from "../math/ticks";
 
 export interface ChartMargins {
@@ -54,3 +54,33 @@ export const DEFAULT_MARGINS: ChartMargins = {
   bottom: 32,
   left: 44,
 };
+
+/**
+ * Re-publishes ChartContext with the provided scales merged in. Inner-chart
+ * components (AreaChartInner, BarChartInner, etc.) wrap their rendered SVG
+ * tree in `<ChartScales xScale={xScale} yScale={yScale}>` so descendants
+ * like `<Gridlines>`, `<ReferenceLine>`, and `<ReferenceBand>` — which read
+ * scales from context — actually see the computed values.
+ *
+ * Without this, scales are computed inside the inner component (they depend
+ * on `innerWidth` / `innerHeight` from the context), but never propagated
+ * back through a provider, leaving sibling primitives with undefined scales.
+ */
+export function ChartScales({
+  xScale,
+  yScale,
+  children,
+}: {
+  xScale?: AxisTickScale;
+  yScale?: AxisTickScale;
+  children: ReactNode;
+}) {
+  const parent = useChart();
+  const value = useMemo<ChartContextValue>(
+    () => ({ ...parent, xScale, yScale }),
+    [parent, xScale, yScale]
+  );
+  return (
+    <ChartContext.Provider value={value}>{children}</ChartContext.Provider>
+  );
+}
