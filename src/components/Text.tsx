@@ -2,6 +2,7 @@
 
 import { forwardRef, memo } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import { Slot } from "../primitives/Slot";
 import type { Size } from "../types";
 import { cx } from "../utils/cx";
 import { useResponsive, type Responsive } from "../responsive";
@@ -34,6 +35,8 @@ export interface TextProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
   /** Uppercase transform. */
   upper?: boolean;
   as?: AsElement;
+  /** Render through `<Slot>` and merge props onto a single child element. */
+  asChild?: boolean;
   style?: CSSProperties;
   children?: ReactNode;
 }
@@ -41,7 +44,9 @@ export interface TextProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
 /**
  * Generic text element. Size, color, transform are CSS-driven; `color`,
  * `weight`, and `spacing` come through as inline-style overrides because they
- * are arbitrary per-instance values.
+ * are arbitrary per-instance values. Supports polymorphic `as` for choosing
+ * an intrinsic tag, or `asChild` to merge styling onto a consumer-provided
+ * element (e.g. a router link).
  */
 export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   {
@@ -52,6 +57,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
     spacing,
     upper,
     as: Tag = "span",
+    asChild,
     className,
     style,
     ...props
@@ -65,15 +71,28 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
     ...(spacing !== undefined ? { letterSpacing: spacing } : {}),
     ...style,
   };
+  const composedClass = cx(
+    "vf-text",
+    `vf-text--${resolvedSize}`,
+    upper && "vf-text--upper",
+    className
+  );
+  if (asChild) {
+    return (
+      <Slot
+        ref={ref as never}
+        className={composedClass}
+        style={inline}
+        {...props}
+      >
+        {children}
+      </Slot>
+    );
+  }
   return (
     <Tag
       ref={ref as never}
-      className={cx(
-        "vf-text",
-        `vf-text--${resolvedSize}`,
-        upper && "vf-text--upper",
-        className
-      )}
+      className={composedClass}
       style={inline}
       {...props}
     >

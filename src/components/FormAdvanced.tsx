@@ -230,8 +230,9 @@ SegmentedControl.displayName = "SegmentedControl";
 // ── PasswordInput — visibility toggle ────────────────────────
 
 export interface PasswordInputProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   value?: string;
+  defaultValue?: string;
   /** Raw event handler — kept for backward compatibility. Prefer `onValueChange`. */
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   /** Value-emit handler — matches the convention used by every other voidframe form component. */
@@ -255,6 +256,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   function PasswordInput(
     {
       value,
+      defaultValue,
       onChange,
       onValueChange,
       placeholder,
@@ -273,6 +275,12 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     },
     ref
   ) {
+    const [current, setCurrent] = useControllableState<string>({
+      value,
+      defaultValue: defaultValue ?? "",
+      onChange: onValueChange,
+      componentName: "PasswordInput",
+    });
     const [visible, setVisible] = useState(defaultVisible);
     const inputId = useId(id);
     return (
@@ -291,10 +299,10 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             ref={ref}
             id={inputId}
             type={visible ? "text" : "password"}
-            value={value}
+            value={current}
             onChange={(e) => {
               onChange?.(e);
-              onValueChange?.(e.target.value);
+              setCurrent(e.target.value);
             }}
             placeholder={placeholder}
             required={required}

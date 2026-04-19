@@ -695,18 +695,28 @@ export interface ModelPickerOption {
   disabled?: boolean;
 }
 
-export interface ModelPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+export interface ModelPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   models: ModelPickerOption[];
-  value: string;
-  onValueChange: (modelId: string) => void;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (modelId: string) => void;
   label?: string;
 }
 
 export const ModelPicker = forwardRef<HTMLDivElement, ModelPickerProps>(
   function ModelPicker(
-    { models, value, onValueChange, label, className, ...props },
+    { models, value, defaultValue, onValueChange, label, className, ...props },
     ref
   ) {
+    const [current, setCurrent] = useState(
+      value ?? defaultValue ?? models[0]?.id ?? ""
+    );
+    const isControlled = value !== undefined;
+    const selected = isControlled ? value : current;
+    const set = (next: string) => {
+      if (!isControlled) setCurrent(next);
+      onValueChange?.(next);
+    };
     return (
       <div
         ref={ref}
@@ -716,8 +726,8 @@ export const ModelPicker = forwardRef<HTMLDivElement, ModelPickerProps>(
         {label && <span className="vf-model-picker__label">{label}</span>}
         <select
           className="vf-model-picker__select"
-          value={value}
-          onChange={(e) => onValueChange(e.target.value)}
+          value={selected}
+          onChange={(e) => set(e.target.value)}
         >
           {models.map((m) => (
             <option key={m.id} value={m.id} disabled={m.disabled}>

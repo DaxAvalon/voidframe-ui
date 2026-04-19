@@ -320,16 +320,24 @@ interface MenuRadioContext {
 }
 const MenuRadioContext = createContext<MenuRadioContext | null>(null);
 
-export interface MenuRadioGroupProps extends HTMLAttributes<HTMLDivElement> {
+export interface MenuRadioGroupProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "defaultValue"> {
   value?: string;
+  defaultValue?: string;
   onValueChange?: (value: string) => void;
   children?: ReactNode;
 }
 
-function MenuRadioGroup({ value, onValueChange, children, className, ...props }: MenuRadioGroupProps) {
+function MenuRadioGroup({ value, defaultValue, onValueChange, children, className, ...props }: MenuRadioGroupProps) {
+  const [internal, setInternal] = useState<string | undefined>(defaultValue);
+  const current = value ?? internal;
+  const setValue = (v: string) => {
+    if (value === undefined) setInternal(v);
+    onValueChange?.(v);
+  };
   const ctxVal = useMemo<MenuRadioContext>(
-    () => ({ value, setValue: (v) => onValueChange?.(v) }),
-    [value, onValueChange]
+    () => ({ value: current, setValue }),
+    [current, onValueChange] // eslint-disable-line react-hooks/exhaustive-deps
   );
   return (
     <MenuRadioContext.Provider value={ctxVal}>

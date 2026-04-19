@@ -203,9 +203,10 @@ RadioGroup.displayName = "RadioGroup";
 
 // ── Slider ────────────────────────────────────────────────────
 
-export interface SliderProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
-  value: number;
-  onValueChange: (value: number) => void;
+export interface SliderProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
+  value?: number;
+  defaultValue?: number;
+  onValueChange?: (value: number) => void;
   min?: number;
   max?: number;
   step?: number;
@@ -216,10 +217,16 @@ export interface SliderProps extends Omit<HTMLAttributes<HTMLDivElement>, "onCha
 }
 
 export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
-  { value, onValueChange, min = 0, max = 100, step = 1, label, accent, showValue, className, style, ...props },
+  { value, defaultValue, onValueChange, min = 0, max = 100, step = 1, label, accent, showValue, className, style, ...props },
   ref
 ) {
-  const pct = ((value - min) / (max - min)) * 100;
+  const [current, setCurrent] = useControllableState<number>({
+    value,
+    defaultValue: defaultValue ?? min,
+    onChange: onValueChange,
+    componentName: "Slider",
+  });
+  const pct = ((current - min) / (max - min)) * 100;
   const composedStyle: CSSProperties = accent
     ? ({ "--vf-accent": accent, ...style } as CSSProperties)
     : (style ?? {});
@@ -228,7 +235,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
       {(label || showValue) && (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {label && <Label>{label}</Label>}
-          {showValue && <Label style={{ color: "var(--vf-accent, var(--vf-green))" }}>{value}</Label>}
+          {showValue && <Label style={{ color: "var(--vf-accent, var(--vf-green))" }}>{current}</Label>}
         </div>
       )}
       <div className="vf-slider__track-wrap">
@@ -242,8 +249,8 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
           min={min}
           max={max}
           step={step}
-          value={value}
-          onChange={(e) => onValueChange(Number(e.target.value))}
+          value={current}
+          onChange={(e) => setCurrent(Number(e.target.value))}
         />
         <div className="vf-slider__thumb" style={{ left: `calc(${pct}% - 6px)` }} />
       </div>
@@ -254,9 +261,10 @@ Slider.displayName = "Slider";
 
 // ── NumberInput ───────────────────────────────────────────────
 
-export interface NumberInputProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
-  value: number;
-  onValueChange: (value: number) => void;
+export interface NumberInputProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
+  value?: number;
+  defaultValue?: number;
+  onValueChange?: (value: number) => void;
   min?: number;
   max?: number;
   step?: number;
@@ -267,9 +275,15 @@ export interface NumberInputProps extends Omit<HTMLAttributes<HTMLDivElement>, "
 
 export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
   function NumberInput(
-    { value, onValueChange, min, max, step = 1, label, width, className, style, ...props },
+    { value, defaultValue, onValueChange, min, max, step = 1, label, width, className, style, ...props },
     ref
   ) {
+    const [current, setCurrent] = useControllableState<number>({
+      value,
+      defaultValue: defaultValue ?? min ?? 0,
+      onChange: onValueChange,
+      componentName: "NumberInput",
+    });
     const clamp = (v: number | string): number => {
       let n = Number(v);
       if (isNaN(n)) n = 0;
@@ -293,7 +307,7 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
             type="button"
             aria-label="Decrement"
             className="vf-number-input__btn vf-number-input__btn--minus"
-            onClick={() => onValueChange(clamp(value - step))}
+            onClick={() => setCurrent(clamp(current - step))}
           >
             −
           </button>
@@ -301,14 +315,14 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
             className="vf-number-input__field"
             type="number"
             aria-label={label}
-            value={value}
-            onChange={(e) => onValueChange(clamp(e.target.value))}
+            value={current}
+            onChange={(e) => setCurrent(clamp(e.target.value))}
           />
           <button
             type="button"
             aria-label="Increment"
             className="vf-number-input__btn vf-number-input__btn--plus"
-            onClick={() => onValueChange(clamp(value + step))}
+            onClick={() => setCurrent(clamp(current + step))}
           >
             +
           </button>
@@ -322,7 +336,8 @@ NumberInput.displayName = "NumberInput";
 // ── SearchInput ───────────────────────────────────────────────
 
 export interface SearchInputProps {
-  value: string;
+  value?: string;
+  defaultValue?: string;
   /** Raw event handler — kept for backward compatibility. Prefer `onValueChange`. */
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   /** Value-emit handler — matches the convention used by every other voidframe form component. */
@@ -337,14 +352,20 @@ export interface SearchInputProps {
 
 export const SearchInput = forwardRef<HTMLDivElement, SearchInputProps>(
   function SearchInput(
-    { value, onChange, onValueChange, placeholder = "Search...", onClear, readOnly, width, className, style },
+    { value, defaultValue, onChange, onValueChange, placeholder = "Search...", onClear, readOnly, width, className, style },
     ref
   ) {
+    const [current, setCurrent] = useControllableState<string>({
+      value,
+      defaultValue: defaultValue ?? "",
+      onChange: onValueChange,
+      componentName: "SearchInput",
+    });
     const handleClear = () => {
       if (onClear) onClear();
       else {
         onChange?.({ target: { value: "" } } as ChangeEvent<HTMLInputElement>);
-        onValueChange?.("");
+        setCurrent("");
       }
     };
     const inline: CSSProperties = width !== undefined ? { width, ...style } : (style ?? {});
@@ -354,15 +375,15 @@ export const SearchInput = forwardRef<HTMLDivElement, SearchInputProps>(
         <input
           className="vf-search-input__field"
           type="text"
-          value={value}
+          value={current}
           readOnly={readOnly}
           onChange={(e) => {
             onChange?.(e);
-            onValueChange?.(e.target.value);
+            setCurrent(e.target.value);
           }}
           placeholder={placeholder}
         />
-        {value && (
+        {current && (
           <button
             type="button"
             className="vf-search-input__clear"

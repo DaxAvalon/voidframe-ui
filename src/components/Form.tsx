@@ -216,8 +216,9 @@ type SelectBaseProps = Omit<
 
 export interface SelectProps extends SelectBaseProps {
   options: SelectOption[];
-  value: string;
-  onValueChange: (value: string) => void;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
   label?: string;
   width?: string | number;
   style?: CSSProperties;
@@ -227,9 +228,15 @@ export interface SelectProps extends SelectBaseProps {
  * A native dropdown for choosing one value from a fixed list of options.
  */
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-  { options, value, onValueChange, label, width, className, style, id, ...props },
+  { options, value, defaultValue, onValueChange, label, width, className, style, id, ...props },
   ref
 ) {
+  const [current, setCurrent] = useControllableState<string>({
+    value,
+    defaultValue: defaultValue ?? options[0]?.value ?? "",
+    onChange: onValueChange,
+    componentName: "Select",
+  });
   warn(
     hasAccessibleName(label, props as Record<string, unknown>),
     "<Select> requires `label`, `aria-label`, or `aria-labelledby` for screen readers."
@@ -250,10 +257,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
       }
       seenVals.add(o.value);
     }
-    if (value !== "" && !seenVals.has(value)) {
+    if (current !== "" && !seenVals.has(current)) {
       warnOnce(
-        `Select:unknown-value:${value}`,
-        `Select: controlled \`value\` is "${value}" but no option has that value. The native select will display the first option until \`value\` matches an option.`
+        `Select:unknown-value:${current}`,
+        `Select: \`value\` is "${current}" but no option has that value. The native select will display the first option until \`value\` matches an option.`
       );
     }
   }
@@ -269,8 +276,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
       <select
         ref={ref}
         id={selectId}
-        value={value}
-        onChange={(e) => onValueChange(e.target.value)}
+        value={current}
+        onChange={(e) => setCurrent(e.target.value)}
         className={cx("vf-select", className)}
         style={inline}
         {...props}
