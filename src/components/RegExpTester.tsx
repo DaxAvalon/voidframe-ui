@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, memo, useMemo, type HTMLAttributes } from "react";
+import { forwardRef, memo, useMemo, useState, type HTMLAttributes } from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
 
@@ -121,6 +121,18 @@ const RegExpTesterImpl = forwardRef<HTMLDivElement, RegExpTesterProps>(
 
     const hasCaptures = matches.some((m) => m.groups.length > 0);
 
+    // Replace panel — uncontrolled; empty string means "no result rendered".
+    const [replacement, setReplacement] = useState("");
+    const replaceResult = useMemo(() => {
+      if (!showReplace || !replacement || !pattern || error) return "";
+      try {
+        const re = new RegExp(pattern, flags);
+        return testString.replace(re, replacement);
+      } catch {
+        return "";
+      }
+    }, [showReplace, replacement, pattern, flags, testString, error]);
+
     return (
       <div
         ref={ref}
@@ -210,11 +222,16 @@ const RegExpTesterImpl = forwardRef<HTMLDivElement, RegExpTesterProps>(
           <div className="vf-regexp-tester__replace">
             <input
               type="text"
+              value={replacement}
+              onChange={(e) => setReplacement(e.target.value)}
               placeholder="Replace pattern..."
               aria-label="Replace pattern"
               className="vf-regexp-tester__replace-input"
+              readOnly={readOnly}
             />
-            <div className="vf-regexp-tester__replace-result" />
+            <div className="vf-regexp-tester__replace-result">
+              {replaceResult}
+            </div>
           </div>
         )}
       </div>

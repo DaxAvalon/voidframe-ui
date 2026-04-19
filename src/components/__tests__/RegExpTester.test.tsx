@@ -103,6 +103,37 @@ describe("RegExpTester", () => {
     expect(screen.getByLabelText("Replace pattern")).toBeInTheDocument();
   });
 
+  it("showReplace renders testString.replace(re, replacement) as user types", async () => {
+    renderWithTheme(
+      <RegExpTester
+        defaultPattern="foo"
+        defaultTestString="foo bar foo"
+        defaultFlags="g"
+        showReplace
+      />
+    );
+    const input = screen.getByLabelText("Replace pattern");
+    await userEvent.type(input, "BAZ");
+    const result = document.querySelector(
+      ".vf-regexp-tester__replace-result"
+    );
+    expect(result?.textContent).toBe("BAZ bar BAZ");
+  });
+
+  it("showReplace result is empty until the user types a replacement", () => {
+    renderWithTheme(
+      <RegExpTester
+        defaultPattern="foo"
+        defaultTestString="foo bar"
+        showReplace
+      />
+    );
+    const result = document.querySelector(
+      ".vf-regexp-tester__replace-result"
+    );
+    expect(result?.textContent ?? "").toBe("");
+  });
+
   it("supports controlled pattern/testString/flags", () => {
     const onPattern = vi.fn();
     renderWithTheme(
