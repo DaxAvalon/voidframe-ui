@@ -11,6 +11,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -123,31 +124,53 @@ export interface DroppableProps {
 
 export function Droppable({ id, children }: DroppableProps) {
   const ctx = useDragDrop();
-  const elRef = useRef<HTMLElement | null>(null);
-  const dropRef = (el: HTMLElement | null) => {
-    elRef.current = el;
-    if (el) {
-      el.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
-        ctx.setHover({ droppableId: id, index: 0 });
+  const [el, setEl] = useState<HTMLElement | null>(null);
+
+  // Stable ref callback — writes once per element-change, never on re-render,
+  // so downstream consumers using `{...p}` don't get a new ref each render.
+  const dropRef = useCallback((node: HTMLElement | null) => {
+    setEl(node);
+  }, []);
+
+  // Latest-ctx ref so the listeners don't need to re-attach every time ctx
+  // changes — preserves correct behavior without the per-render leak.
+  const ctxRef = useRef(ctx);
+  ctxRef.current = ctx;
+
+  useEffect(() => {
+    if (!el) return;
+    const onDragOver = (e: Event) => {
+      e.preventDefault();
+      const de = e as globalThis.DragEvent;
+      if (de.dataTransfer) de.dataTransfer.dropEffect = "move";
+      ctxRef.current.setHover({ droppableId: id, index: 0 });
+    };
+    const onDrop = (e: Event) => {
+      e.preventDefault();
+      const c = ctxRef.current;
+      if (!c.source || !c.draggingId) return;
+      c.endDrag({
+        draggableId: c.draggingId,
+        source: c.source,
+        destination: c.hover,
       });
-      el.addEventListener("drop", (e) => {
-        e.preventDefault();
-        if (!ctx.source || !ctx.draggingId) return;
-        ctx.endDrag({
-          draggableId: ctx.draggingId,
-          source: ctx.source,
-          destination: ctx.hover,
-        });
-      });
-      el.addEventListener("dragleave", (e) => {
-        const next = e.relatedTarget as Node | null;
-        if (next && el.contains(next)) return;
-        ctx.setHover(null);
-      });
-    }
-  };
+    };
+    const onDragLeave = (e: Event) => {
+      const de = e as globalThis.DragEvent;
+      const next = de.relatedTarget as Node | null;
+      if (next && el.contains(next)) return;
+      ctxRef.current.setHover(null);
+    };
+    el.addEventListener("dragover", onDragOver);
+    el.addEventListener("drop", onDrop);
+    el.addEventListener("dragleave", onDragLeave);
+    return () => {
+      el.removeEventListener("dragover", onDragOver);
+      el.removeEventListener("drop", onDrop);
+      el.removeEventListener("dragleave", onDragLeave);
+    };
+  }, [el, id]);
+
   const isOver = ctx.hover?.droppableId === id;
   return <>{children({ dropRef, isOver })}</>;
 }
