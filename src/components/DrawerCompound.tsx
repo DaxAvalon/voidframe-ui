@@ -58,10 +58,6 @@ export interface DrawerV2Props {
   children?: ReactNode;
 }
 
-/**
- * A side-anchored panel that slides in from the top, right, bottom, or left.
- * Use with DrawerV2.Trigger and DrawerV2.Content to compose dismissible off-canvas surfaces.
- */
 function DrawerRoot({
   open,
   defaultOpen,
@@ -294,13 +290,15 @@ function DrawerClose({
   );
 }
 
-/**
- * Side-anchored panel (top / right / bottom / left) with focus trap
- * and escape-to-close. Controlled via `open` / `onOpenChange`. Compose
- * with `DrawerV2.Trigger`, `DrawerV2.Content`, and the header/body/
- * footer sub-components.
- */
 DrawerRoot.displayName = "DrawerV2";
+
+/**
+ * Compound side-panel overlay. Slides in from any edge (`left`, `right`,
+ * `top`, `bottom`). Use `DrawerV2.Trigger`, `DrawerV2.Content`, and
+ * `DrawerV2.Close`; compose with `.Header`, `.Title`, `.Body`, `.Footer`.
+ * Focus-trapped, scroll-locked when `modal`, and Escape-dismissable.
+ * Controlled via `open` / `onOpenChange`.
+ */
 export const DrawerV2 = Object.assign(DrawerRoot, {
   Trigger: DrawerTrigger,
   Content: DrawerContent,
@@ -539,6 +537,13 @@ function SheetTitle({ id, className, ...props }: HTMLAttributes<HTMLHeadingEleme
   );
 }
 
+/**
+ * Mobile-style bottom sheet with drag-to-resize snap points. Compound
+ * API: `Sheet.Trigger`, `Sheet.Content`, `Sheet.Handle` (drag grip),
+ * `Sheet.Header`, `Sheet.Title`, `Sheet.Body`. Pass `snapPoints` as
+ * fractions of viewport height (default `[0.4, 0.9]`); scroll-locked and
+ * focus-trapped when modal.
+ */
 export const Sheet = Object.assign(SheetRoot, {
   Trigger: SheetTrigger,
   Content: SheetContent,

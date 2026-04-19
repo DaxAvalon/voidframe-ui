@@ -1439,7 +1439,7 @@
   },
   {
     "name": "Badge",
-    "description": "",
+    "description": "Small categorical label for status chips, counts, and highlights. Tone\n(`neutral`/`success`/`danger`/`warning`/`info`), variant (`solid`/`outline`/\n`subtle`), and size knobs. Supports a leading dot glyph, optional icon,\ndismissible close button, and a `count` + `overflowCount` counter mode.",
     "file": "src/components/Badge.tsx",
     "props": [
       {
@@ -2181,7 +2181,7 @@
   },
   {
     "name": "Breadcrumb",
-    "description": "",
+    "description": "Breadcrumb trail as a WAI-ARIA `nav` + `ol`. Dual API: pass `items`\n(label/href/onClick) or compose `Breadcrumb.Item` children. Customize\nthe `separator` and collapse middle segments with `maxItems`.",
     "file": "src/components/Navigation.tsx",
     "props": [
       {
@@ -2974,7 +2974,7 @@
   },
   {
     "name": "Card",
-    "description": "",
+    "description": "Brutalist content container with a bordered surface. Optional `title` /\n`subtitle` / `headerRight` header slot and `actions` footer slot. Use\n`hoverable` for a lift-on-hover effect, or `asChild` to render a custom\nelement (link, button) while keeping card styling.",
     "file": "src/components/Card.tsx",
     "props": [
       {
@@ -3624,6 +3624,25 @@
     ]
   },
   {
+    "name": "ChartScales",
+    "description": "Re-publishes ChartContext with the provided scales merged in. Inner-chart\ncomponents (AreaChartInner, BarChartInner, etc.) wrap their rendered SVG\ntree in `<ChartScales xScale={xScale} yScale={yScale}>` so descendants\nlike `<Gridlines>`, `<ReferenceLine>`, and `<ReferenceBand>` — which read\nscales from context — actually see the computed values.\n\nWithout this, scales are computed inside the inner component (they depend\non `innerWidth` / `innerHeight` from the context), but never propagated\nback through a provider, leaving sibling primitives with undefined scales.",
+    "file": "src/charts/primitives/ChartContext.tsx",
+    "props": [
+      {
+        "name": "xScale",
+        "type": "AxisTickScale",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "yScale",
+        "type": "AxisTickScale",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "ChartTooltip",
     "description": "",
     "file": "src/charts/primitives/ChartTooltip.tsx",
@@ -3727,7 +3746,7 @@
   },
   {
     "name": "Checkbox",
-    "description": "",
+    "description": "WAI-ARIA checkbox with controlled/uncontrolled duality. Pass `checked` +\n`onChange(next)` controlled, or `defaultChecked` uncontrolled. Custom\nbrutalist glyph; Space and Enter toggle. Optional `label` and `accent`.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
@@ -4722,13 +4741,7 @@
       {
         "name": "storageKey",
         "type": "string",
-        "description": "When `key` is set, dismissal is persisted in localStorage by this key.",
-        "required": false
-      },
-      {
-        "name": "once",
-        "type": "boolean",
-        "description": "When true (with no storageKey), shows once per mount.",
+        "description": "When set, dismissal is persisted in localStorage under this key and the mark stays hidden across reloads. Omit for mount-scoped dismissal.",
         "required": false
       },
       {
@@ -5341,7 +5354,7 @@
   },
   {
     "name": "CommandInput",
-    "description": "",
+    "description": "Shell-style command input with history recall, inline ghost-text\ncompletion, and a Tab-activated completions popup. Arrow Up/Down\nwalks history (or completions when open); Enter submits via\n`onSubmit(command)`. Controlled via `value` + `onValueChange`, or\nuncontrolled. `suggestions` may be an array or a function of the\ncurrent input.",
     "file": "src/components/CommandInput.tsx",
     "props": [
       {
@@ -6603,13 +6616,6 @@
         "defaultValue": "false",
         "description": "",
         "required": false
-      },
-      {
-        "name": "fields",
-        "type": "enum",
-        "defaultValue": "5",
-        "description": "",
-        "required": false
       }
     ]
   },
@@ -6776,7 +6782,7 @@
   },
   {
     "name": "CursorPagination",
-    "description": "",
+    "description": "Cursor-based pagination with prev / next buttons for APIs that page by\ncursor token rather than offset. Drive button enablement via `hasPrev`\n/ `hasNext` and wire `onPrev` / `onNext`; `loading` disables both.",
     "file": "src/components/NavigationExtended.tsx",
     "props": [
       {
@@ -7176,7 +7182,7 @@
   },
   {
     "name": "DataList",
-    "description": "",
+    "description": "Read-only list of label/value rows for summaries and key/value UIs.\nDual API: pass an `items` array, or compose `DataList.Item` children.\n`orientation=\"horizontal\"` (default) renders a two-column grid;\n`\"vertical\"` stacks label above value.",
     "file": "src/components/DataList.tsx",
     "props": [
       {
@@ -7692,7 +7698,7 @@
   },
   {
     "name": "Dialog",
-    "description": "",
+    "description": "Compound modal overlay. Use `Dialog.Trigger` to open, `Dialog.Content`\nfor the body, `Dialog.Close` to dismiss. Focus-trapped, portaled, and\nESC-dismissable by default. Compose with `Dialog.Title` / `Dialog.Description`\nfor accessible labelling. Controlled via `open` / `onOpenChange`; pass\n`variant=\"alertdialog\"` for destructive-confirmation flows.",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -8112,7 +8118,7 @@
   },
   {
     "name": "Drawer",
-    "description": "",
+    "description": "V1 side-panel overlay with backdrop, focus trap, and Escape dismiss.\nControlled via `open` / `onClose` and anchored to `left` or `right`.",
     "file": "src/components/Overlay.tsx",
     "props": [
       {
@@ -8166,7 +8172,7 @@
   },
   {
     "name": "DrawerV2",
-    "description": "",
+    "description": "Compound side-panel overlay. Slides in from any edge (`left`, `right`,\n`top`, `bottom`). Use `DrawerV2.Trigger`, `DrawerV2.Content`, and\n`DrawerV2.Close`; compose with `.Header`, `.Title`, `.Body`, `.Footer`.\nFocus-trapped, scroll-locked when `modal`, and Escape-dismissable.\nControlled via `open` / `onOpenChange`.",
     "file": "src/components/DrawerCompound.tsx",
     "props": [
       {
@@ -9637,7 +9643,7 @@
   },
   {
     "name": "FormField",
-    "description": "",
+    "description": "Wrapper for form controls that renders an optional `label`, `required`\nasterisk, and either an `error` message or `help` text below the input.\nWarns in dev when `required` is set without a label or when both `error`\nand `help` are provided.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
@@ -10579,7 +10585,7 @@
   },
   {
     "name": "HoverCard",
-    "description": "",
+    "description": "Open-on-hover anchored overlay for rich previews (profile cards, link\nmetadata). Compose `HoverCard.Trigger` and `HoverCard.Content`; content\nis portaled and positioned with viewport-flip. Tune `openDelay` /\n`closeDelay` (ms); hovering into the content cancels the close.",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -12770,7 +12776,7 @@
       },
       {
         "name": "onMention",
-        "type": "((option: MentionOption) => void)",
+        "type": "((option: MentionOption, context: MentionInputContext) => void)",
         "description": "Emits whenever a mention is inserted.",
         "required": false
       },
@@ -13634,7 +13640,7 @@
   },
   {
     "name": "Modal",
-    "description": "",
+    "description": "Props-driven modal overlay with backdrop + centered panel. Portaled,\nfocus-trapped, Escape- and click-outside-dismissable. Controlled via\n`open` / `onClose`. Prefer the compound `Dialog` for new code.",
     "file": "src/components/Interactive.tsx",
     "props": [
       {
@@ -14171,7 +14177,7 @@
   },
   {
     "name": "Navbar",
-    "description": "",
+    "description": "Brutalist top navigation bar. Slot-based compound layout: `Navbar.Brand`,\n`Navbar.Links` (with `Navbar.Link` children), and `Navbar.Actions`.\nPass `sticky` to pin the bar to the top of the viewport.",
     "file": "src/components/Navbar.tsx",
     "props": [
       {
@@ -14989,7 +14995,7 @@
   },
   {
     "name": "PageHeader",
-    "description": "",
+    "description": "Page-title block for top-of-page sections. Renders a `title` (h1) with\noptional `eyebrow`, `description`, `breadcrumbs`, `actions`, and a\ntrailing `tabs` slot. All slots accept any ReactNode.",
     "file": "src/components/LayoutExtended.tsx",
     "props": [
       {
@@ -15032,7 +15038,7 @@
   },
   {
     "name": "Pagination",
-    "description": "",
+    "description": "Offset-based page picker with numbered buttons plus optional prev/next\nand first/last chevrons. Controlled via `page` + `onChange(page)`.\nTune the visible range with `siblingCount` and `boundaryCount`; toggle\na rows-per-page `<select>` with `showPageSize`.",
     "file": "src/components/Navigation.tsx",
     "props": [
       {
@@ -16035,7 +16041,7 @@
   },
   {
     "name": "Popover",
-    "description": "",
+    "description": "V1 popover anchored to a `trigger` with click- or hover-activation and\na fixed `position` (top/right/bottom/left).",
     "file": "src/components/Overlay.tsx",
     "props": [
       {
@@ -16069,7 +16075,7 @@
   },
   {
     "name": "PopoverV2",
-    "description": "",
+    "description": "Compound anchored popover. Compose `PopoverV2.Trigger` and\n`PopoverV2.Content`; content is portaled to the body and positioned\nwith viewport-flip and edge-clamp. Wraps a `DismissableLayer` (click\noutside / Escape) and, when `modal`, a focus trap. Controlled via\n`open` / `onOpenChange`.",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -16710,7 +16716,7 @@
   },
   {
     "name": "RadioGroup",
-    "description": "",
+    "description": "WAI-ARIA radio group with controlled/uncontrolled duality. Accepts an\n`options` array and `value` + `onChange(value)` or `defaultValue`.\nRenders label + radios in a `horizontal` or `vertical` `direction`.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
@@ -18192,7 +18198,7 @@
   },
   {
     "name": "ScrollArea",
-    "description": "",
+    "description": "Overflow container with CSS-only brutalist scrollbars. Native scrolling\nis preserved so keyboard, touch, and trackpad inertia all work. Accepts\n`height` / `maxHeight` / `width` as numbers (px) or CSS lengths, a\n`vertical` / `horizontal` / `both` `orientation`, and a `type`\n(`auto` / `always` / `hover`) for when the thumb is visible.",
     "file": "src/components/ScrollArea.tsx",
     "props": [
       {
@@ -18984,7 +18990,7 @@
   },
   {
     "name": "Sheet",
-    "description": "",
+    "description": "Mobile-style bottom sheet with drag-to-resize snap points. Compound\nAPI: `Sheet.Trigger`, `Sheet.Content`, `Sheet.Handle` (drag grip),\n`Sheet.Header`, `Sheet.Title`, `Sheet.Body`. Pass `snapPoints` as\nfractions of viewport height (default `[0.4, 0.9]`); scroll-locked and\nfocus-trapped when modal.",
     "file": "src/components/DrawerCompound.tsx",
     "props": [
       {
@@ -19196,7 +19202,7 @@
   },
   {
     "name": "Sidebar",
-    "description": "",
+    "description": "Brutalist app-shell side navigation. Compound: compose `Sidebar.Brand`,\n`Sidebar.Section` (optionally `label`ed), `Sidebar.Separator`, and\n`Sidebar.Footer` with `NavItem` children. Pass `collapsed` for rail\nmode (icons only); `adaptive` auto-collapses below the `md` breakpoint.",
     "file": "src/components/Sidebar.tsx",
     "props": [
       {
@@ -20669,7 +20675,7 @@
   },
   {
     "name": "Stepper",
-    "description": "",
+    "description": "Linear step indicator rendered as an `ol` with completed / active /\nupcoming states. Dual API: pass a `steps` string array or compose\n`Stepper.Step` children (with `label`, `description`, `optional`).\n`numbered` or `dotted` variant; `horizontal` or `vertical` orientation;\nset `clickable` to wire `onChange(index)`.",
     "file": "src/components/Navigation.tsx",
     "props": [
       {
@@ -21498,7 +21504,7 @@
   },
   {
     "name": "Tabs",
-    "description": "",
+    "description": "Tabbed navigation with WAI-ARIA tablist semantics and arrow-key / Home /\nEnd navigation. Controlled via `active` + `onChange(key)`. Panels are\nconsumer-owned. Note: currently uses a flat `tabs: TabItem[]` API; a\ndot-notation compound API is planned.",
     "file": "src/components/Interactive.tsx",
     "props": [
       {
@@ -22011,13 +22017,6 @@
         "defaultValue": "(n) => Math.round(n).toLocaleString()",
         "description": "",
         "required": false
-      },
-      {
-        "name": "steps",
-        "type": "number",
-        "defaultValue": "30",
-        "description": "Number of frames to use (rAF-based). Default 30.",
-        "required": false
       }
     ]
   },
@@ -22238,7 +22237,7 @@
   },
   {
     "name": "Toggle",
-    "description": "A switch control for binary on/off state, with an accessible label and keyboard support.",
+    "description": "Binary on/off switch with WAI-ARIA `role=\"switch\"` and\ncontrolled/uncontrolled duality. Pass `checked` + `onChange(next)` or\n`defaultChecked`. Space and Enter toggle; `readOnly` suppresses\nchanges. Requires `label`, `aria-label`, or `aria-labelledby`.",
     "file": "src/components/Form.tsx",
     "props": [
       {
@@ -22460,7 +22459,7 @@
   },
   {
     "name": "Toolbar",
-    "description": "",
+    "description": "Horizontal (or vertical) action strip with WAI-ARIA `role=\"toolbar\"`.\nCompose with `Toolbar.Button`, `Toolbar.Link`, `Toolbar.Separator`, and\n`Toolbar.ToggleGroup` + `Toolbar.ToggleItem` for single/multi press\nstate. `aria-orientation` tracks the `orientation` prop.",
     "file": "src/components/Toolbar.tsx",
     "props": [
       {
@@ -22569,7 +22568,7 @@
   },
   {
     "name": "Tooltip",
-    "description": "",
+    "description": "Compact labelling overlay. Wraps a single child and shows `content`\non hover or focus with a configurable `openDelay` / `closeDelay`.\nWires `aria-describedby` by default, or `aria-label` when\n`asAriaLabel` is set and `content` is a string. Inherits shared timing\nfrom a surrounding `TooltipProvider`.",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -22615,7 +22614,7 @@
   },
   {
     "name": "TooltipProvider",
-    "description": "",
+    "description": "Groups `Tooltip` instances to share timing. Once one tooltip closes,\nhovering another within `skipDelayDuration` (ms) opens instantly\ninstead of re-incurring `delayDuration`. Place near the root of the\napp (or a sub-tree of related controls).",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -23915,12 +23914,6 @@
         "required": false
       },
       {
-        "name": "estimatedItemHeight",
-        "type": "number",
-        "description": "",
-        "required": false
-      },
-      {
         "name": "renderItem",
         "type": "(item: T, index: number, style: CSSProperties) => ReactNode",
         "description": "",
@@ -24408,7 +24401,7 @@
   },
   {
     "name": "Wizard",
-    "description": "",
+    "description": "Multi-step form/workflow container. Compose `Wizard.Step` (one per\nstep) and drive navigation with `Wizard.Previous` / `Wizard.Next` inside\n`Wizard.Footer`; `Wizard.StepIndicator` shows \"Step X of N\". Controlled\nvia `value` (step id) + `onChange`, or uncontrolled via `defaultValue`.\nPer-step validation via `canAdvance(id)`; `onComplete` fires from the\nlast step.",
     "file": "src/components/Wizard.tsx",
     "props": [
       {

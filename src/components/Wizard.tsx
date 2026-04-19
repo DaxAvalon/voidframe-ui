@@ -250,6 +250,14 @@ function WizardStepIndicator({ className, ...props }: HTMLAttributes<HTMLDivElem
   );
 }
 
+/**
+ * Multi-step form/workflow container. Compose `Wizard.Step` (one per
+ * step) and drive navigation with `Wizard.Previous` / `Wizard.Next` inside
+ * `Wizard.Footer`; `Wizard.StepIndicator` shows "Step X of N". Controlled
+ * via `value` (step id) + `onChange`, or uncontrolled via `defaultValue`.
+ * Per-step validation via `canAdvance(id)`; `onComplete` fires from the
+ * last step.
+ */
 export const Wizard = Object.assign(WizardBase, {
   Step: WizardStep,
   Footer: WizardFooter,

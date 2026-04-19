@@ -175,6 +175,12 @@ const ToolbarToggleItem = forwardRef<HTMLButtonElement, ToolbarToggleItemProps>(
 );
 ToolbarToggleItem.displayName = "ToolbarToggleItem";
 
+/**
+ * Horizontal (or vertical) action strip with WAI-ARIA `role="toolbar"`.
+ * Compose with `Toolbar.Button`, `Toolbar.Link`, `Toolbar.Separator`, and
+ * `Toolbar.ToggleGroup` + `Toolbar.ToggleItem` for single/multi press
+ * state. `aria-orientation` tracks the `orientation` prop.
+ */
 export const Toolbar = Object.assign(ToolbarBase, {
   Button: ToolbarButton,
   Link: ToolbarLink,

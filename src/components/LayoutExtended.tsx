@@ -206,6 +206,11 @@ export interface PageHeaderProps extends Omit<HTMLAttributes<HTMLElement>, "titl
   eyebrow?: ReactNode;
 }
 
+/**
+ * Page-title block for top-of-page sections. Renders a `title` (h1) with
+ * optional `eyebrow`, `description`, `breadcrumbs`, `actions`, and a
+ * trailing `tabs` slot. All slots accept any ReactNode.
+ */
 export const PageHeader = forwardRef<HTMLElement, PageHeaderProps>(
   function PageHeader(
     {

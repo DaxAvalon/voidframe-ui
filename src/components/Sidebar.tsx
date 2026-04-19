@@ -97,6 +97,12 @@ function SidebarFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) 
   return <div className={cx("vf-sidebar__footer", className)} {...props} />;
 }
 
+/**
+ * Brutalist app-shell side navigation. Compound: compose `Sidebar.Brand`,
+ * `Sidebar.Section` (optionally `label`ed), `Sidebar.Separator`, and
+ * `Sidebar.Footer` with `NavItem` children. Pass `collapsed` for rail
+ * mode (icons only); `adaptive` auto-collapses below the `md` breakpoint.
+ */
 export const Sidebar = Object.assign(SidebarBase, {
   Brand: SidebarBrand,
   Section: SidebarSection,

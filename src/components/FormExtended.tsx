@@ -27,6 +27,11 @@ export interface CheckboxProps extends Omit<HTMLAttributes<HTMLDivElement>, "onC
   style?: CSSProperties;
 }
 
+/**
+ * WAI-ARIA checkbox with controlled/uncontrolled duality. Pass `checked` +
+ * `onChange(next)` controlled, or `defaultChecked` uncontrolled. Custom
+ * brutalist glyph; Space and Enter toggle. Optional `label` and `accent`.
+ */
 export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(function Checkbox(
   { checked, defaultChecked, onChange, label, accent, disabled, className, style, ...props },
   ref
@@ -130,6 +135,11 @@ export interface RadioGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, "o
   style?: CSSProperties;
 }
 
+/**
+ * WAI-ARIA radio group with controlled/uncontrolled duality. Accepts an
+ * `options` array and `value` + `onChange(value)` or `defaultValue`.
+ * Renders label + radios in a `horizontal` or `vertical` `direction`.
+ */
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
   function RadioGroup(
     { options, value, defaultValue, onChange, label, accent, direction = "vertical", className, style, ...props },
@@ -378,6 +388,12 @@ export interface FormFieldProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Wrapper for form controls that renders an optional `label`, `required`
+ * asterisk, and either an `error` message or `help` text below the input.
+ * Warns in dev when `required` is set without a label or when both `error`
+ * and `help` are provided.
+ */
 export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
   function FormField({ label, error, help, required, children, className, style, ...props }, ref) {
     if (required && !label) {

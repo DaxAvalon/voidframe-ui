@@ -42,6 +42,12 @@ export interface TabsProps
   style?: CSSProperties;
 }
 
+/**
+ * Tabbed navigation with WAI-ARIA tablist semantics and arrow-key / Home /
+ * End navigation. Controlled via `active` + `onChange(key)`. Panels are
+ * consumer-owned. Note: currently uses a flat `tabs: TabItem[]` API; a
+ * dot-notation compound API is planned.
+ */
 export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
   { tabs, active, onChange, accent, className, style, ...props },
   ref
@@ -186,6 +192,11 @@ export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Props-driven modal overlay with backdrop + centered panel. Portaled,
+ * focus-trapped, Escape- and click-outside-dismissable. Controlled via
+ * `open` / `onClose`. Prefer the compound `Dialog` for new code.
+ */
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
   {
     open,

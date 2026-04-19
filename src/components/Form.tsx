@@ -153,7 +153,10 @@ export interface ToggleProps extends Omit<HTMLAttributes<HTMLDivElement>, "onCha
 }
 
 /**
- * A switch control for binary on/off state, with an accessible label and keyboard support.
+ * Binary on/off switch with WAI-ARIA `role="switch"` and
+ * controlled/uncontrolled duality. Pass `checked` + `onChange(next)` or
+ * `defaultChecked`. Space and Enter toggle; `readOnly` suppresses
+ * changes. Requires `label`, `aria-label`, or `aria-labelledby`.
  */
 export const Toggle = forwardRef<HTMLDivElement, ToggleProps>(function Toggle(
   { checked, defaultChecked, onChange, label, accent, readOnly, className, style, ...props },

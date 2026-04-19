@@ -38,6 +38,11 @@ export interface CursorPaginationProps extends HTMLAttributes<HTMLDivElement> {
   nextLabel?: string;
 }
 
+/**
+ * Cursor-based pagination with prev / next buttons for APIs that page by
+ * cursor token rather than offset. Drive button enablement via `hasPrev`
+ * / `hasNext` and wire `onPrev` / `onNext`; `loading` disables both.
+ */
 export const CursorPagination = forwardRef<HTMLDivElement, CursorPaginationProps>(
   function CursorPagination(
     {

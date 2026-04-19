@@ -39,7 +39,13 @@ export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
-/** @deprecated Use `DrawerV2` from `voidframe` instead. Will be removed in v1.1. */
+/**
+ * V1 side-panel overlay with backdrop, focus trap, and Escape dismiss.
+ * Controlled via `open` / `onClose` and anchored to `left` or `right`.
+ *
+ * @deprecated Use `DrawerV2` instead for compound API, all four sides,
+ * and scroll-lock. Will be removed in v1.1.
+ */
 export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
   {
     open,
@@ -221,7 +227,13 @@ export interface PopoverProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
-/** @deprecated Use `PopoverV2` from `voidframe` instead. Will be removed in v1.1. */
+/**
+ * V1 popover anchored to a `trigger` with click- or hover-activation and
+ * a fixed `position` (top/right/bottom/left).
+ *
+ * @deprecated Use `PopoverV2` instead for compound API, viewport-flip
+ * positioning, and portaled content. Will be removed in v1.1.
+ */
 export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover(
   { trigger, children, on = "click", position = "bottom", width = "240px", className, style, ...props },
   ref

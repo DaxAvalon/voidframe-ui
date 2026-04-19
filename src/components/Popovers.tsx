@@ -62,10 +62,6 @@ export interface PopoverV2Props {
   children?: ReactNode;
 }
 
-/**
- * An anchored popover that positions content relative to a trigger with viewport-flip and edge-clamp.
- * Pair with PopoverV2.Trigger and PopoverV2.Content to attach rich content to any element.
- */
 function PopoverRoot({ open, defaultOpen, onOpenChange, children }: PopoverV2Props) {
   const [internal, setInternal] = useState(defaultOpen ?? false);
   const isOpen = open ?? internal;
@@ -209,12 +205,15 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
 );
 PopoverContent.displayName = "PopoverContent";
 
-/**
- * Anchored popover with viewport-flip + edge-clamp positioning.
- * Compose with `PopoverV2.Trigger` and `PopoverV2.Content`. The content
- * is portaled to the document body so it escapes overflow clipping.
- */
 PopoverRoot.displayName = "PopoverV2";
+
+/**
+ * Compound anchored popover. Compose `PopoverV2.Trigger` and
+ * `PopoverV2.Content`; content is portaled to the body and positioned
+ * with viewport-flip and edge-clamp. Wraps a `DismissableLayer` (click
+ * outside / Escape) and, when `modal`, a focus trap. Controlled via
+ * `open` / `onOpenChange`.
+ */
 export const PopoverV2 = Object.assign(PopoverRoot, {
   Trigger: PopoverTrigger,
   Content: PopoverContent,
@@ -237,6 +236,12 @@ export interface TooltipProviderProps {
   children?: ReactNode;
 }
 
+/**
+ * Groups `Tooltip` instances to share timing. Once one tooltip closes,
+ * hovering another within `skipDelayDuration` (ms) opens instantly
+ * instead of re-incurring `delayDuration`. Place near the root of the
+ * app (or a sub-tree of related controls).
+ */
 export function TooltipProvider({
   delayDuration = 300,
   skipDelayDuration = 200,
@@ -268,6 +273,13 @@ export interface TooltipProps {
   asAriaLabel?: boolean;
 }
 
+/**
+ * Compact labelling overlay. Wraps a single child and shows `content`
+ * on hover or focus with a configurable `openDelay` / `closeDelay`.
+ * Wires `aria-describedby` by default, or `aria-label` when
+ * `asAriaLabel` is set and `content` is a string. Inherits shared timing
+ * from a surrounding `TooltipProvider`.
+ */
 export function Tooltip({
   content,
   children,
@@ -576,6 +588,12 @@ const HoverCardContent = forwardRef<HTMLDivElement, HoverCardContentProps>(
 );
 HoverCardContent.displayName = "HoverCardContent";
 
+/**
+ * Open-on-hover anchored overlay for rich previews (profile cards, link
+ * metadata). Compose `HoverCard.Trigger` and `HoverCard.Content`; content
+ * is portaled and positioned with viewport-flip. Tune `openDelay` /
+ * `closeDelay` (ms); hovering into the content cancels the close.
+ */
 export const HoverCard = Object.assign(HoverCardRoot, {
   Trigger: HoverCardTrigger,
   Content: HoverCardContent,

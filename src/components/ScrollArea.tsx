@@ -25,6 +25,13 @@ export interface ScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Overflow container with CSS-only brutalist scrollbars. Native scrolling
+ * is preserved so keyboard, touch, and trackpad inertia all work. Accepts
+ * `height` / `maxHeight` / `width` as numbers (px) or CSS lengths, a
+ * `vertical` / `horizontal` / `both` `orientation`, and a `type`
+ * (`auto` / `always` / `hover`) for when the thumb is visible.
+ */
 export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
   function ScrollArea(
     {

@@ -165,6 +165,11 @@ const BreadcrumbItemComponent = forwardRef<
 });
 BreadcrumbItemComponent.displayName = "BreadcrumbItem";
 
+/**
+ * Breadcrumb trail as a WAI-ARIA `nav` + `ol`. Dual API: pass `items`
+ * (label/href/onClick) or compose `Breadcrumb.Item` children. Customize
+ * the `separator` and collapse middle segments with `maxItems`.
+ */
 export const Breadcrumb = Object.assign(BreadcrumbBase, {
   Item: BreadcrumbItemComponent,
 });
@@ -241,6 +246,12 @@ function computePages(
   return out;
 }
 
+/**
+ * Offset-based page picker with numbered buttons plus optional prev/next
+ * and first/last chevrons. Controlled via `page` + `onChange(page)`.
+ * Tune the visible range with `siblingCount` and `boundaryCount`; toggle
+ * a rows-per-page `<select>` with `showPageSize`.
+ */
 export const Pagination = forwardRef<HTMLElement, PaginationProps>(
   function Pagination(
     {
@@ -552,6 +563,13 @@ const StepperBase = forwardRef<HTMLOListElement, StepperProps>(function Stepper(
 });
 StepperBase.displayName = "Stepper";
 
+/**
+ * Linear step indicator rendered as an `ol` with completed / active /
+ * upcoming states. Dual API: pass a `steps` string array or compose
+ * `Stepper.Step` children (with `label`, `description`, `optional`).
+ * `numbered` or `dotted` variant; `horizontal` or `vertical` orientation;
+ * set `clickable` to wire `onChange(index)`.
+ */
 export const Stepper = Object.assign(StepperBase, {
   Step: StepperStepComponent,
 });

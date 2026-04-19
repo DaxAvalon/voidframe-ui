@@ -265,6 +265,15 @@ const CommandInputImpl = forwardRef<HTMLDivElement, CommandInputProps>(
   }
 );
 CommandInputImpl.displayName = "CommandInput";
+
+/**
+ * Shell-style command input with history recall, inline ghost-text
+ * completion, and a Tab-activated completions popup. Arrow Up/Down
+ * walks history (or completions when open); Enter submits via
+ * `onSubmit(command)`. Controlled via `value` + `onValueChange`, or
+ * uncontrolled. `suggestions` may be an array or a function of the
+ * current input.
+ */
 export const CommandInput = memo(CommandInputImpl);
 (CommandInput as unknown as { displayName: string }).displayName =
   "CommandInput";

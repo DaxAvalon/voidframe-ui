@@ -75,6 +75,11 @@ function NavbarActions({ className, ...props }: HTMLAttributes<HTMLDivElement>) 
   return <div className={cx("vf-navbar__actions", className)} {...props} />;
 }
 
+/**
+ * Brutalist top navigation bar. Slot-based compound layout: `Navbar.Brand`,
+ * `Navbar.Links` (with `Navbar.Link` children), and `Navbar.Actions`.
+ * Pass `sticky` to pin the bar to the top of the viewport.
+ */
 export const Navbar = Object.assign(NavbarBase, {
   Brand: NavbarBrand,
   Links: NavbarLinks,

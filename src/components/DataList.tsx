@@ -66,6 +66,12 @@ const DataListItemComponent = forwardRef<HTMLDivElement, DataListItemProps>(
 );
 DataListItemComponent.displayName = "DataListItem";
 
+/**
+ * Read-only list of label/value rows for summaries and key/value UIs.
+ * Dual API: pass an `items` array, or compose `DataList.Item` children.
+ * `orientation="horizontal"` (default) renders a two-column grid;
+ * `"vertical"` stacks label above value.
+ */
 export const DataList = Object.assign(DataListBase, { Item: DataListItemComponent });
 
 // ── DescriptionList ──────────────────────────────────────────

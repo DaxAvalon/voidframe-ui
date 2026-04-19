@@ -20,6 +20,12 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Brutalist content container with a bordered surface. Optional `title` /
+ * `subtitle` / `headerRight` header slot and `actions` footer slot. Use
+ * `hoverable` for a lift-on-hover effect, or `asChild` to render a custom
+ * element (link, button) while keeping card styling.
+ */
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
   { children, title, subtitle, padding, headerRight, hoverable, actions, asChild, className, style, ...props },
   ref

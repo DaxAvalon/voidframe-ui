@@ -102,6 +102,13 @@ const BadgeImpl = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
   );
 });
 BadgeImpl.displayName = "Badge";
+
+/**
+ * Small categorical label for status chips, counts, and highlights. Tone
+ * (`neutral`/`success`/`danger`/`warning`/`info`), variant (`solid`/`outline`/
+ * `subtle`), and size knobs. Supports a leading dot glyph, optional icon,
+ * dismissible close button, and a `count` + `overflowCount` counter mode.
+ */
 export const Badge = memo(BadgeImpl);
 (Badge as unknown as { displayName: string }).displayName = "Badge";
 
