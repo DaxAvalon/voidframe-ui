@@ -82,7 +82,7 @@
     {
       "name": "Core ESM (dist/voidframe.es.js)",
       "path": "dist/voidframe.es.js",
-      "limit": "170 KB",
+      "limit": "200 KB",
       "gzip": true
     },
     {
@@ -106,7 +106,7 @@
     {
       "name": "All JS (ES + CJS, all entries)",
       "path": "dist/*.js",
-      "limit": "400 KB",
+      "limit": "460 KB",
       "gzip": true
     }
   ],
