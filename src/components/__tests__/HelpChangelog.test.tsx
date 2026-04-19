@@ -47,11 +47,11 @@ describe("ContextHelp", () => {
     expect(screen.queryByText("Hidden")).not.toBeInTheDocument();
   });
 
-  it("fires onClose", async () => {
-    const onClose = vi.fn();
-    renderWithTheme(<ContextHelp onClose={onClose}>Body</ContextHelp>);
+  it("fires onDismiss", async () => {
+    const onDismiss = vi.fn();
+    renderWithTheme(<ContextHelp onDismiss={onDismiss}>Body</ContextHelp>);
     await userEvent.click(screen.getByRole("button", { name: "Close help" }));
-    expect(onClose).toHaveBeenCalled();
+    expect(onDismiss).toHaveBeenCalled();
   });
 
   it("sets data-for attribute", () => {

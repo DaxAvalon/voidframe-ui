@@ -13,7 +13,7 @@ import { renderWithTheme } from "../../../test/renderWithTheme";
 describe("Drawer", () => {
   it("renders nothing when closed", () => {
     renderWithTheme(
-      <Drawer open={false} onClose={() => {}} title="PANEL">
+      <Drawer open={false} onDismiss={() => {}} title="PANEL">
         body
       </Drawer>
     );
@@ -23,7 +23,7 @@ describe("Drawer", () => {
 
   it("renders title and body when open", () => {
     renderWithTheme(
-      <Drawer open onClose={() => {}} title="PANEL">
+      <Drawer open onDismiss={() => {}} title="PANEL">
         content
       </Drawer>
     );
@@ -31,15 +31,15 @@ describe("Drawer", () => {
     expect(screen.getByText("content")).toBeInTheDocument();
   });
 
-  it("close button fires onClose", async () => {
-    const onClose = vi.fn();
+  it("close button fires onDismiss", async () => {
+    const onDismiss = vi.fn();
     renderWithTheme(
-      <Drawer open onClose={onClose} title="X">
+      <Drawer open onDismiss={onDismiss} title="X">
         body
       </Drawer>
     );
     await userEvent.click(screen.getByText("×"));
-    expect(onClose).toHaveBeenCalledTimes(1);
+    expect(onDismiss).toHaveBeenCalledTimes(1);
   });
 });
 

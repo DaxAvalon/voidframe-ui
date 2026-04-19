@@ -2313,7 +2313,7 @@ function ModalDemo() {
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open legacy modal</Button>
-      <Modal open={open} onClose={() => setOpen(false)} title="Legacy modal">
+      <Modal open={open} onDismiss={() => setOpen(false)} title="Legacy modal">
         <Text>Voidframe ships both the simple Modal and the compound Dialog.</Text>
       </Modal>
     </>

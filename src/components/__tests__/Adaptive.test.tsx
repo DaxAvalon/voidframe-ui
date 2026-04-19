@@ -61,7 +61,7 @@ describe("Text — responsive size", () => {
 describe("Adaptive Modal / Drawer / Sidebar / Table", () => {
   it("Modal panel tags itself adaptive by default", () => {
     renderWithTheme(
-      <Modal open onClose={() => {}} title="adaptive default">
+      <Modal open onDismiss={() => {}} title="adaptive default">
         body
       </Modal>
     );
@@ -71,7 +71,7 @@ describe("Adaptive Modal / Drawer / Sidebar / Table", () => {
 
   it("Modal opt-out removes the adaptive attr", () => {
     renderWithTheme(
-      <Modal open onClose={() => {}} title="no adapt" adaptive={false}>
+      <Modal open onDismiss={() => {}} title="no adapt" adaptive={false}>
         body
       </Modal>
     );
@@ -81,7 +81,7 @@ describe("Adaptive Modal / Drawer / Sidebar / Table", () => {
 
   it("Drawer panel tags adaptive by default", () => {
     renderWithTheme(
-      <Drawer open onClose={() => {}} title="drw">
+      <Drawer open onDismiss={() => {}} title="drw">
         body
       </Drawer>
     );

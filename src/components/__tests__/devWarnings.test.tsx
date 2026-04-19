@@ -66,7 +66,7 @@ describe("Overlay dev-warnings", () => {
   it("Modal warns when no title/aria-label", () => {
     // Modal renders nothing when closed, so open=true for the warning to fire.
     render(
-      <Modal open onClose={() => {}}>
+      <Modal open onDismiss={() => {}}>
         content
       </Modal>
     );
@@ -75,7 +75,7 @@ describe("Overlay dev-warnings", () => {
 
   it("Modal does not warn with title", () => {
     render(
-      <Modal open onClose={() => {}} title="Confirm">
+      <Modal open onDismiss={() => {}} title="Confirm">
         content
       </Modal>
     );
@@ -84,7 +84,7 @@ describe("Overlay dev-warnings", () => {
 
   it("Drawer warns when no title/aria-label", () => {
     render(
-      <Drawer open onClose={() => {}}>
+      <Drawer open onDismiss={() => {}}>
         content
       </Drawer>
     );
@@ -99,7 +99,7 @@ describe("Overlay dev-warnings", () => {
 
   it("Drawer does not warn about title when title is provided", () => {
     render(
-      <Drawer open onClose={() => {}} title="Settings">
+      <Drawer open onDismiss={() => {}} title="Settings">
         content
       </Drawer>
     );

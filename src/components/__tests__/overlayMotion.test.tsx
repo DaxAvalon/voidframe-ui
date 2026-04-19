@@ -14,7 +14,7 @@ import { ConfirmDialog, Drawer } from "../Overlay";
 describe("Modal — motion", () => {
   it("motion=true (default) renders via Presence when open", () => {
     render(
-      <Modal open onClose={() => {}} title="X">
+      <Modal open onDismiss={() => {}} title="X">
         hi
       </Modal>
     );
@@ -23,7 +23,7 @@ describe("Modal — motion", () => {
 
   it("motion=false renders synchronously when open", () => {
     render(
-      <Modal open onClose={() => {}} title="X" motion={false}>
+      <Modal open onDismiss={() => {}} title="X" motion={false}>
         hi
       </Modal>
     );
@@ -32,7 +32,7 @@ describe("Modal — motion", () => {
 
   it("motion=false returns nothing when closed", () => {
     const { container } = render(
-      <Modal open={false} onClose={() => {}} title="X" motion={false}>
+      <Modal open={false} onDismiss={() => {}} title="X" motion={false}>
         hi
       </Modal>
     );
@@ -45,13 +45,13 @@ describe("Modal — motion", () => {
     // happy-dom's getComputedStyle returns empty; Presence sees no animation
     // and falls through to synchronous unmount. Verify.
     const { rerender } = render(
-      <Modal open onClose={() => {}} title="X">
+      <Modal open onDismiss={() => {}} title="X">
         content
       </Modal>
     );
     expect(screen.getByText("content")).toBeInTheDocument();
     rerender(
-      <Modal open={false} onClose={() => {}} title="X">
+      <Modal open={false} onDismiss={() => {}} title="X">
         content
       </Modal>
     );
@@ -62,7 +62,7 @@ describe("Modal — motion", () => {
 describe("Drawer — motion", () => {
   it("motion=false renders synchronously when open", () => {
     render(
-      <Drawer open onClose={() => {}} title="X" motion={false}>
+      <Drawer open onDismiss={() => {}} title="X" motion={false}>
         drawer-body
       </Drawer>
     );
@@ -71,7 +71,7 @@ describe("Drawer — motion", () => {
 
   it("motion=false returns nothing when closed", () => {
     render(
-      <Drawer open={false} onClose={() => {}} title="X" motion={false}>
+      <Drawer open={false} onDismiss={() => {}} title="X" motion={false}>
         drawer-body
       </Drawer>
     );

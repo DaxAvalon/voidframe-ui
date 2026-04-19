@@ -27,7 +27,7 @@ const ALERT_VAR: Record<ToastType, string> = {
 
 export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
   open: boolean;
-  onClose: () => void;
+  onDismiss: () => void;
   title?: string;
   side?: "left" | "right";
   width?: string | number;
@@ -41,7 +41,7 @@ export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
 
 /**
  * V1 side-panel overlay with backdrop, focus trap, and Escape dismiss.
- * Controlled via `open` / `onClose` and anchored to `left` or `right`.
+ * Controlled via `open` / `onDismiss` and anchored to `left` or `right`.
  *
  * @deprecated Use `DrawerV2` instead for compound API, all four sides,
  * and scroll-lock. Will be removed in v1.1.
@@ -49,7 +49,7 @@ export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
 export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
   {
     open,
-    onClose,
+    onDismiss,
     title,
     side = "right",
     width = "360px",
@@ -83,10 +83,10 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
     >
       <div
         className="vf-drawer__backdrop"
-        onClick={onClose}
+        onClick={onDismiss}
         aria-hidden="true"
       />
-      <DismissableLayer onDismiss={onClose}>
+      <DismissableLayer onDismiss={onDismiss}>
         <FocusScope
           trapped
           autoFocus
@@ -110,7 +110,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
             <button
               type="button"
               className="vf-drawer__close"
-              onClick={onClose}
+              onClick={onDismiss}
               aria-label="Close"
             >
               ×

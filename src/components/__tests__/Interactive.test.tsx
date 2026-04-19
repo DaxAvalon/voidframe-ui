@@ -82,7 +82,7 @@ describe("Collapsible", () => {
 describe("Modal", () => {
   it("renders nothing when closed", () => {
     renderWithTheme(
-      <Modal open={false} onClose={() => {}} title="TITLE">
+      <Modal open={false} onDismiss={() => {}} title="TITLE">
         hello
       </Modal>
     );
@@ -92,7 +92,7 @@ describe("Modal", () => {
 
   it("renders content when open", () => {
     renderWithTheme(
-      <Modal open onClose={() => {}} title="HEADER">
+      <Modal open onDismiss={() => {}} title="HEADER">
         content
       </Modal>
     );
@@ -100,15 +100,15 @@ describe("Modal", () => {
     expect(screen.getByText("content")).toBeInTheDocument();
   });
 
-  it("close button triggers onClose", async () => {
-    const onClose = vi.fn();
+  it("close button triggers onDismiss", async () => {
+    const onDismiss = vi.fn();
     renderWithTheme(
-      <Modal open onClose={onClose} title="X">
+      <Modal open onDismiss={onDismiss} title="X">
         body
       </Modal>
     );
     await userEvent.click(screen.getByText("×"));
-    expect(onClose).toHaveBeenCalledTimes(1);
+    expect(onDismiss).toHaveBeenCalledTimes(1);
   });
 });
 

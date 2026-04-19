@@ -76,7 +76,7 @@ describe("axe: interactive / feedback", () => {
 describe("axe: overlays (open state, portal-rendered)", () => {
   it("Modal with title and body", async () => {
     render(
-      <Modal open onClose={() => {}} title="Confirm">
+      <Modal open onDismiss={() => {}} title="Confirm">
         <p>Sure?</p>
         <button>Yes</button>
       </Modal>
@@ -86,7 +86,7 @@ describe("axe: overlays (open state, portal-rendered)", () => {
 
   it("Drawer with title and body", async () => {
     render(
-      <Drawer open onClose={() => {}} title="Settings">
+      <Drawer open onDismiss={() => {}} title="Settings">
         <p>Settings content</p>
       </Drawer>
     );

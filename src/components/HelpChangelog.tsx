@@ -71,7 +71,7 @@ HelpTooltip.displayName = "HelpTooltip";
 
 export interface ContextHelpProps extends HTMLAttributes<HTMLElement> {
   open?: boolean;
-  onClose?: () => void;
+  onDismiss?: () => void;
   titleLabel?: ReactNode;
   /** Optional anchor id — added to the rendered `data-for` attribute. */
   for?: string;
@@ -80,7 +80,7 @@ export interface ContextHelpProps extends HTMLAttributes<HTMLElement> {
 
 export const ContextHelp = forwardRef<HTMLElement, ContextHelpProps>(
   function ContextHelp(
-    { open = true, onClose, titleLabel = "Help", for: forId, className, children, ...props },
+    { open = true, onDismiss, titleLabel = "Help", for: forId, className, children, ...props },
     ref
   ) {
     if (!open) return null;
@@ -95,12 +95,12 @@ export const ContextHelp = forwardRef<HTMLElement, ContextHelpProps>(
       >
         <header className="vf-context-help__header">
           <span className="vf-context-help__title">{titleLabel}</span>
-          {onClose && (
+          {onDismiss && (
             <button
               type="button"
               className="vf-context-help__close"
               aria-label="Close help"
-              onClick={onClose}
+              onClick={onDismiss}
             >
               ✕
             </button>

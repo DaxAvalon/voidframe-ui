@@ -180,7 +180,7 @@ Collapsible.displayName = "Collapsible";
 
 export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   open: boolean;
-  onClose: () => void;
+  onDismiss: () => void;
   /** Accessible name. Highly recommended. */
   title?: string;
   width?: string | number;
@@ -195,12 +195,12 @@ export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Props-driven modal overlay with backdrop + centered panel. Portaled,
  * focus-trapped, Escape- and click-outside-dismissable. Controlled via
- * `open` / `onClose`. Prefer the compound `Dialog` for new code.
+ * `open` / `onDismiss`. Prefer the compound `Dialog` for new code.
  */
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
   {
     open,
-    onClose,
+    onDismiss,
     title,
     width = "480px",
     motion = true,
@@ -226,10 +226,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
       className="vf-modal__backdrop"
       onClick={(e) => {
         // Clicking the backdrop itself (not the panel) closes.
-        if (e.target === e.currentTarget) onClose();
+        if (e.target === e.currentTarget) onDismiss();
       }}
     >
-      <DismissableLayer onDismiss={onClose}>
+      <DismissableLayer onDismiss={onDismiss}>
         <FocusScope
           ref={ref as never}
           trapped
@@ -256,7 +256,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
               <button
                 type="button"
                 className="vf-modal__close"
-                onClick={onClose}
+                onClick={onDismiss}
                 aria-label="Close"
               >
                 ×

@@ -421,7 +421,7 @@ export interface DebugEvent {
 export interface DebugPanelProps
   extends Omit<HTMLAttributes<HTMLElement>, "title"> {
   open?: boolean;
-  onClose?: () => void;
+  onDismiss?: () => void;
   events?: DebugEvent[];
   title?: ReactNode;
   children?: ReactNode;
@@ -429,7 +429,7 @@ export interface DebugPanelProps
 
 export const DebugPanel = forwardRef<HTMLElement, DebugPanelProps>(
   function DebugPanel(
-    { open = true, onClose, events, title = "Debug", className, children, ...props },
+    { open = true, onDismiss, events, title = "Debug", className, children, ...props },
     ref
   ) {
     if (!open) return null;
@@ -443,11 +443,11 @@ export const DebugPanel = forwardRef<HTMLElement, DebugPanelProps>(
       >
         <header className="vf-debug-panel__header">
           <span className="vf-debug-panel__title">{title}</span>
-          {onClose && (
+          {onDismiss && (
             <button
               type="button"
               className="vf-debug-panel__close"
-              onClick={onClose}
+              onClick={onDismiss}
               aria-label="Close debug panel"
             >
               ✕
