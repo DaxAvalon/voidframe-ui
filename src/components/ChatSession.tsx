@@ -312,7 +312,7 @@ export const ConversationHeader = forwardRef<
     title,
     onTitleChange,
     model,
-    onModelChange: _onModelChange,
+    onModelChange,
     tokens,
     cost,
     actions,
@@ -333,6 +333,25 @@ export const ConversationHeader = forwardRef<
   const commit = () => {
     if (onTitleChange) onTitleChange(draft);
     setEditing(false);
+  };
+
+  // Model edit flow — mirrors title flow but only when `model` is a string
+  // (if it's a complex ReactNode the caller is responsible for rendering
+  // their own edit affordance; we don't know how to serialize it).
+  const modelEditable =
+    typeof model === "string" && typeof onModelChange === "function";
+  const [editingModel, setEditingModel] = useState(false);
+  const [modelDraft, setModelDraft] = useState(
+    typeof model === "string" ? model : ""
+  );
+  const beginModelEdit = () => {
+    if (!modelEditable) return;
+    setModelDraft(typeof model === "string" ? model : "");
+    setEditingModel(true);
+  };
+  const commitModel = () => {
+    if (onModelChange) onModelChange(modelDraft);
+    setEditingModel(false);
   };
 
   return (
@@ -378,7 +397,40 @@ export const ConversationHeader = forwardRef<
         )}
       </div>
       <div className="vf-conversation-header__meta">
-        {model && <span className="vf-conversation-header__model">{model}</span>}
+        {model && (
+          editingModel && modelEditable ? (
+            <input
+              type="text"
+              className="vf-conversation-header__model-input"
+              autoFocus
+              value={modelDraft}
+              onChange={(e) => setModelDraft(e.target.value)}
+              onBlur={commitModel}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  commitModel();
+                } else if (e.key === "Escape") {
+                  setEditingModel(false);
+                }
+              }}
+            />
+          ) : modelEditable ? (
+            <button
+              type="button"
+              className={cx(
+                "vf-conversation-header__model",
+                "vf-conversation-header__model--editable"
+              )}
+              onClick={beginModelEdit}
+              aria-label="Change model"
+            >
+              {model}
+            </button>
+          ) : (
+            <span className="vf-conversation-header__model">{model}</span>
+          )
+        )}
         {tokens && (
           <span className="vf-conversation-header__tokens">{tokens}</span>
         )}

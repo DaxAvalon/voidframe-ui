@@ -106,6 +106,30 @@ describe("ConversationHeader", () => {
     await userEvent.keyboard("{Enter}");
     expect(onTitleChange).toHaveBeenCalledWith("New");
   });
+
+  it("edits model inline when onModelChange is provided and model is a string", async () => {
+    const onModelChange = vi.fn();
+    renderWithTheme(
+      <ConversationHeader
+        title="Conversation"
+        model="opus-4.6"
+        onModelChange={onModelChange}
+      />
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Change model" }));
+    const input = screen.getByDisplayValue("opus-4.6") as HTMLInputElement;
+    await userEvent.clear(input);
+    await userEvent.type(input, "sonnet-4.7");
+    await userEvent.keyboard("{Enter}");
+    expect(onModelChange).toHaveBeenCalledWith("sonnet-4.7");
+  });
+
+  it("does not render a model edit affordance when onModelChange is omitted", () => {
+    renderWithTheme(
+      <ConversationHeader title="Conversation" model="opus-4.6" />
+    );
+    expect(screen.queryByRole("button", { name: "Change model" })).not.toBeInTheDocument();
+  });
 });
 
 describe("ConversationEmptyState", () => {
