@@ -112,7 +112,7 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   Breadcrumb: '<Breadcrumb\n  items={[\n    { label: "Home", href: "#" },\n    { label: "Products", href: "#" },\n    { label: "Widget", isCurrent: true },\n  ]}\n/>',
   Pagination: '<Pagination value={3} totalPages={10} onValueChange={() => {}} />',
   Stepper: '<Stepper\n  steps={[\n    { label: "Account" },\n    { label: "Profile" },\n    { label: "Review" },\n  ]}\n  current={1}\n/>',
-  Tabs: '<Tabs\n  tabs={[\n    { key: "tab1", label: "Overview", content: <Text>Overview content</Text> },\n    { key: "tab2", label: "Details", content: <Text>Details content</Text> },\n    { key: "tab3", label: "Settings", content: <Text>Settings content</Text> },\n  ]}\n  activeKey="tab1"\n  onChange={() => {}}\n/>',
+  Tabs: '<Tabs defaultValue="tab1">\n  <Tabs.List aria-label="Sections">\n    <Tabs.Trigger value="tab1">Overview</Tabs.Trigger>\n    <Tabs.Trigger value="tab2">Details</Tabs.Trigger>\n    <Tabs.Trigger value="tab3">Settings</Tabs.Trigger>\n  </Tabs.List>\n  <Tabs.Panel value="tab1"><Text>Overview content</Text></Tabs.Panel>\n  <Tabs.Panel value="tab2"><Text>Details content</Text></Tabs.Panel>\n  <Tabs.Panel value="tab3"><Text>Settings content</Text></Tabs.Panel>\n</Tabs>',
   NavItem: '<VStack gap={2}>\n  <NavItem active>Dashboard</NavItem>\n  <NavItem>Settings</NavItem>\n  <NavItem>Profile</NavItem>\n</VStack>',
   NavGroup: '<NavGroup title="Main">\n  <NavItem active>Dashboard</NavItem>\n  <NavItem>Analytics</NavItem>\n  <NavItem>Settings</NavItem>\n</NavGroup>',
   Link: '<Link href="#">Visit documentation</Link>',

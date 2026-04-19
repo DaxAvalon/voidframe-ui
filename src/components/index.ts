@@ -179,7 +179,9 @@ export type {
 export { Tabs, Collapsible, Modal, Toast, Kbd } from "./Interactive";
 export type {
   TabsProps,
-  TabItem,
+  TabsListProps,
+  TabsTriggerProps,
+  TabsPanelProps,
   CollapsibleProps,
   ModalProps,
   ToastProps,

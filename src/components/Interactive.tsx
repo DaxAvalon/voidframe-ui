@@ -1,7 +1,20 @@
 "use client";
 
-import { forwardRef, memo } from "react";
-import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import {
+  createContext,
+  forwardRef,
+  memo,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+} from "react";
+import type {
+  ButtonHTMLAttributes,
+  CSSProperties,
+  HTMLAttributes,
+  ReactNode,
+} from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { useId } from "../hooks/useId";
 import { DismissableLayer } from "../primitives/DismissableLayer";
@@ -11,8 +24,7 @@ import { Presence } from "../primitives/Presence";
 import type { ToastType } from "../types";
 import { cx } from "../utils/cx";
 import { deprecatedComponent } from "../utils/deprecate";
-import { warn, warnOnce } from "../utils/warn";
-import { Button } from "./Button";
+import { warn } from "../utils/warn";
 import { Label } from "./Text";
 
 const TOAST_VAR: Record<ToastType, string> = {
@@ -23,96 +35,267 @@ const TOAST_VAR: Record<ToastType, string> = {
 };
 
 // ── Tabs ──────────────────────────────────────────────────────
-// role=tablist on the bar, role=tab on triggers; arrow-key nav via
-// the shared handler. Panels are consumer-owned.
+// Compound dot-notation API: Tabs / Tabs.List / Tabs.Trigger / Tabs.Panel.
+// WAI-ARIA tablist semantics with arrow-key / Home / End navigation and
+// proper aria-controls / aria-labelledby wiring between triggers & panels.
 
-export interface TabItem {
-  key: string;
-  label: string;
+type TabsOrientation = "horizontal" | "vertical";
+
+interface TabsContextValue {
+  value: string;
+  setValue: (next: string) => void;
+  baseId: string;
+  orientation: TabsOrientation;
+  accent?: string;
+  register: (value: string, el: HTMLButtonElement | null) => void;
+  focusValue: (value: string) => void;
+}
+
+const TabsContext = createContext<TabsContextValue | null>(null);
+function useTabs(component: string): TabsContextValue {
+  const ctx = useContext(TabsContext);
+  if (!ctx) {
+    throw new Error(`<${component}> must be used inside <Tabs>.`);
+  }
+  return ctx;
 }
 
 export interface TabsProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
-  tabs: TabItem[];
-  active: string;
-  onChange: (key: string) => void;
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  orientation?: TabsOrientation;
+  /** Accent color for the active trigger (sets `--vf-accent`). */
   accent?: string;
-  /** Accessible label for the tablist. */
-  "aria-label"?: string;
+  children?: ReactNode;
   style?: CSSProperties;
 }
 
 /**
  * Tabbed navigation with WAI-ARIA tablist semantics and arrow-key / Home /
- * End navigation. Controlled via `active` + `onChange(key)`. Panels are
- * consumer-owned. Note: currently uses a flat `tabs: TabItem[]` API; a
- * dot-notation compound API is planned.
+ * End navigation. Compound API: compose `Tabs.List` with `Tabs.Trigger`s
+ * and `Tabs.Panel`s. Controlled via `value`+`onValueChange` or uncontrolled
+ * via `defaultValue`.
  */
-export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
-  { tabs, active, onChange, accent, className, style, ...props },
+const TabsRoot = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
+  {
+    value,
+    defaultValue,
+    onValueChange,
+    orientation = "horizontal",
+    accent,
+    className,
+    style,
+    children,
+    ...props
+  },
   ref
 ) {
-  if (tabs.length > 0) {
-    const seen = new Set<string>();
-    for (const t of tabs) {
-      if (seen.has(t.key)) {
-        warnOnce(
-          `Tabs:duplicate:${t.key}`,
-          `Tabs: duplicate tab key "${t.key}" — each tab must have a unique \`key\`.`
-        );
-      }
-      seen.add(t.key);
-    }
-    if (!seen.has(active)) {
-      warnOnce(
-        `Tabs:unknown-active:${active}`,
-        `Tabs: \`active\` is "${active}" but no tab has that key. Arrow-key navigation will be inactive until \`active\` matches a tab.`
-      );
-    }
-  }
+  const [current, setCurrent] = useControllableState<string>({
+    value,
+    defaultValue: defaultValue ?? "",
+    onChange: onValueChange,
+    componentName: "Tabs",
+  });
+  const baseId = useId();
+  const refs = useRef<Map<string, HTMLButtonElement>>(new Map());
+  const register = useCallback(
+    (v: string, el: HTMLButtonElement | null) => {
+      if (el) refs.current.set(v, el);
+      else refs.current.delete(v);
+    },
+    []
+  );
+  const focusValue = useCallback((v: string) => {
+    refs.current.get(v)?.focus();
+  }, []);
+  const ctx = useMemo<TabsContextValue>(
+    () => ({
+      value: current,
+      setValue: setCurrent,
+      baseId,
+      orientation,
+      accent,
+      register,
+      focusValue,
+    }),
+    [current, setCurrent, baseId, orientation, accent, register, focusValue]
+  );
+  const composedStyle: CSSProperties = {
+    ...(accent ? ({ "--vf-accent": accent } as CSSProperties) : {}),
+    ...style,
+  };
+  return (
+    <TabsContext.Provider value={ctx}>
+      <div
+        ref={ref}
+        className={cx(
+          "vf-tabs",
+          `vf-tabs--${orientation}`,
+          className
+        )}
+        style={composedStyle}
+        data-orientation={orientation}
+        {...props}
+      >
+        {children}
+      </div>
+    </TabsContext.Provider>
+  );
+});
+TabsRoot.displayName = "Tabs";
+
+export interface TabsListProps extends HTMLAttributes<HTMLDivElement> {
+  /** Accessible label for the tablist. Strongly recommended. */
+  "aria-label"?: string;
+}
+
+const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsList(
+  { className, onKeyDown, children, ...props },
+  ref
+) {
+  const ctx = useTabs("Tabs.List");
   const handleKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const idx = tabs.findIndex((t) => t.key === active);
-    if (idx === -1) return;
-    let nextIdx = idx;
-    if (e.key === "ArrowRight") nextIdx = (idx + 1) % tabs.length;
-    else if (e.key === "ArrowLeft") nextIdx = (idx - 1 + tabs.length) % tabs.length;
-    else if (e.key === "Home") nextIdx = 0;
-    else if (e.key === "End") nextIdx = tabs.length - 1;
-    else return;
+    onKeyDown?.(e);
+    if (e.defaultPrevented) return;
+    const isHorizontal = ctx.orientation === "horizontal";
+    const nextKey = isHorizontal ? "ArrowRight" : "ArrowDown";
+    const prevKey = isHorizontal ? "ArrowLeft" : "ArrowUp";
+    if (
+      e.key !== nextKey &&
+      e.key !== prevKey &&
+      e.key !== "Home" &&
+      e.key !== "End"
+    )
+      return;
+    const list = e.currentTarget;
+    const triggers = Array.from(
+      list.querySelectorAll<HTMLButtonElement>(
+        '[role="tab"]:not([data-disabled="true"])'
+      )
+    );
+    if (triggers.length === 0) return;
+    const active = document.activeElement as HTMLButtonElement | null;
+    const idx = active ? triggers.indexOf(active) : -1;
+    let target: HTMLButtonElement | undefined;
+    if (e.key === "Home") target = triggers[0];
+    else if (e.key === "End") target = triggers[triggers.length - 1];
+    else if (e.key === nextKey)
+      target = triggers[(idx + 1) % triggers.length] ?? triggers[0];
+    else
+      target = triggers[(idx - 1 + triggers.length) % triggers.length] ?? triggers[0];
+    if (!target) return;
     e.preventDefault();
-    const nextKey = tabs[nextIdx]?.key;
-    if (nextKey) onChange(nextKey);
+    const nextValue = target.getAttribute("data-value");
+    if (nextValue) ctx.setValue(nextValue);
+    target.focus();
   };
   return (
     <div
       ref={ref}
-      className={cx("vf-tabs", className)}
-      style={style}
       role="tablist"
+      aria-orientation={ctx.orientation}
+      className={cx("vf-tabs__list", className)}
       onKeyDown={handleKey}
       {...props}
     >
-      {tabs.map((tab) => {
-        const selected = active === tab.key;
-        return (
-          <Button
-            key={tab.key}
-            role="tab"
-            aria-selected={selected}
-            tabIndex={selected ? 0 : -1}
-            active={selected}
-            onClick={() => onChange(tab.key)}
-            accent={accent}
-            variant={accent ? "subtle" : "outline"}
-          >
-            {tab.label}
-          </Button>
-        );
-      })}
+      {children}
     </div>
   );
 });
-Tabs.displayName = "Tabs";
+TabsList.displayName = "Tabs.List";
+
+export interface TabsTriggerProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "value" | "onClick"> {
+  value: string;
+  disabled?: boolean;
+  children?: ReactNode;
+}
+
+const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
+  function TabsTrigger(
+    { value, disabled, className, children, ...props },
+    ref
+  ) {
+    const ctx = useTabs("Tabs.Trigger");
+    const selected = ctx.value === value;
+    const tabId = `${ctx.baseId}-tab-${value}`;
+    const panelId = `${ctx.baseId}-panel-${value}`;
+    const handleRef = (el: HTMLButtonElement | null) => {
+      ctx.register(value, el);
+      if (typeof ref === "function") ref(el);
+      else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = el;
+    };
+    return (
+      <button
+        ref={handleRef}
+        type="button"
+        role="tab"
+        id={tabId}
+        aria-controls={panelId}
+        aria-selected={selected}
+        aria-disabled={disabled || undefined}
+        data-value={value}
+        data-state={selected ? "active" : "inactive"}
+        data-disabled={disabled ? "true" : undefined}
+        tabIndex={selected ? 0 : -1}
+        disabled={disabled}
+        onClick={() => {
+          if (!disabled) ctx.setValue(value);
+        }}
+        className={cx(
+          "vf-tabs__trigger",
+          selected && "vf-tabs__trigger--active",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+TabsTrigger.displayName = "Tabs.Trigger";
+
+export interface TabsPanelProps extends HTMLAttributes<HTMLDivElement> {
+  value: string;
+  /** Keep panel mounted when inactive (preserves state). Default false. */
+  keepMounted?: boolean;
+}
+
+const TabsPanel = forwardRef<HTMLDivElement, TabsPanelProps>(function TabsPanel(
+  { value, keepMounted, className, children, ...props },
+  ref
+) {
+  const ctx = useTabs("Tabs.Panel");
+  const selected = ctx.value === value;
+  if (!selected && !keepMounted) return null;
+  const tabId = `${ctx.baseId}-tab-${value}`;
+  const panelId = `${ctx.baseId}-panel-${value}`;
+  return (
+    <div
+      ref={ref}
+      role="tabpanel"
+      id={panelId}
+      aria-labelledby={tabId}
+      hidden={!selected || undefined}
+      tabIndex={0}
+      data-state={selected ? "active" : "inactive"}
+      className={cx("vf-tabs__panel", className)}
+      {...props}
+    >
+      {selected ? children : null}
+    </div>
+  );
+});
+TabsPanel.displayName = "Tabs.Panel";
+
+export const Tabs = Object.assign(TabsRoot, {
+  List: TabsList,
+  Trigger: TabsTrigger,
+  Panel: TabsPanel,
+});
 
 // ── Collapsible ───────────────────────────────────────────────
 

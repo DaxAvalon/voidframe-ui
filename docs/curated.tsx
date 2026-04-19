@@ -67,7 +67,8 @@ export const curated: Record<string, CuratedOverride> = {
     summary: (
       <p>
         Keyboard-navigable tablist. Arrow keys cycle between tabs, Home/End
-        jump to the first/last. The <code>active</code> value is controlled.
+        jump to the first/last. Compound API: compose <code>Tabs.List</code>
+        with <code>Tabs.Trigger</code>s and <code>Tabs.Panel</code>s.
       </p>
     ),
     examples: [
@@ -76,15 +77,16 @@ export const curated: Record<string, CuratedOverride> = {
         code: `function Example() {
   const [active, setActive] = useState("overview");
   return (
-    <Tabs
-      tabs={[
-        { key: "overview", label: "Overview" },
-        { key: "activity", label: "Activity" },
-        { key: "settings", label: "Settings" },
-      ]}
-      active={active}
-      onChange={setActive}
-    />
+    <Tabs value={active} onValueChange={setActive}>
+      <Tabs.List aria-label="Account sections">
+        <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
+        <Tabs.Trigger value="activity">Activity</Tabs.Trigger>
+        <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Panel value="overview">Overview content</Tabs.Panel>
+      <Tabs.Panel value="activity">Activity feed</Tabs.Panel>
+      <Tabs.Panel value="settings">Settings form</Tabs.Panel>
+    </Tabs>
   );
 }
 render(<Example />);`,

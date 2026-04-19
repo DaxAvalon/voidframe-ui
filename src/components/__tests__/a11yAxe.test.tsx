@@ -32,14 +32,14 @@ import { Progress, Stat, Table } from "../Data";
 describe("axe: interactive / feedback", () => {
   it("Tabs with role=tablist + role=tab", async () => {
     const { container } = renderWithTheme(
-      <Tabs
-        tabs={[
-          { key: "a", label: "Alpha" },
-          { key: "b", label: "Beta" },
-        ]}
-        active="a"
-        onChange={() => {}}
-      />
+      <Tabs value="a" onValueChange={() => {}}>
+        <Tabs.List aria-label="sections">
+          <Tabs.Trigger value="a">Alpha</Tabs.Trigger>
+          <Tabs.Trigger value="b">Beta</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Panel value="a" keepMounted>alpha content</Tabs.Panel>
+        <Tabs.Panel value="b" keepMounted>beta content</Tabs.Panel>
+      </Tabs>
     );
     await expectNoA11yViolations(container);
   });

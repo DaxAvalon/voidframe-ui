@@ -846,22 +846,16 @@ function TreeTableDemo() {
 function TabsDemo() {
   const [active, setActive] = useState("overview");
   return (
-    <div>
-      <Tabs
-        active={active}
-        onChange={setActive}
-        tabs={[
-          { key: "overview", label: "Overview" },
-          { key: "details", label: "Details" },
-          { key: "logs", label: "Logs" },
-        ]}
-      />
-      <div style={{ padding: 12 }}>
-        {active === "overview" && <Text>Overview content</Text>}
-        {active === "details" && <Text>Details content</Text>}
-        {active === "logs" && <Text>Logs content</Text>}
-      </div>
-    </div>
+    <Tabs value={active} onValueChange={setActive}>
+      <Tabs.List aria-label="Example sections">
+        <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
+        <Tabs.Trigger value="details">Details</Tabs.Trigger>
+        <Tabs.Trigger value="logs">Logs</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Panel value="overview"><Text>Overview content</Text></Tabs.Panel>
+      <Tabs.Panel value="details"><Text>Details content</Text></Tabs.Panel>
+      <Tabs.Panel value="logs"><Text>Logs content</Text></Tabs.Panel>
+    </Tabs>
   );
 }
 

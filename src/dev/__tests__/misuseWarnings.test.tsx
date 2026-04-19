@@ -54,27 +54,15 @@ describe("runtime misuse warnings", () => {
     });
   });
 
-  it("Tabs warns when `active` matches no tab", () => {
-    withWarnSpy((spy) => {
-      renderWithTheme(
-        <Tabs
-          tabs={[
-            { key: "a", label: "A" },
-            { key: "b", label: "B" },
-          ]}
-          active="c"
-          onChange={() => {}}
-        />
-      );
-      expect(
-        (spy as unknown as { mock: { calls: unknown[][] } }).mock.calls.some(
-          (c) => typeof c[0] === "string" && (c[0] as string).includes("Tabs")
-        )
-      ).toBe(true);
-    });
+  it("Tabs.Trigger throws when used outside Tabs", () => {
+    const err = vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(() =>
+      renderWithTheme(<Tabs.Trigger value="a">Orphan</Tabs.Trigger>)
+    ).toThrow(/<Tabs\.Trigger> must be used inside <Tabs>/);
+    err.mockRestore();
   });
 
-  it("Select warns on duplicate option values", () => {
+it("Select warns on duplicate option values", () => {
     withWarnSpy((spy) => {
       renderWithTheme(
         <Select

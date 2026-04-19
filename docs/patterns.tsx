@@ -59,47 +59,45 @@ const SETTINGS_PAGE_CODE = `function SettingsPage() {
   return (
     <VStack gap={16} style={{ maxWidth: 480 }}>
       <Text size="xl" style={{ fontWeight: 700 }}>Settings</Text>
-      <Tabs
-        tabs={[
-          { key: "profile", label: "Profile" },
-          { key: "notifications", label: "Notifications" },
-          { key: "security", label: "Security" },
-        ]}
-        active={tab}
-        onChange={setTab}
-      />
-      {tab === "profile" && (
-        <VStack gap={12}>
-          <Input label="Display Name" value={name} onChange={(e) => setName(e.target.value)} />
-          <Input label="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <Select
-            label="Timezone"
-            options={[
-              { value: "utc", label: "UTC" },
-              { value: "est", label: "US Eastern" },
-              { value: "pst", label: "US Pacific" },
-              { value: "cet", label: "Central European" },
-            ]}
-            value="utc"
-            onValueChange={() => {}}
-          />
-          <Button>Save Changes</Button>
-        </VStack>
-      )}
-      {tab === "notifications" && (
-        <VStack gap={16}>
-          <Toggle checked={emailNotifs} onValueChange={setEmailNotifs} label="Email notifications" />
-          <Toggle checked={pushNotifs} onValueChange={setPushNotifs} label="Push notifications" />
-          <Toggle checked={weeklyDigest} onValueChange={setWeeklyDigest} label="Weekly digest" />
-        </VStack>
-      )}
-      {tab === "security" && (
-        <VStack gap={12}>
-          <Input label="Current Password" type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} />
-          <Input label="New Password" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} />
-          <Button>Update Password</Button>
-        </VStack>
-      )}
+      <Tabs value={tab} onValueChange={setTab}>
+        <Tabs.List aria-label="Settings sections">
+          <Tabs.Trigger value="profile">Profile</Tabs.Trigger>
+          <Tabs.Trigger value="notifications">Notifications</Tabs.Trigger>
+          <Tabs.Trigger value="security">Security</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Panel value="profile">
+          <VStack gap={12}>
+            <Input label="Display Name" value={name} onChange={(e) => setName(e.target.value)} />
+            <Input label="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Select
+              label="Timezone"
+              options={[
+                { value: "utc", label: "UTC" },
+                { value: "est", label: "US Eastern" },
+                { value: "pst", label: "US Pacific" },
+                { value: "cet", label: "Central European" },
+              ]}
+              value="utc"
+              onValueChange={() => {}}
+            />
+            <Button>Save Changes</Button>
+          </VStack>
+        </Tabs.Panel>
+        <Tabs.Panel value="notifications">
+          <VStack gap={16}>
+            <Toggle checked={emailNotifs} onValueChange={setEmailNotifs} label="Email notifications" />
+            <Toggle checked={pushNotifs} onValueChange={setPushNotifs} label="Push notifications" />
+            <Toggle checked={weeklyDigest} onValueChange={setWeeklyDigest} label="Weekly digest" />
+          </VStack>
+        </Tabs.Panel>
+        <Tabs.Panel value="security">
+          <VStack gap={12}>
+            <Input label="Current Password" type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} />
+            <Input label="New Password" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} />
+            <Button>Update Password</Button>
+          </VStack>
+        </Tabs.Panel>
+      </Tabs>
     </VStack>
   );
 }

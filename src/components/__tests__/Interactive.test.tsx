@@ -5,19 +5,35 @@ import { Collapsible, Kbd, Modal, Tabs, Toast } from "../Interactive";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 
 describe("Tabs", () => {
-  const tabs = [
-    { key: "a", label: "Alpha" },
-    { key: "b", label: "Beta" },
-  ];
+  function BasicTabs({
+    value,
+    defaultValue,
+    onValueChange,
+  }: {
+    value?: string;
+    defaultValue?: string;
+    onValueChange?: (v: string) => void;
+  }) {
+    return (
+      <Tabs value={value} defaultValue={defaultValue} onValueChange={onValueChange}>
+        <Tabs.List aria-label="Sections">
+          <Tabs.Trigger value="a">Alpha</Tabs.Trigger>
+          <Tabs.Trigger value="b">Beta</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Panel value="a">alpha panel</Tabs.Panel>
+        <Tabs.Panel value="b">beta panel</Tabs.Panel>
+      </Tabs>
+    );
+  }
 
   it("renders all tab labels with role=tab", () => {
-    renderWithTheme(<Tabs tabs={tabs} active="a" onChange={() => {}} />);
+    renderWithTheme(<BasicTabs defaultValue="a" />);
     expect(screen.getByRole("tab", { name: "Alpha" })).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: "Beta" })).toBeInTheDocument();
   });
 
   it("sets aria-selected on the active tab", () => {
-    renderWithTheme(<Tabs tabs={tabs} active="b" onChange={() => {}} />);
+    renderWithTheme(<BasicTabs defaultValue="b" />);
     expect(screen.getByRole("tab", { name: "Alpha" })).toHaveAttribute(
       "aria-selected",
       "false"
@@ -29,23 +45,37 @@ describe("Tabs", () => {
   });
 
   it("wraps in role=tablist", () => {
-    renderWithTheme(<Tabs tabs={tabs} active="a" onChange={() => {}} />);
+    renderWithTheme(<BasicTabs defaultValue="a" />);
     expect(screen.getByRole("tablist")).toBeInTheDocument();
   });
 
-  it("emits onChange with selected key", async () => {
-    const onChange = vi.fn();
-    renderWithTheme(<Tabs tabs={tabs} active="a" onChange={onChange} />);
+  it("emits onValueChange with selected value", async () => {
+    const onValueChange = vi.fn();
+    renderWithTheme(<BasicTabs value="a" onValueChange={onValueChange} />);
     await userEvent.click(screen.getByRole("tab", { name: "Beta" }));
-    expect(onChange).toHaveBeenCalledWith("b");
+    expect(onValueChange).toHaveBeenCalledWith("b");
   });
 
   it("arrow-right navigates to next tab", async () => {
-    const onChange = vi.fn();
-    renderWithTheme(<Tabs tabs={tabs} active="a" onChange={onChange} />);
-    screen.getByRole("tablist").focus();
+    const onValueChange = vi.fn();
+    renderWithTheme(<BasicTabs value="a" onValueChange={onValueChange} />);
+    screen.getByRole("tab", { name: "Alpha" }).focus();
     await userEvent.keyboard("{ArrowRight}");
-    expect(onChange).toHaveBeenCalledWith("b");
+    expect(onValueChange).toHaveBeenCalledWith("b");
+  });
+
+  it("renders only the active panel by default", () => {
+    renderWithTheme(<BasicTabs defaultValue="a" />);
+    expect(screen.getByText("alpha panel")).toBeInTheDocument();
+    expect(screen.queryByText("beta panel")).not.toBeInTheDocument();
+  });
+
+  it("wires aria-controls and aria-labelledby between trigger and panel", () => {
+    renderWithTheme(<BasicTabs defaultValue="a" />);
+    const trigger = screen.getByRole("tab", { name: "Alpha" });
+    const panel = screen.getByRole("tabpanel");
+    expect(trigger.getAttribute("aria-controls")).toBe(panel.id);
+    expect(panel.getAttribute("aria-labelledby")).toBe(trigger.id);
   });
 });
 
