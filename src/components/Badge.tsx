@@ -5,7 +5,7 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";
 import { cx } from "../utils/cx";
 
-export type BadgeVariant = "solid" | "outline" | "subtle";
+export type BadgeVariant = "solid" | "outline" | "ghost" | "subtle";
 export type BadgeTone = "neutral" | "success" | "danger" | "warning" | "info";
 export type BadgeSize = "sm" | "md" | "lg";
 
@@ -106,8 +106,8 @@ BadgeImpl.displayName = "Badge";
 /**
  * Small categorical label for status chips, counts, and highlights. Tone
  * (`neutral`/`success`/`danger`/`warning`/`info`), variant (`solid`/`outline`/
- * `subtle`), and size knobs. Supports a leading dot glyph, optional icon,
- * dismissible close button, and a `count` + `overflowCount` counter mode.
+ * `ghost`/`subtle`), and size knobs. Supports a leading dot glyph, optional
+ * icon, dismissible close button, and a `count` + `overflowCount` counter mode.
  */
 export const Badge = memo(BadgeImpl);
 (Badge as unknown as { displayName: string }).displayName = "Badge";

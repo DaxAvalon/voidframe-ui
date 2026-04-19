@@ -30,7 +30,7 @@ export interface SplitButtonProps
   onClick: () => void;
   actions: SplitButtonAction[];
   onAction: (key: string) => void;
-  variant?: "default" | "accent" | "solid";
+  variant?: "solid" | "outline" | "ghost" | "subtle";
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
   loading?: boolean;
@@ -44,7 +44,7 @@ const SplitButtonImpl = forwardRef<HTMLDivElement, SplitButtonProps>(
       onClick,
       actions,
       onAction,
-      variant = "default",
+      variant = "outline",
       size = "md",
       disabled,
       loading,

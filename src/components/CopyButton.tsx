@@ -14,7 +14,7 @@ export interface CopyButtonProps
   copiedLabel?: string;
   /** Duration in ms the "copied" state is shown. Defaults to 2000. */
   copiedDuration?: number;
-  variant?: "default" | "ghost" | "accent";
+  variant?: "solid" | "outline" | "ghost" | "subtle";
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
   /** Fires after a successful clipboard write with the copied text. */
@@ -30,7 +30,7 @@ const CopyButtonImpl = forwardRef<HTMLButtonElement, CopyButtonProps>(
       label = "Copy",
       copiedLabel = "Copied",
       copiedDuration = 2000,
-      variant = "default",
+      variant = "outline",
       size = "md",
       disabled,
       onCopy,

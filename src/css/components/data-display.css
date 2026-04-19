@@ -406,6 +406,7 @@
 .vf-badge { display: inline-flex; align-items: center; gap: var(--vf-sp-2); }
 .vf-badge--solid { background: var(--vf-accent, var(--vf-bg-4)); color: var(--vf-text-0); }
 .vf-badge--outline { background: transparent; border: 1px solid var(--vf-border-2); color: var(--vf-text-1); }
+.vf-badge--ghost { background: transparent; border: 1px solid transparent; color: var(--vf-text-2); }
 .vf-badge--subtle { background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 15%, transparent); color: var(--vf-text-0); }
 .vf-badge--neutral.vf-badge--solid { background: var(--vf-bg-4); color: var(--vf-text-0); }
 .vf-badge--success.vf-badge--solid { background: var(--vf-green); color: var(--vf-bg-0); }

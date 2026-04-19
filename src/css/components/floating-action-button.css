@@ -91,12 +91,12 @@
 
 /* ── Variant modifiers ──────────────────────────────────────── */
 
-.vf-fab--accent .vf-fab__button {
+.vf-fab--solid .vf-fab__button {
   background: var(--vf-accent, var(--vf-blue));
   color: var(--vf-bg-1);
   border-color: transparent;
 }
-.vf-fab--accent .vf-fab__button:hover {
+.vf-fab--solid .vf-fab__button:hover {
   background: color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 85%, black);
 }
 

@@ -26,7 +26,7 @@ export interface FloatingActionButtonProps
   actions?: FABAction[];
   position?: "bottom-right" | "bottom-left" | "bottom-center";
   size?: "sm" | "md" | "lg";
-  variant?: "default" | "accent";
+  variant?: "solid" | "outline";
   offset?: { bottom?: number; right?: number; left?: number };
   style?: CSSProperties;
 }
@@ -42,7 +42,7 @@ const FloatingActionButtonImpl = forwardRef<
     actions,
     position = "bottom-right",
     size = "md",
-    variant = "default",
+    variant = "outline",
     offset,
     className,
     style,
