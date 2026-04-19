@@ -229,10 +229,8 @@ Spotlight.displayName = "Spotlight";
 export interface CoachMarkProps extends HTMLAttributes<HTMLDivElement> {
   target: RefObject<HTMLElement> | HTMLElement | null;
   placement?: "top" | "bottom" | "left" | "right";
-  /** When `key` is set, dismissal is persisted in localStorage by this key. */
+  /** When set, dismissal is persisted in localStorage under this key and the mark stays hidden across reloads. Omit for mount-scoped dismissal. */
   storageKey?: string;
-  /** When true (with no storageKey), shows once per mount. */
-  once?: boolean;
   children?: ReactNode;
   /** Render even if previously dismissed. Useful for testing. */
   forceShow?: boolean;
@@ -262,7 +260,6 @@ export const CoachMark = forwardRef<HTMLDivElement, CoachMarkProps>(function Coa
     target,
     placement = "bottom",
     storageKey,
-    once,
     forceShow,
     onDismiss,
     children,
@@ -314,8 +311,6 @@ export const CoachMark = forwardRef<HTMLDivElement, CoachMarkProps>(function Coa
       : placement === "right"
         ? rect.right + offset
         : rect.left + rect.width / 2 - 120;
-
-  void once; // documentation prop; behavior matches readDismissed by default.
 
   return (
     <Portal>

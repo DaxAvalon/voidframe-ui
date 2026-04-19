@@ -218,6 +218,26 @@ describe("CoachMark", () => {
     renderWithTheme(<Probe />);
     expect(screen.getByText("anchor")).toBeInTheDocument();
   });
+
+  it("without a storageKey, stays dismissed for the remainder of the mount after the Dismiss button is clicked", async () => {
+    const onDismiss = vi.fn();
+    function Probe() {
+      const ref = useRef<HTMLButtonElement>(null);
+      return (
+        <>
+          <button ref={ref}>anchor</button>
+          <CoachMark target={ref} forceShow onDismiss={onDismiss}>
+            <span data-testid="coachmark-body">tip body</span>
+          </CoachMark>
+        </>
+      );
+    }
+    renderWithTheme(<Probe />);
+    expect(screen.getByTestId("coachmark-body")).toBeInTheDocument();
+    fireEvent.click(screen.getByLabelText("Dismiss"));
+    expect(onDismiss).toHaveBeenCalledTimes(1);
+    expect(screen.queryByTestId("coachmark-body")).not.toBeInTheDocument();
+  });
 });
 
 // Touch fireEvent so the import isn't tree-shaken when tests are extended.
