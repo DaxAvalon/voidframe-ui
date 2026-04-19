@@ -27,9 +27,9 @@ Work proceeds in segments so context stays manageable. Each segment ends with a 
 | A (9) | Dead-prop removal + wiring | ✅ DONE (2026-04-18) |
 | B (6) | Callback wiring | ✅ DONE (2026-04-18) |
 | C (4) | Architectural defects | ✅ DONE (2026-04-19) |
-| D (6 + 39 TSDoc) | Documentation P0s + tier-A TSDoc backfill | pending |
-| E' (2) | CLI test.mjs wire + VS Code docsUrl configurable | pending |
-| Gate | Full test + typecheck + build + pack dry-run | pending |
+| D (6 + 29 TSDoc) | Documentation P0s + tier-A TSDoc backfill | ✅ DONE (2026-04-19) |
+| E' (2) | CLI test.mjs wire + VS Code docsUrl configurable | ✅ DONE (2026-04-19) |
+| Gate | Full test + typecheck + build + pack dry-run | ✅ PASS (2026-04-19) |
 
 ### Segment 2 — Audit 29 P1 (param standardization — breaking)
 
@@ -160,5 +160,27 @@ Commits: `2a9de17`, `d6771f3`, `250eb6a`, `ed755b2`.
 **Verification:** 326/326 test files, 4994/4994 tests passing (+7 over Wave B), typecheck clean.
 
 Audit rows closed: P0-execution-queue Wave C (C1-C4). 25 P0 fixes landed across Waves A-C; 6 P0 docs items + 2 Wave E' executions remain in segment 1.
+
+### 2026-04-19 — Wave D + Wave E' (segment 1 close-out)
+
+Commits: `eb3fb03`, `b2bfbc7`, `238bcdb`, `dabe679`.
+
+- ✅ D1 README component count: "230+ components + ~60 icons" → "500+ component exports + ~75 icons". Matches `docs/data/props.json` length (499).
+- ✅ D2 README theme count: "Three themes" → "Four themes"; added greyTheme.
+- ✅ D3 README bundle budgets table: replaced aspirational budgets with the actual CI-enforced size-limit entries from package.json (core 170KB / charts 40KB / dev 10KB / stylesheet 50KB / total 400KB).
+- ✅ D4 README test-count drift: "1260+" and "1230+" (two different numbers) → "4,994 tests as of 2026-04-19".
+- ✅ D5 README marketing-fluff: per audit 32 §1.9, left unchanged (concluded not a fluff case on review).
+- ✅ D6 docs/App.tsx a11y-audit blurb: replaced "All components are tested with jest-axe" with accurate prose noting the audit table is a 33-entry sample, full-library audit is an in-progress goal.
+- ✅ D7 TSDoc backfill for 29 tier-A components (Badge, Card, Tabs, Modal, Dialog, Drawer, DrawerV2, Sheet, Checkbox, RadioGroup, FormField, DataList, Sidebar, Navbar, Toolbar, PageHeader, Breadcrumb, Pagination, CursorPagination, Stepper, Wizard, CommandInput, ScrollArea, Popover, PopoverV2, HoverCard, Tooltip, TooltipProvider, Toggle). Each block names the control pattern, compound shape, or accessibility notes. Deprecated V1 variants carry @deprecated tags pointing at V2. Three files required moving the TSDoc from an internal `XImpl`/`XBase`/`XRoot` declaration to the exported-binding line so react-docgen-typescript extracts it. Accuracy corrections flagged vs. the hint list (RadioGroup, Toolbar, FormField, Navbar, ScrollArea).
+- ✅ E1 CLI test subcommand wired: `tools/cli/commands/test.mjs` was dead (defined `generateTest`, never imported into voidframe.mjs). Added a `testCommand` adapter and registered `voidframe test <name> [--type component|hook|util] [--force]` as the 5th subcommand. CLI tests updated to reflect 5 subcommands. README + CHANGELOG updated.
+- ✅ E2 VS Code docs URL configurable: added `voidframe.docsUrl` setting in tools/vscode-voidframe/package.json (default `http://localhost:5175` — the local dev docs server); Open Playground reads it via `vscode.workspace.getConfiguration("voidframe")`. Also retargeted the three ESLint-plugin rule docs URLs from the nonexistent `voidframe.dev` to the Forgejo source file for each rule — always-resolves pattern.
+
+**Gate verification (Segment 1 close):**
+- `docker compose run --rm test` — 326/326 test files, 4995/4995 tests passing.
+- `docker compose run --rm typecheck` — clean.
+- `docker compose run --rm build` — clean. Core ESM 160 KB gzipped (under 170 KB budget).
+- `docker compose run --rm --entrypoint sh shell -c "npm pack --dry-run"` — 599 KB packed, 35 files, clean tarball.
+
+All 31 P0 fixes from the P0-execution-queue are now landed. Moving to Segment 2: audit 29 P1 parameter standardization (breaking changes accepted per 2026-04-18 policy).
 
 ---
