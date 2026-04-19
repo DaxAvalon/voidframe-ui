@@ -169,6 +169,85 @@ describe("QueryBuilder", () => {
     const next = onChange.mock.calls[0]![0];
     expect(next.rules).toHaveLength(1);
   });
+
+  it("nested group's + Rule button emits a patched tree via onChange", async () => {
+    const onChange = vi.fn();
+    const tree = {
+      id: "root",
+      combinator: "AND" as const,
+      rules: [
+        { id: "child", combinator: "OR" as const, rules: [] },
+      ],
+    };
+    renderWithTheme(
+      <QueryBuilder
+        fields={[{ id: "name", label: "Name" }]}
+        value={tree}
+        onChange={onChange}
+      />
+    );
+    // There are two "+ Rule" buttons now (root + nested). Click the second (nested).
+    const buttons = screen.getAllByRole("button", { name: "+ Rule" });
+    expect(buttons).toHaveLength(2);
+    await userEvent.click(buttons[1]!);
+    expect(onChange).toHaveBeenCalled();
+    const next = onChange.mock.calls[0]![0];
+    expect(next.rules).toHaveLength(1);
+    // Root still has one child group
+    expect(next.rules[0].id).toBe("child");
+    // Nested group got the new rule
+    expect(next.rules[0].rules).toHaveLength(1);
+  });
+
+  it("nested group's + Group button nests another group into the child", async () => {
+    const onChange = vi.fn();
+    const tree = {
+      id: "root",
+      combinator: "AND" as const,
+      rules: [
+        { id: "child", combinator: "OR" as const, rules: [] },
+      ],
+    };
+    renderWithTheme(
+      <QueryBuilder
+        fields={[{ id: "name", label: "Name" }]}
+        value={tree}
+        onChange={onChange}
+      />
+    );
+    const buttons = screen.getAllByRole("button", { name: "+ Group" });
+    expect(buttons).toHaveLength(2);
+    await userEvent.click(buttons[1]!);
+    const next = onChange.mock.calls[0]![0];
+    expect(next.rules[0].rules).toHaveLength(1);
+    // And the nested new rule is itself a group (has a combinator + rules)
+    expect(next.rules[0].rules[0].combinator).toBeDefined();
+  });
+
+  it("nested group's combinator change patches only that group", async () => {
+    const onChange = vi.fn();
+    const tree = {
+      id: "root",
+      combinator: "AND" as const,
+      rules: [
+        { id: "child", combinator: "AND" as const, rules: [] },
+      ],
+    };
+    renderWithTheme(
+      <QueryBuilder
+        fields={[{ id: "name", label: "Name" }]}
+        value={tree}
+        onChange={onChange}
+      />
+    );
+    const combinators = screen.getAllByLabelText("Combinator");
+    expect(combinators).toHaveLength(2);
+    await userEvent.selectOptions(combinators[1] as HTMLSelectElement, "OR");
+    const next = onChange.mock.calls.at(-1)![0];
+    // Root unchanged, nested flipped
+    expect(next.combinator).toBe("AND");
+    expect(next.rules[0].combinator).toBe("OR");
+  });
 });
 
 describe("ShortcutEditor", () => {

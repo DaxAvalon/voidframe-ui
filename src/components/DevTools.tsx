@@ -790,11 +790,11 @@ export const QueryBuilder = forwardRef<HTMLDivElement, QueryBuilderProps>(
           group={value}
           fields={fields}
           operators={operators}
-          onCombinatorChange={(next) => updateCombinator(value.id, next)}
+          onCombinatorChange={updateCombinator}
           onRuleChange={updateRule}
           onRuleRemove={removeRule}
-          onAddRule={() => addRule(value.id)}
-          onAddGroup={() => addGroup(value.id)}
+          onAddRule={addRule}
+          onAddGroup={addGroup}
           root
         />
       </div>
@@ -807,11 +807,11 @@ function Group(props: {
   group: QueryGroup;
   fields: QueryFieldDef[];
   operators: QueryOperator[];
-  onCombinatorChange: (next: "AND" | "OR") => void;
+  onCombinatorChange: (groupId: string, next: "AND" | "OR") => void;
   onRuleChange: (id: string, patch: Partial<QueryRule>) => void;
   onRuleRemove: (id: string) => void;
-  onAddRule: () => void;
-  onAddGroup: () => void;
+  onAddRule: (groupId: string) => void;
+  onAddGroup: (groupId: string) => void;
   root?: boolean;
 }) {
   const {
@@ -837,7 +837,7 @@ function Group(props: {
           className="vf-query-builder__combinator"
           value={group.combinator}
           onChange={(e) =>
-            onCombinatorChange(e.target.value as "AND" | "OR")
+            onCombinatorChange(group.id, e.target.value as "AND" | "OR")
           }
           aria-label="Combinator"
         >
@@ -847,14 +847,14 @@ function Group(props: {
         <button
           type="button"
           className="vf-query-builder__action"
-          onClick={onAddRule}
+          onClick={() => onAddRule(group.id)}
         >
           + Rule
         </button>
         <button
           type="button"
           className="vf-query-builder__action"
-          onClick={onAddGroup}
+          onClick={() => onAddGroup(group.id)}
         >
           + Group
         </button>
@@ -867,22 +867,11 @@ function Group(props: {
                 group={rule}
                 fields={fields}
                 operators={operators}
-                onCombinatorChange={(next) => {
-                  // Find + update nested group via onRuleChange? Not trivial.
-                  // Simplify by requiring the nested Group to emit upwards.
-                  onRuleChange(rule.id, {
-                    // @ts-expect-error — combinator change handled elsewhere
-                    combinator: next,
-                  });
-                }}
+                onCombinatorChange={onCombinatorChange}
                 onRuleChange={onRuleChange}
                 onRuleRemove={onRuleRemove}
-                onAddRule={() => {
-                  /* handled at parent via replaceIn — keep simple for demo */
-                }}
-                onAddGroup={() => {
-                  /* likewise */
-                }}
+                onAddRule={onAddRule}
+                onAddGroup={onAddGroup}
               />
             ) : (
               <Rule
