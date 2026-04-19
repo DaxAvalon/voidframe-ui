@@ -5,31 +5,33 @@
   "type": "module",
   "main": "dist/voidframe.cjs.js",
   "module": "dist/voidframe.es.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/types/voidframe.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/types/voidframe.d.ts",
       "import": "./dist/voidframe.es.js",
       "require": "./dist/voidframe.cjs.js"
     },
     "./charts": {
-      "types": "./dist/types/charts/index.d.ts",
+      "types": "./dist/types/charts.d.ts",
       "import": "./dist/charts.es.js",
       "require": "./dist/charts.cjs.js"
     },
     "./dev": {
-      "types": "./dist/types/dev/index.d.ts",
+      "types": "./dist/types/dev.d.ts",
       "import": "./dist/dev.es.js",
       "require": "./dist/dev.cjs.js"
     },
     "./styles.css": "./dist/voidframe.css",
     "./tokens": {
       "types": "./dist/types/tokens.d.ts",
-      "import": "./dist/tokens.js"
+      "import": "./dist/tokens.es.js",
+      "require": "./dist/tokens.cjs.js"
     },
     "./testing": {
-      "types": "./dist/types/testing/index.d.ts",
-      "import": "./dist/testing.js"
+      "types": "./dist/types/testing.d.ts",
+      "import": "./dist/testing.es.js",
+      "require": "./dist/testing.cjs.js"
     },
     "./theme-script.js": "./theme-script.js",
     "./package.json": "./package.json"
@@ -121,7 +123,11 @@
     "d3-time": ">=3.0.0",
     "topojson-client": ">=3.0.0",
     "dompurify": ">=3.0.0",
-    "react-live": ">=4.0.0"
+    "react-live": ">=4.0.0",
+    "@testing-library/react": ">=15.0.0",
+    "@testing-library/jest-dom": ">=6.0.0",
+    "@testing-library/user-event": ">=14.0.0",
+    "jest-axe": ">=9.0.0"
   },
   "peerDependenciesMeta": {
     "d3-array": { "optional": true },
@@ -134,7 +140,11 @@
     "d3-time": { "optional": true },
     "topojson-client": { "optional": true },
     "dompurify": { "optional": true },
-    "react-live": { "optional": true }
+    "react-live": { "optional": true },
+    "@testing-library/react": { "optional": true },
+    "@testing-library/jest-dom": { "optional": true },
+    "@testing-library/user-event": { "optional": true },
+    "jest-axe": { "optional": true }
   },
   "dependencies": {},
   "devDependencies": {
@@ -203,6 +213,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/voidframe"
+    "url": "https://git.ahadley.local/aeryn/VoidFrame.git"
   }
 }

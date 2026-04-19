@@ -247,9 +247,9 @@
 .vf-typewriter__cursor {
   display: inline-block;
   margin-inline-start: 1px;
-  animation: vf-blink 1s steps(1) infinite;
+  animation: vf-caret-blink 1s steps(1) infinite;
 }
-@keyframes vf-blink { 50% { opacity: 0; } }
+@keyframes vf-caret-blink { 50% { opacity: 0; } }
 .vf-ticker {
   font-variant-numeric: tabular-nums;
   font-family: var(--vf-font-family);

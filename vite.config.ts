@@ -109,6 +109,8 @@ export default defineConfig({
         voidframe: resolve(__dirname, "src/index.ts"),
         charts: resolve(__dirname, "src/charts/index.ts"),
         dev: resolve(__dirname, "src/dev/index.ts"),
+        tokens: resolve(__dirname, "src/tokens.ts"),
+        testing: resolve(__dirname, "src/testing/index.ts"),
       },
       name: "Voidframe",
       formats: ["es", "cjs"],
@@ -127,6 +129,10 @@ export default defineConfig({
         "dompurify",
         // react-live — runtime dep of Playground (dev subpath only).
         "react-live",
+        // Testing Library + axe — runtime deps of the testing subpath
+        // only. Consumers install what they already use for their tests.
+        /^@testing-library\//,
+        "jest-axe",
       ],
       output: {
         globals: {
