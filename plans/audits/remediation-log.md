@@ -26,7 +26,7 @@ Work proceeds in segments so context stays manageable. Each segment ends with a 
 |---|---|---|
 | A (9) | Dead-prop removal + wiring | ✅ DONE (2026-04-18) |
 | B (6) | Callback wiring | ✅ DONE (2026-04-18) |
-| C (4) | Architectural defects | pending |
+| C (4) | Architectural defects | ✅ DONE (2026-04-19) |
 | D (6 + 39 TSDoc) | Documentation P0s + tier-A TSDoc backfill | pending |
 | E' (2) | CLI test.mjs wire + VS Code docsUrl configurable | pending |
 | Gate | Full test + typecheck + build + pack dry-run | pending |
@@ -147,5 +147,18 @@ Commits: `79a40cc`, `73b1e1f`, `9171cc0`, `3e0134f`, `e414314`, `5a026c3`.
 **Verification:** 326/326 test files, 4987/4987 tests passing (+10 over Wave A), typecheck clean.
 
 Audit rows closed: P0-execution-queue Wave B (B1-B6).
+
+### 2026-04-19 — Wave C (segment 1)
+
+Commits: `2a9de17`, `d6771f3`, `250eb6a`, `ed755b2`.
+
+- ✅ C1 ChartFrame scale propagation — the root defect that was silently killing `showGrid`, `ReferenceLine`, and `ReferenceBand` across 10 top-level charts. Added `ChartScales` — a small provider that re-publishes ChartContext with merged `xScale` / `yScale`. Each inner chart (AreaChart, BarChart, LineChart, ScatterPlot, CandlestickChart, ComposedChart, Histogram, WaterfallChart, BoxPlot, ViolinPlot) now wraps its rendered SVG tree in `<ChartScales xScale={...} yScale={...}>` so sibling primitives that read scales from context actually see the computed values. Two regression tests (AreaChart + BarChart) assert `showGrid={true}` produces actual `.vf-chart-gridlines__line` elements.
+- ✅ C2 DonutChart innerRatio spread-order regression — flipped the JSX `<PieChart innerRatio={props.innerRatio ?? 0.6} {...props} />` to `<PieChart {...props} innerRatio={props.innerRatio ?? 0.6} />` so `{...props}` no longer clobbers the default when a forwarding caller passes `innerRatio={undefined}`. Regression test for the forwarding-pattern case.
+- ✅ C3 Popconfirm placement under Portal — overlay was portaled to `document.body` but positioned via CSS `top: 100%; left: 0` percentages that resolve against body, not the trigger. Now wraps the trigger in a ref'd div, captures its bounding rect in a useLayoutEffect, and calls `computeAnchoredPosition` (the same helper PopoverV2 / Tooltip / HoverCard / chart tooltips use) to compute absolute pixel top/left applied inline with `position: fixed`. Re-runs on scroll/resize; initial off-screen position prevents flash. Regression test asserts concrete px top/left after stubbing the trigger rect.
+- ✅ C4 Carousel compound drops slidesPerView/gap — previously only the shorthand `slides={[]}` fallback got the style. Added `slidesPerView` and `gap` to `CarouselContextValue`; `CarouselViewport` now reads them and computes its own `gap` + `gridAutoColumns` style so dot-notation `<Carousel.Viewport>` honors the parent's values. Caller-provided `style` still merges last. Two regression tests.
+
+**Verification:** 326/326 test files, 4994/4994 tests passing (+7 over Wave B), typecheck clean.
+
+Audit rows closed: P0-execution-queue Wave C (C1-C4). 25 P0 fixes landed across Waves A-C; 6 P0 docs items + 2 Wave E' executions remain in segment 1.
 
 ---
