@@ -40,6 +40,9 @@ Other CLI commands:
   (`legacy-charts-to-v2`, `tokens-from-hex`).
 - `voidframe doctor` — verify your project wiring (voidframe version,
   React version, stylesheet import, peer deps).
+- `voidframe test <name> [--type component|hook|util] [--force]` —
+  scaffold a vitest file for a component, hook, or utility, with
+  prop-aware test stubs based on the source declaration.
 
 ### VS Code extension
 

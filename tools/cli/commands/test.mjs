@@ -5,6 +5,38 @@ import { existsSync, mkdirSync, writeFileSync, readFileSync } from "fs";
 import { resolve, join } from "path";
 
 /**
+ * CLI command adapter. Returns an exit code (0 on success, 1 on error).
+ *
+ * @param {{ name: string, type?: "component" | "hook" | "util", force?: boolean, cwd?: string }} options
+ * @returns {Promise<number>}
+ */
+export async function testCommand({ name, type, force, cwd } = {}) {
+  if (!name) {
+    console.error("voidframe test: missing required <name> argument.");
+    return 1;
+  }
+  const restoreCwd = cwd ? process.cwd() : null;
+  if (cwd) {
+    try {
+      process.chdir(cwd);
+    } catch (err) {
+      console.error(`voidframe test: cannot cd into ${cwd}: ${err.message}`);
+      return 1;
+    }
+  }
+  try {
+    const result = generateTest(name, { type: type ?? "component", force });
+    console.log(`voidframe test: wrote ${result.type} test scaffold → ${result.testPath}`);
+    return 0;
+  } catch (err) {
+    console.error(`voidframe test: ${err.message}`);
+    return 1;
+  } finally {
+    if (restoreCwd) process.chdir(restoreCwd);
+  }
+}
+
+/**
  * @param {string} name - Component/hook/utility name
  * @param {{ type?: "component" | "hook" | "util", force?: boolean }} options
  */

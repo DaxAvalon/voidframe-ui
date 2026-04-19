@@ -5,6 +5,7 @@ import { initCommand } from "../commands/init.mjs";
 import { themeCommand } from "../commands/theme.mjs";
 import { codemodCommand } from "../commands/codemod.mjs";
 import { doctorCommand } from "../commands/doctor.mjs";
+import { testCommand } from "../commands/test.mjs";
 
 /**
  * Build the commander program. Exported so tests can import + inspect
@@ -66,6 +67,28 @@ export function buildProgram({ exit = true } = {}) {
     .option("--cwd <dir>", "Project directory.", process.cwd())
     .action(async (opts) => {
       const code = await doctorCommand({ cwd: opts.cwd });
+      done(code);
+    });
+
+  program
+    .command("test <name>")
+    .description(
+      "Scaffold a vitest file for a voidframe component, hook, or utility under src/."
+    )
+    .option(
+      "-t, --type <kind>",
+      "Target kind: component, hook, or util.",
+      "component"
+    )
+    .option("--force", "Overwrite the target test file if it already exists.")
+    .option("--cwd <dir>", "Project directory.", process.cwd())
+    .action(async (name, opts) => {
+      const code = await testCommand({
+        name,
+        type: opts.type,
+        force: Boolean(opts.force),
+        cwd: opts.cwd,
+      });
       done(code);
     });
 

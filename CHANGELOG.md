@@ -7,8 +7,9 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added — Phase 28: CLI & Distribution
 
-- `voidframe` CLI (`tools/cli/`) — `init`, `theme`, `codemod`, `doctor`
-  subcommands for scaffolding new projects and running health checks.
+- `voidframe` CLI (`tools/cli/`) — `init`, `theme`, `codemod`, `doctor`,
+  and `test` subcommands for scaffolding new projects, generating test
+  files with prop-aware stubs, and running health checks.
 - VS Code extension (`tools/vscode-voidframe/`) — snippets for every
   public component (prefixed `vf-<name>` or the PascalCase name), hover
   docs backed by the same props metadata the docs site uses, and an

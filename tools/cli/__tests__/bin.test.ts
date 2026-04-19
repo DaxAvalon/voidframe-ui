@@ -11,12 +11,12 @@ describe("voidframe CLI bin", () => {
     );
   });
 
-  it("registers the four top-level subcommands", () => {
+  it("registers the five top-level subcommands", () => {
     const program = buildProgram({ exit: false }) as unknown as {
       commands: Array<{ name: () => string }>;
     };
     const names = program.commands.map((c) => c.name()).sort();
-    expect(names).toEqual(["codemod", "doctor", "init", "theme"]);
+    expect(names).toEqual(["codemod", "doctor", "init", "test", "theme"]);
   });
 
   it("help output mentions the program name and every subcommand", () => {
@@ -29,6 +29,7 @@ describe("voidframe CLI bin", () => {
     expect(help).toMatch(/\btheme\b/);
     expect(help).toMatch(/\bcodemod\b/);
     expect(help).toMatch(/\bdoctor\b/);
+    expect(help).toMatch(/\btest\b/);
   });
 
   it("version info reports a semver-like string", () => {
