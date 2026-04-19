@@ -3,7 +3,7 @@
 // ReferenceLine — renders a horizontal or vertical reference line at a
 // specific value on the Y or X axis, using the scales from ChartContext.
 
-import { type CSSProperties } from "react";
+import { forwardRef, type CSSProperties } from "react";
 import { useChart } from "./ChartContext";
 
 export interface ReferenceLineProps {
@@ -23,37 +23,72 @@ export interface ReferenceLineProps {
   style?: CSSProperties;
 }
 
-export function ReferenceLine({
-  value,
-  orientation = "horizontal",
-  label,
-  stroke = "var(--vf-text-3)",
-  strokeDasharray = "4 3",
-  className,
-  style,
-}: ReferenceLineProps) {
-  const { innerWidth, innerHeight, xScale, yScale } = useChart();
+export const ReferenceLine = forwardRef<SVGGElement, ReferenceLineProps>(
+  function ReferenceLine(
+    {
+      value,
+      orientation = "horizontal",
+      label,
+      stroke = "var(--vf-text-3)",
+      strokeDasharray = "4 3",
+      className,
+      style,
+    },
+    ref
+  ) {
+    const { innerWidth, innerHeight, xScale, yScale } = useChart();
 
-  if (orientation === "horizontal") {
-    if (!yScale) return null;
-    const y = (yScale as (v: number) => number)(value);
-    if (!Number.isFinite(y)) return null;
+    if (orientation === "horizontal") {
+      if (!yScale) return null;
+      const y = (yScale as (v: number) => number)(value);
+      if (!Number.isFinite(y)) return null;
+      return (
+        <g ref={ref} className={className} style={style}>
+          <line
+            x1={0}
+            y1={y}
+            x2={innerWidth}
+            y2={y}
+            stroke={stroke}
+            strokeDasharray={strokeDasharray}
+            shapeRendering="crispEdges"
+          />
+          {label && (
+            <text
+              x={innerWidth + 4}
+              y={y}
+              dy="0.35em"
+              fill={stroke}
+              fontSize={11}
+              className="vf-chart-reference-line__label"
+            >
+              {label}
+            </text>
+          )}
+        </g>
+      );
+    }
+
+    // vertical
+    if (!xScale) return null;
+    const x = (xScale as (v: number) => number)(value);
+    if (!Number.isFinite(x)) return null;
     return (
-      <g className={className} style={style}>
+      <g ref={ref} className={className} style={style}>
         <line
-          x1={0}
-          y1={y}
-          x2={innerWidth}
-          y2={y}
+          x1={x}
+          y1={0}
+          x2={x}
+          y2={innerHeight}
           stroke={stroke}
           strokeDasharray={strokeDasharray}
           shapeRendering="crispEdges"
         />
         {label && (
           <text
-            x={innerWidth + 4}
-            y={y}
-            dy="0.35em"
+            x={x}
+            y={-6}
+            textAnchor="middle"
             fill={stroke}
             fontSize={11}
             className="vf-chart-reference-line__label"
@@ -64,35 +99,5 @@ export function ReferenceLine({
       </g>
     );
   }
-
-  // vertical
-  if (!xScale) return null;
-  const x = (xScale as (v: number) => number)(value);
-  if (!Number.isFinite(x)) return null;
-  return (
-    <g className={className} style={style}>
-      <line
-        x1={x}
-        y1={0}
-        x2={x}
-        y2={innerHeight}
-        stroke={stroke}
-        strokeDasharray={strokeDasharray}
-        shapeRendering="crispEdges"
-      />
-      {label && (
-        <text
-          x={x}
-          y={-6}
-          textAnchor="middle"
-          fill={stroke}
-          fontSize={11}
-          className="vf-chart-reference-line__label"
-        >
-          {label}
-        </text>
-      )}
-    </g>
-  );
-}
+);
 ReferenceLine.displayName = "ReferenceLine";

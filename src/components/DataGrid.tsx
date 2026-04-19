@@ -22,6 +22,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
+  type Ref,
 } from "react";
 import { cx } from "../utils/cx";
 import { formatNumber } from "../utils/formatters";
@@ -90,6 +91,14 @@ export interface DataGridProps<T = Record<string, unknown>>
   groupBy?: string;
   onGroupByChange?: (key: string | undefined) => void;
   pagination?: DataGridPaginationConfig;
+  /**
+   * Ref to the DataGrid's root `<div>`. Accepts the usual ref shapes
+   * (callback or `React.RefObject<HTMLDivElement>`). Exposed as a named
+   * prop instead of a generic `forwardRef` wrapper so the generic type
+   * parameter `T` stays inferrable from `columns`/`data` without
+   * propagation gymnastics.
+   */
+  rootRef?: Ref<HTMLDivElement>;
   /** When true, delegates body rendering to a VirtualList. Requires `virtualRowHeight`. */
   virtualized?: boolean;
   virtualRowHeight?: number;
@@ -201,6 +210,7 @@ function DataGridRoot<T = Record<string, unknown>>({
   groupBy,
   onGroupByChange,
   pagination,
+  rootRef,
   virtualized = false,
   virtualRowHeight,
   virtualHeight,
@@ -501,6 +511,7 @@ function DataGridRoot<T = Record<string, unknown>>({
   return (
     <DataGridContext.Provider value={ctx as DataGridContextValue}>
       <div
+        ref={rootRef}
         className={cx("vf-datagrid", `vf-datagrid--${density}`, className)}
         style={style}
         {...props}
