@@ -1,0 +1,145 @@
+# Enum-shaped prop audit (plan 29, task 3)
+# NOTE: react-docgen-typescript collapses enum union types to "enum" without
+# retaining literal values, so the plan's JSON-based detection script yields
+# zero rows. This file was produced by grepping the source for inline literal
+# union declarations in Props interfaces, plus reviewing the named type
+# aliases (ButtonVariant, BadgeVariant, etc.) they refer to.
+
+# ── variant (inline literal unions) ──────────────────────────────
+src/components/LiveIndicator.tsx:8         variant?: "typing" | "recording" | "active" | "live"
+src/components/ToggleGroup.tsx:27           variant?: "default" | "ghost" | "accent"
+src/components/Chat/Indicators.tsx:18       variant?: "dots" | "shimmer"
+src/components/ConfidenceMeter.tsx:17       variant?: "bar" | "gauge" | "ring" | "text-only"
+src/components/CopyButton.tsx:17            variant?: "default" | "ghost" | "accent"
+src/components/ChatModel.tsx:202            variant?: "compact" | "detailed"            (ModelSelector)
+src/components/ChatModel.tsx:316            variant?: "compact" | "detailed"            (ModelCompare)
+src/components/ThemeSelector.tsx:29         variant?: "segmented" | "dropdown"
+src/components/Notifications.tsx:35         variant?: "dropdown" | "drawer"              (NotificationCenter)
+src/components/SplitButton.tsx:33           variant?: "default" | "accent" | "solid"
+src/components/Dialog.tsx:63                variant?: "dialog" | "alertdialog"
+src/components/FloatingActionButton.tsx:29  variant?: "default" | "accent"
+src/components/Viewers/DiffViewer.tsx:15    variant?: "unified" | "split"
+
+# ── variant (named type alias references) ────────────────────────
+src/components/Button.tsx:14                variant?: ButtonVariant
+  - ButtonVariant = "default" | "ghost" | "accent" | "solid"          (Button.tsx:9)
+src/icons/IconButton.tsx:23                 variant?: IconButtonVariant
+src/components/Badge.tsx:15                 variant?: BadgeVariant
+  - BadgeVariant = "solid" | "outline" | "subtle"                      (Badge.tsx:8)
+src/components/Data.tsx:373                 variant?: ProgressVariant
+  - ProgressVariant = "determinate" | "indeterminate"                  (Data.tsx:363)
+
+# ── tone (inline literal unions) ─────────────────────────────────
+src/components/DevTools.tsx:29              tone?: "default" | "info" | "success" | "warning" | "danger"
+src/components/MultiProgress.tsx:14         tone?: "default" | "success" | "danger" | "warning" | "info"
+src/components/Notifications.tsx:25         tone?: "neutral" | "info" | "success" | "warning" | "danger"
+src/components/Notifications.tsx:198        tone?: "info" | "success" | "warning" | "danger"
+src/components/Notifications.tsx:258        tone?: "neutral" | "info" | "success" | "warning" | "danger"
+src/components/Activity.tsx:66              tone?: "neutral" | "success" | "warning" | "danger" | "info"
+src/components/Numeric.tsx:25               tone?: "neutral" | "success" | "warning" | "danger" | "info"
+src/components/Calendar.tsx:42              tone?: "neutral" | "success" | "warning" | "danger" | "info"
+src/components/DataExtended.tsx:291         tone?: "neutral" | "success" | "warning" | "danger"
+src/components/Metrics.tsx:118              tone?: "neutral" | "success" | "danger" | "warning"
+src/components/Metrics.tsx:195              tone?: "neutral" | "success" | "warning" | "danger" | "info"
+src/components/Gantt.tsx:27                 tone?: "neutral" | "success" | "warning" | "danger" | "info"
+src/charts/BarChart.tsx:44                  tone?: "success" | "warning" | "danger" | "info" | "neutral"
+src/components/Gestures.tsx:163             tone?: "neutral" | "success" | "warning" | "danger" | "info"
+src/charts/primitives/Legend.tsx:17         tone?: "success" | "warning" | "danger" | "info" | "neutral"
+
+# ── tone (named type alias references) ────────────────────────────
+src/components/Badge.tsx:16                 tone?: BadgeTone
+  - BadgeTone = "neutral" | "success" | "danger" | "warning" | "info"  (Badge.tsx:9)
+src/components/Data.tsx:278                 tone?: StatTone
+src/components/Data.tsx:374                 tone?: ProgressTone
+  - ProgressTone = "neutral" | "success" | "danger" | "warning"        (Data.tsx:364)
+src/components/Notifications.tsx:321        tone?: AlertTone
+  - AlertTone = "neutral" | "info" | "success" | "warning" | "danger"  (Notifications.tsx:317)
+
+# ── kind (inline literal unions) ─────────────────────────────────
+src/components/ChatComposer.tsx:477         kind?: "image" | "file" | "audio" | "code" | "pdf" | "video"
+src/components/ChatComposer.tsx:931         kind?: "user" | "channel" | "file" | "reference"
+
+# ── size (enum literal unions) ───────────────────────────────────
+src/charts/OrgChart.tsx:43                  size?: "sm" | "md"
+src/components/CSVViewer.tsx:20             size?: "sm" | "md"
+src/components/HorizontalTimeline.tsx:21    size?: "sm" | "md"
+src/components/ColorContrast.tsx:15         size?: "sm" | "md"
+src/components/NotificationBadge.tsx:22     size?: "sm" | "md"
+src/components/LiveIndicator.tsx:11         size?: "sm" | "md"
+src/components/Cascader.tsx:33              size?: "sm" | "md" | "lg"
+src/components/CronBuilder.tsx:22           size?: "sm" | "md"
+src/components/MultiProgress.tsx:19         size?: "sm" | "md" | "lg"
+src/components/ImageDiff.tsx:26             size?: "sm" | "md" | "lg"
+src/components/HexDump.tsx:25               size?: "sm" | "md"
+src/components/FilterBuilder.tsx:41         size?: "sm" | "md"
+src/components/TokenVisualizer.tsx:23       size?: "sm" | "md" | "lg"
+src/components/Transfer.tsx:36              size?: "sm" | "md" | "lg"
+src/components/ThemeSelector.tsx:31         size?: "sm" | "md"
+src/components/ToggleGroup.tsx:28           size?: "sm" | "md" | "lg"
+src/components/FormAdvanced.tsx:141         size?: "sm" | "md" | "lg"
+src/components/NumberStepper.tsx:26         size?: "sm" | "md" | "lg"
+src/components/ModelCompare.tsx:32          size?: "sm" | "md"
+src/components/RegExpTester.tsx:22          size?: "sm" | "md"
+src/components/CommandInput.tsx:35          size?: "sm" | "md" | "lg"
+src/components/ConfidenceMeter.tsx:22       size?: "sm" | "md" | "lg"
+src/components/EnvironmentVars.tsx:26       size?: "sm" | "md"
+src/components/SplitButton.tsx:34           size?: "sm" | "md" | "lg"
+src/components/InlineEdit.tsx:14            size?: "sm" | "md" | "lg"
+src/components/Descriptions.tsx:19          size?: "sm" | "md" | "lg"
+src/components/Data.tsx:375                 size?: "sm" | "md" | "lg"                     (Progress)
+src/components/FloatingActionButton.tsx:28  size?: "sm" | "md" | "lg"
+src/components/CopyButton.tsx:18            size?: "sm" | "md" | "lg"
+src/components/Numeric.tsx:223              size?: "md" | "lg" | "xl"                    (DEVIATES: no sm)
+src/components/RichEmbed.tsx:20             size?: "xs" | "sm"                           (DEVIATES: xs+sm only, no md)
+src/components/SkeletonComposites.tsx:13    size?: "sm" | "md" | "lg"
+src/components/SkeletonComposites.tsx:65    size?: "sm" | "md" | "lg" | "xl"
+src/components/SkeletonComposites.tsx:100   size?: "sm" | "md" | "lg"
+
+# ── size (numeric / pixel-dimension — legitimate domain override) ─
+# Icons, avatars, chart geometry take raw pixel sizes; NOT a "size family" deviation.
+src/charts/ChordDiagram.tsx:36              size?: number
+src/charts/PieChart.tsx:44                  size?: number
+src/charts/Sunburst.tsx:39                  size?: number
+src/charts/RadarChart.tsx:41                size?: number
+src/charts/ScatterPlot.tsx:31               size?: number
+src/charts/series/Point.tsx:12              size?: number
+src/charts/series/Point.tsx:21              size?: number
+src/components/DrawerCompound.tsx:134       size?: number | string
+src/components/Text.tsx:191                 size?: number
+src/components/Loading.tsx:65               size?: number
+src/components/Badge.tsx:114                size?: number
+src/components/Embed.tsx:101                size?: number
+src/components/DataExtended.tsx:29          size?: number
+src/components/DataExtended.tsx:96          size?: number
+src/components/DataExtended.tsx:518         size?: number
+src/components/Encoding.tsx:25              size?: number
+src/components/DevTools.tsx:118             size?: number
+src/components/Identity.tsx:262             size?: number
+src/components/Metrics.tsx:113              size?: number
+src/components/Metrics.tsx:278              size?: number
+
+# ── no matches for "appearance"/"look"/"intent" — clean on that axis.
+# ── no matches for legacy "small"/"medium"/"large" literals — clean.
+
+# ── Collisions (components with more than one enum axis) ─────────
+# Badge      (variant + tone + size) -- DOMAIN-SEPARATE (shape × color × dim)
+# Button     (variant + size)
+# IconButton (variant + size)
+# Data/Progress (variant + tone + size) -- DOMAIN-SEPARATE
+# Notifications Alert (tone + size + closable)  — variant absent; "tone" alone carries semantic
+# CopyButton (variant + size)
+# ToggleGroup (variant + size)
+# ConfidenceMeter (variant + size)
+# MultiProgress (tone + size)
+# ThemeSelector (variant + size)
+# FloatingActionButton (variant + size)
+# SplitButton (variant + size)
+
+# ── "variant" vocabulary families (distinct value sets!) ─────────
+# F-alpha "default/ghost/accent/solid":        Button, CopyButton, ToggleGroup, SplitButton
+# F-beta "solid/outline/subtle":               Badge
+# F-domain (component-specific layout):        LiveIndicator, ThemeSelector, ModelSelector,
+#                                              NotificationCenter, Dialog, DiffViewer, FAB,
+#                                              ChatIndicators, ConfidenceMeter, ChatModel
+# The canonical "solid/outline/subtle/ghost" set named in plan 29 is met by Badge only;
+# every other "variant?" uses its own vocabulary.

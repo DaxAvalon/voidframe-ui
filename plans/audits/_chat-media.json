@@ -1,0 +1,192 @@
+[
+  {
+    "name": "Composer",
+    "file": "src/components/ChatComposer.tsx",
+    "propCount": 12
+  },
+  {
+    "name": "Message",
+    "file": "src/components/Chat/Message.tsx",
+    "propCount": 12
+  },
+  {
+    "name": "SessionList",
+    "file": "src/components/ChatSession.tsx",
+    "propCount": 11
+  },
+  {
+    "name": "ComposerMicButton",
+    "file": "src/components/ChatComposer.tsx",
+    "propCount": 8
+  },
+  {
+    "name": "Conversation",
+    "file": "src/components/Chat/Conversation.tsx",
+    "propCount": 8
+  },
+  {
+    "name": "MessageEdit",
+    "file": "src/components/Chat/Edit.tsx",
+    "propCount": 8
+  },
+  {
+    "name": "ReasoningTrace",
+    "file": "src/components/Chat/Indicators.tsx",
+    "propCount": 7
+  },
+  {
+    "name": "MessageFeedback",
+    "file": "src/components/Chat/Reactions.tsx",
+    "propCount": 6
+  },
+  {
+    "name": "MessagesProvider",
+    "file": "src/i18n/MessagesProvider.tsx",
+    "propCount": 6
+  },
+  {
+    "name": "SessionListItem",
+    "file": "src/components/ChatSession.tsx",
+    "propCount": 6
+  },
+  {
+    "name": "ChatLayout",
+    "file": "src/components/ChatModel.tsx",
+    "propCount": 5
+  },
+  {
+    "name": "MessageContent",
+    "file": "src/components/Chat/Message.tsx",
+    "propCount": 5
+  },
+  {
+    "name": "ReactionPicker",
+    "file": "src/components/Utility.tsx",
+    "propCount": 5
+  },
+  {
+    "name": "ComposerAttachment",
+    "file": "src/components/ChatComposer.tsx",
+    "propCount": 4
+  },
+  {
+    "name": "ModelPicker",
+    "file": "src/components/ChatModel.tsx",
+    "propCount": 4
+  },
+  {
+    "name": "ReactionBar",
+    "file": "src/components/Chat/Reactions.tsx",
+    "propCount": 4
+  },
+  {
+    "name": "MessageGroup",
+    "file": "src/components/Chat/Message.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "StreamingText",
+    "file": "src/components/Chat/Message.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "ThinkingIndicator",
+    "file": "src/components/Chat/Indicators.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "MessageList",
+    "file": "src/components/Chat/Conversation.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "MessageActions",
+    "file": "src/components/Chat/Actions.tsx",
+    "propCount": 0
+  },
+  {
+    "name": "VideoPlayer",
+    "file": "src/components/MediaPlayer.tsx",
+    "propCount": 14
+  },
+  {
+    "name": "CarouselImageGallery",
+    "file": "src/components/Carousel.tsx",
+    "propCount": 13
+  },
+  {
+    "name": "CodeEditor",
+    "file": "src/components/CodeEditor.tsx",
+    "propCount": 13
+  },
+  {
+    "name": "AudioPlayer",
+    "file": "src/components/MediaPlayer.tsx",
+    "propCount": 12
+  },
+  {
+    "name": "Carousel",
+    "file": "src/components/Carousel.tsx",
+    "propCount": 12
+  },
+  {
+    "name": "MarkdownEditor",
+    "file": "src/components/MarkdownEditor.tsx",
+    "propCount": 12
+  },
+  {
+    "name": "RichTextEditor",
+    "file": "src/components/RichTextEditor.tsx",
+    "propCount": 12
+  },
+  {
+    "name": "HexDump",
+    "file": "src/components/HexDump.tsx",
+    "propCount": 11
+  },
+  {
+    "name": "Image",
+    "file": "src/components/Image.tsx",
+    "propCount": 11
+  },
+  {
+    "name": "ImageDiff",
+    "file": "src/components/ImageDiff.tsx",
+    "propCount": 11
+  },
+  {
+    "name": "ImageCropper",
+    "file": "src/components/ImageCropper.tsx",
+    "propCount": 10
+  },
+  {
+    "name": "Lightbox",
+    "file": "src/components/Lightbox.tsx",
+    "propCount": 9
+  },
+  {
+    "name": "ImageAttachment",
+    "file": "src/components/ChatAttachments.tsx",
+    "propCount": 7
+  },
+  {
+    "name": "ImageGallery",
+    "file": "src/components/Lightbox.tsx",
+    "propCount": 6
+  },
+  {
+    "name": "PrintLayout",
+    "file": "src/components/Print.tsx",
+    "propCount": 6
+  },
+  {
+    "name": "AudioAttachment",
+    "file": "src/components/ChatAttachments.tsx",
+    "propCount": 5
+  },
+  {
+    "name": "PrintButton",
+    "file": "src/components/Print.tsx",
+    "propCount": 2
+  }
+]

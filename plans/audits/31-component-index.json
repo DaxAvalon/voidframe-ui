@@ -1,0 +1,2529 @@
+{
+  "primitives": [
+    {
+      "name": "RovingFocusGroup",
+      "file": "src/primitives/RovingFocusGroup.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Transition",
+      "file": "src/primitives/Transition.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "FocusScope",
+      "file": "src/primitives/FocusScope.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "DismissableLayer",
+      "file": "src/primitives/DismissableLayer.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "ErrorBoundary",
+      "file": "src/primitives/ErrorBoundary.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "LiveRegion",
+      "file": "src/primitives/LiveRegion.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "RovingFocusGroup.Item",
+      "file": "src/primitives/RovingFocusGroup.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "Separator",
+      "file": "src/primitives/Separator.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "AccessibleIcon",
+      "file": "src/primitives/AccessibleIcon.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "HydrationBoundary",
+      "file": "src/primitives/HydrationBoundary.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "Portal",
+      "file": "src/primitives/Portal.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "Presence",
+      "file": "src/primitives/Presence.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "ScrollLock",
+      "file": "src/primitives/ScrollLock.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "SkipToContent",
+      "file": "src/primitives/SkipToContent.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "Slot",
+      "file": "src/primitives/Slot.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "VisuallyHidden",
+      "file": "src/primitives/VisuallyHidden.tsx",
+      "propCount": 0
+    }
+  ],
+  "core": [
+    {
+      "name": "InlineEdit",
+      "file": "src/components/InlineEdit.tsx",
+      "propCount": 14
+    },
+    {
+      "name": "Pagination",
+      "file": "src/components/Navigation.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "Badge",
+      "file": "src/components/Badge.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "Button",
+      "file": "src/components/Button.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "CopyButton",
+      "file": "src/components/CopyButton.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "Progress",
+      "file": "src/components/Data.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "SplitButton",
+      "file": "src/components/SplitButton.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "ToggleGroup",
+      "file": "src/components/ToggleGroup.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "FloatingActionButton",
+      "file": "src/components/FloatingActionButton.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "AsyncData",
+      "file": "src/components/AsyncData.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "Avatar",
+      "file": "src/components/DataExtended.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "Card",
+      "file": "src/components/Card.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "CodeAttachment",
+      "file": "src/components/ChatAttachments.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "AlertV2",
+      "file": "src/components/Notifications.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Box",
+      "file": "src/components/Layout.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Text",
+      "file": "src/components/Text.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Toggle",
+      "file": "src/components/Form.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Accordion",
+      "file": "src/components/Accordion.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "ButtonGroup",
+      "file": "src/components/Button.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Result",
+      "file": "src/components/Result.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Skeleton",
+      "file": "src/components/DataExtended.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Divider",
+      "file": "src/components/Text.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Shimmer",
+      "file": "src/components/Loading.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "SkeletonCard",
+      "file": "src/components/SkeletonComposites.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "SkeletonText",
+      "file": "src/components/SkeletonComposites.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "SpinnerV2",
+      "file": "src/components/Loading.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Alert",
+      "file": "src/components/Overlay.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "AlertDialog",
+      "file": "src/components/Dialog.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "AvatarGroup",
+      "file": "src/components/DataExtended.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "SkeletonTable",
+      "file": "src/components/SkeletonComposites.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Stack",
+      "file": "src/components/LayoutExtended.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Container",
+      "file": "src/components/Layout.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "SkeletonAvatar",
+      "file": "src/components/SkeletonComposites.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "SkeletonButton",
+      "file": "src/components/SkeletonComposites.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "SkeletonForm",
+      "file": "src/components/SkeletonComposites.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "Spinner",
+      "file": "src/components/DataExtended.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "Code",
+      "file": "src/components/DataExtended.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "Kbd",
+      "file": "src/components/Interactive.tsx",
+      "propCount": 1
+    }
+  ],
+  "domain-data": [
+    {
+      "name": "Calendar",
+      "file": "src/components/Calendar.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "Gantt",
+      "file": "src/components/Gantt.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "NotificationCenter",
+      "file": "src/components/Notifications.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "NotificationBadge",
+      "file": "src/components/NotificationBadge.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "HorizontalTimeline",
+      "file": "src/components/HorizontalTimeline.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Comment",
+      "file": "src/components/Comment.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "DragDropContext",
+      "file": "src/components/DragDrop.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "Activity",
+      "file": "src/components/Activity.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "CommentList",
+      "file": "src/components/Comment.tsx",
+      "propCount": 0
+    }
+  ],
+  "misc": [
+    {
+      "name": "ToolCall",
+      "file": "src/components/ChatAgent.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "PinInput",
+      "file": "src/components/FormAdvanced.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "Stat",
+      "file": "src/components/Data.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "TagInput",
+      "file": "src/components/FormAdvanced.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "VoiceWaveform",
+      "file": "src/components/MediaPlayer.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "AgentStep",
+      "file": "src/components/ChatAgent.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "Attachment",
+      "file": "src/components/ChatAttachments.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "DocumentPreview",
+      "file": "src/components/Embed.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "Transfer",
+      "file": "src/components/Transfer.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "BigNumber",
+      "file": "src/components/Numeric.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "ConversationHeader",
+      "file": "src/components/ChatSession.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "Gauge",
+      "file": "src/components/Metrics.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "NumberDisplay",
+      "file": "src/components/Numeric.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "Slider",
+      "file": "src/components/FormExtended.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "SourceCard",
+      "file": "src/components/ChatCitations.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "SystemPromptEditor",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "WhatsNewPopover",
+      "file": "src/components/HelpChangelog.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "CircularProgress",
+      "file": "src/components/Metrics.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "CursorPagination",
+      "file": "src/components/NavigationExtended.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "MetricCard",
+      "file": "src/components/Metrics.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "MultiProgress",
+      "file": "src/components/MultiProgress.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "NumberInput",
+      "file": "src/components/FormExtended.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "Zoomable",
+      "file": "src/components/Gestures.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "AgentTrace",
+      "file": "src/components/ChatAgent.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Barcode",
+      "file": "src/components/Encoding.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "CoachMark",
+      "file": "src/components/Spotlight.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "CostDisplay",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "ErrorState",
+      "file": "src/components/Loading.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "InfiniteScroll",
+      "file": "src/components/Virtualization.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "KeyValueEditor",
+      "file": "src/components/DevTools.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "ModelSelector",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "NetworkInspector",
+      "file": "src/components/DevTools.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "PageHeader",
+      "file": "src/components/LayoutExtended.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Palette",
+      "file": "src/components/ColorTools.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "PercentDisplay",
+      "file": "src/components/Numeric.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "ReorderList",
+      "file": "src/components/DragDrop.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "SegmentedControl",
+      "file": "src/components/FormAdvanced.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "ShortcutEditor",
+      "file": "src/components/DevTools.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Sortable",
+      "file": "src/components/DragDrop.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Typewriter",
+      "file": "src/components/Animations.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "BannerAlert",
+      "file": "src/components/Notifications.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Collapsible",
+      "file": "src/components/Interactive.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "ConversationEmptyState",
+      "file": "src/components/ChatSession.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "HoverCard",
+      "file": "src/components/Popovers.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Marquee",
+      "file": "src/components/Animations.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "QRCode",
+      "file": "src/components/Encoding.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "RAGContext",
+      "file": "src/components/ChatCitations.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "ShareButton",
+      "file": "src/components/Utility.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "SlashCommandPicker",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Swipeable",
+      "file": "src/components/Gestures.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Ticker",
+      "file": "src/components/Animations.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "TokenCounter",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "AgentRunner",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Citation",
+      "file": "src/components/ChatCitations.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "CitationList",
+      "file": "src/components/ChatCitations.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "ContextHelp",
+      "file": "src/components/HelpChangelog.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "DebugPanel",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "DebugTree",
+      "file": "src/components/DevTools.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Dots",
+      "file": "src/components/Badge.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "EmptyState",
+      "file": "src/components/DataExtended.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "IFrame",
+      "file": "src/components/Embed.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "LoadingOverlay",
+      "file": "src/components/Loading.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Mermaid",
+      "file": "src/components/RichEmbed.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "PresenceList",
+      "file": "src/components/Identity.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "QueryBuilder",
+      "file": "src/components/DevTools.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "SafeArea",
+      "file": "src/components/LayoutExtended.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "ScrollIndicator",
+      "file": "src/components/Utility.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Section",
+      "file": "src/components/LayoutExtended.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "SplitView",
+      "file": "src/components/Layout.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "SubmitButton",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "UnreadBadge",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "UserCard",
+      "file": "src/components/Identity.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Backdrop",
+      "file": "src/components/Popovers.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "BackToTop",
+      "file": "src/components/NavigationExtended.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Callout",
+      "file": "src/components/Notifications.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Changelog",
+      "file": "src/components/HelpChangelog.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Clipboard",
+      "file": "src/components/Utility.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "ConsoleOutput",
+      "file": "src/components/DevTools.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "ContextWindow",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Draggable",
+      "file": "src/components/DragDrop.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Dropdown",
+      "file": "src/components/Overlay.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "DropZone",
+      "file": "src/components/FormExtended.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Hide",
+      "file": "src/responsive/Show.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "HStack",
+      "file": "src/components/Layout.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Identicon",
+      "file": "src/components/Identity.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "MegaMenu",
+      "file": "src/components/MegaMenu.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "OfflineBanner",
+      "file": "src/components/Network.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "OrganizationCard",
+      "file": "src/components/Identity.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "PlanDisplay",
+      "file": "src/components/ChatAgent.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "PromptTemplateEditor",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "PromptTemplateList",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "QuickReplies",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "SegmentedProgress",
+      "file": "src/components/Metrics.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Show",
+      "file": "src/responsive/Show.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Snackbar",
+      "file": "src/components/ToastSystem.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "SourceGrid",
+      "file": "src/components/ChatCitations.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Sticky",
+      "file": "src/components/LayoutExtended.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "SuggestionChips",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "SwipeActions",
+      "file": "src/components/Gestures.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "TabBar",
+      "file": "src/components/Navbar.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "TeamCard",
+      "file": "src/components/Identity.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "TrendIndicator",
+      "file": "src/components/Metrics.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "VStack",
+      "file": "src/components/Layout.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "ConnectionStatus",
+      "file": "src/components/Network.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "DataList",
+      "file": "src/components/DataList.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "LatencyIndicator",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "Quote",
+      "file": "src/components/Notifications.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "RegenerateButton",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "ScrollSpy",
+      "file": "src/components/NavigationExtended.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "Sidebar",
+      "file": "src/components/Sidebar.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "SimpleChat",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "StatusIndicator",
+      "file": "src/components/Metrics.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "StopButton",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "Tag",
+      "file": "src/components/DataExtended.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "ToolCallGroup",
+      "file": "src/components/ChatAgent.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "TraceViewer",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "AspectRatio",
+      "file": "src/components/Layout.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "AttachmentList",
+      "file": "src/components/ChatAttachments.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "ContextMenu",
+      "file": "src/components/Menu.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "Droppable",
+      "file": "src/components/DragDrop.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "EmptyLayout",
+      "file": "src/components/LayoutExtended.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "KeyValue",
+      "file": "src/components/DataExtended.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "LegalText",
+      "file": "src/components/RichEmbed.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "ScrollRow",
+      "file": "src/components/Card.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "SegmentBar",
+      "file": "src/components/Card.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "Shortcut",
+      "file": "src/components/NavigationExtended.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "Spacer",
+      "file": "src/components/Text.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "StatGroup",
+      "file": "src/components/Metrics.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "StatusBar",
+      "file": "src/components/Card.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "Toolbar",
+      "file": "src/components/Toolbar.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "UserMenu",
+      "file": "src/components/NavigationExtended.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "Center",
+      "file": "src/components/Layout.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "ConfirmProvider",
+      "file": "src/components/Dialog.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "DescriptionList",
+      "file": "src/components/DataList.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "Legend",
+      "file": "src/components/FormStructure.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "ShortcutProvider",
+      "file": "src/hooks/useShortcuts.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "Stretch",
+      "file": "src/components/Layout.tsx",
+      "propCount": 0
+    }
+  ],
+  "navigation": [
+    {
+      "name": "AppShell",
+      "file": "src/components/AppShell.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "Anchor",
+      "file": "src/components/Anchor.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "NavItem",
+      "file": "src/components/Navigation.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "Stepper",
+      "file": "src/components/Navigation.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Wizard",
+      "file": "src/components/Wizard.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Tabs",
+      "file": "src/components/Interactive.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Breadcrumb",
+      "file": "src/components/Navigation.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "BreadcrumbMenu",
+      "file": "src/components/BreadcrumbMenu.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "NavGroup",
+      "file": "src/components/Navigation.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "Navbar",
+      "file": "src/components/Navbar.tsx",
+      "propCount": 1
+    }
+  ],
+  "charts": [
+    {
+      "name": "AreaChart",
+      "file": "src/charts/AreaChart.tsx",
+      "propCount": 19
+    },
+    {
+      "name": "BarChart",
+      "file": "src/charts/BarChart.tsx",
+      "propCount": 19
+    },
+    {
+      "name": "LineChart",
+      "file": "src/charts/LineChart.tsx",
+      "propCount": 19
+    },
+    {
+      "name": "BubbleChart",
+      "file": "src/charts/ScatterPlot.tsx",
+      "propCount": 17
+    },
+    {
+      "name": "ScatterPlot",
+      "file": "src/charts/ScatterPlot.tsx",
+      "propCount": 17
+    },
+    {
+      "name": "CandlestickChart",
+      "file": "src/charts/CandlestickChart.tsx",
+      "propCount": 16
+    },
+    {
+      "name": "ComposedChart",
+      "file": "src/charts/ComposedChart.tsx",
+      "propCount": 16
+    },
+    {
+      "name": "OHLCChart",
+      "file": "src/charts/CandlestickChart.tsx",
+      "propCount": 16
+    },
+    {
+      "name": "OrgChart",
+      "file": "src/charts/OrgChart.tsx",
+      "propCount": 16
+    },
+    {
+      "name": "DependencyGraph",
+      "file": "src/charts/DependencyGraph.tsx",
+      "propCount": 15
+    },
+    {
+      "name": "NetworkGraph",
+      "file": "src/charts/NetworkGraph.tsx",
+      "propCount": 15
+    },
+    {
+      "name": "HorizonChart",
+      "file": "src/charts/HorizonChart.tsx",
+      "propCount": 14
+    },
+    {
+      "name": "ViolinPlot",
+      "file": "src/charts/ViolinPlot.tsx",
+      "propCount": 14
+    },
+    {
+      "name": "CalendarHeatmap",
+      "file": "src/charts/CalendarHeatmap.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "ChoroplethMap",
+      "file": "src/charts/ChoroplethMap.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "Heatmap",
+      "file": "src/charts/Heatmap.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "StreamGraph",
+      "file": "src/charts/StreamGraph.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "BoxPlot",
+      "file": "src/charts/BoxPlot.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "BubbleMap",
+      "file": "src/charts/BubbleMap.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "ChartFrame",
+      "file": "src/charts/primitives/ChartFrame.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "DonutChart",
+      "file": "src/charts/PieChart.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "Histogram",
+      "file": "src/charts/Histogram.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "PieChart",
+      "file": "src/charts/PieChart.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "WaterfallChart",
+      "file": "src/charts/WaterfallChart.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "ParallelCoordinates",
+      "file": "src/charts/ParallelCoordinates.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "RadarChart",
+      "file": "src/charts/RadarChart.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "Sankey",
+      "file": "src/charts/Sankey.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "TreeMap",
+      "file": "src/charts/TreeMap.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "Arc",
+      "file": "src/charts/series/Arc.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "Axis",
+      "file": "src/charts/primitives/Axis.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "FunnelChart",
+      "file": "src/charts/FunnelChart.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "Sparkline",
+      "file": "src/charts/Sparkline.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "ChordDiagram",
+      "file": "src/charts/ChordDiagram.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "SmallMultiples",
+      "file": "src/charts/SmallMultiples.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "Point",
+      "file": "src/charts/series/Point.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "ScatterMatrix",
+      "file": "src/charts/ScatterMatrix.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "Sunburst",
+      "file": "src/charts/Sunburst.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "Area",
+      "file": "src/charts/series/Area.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Bar",
+      "file": "src/charts/series/Bar.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Brush",
+      "file": "src/charts/primitives/Brush.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "ReferenceBand",
+      "file": "src/charts/primitives/ReferenceBand.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "ChartTooltip",
+      "file": "src/charts/primitives/ChartTooltip.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Crosshair",
+      "file": "src/charts/primitives/Crosshair.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Line",
+      "file": "src/charts/series/Line.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "ReferenceLine",
+      "file": "src/charts/primitives/ReferenceLine.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "ChartLegend",
+      "file": "src/charts/primitives/Legend.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "ChartTooltipBody",
+      "file": "src/charts/primitives/ChartTooltipBody.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Gridlines",
+      "file": "src/charts/primitives/Gridlines.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "TileGridMap",
+      "file": "src/charts/TileGridMap.tsx",
+      "propCount": 0
+    }
+  ],
+  "icons": [
+    {
+      "name": "ArrowDownIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ArrowLeftIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ArrowRightIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ArrowUpIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "BellIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "BoldIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "BookmarkIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "CalendarIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "CaretIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ChartBarIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ChartLineIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "CheckIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ChevronDownIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ChevronLeftIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ChevronRightIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ChevronUpIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "CircleIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ClockIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "CloudIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "CodeIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "CopyIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "DatabaseIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "DownloadIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "EditIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ErrorIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ExternalLinkIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "EyeIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "EyeOffIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "FileIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "FileTextIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "FilterIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "FolderIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "FolderOpenIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "HeartIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "HomeIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "Icon",
+      "file": "src/icons/Icon.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "InfoIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ItalicIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "LinkIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "LoadingDotsIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "LockIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "MailIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "MenuIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "MessageIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "MinusIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "MoonIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "MoreHorizontalIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "MoreVerticalIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "PauseIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "PinIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "PlayIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "PlusIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "QuestionIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "QuoteIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "RefreshIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "SaveIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "SearchIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "SendIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "SettingsIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ShareIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "SortIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "SpinnerIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "SquareIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "StarIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "StopIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "SuccessIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "SunIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "TerminalIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "TrashIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "UnderlineIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "UnlockIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "UploadIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "UserIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "UsersIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "WarningIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "XIcon",
+      "file": "src/icons/set.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "IconButton",
+      "file": "src/icons/IconButton.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "IconGroup",
+      "file": "src/icons/IconButton.tsx",
+      "propCount": 3
+    }
+  ],
+  "media": [
+    {
+      "name": "VideoPlayer",
+      "file": "src/components/MediaPlayer.tsx",
+      "propCount": 14
+    },
+    {
+      "name": "CarouselImageGallery",
+      "file": "src/components/Carousel.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "CodeEditor",
+      "file": "src/components/CodeEditor.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "AudioPlayer",
+      "file": "src/components/MediaPlayer.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "Carousel",
+      "file": "src/components/Carousel.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "MarkdownEditor",
+      "file": "src/components/MarkdownEditor.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "RichTextEditor",
+      "file": "src/components/RichTextEditor.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "HexDump",
+      "file": "src/components/HexDump.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "Image",
+      "file": "src/components/Image.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ImageDiff",
+      "file": "src/components/ImageDiff.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ImageCropper",
+      "file": "src/components/ImageCropper.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "Lightbox",
+      "file": "src/components/Lightbox.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "ImageAttachment",
+      "file": "src/components/ChatAttachments.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "ImageGallery",
+      "file": "src/components/Lightbox.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "PrintLayout",
+      "file": "src/components/Print.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "AudioAttachment",
+      "file": "src/components/ChatAttachments.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "PrintButton",
+      "file": "src/components/Print.tsx",
+      "propCount": 2
+    }
+  ],
+  "forms": [
+    {
+      "name": "DatePicker",
+      "file": "src/components/DatePicker.tsx",
+      "propCount": 17
+    },
+    {
+      "name": "MentionInput",
+      "file": "src/components/MentionInput.tsx",
+      "propCount": 14
+    },
+    {
+      "name": "DateRangePicker",
+      "file": "src/components/DatePicker.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "PasswordInput",
+      "file": "src/components/FormAdvanced.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "SlashCommandInput",
+      "file": "src/components/MentionInput.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "Combobox",
+      "file": "src/components/Combobox.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "CommandInput",
+      "file": "src/components/CommandInput.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "NumberStepper",
+      "file": "src/components/NumberStepper.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "SignaturePad",
+      "file": "src/components/SignaturePad.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "FileUpload",
+      "file": "src/components/FileUpload.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "MultiSelect",
+      "file": "src/components/Combobox.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "TimePicker",
+      "file": "src/components/TimePicker.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "Cascader",
+      "file": "src/components/Cascader.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "CronBuilder",
+      "file": "src/components/CronBuilder.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "RatingInput",
+      "file": "src/components/RatingInput.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "TreeSelect",
+      "file": "src/components/TreeSelect.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "ColorContrast",
+      "file": "src/components/ColorContrast.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "CurrencyInput",
+      "file": "src/components/MaskedInput.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "DateTimePicker",
+      "file": "src/components/DateTimePicker.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "FilterBuilder",
+      "file": "src/components/FilterBuilder.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "ColorPicker",
+      "file": "src/components/ColorPicker.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "FileAttachment",
+      "file": "src/components/ChatAttachments.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "CheckboxGroup",
+      "file": "src/components/FormAdvanced.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "CurrencyDisplay",
+      "file": "src/components/Numeric.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "Input",
+      "file": "src/components/Form.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "PhoneInput",
+      "file": "src/components/MaskedInput.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "RadioGroup",
+      "file": "src/components/FormExtended.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "SearchInput",
+      "file": "src/components/FormExtended.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "Checkbox",
+      "file": "src/components/FormExtended.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "ColorSwatch",
+      "file": "src/components/ColorTools.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "MaskedInput",
+      "file": "src/components/MaskedInput.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Switch",
+      "file": "src/components/FormAdvanced.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "TimeZoneSelect",
+      "file": "src/components/TimeDisplays.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Radio",
+      "file": "src/components/FormExtended.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Select",
+      "file": "src/components/Form.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Textarea",
+      "file": "src/components/Form.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Field",
+      "file": "src/components/Field.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "FormField",
+      "file": "src/components/FormExtended.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Mention",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Label",
+      "file": "src/components/Text.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Timeline",
+      "file": "src/components/DataExtended.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "FormActions",
+      "file": "src/components/FormStructure.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "FormErrorSummary",
+      "file": "src/components/FormProvider.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "Field.Error",
+      "file": "src/components/Field.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "Field.Help",
+      "file": "src/components/Field.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "Field.Label",
+      "file": "src/components/Field.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "FieldControl",
+      "file": "src/components/Field.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "FieldSet",
+      "file": "src/components/FormStructure.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "Form",
+      "file": "src/components/FormProvider.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "InputGroup.Addon",
+      "file": "src/components/FormStructure.tsx",
+      "propCount": 0
+    }
+  ],
+  "chat": [
+    {
+      "name": "Composer",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "Message",
+      "file": "src/components/Chat/Message.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "SessionList",
+      "file": "src/components/ChatSession.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ComposerMicButton",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "Conversation",
+      "file": "src/components/Chat/Conversation.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "MessageEdit",
+      "file": "src/components/Chat/Edit.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "ReasoningTrace",
+      "file": "src/components/Chat/Indicators.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "MessageFeedback",
+      "file": "src/components/Chat/Reactions.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "MessagesProvider",
+      "file": "src/i18n/MessagesProvider.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "SessionListItem",
+      "file": "src/components/ChatSession.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "ChatLayout",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "MessageContent",
+      "file": "src/components/Chat/Message.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "ReactionPicker",
+      "file": "src/components/Utility.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "ComposerAttachment",
+      "file": "src/components/ChatComposer.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "ModelPicker",
+      "file": "src/components/ChatModel.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "ReactionBar",
+      "file": "src/components/Chat/Reactions.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "MessageGroup",
+      "file": "src/components/Chat/Message.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "StreamingText",
+      "file": "src/components/Chat/Message.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "ThinkingIndicator",
+      "file": "src/components/Chat/Indicators.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "MessageList",
+      "file": "src/components/Chat/Conversation.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "MessageActions",
+      "file": "src/components/Chat/Actions.tsx",
+      "propCount": 0
+    }
+  ],
+  "viewers": [
+    {
+      "name": "CodeBlock",
+      "file": "src/components/Viewers/CodeBlock.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "LogViewer",
+      "file": "src/components/Viewers/LogViewer.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "Terminal",
+      "file": "src/components/Viewers/LogViewer.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "DiffViewer",
+      "file": "src/components/Viewers/DiffViewer.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "JSONViewer",
+      "file": "src/components/Viewers/JSONViewer.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "MarkdownRenderer",
+      "file": "src/components/Viewers/MarkdownRenderer.tsx",
+      "propCount": 4
+    }
+  ],
+  "overlays": [
+    {
+      "name": "Popconfirm",
+      "file": "src/components/Popconfirm.tsx",
+      "propCount": 13
+    },
+    {
+      "name": "ConfirmDialogV2",
+      "file": "src/components/Dialog.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "Spotlight",
+      "file": "src/components/Spotlight.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "ConfirmDialog",
+      "file": "src/components/Overlay.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "Drawer",
+      "file": "src/components/Overlay.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "CommandPalette",
+      "file": "src/components/CommandPalette.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Modal",
+      "file": "src/components/Interactive.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Sheet",
+      "file": "src/components/DrawerCompound.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "ShortcutGuide",
+      "file": "src/components/ShortcutGuide.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "Tooltip",
+      "file": "src/components/Popovers.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "DrawerV2",
+      "file": "src/components/DrawerCompound.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Dialog",
+      "file": "src/components/Dialog.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Popover",
+      "file": "src/components/Overlay.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Toast",
+      "file": "src/components/Interactive.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Toaster",
+      "file": "src/components/ToastSystem.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "Menu",
+      "file": "src/components/Menu.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "MenuCheckboxItem",
+      "file": "src/components/Menu.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "MenuItem",
+      "file": "src/components/Menu.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "PopoverV2",
+      "file": "src/components/Popovers.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "MenuRadioGroup",
+      "file": "src/components/Menu.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "MenuRadioItem",
+      "file": "src/components/Menu.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "TooltipProvider",
+      "file": "src/components/Popovers.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "MenuBarMenu",
+      "file": "src/components/Menu.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "MenuTrigger",
+      "file": "src/components/Menu.tsx",
+      "propCount": 1
+    },
+    {
+      "name": "MenuBar",
+      "file": "src/components/Menu.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "MenuContent",
+      "file": "src/components/Menu.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "MenuLabel",
+      "file": "src/components/Menu.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "MenuSeparator",
+      "file": "src/components/Menu.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "MenuSub",
+      "file": "src/components/Menu.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "MenuSubContent",
+      "file": "src/components/Menu.tsx",
+      "propCount": 0
+    },
+    {
+      "name": "MenuSubTrigger",
+      "file": "src/components/Menu.tsx",
+      "propCount": 0
+    }
+  ],
+  "domain-charts": [
+    {
+      "name": "CommitGraph",
+      "file": "src/components/DevTools.tsx",
+      "propCount": 3
+    }
+  ],
+  "utility": [
+    {
+      "name": "RegExpTester",
+      "file": "src/components/RegExpTester.tsx",
+      "propCount": 15
+    },
+    {
+      "name": "EnvironmentVars",
+      "file": "src/components/EnvironmentVars.tsx",
+      "propCount": 11
+    },
+    {
+      "name": "ConfidenceMeter",
+      "file": "src/components/ConfidenceMeter.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "TokenVisualizer",
+      "file": "src/components/TokenVisualizer.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "ModelCompare",
+      "file": "src/components/ModelCompare.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "ThemeSelector",
+      "file": "src/components/ThemeSelector.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "LiveIndicator",
+      "file": "src/components/LiveIndicator.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Countdown",
+      "file": "src/components/TimeDisplays.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "RelativeTime",
+      "file": "src/components/TimeDisplays.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "HelpTooltip",
+      "file": "src/components/HelpChangelog.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "DurationDisplay",
+      "file": "src/components/TimeDisplays.tsx",
+      "propCount": 2
+    }
+  ],
+  "data": [
+    {
+      "name": "DataGrid",
+      "file": "src/components/DataGrid.tsx",
+      "propCount": 27
+    },
+    {
+      "name": "Table",
+      "file": "src/components/Data.tsx",
+      "propCount": 14
+    },
+    {
+      "name": "TreeView",
+      "file": "src/components/TreeView.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "Kanban",
+      "file": "src/components/Kanban.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "VirtualList",
+      "file": "src/components/Virtualization.tsx",
+      "propCount": 8
+    },
+    {
+      "name": "Descriptions",
+      "file": "src/components/Descriptions.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "TreeTable",
+      "file": "src/components/TreeTable.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "VirtualGrid",
+      "file": "src/components/Virtualization.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "TreeNav",
+      "file": "src/components/NavigationExtended.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "List",
+      "file": "src/components/DataExtended.tsx",
+      "propCount": 3
+    },
+    {
+      "name": "Masonry",
+      "file": "src/components/Masonry.tsx",
+      "propCount": 2
+    },
+    {
+      "name": "CSVViewer",
+      "file": "src/components/CSVViewer.tsx",
+      "propCount": 0
+    }
+  ],
+  "layout": [
+    {
+      "name": "ResponsiveBox",
+      "file": "src/responsive/ResponsiveBox.tsx",
+      "propCount": 25
+    },
+    {
+      "name": "DashboardGrid",
+      "file": "src/components/Widget.tsx",
+      "propCount": 15
+    },
+    {
+      "name": "VoidframeProvider",
+      "file": "src/provider/VoidframeProvider.tsx",
+      "propCount": 12
+    },
+    {
+      "name": "ResizableBox",
+      "file": "src/components/Resizable.tsx",
+      "propCount": 10
+    },
+    {
+      "name": "WidgetShell",
+      "file": "src/components/Widget.tsx",
+      "propCount": 9
+    },
+    {
+      "name": "GridItem",
+      "file": "src/components/LayoutExtended.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "ThemeScope",
+      "file": "src/provider/ThemeScope.tsx",
+      "propCount": 7
+    },
+    {
+      "name": "Flex",
+      "file": "src/components/Layout.tsx",
+      "propCount": 6
+    },
+    {
+      "name": "ScrollArea",
+      "file": "src/components/ScrollArea.tsx",
+      "propCount": 5
+    },
+    {
+      "name": "Grid",
+      "file": "src/components/Layout.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "ResizableGroup",
+      "file": "src/components/Resizable.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "ResizablePanel",
+      "file": "src/components/Resizable.tsx",
+      "propCount": 4
+    },
+    {
+      "name": "ResizableHandle",
+      "file": "src/components/Resizable.tsx",
+      "propCount": 2
+    }
+  ]
+}

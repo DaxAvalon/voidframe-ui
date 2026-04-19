@@ -1,0 +1,342 @@
+[
+  {
+    "name": "SubmitButton",
+    "file": "src/components/ChatComposer.tsx",
+    "propCount": 4
+  },
+  {
+    "name": "UnreadBadge",
+    "file": "src/components/ChatModel.tsx",
+    "propCount": 4
+  },
+  {
+    "name": "UserCard",
+    "file": "src/components/Identity.tsx",
+    "propCount": 4
+  },
+  {
+    "name": "Backdrop",
+    "file": "src/components/Popovers.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "BackToTop",
+    "file": "src/components/NavigationExtended.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "Callout",
+    "file": "src/components/Notifications.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "Changelog",
+    "file": "src/components/HelpChangelog.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "Clipboard",
+    "file": "src/components/Utility.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "ConsoleOutput",
+    "file": "src/components/DevTools.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "ContextWindow",
+    "file": "src/components/ChatModel.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "Draggable",
+    "file": "src/components/DragDrop.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "Dropdown",
+    "file": "src/components/Overlay.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "DropZone",
+    "file": "src/components/FormExtended.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "Hide",
+    "file": "src/responsive/Show.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "HStack",
+    "file": "src/components/Layout.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "Identicon",
+    "file": "src/components/Identity.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "MegaMenu",
+    "file": "src/components/MegaMenu.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "OfflineBanner",
+    "file": "src/components/Network.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "OrganizationCard",
+    "file": "src/components/Identity.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "PlanDisplay",
+    "file": "src/components/ChatAgent.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "PromptTemplateEditor",
+    "file": "src/components/ChatComposer.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "PromptTemplateList",
+    "file": "src/components/ChatComposer.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "QuickReplies",
+    "file": "src/components/ChatComposer.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "SegmentedProgress",
+    "file": "src/components/Metrics.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "Show",
+    "file": "src/responsive/Show.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "Snackbar",
+    "file": "src/components/ToastSystem.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "SourceGrid",
+    "file": "src/components/ChatCitations.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "Sticky",
+    "file": "src/components/LayoutExtended.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "SuggestionChips",
+    "file": "src/components/ChatComposer.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "SwipeActions",
+    "file": "src/components/Gestures.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "TabBar",
+    "file": "src/components/Navbar.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "TeamCard",
+    "file": "src/components/Identity.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "TrendIndicator",
+    "file": "src/components/Metrics.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "VStack",
+    "file": "src/components/Layout.tsx",
+    "propCount": 3
+  },
+  {
+    "name": "ConnectionStatus",
+    "file": "src/components/Network.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "DataList",
+    "file": "src/components/DataList.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "LatencyIndicator",
+    "file": "src/components/ChatModel.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "Quote",
+    "file": "src/components/Notifications.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "RegenerateButton",
+    "file": "src/components/ChatComposer.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "ScrollSpy",
+    "file": "src/components/NavigationExtended.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "Sidebar",
+    "file": "src/components/Sidebar.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "SimpleChat",
+    "file": "src/components/ChatModel.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "StatusIndicator",
+    "file": "src/components/Metrics.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "StopButton",
+    "file": "src/components/ChatComposer.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "Tag",
+    "file": "src/components/DataExtended.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "ToolCallGroup",
+    "file": "src/components/ChatAgent.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "TraceViewer",
+    "file": "src/components/ChatModel.tsx",
+    "propCount": 2
+  },
+  {
+    "name": "AspectRatio",
+    "file": "src/components/Layout.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "AttachmentList",
+    "file": "src/components/ChatAttachments.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "ContextMenu",
+    "file": "src/components/Menu.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "Droppable",
+    "file": "src/components/DragDrop.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "EmptyLayout",
+    "file": "src/components/LayoutExtended.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "KeyValue",
+    "file": "src/components/DataExtended.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "LegalText",
+    "file": "src/components/RichEmbed.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "ScrollRow",
+    "file": "src/components/Card.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "SegmentBar",
+    "file": "src/components/Card.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "Shortcut",
+    "file": "src/components/NavigationExtended.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "Spacer",
+    "file": "src/components/Text.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "StatGroup",
+    "file": "src/components/Metrics.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "StatusBar",
+    "file": "src/components/Card.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "Toolbar",
+    "file": "src/components/Toolbar.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "UserMenu",
+    "file": "src/components/NavigationExtended.tsx",
+    "propCount": 1
+  },
+  {
+    "name": "Center",
+    "file": "src/components/Layout.tsx",
+    "propCount": 0
+  },
+  {
+    "name": "ConfirmProvider",
+    "file": "src/components/Dialog.tsx",
+    "propCount": 0
+  },
+  {
+    "name": "DescriptionList",
+    "file": "src/components/DataList.tsx",
+    "propCount": 0
+  },
+  {
+    "name": "Legend",
+    "file": "src/components/FormStructure.tsx",
+    "propCount": 0
+  },
+  {
+    "name": "ShortcutProvider",
+    "file": "src/hooks/useShortcuts.tsx",
+    "propCount": 0
+  },
+  {
+    "name": "Stretch",
+    "file": "src/components/Layout.tsx",
+    "propCount": 0
+  }
+]

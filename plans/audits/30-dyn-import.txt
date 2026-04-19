@@ -1,0 +1,14 @@
+Dynamic import() call sites (production only). All arguments are string literals.
+
+src/lazy.ts:17-138 (Modal, Drawer, Lightbox, DataGrid, TreeTable, Gantt, Kanban, CodeEditor,
+                    MarkdownEditor, RichTextEditor, DatePicker, Calendar, Sparkline, Heatmap,
+                    SignaturePad, ImageCropper, MediaPlayer, etc.) — literal-string module paths
+                    into relative ./components/* or ./charts/* paths.
+
+src/charts/BubbleMap.tsx:99         import("d3-geo")          — LITERAL
+src/charts/BubbleMap.tsx:103        import("topojson-client") — LITERAL
+src/charts/ChoroplethMap.tsx:108    import("d3-geo")          — LITERAL
+src/charts/ChoroplethMap.tsx:112    import("topojson-client") — LITERAL
+src/charts/NetworkGraph.tsx:187     import("d3-force")        — LITERAL
+
+No user-provided module paths. Safe.

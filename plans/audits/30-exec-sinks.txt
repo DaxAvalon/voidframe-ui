@@ -1,0 +1,33 @@
+Code-execution sink inventory — eval, new Function, setTimeout/setInterval with string first-arg.
+Collected: 2026-04-17. Excludes __tests__ and *.test.* files.
+
+── eval / new Function / string-form timers ─────────────────
+eval(…):                 no matches in src/
+new Function(…):         no matches in src/
+setTimeout("…"):         no matches in src/
+setInterval("…"):        no matches in src/
+
+Every setTimeout/setInterval usage passes an arrow function or a named function reference
+(see plans/audits/30-timer-calls.txt). Static classification: FUNCTION-ARG across all 40+ call sites.
+
+── react-live Playground ────────────────────────────────────
+src/dev/Playground.tsx:49   <LiveProvider code={code} scope={scope} noInline={noInline}>
+  - `scope` is the consumer-provided symbol map; the library does NOT inject `window`, `eval`,
+    `Function`, `fetch`, etc. into scope — it forwards only the caller's map.
+  - Playground is exported under the `./dev` subpath (package.json exports), documented as
+    development-only. Treated as trusted consumer input.
+  - Known react-live characteristic: code is evaluated via `new Function()` internally; any
+    consumer shipping Playground in production accepts that risk by design.
+
+── Dynamic import() ─────────────────────────────────────────
+All dynamic imports use literal string paths:
+  src/lazy.ts:19-138                 import("./components/…") — string literals
+  src/charts/BubbleMap.tsx:99,103    import("d3-geo"), import("topojson-client") — literal
+  src/charts/ChoroplethMap.tsx:108,112 — literal
+  src/charts/NetworkGraph.tsx:187    import("d3-force") — literal
+Classification: LITERAL (no user-provided module paths).
+
+── CodeEditor ───────────────────────────────────────────────
+src/components/CodeEditor.tsx: display-only. No eval/Function/live-execute path.
+
+Result: zero eval-class sinks. All dynamic imports are static. Playground is dev-subpath + consumer-scoped.

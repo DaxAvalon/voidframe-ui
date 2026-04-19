@@ -1,0 +1,40 @@
+# Spread-forwarding audit (plan 29, task 5, step 3)
+# Computed as: (files with exported components) SET-MINUS (files containing {...rest|props|spread})
+# Cross-referenced with source to classify.
+
+## Files with exported components that DO NOT spread rest/props/spread
+
+# ── Provider/Context/wrapper — legitimate, no DOM root ───────────
+src/provider/VoidframeProvider.tsx         provider composition; renders children
+src/i18n/MessagesProvider.tsx              Context provider
+src/hooks/useShortcuts.tsx                 ShortcutProvider — context only
+src/primitives/Slot.tsx                    By design clones and merges into ONE child; the merge
+                                           path internally handles rest differently.
+src/primitives/Portal.tsx                  ReactDOM.createPortal
+src/primitives/ScrollLock.tsx              effect-only, returns children
+src/primitives/Presence.tsx                animation orchestrator, returns children
+src/primitives/Transition.tsx              animation orchestrator, returns children
+src/primitives/HydrationBoundary.tsx       returns children
+src/primitives/AccessibleIcon.tsx          fragment-ish (icon + VisuallyHidden label)
+                                           — CANDIDATE: could pass `...rest` to icon clone.
+src/testing/mocks.tsx                      test helpers; out of scope
+
+# ── Dev surfaces — excluded by extract-props.mjs, low priority ───
+src/dev/ProfilerScope.tsx
+src/dev/Playground.tsx
+src/dev/ErrorBoundary.tsx
+src/dev/PropsTable.tsx
+
+## Conclusion
+# Total files with exports:           209
+# Files with {...rest|props|spread}:  195
+# Files without:                       14
+#   All 14 are either Provider/Context/children-only wrappers, dev tools,
+#   or test helpers — none are public DOM-rendering components that
+#   OWE a spread convention.
+# → Full-sweep result: 0 spread-failure findings for DOM-rendering components.
+#
+# CAVEAT: this test only validates the presence of SOMEWHERE in the file. It
+# cannot tell whether a component spreads onto the WRONG element, spreads
+# a partial set, or forgets className. Component-level manual review would
+# be needed to catch those. See Findings §5 for spot-checks.

@@ -1,0 +1,40 @@
+Merge-class call sites (Object.assign / deepMerge). Excludes __tests__.
+
+── deepMerge ─────────────────────────────────────────────────
+Defined: src/utils/formatters.ts:113-132.
+Key guard confirmed at line 119:
+    if (key === "__proto__" || key === "constructor" || key === "prototype") continue;
+Recursion at line 123 preserves the same filter for nested objects.
+
+No production call site found — deepMerge is exported from utils (src/utils/index.ts exports "deepMerge"
+via utils index aggregation) for consumer use. Zero internal invocations in src/ outside tests.
+
+── Object.assign ─────────────────────────────────────────────
+Every hit is `Object.assign(Base, { Item, Trigger, … })` — attaching static subcomponents to a forwardRef
+export (compound-component pattern). No call receives user input on the RHS.
+
+Examples (all compound-component assembly):
+  src/components/Carousel.tsx:343                Object.assign(CarouselRoot, { Item, … })
+  src/components/MediaPlayer.tsx:611             Object.assign(VideoPlayerRoot, { … })
+  src/components/Toolbar.tsx:178                 Object.assign(ToolbarBase, { … })
+  src/components/DrawerCompound.tsx:304,542      Object.assign(DrawerRoot / SheetRoot, …)
+  src/components/MegaMenu.tsx:207
+  src/components/Navbar.tsx:78,169
+  src/components/Popovers.tsx:218,579
+  src/components/Navigation.tsx:168,555
+  src/components/ChatComposer.tsx:461
+  src/components/CommandPalette.tsx:593
+  src/components/NavigationExtended.tsx:196,497
+  src/components/Accordion.tsx:304
+  src/components/DataExtended.tsx:330,478
+  src/components/Wizard.tsx:253
+  src/components/Gestures.tsx:187
+  src/components/DataGrid.tsx:1327
+  src/components/Chat/Actions.tsx:109
+  src/components/Activity.tsx:123
+  src/components/Dialog.tsx:421
+  src/components/DataList.tsx:69,110
+  src/components/Sidebar.tsx:100
+  src/utils/announce.ts:19                        Object.assign(el.style, { … literal CSS }) — LIBRARY-STRING
+
+Result: zero prototype-pollution exposure from internal merge operations.

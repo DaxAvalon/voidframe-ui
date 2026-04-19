@@ -1,0 +1,152 @@
+[
+  {
+    "name": "DataGrid",
+    "file": "src/components/DataGrid.tsx",
+    "propCount": 27,
+    "bucket": "data"
+  },
+  {
+    "name": "ResponsiveBox",
+    "file": "src/responsive/ResponsiveBox.tsx",
+    "propCount": 25,
+    "bucket": "layout"
+  },
+  {
+    "name": "AreaChart",
+    "file": "src/charts/AreaChart.tsx",
+    "propCount": 19,
+    "bucket": "charts"
+  },
+  {
+    "name": "BarChart",
+    "file": "src/charts/BarChart.tsx",
+    "propCount": 19,
+    "bucket": "charts"
+  },
+  {
+    "name": "LineChart",
+    "file": "src/charts/LineChart.tsx",
+    "propCount": 19,
+    "bucket": "charts"
+  },
+  {
+    "name": "BubbleChart",
+    "file": "src/charts/ScatterPlot.tsx",
+    "propCount": 17,
+    "bucket": "charts"
+  },
+  {
+    "name": "ScatterPlot",
+    "file": "src/charts/ScatterPlot.tsx",
+    "propCount": 17,
+    "bucket": "charts"
+  },
+  {
+    "name": "DatePicker",
+    "file": "src/components/DatePicker.tsx",
+    "propCount": 17,
+    "bucket": "forms"
+  },
+  {
+    "name": "CandlestickChart",
+    "file": "src/charts/CandlestickChart.tsx",
+    "propCount": 16,
+    "bucket": "charts"
+  },
+  {
+    "name": "ComposedChart",
+    "file": "src/charts/ComposedChart.tsx",
+    "propCount": 16,
+    "bucket": "charts"
+  },
+  {
+    "name": "OHLCChart",
+    "file": "src/charts/CandlestickChart.tsx",
+    "propCount": 16,
+    "bucket": "charts"
+  },
+  {
+    "name": "OrgChart",
+    "file": "src/charts/OrgChart.tsx",
+    "propCount": 16,
+    "bucket": "charts"
+  },
+  {
+    "name": "DependencyGraph",
+    "file": "src/charts/DependencyGraph.tsx",
+    "propCount": 15,
+    "bucket": "charts"
+  },
+  {
+    "name": "NetworkGraph",
+    "file": "src/charts/NetworkGraph.tsx",
+    "propCount": 15,
+    "bucket": "charts"
+  },
+  {
+    "name": "RegExpTester",
+    "file": "src/components/RegExpTester.tsx",
+    "propCount": 15,
+    "bucket": "utility"
+  },
+  {
+    "name": "DashboardGrid",
+    "file": "src/components/Widget.tsx",
+    "propCount": 15,
+    "bucket": "layout"
+  },
+  {
+    "name": "InlineEdit",
+    "file": "src/components/InlineEdit.tsx",
+    "propCount": 14,
+    "bucket": "core"
+  },
+  {
+    "name": "HorizonChart",
+    "file": "src/charts/HorizonChart.tsx",
+    "propCount": 14,
+    "bucket": "charts"
+  },
+  {
+    "name": "ViolinPlot",
+    "file": "src/charts/ViolinPlot.tsx",
+    "propCount": 14,
+    "bucket": "charts"
+  },
+  {
+    "name": "VideoPlayer",
+    "file": "src/components/MediaPlayer.tsx",
+    "propCount": 14,
+    "bucket": "media"
+  },
+  {
+    "name": "MentionInput",
+    "file": "src/components/MentionInput.tsx",
+    "propCount": 14,
+    "bucket": "forms"
+  },
+  {
+    "name": "Table",
+    "file": "src/components/Data.tsx",
+    "propCount": 14,
+    "bucket": "data"
+  },
+  {
+    "name": "Calendar",
+    "file": "src/components/Calendar.tsx",
+    "propCount": 13,
+    "bucket": "domain-data"
+  },
+  {
+    "name": "CalendarHeatmap",
+    "file": "src/charts/CalendarHeatmap.tsx",
+    "propCount": 13,
+    "bucket": "charts"
+  },
+  {
+    "name": "ChoroplethMap",
+    "file": "src/charts/ChoroplethMap.tsx",
+    "propCount": 13,
+    "bucket": "charts"
+  }
+]

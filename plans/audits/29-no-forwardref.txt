@@ -1,0 +1,47 @@
+# No-forwardRef audit (plan 29, task 5, step 1)
+# Computed as: (files with exported components) SET-MINUS (files containing forwardRef)
+# Cross-referenced with source to classify.
+
+## Files without forwardRef but containing exported components
+
+# ── Intentional: Provider/Context/Wrapper — no ref needed ────────
+src/provider/VoidframeProvider.tsx         provider; renders <ThemeScope> wrapper
+src/provider/ThemeScope.tsx                (does forwardRef — actually on the file list; false positive)
+src/i18n/MessagesProvider.tsx              Context provider only
+src/primitives/Portal.tsx                  ReactDOM.createPortal — no own DOM
+src/primitives/ScrollLock.tsx              side-effect hook+effect component, renders children
+src/primitives/Presence.tsx                animation orchestrator; returns children
+src/primitives/Transition.tsx              animation orchestrator; returns children
+src/primitives/HydrationBoundary.tsx       returns children
+src/primitives/AccessibleIcon.tsx          wraps icon + VisuallyHidden (fragment-like) — may still want ref
+src/hooks/useShortcuts.tsx                 ShortcutProvider — context only
+src/testing/mocks.tsx                      test helpers; out of scope
+
+# ── Dev-only surfaces (not shipped in prod) ──────────────────────
+src/dev/PropsTable.tsx
+src/dev/DevPanel.tsx
+src/dev/Playground.tsx
+src/dev/ErrorBoundary.tsx
+src/dev/ProfilerScope.tsx
+
+# ── Data-centric components that RENDER DOM but lack forwardRef ──
+src/components/DataGrid.tsx                renders <div> root, no forwardRef — CANDIDATE-FIX
+src/components/DragDrop.tsx                DragDropContext + Droppable + Draggable — context/render-prop — OK
+src/charts/primitives/ReferenceLine.tsx    returns <line>/<g> — SVG primitive; could take ref — CANDIDATE-FIX
+src/charts/primitives/ReferenceBand.tsx    returns <rect>/<g> — SVG primitive — CANDIDATE-FIX
+
+# Note: all 15 chart top-level components (AreaChart, BarChart, LineChart,
+# etc.) already use forwardRef. SVG series primitives (Arc/Area/Bar/Line/Point)
+# also do. The ReferenceLine/ReferenceBand pair is the only chart primitive
+# that skips it.
+
+## Summary
+# Total .tsx files with an exported component: 209
+# Files using forwardRef somewhere:             190
+# Files without forwardRef:                     19
+#   Of which legitimate (Provider/Context/Portal/wrapper/test/dev): 15
+#   Of which candidate fixes (DOM-rendering, public surface):       4
+#     - DataGrid          (src/components/DataGrid.tsx)     P1 — large public component
+#     - ReferenceLine     (src/charts/primitives/ReferenceLine.tsx)   P2
+#     - ReferenceBand     (src/charts/primitives/ReferenceBand.tsx)   P2
+#     - AccessibleIcon    (src/primitives/AccessibleIcon.tsx)         P2 — small, labelled SVG wrapper; ref is useful

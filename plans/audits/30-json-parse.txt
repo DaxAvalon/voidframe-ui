@@ -1,0 +1,22 @@
+JSON.parse call sites (production only). Excludes __tests__.
+
+src/hooks/useWebSocket.ts:140               JSON.parse(event.data as string) — input is arbitrary server-sent
+                                            message. Wrapped in try/catch. Parsed object exposed via
+                                            setLastJsonMessage for consumer. Not passed into deepMerge.
+                                            Consumers own the trust boundary of the WS endpoint.
+                                            Classification: USER-INPUT-UNGUARDED (consumer responsibility).
+
+src/hooks/index.ts:280                      useLocalStorage: JSON.parse(item). Input is localStorage content,
+                                            same-origin and attacker-visible only with prior XSS (which is the
+                                            larger issue). JSON.parse in V8 creates __proto__ as an own property
+                                            rather than mutating the prototype, so direct prototype pollution
+                                            is not triggered. Parsed value returned to caller for consumer use.
+                                            Classification: USER-INPUT-UNGUARDED (consumer responsibility).
+
+src/components/DataGrid.tsx:123             JSON.parse(raw) of persisted column state (vf-datagrid:<key>).
+                                            Output typed as Partial<PersistedState>; fields destructured and
+                                            applied to setColumnHidden/setColumnWidth/reorderColumn — no object
+                                            merge; no key-walk. Classification: USER-INPUT-GUARDED (shape-typed
+                                            access; prototype-polluted keys in the object cannot reach a sink).
+
+Result: no direct prototype-pollution path. No unsafe structured merge of parsed content.
