@@ -42,7 +42,7 @@ Work proceeds in segments so context stays manageable. Each segment ends with a 
 | 2.B.2 | IconButton + ToggleGroup variant canonicalization (same mapping; ToggleGroup gains new `solid` variant CSS) | ✅ DONE (2026-04-19) |
 | 2.B.3 | CopyButton + SplitButton + FloatingActionButton + Badge (Badge gains `"ghost"`; FAB maps `default→outline`/`accent→solid`; CopyButton and SplitButton gain full 4-member set with new solid + ghost CSS rules) | ✅ DONE (2026-04-19) |
 | 2.B.4 | `variant` → `kind` on 9 domain components: LiveIndicator, ConfidenceMeter, ThemeSelector, NotificationCenter, TokenCounter + CostDisplay (ChatModel), ThinkingIndicator (Chat/Indicators), DiffViewer, Dialog + AlertDialog | ✅ DONE (2026-04-19) |
-| 2.C | `onChange` → `onValueChange` on ~45 non-form controls | ⏳ PENDING |
+| 2.C | `onChange` → `onValueChange` on 41 non-form controls (breaking, no shims); Transfer duplicate onChange removed | ✅ DONE (2026-04-19) |
 | 2.D | Pagination `page` → `value`; list editors `items` → `value` | ⏳ PENDING |
 | 2.E | Tabs dot-notation migration (remove flat API) | ⏳ PENDING |
 | 2.F | `defaultValue` + `readOnly` + `as/asChild` additions | ⏳ PENDING |
