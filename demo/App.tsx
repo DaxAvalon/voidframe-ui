@@ -3112,7 +3112,7 @@ function ThemingSection() {
             ]}
           />
           <ThemeSelector
-            variant="dropdown"
+            kind="dropdown"
             defaultValue="dark"
             themes={[
               { id: "dark", label: "Dark" },
@@ -4688,9 +4688,9 @@ function NewDataSection() {
       </Block>
       <Block label="ConfidenceMeter">
         <div style={{ display: "flex", gap: 24 }}>
-          <ConfidenceMeter value={0.92} variant="bar" label="Confidence" size="md" />
-          <ConfidenceMeter value={0.45} variant="ring" label="Certainty" size="md" />
-          <ConfidenceMeter value={0.15} variant="text-only" label="Score" />
+          <ConfidenceMeter value={0.92} kind="bar" label="Confidence" size="md" />
+          <ConfidenceMeter value={0.45} kind="ring" label="Certainty" size="md" />
+          <ConfidenceMeter value={0.15} kind="text-only" label="Score" />
         </div>
       </Block>
       <Block label="CSVViewer">
@@ -4791,10 +4791,10 @@ function NewAISection() {
       </Block>
       <Block label="LiveIndicator">
         <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-          <LiveIndicator variant="typing" label="Alice is typing" />
-          <LiveIndicator variant="recording" label="Recording" />
-          <LiveIndicator variant="active" label="Online" />
-          <LiveIndicator variant="live" />
+          <LiveIndicator kind="typing" label="Alice is typing" />
+          <LiveIndicator kind="recording" label="Recording" />
+          <LiveIndicator kind="active" label="Online" />
+          <LiveIndicator kind="live" />
         </div>
       </Block>
     </Frame>

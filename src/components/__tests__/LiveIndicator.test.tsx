@@ -16,7 +16,7 @@ describe("LiveIndicator", () => {
     "applies variant class %s",
     (variant) => {
       const { container } = renderWithTheme(
-        <LiveIndicator variant={variant} />
+        <LiveIndicator kind={variant} />
       );
       expect(
         container.querySelector(`.vf-live-indicator--${variant}`)
@@ -25,14 +25,14 @@ describe("LiveIndicator", () => {
   );
 
   it("typing variant renders 3 dots", () => {
-    const { container } = renderWithTheme(<LiveIndicator variant="typing" />);
+    const { container } = renderWithTheme(<LiveIndicator kind="typing" />);
     const dots = container.querySelectorAll(".vf-live-indicator__dot");
     expect(dots).toHaveLength(3);
   });
 
   it("recording variant renders pulse", () => {
     const { container } = renderWithTheme(
-      <LiveIndicator variant="recording" />
+      <LiveIndicator kind="recording" />
     );
     expect(
       container.querySelector(".vf-live-indicator__pulse--recording")
@@ -40,14 +40,14 @@ describe("LiveIndicator", () => {
   });
 
   it("active variant renders green dot", () => {
-    const { container } = renderWithTheme(<LiveIndicator variant="active" />);
+    const { container } = renderWithTheme(<LiveIndicator kind="active" />);
     expect(
       container.querySelector(".vf-live-indicator__pulse--active")
     ).toBeInTheDocument();
   });
 
   it("live variant renders LIVE text", () => {
-    renderWithTheme(<LiveIndicator variant="live" />);
+    renderWithTheme(<LiveIndicator kind="live" />);
     expect(screen.getByText("LIVE")).toBeInTheDocument();
   });
 

@@ -11,7 +11,7 @@ describe("ConfidenceMeter", () => {
   });
 
   it("renders bar fill with correct width", () => {
-    renderWithTheme(<ConfidenceMeter value={0.5} variant="bar" />);
+    renderWithTheme(<ConfidenceMeter value={0.5} kind="bar" />);
     const fill = document.querySelector(".vf-confidence-meter__bar-fill") as HTMLElement;
     expect(fill).toBeTruthy();
     expect(fill.style.width).toBe("50%");
@@ -21,7 +21,7 @@ describe("ConfidenceMeter", () => {
     "applies variant class for %s",
     (variant) => {
       const { root } = renderWithTheme(
-        <ConfidenceMeter value={0.5} variant={variant} />
+        <ConfidenceMeter value={0.5} kind={variant} />
       );
       expect(root().className).toContain(`vf-confidence-meter--${variant}`);
     }
@@ -76,7 +76,7 @@ describe("ConfidenceMeter", () => {
   });
 
   it("disables animation when animate={false}", () => {
-    renderWithTheme(<ConfidenceMeter value={0.5} variant="bar" animate={false} />);
+    renderWithTheme(<ConfidenceMeter value={0.5} kind="bar" animate={false} />);
     const fill = document.querySelector(".vf-confidence-meter__bar-fill") as HTMLElement;
     expect(fill.style.transition).toBe("none");
   });

@@ -265,7 +265,7 @@ describe("ThemeSelector", () => {
   it("renders dropdown variant when requested", () => {
     renderWithTheme(
       <ThemeSelector
-        variant="dropdown"
+        kind="dropdown"
         defaultValue="dark"
         themes={[
           { id: "dark", label: "Dark" },

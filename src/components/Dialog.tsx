@@ -41,7 +41,7 @@ interface DialogContextValue {
   contentId: string;
   titleId: string;
   descriptionId: string;
-  variant: "dialog" | "alertdialog";
+  kind: "dialog" | "alertdialog";
   hasTitle: boolean;
   hasDescription: boolean;
   registerTitle: (id: string | null) => void;
@@ -60,7 +60,7 @@ export interface DialogProps {
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   /** "alertdialog" tweaks role + initial focus for destructive flows. */
-  variant?: "dialog" | "alertdialog";
+  kind?: "dialog" | "alertdialog";
   children?: ReactNode;
 }
 
@@ -68,7 +68,7 @@ function DialogRoot({
   open,
   defaultOpen,
   onOpenChange,
-  variant = "dialog",
+  kind = "dialog",
   children,
 }: DialogProps) {
   const [internal, setInternal] = useState(defaultOpen ?? false);
@@ -95,7 +95,7 @@ function DialogRoot({
       contentId,
       titleId,
       descriptionId,
-      variant,
+      kind,
       hasTitle: titleAttachedId !== null,
       hasDescription: descAttachedId !== null,
       registerTitle: setTitleAttachedId,
@@ -108,7 +108,7 @@ function DialogRoot({
       contentId,
       titleId,
       descriptionId,
-      variant,
+      kind,
       titleAttachedId,
       descAttachedId,
     ]
@@ -245,7 +245,7 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
             restoreFocus={!finalFocus && restoreFocus}
             loop
             id={ctx.contentId}
-            role={ctx.variant === "alertdialog" ? "alertdialog" : "dialog"}
+            role={ctx.kind === "alertdialog" ? "alertdialog" : "dialog"}
             aria-modal={modal || undefined}
             aria-labelledby={ctx.hasTitle ? ctx.titleId : undefined}
             aria-describedby={ctx.hasDescription ? ctx.descriptionId : undefined}
@@ -414,7 +414,7 @@ DialogRoot.displayName = "Dialog";
  * for the body, `Dialog.Close` to dismiss. Focus-trapped, portaled, and
  * ESC-dismissable by default. Compose with `Dialog.Title` / `Dialog.Description`
  * for accessible labelling. Controlled via `open` / `onOpenChange`; pass
- * `variant="alertdialog"` for destructive-confirmation flows.
+ * `kind="alertdialog"` for destructive-confirmation flows.
  */
 export const Dialog = Object.assign(DialogRoot, {
   Trigger: DialogTrigger,
@@ -431,10 +431,10 @@ export const Dialog = Object.assign(DialogRoot, {
 
 // ── AlertDialog ───────────────────────────────────────────────
 
-export interface AlertDialogProps extends Omit<DialogProps, "variant"> {}
+export interface AlertDialogProps extends Omit<DialogProps, "kind"> {}
 
 export function AlertDialog(props: AlertDialogProps) {
-  return <DialogRoot {...props} variant="alertdialog" />;
+  return <DialogRoot {...props} kind="alertdialog" />;
 }
 
 // ── ConfirmDialog (compound + props API) ──────────────────────

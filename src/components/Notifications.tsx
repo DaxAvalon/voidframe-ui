@@ -32,7 +32,7 @@ export interface NotificationCenterProps extends HTMLAttributes<HTMLDivElement> 
   onMarkAllRead?: () => void;
   onDismiss?: (id: string) => void;
   renderNotification?: (n: NotificationItem) => ReactNode;
-  variant?: "dropdown" | "drawer";
+  kind?: "dropdown" | "drawer";
   triggerLabel?: string;
   /**
    * Accent color (hex / CSS color). Themes the unread badge + the
@@ -66,7 +66,7 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
       onMarkAllRead,
       onDismiss,
       renderNotification,
-      variant = "dropdown",
+      kind = "dropdown",
       triggerLabel = "Notifications",
       accent,
       anchor = "start",
@@ -89,7 +89,7 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
         ref={mergedRef}
         className={cx(
           "vf-notif-center",
-          `vf-notif-center--${variant}`,
+          `vf-notif-center--${kind}`,
           anchor === "end" && "vf-notif-center--right",
           className
         )}

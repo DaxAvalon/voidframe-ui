@@ -223,7 +223,7 @@ describe("SystemPromptEditor", () => {
 describe("TokenCounter + ContextWindow + CostDisplay", () => {
   it("TokenCounter shows total and max", () => {
     renderWithTheme(
-      <TokenCounter input={100} output={50} max={1000} variant="detailed" />
+      <TokenCounter input={100} output={50} max={1000} kind="detailed" />
     );
     expect(screen.getByText(/150.*1,000/)).toBeInTheDocument();
   });

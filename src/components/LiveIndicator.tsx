@@ -5,7 +5,7 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { cx } from "../utils/cx";
 
 export interface LiveIndicatorProps extends HTMLAttributes<HTMLDivElement> {
-  variant?: "typing" | "recording" | "active" | "live";
+  kind?: "typing" | "recording" | "active" | "live";
   label?: string;
   avatar?: string | ReactNode;
   size?: "sm" | "md";
@@ -16,7 +16,7 @@ export interface LiveIndicatorProps extends HTMLAttributes<HTMLDivElement> {
 const LiveIndicatorImpl = forwardRef<HTMLDivElement, LiveIndicatorProps>(
   function LiveIndicator(
     {
-      variant = "typing",
+      kind = "typing",
       label,
       avatar,
       size = "md",
@@ -47,7 +47,7 @@ const LiveIndicatorImpl = forwardRef<HTMLDivElement, LiveIndicatorProps>(
     };
 
     const renderIndicator = () => {
-      switch (variant) {
+      switch (kind) {
         case "typing":
           return (
             <span className="vf-live-indicator__dots" aria-hidden="true">
@@ -90,7 +90,7 @@ const LiveIndicatorImpl = forwardRef<HTMLDivElement, LiveIndicatorProps>(
         ref={ref}
         className={cx(
           "vf-live-indicator",
-          `vf-live-indicator--${variant}`,
+          `vf-live-indicator--${kind}`,
           `vf-live-indicator--${size}`,
           !animated && "vf-live-indicator--static",
           className
@@ -99,11 +99,11 @@ const LiveIndicatorImpl = forwardRef<HTMLDivElement, LiveIndicatorProps>(
         aria-live="polite"
         aria-label={
           label ??
-          (variant === "typing"
+          (kind === "typing"
             ? "Typing"
-            : variant === "recording"
+            : kind === "recording"
               ? "Recording"
-              : variant === "active"
+              : kind === "active"
                 ? "Active"
                 : "Live")
         }

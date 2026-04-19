@@ -14,7 +14,7 @@ export interface ConfidenceMeterProps extends HTMLAttributes<HTMLDivElement> {
   value: number;
   max?: number;
   label?: string;
-  variant?: "bar" | "gauge" | "ring" | "text-only";
+  kind?: "bar" | "gauge" | "ring" | "text-only";
   zones?: ConfidenceZone[];
   showLabel?: boolean;
   showValue?: boolean;
@@ -44,7 +44,7 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
       value: rawValue,
       max = 1,
       label,
-      variant = "bar",
+      kind = "bar",
       zones = DEFAULT_ZONES,
       showLabel = true,
       showValue = true,
@@ -78,7 +78,7 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
         ref={ref}
         className={cx(
           "vf-confidence-meter",
-          `vf-confidence-meter--${variant}`,
+          `vf-confidence-meter--${kind}`,
           `vf-confidence-meter--${size}`,
           zoneClass,
           className
@@ -91,7 +91,7 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
         aria-label={label ?? "Confidence"}
         {...props}
       >
-        {variant === "bar" && (
+        {kind === "bar" && (
           <div className="vf-confidence-meter__bar">
             <div
               className="vf-confidence-meter__bar-fill"
@@ -104,7 +104,7 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
           </div>
         )}
 
-        {variant === "gauge" && (
+        {kind === "gauge" && (
           <svg
             className="vf-confidence-meter__gauge"
             viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE / 2 + STROKE_WIDTH}`}
@@ -131,7 +131,7 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
           </svg>
         )}
 
-        {variant === "ring" && (
+        {kind === "ring" && (
           <svg
             className="vf-confidence-meter__ring"
             viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}

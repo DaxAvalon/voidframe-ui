@@ -607,10 +607,10 @@ render(<Example />);`,
       {
         title: "Confidence variants",
         code: `<div style={{ display: "flex", gap: 24, alignItems: "center", flexWrap: "wrap" }}>
-  <ConfidenceMeter value={0.75} variant="bar" label="Bar" showLabel showValue />
-  <ConfidenceMeter value={0.75} variant="gauge" label="Gauge" showLabel showValue />
-  <ConfidenceMeter value={0.75} variant="ring" label="Ring" showLabel showValue />
-  <ConfidenceMeter value={0.75} variant="text-only" label="Text" showLabel showValue />
+  <ConfidenceMeter value={0.75} kind="bar" label="Bar" showLabel showValue />
+  <ConfidenceMeter value={0.75} kind="gauge" label="Gauge" showLabel showValue />
+  <ConfidenceMeter value={0.75} kind="ring" label="Ring" showLabel showValue />
+  <ConfidenceMeter value={0.75} kind="text-only" label="Text" showLabel showValue />
 </div>`,
       },
     ],
@@ -889,10 +889,10 @@ render(<Example />);`,
       {
         title: "All variants",
         code: `<div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-  <LiveIndicator variant="typing" label="Typing" />
-  <LiveIndicator variant="recording" label="Recording" />
-  <LiveIndicator variant="active" label="Active" />
-  <LiveIndicator variant="live" label="LIVE" />
+  <LiveIndicator kind="typing" label="Typing" />
+  <LiveIndicator kind="recording" label="Recording" />
+  <LiveIndicator kind="active" label="Active" />
+  <LiveIndicator kind="live" label="LIVE" />
 </div>`,
       },
     ],

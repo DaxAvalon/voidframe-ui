@@ -338,7 +338,7 @@ describe("SSR: renderToString", () => {
     const variants = ["bar", "gauge", "ring", "text-only"] as const;
     for (const variant of variants) {
       expect(() =>
-        wrap(<ConfidenceMeter value={0.5} variant={variant} />)
+        wrap(<ConfidenceMeter value={0.5} kind={variant} />)
       ).not.toThrow();
     }
   });

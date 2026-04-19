@@ -199,12 +199,12 @@ export interface TokenCounterProps extends HTMLAttributes<HTMLDivElement> {
   output?: number;
   total?: number;
   max?: number;
-  variant?: "compact" | "detailed";
+  kind?: "compact" | "detailed";
 }
 
 export const TokenCounter = forwardRef<HTMLDivElement, TokenCounterProps>(
   function TokenCounter(
-    { input, output, total, max, variant = "compact", className, ...props },
+    { input, output, total, max, kind = "compact", className, ...props },
     ref
   ) {
     const sum = total ?? (input ?? 0) + (output ?? 0);
@@ -216,12 +216,12 @@ export const TokenCounter = forwardRef<HTMLDivElement, TokenCounterProps>(
         aria-label="Token count"
         className={cx(
           "vf-token-counter",
-          `vf-token-counter--${variant}`,
+          `vf-token-counter--${kind}`,
           className
         )}
         {...props}
       >
-        {variant === "detailed" && (
+        {kind === "detailed" && (
           <span className="vf-token-counter__parts">
             {input !== undefined && (
               <span className="vf-token-counter__part">
@@ -313,7 +313,7 @@ export interface CostDisplayProps extends HTMLAttributes<HTMLDivElement> {
   output?: number;
   total?: number;
   currency?: string;
-  variant?: "compact" | "detailed";
+  kind?: "compact" | "detailed";
   /** Fraction digits. Default 4. */
   precision?: number;
 }
@@ -325,7 +325,7 @@ export const CostDisplay = forwardRef<HTMLDivElement, CostDisplayProps>(
       output,
       total,
       currency = "$",
-      variant = "compact",
+      kind = "compact",
       precision = 4,
       className,
       ...props
@@ -340,12 +340,12 @@ export const CostDisplay = forwardRef<HTMLDivElement, CostDisplayProps>(
         aria-label="Cost"
         className={cx(
           "vf-cost-display",
-          `vf-cost-display--${variant}`,
+          `vf-cost-display--${kind}`,
           className
         )}
         {...props}
       >
-        {variant === "detailed" && (
+        {kind === "detailed" && (
           <>
             {input !== undefined && (
               <span className="vf-cost-display__part">

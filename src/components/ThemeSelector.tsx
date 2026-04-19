@@ -26,7 +26,7 @@ export interface ThemeSelectorProps
   defaultValue?: string;
   onChange?: (next: string) => void;
   themes: ThemeSelectorOption[];
-  variant?: "segmented" | "dropdown";
+  kind?: "segmented" | "dropdown";
   label?: ReactNode;
   size?: "sm" | "md";
 }
@@ -38,7 +38,7 @@ export const ThemeSelector = forwardRef<HTMLDivElement, ThemeSelectorProps>(
       defaultValue,
       onChange,
       themes,
-      variant = "segmented",
+      kind = "segmented",
       label = "Theme",
       size = "md",
       className,
@@ -55,7 +55,7 @@ export const ThemeSelector = forwardRef<HTMLDivElement, ThemeSelectorProps>(
       onChange?.(next);
     };
 
-    if (variant === "dropdown") {
+    if (kind === "dropdown") {
       return (
         <div
           ref={ref}

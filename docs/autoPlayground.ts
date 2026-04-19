@@ -173,7 +173,7 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   // ── Code/viewers ────────────────────────────────────────────────────
   CodeBlock: '<CodeBlock language="javascript" code={"const greeting = \\"Hello, Voidframe!\\"\\nconsole.log(greeting)"} />',
   JSONViewer: '<JSONViewer data={{ name: "Voidframe", version: "1.0.0", components: 260, themes: ["dark", "light", "midnight", "grey"] }} />',
-  DiffViewer: '<DiffViewer\n  oldValue={"const x = 1;\\nconst y = 2;"}\n  newValue={"const x = 1;\\nconst y = 3;\\nconst z = 4;"}\n  variant="split"\n  showLineNumbers\n/>',
+  DiffViewer: '<DiffViewer\n  oldValue={"const x = 1;\\nconst y = 2;"}\n  newValue={"const x = 1;\\nconst y = 3;\\nconst z = 4;"}\n  kind="split"\n  showLineNumbers\n/>',
   Terminal: '<Terminal lines={["npm install @voidframe/ui", "added 1 package in 1.2s", "npm run build", "vite v5.0.0 building...", "built in 2.1s"]} />',
   LogViewer: '<LogViewer\n  entries={[\n    { level: "info", message: "Server started on port 3000", timestamp: "10:00:01" },\n    { level: "warn", message: "Deprecated API called", timestamp: "10:00:05" },\n    { level: "error", message: "Connection refused", timestamp: "10:00:12" },\n  ]}\n  height={200}\n/>',
   CodeEditor: '<CodeEditor\n  value={"function hello() {\\n  console.log(\\"Hi\\");\\n}"}\n  language="javascript"\n  onChange={() => {}}\n  style={{ height: 120 }}\n/>',

@@ -15,12 +15,12 @@ export interface ThinkingIndicatorProps extends HTMLAttributes<HTMLDivElement> {
   message?: ReactNode;
   /** Elapsed time in ms, displayed as "thought for Xs". */
   duration?: number;
-  variant?: "dots" | "shimmer";
+  kind?: "dots" | "shimmer";
 }
 
 export const ThinkingIndicator = forwardRef<HTMLDivElement, ThinkingIndicatorProps>(
   function ThinkingIndicator(
-    { message = "Thinking", duration, variant = "dots", className, ...props },
+    { message = "Thinking", duration, kind = "dots", className, ...props },
     ref
   ) {
     return (
@@ -30,20 +30,20 @@ export const ThinkingIndicator = forwardRef<HTMLDivElement, ThinkingIndicatorPro
         aria-live="polite"
         className={cx(
           "vf-thinking-indicator",
-          `vf-thinking-indicator--${variant}`,
+          `vf-thinking-indicator--${kind}`,
           className
         )}
         {...props}
       >
         <span className="vf-thinking-indicator__message">{message}</span>
-        {variant === "dots" && (
+        {kind === "dots" && (
           <span className="vf-thinking-indicator__dots" aria-hidden="true">
             <span />
             <span />
             <span />
           </span>
         )}
-        {variant === "shimmer" && (
+        {kind === "shimmer" && (
           <span className="vf-thinking-indicator__shimmer" aria-hidden="true" />
         )}
         {duration !== undefined && (

@@ -12,7 +12,7 @@ import { cx } from "../../utils/cx";
 export interface DiffViewerProps extends HTMLAttributes<HTMLDivElement> {
   oldValue: string;
   newValue: string;
-  variant?: "unified" | "split";
+  kind?: "unified" | "split";
   language?: string;
   showLineNumbers?: boolean;
 }
@@ -114,7 +114,7 @@ export const DiffViewer = forwardRef<HTMLDivElement, DiffViewerProps>(
     {
       oldValue,
       newValue,
-      variant = "unified",
+      kind = "unified",
       language,
       showLineNumbers = true,
       className,
@@ -135,7 +135,7 @@ export const DiffViewer = forwardRef<HTMLDivElement, DiffViewerProps>(
       return map;
     }, [ops]);
 
-    if (variant === "split") {
+    if (kind === "split") {
       type LeftRow = { text: string; type: "equal" | "delete" | "pad"; spans?: WordSpan[] };
       type RightRow = { text: string; type: "equal" | "insert" | "pad"; spans?: WordSpan[] };
       const left: LeftRow[] = [];
