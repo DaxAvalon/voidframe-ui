@@ -501,8 +501,8 @@ render(<Example />);`,
   ]);
   return (
     <EnvironmentVars
-      variables={vars}
-      onChange={setVars}
+      value={vars}
+      onValueChange={setVars}
       showTypes
     />
   );

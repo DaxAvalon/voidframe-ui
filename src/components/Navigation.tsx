@@ -178,11 +178,9 @@ export const Breadcrumb = Object.assign(BreadcrumbBase, {
 
 export interface PaginationProps
   extends Omit<HTMLAttributes<HTMLElement>, "onChange"> {
-  page: number;
-  /** Legacy total-pages alias. Prefer `totalPages`. */
-  total?: number;
-  totalPages?: number;
-  onChange: (page: number) => void;
+  value: number;
+  totalPages: number;
+  onValueChange: (page: number) => void;
   /** How many page buttons to show on either side of the current page. Default 1. */
   siblingCount?: number;
   /** Always-shown page count at each end (first and last). Default 1. */
@@ -248,17 +246,16 @@ function computePages(
 
 /**
  * Offset-based page picker with numbered buttons plus optional prev/next
- * and first/last chevrons. Controlled via `page` + `onChange(page)`.
+ * and first/last chevrons. Controlled via `value` + `onValueChange(page)`.
  * Tune the visible range with `siblingCount` and `boundaryCount`; toggle
  * a rows-per-page `<select>` with `showPageSize`.
  */
 export const Pagination = forwardRef<HTMLElement, PaginationProps>(
   function Pagination(
     {
-      page,
-      total,
-      totalPages: totalPagesProp,
-      onChange,
+      value,
+      totalPages,
+      onValueChange,
       siblingCount = 1,
       boundaryCount = 1,
       showFirstLast = false,
@@ -273,8 +270,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
     },
     ref
   ) {
-    const totalPages = totalPagesProp ?? total ?? 0;
-    const entries = computePages(page, totalPages, siblingCount, boundaryCount);
+    const entries = computePages(value, totalPages, siblingCount, boundaryCount);
     return (
       <nav
         ref={ref}
@@ -286,8 +282,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
         {showFirstLast && (
           <PaginationBtn
             aria-label="First page"
-            onClick={() => onChange(1)}
-            disabled={page <= 1}
+            onClick={() => onValueChange(1)}
+            disabled={value <= 1}
           >
             «
           </PaginationBtn>
@@ -295,8 +291,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
         {showPrevNext && (
           <PaginationBtn
             aria-label="Previous page"
-            onClick={() => page > 1 && onChange(page - 1)}
-            disabled={page <= 1}
+            onClick={() => value > 1 && onValueChange(value - 1)}
+            disabled={value <= 1}
           >
             ‹
           </PaginationBtn>
@@ -314,8 +310,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
             <PaginationBtn
               key={p.key}
               aria-label={`Page ${p.num}`}
-              aria-current={page === p.num ? "page" : undefined}
-              onClick={() => onChange(p.num)}
+              aria-current={value === p.num ? "page" : undefined}
+              onClick={() => onValueChange(p.num)}
             >
               {p.num}
             </PaginationBtn>
@@ -324,8 +320,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
         {showPrevNext && (
           <PaginationBtn
             aria-label="Next page"
-            onClick={() => page < totalPages && onChange(page + 1)}
-            disabled={page >= totalPages}
+            onClick={() => value < totalPages && onValueChange(value + 1)}
+            disabled={value >= totalPages}
           >
             ›
           </PaginationBtn>
@@ -333,8 +329,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
         {showFirstLast && (
           <PaginationBtn
             aria-label="Last page"
-            onClick={() => onChange(totalPages)}
-            disabled={page >= totalPages}
+            onClick={() => onValueChange(totalPages)}
+            disabled={value >= totalPages}
           >
             »
           </PaginationBtn>

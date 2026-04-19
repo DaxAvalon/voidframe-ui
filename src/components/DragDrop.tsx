@@ -272,10 +272,10 @@ export interface SortableRenderProps {
 }
 
 export interface SortableProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
-  items: T[];
+  value: T[];
   /** Read a stable id from each item. */
   getKey: (item: T) => string;
-  onChange: (next: T[]) => void;
+  onValueChange: (next: T[]) => void;
   renderItem: (item: T, index: number, render: SortableRenderProps) => ReactNode;
   strategy?: SortStrategy;
   /** When true, only the dragHandleProps element initiates the drag. */
@@ -283,9 +283,9 @@ export interface SortableProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, "
 }
 
 export function Sortable<T>({
-  items,
+  value: items,
   getKey,
-  onChange,
+  onValueChange,
   renderItem,
   strategy = "vertical",
   handle,
@@ -302,7 +302,7 @@ export function Sortable<T>({
     const [removed] = copy.splice(from, 1);
     if (removed === undefined) return;
     copy.splice(to, 0, removed);
-    onChange(copy);
+    onValueChange(copy);
   };
 
   const layoutStyle: CSSProperties = {

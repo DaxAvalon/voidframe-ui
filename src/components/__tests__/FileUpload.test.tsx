@@ -18,7 +18,7 @@ describe("FileUpload", () => {
   it("accepts files via the hidden input", async () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
-      <FileUpload label="Upload" onChange={onChange} disableThumbnails />
+      <FileUpload label="Upload" onValueChange={onChange} disableThumbnails />
     );
     const input = container.querySelector('input[type="file"]') as HTMLInputElement;
     await userEvent.upload(input, makeFile("hello.txt", 10));
@@ -33,7 +33,7 @@ describe("FileUpload", () => {
       <FileUpload
         label="Upload"
         maxSize={5}
-        onChange={onChange}
+        onValueChange={onChange}
         disableThumbnails
       />
     );
@@ -50,7 +50,7 @@ describe("FileUpload", () => {
       <FileUpload
         label="Upload"
         accept="image/*"
-        onChange={onChange}
+        onValueChange={onChange}
         disableThumbnails
       />
     );

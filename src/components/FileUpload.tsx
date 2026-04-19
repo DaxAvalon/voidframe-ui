@@ -51,7 +51,7 @@ export interface FileUploadProps
   /** Maximum per-file bytes. Larger files are rejected with an error. */
   maxSize?: number;
   /** Called whenever the selection changes. */
-  onChange?: (items: UploadItem[]) => void;
+  onValueChange?: (items: UploadItem[]) => void;
   /**
    * Upload a single file. Receives a progress callback (0..1) and must
    * resolve when the upload succeeds. Throw to mark the item as errored.
@@ -110,7 +110,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
       multiple = true,
       maxFiles,
       maxSize,
-      onChange,
+      onValueChange,
       upload,
       renderSurface,
       disableThumbnails,
@@ -135,7 +135,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
     }, [reactId]);
 
     useEffect(() => {
-      onChange?.(items);
+      onValueChange?.(items);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [items]);
 

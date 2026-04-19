@@ -134,7 +134,7 @@ describe("KeyValueEditor", () => {
   it("adds a row", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <KeyValueEditor entries={[]} onChange={onChange} />
+      <KeyValueEditor value={[]} onValueChange={onChange} />
     );
     await userEvent.click(screen.getByRole("button", { name: /Add/ }));
     expect(onChange).toHaveBeenCalled();
@@ -145,8 +145,8 @@ describe("KeyValueEditor", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <KeyValueEditor
-        entries={[{ key: "a", value: "1", id: "1" }]}
-        onChange={onChange}
+        value={[{ key: "a", value: "1", id: "1" }]}
+        onValueChange={onChange}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "Remove" }));

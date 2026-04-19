@@ -31,7 +31,7 @@ describe("FileUpload drag events", () => {
   it("drop event processes files", async () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
-      <FileUpload label="Upload" onChange={onChange} disableThumbnails />
+      <FileUpload label="Upload" onValueChange={onChange} disableThumbnails />
     );
     const surface = container.querySelector(".vf-file-upload__surface")!;
     const file = makeFile("dropped.txt", 10);
@@ -45,7 +45,7 @@ describe("FileUpload drag events", () => {
   it("drop on disabled surface does not add files", () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
-      <FileUpload label="Upload" onChange={onChange} disabled disableThumbnails />
+      <FileUpload label="Upload" onValueChange={onChange} disabled disableThumbnails />
     );
     const surface = container.querySelector(".vf-file-upload__surface")!;
     const file = makeFile("nope.txt", 10);
@@ -69,7 +69,7 @@ describe("FileUpload file validation", () => {
   it("rejects files not matching accept by extension", async () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
-      <FileUpload label="Upload" accept=".pdf" onChange={onChange} disableThumbnails />
+      <FileUpload label="Upload" accept=".pdf" onValueChange={onChange} disableThumbnails />
     );
     const input = container.querySelector('input[type="file"]') as HTMLInputElement;
     const file = makeFile("doc.txt", 10, "text/plain");
@@ -83,7 +83,7 @@ describe("FileUpload file validation", () => {
   it("accepts files matching accept by extension", async () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
-      <FileUpload label="Upload" accept=".txt" onChange={onChange} disableThumbnails />
+      <FileUpload label="Upload" accept=".txt" onValueChange={onChange} disableThumbnails />
     );
     const input = container.querySelector('input[type="file"]') as HTMLInputElement;
     const file = makeFile("doc.txt", 10, "text/plain");
@@ -96,7 +96,7 @@ describe("FileUpload file validation", () => {
   it("accepts files matching exact MIME type", async () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
-      <FileUpload label="Upload" accept="text/plain" onChange={onChange} disableThumbnails />
+      <FileUpload label="Upload" accept="text/plain" onValueChange={onChange} disableThumbnails />
     );
     const input = container.querySelector('input[type="file"]') as HTMLInputElement;
     const file = makeFile("doc.txt", 10, "text/plain");
@@ -111,7 +111,7 @@ describe("FileUpload maxFiles enforcement", () => {
   it("marks overflow files as error when exceeding maxFiles", async () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
-      <FileUpload label="Upload" maxFiles={1} onChange={onChange} disableThumbnails />
+      <FileUpload label="Upload" maxFiles={1} onValueChange={onChange} disableThumbnails />
     );
     const input = container.querySelector('input[type="file"]') as HTMLInputElement;
     const files = [makeFile("a.txt", 5), makeFile("b.txt", 5)];
@@ -130,7 +130,7 @@ describe("FileUpload single mode (multiple=false)", () => {
   it("replaces previous file when new one is added", async () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
-      <FileUpload label="Upload" multiple={false} onChange={onChange} disableThumbnails />
+      <FileUpload label="Upload" multiple={false} onValueChange={onChange} disableThumbnails />
     );
     const input = container.querySelector('input[type="file"]') as HTMLInputElement;
     fireEvent.change(input, { target: { files: [makeFile("a.txt", 5)] } });
@@ -152,7 +152,7 @@ describe("FileUpload upload error handling", () => {
     });
     const onChange = vi.fn();
     const { container } = renderWithTheme(
-      <FileUpload label="Upload" upload={upload} onChange={onChange} disableThumbnails />
+      <FileUpload label="Upload" upload={upload} onValueChange={onChange} disableThumbnails />
     );
     const input = container.querySelector('input[type="file"]') as HTMLInputElement;
     fireEvent.change(input, { target: { files: [makeFile("fail.txt", 5)] } });

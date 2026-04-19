@@ -41,7 +41,7 @@ describe("Breadcrumb", () => {
 
 describe("Pagination", () => {
   it("renders pages 1..N with ellipsis when spread", () => {
-    renderWithTheme(<Pagination page={5} total={20} onChange={() => {}} />);
+    renderWithTheme(<Pagination value={5} totalPages={20} onValueChange={() => {}} />);
     expect(screen.getByText("5")).toBeInTheDocument();
     expect(screen.getByText("1")).toBeInTheDocument();
     expect(screen.getByText("20")).toBeInTheDocument();
@@ -50,14 +50,14 @@ describe("Pagination", () => {
 
   it("fires onChange for page click", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Pagination page={2} total={5} onChange={onChange} />);
+    renderWithTheme(<Pagination value={2} totalPages={5} onValueChange={onChange} />);
     await userEvent.click(screen.getByText("3"));
     expect(onChange).toHaveBeenCalledWith(3);
   });
 
   it("disables previous at page 1", async () => {
     const onChange = vi.fn();
-    renderWithTheme(<Pagination page={1} total={5} onChange={onChange} />);
+    renderWithTheme(<Pagination value={1} totalPages={5} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("button", { name: "Previous page" }));
     expect(onChange).not.toHaveBeenCalled();
   });

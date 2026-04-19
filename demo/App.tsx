@@ -1029,9 +1029,9 @@ function PaginationDemo() {
   const [page, setPage] = useState(3);
   return (
     <Pagination
-      page={page}
+      value={page}
       totalPages={10}
-      onChange={setPage}
+      onValueChange={setPage}
       siblingCount={1}
       showFirstLast
     />
@@ -2613,9 +2613,9 @@ function InteractiveSection() {
       </Block>
       <Block label="Sortable (drag rows; ArrowKeys to move)">
         <Sortable
-          items={items}
+          value={items}
           getKey={(x) => x}
-          onChange={setItems}
+          onValueChange={setItems}
           renderItem={(item, _i, { dragHandleProps }) => (
             <Flex gap={8} align="center">
               <span {...dragHandleProps} style={{ cursor: "grab" }}>⋮⋮</span>
@@ -3521,7 +3521,7 @@ function SpecialtyDevToolsSection() {
         />
       </Block>
       <Block label="KeyValueEditor">
-        <KeyValueEditor entries={pairs} onChange={setPairs} />
+        <KeyValueEditor value={pairs} onValueChange={setPairs} />
       </Block>
       <Block label="QueryBuilder">
         <QueryBuilder
@@ -4735,8 +4735,8 @@ function NewDevToolsSection() {
       </Block>
       <Block label="EnvironmentVars">
         <EnvironmentVars
-          variables={envVars}
-          onChange={setEnvVars}
+          value={envVars}
+          onValueChange={setEnvVars}
           searchable
           showTypes
           copyable

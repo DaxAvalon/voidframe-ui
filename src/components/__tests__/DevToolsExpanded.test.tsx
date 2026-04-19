@@ -332,8 +332,8 @@ describe("KeyValueEditor extended", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <KeyValueEditor
-        entries={[{ key: "foo", value: "bar", id: "1" }]}
-        onChange={onChange}
+        value={[{ key: "foo", value: "bar", id: "1" }]}
+        onValueChange={onChange}
       />
     );
     const inputs = screen.getAllByRole("textbox");
@@ -348,8 +348,8 @@ describe("KeyValueEditor extended", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <KeyValueEditor
-        entries={[{ key: "k", value: "v", id: "1" }]}
-        onChange={onChange}
+        value={[{ key: "k", value: "v", id: "1" }]}
+        onValueChange={onChange}
         allowDisable
       />
     );
@@ -362,8 +362,8 @@ describe("KeyValueEditor extended", () => {
   it("hides checkbox when allowDisable=false", () => {
     renderWithTheme(
       <KeyValueEditor
-        entries={[{ key: "k", value: "v", id: "1" }]}
-        onChange={() => {}}
+        value={[{ key: "k", value: "v", id: "1" }]}
+        onValueChange={() => {}}
         allowDisable={false}
       />
     );

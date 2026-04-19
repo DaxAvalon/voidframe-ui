@@ -93,9 +93,9 @@ describe("Pagination (upgrade)", () => {
   it("shows first/last buttons when enabled", () => {
     renderWithTheme(
       <Pagination
-        page={5}
+        value={5}
         totalPages={10}
-        onChange={() => {}}
+        onValueChange={() => {}}
         showFirstLast
       />
     );
@@ -106,9 +106,9 @@ describe("Pagination (upgrade)", () => {
   it("respects siblingCount to widen visible pages", () => {
     renderWithTheme(
       <Pagination
-        page={10}
+        value={10}
         totalPages={20}
-        onChange={() => {}}
+        onValueChange={() => {}}
         siblingCount={2}
         boundaryCount={1}
       />
@@ -125,9 +125,9 @@ describe("Pagination (upgrade)", () => {
     const onPageSizeChange = vi.fn();
     renderWithTheme(
       <Pagination
-        page={1}
+        value={1}
         totalPages={1}
-        onChange={() => {}}
+        onValueChange={() => {}}
         showPageSize
         pageSize={25}
         pageSizeOptions={[10, 25, 50]}
@@ -139,11 +139,6 @@ describe("Pagination (upgrade)", () => {
     expect(onPageSizeChange).toHaveBeenCalledWith(50);
   });
 
-  it("keeps the legacy `total` prop working", () => {
-    renderWithTheme(<Pagination page={2} total={5} onChange={() => {}} />);
-    expect(screen.getByRole("button", { name: "Page 1" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Page 5" })).toBeInTheDocument();
-  });
 });
 
 // ── Stepper upgrades ──

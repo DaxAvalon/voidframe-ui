@@ -223,7 +223,7 @@ const ssrComponents: Array<{ name: string; element: React.ReactElement }> = [
     name: "EnvironmentVars",
     element: (
       <EnvironmentVars
-        variables={[{ key: "NODE_ENV", value: "production" }]}
+        value={[{ key: "NODE_ENV", value: "production" }]}
       />
     ),
   },

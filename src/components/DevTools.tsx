@@ -531,8 +531,8 @@ export interface KeyValuePair {
 
 export interface KeyValueEditorProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
-  entries: KeyValuePair[];
-  onChange: (next: KeyValuePair[]) => void;
+  value: KeyValuePair[];
+  onValueChange: (next: KeyValuePair[]) => void;
   keyPlaceholder?: string;
   valuePlaceholder?: string;
   addLabel?: ReactNode;
@@ -542,8 +542,8 @@ export interface KeyValueEditorProps
 export const KeyValueEditor = forwardRef<HTMLDivElement, KeyValueEditorProps>(
   function KeyValueEditor(
     {
-      entries,
-      onChange,
+      value: entries,
+      onValueChange,
       keyPlaceholder = "Key",
       valuePlaceholder = "Value",
       addLabel = "Add",
@@ -554,13 +554,13 @@ export const KeyValueEditor = forwardRef<HTMLDivElement, KeyValueEditorProps>(
     ref
   ) {
     const update = (i: number, patch: Partial<KeyValuePair>) => {
-      onChange(entries.map((e, idx) => (idx === i ? { ...e, ...patch } : e)));
+      onValueChange(entries.map((e, idx) => (idx === i ? { ...e, ...patch } : e)));
     };
     const remove = (i: number) => {
-      onChange(entries.filter((_, idx) => idx !== i));
+      onValueChange(entries.filter((_, idx) => idx !== i));
     };
     const add = () => {
-      onChange([
+      onValueChange([
         ...entries,
         { key: "", value: "", id: `kv-${Date.now().toString(36)}` },
       ]);

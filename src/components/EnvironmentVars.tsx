@@ -15,8 +15,8 @@ export interface EnvVar {
 }
 
 export interface EnvironmentVarsProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
-  variables: EnvVar[];
-  onChange?: (variables: EnvVar[]) => void;
+  value: EnvVar[];
+  onValueChange?: (variables: EnvVar[]) => void;
   onAdd?: (variable: EnvVar) => void;
   onRemove?: (key: string) => void;
   readOnly?: boolean;
@@ -31,8 +31,8 @@ export interface EnvironmentVarsProps extends Omit<HTMLAttributes<HTMLDivElement
 const EnvironmentVarsImpl = forwardRef<HTMLDivElement, EnvironmentVarsProps>(
   function EnvironmentVars(
     {
-      variables,
-      onChange,
+      value: variables,
+      onValueChange,
       onAdd,
       onRemove,
       readOnly = false,
@@ -95,13 +95,13 @@ const EnvironmentVarsImpl = forwardRef<HTMLDivElement, EnvironmentVarsProps>(
     }, []);
 
     const commitEdit = useCallback(() => {
-      if (!editingKey || !onChange) return;
+      if (!editingKey || !onValueChange) return;
       const updated = variables.map((v) =>
         v.key === editingKey ? { ...v, value: editValue } : v
       );
-      onChange(updated);
+      onValueChange(updated);
       setEditingKey(null);
-    }, [editingKey, editValue, onChange, variables]);
+    }, [editingKey, editValue, onValueChange, variables]);
 
     const handleAdd = useCallback(() => {
       if (!newKey.trim()) return;

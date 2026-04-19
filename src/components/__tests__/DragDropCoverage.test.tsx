@@ -139,9 +139,9 @@ describe("Sortable horizontal keyboard reorder", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <Sortable
-        items={["X", "Y", "Z"]}
+        value={["X", "Y", "Z"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         strategy="horizontal"
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps} data-testid={`item-${item}`}>{item}</span>
@@ -156,9 +156,9 @@ describe("Sortable horizontal keyboard reorder", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <Sortable
-        items={["X", "Y", "Z"]}
+        value={["X", "Y", "Z"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         strategy="horizontal"
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps} data-testid={`item-${item}`}>{item}</span>
@@ -173,9 +173,9 @@ describe("Sortable horizontal keyboard reorder", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <Sortable
-        items={["X", "Y"]}
+        value={["X", "Y"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps} data-testid={`item-${item}`}>{item}</span>
         )}
@@ -190,9 +190,9 @@ describe("Sortable with handle mode", () => {
   it("does not set draggable on wrapper when handle=true", () => {
     const { container } = renderWithTheme(
       <Sortable
-        items={["A"]}
+        value={["A"]}
         getKey={(i) => i}
-        onChange={() => {}}
+        onValueChange={() => {}}
         handle
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps}>{item}</span>

@@ -79,9 +79,9 @@ describe("Sortable (expanded)", () => {
     const items = ["Apple", "Banana", "Cherry"];
     renderWithTheme(
       <Sortable
-        items={items}
+        value={items}
         getKey={(item) => item}
-        onChange={() => {}}
+        onValueChange={() => {}}
         renderItem={(item, _index, { dragHandleProps }) => (
           <span {...dragHandleProps}>{item}</span>
         )}
@@ -97,9 +97,9 @@ describe("Sortable (expanded)", () => {
     const items = ["A", "B"];
     renderWithTheme(
       <Sortable
-        items={items}
+        value={items}
         getKey={(i) => i}
-        onChange={() => {}}
+        onValueChange={() => {}}
         renderItem={(item) => <span>{item}</span>}
       />
     );
@@ -110,9 +110,9 @@ describe("Sortable (expanded)", () => {
   it("applies vf-sortable class and strategy class", () => {
     const { container } = renderWithTheme(
       <Sortable
-        items={["X"]}
+        value={["X"]}
         getKey={(i) => i}
-        onChange={() => {}}
+        onValueChange={() => {}}
         renderItem={(item) => <span>{item}</span>}
         strategy="horizontal"
       />
@@ -124,9 +124,9 @@ describe("Sortable (expanded)", () => {
   it("applies vertical strategy by default", () => {
     const { container } = renderWithTheme(
       <Sortable
-        items={["X"]}
+        value={["X"]}
         getKey={(i) => i}
-        onChange={() => {}}
+        onValueChange={() => {}}
         renderItem={(item) => <span>{item}</span>}
       />
     );
@@ -136,9 +136,9 @@ describe("Sortable (expanded)", () => {
   it("applies grid strategy class", () => {
     const { container } = renderWithTheme(
       <Sortable
-        items={["X"]}
+        value={["X"]}
         getKey={(i) => i}
-        onChange={() => {}}
+        onValueChange={() => {}}
         renderItem={(item) => <span>{item}</span>}
         strategy="grid"
       />
@@ -149,9 +149,9 @@ describe("Sortable (expanded)", () => {
   it("applies custom className", () => {
     const { container } = renderWithTheme(
       <Sortable
-        items={["X"]}
+        value={["X"]}
         getKey={(i) => i}
-        onChange={() => {}}
+        onValueChange={() => {}}
         renderItem={(item) => <span>{item}</span>}
         className="my-list"
       />
@@ -167,9 +167,9 @@ describe("Sortable (expanded)", () => {
       const [list, setList] = useState(items);
       return (
         <Sortable
-          items={list}
+          value={list}
           getKey={(i) => i}
-          onChange={(next) => {
+          onValueChange={(next) => {
             setList(next);
             onChange(next);
           }}
@@ -190,9 +190,9 @@ describe("Sortable (expanded)", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <Sortable
-        items={["A", "B"]}
+        value={["A", "B"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps} data-testid={`item-${item}`}>{item}</span>
         )}
@@ -206,9 +206,9 @@ describe("Sortable (expanded)", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <Sortable
-        items={["A", "B"]}
+        value={["A", "B"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps} data-testid={`item-${item}`}>{item}</span>
         )}
@@ -221,9 +221,9 @@ describe("Sortable (expanded)", () => {
   it("drag handle props include aria-label with item key", () => {
     renderWithTheme(
       <Sortable
-        items={["foo"]}
+        value={["foo"]}
         getKey={(i) => i}
-        onChange={() => {}}
+        onValueChange={() => {}}
         renderItem={(_item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps} data-testid="handle">handle</span>
         )}

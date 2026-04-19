@@ -196,9 +196,9 @@ describe("Sortable", () => {
       const [items, setItems] = useState(["a", "b", "c"]);
       return (
         <Sortable
-          items={items}
+          value={items}
           getKey={(x) => x}
-          onChange={setItems}
+          onValueChange={setItems}
           renderItem={(item, _, { dragHandleProps }) => (
             <span {...dragHandleProps}>{item}</span>
           )}
@@ -217,9 +217,9 @@ describe("Sortable", () => {
   it("ReorderList is a Sortable alias", () => {
     renderWithTheme(
       <ReorderList
-        items={["x"]}
+        value={["x"]}
         getKey={(x) => x}
-        onChange={() => {}}
+        onValueChange={() => {}}
         renderItem={(it) => <span>{it}</span>}
       />
     );

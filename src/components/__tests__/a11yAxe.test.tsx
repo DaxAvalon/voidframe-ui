@@ -154,7 +154,7 @@ describe("axe: navigation", () => {
 
   it("Pagination", async () => {
     const { container } = renderWithTheme(
-      <Pagination page={2} total={5} onChange={() => {}} />
+      <Pagination value={2} totalPages={5} onValueChange={() => {}} />
     );
     await expectNoA11yViolations(container);
   });

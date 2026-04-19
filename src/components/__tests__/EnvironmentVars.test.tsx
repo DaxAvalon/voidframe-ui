@@ -19,14 +19,14 @@ const sampleVars: EnvVar[] = [
 
 describe("EnvironmentVars", () => {
   it("renders all variables", () => {
-    renderWithTheme(<EnvironmentVars variables={sampleVars} />);
+    renderWithTheme(<EnvironmentVars value={sampleVars} />);
     expect(screen.getByText("DATABASE_URL")).toBeInTheDocument();
     expect(screen.getByText("API_KEY")).toBeInTheDocument();
     expect(screen.getByText("NODE_ENV")).toBeInTheDocument();
   });
 
   it("masks secret values", () => {
-    renderWithTheme(<EnvironmentVars variables={sampleVars} />);
+    renderWithTheme(<EnvironmentVars value={sampleVars} />);
     // The secret value should be masked
     expect(screen.getByText("\u2022\u2022\u2022\u2022\u2022")).toBeInTheDocument();
     // The non-secret value should be visible
@@ -36,14 +36,14 @@ describe("EnvironmentVars", () => {
   });
 
   it("reveal toggle shows secret value", async () => {
-    renderWithTheme(<EnvironmentVars variables={sampleVars} />);
+    renderWithTheme(<EnvironmentVars value={sampleVars} />);
     const revealBtn = screen.getByLabelText("Reveal value");
     await userEvent.click(revealBtn);
     expect(screen.getByText("sk-secret-123")).toBeInTheDocument();
   });
 
   it("copy button is present when copyable", () => {
-    renderWithTheme(<EnvironmentVars variables={sampleVars} copyable />);
+    renderWithTheme(<EnvironmentVars value={sampleVars} copyable />);
     const copyBtns = screen.getAllByText("Copy");
     expect(copyBtns.length).toBeGreaterThan(0);
   });
@@ -54,7 +54,7 @@ describe("EnvironmentVars", () => {
       { key: "FOO", value: "bar" },
     ];
     renderWithTheme(
-      <EnvironmentVars variables={vars} onChange={handleChange} />
+      <EnvironmentVars value={vars} onValueChange={handleChange} />
     );
     // Click on value to start editing
     const valueEl = screen.getByText("bar");
@@ -69,7 +69,7 @@ describe("EnvironmentVars", () => {
   it("fires onAdd when adding a variable", async () => {
     const handleAdd = vi.fn();
     renderWithTheme(
-      <EnvironmentVars variables={[]} onAdd={handleAdd} addable />
+      <EnvironmentVars value={[]} onAdd={handleAdd} addable />
     );
     const keyInput = screen.getByLabelText("New variable key");
     const valInput = screen.getByLabelText("New variable value");
@@ -86,7 +86,7 @@ describe("EnvironmentVars", () => {
     const handleRemove = vi.fn();
     const vars: EnvVar[] = [{ key: "FOO", value: "bar" }];
     renderWithTheme(
-      <EnvironmentVars variables={vars} onRemove={handleRemove} />
+      <EnvironmentVars value={vars} onRemove={handleRemove} />
     );
     await userEvent.click(screen.getByLabelText("Remove FOO"));
     expect(handleRemove).toHaveBeenCalledWith("FOO");
@@ -94,7 +94,7 @@ describe("EnvironmentVars", () => {
 
   it("readOnly hides edit/add/delete controls", () => {
     renderWithTheme(
-      <EnvironmentVars variables={sampleVars} readOnly onRemove={vi.fn()} />
+      <EnvironmentVars value={sampleVars} readOnly onRemove={vi.fn()} />
     );
     expect(screen.queryByLabelText("Add variable")).not.toBeInTheDocument();
     expect(screen.queryByLabelText("Remove DATABASE_URL")).not.toBeInTheDocument();
@@ -102,7 +102,7 @@ describe("EnvironmentVars", () => {
 
   it("search filters by key", async () => {
     renderWithTheme(
-      <EnvironmentVars variables={sampleVars} searchable />
+      <EnvironmentVars value={sampleVars} searchable />
     );
     const searchInput = screen.getByLabelText("Search variables");
     await userEvent.type(searchInput, "API");
@@ -116,7 +116,7 @@ describe("EnvironmentVars", () => {
       { key: "B", value: "2", group: "runtime" },
     ];
     renderWithTheme(
-      <EnvironmentVars variables={vars} groupBy="group" />
+      <EnvironmentVars value={vars} groupBy="group" />
     );
     expect(screen.getByText("secrets")).toBeInTheDocument();
     expect(screen.getByText("runtime")).toBeInTheDocument();
@@ -124,7 +124,7 @@ describe("EnvironmentVars", () => {
 
   it("shows type badges when showTypes is true", () => {
     renderWithTheme(
-      <EnvironmentVars variables={sampleVars} showTypes />
+      <EnvironmentVars value={sampleVars} showTypes />
     );
     const badges = document.querySelectorAll(".vf-env-vars__type-badge");
     expect(badges.length).toBeGreaterThan(0);
@@ -132,7 +132,7 @@ describe("EnvironmentVars", () => {
 
   it("inherited vars are dimmed and not editable", () => {
     renderWithTheme(
-      <EnvironmentVars variables={sampleVars} onRemove={vi.fn()} />
+      <EnvironmentVars value={sampleVars} onRemove={vi.fn()} />
     );
     const inheritedRow = document.querySelector(
       '.vf-env-vars__row[data-inherited="true"]'
@@ -149,7 +149,7 @@ describe("EnvironmentVars", () => {
 
   it.each(["sm", "md"] as const)("size=%s applies class", (size) => {
     const { container } = renderWithTheme(
-      <EnvironmentVars variables={[]} size={size} />
+      <EnvironmentVars value={[]} size={size} />
     );
     expect(
       container.querySelector(`.vf-env-vars--${size}`)
@@ -158,7 +158,7 @@ describe("EnvironmentVars", () => {
 
   it("has no a11y violations", async () => {
     const { container } = renderWithTheme(
-      <EnvironmentVars variables={sampleVars} />
+      <EnvironmentVars value={sampleVars} />
     );
     await expectNoA11yViolations(container);
   });

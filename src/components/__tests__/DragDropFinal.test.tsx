@@ -127,9 +127,9 @@ describe("Sortable drag events on items", () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
       <Sortable
-        items={["A", "B", "C"]}
+        value={["A", "B", "C"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps}>{item}</span>
         )}
@@ -152,9 +152,9 @@ describe("Sortable drag events on items", () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
       <Sortable
-        items={["A", "B", "C"]}
+        value={["A", "B", "C"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps}>{item}</span>
         )}
@@ -181,9 +181,9 @@ describe("Sortable drag events on items", () => {
     const onChange = vi.fn();
     const { container } = renderWithTheme(
       <Sortable
-        items={["A", "B"]}
+        value={["A", "B"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps}>{item}</span>
         )}
@@ -208,9 +208,9 @@ describe("Sortable drag events on items", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <Sortable
-        items={["X"]}
+        value={["X"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         handle
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps} data-testid={`handle-${item}`}>
@@ -229,9 +229,9 @@ describe("Sortable drag events on items", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <Sortable
-        items={["X", "Y"]}
+        value={["X", "Y"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps} data-testid={`item-${item}`}>{item}</span>
         )}
@@ -246,9 +246,9 @@ describe("Sortable drag events on items", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <Sortable
-        items={["X", "Y"]}
+        value={["X", "Y"]}
         getKey={(i) => i}
-        onChange={onChange}
+        onValueChange={onChange}
         renderItem={(item, _i, { dragHandleProps }) => (
           <span {...dragHandleProps} data-testid={`item-${item}`}>{item}</span>
         )}
@@ -264,9 +264,9 @@ describe("Sortable grid strategy", () => {
   it("applies grid display style", () => {
     const { container } = renderWithTheme(
       <Sortable
-        items={["A"]}
+        value={["A"]}
         getKey={(i) => i}
-        onChange={() => {}}
+        onValueChange={() => {}}
         strategy="grid"
         renderItem={(item) => <span>{item}</span>}
       />

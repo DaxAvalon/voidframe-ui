@@ -7,7 +7,7 @@ describe("DragDrop surface", () => {
   it("Sortable renders items", () => {
     const { container } = renderWithTheme(
       <Sortable
-        items={["a", "b", "c"]}
+        value={["a", "b", "c"]}
         getKey={(item) => item}
         renderItem={(item) => <div data-testid={item}>{item}</div>}
         onReorder={() => {}}
