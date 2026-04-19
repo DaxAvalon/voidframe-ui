@@ -7,7 +7,9 @@ import {
   memo,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
+  useState,
   type CSSProperties,
   type HTMLAttributes,
   type ReactElement,
@@ -16,6 +18,10 @@ import {
 import { useControllableState } from "../hooks/useControllableState";
 import { useEscapeKey } from "../hooks/useEscapeKey";
 import { Portal } from "../primitives/Portal";
+import {
+  computeAnchoredPosition,
+  type AnchorRect,
+} from "../utils/anchor";
 import { cx } from "../utils/cx";
 
 export interface PopconfirmProps
@@ -67,6 +73,9 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
     });
 
     const confirmRef = useRef<HTMLButtonElement>(null);
+    const triggerWrapperRef = useRef<HTMLDivElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
+    const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
 
     const close = useCallback(() => {
       setIsOpen(false);
@@ -100,6 +109,52 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
       }
     }, [isOpen]);
 
+    // Position the portaled overlay relative to the trigger's bounding rect.
+    // CSS-only placement (`top: 100%`, etc.) doesn't work across Portal because
+    // the overlay's containing block is document.body, not the trigger.
+    useLayoutEffect(() => {
+      if (!isOpen) {
+        setPos(null);
+        return;
+      }
+      const updatePos = () => {
+        const wrapper = triggerWrapperRef.current;
+        if (!wrapper) return;
+        // Prefer the wrapper's first child (the real trigger element) for its
+        // bounding rect — falls back to the wrapper itself.
+        const triggerEl =
+          (wrapper.firstElementChild as HTMLElement | null) ?? wrapper;
+        const r = triggerEl.getBoundingClientRect();
+        const triggerRect: AnchorRect = {
+          top: r.top,
+          left: r.left,
+          right: r.right,
+          bottom: r.bottom,
+          width: r.width,
+          height: r.height,
+        };
+        const overlay = overlayRef.current;
+        const contentSize = overlay
+          ? { width: overlay.offsetWidth, height: overlay.offsetHeight }
+          : { width: 240, height: 120 };
+        const anchored = computeAnchoredPosition(
+          triggerRect,
+          contentSize,
+          placement,
+          8
+        );
+        setPos({ top: anchored.top, left: anchored.left });
+      };
+      updatePos();
+      if (typeof window === "undefined") return;
+      window.addEventListener("scroll", updatePos, true);
+      window.addEventListener("resize", updatePos);
+      return () => {
+        window.removeEventListener("scroll", updatePos, true);
+        window.removeEventListener("resize", updatePos);
+      };
+    }, [isOpen, placement]);
+
     // Clone trigger to attach click handler
     const trigger = isValidElement(children)
       ? cloneElement(children as ReactElement<Record<string, unknown>>, {
@@ -124,10 +179,13 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
         style={style}
         {...props}
       >
-        {trigger}
+        <div ref={triggerWrapperRef} className="vf-popconfirm__trigger-wrap">
+          {trigger}
+        </div>
         {isOpen && (
           <Portal>
             <div
+              ref={overlayRef}
               className={cx(
                 "vf-popconfirm__overlay",
                 `vf-popconfirm__overlay--${placement}`,
@@ -135,6 +193,21 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
               )}
               role="dialog"
               aria-label={title}
+              style={
+                pos
+                  ? {
+                      position: "fixed",
+                      top: `${pos.top}px`,
+                      left: `${pos.left}px`,
+                    }
+                  : {
+                      // Hide the overlay until positioned to prevent a flash
+                      // at the document-body origin.
+                      position: "fixed",
+                      top: "-9999px",
+                      left: "-9999px",
+                    }
+              }
             >
               {icon && (
                 <span className="vf-popconfirm__icon" aria-hidden="true">

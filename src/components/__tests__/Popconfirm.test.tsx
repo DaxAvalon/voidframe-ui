@@ -187,4 +187,55 @@ describe("Popconfirm", () => {
     );
     await expectNoA11yViolations(container);
   });
+
+  it("overlay is positioned relative to the trigger, not document.body (Portal anchoring)", () => {
+    // Stub the trigger's bounding rect so the computed position is predictable.
+    const triggerRect = {
+      top: 200,
+      left: 100,
+      right: 180,
+      bottom: 224,
+      width: 80,
+      height: 24,
+      x: 100,
+      y: 200,
+      toJSON() {
+        return this;
+      },
+    } as DOMRect;
+
+    const originalGBCR = HTMLButtonElement.prototype.getBoundingClientRect;
+    HTMLButtonElement.prototype.getBoundingClientRect = function () {
+      if (this.textContent === "Delete") return triggerRect;
+      return originalGBCR.call(this);
+    };
+
+    try {
+      renderWithTheme(
+        <Popconfirm
+          title="Sure?"
+          onConfirm={() => {}}
+          defaultOpen
+          placement="top"
+        >
+          <button>Delete</button>
+        </Popconfirm>
+      );
+      const overlay = document.querySelector<HTMLDivElement>(
+        ".vf-popconfirm__overlay"
+      );
+      expect(overlay).toBeTruthy();
+      // Inline style must set top/left to concrete pixel values that were
+      // derived from the trigger rect — NOT percentage or empty, which is
+      // what the pre-fix CSS-only placement produced.
+      const topStr = overlay!.style.top;
+      const leftStr = overlay!.style.left;
+      expect(topStr).toMatch(/\d+px$/);
+      expect(leftStr).toMatch(/(^-?\d+(\.\d+)?)px$/);
+      expect(topStr).not.toBe("100%");
+      expect(leftStr).not.toBe("100%");
+    } finally {
+      HTMLButtonElement.prototype.getBoundingClientRect = originalGBCR;
+    }
+  });
 });
