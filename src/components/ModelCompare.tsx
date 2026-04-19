@@ -1,6 +1,14 @@
 "use client";
 
-import { forwardRef, memo, type HTMLAttributes, type ReactNode } from "react";
+import {
+  forwardRef,
+  memo,
+  useCallback,
+  useRef,
+  type HTMLAttributes,
+  type ReactNode,
+  type UIEvent,
+} from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
 
@@ -64,6 +72,26 @@ const ModelCompareImpl = forwardRef<HTMLDivElement, ModelCompareProps>(
     const getResponse = (modelId: string) =>
       responses.find((r) => r.modelId === modelId);
 
+    // Mirror scrollTop across the two panel-content divs when syncScroll is on.
+    // Guarded by `syncingRef` to prevent the mirrored scroll from re-triggering this handler.
+    const panelRefs = useRef<[HTMLDivElement | null, HTMLDivElement | null]>([null, null]);
+    const syncingRef = useRef(false);
+    const handlePanelScroll = useCallback(
+      (idx: 0 | 1) => (e: UIEvent<HTMLDivElement>) => {
+        if (!syncScroll) return;
+        if (syncingRef.current) return;
+        const other = panelRefs.current[idx === 0 ? 1 : 0];
+        if (!other) return;
+        syncingRef.current = true;
+        other.scrollTop = e.currentTarget.scrollTop;
+        // reset on next tick so user scrolls on `other` still work
+        queueMicrotask(() => {
+          syncingRef.current = false;
+        });
+      },
+      [syncScroll]
+    );
+
     return (
       <div
         ref={ref}
@@ -90,9 +118,10 @@ const ModelCompareImpl = forwardRef<HTMLDivElement, ModelCompareProps>(
 
         {/* Panels */}
         <div className="vf-model-compare__panels">
-          {models.map((model) => {
+          {models.map((model, idx) => {
             const resp = getResponse(model.id);
             const status = resp?.status ?? "idle";
+            const panelIdx = (idx === 0 ? 0 : 1) as 0 | 1;
             return (
               <div
                 key={model.id}
@@ -108,7 +137,13 @@ const ModelCompareImpl = forwardRef<HTMLDivElement, ModelCompareProps>(
                   )}
                   <span>{model.name}</span>
                 </div>
-                <div className="vf-model-compare__panel-content">
+                <div
+                  className="vf-model-compare__panel-content"
+                  ref={(el) => {
+                    panelRefs.current[panelIdx] = el;
+                  }}
+                  onScroll={handlePanelScroll(panelIdx)}
+                >
                   {status === "error" && resp?.error
                     ? resp.error
                     : resp?.content ?? ""}

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ModelCompare, type ModelCompareModel, type ModelCompareResponse } from "../ModelCompare";
 import { renderWithTheme } from "../../../test/renderWithTheme";
@@ -124,5 +124,42 @@ describe("ModelCompare", () => {
   it("has no a11y violations", async () => {
     const { container } = renderWithTheme(<ModelCompare models={MODELS} />);
     await expectNoA11yViolations(container);
+  });
+
+  it("syncScroll=true mirrors scrollTop from one panel to the other", () => {
+    const responses: ModelCompareResponse[] = [
+      { modelId: "a", content: "long content A", status: "complete" },
+      { modelId: "b", content: "long content B", status: "complete" },
+    ];
+    renderWithTheme(
+      <ModelCompare models={MODELS} responses={responses} syncScroll />
+    );
+    const panels = document.querySelectorAll<HTMLDivElement>(
+      ".vf-model-compare__panel-content"
+    );
+    expect(panels).toHaveLength(2);
+    const [panelA, panelB] = [panels[0]!, panels[1]!];
+
+    Object.defineProperty(panelA, "scrollTop", { value: 120, writable: true, configurable: true });
+    fireEvent.scroll(panelA);
+    expect(panelB.scrollTop).toBe(120);
+  });
+
+  it("syncScroll=false (default) does not mirror scrollTop", () => {
+    const responses: ModelCompareResponse[] = [
+      { modelId: "a", content: "long content A", status: "complete" },
+      { modelId: "b", content: "long content B", status: "complete" },
+    ];
+    renderWithTheme(
+      <ModelCompare models={MODELS} responses={responses} />
+    );
+    const panels = document.querySelectorAll<HTMLDivElement>(
+      ".vf-model-compare__panel-content"
+    );
+    const [panelA, panelB] = [panels[0]!, panels[1]!];
+
+    Object.defineProperty(panelA, "scrollTop", { value: 120, writable: true, configurable: true });
+    fireEvent.scroll(panelA);
+    expect(panelB.scrollTop).toBe(0);
   });
 });
