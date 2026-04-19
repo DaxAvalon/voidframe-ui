@@ -4,7 +4,7 @@ Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-
 
 Built for dashboards, dev tools, data interfaces, internal consoles, AI chat products, and anything that needs to feel like it was forged from the void.
 
-**230+ accessible components + a brutalist icon system** across primitives, layout, forms, navigation, data, overlays, interaction, a full chat/AI surface, a specialty tier (dev tools, identity, numeric, time, help, encoding, widgets, print), and ~60 bundled monoline icons. WAI-ARIA patterns. Controllable / uncontrollable duality on every input. Compound APIs on every complex surface. No runtime dependencies beyond React.
+**500+ accessible component exports + a brutalist icon system** across primitives, layout, forms, navigation, data, overlays, interaction, a full chat/AI surface, charts, a specialty tier (dev tools, identity, numeric, time, help, encoding, widgets, print), and ~75 bundled monoline icons. WAI-ARIA patterns. Controllable / uncontrollable duality on every input. Compound APIs on every complex surface. Zero runtime dependencies (peer deps are optional where possible).
 
 ---
 
@@ -119,7 +119,7 @@ import { VoidframeProvider } from "voidframe";
 
 ### Built-in themes
 
-Three themes ship out of the box: `darkTheme` (default), `lightTheme`, and `midnightTheme` (deep-black OLED-friendly).
+Four themes ship out of the box: `darkTheme` (default), `lightTheme`, `midnightTheme` (deep-black OLED-friendly), and `greyTheme` (warm neutral).
 
 ```jsx
 import { VoidframeProvider } from "voidframe";
@@ -499,14 +499,15 @@ import {
 
 **Bundle budgets** (enforced in CI via `npm run size`):
 
-| Entry | Budget |
+| Entry | Budget (gzipped) |
 |---|---|
-| Full ESM bundle | ≤150 KB gzipped |
-| Stylesheet | ≤25 KB gzipped |
-| `import { Button }` only | ≤5 KB gzipped |
-| `import { Icon, SearchIcon }` | ≤3 KB gzipped |
+| Core ESM (`dist/voidframe.es.js`) | ≤170 KB |
+| Charts ESM (`dist/charts.es.js`) | ≤40 KB |
+| Dev tools ESM (`dist/dev.es.js`) | ≤10 KB |
+| Stylesheet (`dist/voidframe.css`) | ≤50 KB |
+| All JS (ES + CJS across all entries) | ≤400 KB |
 
-Configured in `package.json` → `size-limit`. Run `npm run size` after `npm run build` to verify before shipping a large component.
+Configured in `package.json` → `size-limit`. Run `npm run size` after `npm run build` to verify before shipping a large component. Cherry-picked imports (`import { Button }`) tree-shake to well under each budget but are not individually gated in CI.
 
 **Production DCE.** All dev-only `warn()` and `warnOnce()` calls are guarded by `process.env.NODE_ENV !== "production"` — bundlers strip them from production builds entirely, so warning message strings never ship.
 
@@ -551,7 +552,7 @@ it("persists theme through storage", () => {
 **Scripts** (the framework's own CI matrix, mirrored in `package.json`):
 
 ```bash
-npm run test              # full vitest suite (1260+ tests)
+npm run test              # full vitest suite (4,994 tests as of 2026-04-19)
 npm run test:watch        # interactive
 npm run test:coverage     # v8 coverage + enforced floor thresholds
 npm run test:ssr          # renderToString smoke test per phase
@@ -882,7 +883,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (1230+ tests)
+npm run test      # full vitest suite (4,994 tests as of 2026-04-19)
 npm run typecheck # tsc --noEmit
 ```
 
