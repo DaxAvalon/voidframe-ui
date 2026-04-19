@@ -28,7 +28,6 @@ export interface VirtualListProps<T>
   /** Rows to render beyond the visible window. */
   overscan?: number;
   horizontal?: boolean;
-  estimatedItemHeight?: number;
   renderItem: (item: T, index: number, style: CSSProperties) => ReactNode;
   onEndReached?: () => void;
   /** Threshold (0..1) of the viewport before onEndReached fires. */
@@ -42,7 +41,6 @@ export const VirtualList = genericForwardRef(function VirtualList<T>(
     itemHeight,
     overscan = 3,
     horizontal,
-    estimatedItemHeight,
     renderItem,
     onEndReached,
     endThreshold = 0.9,
@@ -159,11 +157,6 @@ export const VirtualList = genericForwardRef(function VirtualList<T>(
   const innerStyle: CSSProperties = horizontal
     ? { position: "relative", width: totalSize, height: "100%" }
     : { position: "relative", height: totalSize, width: "100%" };
-
-  // `estimatedItemHeight` is accepted in the API but we always compute exact
-  // offsets because our itemHeight is required; mention it to satisfy the
-  // compiler and keep the argument in the public shape.
-  void estimatedItemHeight;
 
   return (
     <div

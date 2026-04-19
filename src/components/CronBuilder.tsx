@@ -21,7 +21,6 @@ export interface CronBuilderProps
   previewCount?: number;
   size?: "sm" | "md";
   disabled?: boolean;
-  fields?: 5 | 6;
 }
 
 const DEFAULT_PRESETS: CronPreset[] = [
@@ -158,7 +157,7 @@ export function getNextRuns(cron: string, count: number): Date[] {
 
 function isValidCron(expr: string): boolean {
   const parts = expr.trim().split(/\s+/);
-  if (parts.length < 5 || parts.length > 6) return false;
+  if (parts.length !== 5) return false;
   return parts.every((p) => /^[\d,\-\*\/]+$/.test(p));
 }
 
@@ -174,7 +173,6 @@ const CronBuilderImpl = forwardRef<HTMLDivElement, CronBuilderProps>(
       previewCount = 5,
       size = "md",
       disabled = false,
-      fields: _fields = 5,
       className,
       style,
       ...props

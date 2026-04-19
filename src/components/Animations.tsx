@@ -204,8 +204,6 @@ export interface TickerProps extends HTMLAttributes<HTMLSpanElement> {
   /** Animation duration in ms. Default 800. */
   duration?: number;
   format?: (n: number) => string;
-  /** Number of frames to use (rAF-based). Default 30. */
-  steps?: number;
 }
 
 function easeOutCubic(t: number): number {
@@ -218,7 +216,6 @@ export const Ticker = forwardRef<HTMLSpanElement, TickerProps>(function Ticker(
     to,
     duration = 800,
     format = (n) => Math.round(n).toLocaleString(),
-    steps = 30,
     className,
     ...props
   },
@@ -238,10 +235,6 @@ export const Ticker = forwardRef<HTMLSpanElement, TickerProps>(function Ticker(
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [from, to, duration]);
-
-  // `steps` is currently advisory — the rAF loop runs at native rate. Kept
-  // in the props so consumers can rely on it for explicit-step variants.
-  void steps;
 
   return (
     <span
