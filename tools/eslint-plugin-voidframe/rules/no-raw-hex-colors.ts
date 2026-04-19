@@ -2,7 +2,7 @@ import { ESLintUtils, type TSESTree } from "@typescript-eslint/utils";
 
 const createRule = ESLintUtils.RuleCreator(
   (name) =>
-    `https://voidframe.dev/docs/eslint-plugin#${name}`
+    `https://git.ahadley.local/aeryn/VoidFrame/src/branch/main/tools/eslint-plugin-voidframe/rules/${name}.ts`
 );
 
 // Common color-valued CSS properties. Background-image is excluded because

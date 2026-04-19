@@ -1,7 +1,8 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 
 const createRule = ESLintUtils.RuleCreator(
-  (name) => `https://voidframe.dev/docs/eslint-plugin#${name}`
+  (name) =>
+    `https://git.ahadley.local/aeryn/VoidFrame/src/branch/main/tools/eslint-plugin-voidframe/rules/${name}.ts`
 );
 
 // Names removed in Phase 22 when the legacy chart surface was replaced.

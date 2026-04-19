@@ -69,7 +69,14 @@ function activate(context) {
             prompt: "Voidframe component name",
           });
       if (!name) return;
-      const url = `https://voidframe.dev/docs/#${name.toLowerCase()}`;
+      // Base URL is user-configurable via the `voidframe.docsUrl` setting;
+      // defaults to the local dev docs server (`npm run docs` port 5175).
+      const config = vscode.workspace.getConfiguration("voidframe");
+      const base = (config.get("docsUrl") || "http://localhost:5175").replace(
+        /\/$/,
+        ""
+      );
+      const url = `${base}/#${name.toLowerCase()}`;
       vscode.env.openExternal(vscode.Uri.parse(url));
     }
   );

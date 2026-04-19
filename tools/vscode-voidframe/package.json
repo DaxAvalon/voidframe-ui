@@ -40,7 +40,17 @@
         "command": "voidframe.openPlayground",
         "title": "Voidframe: Open playground for component"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Voidframe",
+      "properties": {
+        "voidframe.docsUrl": {
+          "type": "string",
+          "default": "http://localhost:5175",
+          "description": "Base URL for the Voidframe docs site. The Open Playground command opens `${docsUrl}/#<component-name>`. Default points at the local dev docs server (`npm run docs`). Set to a deployed docs URL once published."
+        }
+      }
+    }
   },
   "repository": {
     "type": "git",
