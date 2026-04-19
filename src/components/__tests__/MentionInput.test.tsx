@@ -58,7 +58,10 @@ describe("MentionInput", () => {
     await userEvent.type(ta, "@");
     await nextTick();
     await userEvent.keyboard("{Enter}");
-    expect(onMention).toHaveBeenCalledWith(people[0]);
+    expect(onMention).toHaveBeenCalledTimes(1);
+    const [opt, ctx] = onMention.mock.calls[0]!;
+    expect(opt).toEqual(people[0]);
+    expect(ctx).toMatchObject({ triggerIndex: expect.any(Number), caret: expect.any(Number), text: expect.any(String) });
     // Last onChange value should include the inserted mention.
     const last = onChange.mock.calls.at(-1)![0];
     expect(last).toContain("@Alice");
@@ -133,5 +136,29 @@ describe("SlashCommandInput", () => {
     await userEvent.keyboard("{Enter}");
     expect(action).toHaveBeenCalled();
     expect(onCommand).toHaveBeenCalledWith(cmds[0]);
+  });
+
+  it("action receives live {text, triggerIndex, caret} matching the textarea state", async () => {
+    const action = vi.fn();
+    const cmds: SlashCommandOption[] = [
+      { value: "bold", label: "Bold", action },
+    ];
+    renderWithTheme(<SlashCommandInput label="Doc" commands={cmds} />);
+    const ta = screen.getByLabelText("Doc") as HTMLTextAreaElement;
+    // Type "hello " then the trigger "/" then the filter query "b"
+    await userEvent.type(ta, "hello /b");
+    await nextTick();
+    await userEvent.keyboard("{Enter}");
+    expect(action).toHaveBeenCalledTimes(1);
+    const arg = action.mock.calls[0]![0] as {
+      text: string;
+      triggerIndex: number;
+      caret: number;
+    };
+    expect(arg.text).toBe("hello /b");
+    // "/" lives at index 6 (after "hello ")
+    expect(arg.triggerIndex).toBe(6);
+    // caret sits just after "b" — index 8
+    expect(arg.caret).toBe(8);
   });
 });

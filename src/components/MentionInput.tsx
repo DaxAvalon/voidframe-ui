@@ -79,6 +79,19 @@ type TextareaPassthrough = Omit<
   "onChange" | "value" | "defaultValue" | "ref"
 >;
 
+/** Context passed as the second arg to `onMention`, giving the caller the
+ * live textarea state at the moment of selection. Useful for consumers who
+ * need to run actions conditioned on the surrounding text (slash commands,
+ * positional formatting). */
+export interface MentionInputContext {
+  /** Full textarea value at the time of selection. */
+  text: string;
+  /** Index of the trigger character within `text`. */
+  triggerIndex: number;
+  /** Caret position (textarea `selectionStart`) at the time of selection. */
+  caret: number;
+}
+
 export interface MentionInputProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   options: MentionOption[];
@@ -86,7 +99,7 @@ export interface MentionInputProps
   defaultValue?: string;
   onChange?: (text: string) => void;
   /** Emits whenever a mention is inserted. */
-  onMention?: (option: MentionOption) => void;
+  onMention?: (option: MentionOption, context: MentionInputContext) => void;
   label?: string;
   /** Trigger character. Default "@". */
   trigger?: string;
@@ -183,14 +196,15 @@ export const MentionInput = forwardRef<HTMLDivElement, MentionInputProps>(
         const startIdx = triggerIdxRef.current;
         if (!ta || startIdx === null) return;
         const caret = ta.selectionStart;
+        const liveText = ta.value;
         const mentionText = renderMention(opt);
-        const before = ta.value.slice(0, startIdx);
-        const after = ta.value.slice(caret);
+        const before = liveText.slice(0, startIdx);
+        const after = liveText.slice(caret);
         const next = before + mentionText + " " + after;
         setText(next);
         triggerIdxRef.current = null;
         setQuery(null);
-        onMention?.(opt);
+        onMention?.(opt, { text: liveText, triggerIndex: startIdx, caret });
         // Reposition caret just after the inserted mention.
         requestAnimationFrame(() => {
           const pos = before.length + mentionText.length + 1;
@@ -329,9 +343,9 @@ export const SlashCommandInput = forwardRef<HTMLDivElement, SlashCommandInputPro
           const c = opt as SlashCommandOption;
           return c.insertToken ? `/${c.value}` : "";
         }}
-        onMention={(opt) => {
+        onMention={(opt, ctx) => {
           const c = opt as SlashCommandOption;
-          c.action?.({ text: "", triggerIndex: 0, caret: 0 });
+          c.action?.(ctx);
           onCommand?.(c);
         }}
         {...rest}
