@@ -7,6 +7,8 @@ import {
   forwardRef,
   memo,
   useCallback,
+  useEffect,
+  useMemo,
   type CSSProperties,
   type HTMLAttributes,
   type MouseEvent,
@@ -90,6 +92,59 @@ const AnchorBase = forwardRef<HTMLElement, AnchorProps>(function Anchor(
     },
     [offset, smooth, setCurrent],
   );
+
+  // Flatten items into [key, id] pairs for IntersectionObserver.
+  const observableEntries = useMemo(() => {
+    const out: { key: string; id: string }[] = [];
+    const walk = (list: AnchorItem[]) => {
+      for (const item of list) {
+        if (item.href.startsWith("#")) {
+          const id = item.href.slice(1);
+          if (id) out.push({ key: item.key, id });
+        }
+        if (item.children) walk(item.children);
+      }
+    };
+    walk(items);
+    return out;
+  }, [items]);
+
+  // Scrollspy — observe each target section, set the first-intersecting one
+  // as the current active key. Preserves the click-driven `setCurrent` path.
+  useEffect(() => {
+    if (
+      typeof window === "undefined" ||
+      typeof IntersectionObserver === "undefined"
+    ) {
+      return;
+    }
+    const targets: { el: Element; key: string }[] = [];
+    for (const entry of observableEntries) {
+      const el = document.getElementById(entry.id);
+      if (el) targets.push({ el, key: entry.key });
+    }
+    if (targets.length === 0) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        // Pick the first intersecting entry with the greatest intersectionRatio.
+        const intersecting = entries.filter((e) => e.isIntersecting);
+        if (intersecting.length === 0) return;
+        intersecting.sort(
+          (a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0),
+        );
+        const top = intersecting[0]!;
+        const match = targets.find((t) => t.el === top.target);
+        if (match) setCurrent(match.key);
+      },
+      {
+        rootMargin: `-${offset}px 0px 0px 0px`,
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      },
+    );
+    for (const t of targets) io.observe(t.el);
+    return () => io.disconnect();
+  }, [observableEntries, offset, setCurrent]);
 
   const affixStyle: CSSProperties | undefined =
     affix

@@ -132,4 +132,61 @@ describe("Anchor", () => {
     const nav = screen.getByRole("navigation");
     expect(nav).toHaveAttribute("aria-label", "Table of contents");
   });
+
+  it("observes target sections via IntersectionObserver and sets active when one intersects", () => {
+    type IOCallback = (entries: Partial<IntersectionObserverEntry>[]) => void;
+    let capturedCallback: IOCallback | null = null;
+    const observedTargets: Element[] = [];
+    const originalIO = globalThis.IntersectionObserver;
+    // @ts-expect-error — test stub
+    globalThis.IntersectionObserver = class {
+      constructor(cb: IOCallback) {
+        capturedCallback = cb;
+      }
+      observe(el: Element) {
+        observedTargets.push(el);
+      }
+      unobserve() {}
+      disconnect() {}
+      takeRecords() {
+        return [];
+      }
+    };
+
+    try {
+      const onActiveChange = vi.fn();
+      // Mount target sections for the anchor to observe.
+      document.body.innerHTML = "";
+      for (const it of items) {
+        const el = document.createElement("section");
+        el.id = it.href.replace(/^#/, "");
+        document.body.appendChild(el);
+      }
+
+      renderWithTheme(
+        <Anchor items={items} onActiveChange={onActiveChange} />,
+      );
+
+      // Every `#id` target should have been observed.
+      expect(observedTargets).toHaveLength(items.length);
+      expect(capturedCallback).toBeTruthy();
+
+      // Simulate the "install" section scrolling into view.
+      const target = observedTargets.find(
+        (el) => (el as HTMLElement).id === "install",
+      );
+      expect(target).toBeTruthy();
+      capturedCallback!([
+        {
+          target: target!,
+          isIntersecting: true,
+          intersectionRatio: 1,
+        } as Partial<IntersectionObserverEntry>,
+      ]);
+      expect(onActiveChange).toHaveBeenCalledWith("install");
+    } finally {
+      globalThis.IntersectionObserver = originalIO;
+      document.body.innerHTML = "";
+    }
+  });
 });
