@@ -132,4 +132,61 @@ describe("Gantt", () => {
     );
     expect(container.querySelector(".vf-gantt__bar--success")).toBeTruthy();
   });
+
+  it("onTaskUpdate fires with updated start/end after a pointer drag (no stale closure)", () => {
+    const onTaskUpdate = vi.fn();
+    renderWithTheme(
+      <Gantt
+        tasks={tasks}
+        start={start}
+        end={end}
+        unitWidth={24}
+        granularity="day"
+        onTaskUpdate={onTaskUpdate}
+      />
+    );
+    // Find task "a" bar by its aria-label prefix
+    const bar = screen.getByLabelText(/^Design:/) as HTMLElement;
+    expect(bar).toBeTruthy();
+
+    // Stub pointer capture APIs (not implemented in happy-dom).
+    (bar as unknown as { setPointerCapture: () => void }).setPointerCapture = () => {};
+    (bar as unknown as { releasePointerCapture: () => void }).releasePointerCapture = () => {};
+
+    // Simulate a move drag: pointerdown on bar → pointermove +48px (two day-units) → pointerup.
+    const pdown = new PointerEvent("pointerdown", {
+      bubbles: true,
+      cancelable: true,
+      clientX: 0,
+      pointerId: 1,
+    });
+    bar.dispatchEvent(pdown);
+
+    const pmove = new PointerEvent("pointermove", {
+      bubbles: true,
+      clientX: 48,
+      pointerId: 1,
+    });
+    window.dispatchEvent(pmove);
+
+    const pup = new PointerEvent("pointerup", {
+      bubbles: true,
+      clientX: 48,
+      pointerId: 1,
+    });
+    window.dispatchEvent(pup);
+
+    expect(onTaskUpdate).toHaveBeenCalledTimes(1);
+    const payload = onTaskUpdate.mock.calls[0]![0] as {
+      id: string;
+      start: Date;
+      end: Date;
+    };
+    expect(payload.id).toBe("a");
+    // The drag moved forward two day-units → +2 days on both bounds.
+    const diffStart = payload.start.getTime() - tasks[0]!.start.getTime();
+    expect(diffStart).toBe(2 * 86_400_000);
+    const diffEnd = payload.end.getTime() - tasks[0]!.end.getTime();
+    expect(diffEnd).toBe(2 * 86_400_000);
+  });
 });

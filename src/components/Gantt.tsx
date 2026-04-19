@@ -179,9 +179,28 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
         } catch {
           /* noop */
         }
-        const draft = draftTasks[d.id];
-        if (draft && onTaskUpdate) {
-          onTaskUpdate({ id: d.id, start: draft.start, end: draft.end });
+        // Recompute the final start/end from the captured initial state + pointer delta.
+        // Do NOT read `draftTasks` from the outer render closure — that snapshot was
+        // empty at the time beginDrag ran, so pulling from it misses every drag.
+        const deltaMs = unitsToMs(
+          (ev.clientX - d.startClientX) / unitPx,
+          granularity
+        );
+        let finalStart = d.initialStart;
+        let finalEnd = d.initialEnd;
+        if (d.mode === "move") {
+          finalStart = new Date(d.initialStart.getTime() + deltaMs);
+          finalEnd = new Date(d.initialEnd.getTime() + deltaMs);
+        } else {
+          finalEnd = new Date(
+            Math.max(
+              d.initialStart.getTime() + 86400000,
+              d.initialEnd.getTime() + deltaMs
+            )
+          );
+        }
+        if (onTaskUpdate) {
+          onTaskUpdate({ id: d.id, start: finalStart, end: finalEnd });
         }
         // Clear local draft after the parent has a chance to commit.
         setDraftTasks((prev) => {
