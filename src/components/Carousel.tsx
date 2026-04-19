@@ -38,6 +38,10 @@ interface CarouselContextValue {
   loop: boolean;
   viewportRef: React.MutableRefObject<HTMLDivElement | null>;
   scrollToIndex: (n: number) => void;
+  /** Visible slides per viewport — consumed by CarouselViewport to size columns. */
+  slidesPerView: number;
+  /** Gap between slides — consumed by CarouselViewport. */
+  gap: number | string;
 }
 
 const CarouselContext = createContext<CarouselContextValue | null>(null);
@@ -158,8 +162,21 @@ function CarouselRoot({
       loop: !!loop,
       viewportRef,
       scrollToIndex,
+      slidesPerView,
+      gap,
     }),
-    [index, setIndex, total, registerSlide, unregisterSlide, align, loop, scrollToIndex]
+    [
+      index,
+      setIndex,
+      total,
+      registerSlide,
+      unregisterSlide,
+      align,
+      loop,
+      scrollToIndex,
+      slidesPerView,
+      gap,
+    ]
   );
 
   const showArrows = controls === "arrows" || controls === "both";
@@ -180,12 +197,7 @@ function CarouselRoot({
       >
         {children ?? (
           <>
-            <CarouselViewport
-              style={{
-                gap: typeof gap === "number" ? `${gap}px` : gap,
-                gridAutoColumns: `calc((100% - (${slidesPerView - 1} * ${typeof gap === "number" ? `${gap}px` : gap})) / ${slidesPerView})`,
-              }}
-            >
+            <CarouselViewport>
               {(slides ?? []).map((s, i) => (
                 <CarouselSlide key={i}>{s}</CarouselSlide>
               ))}
@@ -224,6 +236,12 @@ const CarouselViewport = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElemen
         ctx.setIndex(ctx.total - 1);
       }
     };
+    const gapValue =
+      typeof ctx.gap === "number" ? `${ctx.gap}px` : ctx.gap;
+    const gridAutoColumns =
+      ctx.slidesPerView > 1
+        ? `calc((100% - (${ctx.slidesPerView - 1} * ${gapValue})) / ${ctx.slidesPerView})`
+        : undefined;
     return (
       <div
         ref={(node) => {
@@ -237,6 +255,8 @@ const CarouselViewport = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElemen
         className={cx("vf-carousel__viewport", className)}
         style={{
           scrollSnapType: "x mandatory",
+          gap: gapValue,
+          ...(gridAutoColumns ? { gridAutoColumns } : {}),
           ...style,
         }}
         onKeyDown={onKey}

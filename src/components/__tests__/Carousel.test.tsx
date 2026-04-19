@@ -85,6 +85,43 @@ describe("Carousel", () => {
     expect(onSlideChange).toHaveBeenCalled();
     vi.useRealTimers();
   });
+
+  it("compound API (<Carousel.Viewport>) honors slidesPerView and gap from the parent", () => {
+    const { container } = renderWithTheme(
+      <Carousel slidesPerView={3} gap={24}>
+        <Carousel.Viewport>
+          <Carousel.Slide>A</Carousel.Slide>
+          <Carousel.Slide>B</Carousel.Slide>
+          <Carousel.Slide>C</Carousel.Slide>
+        </Carousel.Viewport>
+      </Carousel>
+    );
+    const viewport = container.querySelector<HTMLDivElement>(
+      ".vf-carousel__viewport"
+    );
+    expect(viewport).toBeTruthy();
+    // gap should land on the computed style (either as gap or column-gap).
+    expect(viewport!.style.gap).toBe("24px");
+    // gridAutoColumns should reflect the 3 slides per viewport.
+    expect(viewport!.style.gridAutoColumns).toContain("3");
+  });
+
+  it("compound API inline style merges with the computed slidesPerView/gap style (caller override wins)", () => {
+    const { container } = renderWithTheme(
+      <Carousel slidesPerView={2} gap={12}>
+        <Carousel.Viewport style={{ background: "red" }}>
+          <Carousel.Slide>A</Carousel.Slide>
+          <Carousel.Slide>B</Carousel.Slide>
+        </Carousel.Viewport>
+      </Carousel>
+    );
+    const viewport = container.querySelector<HTMLDivElement>(
+      ".vf-carousel__viewport"
+    );
+    expect(viewport).toBeTruthy();
+    expect(viewport!.style.gap).toBe("12px");
+    expect(viewport!.style.background).toBe("red");
+  });
 });
 
 describe("CarouselImageGallery", () => {
