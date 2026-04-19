@@ -6,13 +6,13 @@ import { Slot } from "../primitives/Slot";
 import { cx } from "../utils/cx";
 import { warn } from "../utils/warn";
 
-export type ButtonVariant = "default" | "ghost" | "accent" | "solid";
+export type ButtonVariant = "solid" | "outline" | "ghost" | "subtle";
 export type ButtonSize = "sm" | "md" | "lg";
 
 export interface ButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   variant?: ButtonVariant;
-  /** Accent color for `accent` and `solid` variants. Sets `--vf-accent`. */
+  /** Accent color for `solid` and `subtle` variants. Sets `--vf-accent`. */
   accent?: string;
   size?: ButtonSize;
   active?: boolean;
@@ -33,7 +33,7 @@ export interface ButtonProps
 const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
     children,
-    variant = "default",
+    variant = "outline",
     accent,
     size = "md",
     active,
@@ -137,7 +137,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
             onClick={() => onChange(o.key)}
             accent={accent}
             size={size}
-            variant={accent ? "accent" : "default"}
+            variant={accent ? "subtle" : "outline"}
           >
             {o.label}
           </Button>

@@ -36,7 +36,7 @@ describe("Button asChild", () => {
     );
     const link = screen.getByRole("link");
     expect(link).toHaveClass("vf-button");
-    expect(link).toHaveClass("vf-button--default");
+    expect(link).toHaveClass("vf-button--outline");
     expect(link).toHaveClass("vf-button--md");
   });
 });

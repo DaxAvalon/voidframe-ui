@@ -51,7 +51,7 @@ describe("no-deprecated-props", () => {
   it("flags deprecated props", () => {
     tester.run("no-deprecated-props", noDeprecatedProps, {
       valid: [
-        { code: '<Button variant="accent">OK</Button>' },
+        { code: '<Button variant="subtle">OK</Button>' },
       ],
       invalid: [
         {

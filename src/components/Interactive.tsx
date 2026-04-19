@@ -103,7 +103,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
             active={selected}
             onClick={() => onChange(tab.key)}
             accent={accent}
-            variant={accent ? "accent" : "default"}
+            variant={accent ? "subtle" : "outline"}
           >
             {tab.label}
           </Button>

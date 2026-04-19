@@ -34,7 +34,7 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   TypingAnimation: '<TypingAnimation text="Hello, welcome to Voidframe..." speed={50} />',
 
   // ── Buttons ─────────────────────────────────────────────────────────
-  Button: '<div style={{ display: "flex", gap: 8 }}>\n  <Button>Default</Button>\n  <Button variant="accent">Accent</Button>\n  <Button variant="ghost">Ghost</Button>\n  <Button variant="danger">Danger</Button>\n</div>',
+  Button: '<div style={{ display: "flex", gap: 8 }}>\n  <Button>Default</Button>\n  <Button variant="subtle">Accent</Button>\n  <Button variant="ghost">Ghost</Button>\n  <Button variant="danger">Danger</Button>\n</div>',
   IconButton: '<div style={{ display: "flex", gap: 8 }}>\n  <IconButton aria-label="Settings"><Text>&#9881;</Text></IconButton>\n  <IconButton aria-label="Close"><Text>&#10005;</Text></IconButton>\n</div>',
   ButtonGroup: '<ButtonGroup\n  options={[\n    { value: "left", label: "Left" },\n    { value: "center", label: "Center" },\n    { value: "right", label: "Right" },\n  ]}\n  value="center"\n  onChange={() => {}}\n/>',
   CopyButton: '<CopyButton text="npm install @voidframe/ui" />',
@@ -83,7 +83,7 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   // ── Data display ────────────────────────────────────────────────────
   Avatar: '<div style={{ display: "flex", gap: 8, alignItems: "center" }}>\n  <Avatar initials="JD" />\n  <Avatar initials="AB" status="online" />\n  <Avatar initials="CD" status="away" />\n</div>',
   AvatarGroup: '<AvatarGroup\n  items={[\n    { initials: "JD" },\n    { initials: "AB" },\n    { initials: "CD" },\n    { initials: "EF" },\n    { initials: "GH" },\n  ]}\n  max={3}\n/>',
-  Badge: '<div style={{ display: "flex", gap: 8 }}>\n  <Badge>Default</Badge>\n  <Badge variant="accent">Accent</Badge>\n  <Badge variant="success">Success</Badge>\n  <Badge variant="danger">Danger</Badge>\n</div>',
+  Badge: '<div style={{ display: "flex", gap: 8 }}>\n  <Badge>Default</Badge>\n  <Badge variant="subtle">Accent</Badge>\n  <Badge variant="success">Success</Badge>\n  <Badge variant="danger">Danger</Badge>\n</div>',
   Tag: '<div style={{ display: "flex", gap: 8 }}>\n  <Tag label="React" />\n  <Tag label="Error" variant="danger" />\n  <Tag label="Done" variant="success" onRemove={() => {}} />\n</div>',
   Chip: '<div style={{ display: "flex", gap: 8 }}>\n  <Chip label="Frontend" />\n  <Chip label="Active" variant="success" />\n  <Chip label="Removable" onRemove={() => {}} />\n</div>',
   Tooltip: '<Tooltip content="This is a tooltip">\n  <Button>Hover me</Button>\n</Tooltip>',
@@ -302,7 +302,7 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   BackToTop: '<div style={{ position: "relative", height: 40 }}>\n  <Button size="sm" style={{ position: "absolute", insetInlineEnd: 0, bottom: 0 }} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>&#8593; Top</Button>\n</div>',
   PrintButton: '<PrintButton />',
   ShareButton: '<ShareButton title="Voidframe" text="Check out this UI framework" />',
-  Pill: '<div style={{ display: "flex", gap: 8 }}>\n  <Pill>Default</Pill>\n  <Pill variant="accent">Accent</Pill>\n  <Pill variant="success">Success</Pill>\n</div>',
+  Pill: '<div style={{ display: "flex", gap: 8 }}>\n  <Pill>Default</Pill>\n  <Pill variant="subtle">Accent</Pill>\n  <Pill variant="success">Success</Pill>\n</div>',
   ColorSwatch: '<div style={{ display: "flex", gap: 8 }}>\n  <ColorSwatch color="#4ade80" />\n  <ColorSwatch color="#3b82f6" />\n  <ColorSwatch color="#f59e0b" />\n</div>',
   QRCode: '<QRCode value="https://voidframe.dev" size={120} />',
   Barcode: '<Barcode value="1234567890" />',
@@ -654,7 +654,7 @@ function getDefaultValueForProp(prop: PropDoc): string | null {
  * These are always simple string literals.
  */
 function getExampleValueForProp(prop: PropDoc): string | null {
-  if (prop.name === "variant") return '"accent"';
+  if (prop.name === "variant") return '"subtle"';
   if (prop.name === "size") return '"md"';
   if (prop.name === "tone") return '"success"';
   if (prop.name === "status") return '"success"';

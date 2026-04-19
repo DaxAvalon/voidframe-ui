@@ -43,17 +43,28 @@
   font-size: var(--vf-font-md);
 }
 
-/* ── Variant: default ── */
+/* ── Variant: outline ── */
 
-.vf-toggle-group--default .vf-toggle-group__item:hover:not(:disabled) {
+.vf-toggle-group--outline .vf-toggle-group__item:hover:not(:disabled) {
   background: var(--vf-bg-4);
   border-color: var(--vf-border-2);
   color: var(--vf-text-1);
 }
-.vf-toggle-group--default .vf-toggle-group__item--active {
+.vf-toggle-group--outline .vf-toggle-group__item--active {
   background: var(--vf-bg-5);
   border-color: var(--vf-border-3);
   color: var(--vf-text-0);
+}
+
+/* ── Variant: solid ── */
+
+.vf-toggle-group--solid .vf-toggle-group__item--active {
+  background: var(--vf-accent, var(--vf-text-1));
+  border-color: var(--vf-accent, var(--vf-text-1));
+  color: var(--vf-bg-0);
+}
+.vf-toggle-group--solid .vf-toggle-group__item--active:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 86%, var(--vf-bg-0));
 }
 
 /* ── Variant: ghost ── */
@@ -72,17 +83,17 @@
 
 /* ── Variant: accent ── */
 
-.vf-toggle-group--accent .vf-toggle-group__item {
+.vf-toggle-group--subtle .vf-toggle-group__item {
   background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 8%, transparent);
   border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 22%, transparent);
   color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 80%, transparent);
 }
-.vf-toggle-group--accent .vf-toggle-group__item:hover:not(:disabled) {
+.vf-toggle-group--subtle .vf-toggle-group__item:hover:not(:disabled) {
   background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 15%, transparent);
   border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 33%, transparent);
   color: var(--vf-accent, var(--vf-text-1));
 }
-.vf-toggle-group--accent .vf-toggle-group__item--active {
+.vf-toggle-group--subtle .vf-toggle-group__item--active {
   background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 22%, transparent);
   border-color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 55%, transparent);
   color: var(--vf-accent, var(--vf-text-1));

@@ -221,7 +221,7 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
               <div className="vf-popconfirm__actions">
                 <button
                   type="button"
-                  className="vf-button vf-button--sm vf-button--default"
+                  className="vf-button vf-button--sm vf-button--outline"
                   onClick={handleCancel}
                 >
                   {cancelLabel}
@@ -234,8 +234,8 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
                     confirmVariant === "danger"
                       ? "vf-button--danger"
                       : confirmVariant === "accent"
-                        ? "vf-button--accent"
-                        : "vf-button--default"
+                        ? "vf-button--subtle"
+                        : "vf-button--outline"
                   )}
                   onClick={handleConfirm}
                 >

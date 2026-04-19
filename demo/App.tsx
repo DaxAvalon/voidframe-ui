@@ -702,7 +702,7 @@ function ButtonsSection() {
           <Button>Default</Button>
           <Button variant="solid">Solid</Button>
           <Button variant="ghost">Ghost</Button>
-          <Button variant="accent" accent="#4ade80">Accent</Button>
+          <Button variant="subtle" accent="#4ade80">Accent</Button>
           <Button disabled>Disabled</Button>
         </Flex>
       </Block>
@@ -2927,7 +2927,7 @@ function ResponsiveSection() {
         >
           <Badge>Stacked on mobile</Badge>
           <Text>Rows at md and above. Resize to toggle.</Text>
-          <Button variant="accent" accent="var(--vf-green)">
+          <Button variant="subtle" accent="var(--vf-green)">
             OK
           </Button>
         </ResponsiveBox>
@@ -3023,7 +3023,7 @@ function ThemingSection() {
             </Text>
             <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
               <Button>Default</Button>
-              <Button variant="accent" accent="var(--vf-green)">
+              <Button variant="subtle" accent="var(--vf-green)">
                 Accent
               </Button>
               <Badge tone="success">Success</Badge>
@@ -3341,7 +3341,7 @@ function IconsButtonSection() {
           <IconButton aria-label="Save" variant="solid" accent="#4ade80">
             <SaveIcon />
           </IconButton>
-          <IconButton aria-label="Refresh" variant="accent" accent="#60a5fa">
+          <IconButton aria-label="Refresh" variant="subtle" accent="#60a5fa">
             <RefreshIcon />
           </IconButton>
           <IconButton aria-label="Disabled" disabled>
@@ -4551,7 +4551,7 @@ function NewFormsSection() {
           ]}
           value={toggles}
           onValueChange={setToggles}
-          variant="accent"
+          variant="subtle"
         />
       </Block>
       <Block label="NumberStepper">

@@ -695,7 +695,7 @@ render(<Example />);`,
         title: "Two copy targets",
         code: `<div style={{ display: "flex", gap: 12 }}>
   <CopyButton text="npm install voidframe" label="Copy install command" />
-  <CopyButton text="import { Button } from 'voidframe';" variant="accent" />
+  <CopyButton text="import { Button } from 'voidframe';" variant="subtle" />
 </div>`,
       },
     ],

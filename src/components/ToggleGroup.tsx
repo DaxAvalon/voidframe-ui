@@ -24,7 +24,7 @@ export interface ToggleGroupProps
   value?: string[];
   defaultValue?: string[];
   onValueChange?: (keys: string[]) => void;
-  variant?: "default" | "ghost" | "accent";
+  variant?: "solid" | "outline" | "ghost" | "subtle";
   size?: "sm" | "md" | "lg";
   orientation?: "horizontal" | "vertical";
   disabled?: boolean;
@@ -39,7 +39,7 @@ const ToggleGroupImpl = forwardRef<HTMLDivElement, ToggleGroupProps>(
       value,
       defaultValue,
       onValueChange,
-      variant = "default",
+      variant = "outline",
       size = "md",
       orientation = "horizontal",
       disabled = false,

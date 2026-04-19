@@ -100,7 +100,11 @@
   border-color: var(--vf-accent, var(--vf-bg-4));
 }
 
-.vf-icon-button--accent {
+.vf-icon-button--outline {
+  /* baseline bordered style — inherits from .vf-icon-button */
+}
+
+.vf-icon-button--subtle {
   color: var(--vf-accent, var(--vf-text-0));
   border-color: var(--vf-accent, var(--vf-border-3));
 }

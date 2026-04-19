@@ -15,7 +15,7 @@ import {
 } from "react";
 import { cx } from "../utils/cx";
 
-export type IconButtonVariant = "default" | "ghost" | "solid" | "accent";
+export type IconButtonVariant = "solid" | "outline" | "ghost" | "subtle";
 export type IconButtonSize = "xs" | "sm" | "md" | "lg";
 
 export interface IconButtonProps
@@ -37,7 +37,7 @@ let warnedMissingLabel = false;
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   function IconButton(
     {
-      variant = "default",
+      variant = "outline",
       size = "md",
       accent,
       tooltip,

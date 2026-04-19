@@ -29,7 +29,7 @@ describe("Button", () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  it.each(["default", "ghost", "accent", "solid"] as const)(
+  it.each(["solid", "outline", "ghost", "subtle"] as const)(
     "renders variant %s",
     (variant) => {
       renderWithTheme(

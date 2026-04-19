@@ -326,7 +326,7 @@
     "body": [
       "<Badge\n  variant={${1:/* variant: enum */}}\n  tone={${2:/* tone: enum */}}\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe Badge component.",
+    "description": "Small categorical label for status chips, counts, and highlights. Tone",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BannerAlert": {
@@ -447,7 +447,7 @@
     "body": [
       "<Breadcrumb />"
     ],
-    "description": "Voidframe Breadcrumb component.",
+    "description": "Breadcrumb trail as a WAI-ARIA `nav` + `ol`. Dual API: pass `items`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BreadcrumbMenu": {
@@ -579,7 +579,7 @@
     "body": [
       "<Card />"
     ],
-    "description": "Voidframe Card component.",
+    "description": "Brutalist content container with a bordered surface. Optional `title` /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CaretIcon": {
@@ -692,6 +692,17 @@
     "description": "Voidframe ChartLineIcon component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "ChartScales": {
+    "prefix": [
+      "vf-chartscales",
+      "ChartScales"
+    ],
+    "body": [
+      "<ChartScales />"
+    ],
+    "description": "Re-publishes ChartContext with the provided scales merged in. Inner-chart",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "ChartTooltip": {
     "prefix": [
       "vf-charttooltip",
@@ -733,7 +744,7 @@
     "body": [
       "<Checkbox\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Voidframe Checkbox component.",
+    "description": "WAI-ARIA checkbox with controlled/uncontrolled duality. Pass `checked` +",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CheckboxGroup": {
@@ -1030,7 +1041,7 @@
     "body": [
       "<CommandInput\n  onSubmit={${1:/* onSubmit: (command: string) => void */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe CommandInput component.",
+    "description": "Shell-style command input with history recall, inline ghost-text",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CommandPalette": {
@@ -1371,7 +1382,7 @@
     "body": [
       "<CursorPagination />"
     ],
-    "description": "Voidframe CursorPagination component.",
+    "description": "Cursor-based pagination with prev / next buttons for APIs that page by",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DashboardGrid": {
@@ -1415,7 +1426,7 @@
     "body": [
       "<DataList />"
     ],
-    "description": "Voidframe DataList component.",
+    "description": "Read-only list of label/value rows for summaries and key/value UIs.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DatePicker": {
@@ -1514,7 +1525,7 @@
     "body": [
       "<Dialog\n  variant={${1:/* variant: enum */}}\n/>"
     ],
-    "description": "Voidframe Dialog component.",
+    "description": "Compound modal overlay. Use `Dialog.Trigger` to open, `Dialog.Content`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DiffViewer": {
@@ -1624,7 +1635,7 @@
     "body": [
       "<Drawer\n  open={${1:true}}\n  onClose={${2:/* onClose: () => void */}}\n/>"
     ],
-    "description": "Voidframe Drawer component.",
+    "description": "V1 side-panel overlay with backdrop, focus trap, and Escape dismiss.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DrawerV2": {
@@ -1635,7 +1646,7 @@
     "body": [
       "<DrawerV2 />"
     ],
-    "description": "Voidframe DrawerV2 component.",
+    "description": "Compound side-panel overlay. Slides in from any edge (`left`, `right`,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Dropdown": {
@@ -2020,7 +2031,7 @@
     "body": [
       "<FormField\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe FormField component.",
+    "description": "Wrapper for form controls that renders an optional `label`, `required`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FunnelChart": {
@@ -2196,7 +2207,7 @@
     "body": [
       "<HoverCard />"
     ],
-    "description": "Voidframe HoverCard component.",
+    "description": "Open-on-hover anchored overlay for rich previews (profile cards, link",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HStack": {
@@ -3021,7 +3032,7 @@
     "body": [
       "<Modal\n  open={${1:true}}\n  onClose={${2:/* onClose: () => void */}}\n/>"
     ],
-    "description": "Voidframe Modal component.",
+    "description": "Props-driven modal overlay with backdrop + centered panel. Portaled,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ModelCompare": {
@@ -3120,7 +3131,7 @@
     "body": [
       "<Navbar />"
     ],
-    "description": "Voidframe Navbar component.",
+    "description": "Brutalist top navigation bar. Slot-based compound layout: `Navbar.Brand`,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NavGroup": {
@@ -3274,7 +3285,7 @@
     "body": [
       "<PageHeader\n  title={${1:/* title: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe PageHeader component.",
+    "description": "Page-title block for top-of-page sections. Renders a `title` (h1) with",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Pagination": {
@@ -3285,7 +3296,7 @@
     "body": [
       "<Pagination\n  page={${1:0}}\n  onChange={${2:/* onChange: (page: number) => void */}}\n/>"
     ],
-    "description": "Voidframe Pagination component.",
+    "description": "Offset-based page picker with numbered buttons plus optional prev/next",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Palette": {
@@ -3450,7 +3461,7 @@
     "body": [
       "<Popover\n  trigger={${1:/* trigger: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe Popover component.",
+    "description": "V1 popover anchored to a `trigger` with click- or hover-activation and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PopoverV2": {
@@ -3461,7 +3472,7 @@
     "body": [
       "<PopoverV2 />"
     ],
-    "description": "Voidframe PopoverV2 component.",
+    "description": "Compound anchored popover. Compose `PopoverV2.Trigger` and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Portal": {
@@ -3648,7 +3659,7 @@
     "body": [
       "<RadioGroup\n  options={${1:/* options: RadioGroupOption[] */}}\n  label=\"${2:label}\"\n  accent=\"${3:accent}\"\n/>"
     ],
-    "description": "Voidframe RadioGroup component.",
+    "description": "WAI-ARIA radio group with controlled/uncontrolled duality. Accepts an",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RAGContext": {
@@ -3945,7 +3956,7 @@
     "body": [
       "<ScrollArea />"
     ],
-    "description": "Voidframe ScrollArea component.",
+    "description": "Overflow container with CSS-only brutalist scrollbars. Native scrolling",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScrollIndicator": {
@@ -4154,7 +4165,7 @@
     "body": [
       "<Sheet />"
     ],
-    "description": "Voidframe Sheet component.",
+    "description": "Mobile-style bottom sheet with drag-to-resize snap points. Compound",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Shimmer": {
@@ -4231,7 +4242,7 @@
     "body": [
       "<Sidebar />"
     ],
-    "description": "Voidframe Sidebar component.",
+    "description": "Brutalist app-shell side navigation. Compound: compose `Sidebar.Brand`,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SignaturePad": {
@@ -4627,7 +4638,7 @@
     "body": [
       "<Stepper\n  current={${1:0}}\n  variant={${2:/* variant: enum */}}\n/>"
     ],
-    "description": "Voidframe Stepper component.",
+    "description": "Linear step indicator rendered as an `ol` with completed / active /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sticky": {
@@ -4825,7 +4836,7 @@
     "body": [
       "<Tabs\n  tabs={${1:/* tabs: TabItem[] */}}\n  active=\"${2:active}\"\n  onChange={${3:/* onChange: (key: string) => void */}}\n  accent=\"${4:accent}\"\n/>"
     ],
-    "description": "Voidframe Tabs component.",
+    "description": "Tabbed navigation with WAI-ARIA tablist semantics and arrow-key / Home /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tag": {
@@ -5023,7 +5034,7 @@
     "body": [
       "<Toggle\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "A switch control for binary on/off state, with an accessible label and keyboard support.",
+    "description": "Binary on/off switch with WAI-ARIA `role=\"switch\"` and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ToggleGroup": {
@@ -5067,7 +5078,7 @@
     "body": [
       "<Toolbar />"
     ],
-    "description": "Voidframe Toolbar component.",
+    "description": "Horizontal (or vertical) action strip with WAI-ARIA `role=\"toolbar\"`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ToolCall": {
@@ -5100,7 +5111,7 @@
     "body": [
       "<Tooltip\n  content={${1:/* content: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe Tooltip component.",
+    "description": "Compact labelling overlay. Wraps a single child and shows `content`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TooltipProvider": {
@@ -5111,7 +5122,7 @@
     "body": [
       "<TooltipProvider />"
     ],
-    "description": "Voidframe TooltipProvider component.",
+    "description": "Groups `Tooltip` instances to share timing. Once one tooltip closes,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TraceViewer": {
@@ -5463,7 +5474,7 @@
     "body": [
       "<Wizard />"
     ],
-    "description": "Voidframe Wizard component.",
+    "description": "Multi-step form/workflow container. Compose `Wizard.Step` (one per",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "XIcon": {
