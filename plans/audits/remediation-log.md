@@ -2,17 +2,19 @@
 
 **Scope:** fix every finding (P0 through P3) across audits 29-32 before shipping v1.0, then run an exhaustive re-review. No public push / npm publish until green.
 
-**Policy decisions (2026-04-18):**
+**Policy decisions:**
 
-- Audit 29 param standardization: **breaking-now** (no deprecation shims — v1.0 unshipped, no consumers).
-- Canonical vocabulary:
+- **Audit 29 param standardization (2026-04-18):** breaking-now (no deprecation shims — v1.0 unshipped, no consumers).
+- **Canonical vocabulary (2026-04-18):**
   - `variant`: `"solid" | "outline" | "ghost" | "subtle"` (shape/treatment)
   - `tone`: `"neutral" | "accent" | "success" | "warning" | "danger" | "info"` (semantic color)
   - `size`: `"sm" | "md" | "lg"`
-- Tabs: **full migration to dot-notation** (`Tabs.Root` / `Tabs.List` / `Tabs.Tab` / `Tabs.Panel`); remove flat `tabs: TabItem[]` API.
-- P1 execution: by severity.
-- No push / no publish until every P0-P3 is resolved AND a second exhaustive review runs green.
-- Deferred features (F1 6-field cron, F2 Ticker discretized, F3 VirtualList estimated-height) are now in-scope for v1.0 instead of post-ship.
+- **Tabs (2026-04-18):** full migration to dot-notation (`Tabs.Root` / `Tabs.List` / `Tabs.Tab` / `Tabs.Panel`); remove flat `tabs: TabItem[]` API.
+- **P1 execution order (2026-04-18):** by severity.
+- **Ship gate (2026-04-18):** no push / no publish until every P0-P3 is resolved AND a second exhaustive re-audit runs green.
+- **Deferred features (2026-04-18):** F1 6-field cron, F2 Ticker discretized, F3 VirtualList estimated-height are in-scope for v1.0 (moved from `plans/deferred-features.md` into Segment 8).
+- **ESLint rule docs URLs (2026-04-19):** retargeted to `https://voidframe.github.io/ui/eslint-plugin#<name>` — the planned GitHub Pages target from `plans/npm-publish-plan.md`. Not live yet; same "future deploy resolves it" pattern as `package.json.repository.url`.
+- **TSDoc sweep scope (2026-04-19):** full — every exported component, hook, and utility needs a TSDoc block. 29 tier-A components done in D7; remaining ~290 components + ~25 hooks + 3 utils + the non-obvious prop descriptions land in Segment 6.
 
 ---
 
