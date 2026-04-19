@@ -95,7 +95,7 @@ HStack.displayName = "HStack";
 
 /** Vertical stack — `flex-direction: column`, default align `stretch`. */
 export const VStack = forwardRef<HTMLDivElement, StackProps>(function VStack(
-  { children, align, gap, className, style, ...props },
+  { children, align, gap, wrap, className, style, ...props },
   ref
 ) {
   const inline: CSSProperties = {
@@ -104,7 +104,12 @@ export const VStack = forwardRef<HTMLDivElement, StackProps>(function VStack(
     ...style,
   };
   return (
-    <div ref={ref} className={cx("vf-vstack", className)} style={inline} {...props}>
+    <div
+      ref={ref}
+      className={cx("vf-vstack", wrap && "vf-flex--wrap", className)}
+      style={inline}
+      {...props}
+    >
       {children}
     </div>
   );

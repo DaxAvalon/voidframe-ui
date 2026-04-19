@@ -61,6 +61,17 @@ describe("HStack / VStack", () => {
     expect(h()).toHaveClass("vf-hstack");
     expect(v()).toHaveClass("vf-vstack");
   });
+
+  it("VStack wrap=true applies .vf-flex--wrap (mirroring HStack) and does not leak to DOM", () => {
+    const { root } = renderWithTheme(
+      <VStack wrap>
+        <span>a</span>
+      </VStack>
+    );
+    expect(root()).toHaveClass("vf-flex--wrap");
+    // `wrap` is a component-level prop, not an HTML attribute — must not land on the DOM node
+    expect(root().hasAttribute("wrap")).toBe(false);
+  });
 });
 
 describe("Grid", () => {
