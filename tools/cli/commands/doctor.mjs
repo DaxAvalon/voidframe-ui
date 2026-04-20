@@ -44,6 +44,30 @@ async function grepForVoidframeCss(cwd, depth = 4) {
   return walk(cwd, 0);
 }
 
+async function grepForPattern(cwd, pattern, depth = 4) {
+  async function walk(dir, d) {
+    if (d > depth) return false;
+    let entries;
+    try {
+      entries = await readdir(dir, { withFileTypes: true });
+    } catch {
+      return false;
+    }
+    for (const e of entries) {
+      if (e.name === "node_modules" || e.name.startsWith(".")) continue;
+      const full = join(dir, e.name);
+      if (e.isDirectory()) {
+        if (await walk(full, d + 1)) return true;
+      } else if (/\.(ts|tsx|js|jsx)$/.test(e.name)) {
+        const raw = await readFile(full, "utf-8").catch(() => "");
+        if (pattern.test(raw)) return true;
+      }
+    }
+    return false;
+  }
+  return walk(cwd, 0);
+}
+
 function check(name, ok, detail) {
   return { name, ok, detail };
 }
@@ -89,6 +113,32 @@ export async function doctorCommand({ cwd = process.cwd(), log = console } = {})
         : 'add `import "voidframe/styles.css"` to your entry file'
     )
   );
+
+  // Optional peer-dep awareness: if the user has a chart in their code
+  // but the peer isn't installed, flag it rather than wait for a runtime
+  // throw. This is a soft check — the grep is bounded by `depth`.
+  const OPTIONAL_PEERS = [
+    ["d3-force", /NetworkGraph/],
+    ["d3-geo", /ChoroplethMap|BubbleMap/],
+    ["topojson-client", /ChoroplethMap|BubbleMap/],
+    ["d3-hierarchy", /TreeMap|Sunburst/],
+    ["d3-sankey", /Sankey/],
+    ["dompurify", /MarkdownRenderer|MarkdownEditor/],
+  ];
+  for (const [peer, needle] of OPTIONAL_PEERS) {
+    if (!deps[peer]) {
+      const used = await grepForPattern(cwd, needle);
+      checks.push(
+        check(
+          `${peer} (optional peer)`,
+          !used,
+          used
+            ? `used by code matching /${needle.source}/; run \`npm install ${peer}\``
+            : "not used"
+        )
+      );
+    }
+  }
 
   let failed = 0;
   for (const c of checks) {

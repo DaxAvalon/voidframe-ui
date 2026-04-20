@@ -7,7 +7,8 @@ const rule = {
       description: "Require aria-label on IconButton components",
     },
     messages: {
-      missingLabel: "IconButton must have an aria-label prop for accessibility.",
+      missingLabel:
+        "<IconButton> must declare `aria-label` (or `aria-labelledby`) so screen readers can announce the action. See the Accessibility guide at /docs/guides/accessibility.",
     },
     schema: [],
   },

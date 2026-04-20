@@ -14,6 +14,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { warnOnce } from "../utils/warn";
 
 export type IconButtonVariant = "solid" | "outline" | "ghost" | "subtle";
 export type IconButtonSize = "xs" | "sm" | "md" | "lg";
@@ -31,8 +32,6 @@ export interface IconButtonProps
   active?: boolean;
   children?: ReactNode;
 }
-
-let warnedMissingLabel = false;
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   function IconButton(
@@ -52,16 +51,10 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     ref
   ) {
     useEffect(() => {
-      if (
-        process.env.NODE_ENV !== "production" &&
-        !ariaLabel &&
-        !props["aria-labelledby"] &&
-        !warnedMissingLabel
-      ) {
-        warnedMissingLabel = true;
-        // eslint-disable-next-line no-console
-        console.warn(
-          "[voidframe] <IconButton> requires `aria-label` (or `aria-labelledby`) for screen readers."
+      if (!ariaLabel && !props["aria-labelledby"]) {
+        warnOnce(
+          "IconButton:missing-aria-label",
+          "<IconButton> requires `aria-label` (or `aria-labelledby`) for screen readers."
         );
       }
     }, [ariaLabel, props]);

@@ -153,7 +153,9 @@ describe("IconButton", () => {
     expect(screen.getByRole("tooltip")).toHaveTextContent("Search the docs");
   });
 
-  it("warns in dev when aria-label is missing", () => {
+  it("warns in dev when aria-label is missing", async () => {
+    const { _resetWarnings } = await import("../../utils/warn");
+    _resetWarnings();
     const spy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     renderWithTheme(
       <IconButton>

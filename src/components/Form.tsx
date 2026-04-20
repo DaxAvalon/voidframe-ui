@@ -55,7 +55,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 ) {
   warn(
     hasAccessibleName(label, props as Record<string, unknown>),
-    "<Input> requires `label`, `aria-label`, or `aria-labelledby` for screen readers."
+    "<Input> requires `label`, `aria-label`, or `aria-labelledby` for screen readers. Wrap the control in `<Field>` to auto-wire these, or use `<VisuallyHidden>` for a non-visible label."
   );
   const inputId = useId(id);
   const inline: CSSProperties = width !== undefined ? { width, ...style } : (style ?? {});
@@ -111,7 +111,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ) {
     warn(
       hasAccessibleName(label, props as Record<string, unknown>),
-      "<Textarea> requires `label`, `aria-label`, or `aria-labelledby` for screen readers."
+      "<Textarea> requires `label`, `aria-label`, or `aria-labelledby` for screen readers. Wrap the control in `<Field>` to auto-wire these, or use `<VisuallyHidden>` for a non-visible label."
     );
     const textareaId = useId(id);
     return (
@@ -164,7 +164,7 @@ export const Toggle = forwardRef<HTMLDivElement, ToggleProps>(function Toggle(
 ) {
   warn(
     hasAccessibleName(label, props as Record<string, unknown>),
-    "<Toggle> requires `label`, `aria-label`, or `aria-labelledby` for screen readers."
+    "<Toggle> requires `label`, `aria-label`, or `aria-labelledby` for screen readers. Wrap the control in `<Field>` to auto-wire these, or use `<VisuallyHidden>` for a non-visible label."
   );
   const [value, setValue] = useControllableState<boolean>({
     value: checked,
@@ -239,7 +239,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   });
   warn(
     hasAccessibleName(label, props as Record<string, unknown>),
-    "<Select> requires `label`, `aria-label`, or `aria-labelledby` for screen readers."
+    "<Select> requires `label`, `aria-label`, or `aria-labelledby` for screen readers. Wrap the control in `<Field>` to auto-wire these, or use `<VisuallyHidden>` for a non-visible label."
   );
   if (options.length === 0) {
     warnOnce(

@@ -4,7 +4,7 @@ Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-
 
 Built for dashboards, dev tools, data interfaces, internal consoles, AI chat products, and anything that needs to feel like it was forged from the void.
 
-**500+ accessible component exports + a brutalist icon system** across primitives, layout, forms, navigation, data, overlays, interaction, a full chat/AI surface, charts, a specialty tier (dev tools, identity, numeric, time, help, encoding, widgets, print), and ~75 bundled monoline icons. WAI-ARIA patterns. Controllable / uncontrollable duality on every input. Compound APIs on every complex surface. Zero runtime dependencies (peer deps are optional where possible).
+**500+ accessible components across primitives, layout, forms, navigation, data display, overlays, interactive surfaces, a full chat/AI tier, domain-specific specialty widgets, and ~60 bundled monoline icons.** Every stateful component is controllable or uncontrolled; every compound surface exposes a Radix-style dot-notation API; every interactive surface ships WAI-ARIA semantics and keyboard nav under CI-enforced jest-axe + Playwright coverage. Runtime dependencies: React and React-DOM — everything else is a peer.
 
 ---
 
@@ -14,13 +14,44 @@ Built for dashboards, dev tools, data interfaces, internal consoles, AI chat pro
 npm install voidframe
 ```
 
-Peer dependencies: `react >= 18.0.0`, `react-dom >= 18.0.0`
+**Peer dependencies.** Required: `react >= 18.0.0`, `react-dom >= 18.0.0`.
+
+**Optional** (only required if you render the component on the right):
+
+| Optional peer | Needed by |
+|---|---|
+| `d3-force` | `NetworkGraph` |
+| `d3-geo`, `topojson-client` | `ChoroplethMap`, `BubbleMap` |
+| `d3-hierarchy` | `TreeMap`, `Sunburst` |
+| `d3-sankey` | `Sankey` |
+| `d3-scale`, `d3-shape`, `d3-array`, `d3-time` | All other charts (pulled in via the `voidframe/charts` subpath) |
+| `dompurify` | `MarkdownRenderer`, `MarkdownEditor` preview |
+| `react-live` | `docs/` site and any `<Playground>` consumer |
+| `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`, `jest-axe` | Required only when using `voidframe/testing`'s helpers |
+
+Voidframe throws `MissingPeerDependencyError` at render time with the exact `npm install` command if an optional peer isn't resolvable. See the Charts section for per-chart install examples.
 
 Import the stylesheet once at the top of your app:
 
 ```js
 import "voidframe/styles.css";
 ```
+
+### Subpath imports
+
+The main entry re-exports the whole library. The subpaths below let you
+import only what you need or reach for helpers that aren't surfaced on
+the root entry:
+
+| Subpath | When to use it |
+|---|---|
+| `voidframe` | Default — every component, hook, and utility. |
+| `voidframe/charts` | Charts only (dead-code elimination if you don't touch any non-chart component). |
+| `voidframe/dev` | `<Playground>`, `<PropsTable>`, `<DevPanel>`, `ProfilerScope` — dev-only surface, never ships to production. |
+| `voidframe/tokens` | Token object (`darkTheme`, `lightTheme`, …) without pulling in React. Useful for tooling and design-tool sync. |
+| `voidframe/testing` | `renderWithTheme`, `expectNoA11yViolations`, `installMatchMedia`, `createMockStorage`. |
+| `voidframe/styles.css` | The single bundled stylesheet. |
+| `voidframe/theme-script.js` | Inline `<head>` snippet that applies the persisted theme pre-hydration (no flash). |
 
 ### Scaffold a new app
 
@@ -122,7 +153,7 @@ import { VoidframeProvider } from "voidframe";
 
 ### Built-in themes
 
-Four themes ship out of the box: `darkTheme` (default), `lightTheme`, `midnightTheme` (deep-black OLED-friendly), and `greyTheme` (warm neutral).
+Four themes ship out of the box: `darkTheme` (default), `lightTheme`, `midnightTheme` (deep-black OLED-friendly), and `greyTheme` (neutral mid-grey for print and projection). Pass any of them to `VoidframeProvider`'s `theme` prop or address them by name via `themeName="dark" | "light" | "midnight" | "grey" | "system"`.
 
 ```jsx
 import { VoidframeProvider } from "voidframe";
@@ -500,17 +531,17 @@ import {
 </div>
 ```
 
-**Bundle budgets** (enforced in CI via `npm run size`):
+**Bundle budgets** (enforced in CI via `npm run size` — see `package.json` `size-limit`):
 
 | Entry | Budget (gzipped) |
-|---|---|
-| Core ESM (`dist/voidframe.es.js`) | ≤170 KB |
+|---|---:|
+| Core ESM (`dist/voidframe.es.js`) | ≤200 KB |
 | Charts ESM (`dist/charts.es.js`) | ≤40 KB |
-| Dev tools ESM (`dist/dev.es.js`) | ≤10 KB |
+| Dev ESM (`dist/dev.es.js`) | ≤10 KB |
 | Stylesheet (`dist/voidframe.css`) | ≤50 KB |
-| All JS (ES + CJS across all entries) | ≤400 KB |
+| All JS (ES + CJS, every entry) | ≤460 KB |
 
-Configured in `package.json` → `size-limit`. Run `npm run size` after `npm run build` to verify before shipping a large component. Cherry-picked imports (`import { Button }`) tree-shake to well under each budget but are not individually gated in CI.
+Tree-shaking still applies — `import { Button } from "voidframe"` costs roughly **4–5 KB** gzipped, `import { SearchIcon }` about **2 KB**. Those per-import figures are measured ad-hoc, not enforced in CI; open a PR before relying on them for a strict budget.
 
 **Production DCE.** All dev-only `warn()` and `warnOnce()` calls are guarded by `process.env.NODE_ENV !== "production"` — bundlers strip them from production builds entirely, so warning message strings never ship.
 
@@ -555,7 +586,7 @@ it("persists theme through storage", () => {
 **Scripts** (the framework's own CI matrix, mirrored in `package.json`):
 
 ```bash
-npm run test              # full vitest suite (4,994 tests as of 2026-04-19)
+npm run test              # full vitest suite (5,052 tests as of 2026-04-19)
 npm run test:watch        # interactive
 npm run test:coverage     # v8 coverage + enforced floor thresholds
 npm run test:ssr          # renderToString smoke test per phase
@@ -886,7 +917,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (4,994 tests as of 2026-04-19)
+npm run test      # full vitest suite (5,052 tests as of 2026-04-19)
 npm run typecheck # tsc --noEmit
 ```
 
@@ -910,6 +941,29 @@ voidframe/
 ├── vite.config.ts
 └── README.md
 ```
+
+---
+
+## Contributing
+
+The canonical repository lives at
+[git.ahadley.local/aeryn/VoidFrame](https://git.ahadley.local/aeryn/VoidFrame)
+(Forgejo instance). Issues, patches, and long-form discussion happen there.
+
+Local workflow:
+
+```bash
+git clone https://git.ahadley.local/aeryn/VoidFrame.git voidframe
+cd voidframe
+npm install
+npm test              # unit + a11y + SSR matrix
+npm run docs          # local docs site on :5175
+npm run demo          # live demo on :5173
+```
+
+Before opening a patch, run `npm run typecheck && npm test && npm run size`.
+Phase plans and audit docs live under `plans/`; read the relevant one
+before adding components to a tier.
 
 ---
 

@@ -54,7 +54,10 @@ export function runCodemod({
   }
   const transformPath = resolveTransform(transform);
   if (!transformPath) {
-    log.error?.(`Unknown transform: ${transform}`);
+    log.error?.(
+      `Unknown transform: ${transform}\n` +
+        `Available: ${TRANSFORMS.join(", ")}`
+    );
     return 2;
   }
   const result = runner(

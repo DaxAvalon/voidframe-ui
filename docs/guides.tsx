@@ -103,6 +103,16 @@ createRoot(document.getElementById("root")!).render(
           how to override tokens.
         </Text>
       </Section>
+      <Section title="Contributing">
+        <Text>
+          The canonical repository lives at{" "}
+          <a href="https://git.ahadley.local/aeryn/VoidFrame">
+            git.ahadley.local/aeryn/VoidFrame
+          </a>
+          . Clone, <code>npm install</code>, then <code>npm test</code>. Phase
+          plans and audits live under <code>plans/</code>.
+        </Text>
+      </Section>
     </>
   );
 }

@@ -7,6 +7,8 @@
 // helper. The defaults are conservative: only common navigation
 // protocols are allowed; everything else is rejected.
 
+import { warnOnce } from "./warn";
+
 const SAFE_PROTOCOLS = new Set([
   "http:",
   "https:",
@@ -84,16 +86,10 @@ export function safeHrefOrWarn(
 ): string {
   const out = safeHref(url, options);
   if (out === (options.fallback ?? "#") && url !== "" && url !== undefined) {
-    if (
-      typeof process !== "undefined" &&
-      process.env?.NODE_ENV !== "production"
-    ) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `[voidframe] ${component}: rejected unsafe href "${String(url)}" — ` +
-          `only http(s), mailto, tel, sms, and relative paths are allowed.`
-      );
-    }
+    warnOnce(
+      `safeHref:rejected:${component}:${String(url)}`,
+      `${component}: rejected unsafe href "${String(url)}" — only http(s), mailto, tel, sms, and relative paths are allowed.`
+    );
   }
   return out;
 }

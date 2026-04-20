@@ -38,7 +38,7 @@ const LOGIN_FORM_CODE = `function LoginForm() {
         <Button type="submit" style={{ width: "100%" }}>Sign In</Button>
         <Divider />
         <Text size="sm" style={{ textAlign: "center", color: "var(--vf-text-3)" }}>
-          Don\u0027t have an account? <Button variant="ghost" size="sm">Sign up</Button>
+          Don&apos;t have an account? <Button variant="ghost" size="sm">Sign up</Button>
         </Text>
       </VStack>
     </form>

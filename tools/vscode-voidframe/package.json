@@ -54,6 +54,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/voidframe/voidframe"
+    "url": "https://git.ahadley.local/aeryn/VoidFrame.git",
+    "directory": "tools/vscode-voidframe"
   }
 }

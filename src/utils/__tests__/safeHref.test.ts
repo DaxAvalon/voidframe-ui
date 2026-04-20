@@ -1,5 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { safeHref, safeHrefOrWarn } from "../safeHref";
+import { _resetWarnings } from "../warn";
 
 describe("safeHref", () => {
   describe("accepts safe URLs", () => {
@@ -74,6 +75,9 @@ describe("safeHref", () => {
 });
 
 describe("safeHrefOrWarn", () => {
+  beforeEach(() => {
+    _resetWarnings();
+  });
   it("warns in dev when rejecting a non-empty unsafe URL", () => {
     const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
     const out = safeHrefOrWarn("javascript:alert(1)", "TestComponent");

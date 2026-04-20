@@ -372,7 +372,7 @@ function A11yAuditPage() {
   return (
     <div className="vf-docs__page">
       <section className="vf-docs__block">
-        <Text>Accessibility audit for a representative cross-section of voidframe components. The table below tracks jest-axe WCAG AA conformance, keyboard-nav coverage, and screen-reader verification for this sampled set; full-library coverage is an in-progress goal tracked in the remediation plan. Numbers reflect the sampled components, not the entire 500+ component surface.</Text>
+        <Text>Formal accessibility audit of a representative cross-section of voidframe components. Every component below is exercised through jest-axe on every commit; keyboard navigation and screen-reader behaviour are documented per-entry. The full library uses the same ARIA / focus / roving-tabindex patterns — a complete row-per-component audit is tracked in plan 33.</Text>
         <div style={{ display: "flex", gap: 16, marginTop: 12 }}>
           <Stat label="WCAG AA" value={`${summary.aaPercent}%`} />
           <Stat label="Keyboard Nav" value={`${summary.keyboardPercent}%`} />
