@@ -589,6 +589,10 @@ export interface NavItemProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Single nav/sidebar item: icon, label, optional badge, active state. Wraps
+ * a link.
+ */
 export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem(
   {
     children,
@@ -687,6 +691,10 @@ export interface NavGroupProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Grouped section of a nav/sidebar with an optional heading. Used inside
+ * `Sidebar` / `Navbar`.
+ */
 export const NavGroup = forwardRef<HTMLDivElement, NavGroupProps>(function NavGroup(
   { title, children, defaultOpen = true, className, style, ...props },
   ref

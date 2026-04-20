@@ -35,6 +35,10 @@ export interface WidgetShellProps
   children?: ReactNode;
 }
 
+/**
+ * Standardised card-shaped shell for a dashboard widget: header, body,
+ * optional footer actions.
+ */
 export const WidgetShell = forwardRef<HTMLElement, WidgetShellProps>(
   function WidgetShell(
     {
@@ -282,6 +286,10 @@ function findNearestEmpty(
   };
 }
 
+/**
+ * Responsive dashboard grid with configurable columns per breakpoint.
+ * Children can span columns/rows via `GridItem`.
+ */
 export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
   function DashboardGrid(
     {

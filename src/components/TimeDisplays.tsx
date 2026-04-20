@@ -25,6 +25,10 @@ export interface TimeZoneSelectProps
   showOffset?: boolean;
 }
 
+/**
+ * Dropdown for selecting an IANA time zone. Groups by region and shows
+ * current UTC offset.
+ */
 export const TimeZoneSelect = forwardRef<HTMLDivElement, TimeZoneSelectProps>(
   function TimeZoneSelect(
     {
@@ -157,6 +161,10 @@ export interface RelativeTimeProps
   locale?: string;
 }
 
+/**
+ * Formats a timestamp as a relative, auto-updating string (`2m ago`,
+ * `yesterday`).
+ */
 export const RelativeTime = forwardRef<HTMLTimeElement, RelativeTimeProps>(
   function RelativeTime(
     { date, now, updateInterval = 30_000, locale, className, ...props },
@@ -220,6 +228,10 @@ export interface DurationDisplayProps
   format?: "hms" | "compact" | "long";
 }
 
+/**
+ * Formats a millisecond duration as a human-readable string (`2m 13s`, `1h
+ * 04m`, etc.). Locale-aware.
+ */
 export const DurationDisplay = forwardRef<
   HTMLSpanElement,
   DurationDisplayProps
@@ -274,6 +286,10 @@ export interface CountdownProps extends HTMLAttributes<HTMLSpanElement> {
   completedLabel?: ReactNode;
 }
 
+/**
+ * Countdown timer to a target date/time. Auto-updates every second; fires
+ * `onComplete` when it hits zero.
+ */
 export const Countdown = forwardRef<HTMLSpanElement, CountdownProps>(
   function Countdown(
     { target, onComplete, format = "hms", completedLabel, className, ...props },

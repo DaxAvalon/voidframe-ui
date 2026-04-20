@@ -58,6 +58,10 @@ type ResolvedStep = {
   end: number;
 };
 
+/**
+ * Waterfall chart showing running totals with positive/negative
+ * contributions. Axes: band x linear.
+ */
 export const WaterfallChart = forwardRef<HTMLDivElement, WaterfallChartProps>(
   function WaterfallChart(
     {

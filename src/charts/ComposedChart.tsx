@@ -73,6 +73,10 @@ export interface ComposedChartProps
   padding?: number;
 }
 
+/**
+ * Composition chart — combine bars, lines, areas, and reference layers over
+ * shared axes. Axes: linear / time (X), linear (Y).
+ */
 export const ComposedChart = forwardRef<HTMLDivElement, ComposedChartProps>(
   function ComposedChart(
     {

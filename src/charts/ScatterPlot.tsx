@@ -69,6 +69,10 @@ export interface ScatterPlotProps
   scaleKind?: "linear" | "log" | "sqrt";
 }
 
+/**
+ * Scatter plot for two numeric dimensions. Axes: linear x linear. Optional
+ * `sizeRange` turns it into a bubble chart.
+ */
 export const ScatterPlot = forwardRef<HTMLDivElement, ScatterPlotProps>(
   function ScatterPlot(
     {

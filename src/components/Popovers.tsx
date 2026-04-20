@@ -607,6 +607,10 @@ export interface BackdropProps extends HTMLAttributes<HTMLDivElement> {
   tint?: string;
 }
 
+/**
+ * Dimmed scrim rendered behind overlays. Handles click-outside and fade
+ * transitions; used internally by `Dialog`, `Drawer`, and `Modal`.
+ */
 export const Backdrop = forwardRef<HTMLDivElement, BackdropProps>(function Backdrop(
   { open = true, blur, tint, className, style, ...props },
   ref

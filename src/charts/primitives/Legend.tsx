@@ -27,6 +27,10 @@ export interface ChartLegendProps extends HTMLAttributes<HTMLDivElement> {
   align?: "start" | "center" | "end";
 }
 
+/**
+ * Legend primitive for any chart. Maps series colour to label; clickable
+ * entries toggle series visibility when the chart is controllable.
+ */
 export const ChartLegend = forwardRef<HTMLDivElement, ChartLegendProps>(function ChartLegend(
   {
     items,

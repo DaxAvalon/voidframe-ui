@@ -301,6 +301,12 @@ function AccordionContent({
  * `Accordion.Trigger`, and `Accordion.Content`.
  */
 AccordionRoot.displayName = "Accordion";
+/**
+ * Vertical stack of collapsible sections. Controlled via `value` /
+ * `onValueChange` or uncontrolled via `defaultValue`; `type="single" |
+ * "multiple"` controls whether one or many items may be open. Subparts:
+ * `Accordion.Item`, `Accordion.Trigger`, `Accordion.Panel`.
+ */
 export const Accordion = Object.assign(AccordionRoot, {
   Item: AccordionItem,
   Trigger: AccordionTrigger,

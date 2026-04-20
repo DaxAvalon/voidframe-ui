@@ -33,6 +33,10 @@ export interface ChartTooltipProps extends HTMLAttributes<HTMLDivElement> {
 
 const EMPTY_SIZE = { width: 0, height: 0 };
 
+/**
+ * Positioned tooltip primitive for charts. Reads the current hovered datum
+ * from chart context and renders via the configured template.
+ */
 export const ChartTooltip = forwardRef<HTMLDivElement, ChartTooltipProps>(
   function ChartTooltip(
     {

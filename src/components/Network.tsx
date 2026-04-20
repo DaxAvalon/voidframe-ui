@@ -21,6 +21,10 @@ export interface OfflineBannerProps extends HTMLAttributes<HTMLDivElement> {
   onDismiss?: () => void;
 }
 
+/**
+ * Top-of-page banner that appears when `navigator.onLine` flips to false.
+ * Auto-hides on reconnect.
+ */
 export const OfflineBanner = forwardRef<HTMLDivElement, OfflineBannerProps>(
   function OfflineBanner(
     { message = "You are offline.", dismissible = true, onDismiss, className, ...props },
@@ -85,6 +89,10 @@ const STATUS_LABEL: Record<ConnectionState, string> = {
   error: "Connection error",
 };
 
+/**
+ * Inline indicator for a network/channel connection state (`connecting` |
+ * `connected` | `disconnected` | `error`). Icon + label + optional pulse.
+ */
 export const ConnectionStatus = forwardRef<HTMLSpanElement, ConnectionStatusProps>(
   function ConnectionStatus({ status, label, className, ...props }, ref) {
     return (

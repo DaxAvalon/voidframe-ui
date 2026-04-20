@@ -41,6 +41,10 @@ export interface FunnelChartProps
   showPercent?: boolean;
 }
 
+/**
+ * Funnel / conversion chart — each stage is a trapezoid sized by value.
+ * Shows drop-off between adjacent stages.
+ */
 export const FunnelChart = forwardRef<HTMLDivElement, FunnelChartProps>(
   function FunnelChart(
     {

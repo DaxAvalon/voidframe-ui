@@ -22,6 +22,10 @@ export interface ShowProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Conditional renderer: shows its children at/above/below specific
+ * breakpoints. Paired with `Hide`.
+ */
 export const Show = forwardRef<HTMLDivElement, ShowProps>(function Show(
   { above, below, between, className, children, ...props },
   ref
@@ -46,6 +50,10 @@ export interface HideProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Conditional renderer: hides its children below / above / at specific
+ * breakpoints. Paired with `Show`.
+ */
 export const Hide = forwardRef<HTMLDivElement, HideProps>(function Hide(
   { above, below, between, className, children, ...props },
   ref

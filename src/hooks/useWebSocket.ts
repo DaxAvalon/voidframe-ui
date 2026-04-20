@@ -38,6 +38,11 @@ const readyStateToStatus = (
   }
 };
 
+/**
+ * Managed WebSocket subscription. Exposes `{ readyState, lastMessage, send,
+ * close }`; auto-reconnects with exponential backoff; closes on unmount.
+ * Pass `null` for `url` to pause.
+ */
 export function useWebSocket(
   url: string | null,
   options: UseWebSocketOptions = {}

@@ -65,6 +65,11 @@ export interface ChartFrameProps
   exportRef?: React.Ref<ChartFrameHandle>;
 }
 
+/**
+ * Shared chart shell: handles dimensions, margins, ARIA role, and the
+ * internal context that series/axes read. Wrap your chart composition in
+ * `ChartFrame`.
+ */
 export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
   function ChartFrame(
     {

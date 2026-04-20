@@ -60,5 +60,9 @@ const ResultImpl = forwardRef<HTMLDivElement, ResultProps>(function Result(
   );
 });
 ResultImpl.displayName = "Result";
+/**
+ * Centred result page (404 / 403 / 500 / success). Icon, title, description,
+ * and action slot.
+ */
 export const Result = memo(ResultImpl);
 (Result as unknown as { displayName: string }).displayName = "Result";

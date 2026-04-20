@@ -181,6 +181,10 @@ function applyCommand(cmd: RichTextCommand, arg?: string): void {
   }
 }
 
+/**
+ * WYSIWYG rich-text editor with markdown-compatible output, toolbar, and
+ * inline formatting shortcuts.
+ */
 export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorProps>(
   function RichTextEditor(
     {

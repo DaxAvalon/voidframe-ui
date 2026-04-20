@@ -113,6 +113,10 @@ const DescriptionDetail = forwardRef<
 });
 DescriptionDetail.displayName = "DescriptionDetail";
 
+/**
+ * Semantic `<dl>` list of term/description pairs. Responsive: stacks below
+ * `sm` and lays out in a grid above.
+ */
 export const DescriptionList = Object.assign(DescriptionListBase, {
   Term: DescriptionTerm,
   Description: DescriptionDetail,

@@ -44,6 +44,10 @@ export interface HistogramProps
   yTicks?: number;
 }
 
+/**
+ * Binned frequency chart. Axes: linear (bin) x linear (count). Configurable
+ * bin count or explicit thresholds.
+ */
 export const Histogram = forwardRef<HTMLDivElement, HistogramProps>(
   function Histogram(
     {

@@ -94,6 +94,9 @@ export interface MenuTriggerProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
 }
 
+/**
+ * Element that opens the menu. Typically wraps a `Button` or `IconButton`.
+ */
 function MenuTrigger({ asChild, children, onClick, ...props }: MenuTriggerProps) {
   const ctx = useMenu();
   const handle = (e: MouseEvent) => {
@@ -133,6 +136,9 @@ export interface MenuContentProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Positioned popover that holds menu items. Subpart of `Menu`.
+ */
 function MenuContent({ children, className, ...props }: MenuContentProps) {
   const ctx = useMenu();
   const outsideRef = useClickOutside<HTMLDivElement>(() => ctx.setOpen(false));
@@ -223,6 +229,10 @@ export interface MenuItemProps extends Omit<HTMLAttributes<HTMLDivElement>, "onS
   children?: ReactNode;
 }
 
+/**
+ * Actionable menu item. Emits `onSelect` on activation; optional icon and
+ * trailing shortcut slot.
+ */
 const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(function MenuItem(
   { disabled, onSelect, shortcut, children, className, onKeyDown, ...props },
   ref
@@ -271,6 +281,10 @@ export interface MenuCheckboxItemProps extends Omit<HTMLAttributes<HTMLDivElemen
   children?: ReactNode;
 }
 
+/**
+ * Menu item with a checkbox control. Controllable via `checked` /
+ * `onCheckedChange`.
+ */
 const MenuCheckboxItem = forwardRef<HTMLDivElement, MenuCheckboxItemProps>(
   function MenuCheckboxItem(
     { checked, onCheckedChange, disabled, children, className, ...props },
@@ -328,6 +342,10 @@ export interface MenuRadioGroupProps
   children?: ReactNode;
 }
 
+/**
+ * Group of mutually-exclusive menu radio items. Controllable via `value` /
+ * `onValueChange`.
+ */
 function MenuRadioGroup({ value, defaultValue, onValueChange, children, className, ...props }: MenuRadioGroupProps) {
   const [internal, setInternal] = useState<string | undefined>(defaultValue);
   const current = value ?? internal;
@@ -358,6 +376,9 @@ export interface MenuRadioItemProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Menu item acting as one option in a `MenuRadioGroup`.
+ */
 const MenuRadioItem = forwardRef<HTMLDivElement, MenuRadioItemProps>(
   function MenuRadioItem(
     { value, disabled, children, className, ...props },
@@ -403,10 +424,16 @@ MenuRadioItem.displayName = "MenuRadioItem";
 
 // ── Menu.Separator / Menu.Label ──────────────────────────────
 
+/**
+ * Horizontal rule separating menu item groups.
+ */
 function MenuSeparator(props: HTMLAttributes<HTMLDivElement>) {
   return <div role="separator" className="vf-menu__separator" {...props} />;
 }
 
+/**
+ * Non-interactive label inside a menu (group header).
+ */
 function MenuLabel({
   className,
   ...props
@@ -426,6 +453,10 @@ export interface MenuSubProps {
   children?: ReactNode;
 }
 
+/**
+ * Submenu container within a parent menu. Opens on hover / focus / arrow
+ * key.
+ */
 function MenuSub({ children }: MenuSubProps) {
   const [open, setOpen] = useState(false);
   return (
@@ -435,6 +466,10 @@ function MenuSub({ children }: MenuSubProps) {
   );
 }
 
+/**
+ * Trigger for a `MenuSub`. Shows a chevron and opens the submenu on
+ * activation.
+ */
 const MenuSubTrigger = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   function MenuSubTrigger({ children, className, ...props }, ref) {
     const sub = useContext(MenuSubContext);
@@ -470,6 +505,9 @@ const MenuSubTrigger = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>
 );
 MenuSubTrigger.displayName = "MenuSubTrigger";
 
+/**
+ * Content subpart of `MenuSub` - the popover panel for the submenu.
+ */
 function MenuSubContent({
   children,
   className,
@@ -544,6 +582,10 @@ export interface ContextMenuProps
   children?: ReactNode;
 }
 
+/**
+ * Right-click / long-press context menu. Subparts mirror `Menu`; position
+ * follows the pointer.
+ */
 export function ContextMenu({
   content,
   children,
@@ -613,6 +655,10 @@ export interface MenuBarProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Top-level menu bar (like a desktop app). Horizontal row of `MenuBarMenu`
+ * entries, each with a dropdown.
+ */
 export function MenuBar({ children, className, ...props }: MenuBarProps) {
   const barRef = useRef<HTMLDivElement | null>(null);
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -653,6 +699,10 @@ export interface MenuBarMenuProps {
   children?: ReactNode;
 }
 
+/**
+ * Single menu entry inside a `MenuBar`. Owns a dropdown activated by click
+ * or keyboard.
+ */
 export function MenuBarMenu({ trigger, children }: MenuBarMenuProps) {
   return (
     <MenuRoot>

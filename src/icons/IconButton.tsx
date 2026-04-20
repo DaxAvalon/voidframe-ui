@@ -33,6 +33,10 @@ export interface IconButtonProps
   children?: ReactNode;
 }
 
+/**
+ * Icon-only button. Requires `aria-label` (or `aria-labelledby`) so screen
+ * readers announce the action; dev warns without one.
+ */
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   function IconButton(
     {
@@ -106,6 +110,10 @@ export interface IconGroupProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Compact group of icons displayed inline (e.g. status badges). Optional
+ * overflow chip.
+ */
 export const IconGroup = forwardRef<HTMLDivElement, IconGroupProps>(
   function IconGroup(
     { gap = 4, align = "center", separator, className, style, children, ...props },

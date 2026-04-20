@@ -63,6 +63,10 @@ interface PreparedFeature {
   properties: Record<string, unknown>;
 }
 
+/**
+ * Geographic choropleth. Fills regions in a TopoJSON base map by value.
+ * Peer: `d3-geo` + `topojson-client`.
+ */
 export const ChoroplethMap = forwardRef<HTMLDivElement, ChoroplethMapProps>(
   function ChoroplethMap(
     {

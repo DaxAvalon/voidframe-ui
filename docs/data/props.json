@@ -1,7 +1,7 @@
 [
   {
     "name": "AccessibleIcon",
-    "description": "Wrap a decorative SVG/glyph with an accessible label. The icon itself\nis marked `aria-hidden`, and the label renders in a `VisuallyHidden` sibling.",
+    "description": "Wrap a decorative SVG/glyph with an accessible label. The icon itself\nis marked `aria-hidden`, and the label renders in a `VisuallyHidden` sibling.\nThe forwarded ref targets the wrapped icon element (typically an `<svg>`),\nso consumers can measure or focus-control it through the primitive.",
     "file": "src/primitives/AccessibleIcon.tsx",
     "props": [
       {
@@ -14,7 +14,7 @@
   },
   {
     "name": "Accordion",
-    "description": "",
+    "description": "Vertical stack of collapsible sections. Controlled via `value` /\n`onValueChange` or uncontrolled via `defaultValue`; `type=\"single\" |\n\"multiple\"` controls whether one or many items may be open. Subparts:\n`Accordion.Item`, `Accordion.Trigger`, `Accordion.Panel`.",
     "file": "src/components/Accordion.tsx",
     "props": [
       {
@@ -57,7 +57,7 @@
   },
   {
     "name": "AgentRunner",
-    "description": "",
+    "description": "Orchestrates a live agent run: streams reasoning steps, tool calls, and\noutput into a scrollable trace. Feed `steps` (or an async iterable via\n`onStep`) and it renders the history plus current status.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -88,7 +88,7 @@
   },
   {
     "name": "AgentStep",
-    "description": "",
+    "description": "Single step in an agent trace: a numbered card with title, status pill,\noptional tool calls, output, and elapsed time. Controllable/uncontrolled\nvia `expanded` / `defaultExpanded` / `onExpandedChange`.",
     "file": "src/components/ChatAgent.tsx",
     "props": [
       {
@@ -151,7 +151,7 @@
   },
   {
     "name": "AgentTrace",
-    "description": "",
+    "description": "Full trace view for an agent run — wraps a list of `AgentStep`s with\nstatus summary and expand-all controls.",
     "file": "src/components/ChatAgent.tsx",
     "props": [
       {
@@ -195,7 +195,7 @@
   },
   {
     "name": "Alert",
-    "description": "",
+    "description": "Inline notice block with a `tone` (`info` | `success` | `warning` |\n`danger`), optional `title`, icon, and dismiss affordance. For transient\npopups use `Toast`; for blocking confirmation use `Dialog` / `AlertDialog`.",
     "file": "src/components/Overlay.tsx",
     "props": [
       {
@@ -222,7 +222,7 @@
   },
   {
     "name": "AlertDialog",
-    "description": "",
+    "description": "Modal dialog that confirms a destructive or irreversible action. Like\n`Dialog` but with enforced `Cancel` / `Confirm` affordances and\n`role=\"alertdialog\"` semantics.",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -247,7 +247,7 @@
   },
   {
     "name": "AlertV2",
-    "description": "",
+    "description": "Next-gen inline alert with richer layout slots (title, description,\nactions, icon). Controllable dismissed state; tone mirrors `Alert`.",
     "file": "src/components/Notifications.tsx",
     "props": [
       {
@@ -291,7 +291,7 @@
   },
   {
     "name": "Anchor",
-    "description": "",
+    "description": "Styled `<a>` with safe-href validation, optional external-link affordance,\nand tone variants. Rejects `javascript:` and other unsafe schemes with a\ndev warning.",
     "file": "src/components/Anchor.tsx",
     "props": [
       {
@@ -445,7 +445,7 @@
   },
   {
     "name": "Arc",
-    "description": "",
+    "description": "Arc series primitive for donut / pie / gauge charts. Plots a radial slice\nbound to a value range and consumes the enclosing chart scales.",
     "file": "src/charts/series/Arc.tsx",
     "props": [
       {
@@ -513,7 +513,7 @@
   },
   {
     "name": "Area",
-    "description": "",
+    "description": "Area series primitive for line/area charts. Fills between a baseline and a\ndatum series using the enclosing chart's X/Y scales.",
     "file": "src/charts/series/Area.tsx",
     "props": [
       {
@@ -559,7 +559,7 @@
   },
   {
     "name": "AreaChart",
-    "description": "",
+    "description": "Area chart over a shared X axis. Axes: linear or time (X), linear (Y).\nInteractions: hover crosshair, tooltip, legend toggle. Accepts `data` as\n`{ x: number|Date; [series: string]: number }[]`.",
     "file": "src/charts/AreaChart.tsx",
     "props": [
       {
@@ -690,7 +690,7 @@
   },
   {
     "name": "ArrowDownIcon",
-    "description": "",
+    "description": "ArrowDown icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -763,7 +763,7 @@
   },
   {
     "name": "ArrowLeftIcon",
-    "description": "",
+    "description": "ArrowLeft icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -836,7 +836,7 @@
   },
   {
     "name": "ArrowRightIcon",
-    "description": "",
+    "description": "ArrowRight icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -909,7 +909,7 @@
   },
   {
     "name": "ArrowUpIcon",
-    "description": "",
+    "description": "ArrowUp icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -982,7 +982,7 @@
   },
   {
     "name": "AspectRatio",
-    "description": "",
+    "description": "Layout wrapper that locks its content to a given `ratio` (e.g. `16/9`).\nWorks in flex/grid parents without JS measurement.",
     "file": "src/components/Layout.tsx",
     "props": [
       {
@@ -1045,7 +1045,7 @@
   },
   {
     "name": "Attachment",
-    "description": "",
+    "description": "Single attachment chip: icon, filename, size, optional preview / download\naffordances. Used inside `AttachmentList` and the composer.",
     "file": "src/components/ChatAttachments.tsx",
     "props": [
       {
@@ -1107,7 +1107,7 @@
   },
   {
     "name": "AttachmentList",
-    "description": "",
+    "description": "Horizontal list of `Attachment` chips with overflow handling. Feed `items`\nas `{ id, name, size, kind, url }[]`.",
     "file": "src/components/ChatAttachments.tsx",
     "props": [
       {
@@ -1121,7 +1121,7 @@
   },
   {
     "name": "AudioAttachment",
-    "description": "",
+    "description": "Attachment variant for audio files — shows duration and a compact inline\n`AudioPlayer` on expand.",
     "file": "src/components/ChatAttachments.tsx",
     "props": [
       {
@@ -1158,7 +1158,7 @@
   },
   {
     "name": "AudioPlayer",
-    "description": "",
+    "description": "Accessible audio player with play/pause, scrub bar, time readout, and\nvolume. Wraps the native `<audio>` element and exposes keyboard controls.",
     "file": "src/components/MediaPlayer.tsx",
     "props": [
       {
@@ -1166,12 +1166,6 @@
         "type": "string",
         "description": "",
         "required": true
-      },
-      {
-        "name": "poster",
-        "type": "string",
-        "description": "",
-        "required": false
       },
       {
         "name": "autoPlay",
@@ -1188,13 +1182,6 @@
       {
         "name": "muted",
         "type": "boolean",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "playsInline",
-        "type": "boolean",
-        "defaultValue": "true",
         "description": "",
         "required": false
       },
@@ -1240,7 +1227,7 @@
   },
   {
     "name": "Avatar",
-    "description": "",
+    "description": "Circular or rounded image for a person or entity with initial / icon\nfallback. Sizes (`xs`-`xl`), tones, and `loading=\"lazy\" | \"eager\"` pass\nthrough to the underlying `<img>`.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -1290,7 +1277,7 @@
   },
   {
     "name": "AvatarGroup",
-    "description": "",
+    "description": "Overlapping stack of `Avatar`s with an optional `+N` overflow chip. `max`\ncaps the visible count; the rest collapse into the overflow indicator.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -1317,7 +1304,7 @@
   },
   {
     "name": "Axis",
-    "description": "",
+    "description": "Chart axis primitive. Renders ticks, gridlines, and an axis label for the\nenclosing chart's X or Y scale. Compose with `ChartFrame`.",
     "file": "src/charts/primitives/Axis.tsx",
     "props": [
       {
@@ -1385,7 +1372,7 @@
   },
   {
     "name": "Backdrop",
-    "description": "",
+    "description": "Dimmed scrim rendered behind overlays. Handles click-outside and fade\ntransitions; used internally by `Dialog`, `Drawer`, and `Modal`.",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -1411,7 +1398,7 @@
   },
   {
     "name": "BackToTop",
-    "description": "",
+    "description": "Floating button that scrolls the page (or a configured container) back to\nthe top once the user has scrolled past a threshold.",
     "file": "src/components/NavigationExtended.tsx",
     "props": [
       {
@@ -1439,7 +1426,7 @@
   },
   {
     "name": "Badge",
-    "description": "Small categorical label for status chips, counts, and highlights. Tone\n(`neutral`/`success`/`danger`/`warning`/`info`), variant (`solid`/`outline`/\n`subtle`), and size knobs. Supports a leading dot glyph, optional icon,\ndismissible close button, and a `count` + `overflowCount` counter mode.",
+    "description": "Small categorical label for status chips, counts, and highlights. Tone\n(`neutral`/`success`/`danger`/`warning`/`info`), variant (`solid`/`outline`/\n`ghost`/`subtle`), and size knobs. Supports a leading dot glyph, optional\nicon, dismissible close button, and a `count` + `overflowCount` counter mode.",
     "file": "src/components/Badge.tsx",
     "props": [
       {
@@ -1515,7 +1502,7 @@
   },
   {
     "name": "BannerAlert",
-    "description": "",
+    "description": "Full-width banner alert anchored to the top (or bottom) of a layout.\nHeavier than `Alert`; use for site-wide notices.",
     "file": "src/components/Notifications.tsx",
     "props": [
       {
@@ -1553,7 +1540,7 @@
   },
   {
     "name": "Bar",
-    "description": "",
+    "description": "Bar series primitive. Draws rectangles for each datum using the enclosing\nchart's band/linear scales.",
     "file": "src/charts/series/Bar.tsx",
     "props": [
       {
@@ -1597,7 +1584,7 @@
   },
   {
     "name": "BarChart",
-    "description": "",
+    "description": "Vertical or horizontal bar chart (grouped, stacked, or 100%-stacked).\nAxes: band (category) x linear (value). Interactions: hover highlight,\nlegend toggle, optional brush.",
     "file": "src/charts/BarChart.tsx",
     "props": [
       {
@@ -1728,7 +1715,7 @@
   },
   {
     "name": "Barcode",
-    "description": "",
+    "description": "Renders a 1D barcode (CODE128 / EAN) from a value. Purely visual — use a\ndedicated library for decoding.",
     "file": "src/components/Encoding.tsx",
     "props": [
       {
@@ -1775,7 +1762,7 @@
   },
   {
     "name": "BellIcon",
-    "description": "",
+    "description": "Bell icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -1848,7 +1835,7 @@
   },
   {
     "name": "BigNumber",
-    "description": "",
+    "description": "Large hero metric: value, optional delta/trend, and caption. Use inside\ndashboards; pair with `Sparkline` for an inline trend.",
     "file": "src/components/Numeric.tsx",
     "props": [
       {
@@ -1906,7 +1893,7 @@
   },
   {
     "name": "BoldIcon",
-    "description": "",
+    "description": "Bold icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -1979,7 +1966,7 @@
   },
   {
     "name": "BookmarkIcon",
-    "description": "",
+    "description": "Bookmark icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -2096,7 +2083,7 @@
   },
   {
     "name": "BoxPlot",
-    "description": "",
+    "description": "Box-and-whisker plot. Axes: band (category) x linear (value). Shows\nquartiles, median, whiskers, and optional outliers per category.",
     "file": "src/charts/BoxPlot.tsx",
     "props": [
       {
@@ -2207,7 +2194,7 @@
   },
   {
     "name": "BreadcrumbMenu",
-    "description": "",
+    "description": "Breadcrumb variant where the middle segments collapse into a dropdown menu\nwhen space is tight.",
     "file": "src/components/BreadcrumbMenu.tsx",
     "props": [
       {
@@ -2227,7 +2214,7 @@
   },
   {
     "name": "Brush",
-    "description": "",
+    "description": "Chart brush primitive: a draggable window that scopes the visible domain.\nEmits `onChange(range)` for coordinating focus+context charts.",
     "file": "src/charts/primitives/Brush.tsx",
     "props": [
       {
@@ -2244,7 +2231,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((selection: BrushSelection) => void)",
         "description": "Fires while dragging and on release.",
         "required": false
@@ -2392,7 +2379,7 @@
   },
   {
     "name": "BubbleMap",
-    "description": "",
+    "description": "Geographic bubble map. Plots value-sized circles over a TopoJSON base map.\nPeer: `d3-geo` + `topojson-client`.",
     "file": "src/charts/BubbleMap.tsx",
     "props": [
       {
@@ -2494,14 +2481,14 @@
       {
         "name": "variant",
         "type": "enum",
-        "defaultValue": "default",
+        "defaultValue": "outline",
         "description": "",
         "required": false
       },
       {
         "name": "accent",
         "type": "string",
-        "description": "Accent color for `accent` and `solid` variants. Sets `--vf-accent`.",
+        "description": "Accent color for `solid` and `subtle` variants. Sets `--vf-accent`.",
         "required": false
       },
       {
@@ -2545,7 +2532,7 @@
   },
   {
     "name": "ButtonGroup",
-    "description": "",
+    "description": "Horizontal group of buttons with unified borders. Accepts `Button` or\n`IconButton` children and exposes `attached` / `size` / `variant` props.",
     "file": "src/components/Button.tsx",
     "props": [
       {
@@ -2561,7 +2548,7 @@
         "required": true
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "(key: string) => void",
         "description": "",
         "required": true
@@ -2671,7 +2658,7 @@
   },
   {
     "name": "CalendarHeatmap",
-    "description": "",
+    "description": "GitHub-style calendar heatmap. Bins values per day and shades cells by\nintensity; supports weekly or monthly layout.",
     "file": "src/charts/CalendarHeatmap.tsx",
     "props": [
       {
@@ -2763,7 +2750,7 @@
   },
   {
     "name": "CalendarIcon",
-    "description": "",
+    "description": "Calendar icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -2836,7 +2823,7 @@
   },
   {
     "name": "Callout",
-    "description": "",
+    "description": "Emphasised inline block with an icon, title, and body. Similar to `Alert`\nbut for editorial / doc-style calls rather than runtime notices.",
     "file": "src/components/Notifications.tsx",
     "props": [
       {
@@ -2862,7 +2849,7 @@
   },
   {
     "name": "CandlestickChart",
-    "description": "",
+    "description": "OHLC candlestick chart. Axes: time x linear. Each datum is `{ date, open,\nhigh, low, close }`; wicks and bodies render per standard candle\nconventions.",
     "file": "src/charts/CandlestickChart.tsx",
     "props": [
       {
@@ -3023,7 +3010,7 @@
   },
   {
     "name": "CaretIcon",
-    "description": "",
+    "description": "Caret icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -3096,7 +3083,7 @@
   },
   {
     "name": "Carousel",
-    "description": "",
+    "description": "Horizontally-paged carousel with arrow + dot controls. Keyboard:\narrow-keys navigate slides. `loop` wraps; `autoplay` advances\nautomatically.",
     "file": "src/components/Carousel.tsx",
     "props": [
       {
@@ -3175,7 +3162,7 @@
   },
   {
     "name": "CarouselImageGallery",
-    "description": "",
+    "description": "Image gallery built on `Carousel` with lightbox-on-click, thumbnails\nstrip, and keyboard navigation.",
     "file": "src/components/Carousel.tsx",
     "props": [
       {
@@ -3260,7 +3247,7 @@
   },
   {
     "name": "Cascader",
-    "description": "",
+    "description": "Hierarchical select. Each column filters the next based on the user's\npick; emits the full path on commit.",
     "file": "src/components/Cascader.tsx",
     "props": [
       {
@@ -3332,13 +3319,13 @@
   },
   {
     "name": "Center",
-    "description": "",
+    "description": "Layout primitive that centers its single child on both axes. Honours the\nparent's available space.",
     "file": "src/components/Layout.tsx",
     "props": []
   },
   {
     "name": "Changelog",
-    "description": "",
+    "description": "Renders a versioned changelog from a structured `entries` prop. Each entry\nhas version, date, and grouped `added` / `changed` / `fixed` / `removed`\nbullets.",
     "file": "src/components/HelpChangelog.tsx",
     "props": [
       {
@@ -3365,7 +3352,7 @@
   },
   {
     "name": "ChartBarIcon",
-    "description": "",
+    "description": "ChartBar icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -3438,7 +3425,7 @@
   },
   {
     "name": "ChartFrame",
-    "description": "",
+    "description": "Shared chart shell: handles dimensions, margins, ARIA role, and the\ninternal context that series/axes read. Wrap your chart composition in\n`ChartFrame`.",
     "file": "src/charts/primitives/ChartFrame.tsx",
     "props": [
       {
@@ -3514,12 +3501,18 @@
         "type": "CSSProperties",
         "description": "Forwarded to the inner SVG, not the outer div.",
         "required": false
+      },
+      {
+        "name": "exportRef",
+        "type": "Ref<ChartFrameHandle>",
+        "description": "Imperative handle for `toSVG` / `toPNG` exports. The component's main\nref exposes the underlying `<div>` element; export helpers live here\nto keep DOM-ref semantics clean.",
+        "required": false
       }
     ]
   },
   {
     "name": "ChartLegend",
-    "description": "",
+    "description": "Legend primitive for any chart. Maps series colour to label; clickable\nentries toggle series visibility when the chart is controllable.",
     "file": "src/charts/primitives/Legend.tsx",
     "props": [
       {
@@ -3552,7 +3545,7 @@
   },
   {
     "name": "ChartLineIcon",
-    "description": "",
+    "description": "ChartLine icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -3644,7 +3637,7 @@
   },
   {
     "name": "ChartTooltip",
-    "description": "",
+    "description": "Positioned tooltip primitive for charts. Reads the current hovered datum\nfrom chart context and renders via the configured template.",
     "file": "src/charts/primitives/ChartTooltip.tsx",
     "props": [
       {
@@ -3709,7 +3702,7 @@
   },
   {
     "name": "ChatLayout",
-    "description": "",
+    "description": "Two-pane chat shell: session list on the left, active conversation on the\nright. Responsive: collapses the sidebar into a drawer below the `md`\nbreakpoint.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -3746,7 +3739,7 @@
   },
   {
     "name": "Checkbox",
-    "description": "WAI-ARIA checkbox with controlled/uncontrolled duality. Pass `checked` +\n`onChange(next)` controlled, or `defaultChecked` uncontrolled. Custom\nbrutalist glyph; Space and Enter toggle. Optional `label` and `accent`.",
+    "description": "WAI-ARIA checkbox with controlled/uncontrolled duality. Pass `checked` +\n`onValueChange(next)` controlled, or `defaultChecked` uncontrolled. Custom\nbrutalist glyph; Space and Enter toggle. Optional `label` and `accent`.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
@@ -3762,7 +3755,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((checked: boolean) => void)",
         "description": "",
         "required": false
@@ -3789,7 +3782,7 @@
   },
   {
     "name": "CheckboxGroup",
-    "description": "",
+    "description": "Group of related checkboxes sharing a label. Emits an array of selected\nvalues; keyboard navigation is standard.",
     "file": "src/components/FormAdvanced.tsx",
     "props": [
       {
@@ -3812,7 +3805,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((values: string[]) => void)",
         "description": "",
         "required": false
@@ -3840,7 +3833,7 @@
   },
   {
     "name": "CheckIcon",
-    "description": "",
+    "description": "Check icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -3913,7 +3906,7 @@
   },
   {
     "name": "ChevronDownIcon",
-    "description": "",
+    "description": "ChevronDown icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -3986,7 +3979,7 @@
   },
   {
     "name": "ChevronLeftIcon",
-    "description": "",
+    "description": "ChevronLeft icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -4059,7 +4052,7 @@
   },
   {
     "name": "ChevronRightIcon",
-    "description": "",
+    "description": "ChevronRight icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -4132,7 +4125,7 @@
   },
   {
     "name": "ChevronUpIcon",
-    "description": "",
+    "description": "ChevronUp icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -4205,7 +4198,7 @@
   },
   {
     "name": "ChordDiagram",
-    "description": "",
+    "description": "Circular chord diagram showing weighted relationships between categories.\nMatrix-in, arcs-out layout.",
     "file": "src/charts/ChordDiagram.tsx",
     "props": [
       {
@@ -4269,7 +4262,7 @@
   },
   {
     "name": "ChoroplethMap",
-    "description": "",
+    "description": "Geographic choropleth. Fills regions in a TopoJSON base map by value.\nPeer: `d3-geo` + `topojson-client`.",
     "file": "src/charts/ChoroplethMap.tsx",
     "props": [
       {
@@ -4359,7 +4352,7 @@
   },
   {
     "name": "CircleIcon",
-    "description": "",
+    "description": "Circle icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -4432,7 +4425,7 @@
   },
   {
     "name": "CircularProgress",
-    "description": "",
+    "description": "Circular progress indicator. Supports determinate (`value`) or\nindeterminate mode; sizes and thicknesses configurable.",
     "file": "src/components/Metrics.tsx",
     "props": [
       {
@@ -4486,7 +4479,7 @@
   },
   {
     "name": "Citation",
-    "description": "",
+    "description": "Inline numbered citation chip linking to a source. Click / hover reveals\nthe source card.",
     "file": "src/components/ChatCitations.tsx",
     "props": [
       {
@@ -4518,7 +4511,7 @@
   },
   {
     "name": "CitationList",
-    "description": "",
+    "description": "Numbered list of citations paired with their source cards. Pairs with\ninline `Citation` chips.",
     "file": "src/components/ChatCitations.tsx",
     "props": [
       {
@@ -4550,7 +4543,7 @@
   },
   {
     "name": "Clipboard",
-    "description": "",
+    "description": "Copy-to-clipboard affordance with success feedback. Wraps a trigger and\nannounces \"Copied\" via `LiveRegion` on success.",
     "file": "src/components/Utility.tsx",
     "props": [
       {
@@ -4576,7 +4569,7 @@
   },
   {
     "name": "ClockIcon",
-    "description": "",
+    "description": "Clock icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -4649,7 +4642,7 @@
   },
   {
     "name": "CloudIcon",
-    "description": "",
+    "description": "Cloud icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -4722,7 +4715,7 @@
   },
   {
     "name": "CoachMark",
-    "description": "",
+    "description": "Spotlight / coach-mark overlay that anchors a tooltip-style card to a\ntarget element. Use for onboarding tours.",
     "file": "src/components/Spotlight.tsx",
     "props": [
       {
@@ -4760,7 +4753,7 @@
   },
   {
     "name": "Code",
-    "description": "",
+    "description": "Inline monospace code span with optional language badge. For multi-line\nblocks use `CodeBlock`.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -4773,7 +4766,7 @@
   },
   {
     "name": "CodeAttachment",
-    "description": "",
+    "description": "Attachment variant for code snippets: filename, language badge,\ncollapsible preview.",
     "file": "src/components/ChatAttachments.tsx",
     "props": [
       {
@@ -4823,7 +4816,7 @@
   },
   {
     "name": "CodeBlock",
-    "description": "",
+    "description": "Fenced code block with optional language-aware syntax highlighting, copy\nbutton, and line numbers.",
     "file": "src/components/Viewers/CodeBlock.tsx",
     "props": [
       {
@@ -4906,7 +4899,7 @@
   },
   {
     "name": "CodeEditor",
-    "description": "",
+    "description": "Minimal in-browser code editor. Controlled via `value` / `onValueChange`;\nsupports tab-indent, bracket-match, and a small language hint.",
     "file": "src/components/CodeEditor.tsx",
     "props": [
       {
@@ -4922,7 +4915,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((code: string) => void)",
         "description": "",
         "required": false
@@ -4995,7 +4988,7 @@
   },
   {
     "name": "CodeIcon",
-    "description": "",
+    "description": "Code icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -5068,7 +5061,7 @@
   },
   {
     "name": "Collapsible",
-    "description": "",
+    "description": "Single expand/collapse region. Controllable via `open` / `onOpenChange`;\nuncontrolled via `defaultOpen`. `Collapsible.Trigger` toggles,\n`Collapsible.Content` holds the panel.",
     "file": "src/components/Interactive.tsx",
     "props": [
       {
@@ -5106,7 +5099,7 @@
   },
   {
     "name": "ColorContrast",
-    "description": "",
+    "description": "WCAG contrast checker. Enter a foreground + background colour and it\nreports the ratio plus AA / AAA pass/fail for normal and large text.",
     "file": "src/components/ColorContrast.tsx",
     "props": [
       {
@@ -5172,7 +5165,7 @@
   },
   {
     "name": "ColorPicker",
-    "description": "",
+    "description": "Colour picker with hue/saturation area, alpha slider, hex/rgb/hsl input,\nand optional preset palette. Controllable via `value` / `onChange`.",
     "file": "src/components/ColorPicker.tsx",
     "props": [
       {
@@ -5189,7 +5182,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((hex: string) => void)",
         "description": "",
         "required": false
@@ -5228,7 +5221,7 @@
   },
   {
     "name": "ColorSwatch",
-    "description": "",
+    "description": "Labelled colour chip used in palettes, legend entries, and form controls.\nRenders a coloured square plus label.",
     "file": "src/components/ColorTools.tsx",
     "props": [
       {
@@ -5268,6 +5261,12 @@
         "type": "(() => void)",
         "description": "",
         "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Explicit disabled state. Defaults to `!onSelect` when interactive.",
+        "required": false
       }
     ]
   },
@@ -5295,7 +5294,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((value: string | null) => void)",
         "description": "",
         "required": false
@@ -5480,7 +5479,7 @@
   },
   {
     "name": "Comment",
-    "description": "",
+    "description": "Single comment card: avatar, author, timestamp, body, and optional action\nrail (reply / react / edit / delete).",
     "file": "src/components/Comment.tsx",
     "props": [
       {
@@ -5517,13 +5516,13 @@
   },
   {
     "name": "CommentList",
-    "description": "",
+    "description": "Vertical list of `Comment`s with threading and load-more affordances.",
     "file": "src/components/Comment.tsx",
     "props": []
   },
   {
     "name": "CommitGraph",
-    "description": "",
+    "description": "Git-style commit graph: branches, merges, and per-commit metadata. Feed\n`commits` as `{ id, parents, branch, subject, author, time }[]`.",
     "file": "src/components/DevTools.tsx",
     "props": [
       {
@@ -5548,7 +5547,7 @@
   },
   {
     "name": "ComposedChart",
-    "description": "",
+    "description": "Composition chart — combine bars, lines, areas, and reference layers over\nshared axes. Axes: linear / time (X), linear (Y).",
     "file": "src/charts/ComposedChart.tsx",
     "props": [
       {
@@ -5632,6 +5631,7 @@
       {
         "name": "valueFormat",
         "type": "((v: number) => string)",
+        "defaultValue": "(v: number) => formatChartNumber(v)",
         "description": "",
         "required": false
       },
@@ -5658,7 +5658,7 @@
   },
   {
     "name": "Composer",
-    "description": "",
+    "description": "Chat message composer with text area, attachment tray, mic button, and\nsend. Compound subparts (`Composer.Input`, `Composer.Attachments`,\n`Composer.Actions`).",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -5674,7 +5674,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((next: string) => void)",
         "description": "",
         "required": false
@@ -5738,7 +5738,7 @@
   },
   {
     "name": "ComposerAttachment",
-    "description": "",
+    "description": "Pending-attachment chip inside the composer; shows upload progress and\nsupports removal before send.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -5770,7 +5770,7 @@
   },
   {
     "name": "ComposerMicButton",
-    "description": "",
+    "description": "Microphone toggle for the composer. Requests mic permission on press and\nvisualises audio level while active.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -5826,7 +5826,7 @@
   },
   {
     "name": "ConfidenceMeter",
-    "description": "",
+    "description": "Horizontal meter for a 0-1 confidence score with qualitative bands (e.g.\nlow / medium / high).",
     "file": "src/components/ConfidenceMeter.tsx",
     "props": [
       {
@@ -5849,7 +5849,7 @@
         "required": false
       },
       {
-        "name": "variant",
+        "name": "kind",
         "type": "enum",
         "defaultValue": "bar",
         "description": "",
@@ -5900,7 +5900,7 @@
   },
   {
     "name": "ConfirmDialog",
-    "description": "",
+    "description": "Prompted confirmation dialog. Renders title, message, and Confirm/Cancel\nbuttons; use the paired `useConfirm` hook for an imperative Promise-based\nflow.",
     "file": "src/components/Overlay.tsx",
     "props": [
       {
@@ -5965,7 +5965,7 @@
   },
   {
     "name": "ConfirmDialogV2",
-    "description": "",
+    "description": "Successor to `ConfirmDialog` built on the compound `Dialog` API. Use\n`ConfirmProvider` + `useConfirm` for imperative prompts.",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -6041,13 +6041,13 @@
   },
   {
     "name": "ConfirmProvider",
-    "description": "",
+    "description": "App-root provider that hosts imperative confirm dialogs triggered via\n`useConfirm()`.",
     "file": "src/components/Dialog.tsx",
     "props": []
   },
   {
     "name": "ConnectionStatus",
-    "description": "",
+    "description": "Inline indicator for a network/channel connection state (`connecting` |\n`connected` | `disconnected` | `error`). Icon + label + optional pulse.",
     "file": "src/components/Network.tsx",
     "props": [
       {
@@ -6066,7 +6066,7 @@
   },
   {
     "name": "ConsoleOutput",
-    "description": "",
+    "description": "Terminal-style console log view with severity colouring, timestamps, and\nauto-scroll-to-bottom toggle.",
     "file": "src/components/DevTools.tsx",
     "props": [
       {
@@ -6112,7 +6112,7 @@
   },
   {
     "name": "ContextHelp",
-    "description": "",
+    "description": "Small `?` trigger that opens a tooltip/popover with contextual help text.\nPair with form fields and dense UI.",
     "file": "src/components/HelpChangelog.tsx",
     "props": [
       {
@@ -6123,7 +6123,7 @@
         "required": false
       },
       {
-        "name": "onClose",
+        "name": "onDismiss",
         "type": "(() => void)",
         "description": "",
         "required": false
@@ -6145,7 +6145,7 @@
   },
   {
     "name": "ContextMenu",
-    "description": "",
+    "description": "Right-click / long-press context menu. Subparts mirror `Menu`; position\nfollows the pointer.",
     "file": "src/components/Menu.tsx",
     "props": [
       {
@@ -6158,7 +6158,7 @@
   },
   {
     "name": "ContextWindow",
-    "description": "",
+    "description": "Visualises an LLM context window: used vs available tokens as a meter plus\nbreakdown by section.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -6185,7 +6185,7 @@
   },
   {
     "name": "Conversation",
-    "description": "",
+    "description": "Vertical transcript of a chat conversation: renders a list of `Message`s\nwith grouping, auto-scroll, and empty-state slot.",
     "file": "src/components/Chat/Conversation.tsx",
     "props": [
       {
@@ -6243,7 +6243,7 @@
   },
   {
     "name": "ConversationEmptyState",
-    "description": "",
+    "description": "Empty-state card shown inside `Conversation` when no messages exist yet.\nSlot for suggested prompts.",
     "file": "src/components/ChatSession.tsx",
     "props": [
       {
@@ -6281,7 +6281,7 @@
   },
   {
     "name": "ConversationHeader",
-    "description": "",
+    "description": "Header for a chat conversation: title, participants, model badge, and\noptional actions menu.",
     "file": "src/components/ChatSession.tsx",
     "props": [
       {
@@ -6382,7 +6382,7 @@
       {
         "name": "variant",
         "type": "enum",
-        "defaultValue": "default",
+        "defaultValue": "outline",
         "description": "",
         "required": false
       },
@@ -6403,7 +6403,7 @@
   },
   {
     "name": "CopyIcon",
-    "description": "",
+    "description": "Copy icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -6476,7 +6476,7 @@
   },
   {
     "name": "CostDisplay",
-    "description": "",
+    "description": "Formatted cost / price readout. Combines `CurrencyDisplay` with optional\n`per-unit` suffix and trend indicator.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -6505,7 +6505,7 @@
         "required": false
       },
       {
-        "name": "variant",
+        "name": "kind",
         "type": "enum",
         "defaultValue": "compact",
         "description": "",
@@ -6522,7 +6522,7 @@
   },
   {
     "name": "Countdown",
-    "description": "",
+    "description": "Countdown timer to a target date/time. Auto-updates every second; fires\n`onComplete` when it hits zero.",
     "file": "src/components/TimeDisplays.tsx",
     "props": [
       {
@@ -6554,7 +6554,7 @@
   },
   {
     "name": "CronBuilder",
-    "description": "",
+    "description": "Visual builder for a cron expression. Controllable via `value` /\n`onChange`; emits the standard five-field string.",
     "file": "src/components/CronBuilder.tsx",
     "props": [
       {
@@ -6621,7 +6621,7 @@
   },
   {
     "name": "Crosshair",
-    "description": "",
+    "description": "Chart crosshair primitive: follows the pointer with vertical/horizontal\nrule lines and highlights the nearest datum.",
     "file": "src/charts/primitives/Crosshair.tsx",
     "props": [
       {
@@ -6667,7 +6667,7 @@
   },
   {
     "name": "CurrencyDisplay",
-    "description": "",
+    "description": "Locale-aware currency formatter via `Intl.NumberFormat`. Takes a numeric\n`value`, ISO currency code, and optional precision override.",
     "file": "src/components/Numeric.tsx",
     "props": [
       {
@@ -6718,7 +6718,7 @@
   },
   {
     "name": "CurrencyInput",
-    "description": "",
+    "description": "Numeric input with currency formatting and live-masked editing. Emits the\nraw numeric value to `onValueChange`.",
     "file": "src/components/MaskedInput.tsx",
     "props": [
       {
@@ -6833,7 +6833,7 @@
   },
   {
     "name": "DashboardGrid",
-    "description": "",
+    "description": "Responsive dashboard grid with configurable columns per breakpoint.\nChildren can span columns/rows via `GridItem`.",
     "file": "src/components/Widget.tsx",
     "props": [
       {
@@ -6940,7 +6940,7 @@
   },
   {
     "name": "DatabaseIcon",
-    "description": "",
+    "description": "Database icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -7113,6 +7113,12 @@
         "required": false
       },
       {
+        "name": "rootRef",
+        "type": "Ref<HTMLDivElement>",
+        "description": "Ref to the DataGrid's root `<div>`. Accepts the usual ref shapes\n(callback or `React.RefObject<HTMLDivElement>`). Exposed as a named\nprop instead of a generic `forwardRef` wrapper so the generic type\nparameter `T` stays inferrable from `columns`/`data` without\npropagation gymnastics.",
+        "required": false
+      },
+      {
         "name": "virtualized",
         "type": "boolean",
         "description": "When true, delegates body rendering to a VirtualList. Requires `virtualRowHeight`.",
@@ -7218,7 +7224,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((date: Date | null) => void)",
         "description": "",
         "required": false
@@ -7315,7 +7321,7 @@
   },
   {
     "name": "DateRangePicker",
-    "description": "",
+    "description": "Two-month calendar for picking a date range. Controllable via `value` /\n`onChange`; keyboard-navigable.",
     "file": "src/components/DatePicker.tsx",
     "props": [
       {
@@ -7331,7 +7337,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((range: DateRange) => void)",
         "description": "",
         "required": false
@@ -7404,7 +7410,7 @@
   },
   {
     "name": "DateTimePicker",
-    "description": "",
+    "description": "Combined date + time picker. Controllable via `value` / `onChange`;\nhonours the user's locale for format.",
     "file": "src/components/DateTimePicker.tsx",
     "props": [
       {
@@ -7420,7 +7426,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((date: Date | null) => void)",
         "description": "",
         "required": false
@@ -7433,7 +7439,7 @@
       },
       {
         "name": "datePickerProps",
-        "type": "Omit<DatePickerProps, \"onChange\" | \"defaultValue\" | \"value\" | \"label\">",
+        "type": "Omit<DatePickerProps, \"defaultValue\" | \"value\" | \"onValueChange\" | \"label\">",
         "description": "DatePicker props forwarded through.",
         "required": false
       },
@@ -7468,7 +7474,7 @@
   },
   {
     "name": "DebugPanel",
-    "description": "",
+    "description": "Developer drawer that visualises agent internals: prompt, tool calls, raw\nresponse, timing. Development-only.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -7479,7 +7485,7 @@
         "required": false
       },
       {
-        "name": "onClose",
+        "name": "onDismiss",
         "type": "(() => void)",
         "description": "",
         "required": false
@@ -7501,7 +7507,7 @@
   },
   {
     "name": "DebugTree",
-    "description": "",
+    "description": "Collapsible tree view for nested debug data (state, props, JSON). Lighter\nthan `JSONViewer`.",
     "file": "src/components/DevTools.tsx",
     "props": [
       {
@@ -7534,7 +7540,7 @@
   },
   {
     "name": "DependencyGraph",
-    "description": "",
+    "description": "Directed graph of dependencies with hierarchical layout. Useful for module\n/ package / task graphs.",
     "file": "src/charts/DependencyGraph.tsx",
     "props": [
       {
@@ -7638,13 +7644,13 @@
   },
   {
     "name": "DescriptionList",
-    "description": "",
+    "description": "Semantic `<dl>` list of term/description pairs. Responsive: stacks below\n`sm` and lays out in a grid above.",
     "file": "src/components/DataList.tsx",
     "props": []
   },
   {
     "name": "Descriptions",
-    "description": "",
+    "description": "Compact form of `DescriptionList` optimised for dense detail views (e.g.\nentity metadata cards).",
     "file": "src/components/Descriptions.tsx",
     "props": [
       {
@@ -7698,7 +7704,7 @@
   },
   {
     "name": "Dialog",
-    "description": "Compound modal overlay. Use `Dialog.Trigger` to open, `Dialog.Content`\nfor the body, `Dialog.Close` to dismiss. Focus-trapped, portaled, and\nESC-dismissable by default. Compose with `Dialog.Title` / `Dialog.Description`\nfor accessible labelling. Controlled via `open` / `onOpenChange`; pass\n`variant=\"alertdialog\"` for destructive-confirmation flows.",
+    "description": "Compound modal overlay. Use `Dialog.Trigger` to open, `Dialog.Content`\nfor the body, `Dialog.Close` to dismiss. Focus-trapped, portaled, and\nESC-dismissable by default. Compose with `Dialog.Title` / `Dialog.Description`\nfor accessible labelling. Controlled via `open` / `onOpenChange`; pass\n`kind=\"alertdialog\"` for destructive-confirmation flows.",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -7720,7 +7726,7 @@
         "required": false
       },
       {
-        "name": "variant",
+        "name": "kind",
         "type": "enum",
         "description": "\"alertdialog\" tweaks role + initial focus for destructive flows.",
         "required": false
@@ -7729,7 +7735,7 @@
   },
   {
     "name": "DiffViewer",
-    "description": "",
+    "description": "Unified / side-by-side text diff view with line numbers and hunk\nnavigation. Feed `before` + `after` strings.",
     "file": "src/components/Viewers/DiffViewer.tsx",
     "props": [
       {
@@ -7745,7 +7751,7 @@
         "required": true
       },
       {
-        "name": "variant",
+        "name": "kind",
         "type": "enum",
         "defaultValue": "unified",
         "description": "",
@@ -7793,7 +7799,7 @@
   },
   {
     "name": "Divider",
-    "description": "",
+    "description": "Horizontal or vertical rule used to separate groups of content. Optional\n`label` renders a centred caption break.",
     "file": "src/components/Text.tsx",
     "props": [
       {
@@ -7825,7 +7831,7 @@
   },
   {
     "name": "DocumentPreview",
-    "description": "",
+    "description": "Renders a preview for a document attachment (PDF / image / text). Falls\nback to an icon + filename card.",
     "file": "src/components/Embed.tsx",
     "props": [
       {
@@ -7887,7 +7893,7 @@
   },
   {
     "name": "DonutChart",
-    "description": "",
+    "description": "Donut (hollow pie) chart for part-of-whole data. Emits hover/select events\nper slice and supports a centred summary slot.",
     "file": "src/charts/PieChart.tsx",
     "props": [
       {
@@ -7966,7 +7972,7 @@
   },
   {
     "name": "Dots",
-    "description": "",
+    "description": "Small row of dots used as a step/progress indicator (e.g. carousel\npagination).",
     "file": "src/components/Badge.tsx",
     "props": [
       {
@@ -7999,7 +8005,7 @@
   },
   {
     "name": "DownloadIcon",
-    "description": "",
+    "description": "Download icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -8072,7 +8078,7 @@
   },
   {
     "name": "DragDropContext",
-    "description": "",
+    "description": "Root provider for the drag-and-drop system. Wraps `Draggable` /\n`Droppable` children and coordinates drag state.",
     "file": "src/components/DragDrop.tsx",
     "props": [
       {
@@ -8091,7 +8097,7 @@
   },
   {
     "name": "Draggable",
-    "description": "",
+    "description": "Wraps a child to make it draggable inside a `DragDropContext`. Emits\nlifecycle events for drag start, move, end.",
     "file": "src/components/DragDrop.tsx",
     "props": [
       {
@@ -8118,7 +8124,7 @@
   },
   {
     "name": "Drawer",
-    "description": "V1 side-panel overlay with backdrop, focus trap, and Escape dismiss.\nControlled via `open` / `onClose` and anchored to `left` or `right`.",
+    "description": "V1 side-panel overlay with backdrop, focus trap, and Escape dismiss.\nControlled via `open` / `onDismiss` and anchored to `left` or `right`.",
     "file": "src/components/Overlay.tsx",
     "props": [
       {
@@ -8128,7 +8134,7 @@
         "required": true
       },
       {
-        "name": "onClose",
+        "name": "onDismiss",
         "type": "() => void",
         "description": "",
         "required": true
@@ -8209,7 +8215,7 @@
   },
   {
     "name": "Dropdown",
-    "description": "",
+    "description": "Simple trigger + menu dropdown. For richer composition (submenus,\ncheckbox items, radio groups) use `Menu`.",
     "file": "src/components/Overlay.tsx",
     "props": [
       {
@@ -8235,7 +8241,7 @@
   },
   {
     "name": "Droppable",
-    "description": "",
+    "description": "Drop target inside a `DragDropContext`. Emits drop events with the dragged\npayload.",
     "file": "src/components/DragDrop.tsx",
     "props": [
       {
@@ -8248,7 +8254,7 @@
   },
   {
     "name": "DropZone",
-    "description": "",
+    "description": "File drop target with visual affordance and keyboard fallback (click to\nopen file picker). Emits `onFiles(files)`.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
@@ -8273,7 +8279,7 @@
   },
   {
     "name": "DurationDisplay",
-    "description": "",
+    "description": "Formats a millisecond duration as a human-readable string (`2m 13s`, `1h\n04m`, etc.). Locale-aware.",
     "file": "src/components/TimeDisplays.tsx",
     "props": [
       {
@@ -8293,7 +8299,7 @@
   },
   {
     "name": "EditIcon",
-    "description": "",
+    "description": "Edit icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -8366,7 +8372,7 @@
   },
   {
     "name": "EmptyLayout",
-    "description": "",
+    "description": "Minimal layout shell with just a centred slot — for error pages, login\nscreens, etc.",
     "file": "src/components/LayoutExtended.tsx",
     "props": [
       {
@@ -8380,7 +8386,7 @@
   },
   {
     "name": "EmptyState",
-    "description": "",
+    "description": "Centred illustration + title + description + optional action. Use when a\nlist/table/view has no data yet.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -8411,20 +8417,20 @@
   },
   {
     "name": "EnvironmentVars",
-    "description": "",
+    "description": "Editor for key/value environment variable pairs. Masks values by default;\nsupports import/export.",
     "file": "src/components/EnvironmentVars.tsx",
     "props": [
       {
-        "name": "onChange",
-        "type": "((variables: EnvVar[]) => void)",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "variables",
+        "name": "value",
         "type": "EnvVar[]",
         "description": "",
         "required": true
+      },
+      {
+        "name": "onValueChange",
+        "type": "((variables: EnvVar[]) => void)",
+        "description": "",
+        "required": false
       },
       {
         "name": "onAdd",
@@ -8516,7 +8522,7 @@
   },
   {
     "name": "ErrorIcon",
-    "description": "",
+    "description": "Error icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -8589,7 +8595,7 @@
   },
   {
     "name": "ErrorState",
-    "description": "",
+    "description": "Centred error display: icon, title, message, and retry / support actions.\nPaired with `AsyncData` and error boundaries.",
     "file": "src/components/Loading.tsx",
     "props": [
       {
@@ -8633,7 +8639,7 @@
   },
   {
     "name": "ExternalLinkIcon",
-    "description": "",
+    "description": "ExternalLink icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -8706,7 +8712,7 @@
   },
   {
     "name": "EyeIcon",
-    "description": "",
+    "description": "Eye icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -8779,7 +8785,7 @@
   },
   {
     "name": "EyeOffIcon",
-    "description": "",
+    "description": "EyeOff icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -8883,19 +8889,19 @@
   },
   {
     "name": "Field.Error",
-    "description": "",
+    "description": "Error slot for `Field`. Renders only when the field's validation state is\ninvalid. Auto-wired to the control via `aria-describedby`.",
     "file": "src/components/Field.tsx",
     "props": []
   },
   {
     "name": "Field.Help",
-    "description": "",
+    "description": "Help-text slot for `Field`. Auto-wired to the control via\n`aria-describedby`.",
     "file": "src/components/Field.tsx",
     "props": []
   },
   {
     "name": "Field.Label",
-    "description": "",
+    "description": "Label slot for `Field`. Auto-wires `htmlFor` to the nested control.",
     "file": "src/components/Field.tsx",
     "props": []
   },
@@ -8913,7 +8919,7 @@
   },
   {
     "name": "FileAttachment",
-    "description": "",
+    "description": "Attachment variant for a generic file — shows filename, size, and\nkind-specific icon.",
     "file": "src/components/ChatAttachments.tsx",
     "props": [
       {
@@ -8968,7 +8974,7 @@
   },
   {
     "name": "FileIcon",
-    "description": "",
+    "description": "File icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -9041,7 +9047,7 @@
   },
   {
     "name": "FileTextIcon",
-    "description": "",
+    "description": "FileText icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -9114,7 +9120,7 @@
   },
   {
     "name": "FileUpload",
-    "description": "",
+    "description": "File upload control with drag-drop, picker, progress per file, and list\nmanagement. Supports multiple files and size/type constraints.",
     "file": "src/components/FileUpload.tsx",
     "props": [
       {
@@ -9149,7 +9155,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((items: UploadItem[]) => void)",
         "description": "Called whenever the selection changes.",
         "required": false
@@ -9188,7 +9194,7 @@
   },
   {
     "name": "FilterBuilder",
-    "description": "",
+    "description": "Visual builder for structured filter expressions. Controllable via `value`\n/ `onChange`; emits a nested condition tree.",
     "file": "src/components/FilterBuilder.tsx",
     "props": [
       {
@@ -9253,7 +9259,7 @@
   },
   {
     "name": "FilterIcon",
-    "description": "",
+    "description": "Filter icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -9370,7 +9376,7 @@
   },
   {
     "name": "FloatingActionButton",
-    "description": "",
+    "description": "Fixed-position circular action button (material-style FAB). Anchored to a\ncorner; supports an optional expanded action tray.",
     "file": "src/components/FloatingActionButton.tsx",
     "props": [
       {
@@ -9414,7 +9420,7 @@
       {
         "name": "variant",
         "type": "enum",
-        "defaultValue": "default",
+        "defaultValue": "outline",
         "description": "",
         "required": false
       },
@@ -9463,7 +9469,7 @@
   },
   {
     "name": "FolderIcon",
-    "description": "",
+    "description": "Folder icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -9536,7 +9542,7 @@
   },
   {
     "name": "FolderOpenIcon",
-    "description": "",
+    "description": "FolderOpen icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -9674,7 +9680,7 @@
   },
   {
     "name": "FunnelChart",
-    "description": "",
+    "description": "Funnel / conversion chart — each stage is a trapezoid sized by value.\nShows drop-off between adjacent stages.",
     "file": "src/charts/FunnelChart.tsx",
     "props": [
       {
@@ -9816,7 +9822,7 @@
   },
   {
     "name": "Gauge",
-    "description": "",
+    "description": "Radial gauge for a single value in a range. Configurable arc span, tick\nmarks, and threshold bands.",
     "file": "src/components/Metrics.tsx",
     "props": [
       {
@@ -9908,7 +9914,7 @@
   },
   {
     "name": "GridItem",
-    "description": "",
+    "description": "Child of `DashboardGrid` (or any CSS-grid parent) that declares column/row\nspan per breakpoint.",
     "file": "src/components/LayoutExtended.tsx",
     "props": [
       {
@@ -9958,7 +9964,7 @@
   },
   {
     "name": "Gridlines",
-    "description": "",
+    "description": "Chart gridlines primitive. Renders horizontal/vertical rules tied to tick\npositions of the enclosing scales.",
     "file": "src/charts/primitives/Gridlines.tsx",
     "props": [
       {
@@ -9985,7 +9991,7 @@
   },
   {
     "name": "HeartIcon",
-    "description": "",
+    "description": "Heart icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -10058,7 +10064,7 @@
   },
   {
     "name": "Heatmap",
-    "description": "",
+    "description": "Two-dimensional heatmap. Axes: band x band. Cells shade by intensity;\ntooltip exposes raw value.",
     "file": "src/charts/Heatmap.tsx",
     "props": [
       {
@@ -10150,7 +10156,7 @@
   },
   {
     "name": "HelpTooltip",
-    "description": "",
+    "description": "Tooltip variant tuned for contextual help text — slightly wider, with a\n`?` trigger convention.",
     "file": "src/components/HelpChangelog.tsx",
     "props": [
       {
@@ -10177,7 +10183,7 @@
   },
   {
     "name": "HexDump",
-    "description": "",
+    "description": "Monospace hex+ASCII viewer for a buffer. Configurable bytes-per-row and\noffset display.",
     "file": "src/components/HexDump.tsx",
     "props": [
       {
@@ -10257,7 +10263,7 @@
   },
   {
     "name": "Hide",
-    "description": "",
+    "description": "Conditional renderer: hides its children below / above / at specific\nbreakpoints. Paired with `Show`.",
     "file": "src/responsive/Show.tsx",
     "props": [
       {
@@ -10282,7 +10288,7 @@
   },
   {
     "name": "Histogram",
-    "description": "",
+    "description": "Binned frequency chart. Axes: linear (bin) x linear (count). Configurable\nbin count or explicit thresholds.",
     "file": "src/charts/Histogram.tsx",
     "props": [
       {
@@ -10366,7 +10372,7 @@
   },
   {
     "name": "HomeIcon",
-    "description": "",
+    "description": "Home icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -10439,7 +10445,7 @@
   },
   {
     "name": "HorizonChart",
-    "description": "",
+    "description": "Horizon chart: stacked banded areas that encode large dynamic ranges\ncompactly. Good for many time-series densely packed.",
     "file": "src/charts/HorizonChart.tsx",
     "props": [
       {
@@ -10539,7 +10545,7 @@
   },
   {
     "name": "HorizontalTimeline",
-    "description": "",
+    "description": "Horizontal timeline of events with a scrollable track. Good for roadmaps\nor release history.",
     "file": "src/components/HorizontalTimeline.tsx",
     "props": [
       {
@@ -10737,13 +10743,13 @@
   },
   {
     "name": "IconButton",
-    "description": "",
+    "description": "Icon-only button. Requires `aria-label` (or `aria-labelledby`) so screen\nreaders announce the action; dev warns without one.",
     "file": "src/icons/IconButton.tsx",
     "props": [
       {
         "name": "variant",
         "type": "enum",
-        "defaultValue": "default",
+        "defaultValue": "outline",
         "description": "",
         "required": false
       },
@@ -10776,7 +10782,7 @@
   },
   {
     "name": "IconGroup",
-    "description": "",
+    "description": "Compact group of icons displayed inline (e.g. status badges). Optional\noverflow chip.",
     "file": "src/icons/IconButton.tsx",
     "props": [
       {
@@ -10803,7 +10809,7 @@
   },
   {
     "name": "Identicon",
-    "description": "",
+    "description": "Deterministic pixel/shape avatar generated from a seed string. Useful\nfallback when a user has no uploaded avatar.",
     "file": "src/components/Identity.tsx",
     "props": [
       {
@@ -10830,7 +10836,7 @@
   },
   {
     "name": "IFrame",
-    "description": "",
+    "description": "Sandboxed `<iframe>` wrapper with safe defaults (no top navigation,\nrestricted sandbox). Emits `onLoad`.",
     "file": "src/components/Embed.tsx",
     "props": [
       {
@@ -10863,7 +10869,7 @@
   },
   {
     "name": "Image",
-    "description": "",
+    "description": "Responsive image with intrinsic ratio, optional placeholder / blur-up, and\nlazy loading. Wraps the native `<img>`.",
     "file": "src/components/Image.tsx",
     "props": [
       {
@@ -10937,7 +10943,7 @@
   },
   {
     "name": "ImageAttachment",
-    "description": "",
+    "description": "Attachment variant for images — shows a thumbnail plus filename/size\nmetadata.",
     "file": "src/components/ChatAttachments.tsx",
     "props": [
       {
@@ -10986,7 +10992,7 @@
   },
   {
     "name": "ImageCropper",
-    "description": "",
+    "description": "Interactive image cropper. Emits the cropped region as a data URL or\n`Blob` on commit.",
     "file": "src/components/ImageCropper.tsx",
     "props": [
       {
@@ -11054,7 +11060,7 @@
   },
   {
     "name": "ImageDiff",
-    "description": "",
+    "description": "Two-image comparison viewer: slider, side-by-side, or onion-skin modes.",
     "file": "src/components/ImageDiff.tsx",
     "props": [
       {
@@ -11097,6 +11103,12 @@
         "required": false
       },
       {
+        "name": "onOpacityChange",
+        "type": "((opacity: number) => void)",
+        "description": "",
+        "required": false
+      },
+      {
         "name": "zoom",
         "type": "number",
         "description": "",
@@ -11133,7 +11145,7 @@
   },
   {
     "name": "ImageGallery",
-    "description": "",
+    "description": "Grid or masonry image gallery with click-to-open `Lightbox` integration.",
     "file": "src/components/Lightbox.tsx",
     "props": [
       {
@@ -11179,7 +11191,7 @@
   },
   {
     "name": "InfiniteScroll",
-    "description": "",
+    "description": "Infinite scroll loader. Calls `onLoadMore` when the sentinel enters the\nviewport; renders a loading indicator slot.",
     "file": "src/components/Virtualization.tsx",
     "props": [
       {
@@ -11223,7 +11235,7 @@
   },
   {
     "name": "InfoIcon",
-    "description": "",
+    "description": "Info icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -11296,7 +11308,7 @@
   },
   {
     "name": "InlineEdit",
-    "description": "",
+    "description": "Click-to-edit text field: displays a value until clicked, then renders an\ninput with Save/Cancel.",
     "file": "src/components/InlineEdit.tsx",
     "props": [
       {
@@ -11444,13 +11456,13 @@
   },
   {
     "name": "InputGroup.Addon",
-    "description": "",
+    "description": "Non-interactive addon slot for `InputGroup` (e.g. a leading currency sign\nor trailing unit).",
     "file": "src/components/FormStructure.tsx",
     "props": []
   },
   {
     "name": "ItalicIcon",
-    "description": "",
+    "description": "Italic icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -11523,7 +11535,7 @@
   },
   {
     "name": "JSONViewer",
-    "description": "",
+    "description": "Collapsible JSON tree with type colouring, copy-path affordance, and\nsearch. Handles large payloads via virtualisation.",
     "file": "src/components/Viewers/JSONViewer.tsx",
     "props": [
       {
@@ -11616,7 +11628,7 @@
   },
   {
     "name": "Kbd",
-    "description": "",
+    "description": "Renders a keyboard shortcut label (e.g. `Cmd`+`K`). Accepts an array of\ntokens for multi-key chords.",
     "file": "src/components/Interactive.tsx",
     "props": [
       {
@@ -11629,7 +11641,7 @@
   },
   {
     "name": "KeyValue",
-    "description": "",
+    "description": "Single label/value row. Used inside `DataList` / `Descriptions`;\nstandalone for inline metadata.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -11642,17 +11654,17 @@
   },
   {
     "name": "KeyValueEditor",
-    "description": "",
+    "description": "Editable list of key/value rows. Supports add/remove/reorder; emits the\nfull array on change.",
     "file": "src/components/DevTools.tsx",
     "props": [
       {
-        "name": "entries",
+        "name": "value",
         "type": "KeyValuePair[]",
         "description": "",
         "required": true
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "(next: KeyValuePair[]) => void",
         "description": "",
         "required": true
@@ -11689,7 +11701,7 @@
   },
   {
     "name": "Label",
-    "description": "",
+    "description": "Accessible form label that associates with its control via `htmlFor`.\n`<Field>` wires this automatically.",
     "file": "src/components/Text.tsx",
     "props": [
       {
@@ -11715,7 +11727,7 @@
   },
   {
     "name": "LatencyIndicator",
-    "description": "",
+    "description": "Colour-coded indicator for a latency reading (ms). Thresholds\nconfigurable.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -11735,7 +11747,7 @@
   },
   {
     "name": "LegalText",
-    "description": "",
+    "description": "Small-print legal prose container with conservative typography. Use for\nToS excerpts, disclaimers, footnotes.",
     "file": "src/components/RichEmbed.tsx",
     "props": [
       {
@@ -11755,7 +11767,7 @@
   },
   {
     "name": "Lightbox",
-    "description": "",
+    "description": "Full-screen image viewer with prev/next navigation, zoom, and keyboard\ncontrols (arrow keys, Esc to close).",
     "file": "src/components/Lightbox.tsx",
     "props": [
       {
@@ -11819,7 +11831,7 @@
   },
   {
     "name": "Line",
-    "description": "",
+    "description": "Line series primitive for line / area / composed charts. Connects points\nfrom the enclosing chart's scales.",
     "file": "src/charts/series/Line.tsx",
     "props": [
       {
@@ -11858,7 +11870,7 @@
   },
   {
     "name": "LineChart",
-    "description": "",
+    "description": "Line chart over a shared X axis. Axes: linear or time (X), linear (Y).\nInteractions: hover crosshair, tooltip, legend toggle.",
     "file": "src/charts/LineChart.tsx",
     "props": [
       {
@@ -11989,7 +12001,7 @@
   },
   {
     "name": "LinkIcon",
-    "description": "",
+    "description": "Link icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -12062,7 +12074,7 @@
   },
   {
     "name": "List",
-    "description": "",
+    "description": "Vertical list with configurable separators, density, and selection.\nCompound: `List.Item`.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -12087,11 +12099,11 @@
   },
   {
     "name": "LiveIndicator",
-    "description": "",
+    "description": "Pulsing dot + label indicating a live feed / stream state. Tones mirror\nstatus palette.",
     "file": "src/components/LiveIndicator.tsx",
     "props": [
       {
-        "name": "variant",
+        "name": "kind",
         "type": "enum",
         "defaultValue": "typing",
         "description": "",
@@ -12153,7 +12165,7 @@
   },
   {
     "name": "LoadingDotsIcon",
-    "description": "",
+    "description": "LoadingDots icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -12226,7 +12238,7 @@
   },
   {
     "name": "LoadingOverlay",
-    "description": "",
+    "description": "Semi-transparent scrim with a centred spinner, overlaid on a\nrelatively-positioned parent while async work is in flight.",
     "file": "src/components/Loading.tsx",
     "props": [
       {
@@ -12259,7 +12271,7 @@
   },
   {
     "name": "LockIcon",
-    "description": "",
+    "description": "Lock icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -12332,7 +12344,7 @@
   },
   {
     "name": "LogViewer",
-    "description": "",
+    "description": "Terminal-style log viewer with level filters, timestamp toggle, search,\nand auto-scroll-to-bottom.",
     "file": "src/components/Viewers/LogViewer.tsx",
     "props": [
       {
@@ -12397,7 +12409,7 @@
   },
   {
     "name": "MailIcon",
-    "description": "",
+    "description": "Mail icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -12470,7 +12482,7 @@
   },
   {
     "name": "MarkdownEditor",
-    "description": "",
+    "description": "Markdown editor with live preview. Sanitises rendered HTML via DOMPurify\n(peer dependency).",
     "file": "src/components/MarkdownEditor.tsx",
     "props": [
       {
@@ -12486,7 +12498,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((md: string) => void)",
         "description": "",
         "required": false
@@ -12553,7 +12565,7 @@
   },
   {
     "name": "MarkdownRenderer",
-    "description": "",
+    "description": "Safe markdown renderer. Sanitises HTML via DOMPurify (peer dependency);\nsupports code blocks, tables, task lists.",
     "file": "src/components/Viewers/MarkdownRenderer.tsx",
     "props": [
       {
@@ -12584,7 +12596,7 @@
   },
   {
     "name": "Marquee",
-    "description": "",
+    "description": "Scrolling marquee for long inline content. Respects\n`prefers-reduced-motion` and pauses on hover.",
     "file": "src/components/Animations.tsx",
     "props": [
       {
@@ -12626,7 +12638,7 @@
   },
   {
     "name": "MaskedInput",
-    "description": "",
+    "description": "Text input with a display mask (e.g. `###-##-####`). Emits the unmasked\nvalue to `onValueChange`.",
     "file": "src/components/MaskedInput.tsx",
     "props": [
       {
@@ -12669,7 +12681,7 @@
   },
   {
     "name": "Masonry",
-    "description": "",
+    "description": "CSS-grid-based masonry layout. Configurable column count per breakpoint;\nhandles mixed-height children.",
     "file": "src/components/Masonry.tsx",
     "props": [
       {
@@ -12690,7 +12702,7 @@
   },
   {
     "name": "MegaMenu",
-    "description": "",
+    "description": "Wide top-nav dropdown with grouped columns of links. Keyboard-navigable\nand responsive.",
     "file": "src/components/MegaMenu.tsx",
     "props": [
       {
@@ -12715,7 +12727,7 @@
   },
   {
     "name": "Mention",
-    "description": "",
+    "description": "Rendered mention chip (e.g. `@alice`). Clickable, hoverable, and linkable\nto a profile.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -12747,7 +12759,7 @@
   },
   {
     "name": "MentionInput",
-    "description": "",
+    "description": "Text input with `@`-triggered mention autocomplete. Emits structured\ntokens on change.",
     "file": "src/components/MentionInput.tsx",
     "props": [
       {
@@ -12866,13 +12878,13 @@
   },
   {
     "name": "MenuBar",
-    "description": "",
+    "description": "Top-level menu bar (like a desktop app). Horizontal row of `MenuBarMenu`\nentries, each with a dropdown.",
     "file": "src/components/Menu.tsx",
     "props": []
   },
   {
     "name": "MenuBarMenu",
-    "description": "",
+    "description": "Single menu entry inside a `MenuBar`. Owns a dropdown activated by click\nor keyboard.",
     "file": "src/components/Menu.tsx",
     "props": [
       {
@@ -12885,7 +12897,7 @@
   },
   {
     "name": "MenuCheckboxItem",
-    "description": "",
+    "description": "Menu item with a checkbox control. Controllable via `checked` /\n`onCheckedChange`.",
     "file": "src/components/Menu.tsx",
     "props": [
       {
@@ -12910,13 +12922,13 @@
   },
   {
     "name": "MenuContent",
-    "description": "",
+    "description": "Positioned popover that holds menu items. Subpart of `Menu`.",
     "file": "src/components/Menu.tsx",
     "props": []
   },
   {
     "name": "MenuIcon",
-    "description": "",
+    "description": "Menu icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -12989,7 +13001,7 @@
   },
   {
     "name": "MenuItem",
-    "description": "",
+    "description": "Actionable menu item. Emits `onSelect` on activation; optional icon and\ntrailing shortcut slot.",
     "file": "src/components/Menu.tsx",
     "props": [
       {
@@ -13014,17 +13026,23 @@
   },
   {
     "name": "MenuLabel",
-    "description": "",
+    "description": "Non-interactive label inside a menu (group header).",
     "file": "src/components/Menu.tsx",
     "props": []
   },
   {
     "name": "MenuRadioGroup",
-    "description": "",
+    "description": "Group of mutually-exclusive menu radio items. Controllable via `value` /\n`onValueChange`.",
     "file": "src/components/Menu.tsx",
     "props": [
       {
         "name": "value",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
         "type": "string",
         "description": "",
         "required": false
@@ -13039,7 +13057,7 @@
   },
   {
     "name": "MenuRadioItem",
-    "description": "",
+    "description": "Menu item acting as one option in a `MenuRadioGroup`.",
     "file": "src/components/Menu.tsx",
     "props": [
       {
@@ -13058,31 +13076,31 @@
   },
   {
     "name": "MenuSeparator",
-    "description": "",
+    "description": "Horizontal rule separating menu item groups.",
     "file": "src/components/Menu.tsx",
     "props": []
   },
   {
     "name": "MenuSub",
-    "description": "",
+    "description": "Submenu container within a parent menu. Opens on hover / focus / arrow\nkey.",
     "file": "src/components/Menu.tsx",
     "props": []
   },
   {
     "name": "MenuSubContent",
-    "description": "",
+    "description": "Content subpart of `MenuSub` - the popover panel for the submenu.",
     "file": "src/components/Menu.tsx",
     "props": []
   },
   {
     "name": "MenuSubTrigger",
-    "description": "",
+    "description": "Trigger for a `MenuSub`. Shows a chevron and opens the submenu on\nactivation.",
     "file": "src/components/Menu.tsx",
     "props": []
   },
   {
     "name": "MenuTrigger",
-    "description": "",
+    "description": "Element that opens the menu. Typically wraps a `Button` or `IconButton`.",
     "file": "src/components/Menu.tsx",
     "props": [
       {
@@ -13095,7 +13113,7 @@
   },
   {
     "name": "Mermaid",
-    "description": "",
+    "description": "Renders a Mermaid diagram from a source string. Parses at mount; errors\nsurface in a fallback block.",
     "file": "src/components/RichEmbed.tsx",
     "props": [
       {
@@ -13128,7 +13146,7 @@
   },
   {
     "name": "Message",
-    "description": "",
+    "description": "Single chat message card: role (`user` | `assistant` | `system` | `tool`),\ncontent, actions, timestamp.",
     "file": "src/components/Chat/Message.tsx",
     "props": [
       {
@@ -13208,13 +13226,13 @@
   },
   {
     "name": "MessageActions",
-    "description": "",
+    "description": "Action rail for a chat message (copy / edit / regenerate / react). Visible\non hover, keyboard-accessible.",
     "file": "src/components/Chat/Actions.tsx",
     "props": []
   },
   {
     "name": "MessageContent",
-    "description": "",
+    "description": "Body slot of a chat `Message` — renders markdown, attachments, code\nblocks, and citations.",
     "file": "src/components/Chat/Message.tsx",
     "props": [
       {
@@ -13252,7 +13270,7 @@
   },
   {
     "name": "MessageEdit",
-    "description": "",
+    "description": "Inline edit mode for a chat message: textarea plus Save / Cancel. Keyboard\nEsc to cancel, Cmd+Enter to save.",
     "file": "src/components/Chat/Edit.tsx",
     "props": [
       {
@@ -13262,7 +13280,7 @@
         "required": true
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "(next: string) => void",
         "description": "",
         "required": true
@@ -13310,7 +13328,7 @@
   },
   {
     "name": "MessageFeedback",
-    "description": "",
+    "description": "Thumbs up/down feedback control for a chat message. Emits `{ value,\nreason? }` on change.",
     "file": "src/components/Chat/Reactions.tsx",
     "props": [
       {
@@ -13327,7 +13345,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((next: FeedbackValue) => void)",
         "description": "",
         "required": false
@@ -13354,7 +13372,7 @@
   },
   {
     "name": "MessageGroup",
-    "description": "",
+    "description": "Visually groups consecutive messages from the same author into a single\nrun.",
     "file": "src/components/Chat/Message.tsx",
     "props": [
       {
@@ -13380,7 +13398,7 @@
   },
   {
     "name": "MessageIcon",
-    "description": "",
+    "description": "Message icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -13453,7 +13471,7 @@
   },
   {
     "name": "MessageList",
-    "description": "",
+    "description": "Virtualised scrollable list of `Message`s. Handles auto-scroll-to-bottom\nand a \"new messages\" affordance.",
     "file": "src/components/Chat/Conversation.tsx",
     "props": [
       {
@@ -13516,7 +13534,7 @@
   },
   {
     "name": "MetricCard",
-    "description": "",
+    "description": "Dashboard card showing a metric, delta, and optional sparkline. Richer\nvariant of `BigNumber`.",
     "file": "src/components/Metrics.tsx",
     "props": [
       {
@@ -13567,7 +13585,7 @@
   },
   {
     "name": "MinusIcon",
-    "description": "",
+    "description": "Minus icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -13640,7 +13658,7 @@
   },
   {
     "name": "Modal",
-    "description": "Props-driven modal overlay with backdrop + centered panel. Portaled,\nfocus-trapped, Escape- and click-outside-dismissable. Controlled via\n`open` / `onClose`. Prefer the compound `Dialog` for new code.",
+    "description": "Props-driven modal overlay with backdrop + centered panel. Portaled,\nfocus-trapped, Escape- and click-outside-dismissable. Controlled via\n`open` / `onDismiss`. Prefer the compound `Dialog` for new code.",
     "file": "src/components/Interactive.tsx",
     "props": [
       {
@@ -13650,7 +13668,7 @@
         "required": true
       },
       {
-        "name": "onClose",
+        "name": "onDismiss",
         "type": "() => void",
         "description": "",
         "required": true
@@ -13686,7 +13704,7 @@
   },
   {
     "name": "ModelCompare",
-    "description": "",
+    "description": "Side-by-side comparison UI for model outputs. Synced scroll and per-column\nmetrics.",
     "file": "src/components/ModelCompare.tsx",
     "props": [
       {
@@ -13751,7 +13769,7 @@
   },
   {
     "name": "ModelPicker",
-    "description": "",
+    "description": "Dropdown for selecting an LLM model. Renders name, provider badge, and a\nshort description per option.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -13764,13 +13782,20 @@
         "name": "value",
         "type": "string",
         "description": "",
-        "required": true
+        "required": false
       },
       {
-        "name": "onChange",
-        "type": "(modelId: string) => void",
+        "name": "defaultValue",
+        "type": "string",
+        "defaultValue": "",
         "description": "",
-        "required": true
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((modelId: string) => void)",
+        "description": "",
+        "required": false
       },
       {
         "name": "label",
@@ -13783,7 +13808,7 @@
   },
   {
     "name": "ModelSelector",
-    "description": "",
+    "description": "Richer model picker with per-model metadata (context window, price,\ncapabilities). For a compact picker see `ModelPicker`.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -13806,7 +13831,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((next: string) => void)",
         "description": "",
         "required": false
@@ -13829,7 +13854,7 @@
   },
   {
     "name": "MoonIcon",
-    "description": "",
+    "description": "Moon icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -13902,7 +13927,7 @@
   },
   {
     "name": "MoreHorizontalIcon",
-    "description": "",
+    "description": "MoreHorizontal icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -13975,7 +14000,7 @@
   },
   {
     "name": "MoreVerticalIcon",
-    "description": "",
+    "description": "MoreVertical icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -14048,7 +14073,7 @@
   },
   {
     "name": "MultiProgress",
-    "description": "",
+    "description": "Stacked segmented progress bar representing parts-of-a-whole across\ncategories.",
     "file": "src/components/MultiProgress.tsx",
     "props": [
       {
@@ -14102,7 +14127,7 @@
   },
   {
     "name": "MultiSelect",
-    "description": "",
+    "description": "Multi-value select built on `Combobox`. Emits an array of selected values;\nrenders selections as chips in the field.",
     "file": "src/components/Combobox.tsx",
     "props": [
       {
@@ -14124,7 +14149,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((values: string[]) => void)",
         "description": "",
         "required": false
@@ -14190,7 +14215,7 @@
   },
   {
     "name": "NavGroup",
-    "description": "",
+    "description": "Grouped section of a nav/sidebar with an optional heading. Used inside\n`Sidebar` / `Navbar`.",
     "file": "src/components/Navigation.tsx",
     "props": [
       {
@@ -14210,7 +14235,7 @@
   },
   {
     "name": "NavItem",
-    "description": "",
+    "description": "Single nav/sidebar item: icon, label, optional badge, active state. Wraps\na link.",
     "file": "src/components/Navigation.tsx",
     "props": [
       {
@@ -14260,7 +14285,7 @@
   },
   {
     "name": "NetworkGraph",
-    "description": "",
+    "description": "Force-directed graph. Nodes relax via d3-force; drag a node to pin it.\nPeer: `d3-force`.",
     "file": "src/charts/NetworkGraph.tsx",
     "props": [
       {
@@ -14365,7 +14390,7 @@
   },
   {
     "name": "NetworkInspector",
-    "description": "",
+    "description": "DevTools-style network request inspector: list of requests with status,\ntiming, headers/body on expand.",
     "file": "src/components/DevTools.tsx",
     "props": [
       {
@@ -14410,7 +14435,7 @@
   },
   {
     "name": "NotificationBadge",
-    "description": "",
+    "description": "Small numeric or dot badge overlay for a host element (e.g. a bell icon).\nHides at zero by default.",
     "file": "src/components/NotificationBadge.tsx",
     "props": [
       {
@@ -14463,7 +14488,7 @@
   },
   {
     "name": "NotificationCenter",
-    "description": "",
+    "description": "Drawer of grouped notifications with read/unread state, per-item actions,\nand clear-all.",
     "file": "src/components/Notifications.tsx",
     "props": [
       {
@@ -14503,7 +14528,7 @@
         "required": false
       },
       {
-        "name": "variant",
+        "name": "kind",
         "type": "enum",
         "defaultValue": "dropdown",
         "description": "",
@@ -14533,7 +14558,7 @@
   },
   {
     "name": "NumberDisplay",
-    "description": "",
+    "description": "Locale-aware number formatter via `Intl.NumberFormat`. Takes `value` and\noptional precision / notation.",
     "file": "src/components/Numeric.tsx",
     "props": [
       {
@@ -14589,20 +14614,26 @@
   },
   {
     "name": "NumberInput",
-    "description": "",
+    "description": "Numeric text input with min/max/step, keyboard increment/decrement, and\nlocale parsing.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
         "name": "value",
         "type": "number",
         "description": "",
-        "required": true
+        "required": false
       },
       {
-        "name": "onChange",
-        "type": "(value: number) => void",
+        "name": "defaultValue",
+        "type": "number",
         "description": "",
-        "required": true
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: number) => void)",
+        "description": "",
+        "required": false
       },
       {
         "name": "min",
@@ -14641,7 +14672,7 @@
   },
   {
     "name": "NumberStepper",
-    "description": "",
+    "description": "Numeric input with +/- buttons. Thinner than `NumberInput` for table cells\nand toolbars.",
     "file": "src/components/NumberStepper.tsx",
     "props": [
       {
@@ -14720,7 +14751,7 @@
   },
   {
     "name": "OfflineBanner",
-    "description": "",
+    "description": "Top-of-page banner that appears when `navigator.onLine` flips to false.\nAuto-hides on reconnect.",
     "file": "src/components/Network.tsx",
     "props": [
       {
@@ -14859,7 +14890,7 @@
   },
   {
     "name": "OrganizationCard",
-    "description": "",
+    "description": "Org identity card: logo, name, tagline, and a metric row. Companion to\n`UserCard` / `TeamCard`.",
     "file": "src/components/Identity.tsx",
     "props": [
       {
@@ -14884,7 +14915,7 @@
   },
   {
     "name": "OrgChart",
-    "description": "",
+    "description": "Top-down hierarchical chart (e.g. org structure). Collapsible subtrees and\npan/zoom.",
     "file": "src/charts/OrgChart.tsx",
     "props": [
       {
@@ -15038,29 +15069,23 @@
   },
   {
     "name": "Pagination",
-    "description": "Offset-based page picker with numbered buttons plus optional prev/next\nand first/last chevrons. Controlled via `page` + `onChange(page)`.\nTune the visible range with `siblingCount` and `boundaryCount`; toggle\na rows-per-page `<select>` with `showPageSize`.",
+    "description": "Offset-based page picker with numbered buttons plus optional prev/next\nand first/last chevrons. Controlled via `value` + `onValueChange(page)`.\nTune the visible range with `siblingCount` and `boundaryCount`; toggle\na rows-per-page `<select>` with `showPageSize`.",
     "file": "src/components/Navigation.tsx",
     "props": [
       {
-        "name": "page",
+        "name": "value",
         "type": "number",
         "description": "",
         "required": true
       },
       {
-        "name": "total",
-        "type": "number",
-        "description": "Legacy total-pages alias. Prefer `totalPages`.",
-        "required": false
-      },
-      {
         "name": "totalPages",
         "type": "number",
         "description": "",
-        "required": false
+        "required": true
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "(page: number) => void",
         "description": "",
         "required": true
@@ -15123,7 +15148,7 @@
   },
   {
     "name": "Palette",
-    "description": "",
+    "description": "Displays a palette (array of colours) with optional labels and\ncopy-on-click.",
     "file": "src/components/ColorTools.tsx",
     "props": [
       {
@@ -15168,7 +15193,7 @@
   },
   {
     "name": "ParallelCoordinates",
-    "description": "",
+    "description": "Parallel-coordinates chart for high-dimensional data. One vertical axis\nper dimension; polylines connect a record's values.",
     "file": "src/charts/ParallelCoordinates.tsx",
     "props": [
       {
@@ -15244,12 +15269,19 @@
   },
   {
     "name": "PasswordInput",
-    "description": "",
+    "description": "Password field with show/hide toggle and optional strength meter.",
     "file": "src/components/FormAdvanced.tsx",
     "props": [
       {
         "name": "value",
         "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "defaultValue": "[]",
         "description": "",
         "required": false
       },
@@ -15333,7 +15365,7 @@
   },
   {
     "name": "PauseIcon",
-    "description": "",
+    "description": "Pause icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -15406,7 +15438,7 @@
   },
   {
     "name": "PercentDisplay",
-    "description": "",
+    "description": "Locale-aware percentage formatter. Takes a 0-1 ratio and emits a localised\npercent string.",
     "file": "src/components/Numeric.tsx",
     "props": [
       {
@@ -15451,7 +15483,7 @@
   },
   {
     "name": "PhoneInput",
-    "description": "",
+    "description": "Phone number input with country selector, auto-formatting per E.164, and\nvalidation.",
     "file": "src/components/MaskedInput.tsx",
     "props": [
       {
@@ -15465,12 +15497,6 @@
         "name": "mask",
         "type": "string",
         "description": "Override the mask entirely.",
-        "required": false
-      },
-      {
-        "name": "onChange",
-        "type": "((value: string) => void)",
-        "description": "",
         "required": false
       },
       {
@@ -15501,7 +15527,7 @@
   },
   {
     "name": "PieChart",
-    "description": "",
+    "description": "Pie chart for part-of-whole data. For a hollow centre slot see\n`DonutChart`.",
     "file": "src/charts/PieChart.tsx",
     "props": [
       {
@@ -15580,7 +15606,7 @@
   },
   {
     "name": "PinIcon",
-    "description": "",
+    "description": "Pin icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -15653,7 +15679,7 @@
   },
   {
     "name": "PinInput",
-    "description": "",
+    "description": "Segmented OTP-style input for short numeric/alphanumeric codes.\nAuto-advances focus.",
     "file": "src/components/FormAdvanced.tsx",
     "props": [
       {
@@ -15677,7 +15703,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((value: string) => void)",
         "description": "",
         "required": false
@@ -15723,7 +15749,7 @@
   },
   {
     "name": "PlanDisplay",
-    "description": "",
+    "description": "Pricing-plan card: tier name, price, feature list, and CTA. Used on\npricing pages.",
     "file": "src/components/ChatAgent.tsx",
     "props": [
       {
@@ -15748,7 +15774,7 @@
   },
   {
     "name": "PlayIcon",
-    "description": "",
+    "description": "Play icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -15821,7 +15847,7 @@
   },
   {
     "name": "PlusIcon",
-    "description": "",
+    "description": "Plus icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -15894,7 +15920,7 @@
   },
   {
     "name": "Point",
-    "description": "",
+    "description": "Point (scatter) series primitive. Plots individual `{ x, y }` marks using\nthe enclosing chart's scales.",
     "file": "src/charts/series/Point.tsx",
     "props": [
       {
@@ -15952,7 +15978,7 @@
   },
   {
     "name": "Popconfirm",
-    "description": "",
+    "description": "Lightweight confirmation popover anchored to a trigger. Cheaper than a\nfull modal for simple yes/no prompts.",
     "file": "src/components/Popconfirm.tsx",
     "props": [
       {
@@ -16127,7 +16153,7 @@
   },
   {
     "name": "PresenceList",
-    "description": "",
+    "description": "List of online users with presence state and optional typing indicator.",
     "file": "src/components/Identity.tsx",
     "props": [
       {
@@ -16159,7 +16185,7 @@
   },
   {
     "name": "PrintButton",
-    "description": "",
+    "description": "Button that invokes `window.print()` with optional before/after hooks for\ntransient styling.",
     "file": "src/components/Print.tsx",
     "props": [
       {
@@ -16178,7 +16204,7 @@
   },
   {
     "name": "PrintLayout",
-    "description": "",
+    "description": "Print-optimised layout wrapper that suppresses nav chrome and tightens\ntypography when `@media print` is active.",
     "file": "src/components/Print.tsx",
     "props": [
       {
@@ -16224,7 +16250,7 @@
   },
   {
     "name": "Progress",
-    "description": "",
+    "description": "Linear progress bar. Determinate (`value`) or indeterminate. Tones mirror\nstatus palette.",
     "file": "src/components/Data.tsx",
     "props": [
       {
@@ -16290,7 +16316,7 @@
   },
   {
     "name": "PromptTemplateEditor",
-    "description": "",
+    "description": "Editor for an LLM prompt template: body textarea plus a sidebar of named\nvariables.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -16315,7 +16341,7 @@
   },
   {
     "name": "PromptTemplateList",
-    "description": "",
+    "description": "List of saved prompt templates with preview, rename, duplicate, delete.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -16340,7 +16366,7 @@
   },
   {
     "name": "QRCode",
-    "description": "",
+    "description": "Renders a QR code SVG from a string. Configurable error-correction level\nand cell size.",
     "file": "src/components/Encoding.tsx",
     "props": [
       {
@@ -16379,7 +16405,7 @@
   },
   {
     "name": "QueryBuilder",
-    "description": "",
+    "description": "Visual builder for structured SQL-like queries. Emits a serialisable\ncondition tree.",
     "file": "src/components/DevTools.tsx",
     "props": [
       {
@@ -16402,7 +16428,7 @@
         "required": true
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "(next: QueryGroup) => void",
         "description": "",
         "required": true
@@ -16411,7 +16437,7 @@
   },
   {
     "name": "QuestionIcon",
-    "description": "",
+    "description": "Question icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -16510,7 +16536,7 @@
   },
   {
     "name": "Quote",
-    "description": "",
+    "description": "Styled pull-quote block with optional attribution.",
     "file": "src/components/Notifications.tsx",
     "props": [
       {
@@ -16529,7 +16555,7 @@
   },
   {
     "name": "QuoteIcon",
-    "description": "",
+    "description": "Quote icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -16602,7 +16628,7 @@
   },
   {
     "name": "RadarChart",
-    "description": "",
+    "description": "Radar / spider chart for multi-axis categorical data. Each ring is a value\nlevel; axes radiate from the centre.",
     "file": "src/charts/RadarChart.tsx",
     "props": [
       {
@@ -16679,7 +16705,7 @@
   },
   {
     "name": "Radio",
-    "description": "",
+    "description": "Single radio input with label. For groups use `RadioGroup`.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
@@ -16689,7 +16715,7 @@
         "required": true
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "() => void",
         "description": "",
         "required": true
@@ -16716,7 +16742,7 @@
   },
   {
     "name": "RadioGroup",
-    "description": "WAI-ARIA radio group with controlled/uncontrolled duality. Accepts an\n`options` array and `value` + `onChange(value)` or `defaultValue`.\nRenders label + radios in a `horizontal` or `vertical` `direction`.",
+    "description": "WAI-ARIA radio group with controlled/uncontrolled duality. Accepts an\n`options` array and `value` + `onValueChange(value)` or `defaultValue`.\nRenders label + radios in a `horizontal` or `vertical` `direction`.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
@@ -16738,7 +16764,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((value: string) => void)",
         "description": "",
         "required": false
@@ -16766,7 +16792,7 @@
   },
   {
     "name": "RAGContext",
-    "description": "",
+    "description": "Retrieval-augmented-generation context panel: retrieved chunks with\nsource, score, and preview.",
     "file": "src/components/ChatCitations.tsx",
     "props": [
       {
@@ -16805,7 +16831,7 @@
   },
   {
     "name": "RatingInput",
-    "description": "",
+    "description": "Star rating input (0-N). Half-step support; controllable via `value` /\n`onChange`.",
     "file": "src/components/RatingInput.tsx",
     "props": [
       {
@@ -16821,7 +16847,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((value: number) => void)",
         "description": "",
         "required": false
@@ -16873,7 +16899,7 @@
   },
   {
     "name": "ReactionBar",
-    "description": "",
+    "description": "Emoji reaction row for a message / post. Shows tallies per reaction; emits\ntoggle events.",
     "file": "src/components/Chat/Reactions.tsx",
     "props": [
       {
@@ -16904,7 +16930,7 @@
   },
   {
     "name": "ReactionPicker",
-    "description": "",
+    "description": "Emoji picker popover used to add a reaction. Paired with `ReactionBar`.",
     "file": "src/components/Utility.tsx",
     "props": [
       {
@@ -16942,7 +16968,7 @@
   },
   {
     "name": "ReasoningTrace",
-    "description": "",
+    "description": "Collapsible block showing an LLM's chain-of-thought reasoning with step\nseparators.",
     "file": "src/components/Chat/Indicators.tsx",
     "props": [
       {
@@ -16993,7 +17019,7 @@
   },
   {
     "name": "ReferenceBand",
-    "description": "",
+    "description": "Chart primitive: coloured band spanning a value range on an axis. Good for\nthresholds / SLAs.",
     "file": "src/charts/primitives/ReferenceBand.tsx",
     "props": [
       {
@@ -17039,7 +17065,7 @@
   },
   {
     "name": "ReferenceLine",
-    "description": "",
+    "description": "Chart primitive: dashed rule at a reference value on an axis. Optional\nlabel.",
     "file": "src/charts/primitives/ReferenceLine.tsx",
     "props": [
       {
@@ -17079,7 +17105,7 @@
   },
   {
     "name": "RefreshIcon",
-    "description": "",
+    "description": "Refresh icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -17152,7 +17178,7 @@
   },
   {
     "name": "RegenerateButton",
-    "description": "",
+    "description": "Chat action button that re-runs the last assistant turn. Shows a spinner\nwhile the stream is active.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -17172,7 +17198,7 @@
   },
   {
     "name": "RegExpTester",
-    "description": "",
+    "description": "Interactive regex tester: pattern, flags, test string, highlighted matches\nand capture groups.",
     "file": "src/components/RegExpTester.tsx",
     "props": [
       {
@@ -17275,7 +17301,7 @@
   },
   {
     "name": "RelativeTime",
-    "description": "",
+    "description": "Formats a timestamp as a relative, auto-updating string (`2m ago`,\n`yesterday`).",
     "file": "src/components/TimeDisplays.tsx",
     "props": [
       {
@@ -17311,7 +17337,7 @@
     "file": "src/components/DragDrop.tsx",
     "props": [
       {
-        "name": "items",
+        "name": "value",
         "type": "T[]",
         "description": "",
         "required": true
@@ -17323,7 +17349,7 @@
         "required": true
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "(next: T[]) => void",
         "description": "",
         "required": true
@@ -17350,7 +17376,7 @@
   },
   {
     "name": "ResizableBox",
-    "description": "",
+    "description": "Resizable container with configurable handles. Emits `onResize({ width,\nheight })`.",
     "file": "src/components/Resizable.tsx",
     "props": [
       {
@@ -17422,7 +17448,7 @@
   },
   {
     "name": "ResizableGroup",
-    "description": "",
+    "description": "Group of panes sharing a split. Drag handles redistribute space among\nsiblings.",
     "file": "src/components/Resizable.tsx",
     "props": [
       {
@@ -17454,7 +17480,7 @@
   },
   {
     "name": "ResizableHandle",
-    "description": "",
+    "description": "Drag handle subpart for `ResizableGroup` / `ResizablePanel`.\nKeyboard-resizable with arrow keys.",
     "file": "src/components/Resizable.tsx",
     "props": [
       {
@@ -17474,7 +17500,7 @@
   },
   {
     "name": "ResizablePanel",
-    "description": "",
+    "description": "Single pane inside a `ResizableGroup`. Configurable min/max/default size.",
     "file": "src/components/Resizable.tsx",
     "props": [
       {
@@ -17505,7 +17531,7 @@
   },
   {
     "name": "ResponsiveBox",
-    "description": "",
+    "description": "Escape hatch responsive container: accepts a render-prop that receives the\ncurrent breakpoint.",
     "file": "src/responsive/ResponsiveBox.tsx",
     "props": [
       {
@@ -17662,7 +17688,7 @@
   },
   {
     "name": "Result",
-    "description": "",
+    "description": "Centred result page (404 / 403 / 500 / success). Icon, title, description,\nand action slot.",
     "file": "src/components/Result.tsx",
     "props": [
       {
@@ -17699,7 +17725,7 @@
   },
   {
     "name": "RichTextEditor",
-    "description": "",
+    "description": "WYSIWYG rich-text editor with markdown-compatible output, toolbar, and\ninline formatting shortcuts.",
     "file": "src/components/RichTextEditor.tsx",
     "props": [
       {
@@ -17715,7 +17741,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((html: string) => void)",
         "description": "",
         "required": false
@@ -17840,7 +17866,7 @@
   },
   {
     "name": "SafeArea",
-    "description": "",
+    "description": "Inset wrapper that respects the device's safe-area insets (notches,\nrounded corners) on iOS/Android.",
     "file": "src/components/LayoutExtended.tsx",
     "props": [
       {
@@ -17871,7 +17897,7 @@
   },
   {
     "name": "Sankey",
-    "description": "",
+    "description": "Sankey flow diagram. Weighted links between nodes; auto-layout via\n`d3-sankey` (peer).",
     "file": "src/charts/Sankey.tsx",
     "props": [
       {
@@ -17949,7 +17975,7 @@
   },
   {
     "name": "SaveIcon",
-    "description": "",
+    "description": "Save icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -18022,7 +18048,7 @@
   },
   {
     "name": "ScatterMatrix",
-    "description": "",
+    "description": "Scatterplot matrix: small-multiples grid pairing every dimension against\nevery other.",
     "file": "src/charts/ScatterMatrix.tsx",
     "props": [
       {
@@ -18079,7 +18105,7 @@
   },
   {
     "name": "ScatterPlot",
-    "description": "",
+    "description": "Scatter plot for two numeric dimensions. Axes: linear x linear. Optional\n`sizeRange` turns it into a bubble chart.",
     "file": "src/charts/ScatterPlot.tsx",
     "props": [
       {
@@ -18237,7 +18263,7 @@
   },
   {
     "name": "ScrollIndicator",
-    "description": "",
+    "description": "Edge indicator showing there's more content to scroll to. Fades in/out\nbased on scroll position.",
     "file": "src/components/Utility.tsx",
     "props": [
       {
@@ -18284,7 +18310,7 @@
   },
   {
     "name": "ScrollRow",
-    "description": "",
+    "description": "Horizontally-scrolling row with overflow fading. Good for chip / card\nrows.",
     "file": "src/components/Card.tsx",
     "props": [
       {
@@ -18297,7 +18323,7 @@
   },
   {
     "name": "ScrollSpy",
-    "description": "",
+    "description": "Tracks which anchored section is in view and exposes it via context /\nrender-prop. Pair with `Navigation` for TOC highlighting.",
     "file": "src/components/NavigationExtended.tsx",
     "props": [
       {
@@ -18318,7 +18344,7 @@
   },
   {
     "name": "SearchIcon",
-    "description": "",
+    "description": "Search icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -18391,14 +18417,20 @@
   },
   {
     "name": "SearchInput",
-    "description": "",
+    "description": "Input tuned for search: leading search icon, clear-on-escape, debounce via\n`debounce` prop.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
         "name": "value",
         "type": "string",
         "description": "",
-        "required": true
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "description": "",
+        "required": false
       },
       {
         "name": "onChange",
@@ -18441,7 +18473,7 @@
   },
   {
     "name": "Section",
-    "description": "",
+    "description": "Semantic section block with heading slot and consistent vertical rhythm.",
     "file": "src/components/LayoutExtended.tsx",
     "props": [
       {
@@ -18473,7 +18505,7 @@
   },
   {
     "name": "SegmentBar",
-    "description": "",
+    "description": "Horizontal bar divided into labelled segments, sized by a weight. Good for\nstatus/health breakdowns.",
     "file": "src/components/Card.tsx",
     "props": [
       {
@@ -18486,7 +18518,7 @@
   },
   {
     "name": "SegmentedControl",
-    "description": "",
+    "description": "Pill group of mutually-exclusive options (like iOS segmented control).\nControllable via `value` / `onValueChange`.",
     "file": "src/components/FormAdvanced.tsx",
     "props": [
       {
@@ -18509,7 +18541,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((value: string) => void)",
         "description": "",
         "required": false
@@ -18531,7 +18563,7 @@
   },
   {
     "name": "SegmentedProgress",
-    "description": "",
+    "description": "Progress bar composed of discrete segments filled left-to-right as\nprogress advances.",
     "file": "src/components/Metrics.tsx",
     "props": [
       {
@@ -18569,13 +18601,19 @@
         "name": "value",
         "type": "string",
         "description": "",
-        "required": true
+        "required": false
       },
       {
-        "name": "onChange",
-        "type": "(value: string) => void",
+        "name": "defaultValue",
+        "type": "string",
         "description": "",
-        "required": true
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void)",
+        "description": "",
+        "required": false
       },
       {
         "name": "label",
@@ -18593,7 +18631,7 @@
   },
   {
     "name": "SendIcon",
-    "description": "",
+    "description": "Send icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -18687,7 +18725,7 @@
   },
   {
     "name": "SessionList",
-    "description": "",
+    "description": "Sidebar list of chat sessions with titles, timestamps, and unread badges.\nPairs with `ChatLayout`.",
     "file": "src/components/ChatSession.tsx",
     "props": [
       {
@@ -18762,7 +18800,7 @@
   },
   {
     "name": "SessionListItem",
-    "description": "",
+    "description": "Single row in `SessionList`: title, preview, timestamp, unread state.",
     "file": "src/components/ChatSession.tsx",
     "props": [
       {
@@ -18805,7 +18843,7 @@
   },
   {
     "name": "SettingsIcon",
-    "description": "",
+    "description": "Settings icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -18878,7 +18916,7 @@
   },
   {
     "name": "ShareButton",
-    "description": "",
+    "description": "Button that opens a share sheet / menu with configurable destinations\n(copy link, email, native share).",
     "file": "src/components/Utility.tsx",
     "props": [
       {
@@ -18917,7 +18955,7 @@
   },
   {
     "name": "ShareIcon",
-    "description": "",
+    "description": "Share icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -19033,7 +19071,7 @@
   },
   {
     "name": "Shimmer",
-    "description": "",
+    "description": "Low-level shimmer animation primitive used by skeletons. Respects\n`prefers-reduced-motion`.",
     "file": "src/components/Loading.tsx",
     "props": [
       {
@@ -19066,7 +19104,7 @@
   },
   {
     "name": "Shortcut",
-    "description": "",
+    "description": "Inline rendered keyboard shortcut (`Cmd+K`). Purely visual; for actual\nbinding use `useKeyboardShortcut`.",
     "file": "src/components/NavigationExtended.tsx",
     "props": [
       {
@@ -19079,7 +19117,7 @@
   },
   {
     "name": "ShortcutEditor",
-    "description": "",
+    "description": "UI for editing an existing keyboard shortcut binding. Captures the next\nchord pressed.",
     "file": "src/components/DevTools.tsx",
     "props": [
       {
@@ -19096,7 +19134,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((next: string) => void)",
         "description": "",
         "required": false
@@ -19126,7 +19164,7 @@
   },
   {
     "name": "ShortcutGuide",
-    "description": "",
+    "description": "Modal that lists all registered keyboard shortcuts grouped by scope.\nPopulated via `ShortcutProvider`.",
     "file": "src/components/ShortcutGuide.tsx",
     "props": [
       {
@@ -19171,13 +19209,13 @@
   },
   {
     "name": "ShortcutProvider",
-    "description": "",
+    "description": "Provider that registers the global shortcut registry. Wrap your app root;\n`useShortcut` / `useShortcutRegistry` read from it.",
     "file": "src/hooks/useShortcuts.tsx",
     "props": []
   },
   {
     "name": "Show",
-    "description": "",
+    "description": "Conditional renderer: shows its children at/above/below specific\nbreakpoints. Paired with `Hide`.",
     "file": "src/responsive/Show.tsx",
     "props": [
       {
@@ -19223,7 +19261,7 @@
   },
   {
     "name": "SignaturePad",
-    "description": "",
+    "description": "Pointer-drawn signature pad. Emits the trace as a data URL or stroke list\non commit.",
     "file": "src/components/SignaturePad.tsx",
     "props": [
       {
@@ -19266,7 +19304,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((dataUrl: string) => void)",
         "description": "Emits the PNG data URL each time a stroke is completed.",
         "required": false
@@ -19306,7 +19344,7 @@
   },
   {
     "name": "SimpleChat",
-    "description": "",
+    "description": "Prewired minimal chat UI: conversation + composer + model selector.\nFastest path to a working chat surface.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -19325,7 +19363,7 @@
   },
   {
     "name": "Skeleton",
-    "description": "",
+    "description": "Rectangle shimmer placeholder used while content loads. Composed into\n`SkeletonText`, `SkeletonAvatar`, etc.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -19366,7 +19404,7 @@
   },
   {
     "name": "SkeletonAvatar",
-    "description": "",
+    "description": "Circular shimmer placeholder sized for an avatar. Part of the skeleton\nkit.",
     "file": "src/components/SkeletonComposites.tsx",
     "props": [
       {
@@ -19387,7 +19425,7 @@
   },
   {
     "name": "SkeletonButton",
-    "description": "",
+    "description": "Shimmer placeholder shaped like a button. Part of the skeleton kit.",
     "file": "src/components/SkeletonComposites.tsx",
     "props": [
       {
@@ -19407,7 +19445,7 @@
   },
   {
     "name": "SkeletonCard",
-    "description": "",
+    "description": "Shimmer placeholder shaped like a `Card`. Configurable with/without\nheader.",
     "file": "src/components/SkeletonComposites.tsx",
     "props": [
       {
@@ -19442,7 +19480,7 @@
   },
   {
     "name": "SkeletonForm",
-    "description": "",
+    "description": "Pre-composed skeleton matching a typical form (label + input pairs).",
     "file": "src/components/SkeletonComposites.tsx",
     "props": [
       {
@@ -19463,7 +19501,7 @@
   },
   {
     "name": "SkeletonTable",
-    "description": "",
+    "description": "Pre-composed skeleton matching a typical data table.",
     "file": "src/components/SkeletonComposites.tsx",
     "props": [
       {
@@ -19491,7 +19529,7 @@
   },
   {
     "name": "SkeletonText",
-    "description": "",
+    "description": "Shimmer placeholder for one or more lines of text. Configurable line count\nand last-line width.",
     "file": "src/components/SkeletonComposites.tsx",
     "props": [
       {
@@ -19538,7 +19576,7 @@
   },
   {
     "name": "SlashCommandInput",
-    "description": "",
+    "description": "Text input with `/`-triggered command autocomplete. Emits the selected\ncommand.",
     "file": "src/components/MentionInput.tsx",
     "props": [
       {
@@ -19625,7 +19663,7 @@
   },
   {
     "name": "SlashCommandPicker",
-    "description": "",
+    "description": "Popover listing available slash commands. Used inside `SlashCommandInput`\nand the composer.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -19663,20 +19701,26 @@
   },
   {
     "name": "Slider",
-    "description": "",
+    "description": "Range slider for numeric values. Controllable via `value` /\n`onValueChange`; supports one or two thumbs.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
         "name": "value",
         "type": "number",
         "description": "",
-        "required": true
+        "required": false
       },
       {
-        "name": "onChange",
-        "type": "(value: number) => void",
+        "name": "defaultValue",
+        "type": "number",
         "description": "",
-        "required": true
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: number) => void)",
+        "description": "",
+        "required": false
       },
       {
         "name": "min",
@@ -19727,7 +19771,7 @@
   },
   {
     "name": "SmallMultiples",
-    "description": "",
+    "description": "Grid of small charts sharing encoding / scale. Good for comparing many\ncategories at once.",
     "file": "src/charts/SmallMultiples.tsx",
     "props": [
       {
@@ -19788,7 +19832,7 @@
   },
   {
     "name": "Snackbar",
-    "description": "",
+    "description": "Transient bottom-anchored message with optional action. Lighter than\n`Toast`; auto-dismisses by default.",
     "file": "src/components/ToastSystem.tsx",
     "props": [
       {
@@ -19815,11 +19859,11 @@
   },
   {
     "name": "Sortable",
-    "description": "",
+    "description": "Wraps a list to make its items reorderable via drag. Keyboard-reorder with\narrow keys after picking.",
     "file": "src/components/DragDrop.tsx",
     "props": [
       {
-        "name": "items",
+        "name": "value",
         "type": "T[]",
         "description": "",
         "required": true
@@ -19831,7 +19875,7 @@
         "required": true
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "(next: T[]) => void",
         "description": "",
         "required": true
@@ -19859,7 +19903,7 @@
   },
   {
     "name": "SortIcon",
-    "description": "",
+    "description": "Sort icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -19932,7 +19976,7 @@
   },
   {
     "name": "SourceCard",
-    "description": "",
+    "description": "Citation-source card: title, URL, snippet, and metadata. Paired with\n`Citation` / `CitationList`.",
     "file": "src/components/ChatCitations.tsx",
     "props": [
       {
@@ -19988,7 +20032,7 @@
   },
   {
     "name": "SourceGrid",
-    "description": "",
+    "description": "Grid of `SourceCard`s. Used when multiple sources back a single response.",
     "file": "src/components/ChatCitations.tsx",
     "props": [
       {
@@ -20013,7 +20057,7 @@
   },
   {
     "name": "Spacer",
-    "description": "",
+    "description": "Layout wrapper that fills the free space in a flex row/column. Use between\nchildren to push them apart.",
     "file": "src/components/Text.tsx",
     "props": [
       {
@@ -20027,7 +20071,7 @@
   },
   {
     "name": "Sparkline",
-    "description": "",
+    "description": "Tiny inline trend chart. No axes / labels — context comes from the\nsurrounding content.",
     "file": "src/charts/Sparkline.tsx",
     "props": [
       {
@@ -20098,7 +20142,7 @@
   },
   {
     "name": "Spinner",
-    "description": "",
+    "description": "Animated loading spinner. Respects `prefers-reduced-motion`; sizes\nconfigurable.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -20118,7 +20162,7 @@
   },
   {
     "name": "SpinnerIcon",
-    "description": "",
+    "description": "Spinner icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -20191,7 +20235,7 @@
   },
   {
     "name": "SpinnerV2",
-    "description": "",
+    "description": "Successor spinner with richer size and tone variants. Source-compatible\nwith `Spinner` for most uses.",
     "file": "src/components/Loading.tsx",
     "props": [
       {
@@ -20225,7 +20269,7 @@
   },
   {
     "name": "SplitButton",
-    "description": "",
+    "description": "Button with a primary action and an adjacent dropdown of alternate\nactions.",
     "file": "src/components/SplitButton.tsx",
     "props": [
       {
@@ -20255,7 +20299,7 @@
       {
         "name": "variant",
         "type": "enum",
-        "defaultValue": "default",
+        "defaultValue": "outline",
         "description": "",
         "required": false
       },
@@ -20288,7 +20332,7 @@
   },
   {
     "name": "SplitView",
-    "description": "",
+    "description": "Two-pane split view with a draggable divider. Controllable split ratio.",
     "file": "src/components/Layout.tsx",
     "props": [
       {
@@ -20319,7 +20363,7 @@
   },
   {
     "name": "Spotlight",
-    "description": "",
+    "description": "Dimmed overlay with a cut-out highlighting a target element. Used by\n`CoachMark`.",
     "file": "src/components/Spotlight.tsx",
     "props": [
       {
@@ -20389,7 +20433,7 @@
   },
   {
     "name": "SquareIcon",
-    "description": "",
+    "description": "Square icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -20462,7 +20506,7 @@
   },
   {
     "name": "Stack",
-    "description": "",
+    "description": "Vertical or horizontal flex stack with a `gap` prop. Composable and\nresponsive.",
     "file": "src/components/LayoutExtended.tsx",
     "props": [
       {
@@ -20487,7 +20531,7 @@
   },
   {
     "name": "StarIcon",
-    "description": "",
+    "description": "Star icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -20560,7 +20604,7 @@
   },
   {
     "name": "Stat",
-    "description": "",
+    "description": "Single statistic block: label, value, and optional delta / help text.",
     "file": "src/components/Data.tsx",
     "props": [
       {
@@ -20629,7 +20673,7 @@
   },
   {
     "name": "StatGroup",
-    "description": "",
+    "description": "Row or grid of `Stat`s with consistent spacing and optional dividers.",
     "file": "src/components/Metrics.tsx",
     "props": [
       {
@@ -20643,7 +20687,7 @@
   },
   {
     "name": "StatusBar",
-    "description": "",
+    "description": "Bottom status bar (e.g. for an editor / IDE-style UI). Renders items with\nicons and text.",
     "file": "src/components/Card.tsx",
     "props": [
       {
@@ -20656,7 +20700,7 @@
   },
   {
     "name": "StatusIndicator",
-    "description": "",
+    "description": "Coloured dot plus label indicating a status (`online`, `idle`, `busy`,\n`offline`). Optional pulse.",
     "file": "src/components/Metrics.tsx",
     "props": [
       {
@@ -20720,7 +20764,7 @@
   },
   {
     "name": "Sticky",
-    "description": "",
+    "description": "Wrapper that makes its child `position: sticky` with configurable offset\nand enabled breakpoints.",
     "file": "src/components/LayoutExtended.tsx",
     "props": [
       {
@@ -20745,7 +20789,7 @@
   },
   {
     "name": "StopButton",
-    "description": "",
+    "description": "Chat action button that halts an in-progress stream. Shows as a stop glyph\nwhile streaming.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -20765,7 +20809,7 @@
   },
   {
     "name": "StopIcon",
-    "description": "",
+    "description": "Stop icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -20838,7 +20882,7 @@
   },
   {
     "name": "StreamGraph",
-    "description": "",
+    "description": "Stream graph (river plot) for stacked time-series. Visually emphasises\ncategory flow over time.",
     "file": "src/charts/StreamGraph.tsx",
     "props": [
       {
@@ -20928,7 +20972,7 @@
   },
   {
     "name": "StreamingText",
-    "description": "",
+    "description": "Incrementally-rendered text block for streaming LLM output. Shows a\ntrailing cursor while active.",
     "file": "src/components/Chat/Message.tsx",
     "props": [
       {
@@ -20961,7 +21005,7 @@
   },
   {
     "name": "SubmitButton",
-    "description": "",
+    "description": "Form submit button with integrated pending state, driven by the nearest\nform's submission state.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -20993,7 +21037,7 @@
   },
   {
     "name": "SuccessIcon",
-    "description": "",
+    "description": "Success icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -21066,7 +21110,7 @@
   },
   {
     "name": "SuggestionChips",
-    "description": "",
+    "description": "Row of chips with suggested follow-up prompts. Emits `onSelect(prompt)`\nwhen a chip is activated.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -21092,7 +21136,7 @@
   },
   {
     "name": "Sunburst",
-    "description": "",
+    "description": "Radial hierarchical chart (zoomable). Peer: `d3-hierarchy`.",
     "file": "src/charts/Sunburst.tsx",
     "props": [
       {
@@ -21150,7 +21194,7 @@
   },
   {
     "name": "SunIcon",
-    "description": "",
+    "description": "Sun icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -21223,7 +21267,7 @@
   },
   {
     "name": "Swipeable",
-    "description": "",
+    "description": "Wrapper that makes a child horizontally or vertically swipeable. Emits\nswipe-direction events.",
     "file": "src/components/Gestures.tsx",
     "props": [
       {
@@ -21261,7 +21305,7 @@
   },
   {
     "name": "SwipeActions",
-    "description": "",
+    "description": "List-item wrapper revealing actions on horizontal swipe (iOS Mail style).",
     "file": "src/components/Gestures.tsx",
     "props": [
       {
@@ -21287,7 +21331,7 @@
   },
   {
     "name": "Switch",
-    "description": "",
+    "description": "Two-state switch control with a visible on/off label option. Controllable\nvia `checked` / `onCheckedChange`; keyboard Space / Enter toggles.",
     "file": "src/components/FormAdvanced.tsx",
     "props": [
       {
@@ -21303,7 +21347,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((checked: boolean) => void)",
         "description": "",
         "required": false
@@ -21330,7 +21374,7 @@
   },
   {
     "name": "SystemPromptEditor",
-    "description": "",
+    "description": "Editor for an LLM system-prompt. Textarea plus saved-preset selector.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -21347,7 +21391,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((next: string) => void)",
         "description": "",
         "required": false
@@ -21388,7 +21432,7 @@
   },
   {
     "name": "TabBar",
-    "description": "",
+    "description": "Mobile-style bottom tab bar. Horizontal row of icon+label tabs, each\nlinked to a route.",
     "file": "src/components/Navbar.tsx",
     "props": [
       {
@@ -21404,7 +21448,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((value: string) => void)",
         "description": "",
         "required": false
@@ -21413,7 +21457,7 @@
   },
   {
     "name": "Table",
-    "description": "",
+    "description": "Semantic `<table>` wrapper with voidframe styling. For sortable /\nvirtualised tables use `DataGrid`.",
     "file": "src/components/Data.tsx",
     "props": [
       {
@@ -21504,38 +21548,45 @@
   },
   {
     "name": "Tabs",
-    "description": "Tabbed navigation with WAI-ARIA tablist semantics and arrow-key / Home /\nEnd navigation. Controlled via `active` + `onChange(key)`. Panels are\nconsumer-owned. Note: currently uses a flat `tabs: TabItem[]` API; a\ndot-notation compound API is planned.",
+    "description": "Keyboard-navigable tablist. Arrow keys cycle within the list, Home/End\njump to first/last, Tab leaves the list. Controllable via `active` /\n`onChange`; uncontrolled via `defaultActive`.",
     "file": "src/components/Interactive.tsx",
     "props": [
       {
-        "name": "tabs",
-        "type": "TabItem[]",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "active",
+        "name": "value",
         "type": "string",
         "description": "",
-        "required": true
+        "required": false
       },
       {
-        "name": "onChange",
-        "type": "(key: string) => void",
+        "name": "defaultValue",
+        "type": "string",
         "description": "",
-        "required": true
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "orientation",
+        "type": "enum",
+        "defaultValue": "horizontal",
+        "description": "",
+        "required": false
       },
       {
         "name": "accent",
         "type": "string",
-        "description": "",
+        "description": "Accent color for the active trigger (sets `--vf-accent`).",
         "required": false
       }
     ]
   },
   {
     "name": "Tag",
-    "description": "",
+    "description": "Small removable label chip with optional leading icon. Emits `onRemove`\nwhen the dismiss button is clicked.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -21554,7 +21605,7 @@
   },
   {
     "name": "TagInput",
-    "description": "",
+    "description": "Text input that collects tags on Enter/comma. Emits the current array of\ntags on change.",
     "file": "src/components/FormAdvanced.tsx",
     "props": [
       {
@@ -21571,7 +21622,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((tags: string[]) => void)",
         "description": "",
         "required": false
@@ -21625,7 +21676,7 @@
   },
   {
     "name": "TeamCard",
-    "description": "",
+    "description": "Team identity card: avatar group, name, member count, CTA. Companion to\n`UserCard` / `OrganizationCard`.",
     "file": "src/components/Identity.tsx",
     "props": [
       {
@@ -21650,7 +21701,7 @@
   },
   {
     "name": "Terminal",
-    "description": "",
+    "description": "Interactive terminal emulator surface. Emits user input lines; host app\nsupplies output.",
     "file": "src/components/Viewers/LogViewer.tsx",
     "props": [
       {
@@ -21704,7 +21755,7 @@
   },
   {
     "name": "TerminalIcon",
-    "description": "",
+    "description": "Terminal icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -21777,7 +21828,7 @@
   },
   {
     "name": "Text",
-    "description": "Generic text element. Size, color, transform are CSS-driven; `color`,\n`weight`, and `spacing` come through as inline-style overrides because they\nare arbitrary per-instance values.",
+    "description": "Generic text element. Size, color, transform are CSS-driven; `color`,\n`weight`, and `spacing` come through as inline-style overrides because they\nare arbitrary per-instance values. Supports polymorphic `as` for choosing\nan intrinsic tag, or `asChild` to merge styling onto a consumer-provided\nelement (e.g. a router link).",
     "file": "src/components/Text.tsx",
     "props": [
       {
@@ -21816,6 +21867,12 @@
         "type": "enum",
         "defaultValue": "span",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Render through `<Slot>` and merge props onto a single child element.",
         "required": false
       }
     ]
@@ -21860,7 +21917,7 @@
   },
   {
     "name": "ThemeScope",
-    "description": "",
+    "description": "Subtree-level theme override. Wrap any subtree to apply a different theme\nwithout rerooting the whole app.",
     "file": "src/provider/ThemeScope.tsx",
     "props": [
       {
@@ -21909,7 +21966,7 @@
   },
   {
     "name": "ThemeSelector",
-    "description": "",
+    "description": "Dropdown / segmented control for picking the active theme. Pairs with\n`useThemePersistence`.",
     "file": "src/components/ThemeSelector.tsx",
     "props": [
       {
@@ -21925,7 +21982,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((next: string) => void)",
         "description": "",
         "required": false
@@ -21937,7 +21994,7 @@
         "required": true
       },
       {
-        "name": "variant",
+        "name": "kind",
         "type": "enum",
         "defaultValue": "segmented",
         "description": "",
@@ -21961,7 +22018,7 @@
   },
   {
     "name": "ThinkingIndicator",
-    "description": "",
+    "description": "Animated `thinking...` indicator used while an LLM response is pending.",
     "file": "src/components/Chat/Indicators.tsx",
     "props": [
       {
@@ -21978,7 +22035,7 @@
         "required": false
       },
       {
-        "name": "variant",
+        "name": "kind",
         "type": "enum",
         "defaultValue": "dots",
         "description": "",
@@ -21988,7 +22045,7 @@
   },
   {
     "name": "Ticker",
-    "description": "",
+    "description": "Auto-advancing horizontal ticker for news-style headlines. Respects\n`prefers-reduced-motion`.",
     "file": "src/components/Animations.tsx",
     "props": [
       {
@@ -22028,7 +22085,7 @@
   },
   {
     "name": "Timeline",
-    "description": "",
+    "description": "Vertical timeline with dotted axis and event cards. Each item has time,\ntitle, optional body.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -22048,7 +22105,7 @@
   },
   {
     "name": "TimePicker",
-    "description": "",
+    "description": "Time-only picker (hours/minutes/optional seconds). Controllable via\n`value` / `onChange`.",
     "file": "src/components/TimePicker.tsx",
     "props": [
       {
@@ -22065,7 +22122,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((next: string) => void)",
         "description": "",
         "required": false
@@ -22125,7 +22182,7 @@
   },
   {
     "name": "TimeZoneSelect",
-    "description": "",
+    "description": "Dropdown for selecting an IANA time zone. Groups by region and shows\ncurrent UTC offset.",
     "file": "src/components/TimeDisplays.tsx",
     "props": [
       {
@@ -22141,7 +22198,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((next: string) => void)",
         "description": "",
         "required": false
@@ -22170,7 +22227,7 @@
   },
   {
     "name": "Toast",
-    "description": "",
+    "description": "Transient popup notification for async feedback. For 1.0+ use the\nmodule-level `toast` API (`toast.success`, `toast.info`, `toast.warning`,\n`toast.danger`, `toast.promise`) with a `Toaster` mounted near the app\nroot.",
     "file": "src/components/Interactive.tsx",
     "props": [
       {
@@ -22237,7 +22294,7 @@
   },
   {
     "name": "Toggle",
-    "description": "Binary on/off switch with WAI-ARIA `role=\"switch\"` and\ncontrolled/uncontrolled duality. Pass `checked` + `onChange(next)` or\n`defaultChecked`. Space and Enter toggle; `readOnly` suppresses\nchanges. Requires `label`, `aria-label`, or `aria-labelledby`.",
+    "description": "Binary on/off switch with WAI-ARIA `role=\"switch\"` and\ncontrolled/uncontrolled duality. Pass `checked` + `onValueChange(next)` or\n`defaultChecked`. Space and Enter toggle; `readOnly` suppresses\nchanges. Requires `label`, `aria-label`, or `aria-labelledby`.",
     "file": "src/components/Form.tsx",
     "props": [
       {
@@ -22253,7 +22310,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((checked: boolean) => void)",
         "description": "",
         "required": false
@@ -22280,7 +22337,7 @@
   },
   {
     "name": "ToggleGroup",
-    "description": "",
+    "description": "Group of mutually-exclusive (`type=\"single\"`) or multi-select\n(`type=\"multiple\"`) toggle buttons. Controllable via `value` /\n`onValueChange`.",
     "file": "src/components/ToggleGroup.tsx",
     "props": [
       {
@@ -22310,7 +22367,7 @@
       {
         "name": "variant",
         "type": "enum",
-        "defaultValue": "default",
+        "defaultValue": "outline",
         "description": "",
         "required": false
       },
@@ -22346,7 +22403,7 @@
   },
   {
     "name": "TokenCounter",
-    "description": "",
+    "description": "Live token counter for a text input / prompt. Pluggable tokenizer; shows\nremaining budget against a configured limit.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -22375,7 +22432,7 @@
         "required": false
       },
       {
-        "name": "variant",
+        "name": "kind",
         "type": "enum",
         "defaultValue": "compact",
         "description": "",
@@ -22385,7 +22442,7 @@
   },
   {
     "name": "TokenVisualizer",
-    "description": "",
+    "description": "Visualises tokenisation of a string: each token rendered as a chip with\nindex and id.",
     "file": "src/components/TokenVisualizer.tsx",
     "props": [
       {
@@ -22473,7 +22530,7 @@
   },
   {
     "name": "ToolCall",
-    "description": "",
+    "description": "Chat transcript block representing a single tool invocation: name,\narguments, result, status.",
     "file": "src/components/ChatAgent.tsx",
     "props": [
       {
@@ -22548,7 +22605,7 @@
   },
   {
     "name": "ToolCallGroup",
-    "description": "",
+    "description": "Groups consecutive `ToolCall`s from the same turn with a collapsed\nsummary.",
     "file": "src/components/ChatAgent.tsx",
     "props": [
       {
@@ -22635,7 +22692,7 @@
   },
   {
     "name": "TraceViewer",
-    "description": "",
+    "description": "Developer trace viewer for agent runs — flamegraph-style timeline of steps\nand tool calls.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -22654,15 +22711,9 @@
   },
   {
     "name": "Transfer",
-    "description": "",
+    "description": "Two-list transfer component. Users move items between `source` and\n`target` with keyboard / button controls.",
     "file": "src/components/Transfer.tsx",
     "props": [
-      {
-        "name": "onChange",
-        "type": "((selectedKeys: string[]) => void)",
-        "description": "",
-        "required": false
-      },
       {
         "name": "defaultValue",
         "type": "string[]",
@@ -22757,7 +22808,7 @@
   },
   {
     "name": "TrashIcon",
-    "description": "",
+    "description": "Trash icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -22830,7 +22881,7 @@
   },
   {
     "name": "TreeMap",
-    "description": "",
+    "description": "Hierarchical rectangle tiling weighted by value. Peer: `d3-hierarchy`.",
     "file": "src/charts/TreeMap.tsx",
     "props": [
       {
@@ -22908,7 +22959,7 @@
   },
   {
     "name": "TreeNav",
-    "description": "",
+    "description": "Hierarchical navigation tree. Expand/collapse nodes with keyboard;\nactive-path highlighting.",
     "file": "src/components/NavigationExtended.tsx",
     "props": [
       {
@@ -22940,7 +22991,7 @@
   },
   {
     "name": "TreeSelect",
-    "description": "",
+    "description": "Select dropdown whose options are organised as a tree (cascader-like but\nsingle-column).",
     "file": "src/components/TreeSelect.tsx",
     "props": [
       {
@@ -22962,7 +23013,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((value: string | null) => void)",
         "description": "",
         "required": false
@@ -23010,7 +23061,7 @@
   },
   {
     "name": "TreeTable",
-    "description": "",
+    "description": "Data table with expandable tree rows. Combines `DataGrid`'s\nsorting/filtering with hierarchical grouping.",
     "file": "src/components/TreeTable.tsx",
     "props": [
       {
@@ -23133,7 +23184,7 @@
   },
   {
     "name": "TrendIndicator",
-    "description": "",
+    "description": "Up/down / flat arrow plus percentage showing a delta. Tones follow\ndirection (success on rise, danger on fall, with invertable semantics).",
     "file": "src/components/Metrics.tsx",
     "props": [
       {
@@ -23161,7 +23212,7 @@
   },
   {
     "name": "Typewriter",
-    "description": "",
+    "description": "Types out a string character by character. Respects\n`prefers-reduced-motion` (renders immediately).",
     "file": "src/components/Animations.tsx",
     "props": [
       {
@@ -23208,7 +23259,7 @@
   },
   {
     "name": "UnderlineIcon",
-    "description": "",
+    "description": "Underline icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -23281,7 +23332,7 @@
   },
   {
     "name": "UnlockIcon",
-    "description": "",
+    "description": "Unlock icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -23354,7 +23405,7 @@
   },
   {
     "name": "UnreadBadge",
-    "description": "",
+    "description": "Dot/count badge indicating unread items. Accessible count label via\n`aria-label`.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -23387,7 +23438,7 @@
   },
   {
     "name": "UploadIcon",
-    "description": "",
+    "description": "Upload icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -23460,7 +23511,7 @@
   },
   {
     "name": "UserCard",
-    "description": "",
+    "description": "User identity card: avatar, name, role, bio, and optional action row.",
     "file": "src/components/Identity.tsx",
     "props": [
       {
@@ -23491,7 +23542,7 @@
   },
   {
     "name": "UserIcon",
-    "description": "",
+    "description": "User icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -23564,7 +23615,7 @@
   },
   {
     "name": "UserMenu",
-    "description": "",
+    "description": "Avatar-triggered menu with account actions (profile, settings, sign out).\nBuilds on `Menu`.",
     "file": "src/components/NavigationExtended.tsx",
     "props": [
       {
@@ -23577,7 +23628,7 @@
   },
   {
     "name": "UsersIcon",
-    "description": "",
+    "description": "Users icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -23650,7 +23701,7 @@
   },
   {
     "name": "VideoPlayer",
-    "description": "",
+    "description": "Accessible video player with play/pause, scrub, volume, fullscreen, and\ncaptions support.",
     "file": "src/components/MediaPlayer.tsx",
     "props": [
       {
@@ -23744,7 +23795,7 @@
   },
   {
     "name": "ViolinPlot",
-    "description": "",
+    "description": "Violin plot (density + box combined). Axes: band x linear.",
     "file": "src/charts/ViolinPlot.tsx",
     "props": [
       {
@@ -23843,7 +23894,7 @@
   },
   {
     "name": "VirtualGrid",
-    "description": "",
+    "description": "Virtualised 2D grid. Renders only the visible cells; suitable for\nthousands of items.",
     "file": "src/components/Virtualization.tsx",
     "props": [
       {
@@ -23886,7 +23937,7 @@
   },
   {
     "name": "VirtualList",
-    "description": "",
+    "description": "Virtualised 1D list. Renders only the visible rows; supports variable\nheight via measurement.",
     "file": "src/components/Virtualization.tsx",
     "props": [
       {
@@ -23941,7 +23992,7 @@
   },
   {
     "name": "VoiceWaveform",
-    "description": "",
+    "description": "Animated audio waveform visualisation from a mic stream or a buffer.",
     "file": "src/components/MediaPlayer.tsx",
     "props": [
       {
@@ -24122,7 +24173,7 @@
   },
   {
     "name": "WarningIcon",
-    "description": "",
+    "description": "Warning icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -24195,7 +24246,7 @@
   },
   {
     "name": "WaterfallChart",
-    "description": "",
+    "description": "Waterfall chart showing running totals with positive/negative\ncontributions. Axes: band x linear.",
     "file": "src/charts/WaterfallChart.tsx",
     "props": [
       {
@@ -24280,7 +24331,7 @@
   },
   {
     "name": "WhatsNewPopover",
-    "description": "",
+    "description": "Popover that announces recent releases / changelog entries. Auto-dismisses\nwhen the user has seen the latest version.",
     "file": "src/components/HelpChangelog.tsx",
     "props": [
       {
@@ -24339,7 +24390,7 @@
   },
   {
     "name": "WidgetShell",
-    "description": "",
+    "description": "Standardised card-shaped shell for a dashboard widget: header, body,\noptional footer actions.",
     "file": "src/components/Widget.tsx",
     "props": [
       {
@@ -24401,7 +24452,7 @@
   },
   {
     "name": "Wizard",
-    "description": "Multi-step form/workflow container. Compose `Wizard.Step` (one per\nstep) and drive navigation with `Wizard.Previous` / `Wizard.Next` inside\n`Wizard.Footer`; `Wizard.StepIndicator` shows \"Step X of N\". Controlled\nvia `value` (step id) + `onChange`, or uncontrolled via `defaultValue`.\nPer-step validation via `canAdvance(id)`; `onComplete` fires from the\nlast step.",
+    "description": "Multi-step form/workflow container. Compose `Wizard.Step` (one per\nstep) and drive navigation with `Wizard.Previous` / `Wizard.Next` inside\n`Wizard.Footer`; `Wizard.StepIndicator` shows \"Step X of N\". Controlled\nvia `value` (step id) + `onValueChange`, or uncontrolled via `defaultValue`.\nPer-step validation via `canAdvance(id)`; `onComplete` fires from the\nlast step.",
     "file": "src/components/Wizard.tsx",
     "props": [
       {
@@ -24417,7 +24468,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((stepId: string) => void)",
         "description": "",
         "required": false
@@ -24445,7 +24496,7 @@
   },
   {
     "name": "XIcon",
-    "description": "",
+    "description": "X icon. Decorative by default; supply `label` to promote to `role=\"img\"`.\nMonoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
     "props": [
       {
@@ -24518,7 +24569,7 @@
   },
   {
     "name": "Zoomable",
-    "description": "",
+    "description": "Wrapper that makes a child pan + zoomable (pinch / wheel / drag). Emits\nthe current transform.",
     "file": "src/components/Gestures.tsx",
     "props": [
       {

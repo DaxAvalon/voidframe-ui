@@ -157,7 +157,12 @@ export interface DropdownProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
-/** @deprecated Use `Menu` from `voidframe` instead. Will be removed in v1.1. */
+/**
+ * Simple trigger + menu dropdown. For richer composition (submenus,
+ * checkbox items, radio groups) use `Menu`.
+ *
+ * @deprecated Use `Menu` from `voidframe` instead. Will be removed in v1.1.
+ */
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(function Dropdown(
   { trigger, items, align = "left", className, style, ...props },
   ref
@@ -284,7 +289,13 @@ export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
-/** @deprecated Use `AlertV2` from `voidframe` instead. Will be removed in v1.1. */
+/**
+ * Inline notice block with a `tone` (`info` | `success` | `warning` |
+ * `danger`), optional `title`, icon, and dismiss affordance. For transient
+ * popups use `Toast`; for blocking confirmation use `Dialog` / `AlertDialog`.
+ *
+ * @deprecated Use `AlertV2` from `voidframe` instead. Will be removed in v1.1.
+ */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   { type = "info", title, children, onDismiss, className, style, ...props },
   ref
@@ -342,7 +353,14 @@ export interface ConfirmDialogProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
-/** @deprecated Use `ConfirmDialogV2` from `voidframe` instead. Will be removed in v1.1. */
+/**
+ * Prompted confirmation dialog. Renders title, message, and Confirm/Cancel
+ * buttons; use the paired `useConfirm` hook for an imperative Promise-based
+ * flow.
+ *
+ * @deprecated Use `ConfirmDialogV2` from `voidframe` instead. Will be
+ * removed in v1.1.
+ */
 export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
   function ConfirmDialog(
     {

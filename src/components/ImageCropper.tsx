@@ -87,6 +87,10 @@ function applyAspect(
   };
 }
 
+/**
+ * Interactive image cropper. Emits the cropped region as a data URL or
+ * `Blob` on commit.
+ */
 export const ImageCropper = forwardRef<HTMLDivElement, ImageCropperProps>(
   function ImageCropper(
     {

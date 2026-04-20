@@ -33,6 +33,10 @@ export interface NumberStepperProps
   hideInput?: boolean;
 }
 
+/**
+ * Numeric input with +/- buttons. Thinner than `NumberInput` for table cells
+ * and toolbars.
+ */
 export const NumberStepper = memo(
   forwardRef<HTMLDivElement, NumberStepperProps>(function NumberStepper(
     {

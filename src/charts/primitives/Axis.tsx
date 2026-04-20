@@ -38,6 +38,10 @@ export interface AxisProps
 
 const LABEL_OFFSET = 8;
 
+/**
+ * Chart axis primitive. Renders ticks, gridlines, and an axis label for the
+ * enclosing chart's X or Y scale. Compose with `ChartFrame`.
+ */
 export const Axis = forwardRef<SVGGElement, AxisProps>(function Axis(
   {
     orientation,

@@ -90,6 +90,10 @@ function SmallMultiplesInner<T>(
   );
 }
 
+/**
+ * Grid of small charts sharing encoding / scale. Good for comparing many
+ * categories at once.
+ */
 export const SmallMultiples = forwardRef(SmallMultiplesInner) as <T>(
   props: SmallMultiplesProps<T> & { ref?: React.Ref<HTMLDivElement> }
 ) => ReturnType<typeof SmallMultiplesInner>;

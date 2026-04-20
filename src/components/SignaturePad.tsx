@@ -102,6 +102,10 @@ function redraw(
   }
 }
 
+/**
+ * Pointer-drawn signature pad. Emits the trace as a data URL or stroke list
+ * on commit.
+ */
 export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
   function SignaturePad(
     {

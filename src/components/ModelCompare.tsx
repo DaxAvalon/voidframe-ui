@@ -169,6 +169,10 @@ const ModelCompareImpl = forwardRef<HTMLDivElement, ModelCompareProps>(
   }
 );
 ModelCompareImpl.displayName = "ModelCompare";
+/**
+ * Side-by-side comparison UI for model outputs. Synced scroll and per-column
+ * metrics.
+ */
 export const ModelCompare = memo(ModelCompareImpl);
 (ModelCompare as unknown as { displayName: string }).displayName =
   "ModelCompare";

@@ -161,6 +161,10 @@ const FloatingActionButtonImpl = forwardRef<
   );
 });
 FloatingActionButtonImpl.displayName = "FloatingActionButton";
+/**
+ * Fixed-position circular action button (material-style FAB). Anchored to a
+ * corner; supports an optional expanded action tray.
+ */
 export const FloatingActionButton = memo(FloatingActionButtonImpl);
 (FloatingActionButton as unknown as { displayName: string }).displayName =
   "FloatingActionButton";

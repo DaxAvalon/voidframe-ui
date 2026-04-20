@@ -28,6 +28,10 @@ export interface TreeTableProps<T = Record<string, unknown>>
   style?: CSSProperties;
 }
 
+/**
+ * Data table with expandable tree rows. Combines `DataGrid`'s
+ * sorting/filtering with hierarchical grouping.
+ */
 export const TreeTable = genericForwardRef(function TreeTable<
   T = Record<string, unknown>,
 >(

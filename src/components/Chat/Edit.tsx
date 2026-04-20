@@ -24,6 +24,10 @@ export interface MessageEditProps
   autoFocus?: boolean;
 }
 
+/**
+ * Inline edit mode for a chat message: textarea plus Save / Cancel. Keyboard
+ * Esc to cancel, Cmd+Enter to save.
+ */
 export const MessageEdit = forwardRef<HTMLDivElement, MessageEditProps>(
   function MessageEdit(
     {

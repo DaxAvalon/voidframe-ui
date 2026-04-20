@@ -57,6 +57,10 @@ export interface ResponsiveBoxProps
   children?: ReactNode;
 }
 
+/**
+ * Escape hatch responsive container: accepts a render-prop that receives the
+ * current breakpoint.
+ */
 export const ResponsiveBox = forwardRef<HTMLDivElement, ResponsiveBoxProps>(
   function ResponsiveBox(props, ref) {
     const {

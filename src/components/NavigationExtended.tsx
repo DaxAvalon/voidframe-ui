@@ -198,6 +198,10 @@ function ScrollSpyItem({
   );
 }
 
+/**
+ * Tracks which anchored section is in view and exposes it via context /
+ * render-prop. Pair with `Navigation` for TOC highlighting.
+ */
 export const ScrollSpy = Object.assign(ScrollSpyBase, {
   List: ScrollSpyList,
   Item: ScrollSpyItem,
@@ -212,6 +216,10 @@ export interface BackToTopProps extends ButtonHTMLAttributes<HTMLButtonElement> 
   label?: string;
 }
 
+/**
+ * Floating button that scrolls the page (or a configured container) back to
+ * the top once the user has scrolled past a threshold.
+ */
 export const BackToTop = forwardRef<HTMLButtonElement, BackToTopProps>(
   function BackToTop(
     { threshold = 300, position = "bottom-right", label = "Back to top", className, ...props },
@@ -290,6 +298,10 @@ export interface ShortcutProps extends HTMLAttributes<HTMLSpanElement> {
   keys: string;
 }
 
+/**
+ * Inline rendered keyboard shortcut (`Cmd+K`). Purely visual; for actual
+ * binding use `useKeyboardShortcut`.
+ */
 export const Shortcut = forwardRef<HTMLSpanElement, ShortcutProps>(
   function Shortcut({ keys, className, ...props }, ref) {
     const table = isMacLike() ? KEY_ALIASES_MAC : KEY_ALIASES_PC;
@@ -330,6 +342,10 @@ export interface TreeNavProps
   defaultExpanded?: string[];
 }
 
+/**
+ * Hierarchical navigation tree. Expand/collapse nodes with keyboard;
+ * active-path highlighting.
+ */
 export const TreeNav = forwardRef<HTMLDivElement, TreeNavProps>(function TreeNav(
   { items, activeId, onSelect, defaultExpanded = [], className, ...props },
   ref
@@ -499,6 +515,10 @@ function UserMenuSeparator(props: HTMLAttributes<HTMLDivElement>) {
   );
 }
 
+/**
+ * Avatar-triggered menu with account actions (profile, settings, sign out).
+ * Builds on `Menu`.
+ */
 export const UserMenu = Object.assign(UserMenuBase, {
   Item: UserMenuItem,
   Separator: UserMenuSeparator,

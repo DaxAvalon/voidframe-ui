@@ -30,6 +30,10 @@ export interface QRCodeProps extends HTMLAttributes<HTMLDivElement> {
   logo?: ReactNode;
 }
 
+/**
+ * Renders a QR code SVG from a string. Configurable error-correction level
+ * and cell size.
+ */
 export const QRCode = forwardRef<HTMLDivElement, QRCodeProps>(function QRCode(
   {
     value,
@@ -167,6 +171,10 @@ export interface BarcodeProps extends HTMLAttributes<HTMLDivElement> {
   showText?: boolean;
 }
 
+/**
+ * Renders a 1D barcode (CODE128 / EAN) from a value. Purely visual — use a
+ * dedicated library for decoding.
+ */
 export const Barcode = forwardRef<HTMLDivElement, BarcodeProps>(function Barcode(
   {
     value,

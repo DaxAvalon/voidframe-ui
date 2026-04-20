@@ -25,6 +25,10 @@ export interface AreaProps
   fillOpacity?: number;
 }
 
+/**
+ * Area series primitive for line/area charts. Fills between a baseline and a
+ * datum series using the enclosing chart's X/Y scales.
+ */
 export const Area = forwardRef<SVGPathElement, AreaProps>(function Area(
   {
     data,

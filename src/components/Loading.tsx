@@ -22,6 +22,10 @@ export interface LoadingOverlayProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Semi-transparent scrim with a centred spinner, overlaid on a
+ * relatively-positioned parent while async work is in flight.
+ */
 export const LoadingOverlay = forwardRef<HTMLDivElement, LoadingOverlayProps>(
   function LoadingOverlay(
     { open = true, label, blur, color, className, style, children, ...props },
@@ -68,6 +72,10 @@ export interface SpinnerV2Props extends HTMLAttributes<HTMLDivElement> {
   label?: string;
 }
 
+/**
+ * Successor spinner with richer size and tone variants. Source-compatible
+ * with `Spinner` for most uses.
+ */
 export const SpinnerV2 = forwardRef<HTMLDivElement, SpinnerV2Props>(function SpinnerV2(
   { size = 16, variant = "ring", color, label = "Loading", className, style, ...props },
   ref
@@ -138,6 +146,10 @@ export interface ShimmerProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Low-level shimmer animation primitive used by skeletons. Respects
+ * `prefers-reduced-motion`.
+ */
 export const Shimmer = forwardRef<HTMLDivElement, ShimmerProps>(function Shimmer(
   { width, height = 14, lines = 1, rounded, className, style, ...props },
   ref
@@ -187,6 +199,10 @@ export interface ErrorStateProps extends Omit<HTMLAttributes<HTMLDivElement>, "t
   compact?: boolean;
 }
 
+/**
+ * Centred error display: icon, title, message, and retry / support actions.
+ * Paired with `AsyncData` and error boundaries.
+ */
 export const ErrorState = forwardRef<HTMLDivElement, ErrorStateProps>(
   function ErrorState(
     {

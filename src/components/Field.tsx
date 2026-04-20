@@ -101,6 +101,9 @@ export interface FieldLabelProps extends HTMLAttributes<HTMLLabelElement> {
   children?: ReactNode;
 }
 
+/**
+ * Label slot for `Field`. Auto-wires `htmlFor` to the nested control.
+ */
 export const FieldLabel = forwardRef<HTMLElement, FieldLabelProps>(
   function FieldLabel({ children, className, ...props }, ref) {
     const ctx = useFieldContext("Field.Label");
@@ -172,6 +175,10 @@ export interface FieldHelpProps extends HTMLAttributes<HTMLSpanElement> {
   children?: ReactNode;
 }
 
+/**
+ * Help-text slot for `Field`. Auto-wired to the control via
+ * `aria-describedby`.
+ */
 export const FieldHelp = forwardRef<HTMLSpanElement, FieldHelpProps>(
   function FieldHelp({ children, className, ...props }, ref) {
     const ctx = useFieldContext("Field.Help");
@@ -197,6 +204,10 @@ export interface FieldErrorProps extends HTMLAttributes<HTMLSpanElement> {
   children?: ReactNode;
 }
 
+/**
+ * Error slot for `Field`. Renders only when the field's validation state is
+ * invalid. Auto-wired to the control via `aria-describedby`.
+ */
 export const FieldError = forwardRef<HTMLSpanElement, FieldErrorProps>(
   function FieldError({ children, className, ...props }, ref) {
     const ctx = useFieldContext("Field.Error");
@@ -222,9 +233,20 @@ FieldError.displayName = "Field.Error";
 type ForwardRefExoticWithSub<E, P> = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<P> & React.RefAttributes<E>
 > & {
+  /**
+   * Label slot for `Field`. Auto-wires `htmlFor` to the nested control.
+   */
   Label: typeof FieldLabel;
   Control: typeof FieldControl;
+  /**
+   * Help-text slot for `Field`. Auto-wired to the control via
+   * `aria-describedby`.
+   */
   Help: typeof FieldHelp;
+  /**
+   * Error slot for `Field`. Renders only when the field's validation state
+   * is invalid. Auto-wired to the control via `aria-describedby`.
+   */
   Error: typeof FieldError;
 };
 (Field as ForwardRefExoticWithSub<HTMLDivElement, FieldProps>).Label = FieldLabel;

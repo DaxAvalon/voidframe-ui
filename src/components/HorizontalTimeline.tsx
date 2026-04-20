@@ -105,6 +105,10 @@ const HorizontalTimelineImpl = forwardRef<
   );
 });
 HorizontalTimelineImpl.displayName = "HorizontalTimeline";
+/**
+ * Horizontal timeline of events with a scrollable track. Good for roadmaps
+ * or release history.
+ */
 export const HorizontalTimeline = memo(HorizontalTimelineImpl);
 (HorizontalTimeline as unknown as { displayName: string }).displayName =
   "HorizontalTimeline";

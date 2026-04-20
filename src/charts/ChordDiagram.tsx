@@ -54,6 +54,10 @@ interface GroupArcLayout {
   subAngles: Array<{ target: number; start: number; end: number; value: number }>;
 }
 
+/**
+ * Circular chord diagram showing weighted relationships between categories.
+ * Matrix-in, arcs-out layout.
+ */
 export const ChordDiagram = forwardRef<HTMLDivElement, ChordDiagramProps>(
   function ChordDiagram(
     {

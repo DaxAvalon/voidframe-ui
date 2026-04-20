@@ -67,6 +67,9 @@ export interface TreeMapProps
   colorForGroup?: (group: string) => string;
 }
 
+/**
+ * Hierarchical rectangle tiling weighted by value. Peer: `d3-hierarchy`.
+ */
 export const TreeMap = forwardRef<HTMLDivElement, TreeMapProps>(
   function TreeMap(
     {

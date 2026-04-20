@@ -74,6 +74,10 @@ function Cell({ data, xKey, yKey, height, showAxes, series }: CellProps) {
   );
 }
 
+/**
+ * Scatterplot matrix: small-multiples grid pairing every dimension against
+ * every other.
+ */
 export const ScatterMatrix = forwardRef<HTMLDivElement, ScatterMatrixProps>(
   function ScatterMatrix(
     {

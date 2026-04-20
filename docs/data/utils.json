@@ -136,6 +136,7 @@
     "name": "DEFAULT_PORTAL_ID",
     "kind": "variable",
     "signature": "DEFAULT_PORTAL_ID = \"vf-portal-root\"",
+    "description": "Default DOM id for voidframe's portal root: `\"vf-portal-root\"`.",
     "file": "src/utils/portalContainer.ts"
   },
   {
@@ -247,6 +248,7 @@
     "name": "getLogger",
     "kind": "function",
     "signature": "export function getLogger(): VoidframeLogger",
+    "description": "Read the currently-installed logger used by `warn()` / `warnOnce()`.\nUseful in tests that want to assert on a captured output. Mirror of\n`setLogger`.",
     "file": "src/utils/warn.ts"
   },
   {
@@ -624,6 +626,7 @@
     "name": "uid",
     "kind": "function",
     "signature": "export function uid(prefix: string = \"vf\"): string",
+    "description": "Generate a short unique ID (monotonic counter, prefixed). Useful for\nnon-ARIA identifiers where `useId` isn't an option (e.g. module-level\ncaches). Not cryptographically random.\n\n@param prefix Default `\"vf\"`.",
     "file": "src/utils/formatters.ts"
   },
   {

@@ -535,6 +535,10 @@ export interface DateRangePickerProps
   style?: CSSProperties;
 }
 
+/**
+ * Two-month calendar for picking a date range. Controllable via `value` /
+ * `onChange`; keyboard-navigable.
+ */
 export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
   function DateRangePicker(
     {

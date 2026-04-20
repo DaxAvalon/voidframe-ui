@@ -102,6 +102,10 @@ function computeLayers(
   return layer;
 }
 
+/**
+ * Directed graph of dependencies with hierarchical layout. Useful for module
+ * / package / task graphs.
+ */
 export const DependencyGraph = forwardRef<HTMLDivElement, DependencyGraphProps>(
   function DependencyGraph(
     {

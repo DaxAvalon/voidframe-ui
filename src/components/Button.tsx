@@ -148,6 +148,10 @@ export interface ButtonGroupProps {
   style?: CSSProperties;
 }
 
+/**
+ * Horizontal group of buttons with unified borders. Accepts `Button` or
+ * `IconButton` children and exposes `attached` / `size` / `variant` props.
+ */
 export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
   function ButtonGroup({ options, value, onValueChange, accent, size, className, style }, ref) {
     return (

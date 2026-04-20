@@ -488,6 +488,10 @@ export function renderMarkdownBlocks(
   return <>{blocks}</>;
 }
 
+/**
+ * Markdown editor with live preview. Sanitises rendered HTML via DOMPurify
+ * (peer dependency).
+ */
 export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
   function MarkdownEditor(
     {

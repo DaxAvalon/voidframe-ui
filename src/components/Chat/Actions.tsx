@@ -155,6 +155,10 @@ const BranchAction = namedAction(
   "Branch from here"
 );
 
+/**
+ * Action rail for a chat message (copy / edit / regenerate / react). Visible
+ * on hover, keyboard-accessible.
+ */
 export const MessageActions = Object.assign(MessageActionsRoot, {
   Button: MessageActionButton,
   Copy: CopyAction,

@@ -81,6 +81,11 @@ export interface AreaChartProps
   hiddenKeys?: string[];
 }
 
+/**
+ * Area chart over a shared X axis. Axes: linear or time (X), linear (Y).
+ * Interactions: hover crosshair, tooltip, legend toggle. Accepts `data` as
+ * `{ x: number|Date; [series: string]: number }[]`.
+ */
 export const AreaChart = forwardRef<HTMLDivElement, AreaChartProps>(
   function AreaChart(
     {

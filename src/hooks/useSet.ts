@@ -14,6 +14,10 @@ export interface UseSetReturn<T> {
   toArray: () => T[];
 }
 
+/**
+ * Set-state helper: returns `{ set, add, delete, toggle, clear, has, values
+ * }`. Useful for "selected IDs" collections.
+ */
 export function useSet<T>(initialValues?: Iterable<T>): UseSetReturn<T> {
   const initialRef = useRef(initialValues);
   const [set, setSet] = useState<Set<T>>(() => new Set(initialValues ?? []));

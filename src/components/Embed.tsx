@@ -35,6 +35,10 @@ export interface IFrameProps
   sandbox?: string;
 }
 
+/**
+ * Sandboxed `<iframe>` wrapper with safe defaults (no top navigation,
+ * restricted sandbox). Emits `onLoad`.
+ */
 export const IFrame = forwardRef<HTMLIFrameElement, IFrameProps>(function IFrame(
   {
     src,
@@ -122,6 +126,10 @@ export interface DocumentPreviewProps extends HTMLAttributes<HTMLDivElement> {
   readOnly?: boolean;
 }
 
+/**
+ * Renders a preview for a document attachment (PDF / image / text). Falls
+ * back to an icon + filename card.
+ */
 export const DocumentPreview = forwardRef<HTMLDivElement, DocumentPreviewProps>(
   function DocumentPreview(
     {

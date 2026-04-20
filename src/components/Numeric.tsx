@@ -25,6 +25,10 @@ export interface NumberDisplayProps
   tone?: "neutral" | "success" | "warning" | "danger" | "info";
 }
 
+/**
+ * Locale-aware number formatter via `Intl.NumberFormat`. Takes `value` and
+ * optional precision / notation.
+ */
 export const NumberDisplay = forwardRef<HTMLSpanElement, NumberDisplayProps>(
   function NumberDisplay(
     {
@@ -86,6 +90,10 @@ export interface CurrencyDisplayProps
   decimals?: number;
 }
 
+/**
+ * Locale-aware currency formatter via `Intl.NumberFormat`. Takes a numeric
+ * `value`, ISO currency code, and optional precision override.
+ */
 export const CurrencyDisplay = forwardRef<
   HTMLSpanElement,
   CurrencyDisplayProps
@@ -160,6 +168,10 @@ export interface PercentDisplayProps
   autoTone?: boolean;
 }
 
+/**
+ * Locale-aware percentage formatter. Takes a 0-1 ratio and emits a localised
+ * percent string.
+ */
 export const PercentDisplay = forwardRef<
   HTMLSpanElement,
   PercentDisplayProps
@@ -223,6 +235,10 @@ export interface BigNumberProps extends HTMLAttributes<HTMLDivElement> {
   size?: "md" | "lg" | "xl";
 }
 
+/**
+ * Large hero metric: value, optional delta/trend, and caption. Use inside
+ * dashboards; pair with `Sparkline` for an inline trend.
+ */
 export const BigNumber = forwardRef<HTMLDivElement, BigNumberProps>(
   function BigNumber(
     {

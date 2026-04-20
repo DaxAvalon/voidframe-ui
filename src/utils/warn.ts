@@ -72,6 +72,11 @@ export function setLogger(next: Partial<VoidframeLogger>): void {
   logger = { ...logger, ...next };
 }
 
+/**
+ * Read the currently-installed logger used by `warn()` / `warnOnce()`.
+ * Useful in tests that want to assert on a captured output. Mirror of
+ * `setLogger`.
+ */
 export function getLogger(): VoidframeLogger {
   return logger;
 }

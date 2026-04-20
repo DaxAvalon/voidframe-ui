@@ -161,6 +161,10 @@ function hslaToHex(hsla: HSLA): string {
 
 // ── component ──────────────────────────────────────────────────
 
+/**
+ * Colour picker with hue/saturation area, alpha slider, hex/rgb/hsl input,
+ * and optional preset palette. Controllable via `value` / `onChange`.
+ */
 export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
   function ColorPicker(
     {

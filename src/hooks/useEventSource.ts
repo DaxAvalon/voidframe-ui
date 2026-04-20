@@ -21,6 +21,11 @@ export interface UseEventSourceReturn {
   reconnect: () => void;
 }
 
+/**
+ * Managed Server-Sent-Events (SSE) subscription. Auto-reconnects with
+ * exponential backoff; exposes `{ data, readyState, error, close }`. Pass
+ * `null` for `url` to pause the subscription.
+ */
 export function useEventSource(
   url: string | null,
   options: UseEventSourceOptions = {}

@@ -38,6 +38,10 @@ const KIND_ICON: Record<AttachmentKind, string> = {
   code: "<>",
 };
 
+/**
+ * Single attachment chip: icon, filename, size, optional preview / download
+ * affordances. Used inside `AttachmentList` and the composer.
+ */
 export const Attachment = forwardRef<HTMLDivElement, AttachmentProps>(
   function Attachment(
     {
@@ -127,6 +131,10 @@ export interface AttachmentListProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Horizontal list of `Attachment` chips with overflow handling. Feed `items`
+ * as `{ id, name, size, kind, url }[]`.
+ */
 export const AttachmentList = forwardRef<HTMLDivElement, AttachmentListProps>(
   function AttachmentList(
     { orientation = "horizontal", className, children, ...props },
@@ -163,6 +171,10 @@ export interface ImageAttachmentProps extends HTMLAttributes<HTMLDivElement> {
   onRemove?: () => void;
 }
 
+/**
+ * Attachment variant for images — shows a thumbnail plus filename/size
+ * metadata.
+ */
 export const ImageAttachment = forwardRef<HTMLDivElement, ImageAttachmentProps>(
   function ImageAttachment(
     { src, alt, width, height, name, onOpen, onRemove, className, ...props },
@@ -218,6 +230,10 @@ export interface FileAttachmentProps
   extension?: string;
 }
 
+/**
+ * Attachment variant for a generic file — shows filename, size, and
+ * kind-specific icon.
+ */
 export const FileAttachment = forwardRef<HTMLDivElement, FileAttachmentProps>(
   function FileAttachment({ extension, icon, ...props }, ref) {
     return (
@@ -244,6 +260,10 @@ export interface CodeAttachmentProps extends HTMLAttributes<HTMLDivElement> {
   onDownload?: () => void;
 }
 
+/**
+ * Attachment variant for code snippets: filename, language badge,
+ * collapsible preview.
+ */
 export const CodeAttachment = forwardRef<HTMLDivElement, CodeAttachmentProps>(
   function CodeAttachment(
     {
@@ -335,6 +355,10 @@ export interface AudioAttachmentProps
   onDownload?: () => void;
 }
 
+/**
+ * Attachment variant for audio files — shows duration and a compact inline
+ * `AudioPlayer` on expand.
+ */
 export const AudioAttachment = forwardRef<HTMLDivElement, AudioAttachmentProps>(
   function AudioAttachment(
     { src, title, duration, onRemove, onDownload, className, ...props },

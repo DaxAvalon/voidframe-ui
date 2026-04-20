@@ -19,6 +19,10 @@ import { VStack, type StackProps } from "./Layout";
 
 // ── Stack — semantic alias of VStack ──────────────────────────
 
+/**
+ * Vertical or horizontal flex stack with a `gap` prop. Composable and
+ * responsive.
+ */
 export const Stack = forwardRef<HTMLDivElement, StackProps>(function Stack(
   props,
   ref
@@ -40,6 +44,10 @@ export interface GridItemProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Child of `DashboardGrid` (or any CSS-grid parent) that declares column/row
+ * span per breakpoint.
+ */
 export const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
   function GridItem(
     {
@@ -93,6 +101,10 @@ export interface StickyProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Wrapper that makes its child `position: sticky` with configurable offset
+ * and enabled breakpoints.
+ */
 export const Sticky = forwardRef<HTMLDivElement, StickyProps>(function Sticky(
   { top, bottom, zIndex, className, style, ...props },
   ref
@@ -127,6 +139,10 @@ export interface SafeAreaProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Inset wrapper that respects the device's safe-area insets (notches,
+ * rounded corners) on iOS/Android.
+ */
 export const SafeArea = forwardRef<HTMLDivElement, SafeAreaProps>(
   function SafeArea(
     { top, right, bottom, left, className, style, ...props },
@@ -160,6 +176,9 @@ export interface SectionProps extends Omit<HTMLAttributes<HTMLElement>, "title">
   headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
+/**
+ * Semantic section block with heading slot and consistent vertical rhythm.
+ */
 export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
   {
     title,
@@ -263,6 +282,10 @@ export interface EmptyLayoutProps extends HTMLAttributes<HTMLDivElement> {
   maxWidth?: "sm" | "md" | "lg" | number | string;
 }
 
+/**
+ * Minimal layout shell with just a centred slot — for error pages, login
+ * screens, etc.
+ */
 export const EmptyLayout = forwardRef<HTMLDivElement, EmptyLayoutProps>(
   function EmptyLayout({ maxWidth = "md", className, style, ...props }, ref) {
     const widthMap: Record<string, string> = {

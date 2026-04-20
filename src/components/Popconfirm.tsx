@@ -264,5 +264,9 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
   }
 );
 PopconfirmImpl.displayName = "Popconfirm";
+/**
+ * Lightweight confirmation popover anchored to a trigger. Cheaper than a
+ * full modal for simple yes/no prompts.
+ */
 export const Popconfirm = memo(PopconfirmImpl);
 (Popconfirm as unknown as { displayName: string }).displayName = "Popconfirm";

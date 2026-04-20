@@ -61,6 +61,10 @@ export interface StreamGraphProps
   xFormat?: (v: number | Date | string) => string;
 }
 
+/**
+ * Stream graph (river plot) for stacked time-series. Visually emphasises
+ * category flow over time.
+ */
 export const StreamGraph = forwardRef<HTMLDivElement, StreamGraphProps>(
   function StreamGraph(
     {

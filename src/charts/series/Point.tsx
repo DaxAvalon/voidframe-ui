@@ -30,6 +30,10 @@ export interface PointProps extends SVGAttributes<SVGGElement> {
   ) => void;
 }
 
+/**
+ * Point (scatter) series primitive. Plots individual `{ x, y }` marks using
+ * the enclosing chart's scales.
+ */
 export const Point = forwardRef<SVGGElement, PointProps>(function Point(
   {
     data,

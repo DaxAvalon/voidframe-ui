@@ -371,6 +371,10 @@ export interface AudioPlayerProps
   style?: CSSProperties;
 }
 
+/**
+ * Accessible audio player with play/pause, scrub bar, time readout, and
+ * volume. Wraps the native `<audio>` element and exposes keyboard controls.
+ */
 export const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
   function AudioPlayer(
     {
@@ -632,6 +636,10 @@ function DefaultControls({ audioOnly, showPlaybackRate, showPiP }: { audioOnly?:
   );
 }
 
+/**
+ * Accessible video player with play/pause, scrub, volume, fullscreen, and
+ * captions support.
+ */
 export const VideoPlayer = Object.assign(VideoPlayerRoot, {
   Play: PlayButton,
   Progress: ProgressBar,
@@ -664,6 +672,9 @@ export interface VoiceWaveformProps extends HTMLAttributes<HTMLDivElement> {
   activeColor?: string;
 }
 
+/**
+ * Animated audio waveform visualisation from a mic stream or a buffer.
+ */
 export const VoiceWaveform = forwardRef<HTMLDivElement, VoiceWaveformProps>(
   function VoiceWaveform(
     {

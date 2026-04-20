@@ -134,6 +134,10 @@ const TokenVisualizerImpl = forwardRef<HTMLDivElement, TokenVisualizerProps>(
   }
 );
 TokenVisualizerImpl.displayName = "TokenVisualizer";
+/**
+ * Visualises tokenisation of a string: each token rendered as a chip with
+ * index and id.
+ */
 export const TokenVisualizer = memo(TokenVisualizerImpl);
 (TokenVisualizer as unknown as { displayName: string }).displayName =
   "TokenVisualizer";

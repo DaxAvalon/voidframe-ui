@@ -53,6 +53,10 @@ function resolveTarget(target: SpotlightStep["target"]): HTMLElement | null {
   return target;
 }
 
+/**
+ * Dimmed overlay with a cut-out highlighting a target element. Used by
+ * `CoachMark`.
+ */
 export const Spotlight = forwardRef<HTMLDivElement, SpotlightProps>(function Spotlight(
   {
     steps,
@@ -255,6 +259,10 @@ function writeDismissed(key: string | undefined): void {
   }
 }
 
+/**
+ * Spotlight / coach-mark overlay that anchors a tooltip-style card to a
+ * target element. Use for onboarding tours.
+ */
 export const CoachMark = forwardRef<HTMLDivElement, CoachMarkProps>(function CoachMark(
   {
     target,

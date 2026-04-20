@@ -78,6 +78,10 @@ interface InternalLink {
   width?: number;
 }
 
+/**
+ * Sankey flow diagram. Weighted links between nodes; auto-layout via
+ * `d3-sankey` (peer).
+ */
 export const Sankey = forwardRef<HTMLDivElement, SankeyProps>(function Sankey(
   {
     nodes,

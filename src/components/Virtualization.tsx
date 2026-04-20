@@ -35,6 +35,10 @@ export interface VirtualListProps<T>
   style?: CSSProperties;
 }
 
+/**
+ * Virtualised 1D list. Renders only the visible rows; supports variable
+ * height via measurement.
+ */
 export const VirtualList = genericForwardRef(function VirtualList<T>(
   {
     items,
@@ -185,6 +189,10 @@ export interface VirtualGridProps<T>
   style?: CSSProperties;
 }
 
+/**
+ * Virtualised 2D grid. Renders only the visible cells; suitable for
+ * thousands of items.
+ */
 export const VirtualGrid = genericForwardRef(function VirtualGrid<T>(
   {
     items,
@@ -283,6 +291,10 @@ export interface InfiniteScrollProps extends HTMLAttributes<HTMLDivElement> {
   scrollParent?: HTMLElement | null;
 }
 
+/**
+ * Infinite scroll loader. Calls `onLoadMore` when the sentinel enters the
+ * viewport; renders a loading indicator slot.
+ */
 export const InfiniteScroll = forwardRef<HTMLDivElement, InfiniteScrollProps>(
   function InfiniteScroll(
     {

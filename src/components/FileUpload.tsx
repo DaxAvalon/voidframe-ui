@@ -102,6 +102,10 @@ function generateThumbnail(file: File): Promise<string | undefined> {
   });
 }
 
+/**
+ * File upload control with drag-drop, picker, progress per file, and list
+ * management. Supports multiple files and size/type constraints.
+ */
 export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
   function FileUpload(
     {

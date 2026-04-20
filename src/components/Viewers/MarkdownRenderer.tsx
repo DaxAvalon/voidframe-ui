@@ -46,6 +46,10 @@ export interface MarkdownRendererProps extends HTMLAttributes<HTMLDivElement> {
   components?: MarkdownComponentMap;
 }
 
+/**
+ * Safe markdown renderer. Sanitises HTML via DOMPurify (peer dependency);
+ * supports code blocks, tables, task lists.
+ */
 export const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
   function MarkdownRenderer(
     { content, linkTarget, plugins, components, className, ...props },

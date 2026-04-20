@@ -301,4 +301,8 @@ const TransferImpl = forwardRef<HTMLDivElement, TransferProps>(
 );
 TransferImpl.displayName = "Transfer";
 
+/**
+ * Two-list transfer component. Users move items between `source` and
+ * `target` with keyboard / button controls.
+ */
 export const Transfer = memo(TransferImpl);

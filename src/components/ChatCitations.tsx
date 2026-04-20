@@ -27,6 +27,10 @@ export interface CitationProps
   onClick?: (source: SourceRef | undefined) => void;
 }
 
+/**
+ * Inline numbered citation chip linking to a source. Click / hover reveals
+ * the source card.
+ */
 export const Citation = forwardRef<HTMLSpanElement, CitationProps>(
   function Citation(
     { index, source, tooltip = true, onClick, className, ...props },
@@ -70,6 +74,10 @@ export interface CitationListProps
   compact?: boolean;
 }
 
+/**
+ * Numbered list of citations paired with their source cards. Pairs with
+ * inline `Citation` chips.
+ */
 export const CitationList = forwardRef<HTMLOListElement, CitationListProps>(
   function CitationList(
     { sources, onSourceClick, title, compact, className, ...props },
@@ -181,6 +189,10 @@ export interface SourceCardProps
   onOpen?: () => void;
 }
 
+/**
+ * Citation-source card: title, URL, snippet, and metadata. Paired with
+ * `Citation` / `CitationList`.
+ */
 export const SourceCard = forwardRef<HTMLElement, SourceCardProps>(
   function SourceCard(
     {
@@ -272,6 +284,9 @@ export interface SourceGridProps extends HTMLAttributes<HTMLDivElement> {
   columns?: number;
 }
 
+/**
+ * Grid of `SourceCard`s. Used when multiple sources back a single response.
+ */
 export const SourceGrid = forwardRef<HTMLDivElement, SourceGridProps>(
   function SourceGrid(
     { sources, onSourceClick, columns, className, style, ...props },
@@ -327,6 +342,10 @@ export interface RAGContextProps
   title?: ReactNode;
 }
 
+/**
+ * Retrieval-augmented-generation context panel: retrieved chunks with
+ * source, score, and preview.
+ */
 export const RAGContext = forwardRef<HTMLDivElement, RAGContextProps>(
   function RAGContext(
     {

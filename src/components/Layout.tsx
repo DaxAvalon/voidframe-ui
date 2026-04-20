@@ -186,6 +186,10 @@ export interface CenterProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Layout primitive that centers its single child on both axes. Honours the
+ * parent's available space.
+ */
 export const Center = forwardRef<HTMLDivElement, CenterProps>(function Center(
   { children, className, style, ...props },
   ref
@@ -204,6 +208,10 @@ export interface AspectRatioProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Layout wrapper that locks its content to a given `ratio` (e.g. `16/9`).
+ * Works in flex/grid parents without JS measurement.
+ */
 export const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
   function AspectRatio({ ratio = 16 / 9, children, className, style, ...props }, ref) {
     const inline: CSSProperties = {
@@ -232,6 +240,9 @@ export interface SplitViewProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Two-pane split view with a draggable divider. Controllable split ratio.
+ */
 export const SplitView = forwardRef<HTMLDivElement, SplitViewProps>(
   function SplitView({ left, right, sidebarWidth, gap, className, style, ...props }, ref) {
     const inline: CSSProperties = {

@@ -18,7 +18,7 @@
     "body": [
       "<Accordion />"
     ],
-    "description": "Voidframe Accordion component.",
+    "description": "Vertical stack of collapsible sections. Controlled via `value` /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Activity": {
@@ -40,7 +40,7 @@
     "body": [
       "<AgentRunner\n  conversation={${1:/* conversation: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe AgentRunner component.",
+    "description": "Orchestrates a live agent run: streams reasoning steps, tool calls, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AgentStep": {
@@ -51,7 +51,7 @@
     "body": [
       "<AgentStep\n  title={${1:/* title: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe AgentStep component.",
+    "description": "Single step in an agent trace: a numbered card with title, status pill,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AgentTrace": {
@@ -62,7 +62,7 @@
     "body": [
       "<AgentTrace />"
     ],
-    "description": "Voidframe AgentTrace component.",
+    "description": "Full trace view for an agent run — wraps a list of `AgentStep`s with",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Alert": {
@@ -73,7 +73,7 @@
     "body": [
       "<Alert />"
     ],
-    "description": "Voidframe Alert component.",
+    "description": "Inline notice block with a `tone` (`info` | `success` | `warning` |",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AlertDialog": {
@@ -84,7 +84,7 @@
     "body": [
       "<AlertDialog />"
     ],
-    "description": "Voidframe AlertDialog component.",
+    "description": "Modal dialog that confirms a destructive or irreversible action. Like",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AlertV2": {
@@ -95,7 +95,7 @@
     "body": [
       "<AlertV2\n  tone={${1:/* tone: enum */}}\n/>"
     ],
-    "description": "Voidframe AlertV2 component.",
+    "description": "Next-gen inline alert with richer layout slots (title, description,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Anchor": {
@@ -106,7 +106,7 @@
     "body": [
       "<Anchor\n  items={${1:/* items: AnchorItem[] */}}\n/>"
     ],
-    "description": "Voidframe Anchor component.",
+    "description": "Styled `<a>` with safe-href validation, optional external-link affordance,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AppShell": {
@@ -128,7 +128,7 @@
     "body": [
       "<Arc\n  data={${1:/* data: ArcDatum[] */}}\n  innerRadius={${2:0}}\n  outerRadius={${3:0}}\n/>"
     ],
-    "description": "Voidframe Arc component.",
+    "description": "Arc series primitive for donut / pie / gauge charts. Plots a radial slice",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Area": {
@@ -139,7 +139,7 @@
     "body": [
       "<Area\n  data={${1:/* data: AreaPoint[] */}}\n/>"
     ],
-    "description": "Voidframe Area component.",
+    "description": "Area series primitive for line/area charts. Fills between a baseline and a",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AreaChart": {
@@ -150,7 +150,7 @@
     "body": [
       "<AreaChart\n  data={${1:/* data: AreaChartDatum[] */}}\n  series={${2:/* series: AreaChartSeries[] */}}\n/>"
     ],
-    "description": "Voidframe AreaChart component.",
+    "description": "Area chart over a shared X axis. Axes: linear or time (X), linear (Y).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ArrowDownIcon": {
@@ -161,7 +161,7 @@
     "body": [
       "<ArrowDownIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ArrowDownIcon component.",
+    "description": "ArrowDown icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ArrowLeftIcon": {
@@ -172,7 +172,7 @@
     "body": [
       "<ArrowLeftIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ArrowLeftIcon component.",
+    "description": "ArrowLeft icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ArrowRightIcon": {
@@ -183,7 +183,7 @@
     "body": [
       "<ArrowRightIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ArrowRightIcon component.",
+    "description": "ArrowRight icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ArrowUpIcon": {
@@ -194,7 +194,7 @@
     "body": [
       "<ArrowUpIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ArrowUpIcon component.",
+    "description": "ArrowUp icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AspectRatio": {
@@ -205,7 +205,7 @@
     "body": [
       "<AspectRatio />"
     ],
-    "description": "Voidframe AspectRatio component.",
+    "description": "Layout wrapper that locks its content to a given `ratio` (e.g. `16/9`).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AsyncData": {
@@ -227,7 +227,7 @@
     "body": [
       "<Attachment\n  size={${1:/* size: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe Attachment component.",
+    "description": "Single attachment chip: icon, filename, size, optional preview / download",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AttachmentList": {
@@ -238,7 +238,7 @@
     "body": [
       "<AttachmentList />"
     ],
-    "description": "Voidframe AttachmentList component.",
+    "description": "Horizontal list of `Attachment` chips with overflow handling. Feed `items`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AudioAttachment": {
@@ -249,7 +249,7 @@
     "body": [
       "<AudioAttachment\n  src=\"${1:src}\"\n/>"
     ],
-    "description": "Voidframe AudioAttachment component.",
+    "description": "Attachment variant for audio files — shows duration and a compact inline",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AudioPlayer": {
@@ -260,7 +260,7 @@
     "body": [
       "<AudioPlayer\n  src=\"${1:src}\"\n/>"
     ],
-    "description": "Voidframe AudioPlayer component.",
+    "description": "Accessible audio player with play/pause, scrub bar, time readout, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Avatar": {
@@ -271,7 +271,7 @@
     "body": [
       "<Avatar\n  size={${1:0}}\n/>"
     ],
-    "description": "Voidframe Avatar component.",
+    "description": "Circular or rounded image for a person or entity with initial / icon",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AvatarGroup": {
@@ -282,7 +282,7 @@
     "body": [
       "<AvatarGroup\n  items={${1:/* items: AvatarProps[] */}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Voidframe AvatarGroup component.",
+    "description": "Overlapping stack of `Avatar`s with an optional `+N` overflow chip. `max`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Axis": {
@@ -293,7 +293,7 @@
     "body": [
       "<Axis\n  orientation={${1:/* orientation: enum */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe Axis component.",
+    "description": "Chart axis primitive. Renders ticks, gridlines, and an axis label for the",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Backdrop": {
@@ -304,7 +304,7 @@
     "body": [
       "<Backdrop />"
     ],
-    "description": "Voidframe Backdrop component.",
+    "description": "Dimmed scrim rendered behind overlays. Handles click-outside and fade",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BackToTop": {
@@ -315,7 +315,7 @@
     "body": [
       "<BackToTop\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe BackToTop component.",
+    "description": "Floating button that scrolls the page (or a configured container) back to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Badge": {
@@ -337,7 +337,7 @@
     "body": [
       "<BannerAlert\n  tone={${1:/* tone: enum */}}\n/>"
     ],
-    "description": "Voidframe BannerAlert component.",
+    "description": "Full-width banner alert anchored to the top (or bottom) of a layout.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Bar": {
@@ -348,7 +348,7 @@
     "body": [
       "<Bar\n  data={${1:/* data: BarDatum[] */}}\n/>"
     ],
-    "description": "Voidframe Bar component.",
+    "description": "Bar series primitive. Draws rectangles for each datum using the enclosing",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BarChart": {
@@ -359,7 +359,7 @@
     "body": [
       "<BarChart\n  data={${1:/* data: BarChartDatum[] */}}\n  series={${2:/* series: BarChartSeries[] */}}\n/>"
     ],
-    "description": "Voidframe BarChart component.",
+    "description": "Vertical or horizontal bar chart (grouped, stacked, or 100%-stacked).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Barcode": {
@@ -370,7 +370,7 @@
     "body": [
       "<Barcode\n  value=\"${1:value}\"\n/>"
     ],
-    "description": "Voidframe Barcode component.",
+    "description": "Renders a 1D barcode (CODE128 / EAN) from a value. Purely visual — use a",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BellIcon": {
@@ -381,7 +381,7 @@
     "body": [
       "<BellIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe BellIcon component.",
+    "description": "Bell icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BigNumber": {
@@ -392,7 +392,7 @@
     "body": [
       "<BigNumber\n  value={${1:/* value: ReactNode */}}\n  label={${2:/* label: ReactNode */}}\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe BigNumber component.",
+    "description": "Large hero metric: value, optional delta/trend, and caption. Use inside",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BoldIcon": {
@@ -403,7 +403,7 @@
     "body": [
       "<BoldIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe BoldIcon component.",
+    "description": "Bold icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BookmarkIcon": {
@@ -414,7 +414,7 @@
     "body": [
       "<BookmarkIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe BookmarkIcon component.",
+    "description": "Bookmark icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Box": {
@@ -436,7 +436,7 @@
     "body": [
       "<BoxPlot\n  groups={${1:/* groups: BoxPlotGroup[] */}}\n/>"
     ],
-    "description": "Voidframe BoxPlot component.",
+    "description": "Box-and-whisker plot. Axes: band (category) x linear (value). Shows",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Breadcrumb": {
@@ -458,7 +458,7 @@
     "body": [
       "<BreadcrumbMenu\n  items={${1:/* items: BreadcrumbMenuItem[] */}}\n/>"
     ],
-    "description": "Voidframe BreadcrumbMenu component.",
+    "description": "Breadcrumb variant where the middle segments collapse into a dropdown menu",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Brush": {
@@ -469,7 +469,7 @@
     "body": [
       "<Brush />"
     ],
-    "description": "Voidframe Brush component.",
+    "description": "Chart brush primitive: a draggable window that scopes the visible domain.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BubbleChart": {
@@ -491,7 +491,7 @@
     "body": [
       "<BubbleMap\n  topology={${1:/* topology: unknown */}}\n  objectKey=\"${2:objectKey}\"\n  points={${3:/* points: BubbleMapPoint[] */}}\n/>"
     ],
-    "description": "Voidframe BubbleMap component.",
+    "description": "Geographic bubble map. Plots value-sized circles over a TopoJSON base map.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Button": {
@@ -511,9 +511,9 @@
       "ButtonGroup"
     ],
     "body": [
-      "<ButtonGroup\n  options={${1:/* options: ButtonGroupOption[] */}}\n  value=\"${2:value}\"\n  onChange={${3:/* onChange: (key: string) => void */}}\n  accent=\"${4:accent}\"\n  size={${5:/* size: enum */}}\n/>"
+      "<ButtonGroup\n  options={${1:/* options: ButtonGroupOption[] */}}\n  value=\"${2:value}\"\n  onValueChange={${3:/* onValueChange: (key: string) => void */}}\n  accent=\"${4:accent}\"\n  size={${5:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe ButtonGroup component.",
+    "description": "Horizontal group of buttons with unified borders. Accepts `Button` or",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Calendar": {
@@ -535,7 +535,7 @@
     "body": [
       "<CalendarHeatmap\n  start={${1:/* start: Date */}}\n  end={${2:/* end: Date */}}\n  data={${3:/* data: CalendarHeatmapCell[] */}}\n/>"
     ],
-    "description": "Voidframe CalendarHeatmap component.",
+    "description": "GitHub-style calendar heatmap. Bins values per day and shades cells by",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CalendarIcon": {
@@ -546,7 +546,7 @@
     "body": [
       "<CalendarIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe CalendarIcon component.",
+    "description": "Calendar icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Callout": {
@@ -557,7 +557,7 @@
     "body": [
       "<Callout\n  tone={${1:/* tone: enum */}}\n/>"
     ],
-    "description": "Voidframe Callout component.",
+    "description": "Emphasised inline block with an icon, title, and body. Similar to `Alert`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CandlestickChart": {
@@ -568,7 +568,7 @@
     "body": [
       "<CandlestickChart\n  data={${1:/* data: CandleDatum[] */}}\n  variant={${2:/* variant: enum */}}\n/>"
     ],
-    "description": "Voidframe CandlestickChart component.",
+    "description": "OHLC candlestick chart. Axes: time x linear. Each datum is `{ date, open,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Card": {
@@ -590,7 +590,7 @@
     "body": [
       "<CaretIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe CaretIcon component.",
+    "description": "Caret icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Carousel": {
@@ -601,7 +601,7 @@
     "body": [
       "<Carousel />"
     ],
-    "description": "Voidframe Carousel component.",
+    "description": "Horizontally-paged carousel with arrow + dot controls. Keyboard:",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CarouselImageGallery": {
@@ -612,7 +612,7 @@
     "body": [
       "<CarouselImageGallery\n  images={${1:/* images: CarouselImage[] */}}\n/>"
     ],
-    "description": "Voidframe CarouselImageGallery component.",
+    "description": "Image gallery built on `Carousel` with lightbox-on-click, thumbnails",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Cascader": {
@@ -623,7 +623,7 @@
     "body": [
       "<Cascader\n  options={${1:/* options: CascaderOption[] */}}\n  size={${2:/* size: enum */}}\n  label=\"${3:label}\"\n/>"
     ],
-    "description": "Voidframe Cascader component.",
+    "description": "Hierarchical select. Each column filters the next based on the user's",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Center": {
@@ -634,7 +634,7 @@
     "body": [
       "<Center />"
     ],
-    "description": "Voidframe Center component.",
+    "description": "Layout primitive that centers its single child on both axes. Honours the",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Changelog": {
@@ -645,7 +645,7 @@
     "body": [
       "<Changelog\n  entries={${1:/* entries: ChangelogEntry[] */}}\n/>"
     ],
-    "description": "Voidframe Changelog component.",
+    "description": "Renders a versioned changelog from a structured `entries` prop. Each entry",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartBarIcon": {
@@ -656,7 +656,7 @@
     "body": [
       "<ChartBarIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ChartBarIcon component.",
+    "description": "ChartBar icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartFrame": {
@@ -667,7 +667,7 @@
     "body": [
       "<ChartFrame />"
     ],
-    "description": "Voidframe ChartFrame component.",
+    "description": "Shared chart shell: handles dimensions, margins, ARIA role, and the",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartLegend": {
@@ -678,7 +678,7 @@
     "body": [
       "<ChartLegend\n  items={${1:/* items: ChartLegendItem[] */}}\n/>"
     ],
-    "description": "Voidframe ChartLegend component.",
+    "description": "Legend primitive for any chart. Maps series colour to label; clickable",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartLineIcon": {
@@ -689,7 +689,7 @@
     "body": [
       "<ChartLineIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ChartLineIcon component.",
+    "description": "ChartLine icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartScales": {
@@ -711,7 +711,7 @@
     "body": [
       "<ChartTooltip\n  x={${1:0}}\n  y={${2:0}}\n/>"
     ],
-    "description": "Voidframe ChartTooltip component.",
+    "description": "Positioned tooltip primitive for charts. Reads the current hovered datum",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartTooltipBody": {
@@ -733,7 +733,7 @@
     "body": [
       "<ChatLayout\n  conversation={${1:/* conversation: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ChatLayout component.",
+    "description": "Two-pane chat shell: session list on the left, active conversation on the",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Checkbox": {
@@ -755,7 +755,7 @@
     "body": [
       "<CheckboxGroup\n  options={${1:/* options: CheckboxGroupOption[] */}}\n  label=\"${2:label}\"\n  accent=\"${3:accent}\"\n/>"
     ],
-    "description": "Voidframe CheckboxGroup component.",
+    "description": "Group of related checkboxes sharing a label. Emits an array of selected",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CheckIcon": {
@@ -766,7 +766,7 @@
     "body": [
       "<CheckIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe CheckIcon component.",
+    "description": "Check icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChevronDownIcon": {
@@ -777,7 +777,7 @@
     "body": [
       "<ChevronDownIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ChevronDownIcon component.",
+    "description": "ChevronDown icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChevronLeftIcon": {
@@ -788,7 +788,7 @@
     "body": [
       "<ChevronLeftIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ChevronLeftIcon component.",
+    "description": "ChevronLeft icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChevronRightIcon": {
@@ -799,7 +799,7 @@
     "body": [
       "<ChevronRightIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ChevronRightIcon component.",
+    "description": "ChevronRight icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChevronUpIcon": {
@@ -810,7 +810,7 @@
     "body": [
       "<ChevronUpIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ChevronUpIcon component.",
+    "description": "ChevronUp icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChordDiagram": {
@@ -821,7 +821,7 @@
     "body": [
       "<ChordDiagram\n  groups={${1:/* groups: ChordGroup[] */}}\n  matrix={${2:/* matrix: number[][] */}}\n  size={${3:0}}\n/>"
     ],
-    "description": "Voidframe ChordDiagram component.",
+    "description": "Circular chord diagram showing weighted relationships between categories.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChoroplethMap": {
@@ -832,7 +832,7 @@
     "body": [
       "<ChoroplethMap\n  topology={${1:/* topology: unknown */}}\n  objectKey=\"${2:objectKey}\"\n  featureIdProp=\"${3:featureIdProp}\"\n  values={${4:/* values: Record<string, number> */}}\n/>"
     ],
-    "description": "Voidframe ChoroplethMap component.",
+    "description": "Geographic choropleth. Fills regions in a TopoJSON base map by value.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CircleIcon": {
@@ -843,7 +843,7 @@
     "body": [
       "<CircleIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe CircleIcon component.",
+    "description": "Circle icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CircularProgress": {
@@ -854,7 +854,7 @@
     "body": [
       "<CircularProgress\n  size={${1:0}}\n  tone={${2:/* tone: enum */}}\n/>"
     ],
-    "description": "Voidframe CircularProgress component.",
+    "description": "Circular progress indicator. Supports determinate (`value`) or",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Citation": {
@@ -865,7 +865,7 @@
     "body": [
       "<Citation\n  index={${1:/* index: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe Citation component.",
+    "description": "Inline numbered citation chip linking to a source. Click / hover reveals",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CitationList": {
@@ -876,7 +876,7 @@
     "body": [
       "<CitationList\n  sources={${1:/* sources: SourceRef[] */}}\n/>"
     ],
-    "description": "Voidframe CitationList component.",
+    "description": "Numbered list of citations paired with their source cards. Pairs with",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Clipboard": {
@@ -887,7 +887,7 @@
     "body": [
       "<Clipboard\n  value=\"${1:value}\"\n/>"
     ],
-    "description": "Voidframe Clipboard component.",
+    "description": "Copy-to-clipboard affordance with success feedback. Wraps a trigger and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ClockIcon": {
@@ -898,7 +898,7 @@
     "body": [
       "<ClockIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ClockIcon component.",
+    "description": "Clock icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CloudIcon": {
@@ -909,7 +909,7 @@
     "body": [
       "<CloudIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe CloudIcon component.",
+    "description": "Cloud icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CoachMark": {
@@ -920,7 +920,7 @@
     "body": [
       "<CoachMark\n  target={${1:/* target: HTMLElement | RefObject<HTMLElement> | null */}}\n/>"
     ],
-    "description": "Voidframe CoachMark component.",
+    "description": "Spotlight / coach-mark overlay that anchors a tooltip-style card to a",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Code": {
@@ -931,7 +931,7 @@
     "body": [
       "<Code />"
     ],
-    "description": "Voidframe Code component.",
+    "description": "Inline monospace code span with optional language badge. For multi-line",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CodeAttachment": {
@@ -942,7 +942,7 @@
     "body": [
       "<CodeAttachment\n  code=\"${1:code}\"\n/>"
     ],
-    "description": "Voidframe CodeAttachment component.",
+    "description": "Attachment variant for code snippets: filename, language badge,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CodeBlock": {
@@ -953,7 +953,7 @@
     "body": [
       "<CodeBlock\n  code=\"${1:code}\"\n/>"
     ],
-    "description": "Voidframe CodeBlock component.",
+    "description": "Fenced code block with optional language-aware syntax highlighting, copy",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CodeEditor": {
@@ -964,7 +964,7 @@
     "body": [
       "<CodeEditor\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe CodeEditor component.",
+    "description": "Minimal in-browser code editor. Controlled via `value` / `onValueChange`;",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CodeIcon": {
@@ -975,7 +975,7 @@
     "body": [
       "<CodeIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe CodeIcon component.",
+    "description": "Code icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Collapsible": {
@@ -986,7 +986,7 @@
     "body": [
       "<Collapsible\n  title=\"${1:title}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Voidframe Collapsible component.",
+    "description": "Single expand/collapse region. Controllable via `open` / `onOpenChange`;",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ColorContrast": {
@@ -997,7 +997,7 @@
     "body": [
       "<ColorContrast\n  foreground=\"${1:foreground}\"\n  background=\"${2:background}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe ColorContrast component.",
+    "description": "WCAG contrast checker. Enter a foreground + background colour and it",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ColorPicker": {
@@ -1008,7 +1008,7 @@
     "body": [
       "<ColorPicker\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe ColorPicker component.",
+    "description": "Colour picker with hue/saturation area, alpha slider, hex/rgb/hsl input,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ColorSwatch": {
@@ -1019,7 +1019,7 @@
     "body": [
       "<ColorSwatch\n  color=\"${1:color}\"\n  size={${2:/* size: number | \"sm\" | \"md\" | \"lg\" */}}\n  label={${3:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ColorSwatch component.",
+    "description": "Labelled colour chip used in palettes, legend entries, and form controls.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Combobox": {
@@ -1063,7 +1063,7 @@
     "body": [
       "<Comment\n  content={${1:/* content: ReactNode */}}\n  author=\"${2:author}\"\n/>"
     ],
-    "description": "Voidframe Comment component.",
+    "description": "Single comment card: avatar, author, timestamp, body, and optional action",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CommentList": {
@@ -1074,7 +1074,7 @@
     "body": [
       "<CommentList />"
     ],
-    "description": "Voidframe CommentList component.",
+    "description": "Vertical list of `Comment`s with threading and load-more affordances.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CommitGraph": {
@@ -1085,7 +1085,7 @@
     "body": [
       "<CommitGraph\n  commits={${1:/* commits: CommitNode[] */}}\n/>"
     ],
-    "description": "Voidframe CommitGraph component.",
+    "description": "Git-style commit graph: branches, merges, and per-commit metadata. Feed",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ComposedChart": {
@@ -1096,7 +1096,7 @@
     "body": [
       "<ComposedChart\n  data={${1:/* data: ComposedChartDatum[] */}}\n  series={${2:/* series: ComposedChartSeries[] */}}\n/>"
     ],
-    "description": "Voidframe ComposedChart component.",
+    "description": "Composition chart — combine bars, lines, areas, and reference layers over",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Composer": {
@@ -1107,7 +1107,7 @@
     "body": [
       "<Composer />"
     ],
-    "description": "Voidframe Composer component.",
+    "description": "Chat message composer with text area, attachment tray, mic button, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ComposerAttachment": {
@@ -1118,7 +1118,7 @@
     "body": [
       "<ComposerAttachment\n  name={${1:/* name: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ComposerAttachment component.",
+    "description": "Pending-attachment chip inside the composer; shows upload progress and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ComposerMicButton": {
@@ -1129,7 +1129,7 @@
     "body": [
       "<ComposerMicButton />"
     ],
-    "description": "Voidframe ComposerMicButton component.",
+    "description": "Microphone toggle for the composer. Requests mic permission on press and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConfidenceMeter": {
@@ -1138,9 +1138,9 @@
       "ConfidenceMeter"
     ],
     "body": [
-      "<ConfidenceMeter\n  value={${1:0}}\n  label=\"${2:label}\"\n  variant={${3:/* variant: enum */}}\n  size={${4:/* size: enum */}}\n/>"
+      "<ConfidenceMeter\n  value={${1:0}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe ConfidenceMeter component.",
+    "description": "Horizontal meter for a 0-1 confidence score with qualitative bands (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConfirmDialog": {
@@ -1151,7 +1151,7 @@
     "body": [
       "<ConfirmDialog\n  open={${1:true}}\n  onConfirm={${2:/* onConfirm: () => void */}}\n  onCancel={${3:/* onCancel: () => void */}}\n/>"
     ],
-    "description": "Voidframe ConfirmDialog component.",
+    "description": "Prompted confirmation dialog. Renders title, message, and Confirm/Cancel",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConfirmDialogV2": {
@@ -1162,7 +1162,7 @@
     "body": [
       "<ConfirmDialogV2 />"
     ],
-    "description": "Voidframe ConfirmDialogV2 component.",
+    "description": "Successor to `ConfirmDialog` built on the compound `Dialog` API. Use",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConfirmProvider": {
@@ -1173,7 +1173,7 @@
     "body": [
       "<ConfirmProvider />"
     ],
-    "description": "Voidframe ConfirmProvider component.",
+    "description": "App-root provider that hosts imperative confirm dialogs triggered via",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConnectionStatus": {
@@ -1184,7 +1184,7 @@
     "body": [
       "<ConnectionStatus\n  status={${1:/* status: enum */}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ConnectionStatus component.",
+    "description": "Inline indicator for a network/channel connection state (`connecting` |",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConsoleOutput": {
@@ -1195,7 +1195,7 @@
     "body": [
       "<ConsoleOutput\n  entries={${1:/* entries: ConsoleEntry[] */}}\n/>"
     ],
-    "description": "Voidframe ConsoleOutput component.",
+    "description": "Terminal-style console log view with severity colouring, timestamps, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Container": {
@@ -1217,7 +1217,7 @@
     "body": [
       "<ContextHelp />"
     ],
-    "description": "Voidframe ContextHelp component.",
+    "description": "Small `?` trigger that opens a tooltip/popover with contextual help text.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ContextMenu": {
@@ -1228,7 +1228,7 @@
     "body": [
       "<ContextMenu\n  content={${1:/* content: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ContextMenu component.",
+    "description": "Right-click / long-press context menu. Subparts mirror `Menu`; position",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ContextWindow": {
@@ -1239,7 +1239,7 @@
     "body": [
       "<ContextWindow\n  used={${1:0}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ContextWindow component.",
+    "description": "Visualises an LLM context window: used vs available tokens as a meter plus",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Conversation": {
@@ -1250,7 +1250,7 @@
     "body": [
       "<Conversation />"
     ],
-    "description": "Voidframe Conversation component.",
+    "description": "Vertical transcript of a chat conversation: renders a list of `Message`s",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConversationEmptyState": {
@@ -1261,7 +1261,7 @@
     "body": [
       "<ConversationEmptyState />"
     ],
-    "description": "Voidframe ConversationEmptyState component.",
+    "description": "Empty-state card shown inside `Conversation` when no messages exist yet.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConversationHeader": {
@@ -1272,7 +1272,7 @@
     "body": [
       "<ConversationHeader />"
     ],
-    "description": "Voidframe ConversationHeader component.",
+    "description": "Header for a chat conversation: title, participants, model badge, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CopyButton": {
@@ -1294,7 +1294,7 @@
     "body": [
       "<CopyIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe CopyIcon component.",
+    "description": "Copy icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CostDisplay": {
@@ -1303,9 +1303,9 @@
       "CostDisplay"
     ],
     "body": [
-      "<CostDisplay\n  variant={${1:/* variant: enum */}}\n/>"
+      "<CostDisplay />"
     ],
-    "description": "Voidframe CostDisplay component.",
+    "description": "Formatted cost / price readout. Combines `CurrencyDisplay` with optional",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Countdown": {
@@ -1316,7 +1316,7 @@
     "body": [
       "<Countdown\n  target={${1:/* target: string | number | Date */}}\n/>"
     ],
-    "description": "Voidframe Countdown component.",
+    "description": "Countdown timer to a target date/time. Auto-updates every second; fires",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CronBuilder": {
@@ -1327,7 +1327,7 @@
     "body": [
       "<CronBuilder\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe CronBuilder component.",
+    "description": "Visual builder for a cron expression. Controllable via `value` /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Crosshair": {
@@ -1338,7 +1338,7 @@
     "body": [
       "<Crosshair />"
     ],
-    "description": "Voidframe Crosshair component.",
+    "description": "Chart crosshair primitive: follows the pointer with vertical/horizontal",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CSVViewer": {
@@ -1360,7 +1360,7 @@
     "body": [
       "<CurrencyDisplay\n  value={${1:0}}\n/>"
     ],
-    "description": "Voidframe CurrencyDisplay component.",
+    "description": "Locale-aware currency formatter via `Intl.NumberFormat`. Takes a numeric",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CurrencyInput": {
@@ -1371,7 +1371,7 @@
     "body": [
       "<CurrencyInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe CurrencyInput component.",
+    "description": "Numeric input with currency formatting and live-masked editing. Emits the",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CursorPagination": {
@@ -1393,7 +1393,7 @@
     "body": [
       "<DashboardGrid\n  items={${1:/* items: DashboardLayoutItem[] */}}\n  renderItem={${2:/* renderItem: (id: string, item: DashboardLayoutItem) => ReactNode */}}\n/>"
     ],
-    "description": "Voidframe DashboardGrid component.",
+    "description": "Responsive dashboard grid with configurable columns per breakpoint.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DatabaseIcon": {
@@ -1404,7 +1404,7 @@
     "body": [
       "<DatabaseIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe DatabaseIcon component.",
+    "description": "Database icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DataGrid": {
@@ -1448,7 +1448,7 @@
     "body": [
       "<DateRangePicker\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe DateRangePicker component.",
+    "description": "Two-month calendar for picking a date range. Controllable via `value` /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DateTimePicker": {
@@ -1459,7 +1459,7 @@
     "body": [
       "<DateTimePicker\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe DateTimePicker component.",
+    "description": "Combined date + time picker. Controllable via `value` / `onChange`;",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DebugPanel": {
@@ -1470,7 +1470,7 @@
     "body": [
       "<DebugPanel />"
     ],
-    "description": "Voidframe DebugPanel component.",
+    "description": "Developer drawer that visualises agent internals: prompt, tool calls, raw",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DebugTree": {
@@ -1481,7 +1481,7 @@
     "body": [
       "<DebugTree\n  data={${1:/* data: unknown */}}\n/>"
     ],
-    "description": "Voidframe DebugTree component.",
+    "description": "Collapsible tree view for nested debug data (state, props, JSON). Lighter",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DependencyGraph": {
@@ -1492,7 +1492,7 @@
     "body": [
       "<DependencyGraph\n  nodes={${1:/* nodes: DependencyNode[] */}}\n  edges={${2:/* edges: DependencyEdge[] */}}\n/>"
     ],
-    "description": "Voidframe DependencyGraph component.",
+    "description": "Directed graph of dependencies with hierarchical layout. Useful for module",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DescriptionList": {
@@ -1503,7 +1503,7 @@
     "body": [
       "<DescriptionList />"
     ],
-    "description": "Voidframe DescriptionList component.",
+    "description": "Semantic `<dl>` list of term/description pairs. Responsive: stacks below",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Descriptions": {
@@ -1514,7 +1514,7 @@
     "body": [
       "<Descriptions\n  items={${1:/* items: DescriptionItem[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe Descriptions component.",
+    "description": "Compact form of `DescriptionList` optimised for dense detail views (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Dialog": {
@@ -1523,7 +1523,7 @@
       "Dialog"
     ],
     "body": [
-      "<Dialog\n  variant={${1:/* variant: enum */}}\n/>"
+      "<Dialog />"
     ],
     "description": "Compound modal overlay. Use `Dialog.Trigger` to open, `Dialog.Content`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -1534,9 +1534,9 @@
       "DiffViewer"
     ],
     "body": [
-      "<DiffViewer\n  oldValue=\"${1:oldValue}\"\n  newValue=\"${2:newValue}\"\n  variant={${3:/* variant: enum */}}\n/>"
+      "<DiffViewer\n  oldValue=\"${1:oldValue}\"\n  newValue=\"${2:newValue}\"\n/>"
     ],
-    "description": "Voidframe DiffViewer component.",
+    "description": "Unified / side-by-side text diff view with line numbers and hunk",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DismissableLayer": {
@@ -1558,7 +1558,7 @@
     "body": [
       "<Divider\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe Divider component.",
+    "description": "Horizontal or vertical rule used to separate groups of content. Optional",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DocumentPreview": {
@@ -1569,7 +1569,7 @@
     "body": [
       "<DocumentPreview\n  filename=\"${1:filename}\"\n  size={${2:0}}\n/>"
     ],
-    "description": "Voidframe DocumentPreview component.",
+    "description": "Renders a preview for a document attachment (PDF / image / text). Falls",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DonutChart": {
@@ -1580,7 +1580,7 @@
     "body": [
       "<DonutChart\n  data={${1:/* data: PieChartDatum[] */}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Voidframe DonutChart component.",
+    "description": "Donut (hollow pie) chart for part-of-whole data. Emits hover/select events",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Dots": {
@@ -1591,7 +1591,7 @@
     "body": [
       "<Dots\n  count={${1:0}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Voidframe Dots component.",
+    "description": "Small row of dots used as a step/progress indicator (e.g. carousel",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DownloadIcon": {
@@ -1602,7 +1602,7 @@
     "body": [
       "<DownloadIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe DownloadIcon component.",
+    "description": "Download icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DragDropContext": {
@@ -1613,7 +1613,7 @@
     "body": [
       "<DragDropContext />"
     ],
-    "description": "Voidframe DragDropContext component.",
+    "description": "Root provider for the drag-and-drop system. Wraps `Draggable` /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Draggable": {
@@ -1624,7 +1624,7 @@
     "body": [
       "<Draggable\n  id=\"${1:id}\"\n/>"
     ],
-    "description": "Voidframe Draggable component.",
+    "description": "Wraps a child to make it draggable inside a `DragDropContext`. Emits",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Drawer": {
@@ -1633,7 +1633,7 @@
       "Drawer"
     ],
     "body": [
-      "<Drawer\n  open={${1:true}}\n  onClose={${2:/* onClose: () => void */}}\n/>"
+      "<Drawer\n  open={${1:true}}\n  onDismiss={${2:/* onDismiss: () => void */}}\n/>"
     ],
     "description": "V1 side-panel overlay with backdrop, focus trap, and Escape dismiss.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -1657,7 +1657,7 @@
     "body": [
       "<Dropdown\n  trigger={${1:/* trigger: ReactNode */}}\n  items={${2:/* items: DropdownMenuItem[] */}}\n/>"
     ],
-    "description": "Voidframe Dropdown component.",
+    "description": "Simple trigger + menu dropdown. For richer composition (submenus,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Droppable": {
@@ -1668,7 +1668,7 @@
     "body": [
       "<Droppable\n  id=\"${1:id}\"\n/>"
     ],
-    "description": "Voidframe Droppable component.",
+    "description": "Drop target inside a `DragDropContext`. Emits drop events with the dragged",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DropZone": {
@@ -1679,7 +1679,7 @@
     "body": [
       "<DropZone\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe DropZone component.",
+    "description": "File drop target with visual affordance and keyboard fallback (click to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DurationDisplay": {
@@ -1690,7 +1690,7 @@
     "body": [
       "<DurationDisplay\n  seconds={${1:0}}\n/>"
     ],
-    "description": "Voidframe DurationDisplay component.",
+    "description": "Formats a millisecond duration as a human-readable string (`2m 13s`, `1h",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EditIcon": {
@@ -1701,7 +1701,7 @@
     "body": [
       "<EditIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe EditIcon component.",
+    "description": "Edit icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EmptyLayout": {
@@ -1712,7 +1712,7 @@
     "body": [
       "<EmptyLayout />"
     ],
-    "description": "Voidframe EmptyLayout component.",
+    "description": "Minimal layout shell with just a centred slot — for error pages, login",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EmptyState": {
@@ -1723,7 +1723,7 @@
     "body": [
       "<EmptyState />"
     ],
-    "description": "Voidframe EmptyState component.",
+    "description": "Centred illustration + title + description + optional action. Use when a",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EnvironmentVars": {
@@ -1732,9 +1732,9 @@
       "EnvironmentVars"
     ],
     "body": [
-      "<EnvironmentVars\n  variables={${1:/* variables: EnvVar[] */}}\n  size={${2:/* size: enum */}}\n/>"
+      "<EnvironmentVars\n  value={${1:/* value: EnvVar[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe EnvironmentVars component.",
+    "description": "Editor for key/value environment variable pairs. Masks values by default;",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ErrorBoundary": {
@@ -1756,7 +1756,7 @@
     "body": [
       "<ErrorIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ErrorIcon component.",
+    "description": "Error icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ErrorState": {
@@ -1767,7 +1767,7 @@
     "body": [
       "<ErrorState />"
     ],
-    "description": "Voidframe ErrorState component.",
+    "description": "Centred error display: icon, title, message, and retry / support actions.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ExternalLinkIcon": {
@@ -1778,7 +1778,7 @@
     "body": [
       "<ExternalLinkIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ExternalLinkIcon component.",
+    "description": "ExternalLink icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EyeIcon": {
@@ -1789,7 +1789,7 @@
     "body": [
       "<EyeIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe EyeIcon component.",
+    "description": "Eye icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EyeOffIcon": {
@@ -1800,7 +1800,7 @@
     "body": [
       "<EyeOffIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe EyeOffIcon component.",
+    "description": "EyeOff icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Field": {
@@ -1822,7 +1822,7 @@
     "body": [
       "<Field.Error />"
     ],
-    "description": "Voidframe Field.Error component.",
+    "description": "Error slot for `Field`. Renders only when the field's validation state is",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Field.Help": {
@@ -1833,7 +1833,7 @@
     "body": [
       "<Field.Help />"
     ],
-    "description": "Voidframe Field.Help component.",
+    "description": "Help-text slot for `Field`. Auto-wired to the control via",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Field.Label": {
@@ -1844,7 +1844,7 @@
     "body": [
       "<Field.Label />"
     ],
-    "description": "Voidframe Field.Label component.",
+    "description": "Label slot for `Field`. Auto-wires `htmlFor` to the nested control.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FieldControl": {
@@ -1877,7 +1877,7 @@
     "body": [
       "<FileAttachment\n  size={${1:/* size: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe FileAttachment component.",
+    "description": "Attachment variant for a generic file — shows filename, size, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FileIcon": {
@@ -1888,7 +1888,7 @@
     "body": [
       "<FileIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe FileIcon component.",
+    "description": "File icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FileTextIcon": {
@@ -1899,7 +1899,7 @@
     "body": [
       "<FileTextIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe FileTextIcon component.",
+    "description": "FileText icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FileUpload": {
@@ -1910,7 +1910,7 @@
     "body": [
       "<FileUpload\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe FileUpload component.",
+    "description": "File upload control with drag-drop, picker, progress per file, and list",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FilterBuilder": {
@@ -1921,7 +1921,7 @@
     "body": [
       "<FilterBuilder\n  fields={${1:/* fields: FilterField[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe FilterBuilder component.",
+    "description": "Visual builder for structured filter expressions. Controllable via `value`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FilterIcon": {
@@ -1932,7 +1932,7 @@
     "body": [
       "<FilterIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe FilterIcon component.",
+    "description": "Filter icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Flex": {
@@ -1954,7 +1954,7 @@
     "body": [
       "<FloatingActionButton\n  icon={${1:/* icon: ReactNode */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n  variant={${4:/* variant: enum */}}\n/>"
     ],
-    "description": "Voidframe FloatingActionButton component.",
+    "description": "Fixed-position circular action button (material-style FAB). Anchored to a",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FocusScope": {
@@ -1976,7 +1976,7 @@
     "body": [
       "<FolderIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe FolderIcon component.",
+    "description": "Folder icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FolderOpenIcon": {
@@ -1987,7 +1987,7 @@
     "body": [
       "<FolderOpenIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe FolderOpenIcon component.",
+    "description": "FolderOpen icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Form": {
@@ -2042,7 +2042,7 @@
     "body": [
       "<FunnelChart\n  steps={${1:/* steps: FunnelChartStep[] */}}\n/>"
     ],
-    "description": "Voidframe FunnelChart component.",
+    "description": "Funnel / conversion chart — each stage is a trapezoid sized by value.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Gantt": {
@@ -2064,7 +2064,7 @@
     "body": [
       "<Gauge\n  size={${1:0}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe Gauge component.",
+    "description": "Radial gauge for a single value in a range. Configurable arc span, tick",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Grid": {
@@ -2086,7 +2086,7 @@
     "body": [
       "<GridItem />"
     ],
-    "description": "Voidframe GridItem component.",
+    "description": "Child of `DashboardGrid` (or any CSS-grid parent) that declares column/row",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Gridlines": {
@@ -2097,7 +2097,7 @@
     "body": [
       "<Gridlines />"
     ],
-    "description": "Voidframe Gridlines component.",
+    "description": "Chart gridlines primitive. Renders horizontal/vertical rules tied to tick",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HeartIcon": {
@@ -2108,7 +2108,7 @@
     "body": [
       "<HeartIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe HeartIcon component.",
+    "description": "Heart icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Heatmap": {
@@ -2119,7 +2119,7 @@
     "body": [
       "<Heatmap\n  rows={${1:/* rows: string[] */}}\n  columns={${2:/* columns: string[] */}}\n  data={${3:/* data: HeatmapCellData[] */}}\n/>"
     ],
-    "description": "Voidframe Heatmap component.",
+    "description": "Two-dimensional heatmap. Axes: band x band. Cells shade by intensity;",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HelpTooltip": {
@@ -2130,7 +2130,7 @@
     "body": [
       "<HelpTooltip\n  content={${1:/* content: ReactNode */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe HelpTooltip component.",
+    "description": "Tooltip variant tuned for contextual help text — slightly wider, with a",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HexDump": {
@@ -2141,7 +2141,7 @@
     "body": [
       "<HexDump\n  data={${1:/* data: Uint8Array<ArrayBufferLike> | number[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe HexDump component.",
+    "description": "Monospace hex+ASCII viewer for a buffer. Configurable bytes-per-row and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Hide": {
@@ -2152,7 +2152,7 @@
     "body": [
       "<Hide />"
     ],
-    "description": "Voidframe Hide component.",
+    "description": "Conditional renderer: hides its children below / above / at specific",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Histogram": {
@@ -2163,7 +2163,7 @@
     "body": [
       "<Histogram\n  values={${1:/* values: number[] */}}\n/>"
     ],
-    "description": "Voidframe Histogram component.",
+    "description": "Binned frequency chart. Axes: linear (bin) x linear (count). Configurable",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HomeIcon": {
@@ -2174,7 +2174,7 @@
     "body": [
       "<HomeIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe HomeIcon component.",
+    "description": "Home icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HorizonChart": {
@@ -2185,7 +2185,7 @@
     "body": [
       "<HorizonChart\n  data={${1:/* data: HorizonPoint[] */}}\n/>"
     ],
-    "description": "Voidframe HorizonChart component.",
+    "description": "Horizon chart: stacked banded areas that encode large dynamic ranges",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HorizontalTimeline": {
@@ -2196,7 +2196,7 @@
     "body": [
       "<HorizontalTimeline\n  events={${1:/* events: HorizontalTimelineEvent[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe HorizontalTimeline component.",
+    "description": "Horizontal timeline of events with a scrollable track. Good for roadmaps",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HoverCard": {
@@ -2251,7 +2251,7 @@
     "body": [
       "<IconButton\n  variant={${1:/* variant: enum */}}\n  size={${2:/* size: enum */}}\n  accent=\"${3:accent}\"\n/>"
     ],
-    "description": "Voidframe IconButton component.",
+    "description": "Icon-only button. Requires `aria-label` (or `aria-labelledby`) so screen",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "IconGroup": {
@@ -2262,7 +2262,7 @@
     "body": [
       "<IconGroup />"
     ],
-    "description": "Voidframe IconGroup component.",
+    "description": "Compact group of icons displayed inline (e.g. status badges). Optional",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Identicon": {
@@ -2273,7 +2273,7 @@
     "body": [
       "<Identicon\n  value=\"${1:value}\"\n  size={${2:0}}\n/>"
     ],
-    "description": "Voidframe Identicon component.",
+    "description": "Deterministic pixel/shape avatar generated from a seed string. Useful",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "IFrame": {
@@ -2284,7 +2284,7 @@
     "body": [
       "<IFrame\n  src=\"${1:src}\"\n  title=\"${2:title}\"\n/>"
     ],
-    "description": "Voidframe IFrame component.",
+    "description": "Sandboxed `<iframe>` wrapper with safe defaults (no top navigation,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Image": {
@@ -2295,7 +2295,7 @@
     "body": [
       "<Image\n  src=\"${1:src}\"\n  alt=\"${2:alt}\"\n/>"
     ],
-    "description": "Voidframe Image component.",
+    "description": "Responsive image with intrinsic ratio, optional placeholder / blur-up, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ImageAttachment": {
@@ -2306,7 +2306,7 @@
     "body": [
       "<ImageAttachment\n  src=\"${1:src}\"\n/>"
     ],
-    "description": "Voidframe ImageAttachment component.",
+    "description": "Attachment variant for images — shows a thumbnail plus filename/size",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ImageCropper": {
@@ -2317,7 +2317,7 @@
     "body": [
       "<ImageCropper\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe ImageCropper component.",
+    "description": "Interactive image cropper. Emits the cropped region as a data URL or",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ImageDiff": {
@@ -2328,7 +2328,7 @@
     "body": [
       "<ImageDiff\n  before=\"${1:before}\"\n  after=\"${2:after}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe ImageDiff component.",
+    "description": "Two-image comparison viewer: slider, side-by-side, or onion-skin modes.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ImageGallery": {
@@ -2339,7 +2339,7 @@
     "body": [
       "<ImageGallery\n  images={${1:/* images: LightboxImage[] */}}\n/>"
     ],
-    "description": "Voidframe ImageGallery component.",
+    "description": "Grid or masonry image gallery with click-to-open `Lightbox` integration.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "InfiniteScroll": {
@@ -2350,7 +2350,7 @@
     "body": [
       "<InfiniteScroll\n  hasMore={${1:true}}\n  onLoadMore={${2:/* onLoadMore: () => void */}}\n/>"
     ],
-    "description": "Voidframe InfiniteScroll component.",
+    "description": "Infinite scroll loader. Calls `onLoadMore` when the sentinel enters the",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "InfoIcon": {
@@ -2361,7 +2361,7 @@
     "body": [
       "<InfoIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe InfoIcon component.",
+    "description": "Info icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "InlineEdit": {
@@ -2372,7 +2372,7 @@
     "body": [
       "<InlineEdit\n  value=\"${1:value}\"\n  onSave={${2:/* onSave: (value: string) => void */}}\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe InlineEdit component.",
+    "description": "Click-to-edit text field: displays a value until clicked, then renders an",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Input": {
@@ -2394,7 +2394,7 @@
     "body": [
       "<InputGroup.Addon />"
     ],
-    "description": "Voidframe InputGroup.Addon component.",
+    "description": "Non-interactive addon slot for `InputGroup` (e.g. a leading currency sign",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ItalicIcon": {
@@ -2405,7 +2405,7 @@
     "body": [
       "<ItalicIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ItalicIcon component.",
+    "description": "Italic icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "JSONViewer": {
@@ -2416,7 +2416,7 @@
     "body": [
       "<JSONViewer\n  data={${1:/* data: unknown */}}\n/>"
     ],
-    "description": "Voidframe JSONViewer component.",
+    "description": "Collapsible JSON tree with type colouring, copy-path affordance, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Kanban": {
@@ -2438,7 +2438,7 @@
     "body": [
       "<Kbd />"
     ],
-    "description": "Voidframe Kbd component.",
+    "description": "Renders a keyboard shortcut label (e.g. `Cmd`+`K`). Accepts an array of",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "KeyValue": {
@@ -2449,7 +2449,7 @@
     "body": [
       "<KeyValue\n  items={${1:/* items: KeyValueItem[] */}}\n/>"
     ],
-    "description": "Voidframe KeyValue component.",
+    "description": "Single label/value row. Used inside `DataList` / `Descriptions`;",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "KeyValueEditor": {
@@ -2458,9 +2458,9 @@
       "KeyValueEditor"
     ],
     "body": [
-      "<KeyValueEditor\n  entries={${1:/* entries: KeyValuePair[] */}}\n  onChange={${2:/* onChange: (next: KeyValuePair[]) => void */}}\n/>"
+      "<KeyValueEditor\n  value={${1:/* value: KeyValuePair[] */}}\n  onValueChange={${2:/* onValueChange: (next: KeyValuePair[]) => void */}}\n/>"
     ],
-    "description": "Voidframe KeyValueEditor component.",
+    "description": "Editable list of key/value rows. Supports add/remove/reorder; emits the",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Label": {
@@ -2471,7 +2471,7 @@
     "body": [
       "<Label />"
     ],
-    "description": "Voidframe Label component.",
+    "description": "Accessible form label that associates with its control via `htmlFor`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LatencyIndicator": {
@@ -2482,7 +2482,7 @@
     "body": [
       "<LatencyIndicator\n  value={${1:0}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe LatencyIndicator component.",
+    "description": "Colour-coded indicator for a latency reading (ms). Thresholds",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LegalText": {
@@ -2493,7 +2493,7 @@
     "body": [
       "<LegalText\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe LegalText component.",
+    "description": "Small-print legal prose container with conservative typography. Use for",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Legend": {
@@ -2515,7 +2515,7 @@
     "body": [
       "<Lightbox\n  images={${1:/* images: LightboxImage[] */}}\n  open={${2:true}}\n  onOpenChange={${3:/* onOpenChange: (open: boolean) => void */}}\n/>"
     ],
-    "description": "Voidframe Lightbox component.",
+    "description": "Full-screen image viewer with prev/next navigation, zoom, and keyboard",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Line": {
@@ -2526,7 +2526,7 @@
     "body": [
       "<Line\n  data={${1:/* data: LinePoint[] */}}\n/>"
     ],
-    "description": "Voidframe Line component.",
+    "description": "Line series primitive for line / area / composed charts. Connects points",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LineChart": {
@@ -2537,7 +2537,7 @@
     "body": [
       "<LineChart\n  data={${1:/* data: LineChartDatum[] */}}\n  series={${2:/* series: LineChartSeries[] */}}\n/>"
     ],
-    "description": "Voidframe LineChart component.",
+    "description": "Line chart over a shared X axis. Axes: linear or time (X), linear (Y).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LinkIcon": {
@@ -2548,7 +2548,7 @@
     "body": [
       "<LinkIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe LinkIcon component.",
+    "description": "Link icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "List": {
@@ -2559,7 +2559,7 @@
     "body": [
       "<List />"
     ],
-    "description": "Voidframe List component.",
+    "description": "Vertical list with configurable separators, density, and selection.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LiveIndicator": {
@@ -2568,9 +2568,9 @@
       "LiveIndicator"
     ],
     "body": [
-      "<LiveIndicator\n  variant={${1:/* variant: enum */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n/>"
+      "<LiveIndicator\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe LiveIndicator component.",
+    "description": "Pulsing dot + label indicating a live feed / stream state. Tones mirror",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LiveRegion": {
@@ -2592,7 +2592,7 @@
     "body": [
       "<LoadingDotsIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe LoadingDotsIcon component.",
+    "description": "LoadingDots icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LoadingOverlay": {
@@ -2603,7 +2603,7 @@
     "body": [
       "<LoadingOverlay\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe LoadingOverlay component.",
+    "description": "Semi-transparent scrim with a centred spinner, overlaid on a",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LockIcon": {
@@ -2614,7 +2614,7 @@
     "body": [
       "<LockIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe LockIcon component.",
+    "description": "Lock icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LogViewer": {
@@ -2625,7 +2625,7 @@
     "body": [
       "<LogViewer\n  entries={${1:/* entries: LogEntry[] */}}\n/>"
     ],
-    "description": "Voidframe LogViewer component.",
+    "description": "Terminal-style log viewer with level filters, timestamp toggle, search,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MailIcon": {
@@ -2636,7 +2636,7 @@
     "body": [
       "<MailIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe MailIcon component.",
+    "description": "Mail icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MarkdownEditor": {
@@ -2647,7 +2647,7 @@
     "body": [
       "<MarkdownEditor\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe MarkdownEditor component.",
+    "description": "Markdown editor with live preview. Sanitises rendered HTML via DOMPurify",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MarkdownRenderer": {
@@ -2658,7 +2658,7 @@
     "body": [
       "<MarkdownRenderer\n  content=\"${1:content}\"\n/>"
     ],
-    "description": "Voidframe MarkdownRenderer component.",
+    "description": "Safe markdown renderer. Sanitises HTML via DOMPurify (peer dependency);",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Marquee": {
@@ -2669,7 +2669,7 @@
     "body": [
       "<Marquee />"
     ],
-    "description": "Voidframe Marquee component.",
+    "description": "Scrolling marquee for long inline content. Respects",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MaskedInput": {
@@ -2680,7 +2680,7 @@
     "body": [
       "<MaskedInput\n  mask=\"${1:mask}\"\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe MaskedInput component.",
+    "description": "Text input with a display mask (e.g. `###-##-####`). Emits the unmasked",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Masonry": {
@@ -2691,7 +2691,7 @@
     "body": [
       "<Masonry />"
     ],
-    "description": "Voidframe Masonry component.",
+    "description": "CSS-grid-based masonry layout. Configurable column count per breakpoint;",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MegaMenu": {
@@ -2702,7 +2702,7 @@
     "body": [
       "<MegaMenu />"
     ],
-    "description": "Voidframe MegaMenu component.",
+    "description": "Wide top-nav dropdown with grouped columns of links. Keyboard-navigable",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Mention": {
@@ -2713,7 +2713,7 @@
     "body": [
       "<Mention\n  value={${1:/* value: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe Mention component.",
+    "description": "Rendered mention chip (e.g. `@alice`). Clickable, hoverable, and linkable",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MentionInput": {
@@ -2724,7 +2724,7 @@
     "body": [
       "<MentionInput\n  options={${1:/* options: MentionOption[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe MentionInput component.",
+    "description": "Text input with `@`-triggered mention autocomplete. Emits structured",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Menu": {
@@ -2746,7 +2746,7 @@
     "body": [
       "<MenuBar />"
     ],
-    "description": "Voidframe MenuBar component.",
+    "description": "Top-level menu bar (like a desktop app). Horizontal row of `MenuBarMenu`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuBarMenu": {
@@ -2757,7 +2757,7 @@
     "body": [
       "<MenuBarMenu\n  trigger={${1:/* trigger: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe MenuBarMenu component.",
+    "description": "Single menu entry inside a `MenuBar`. Owns a dropdown activated by click",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuCheckboxItem": {
@@ -2768,7 +2768,7 @@
     "body": [
       "<MenuCheckboxItem />"
     ],
-    "description": "Voidframe MenuCheckboxItem component.",
+    "description": "Menu item with a checkbox control. Controllable via `checked` /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuContent": {
@@ -2779,7 +2779,7 @@
     "body": [
       "<MenuContent />"
     ],
-    "description": "Voidframe MenuContent component.",
+    "description": "Positioned popover that holds menu items. Subpart of `Menu`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuIcon": {
@@ -2790,7 +2790,7 @@
     "body": [
       "<MenuIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe MenuIcon component.",
+    "description": "Menu icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuItem": {
@@ -2801,7 +2801,7 @@
     "body": [
       "<MenuItem />"
     ],
-    "description": "Voidframe MenuItem component.",
+    "description": "Actionable menu item. Emits `onSelect` on activation; optional icon and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuLabel": {
@@ -2812,7 +2812,7 @@
     "body": [
       "<MenuLabel />"
     ],
-    "description": "Voidframe MenuLabel component.",
+    "description": "Non-interactive label inside a menu (group header).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuRadioGroup": {
@@ -2823,7 +2823,7 @@
     "body": [
       "<MenuRadioGroup />"
     ],
-    "description": "Voidframe MenuRadioGroup component.",
+    "description": "Group of mutually-exclusive menu radio items. Controllable via `value` /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuRadioItem": {
@@ -2834,7 +2834,7 @@
     "body": [
       "<MenuRadioItem\n  value=\"${1:value}\"\n/>"
     ],
-    "description": "Voidframe MenuRadioItem component.",
+    "description": "Menu item acting as one option in a `MenuRadioGroup`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuSeparator": {
@@ -2845,7 +2845,7 @@
     "body": [
       "<MenuSeparator />"
     ],
-    "description": "Voidframe MenuSeparator component.",
+    "description": "Horizontal rule separating menu item groups.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuSub": {
@@ -2856,7 +2856,7 @@
     "body": [
       "<MenuSub />"
     ],
-    "description": "Voidframe MenuSub component.",
+    "description": "Submenu container within a parent menu. Opens on hover / focus / arrow",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuSubContent": {
@@ -2867,7 +2867,7 @@
     "body": [
       "<MenuSubContent />"
     ],
-    "description": "Voidframe MenuSubContent component.",
+    "description": "Content subpart of `MenuSub` - the popover panel for the submenu.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuSubTrigger": {
@@ -2878,7 +2878,7 @@
     "body": [
       "<MenuSubTrigger />"
     ],
-    "description": "Voidframe MenuSubTrigger component.",
+    "description": "Trigger for a `MenuSub`. Shows a chevron and opens the submenu on",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuTrigger": {
@@ -2889,7 +2889,7 @@
     "body": [
       "<MenuTrigger />"
     ],
-    "description": "Voidframe MenuTrigger component.",
+    "description": "Element that opens the menu. Typically wraps a `Button` or `IconButton`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Mermaid": {
@@ -2900,7 +2900,7 @@
     "body": [
       "<Mermaid\n  chart=\"${1:chart}\"\n/>"
     ],
-    "description": "Voidframe Mermaid component.",
+    "description": "Renders a Mermaid diagram from a source string. Parses at mount; errors",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Message": {
@@ -2911,7 +2911,7 @@
     "body": [
       "<Message />"
     ],
-    "description": "Voidframe Message component.",
+    "description": "Single chat message card: role (`user` | `assistant` | `system` | `tool`),",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageActions": {
@@ -2922,7 +2922,7 @@
     "body": [
       "<MessageActions />"
     ],
-    "description": "Voidframe MessageActions component.",
+    "description": "Action rail for a chat message (copy / edit / regenerate / react). Visible",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageContent": {
@@ -2933,7 +2933,7 @@
     "body": [
       "<MessageContent\n  content={${1:/* content: string | MessagePart[] */}}\n/>"
     ],
-    "description": "Voidframe MessageContent component.",
+    "description": "Body slot of a chat `Message` — renders markdown, attachments, code",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageEdit": {
@@ -2942,9 +2942,9 @@
       "MessageEdit"
     ],
     "body": [
-      "<MessageEdit\n  value=\"${1:value}\"\n  onChange={${2:/* onChange: (next: string) => void */}}\n/>"
+      "<MessageEdit\n  value=\"${1:value}\"\n  onValueChange={${2:/* onValueChange: (next: string) => void */}}\n/>"
     ],
-    "description": "Voidframe MessageEdit component.",
+    "description": "Inline edit mode for a chat message: textarea plus Save / Cancel. Keyboard",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageFeedback": {
@@ -2955,7 +2955,7 @@
     "body": [
       "<MessageFeedback />"
     ],
-    "description": "Voidframe MessageFeedback component.",
+    "description": "Thumbs up/down feedback control for a chat message. Emits `{ value,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageGroup": {
@@ -2966,7 +2966,7 @@
     "body": [
       "<MessageGroup />"
     ],
-    "description": "Voidframe MessageGroup component.",
+    "description": "Visually groups consecutive messages from the same author into a single",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageIcon": {
@@ -2977,7 +2977,7 @@
     "body": [
       "<MessageIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe MessageIcon component.",
+    "description": "Message icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageList": {
@@ -2988,7 +2988,7 @@
     "body": [
       "<MessageList />"
     ],
-    "description": "Voidframe MessageList component.",
+    "description": "Virtualised scrollable list of `Message`s. Handles auto-scroll-to-bottom",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessagesProvider": {
@@ -3010,7 +3010,7 @@
     "body": [
       "<MetricCard\n  title={${1:/* title: ReactNode */}}\n  tone={${2:/* tone: enum */}}\n/>"
     ],
-    "description": "Voidframe MetricCard component.",
+    "description": "Dashboard card showing a metric, delta, and optional sparkline. Richer",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MinusIcon": {
@@ -3021,7 +3021,7 @@
     "body": [
       "<MinusIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe MinusIcon component.",
+    "description": "Minus icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Modal": {
@@ -3030,7 +3030,7 @@
       "Modal"
     ],
     "body": [
-      "<Modal\n  open={${1:true}}\n  onClose={${2:/* onClose: () => void */}}\n/>"
+      "<Modal\n  open={${1:true}}\n  onDismiss={${2:/* onDismiss: () => void */}}\n/>"
     ],
     "description": "Props-driven modal overlay with backdrop + centered panel. Portaled,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -3043,7 +3043,7 @@
     "body": [
       "<ModelCompare\n  models={${1:/* models: [ModelCompareModel, ModelCompareModel] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe ModelCompare component.",
+    "description": "Side-by-side comparison UI for model outputs. Synced scroll and per-column",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ModelPicker": {
@@ -3052,9 +3052,9 @@
       "ModelPicker"
     ],
     "body": [
-      "<ModelPicker\n  models={${1:/* models: ModelPickerOption[] */}}\n  value=\"${2:value}\"\n  onChange={${3:/* onChange: (modelId: string) => void */}}\n  label=\"${4:label}\"\n/>"
+      "<ModelPicker\n  models={${1:/* models: ModelPickerOption[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ModelPicker component.",
+    "description": "Dropdown for selecting an LLM model. Renders name, provider badge, and a",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ModelSelector": {
@@ -3065,7 +3065,7 @@
     "body": [
       "<ModelSelector\n  models={${1:/* models: ChatModelOption[] */}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ModelSelector component.",
+    "description": "Richer model picker with per-model metadata (context window, price,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MoonIcon": {
@@ -3076,7 +3076,7 @@
     "body": [
       "<MoonIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe MoonIcon component.",
+    "description": "Moon icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MoreHorizontalIcon": {
@@ -3087,7 +3087,7 @@
     "body": [
       "<MoreHorizontalIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe MoreHorizontalIcon component.",
+    "description": "MoreHorizontal icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MoreVerticalIcon": {
@@ -3098,7 +3098,7 @@
     "body": [
       "<MoreVerticalIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe MoreVerticalIcon component.",
+    "description": "MoreVertical icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MultiProgress": {
@@ -3109,7 +3109,7 @@
     "body": [
       "<MultiProgress\n  items={${1:/* items: MultiProgressItem[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe MultiProgress component.",
+    "description": "Stacked segmented progress bar representing parts-of-a-whole across",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MultiSelect": {
@@ -3120,7 +3120,7 @@
     "body": [
       "<MultiSelect\n  options={${1:/* options: ComboboxOption[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe MultiSelect component.",
+    "description": "Multi-value select built on `Combobox`. Emits an array of selected values;",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Navbar": {
@@ -3142,7 +3142,7 @@
     "body": [
       "<NavGroup\n  title=\"${1:title}\"\n/>"
     ],
-    "description": "Voidframe NavGroup component.",
+    "description": "Grouped section of a nav/sidebar with an optional heading. Used inside",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NavItem": {
@@ -3153,7 +3153,7 @@
     "body": [
       "<NavItem />"
     ],
-    "description": "Voidframe NavItem component.",
+    "description": "Single nav/sidebar item: icon, label, optional badge, active state. Wraps",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NetworkGraph": {
@@ -3164,7 +3164,7 @@
     "body": [
       "<NetworkGraph\n  nodes={${1:/* nodes: NetworkNode[] */}}\n  links={${2:/* links: NetworkLink[] */}}\n/>"
     ],
-    "description": "Voidframe NetworkGraph component.",
+    "description": "Force-directed graph. Nodes relax via d3-force; drag a node to pin it.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NetworkInspector": {
@@ -3175,7 +3175,7 @@
     "body": [
       "<NetworkInspector\n  requests={${1:/* requests: NetworkRequest[] */}}\n/>"
     ],
-    "description": "Voidframe NetworkInspector component.",
+    "description": "DevTools-style network request inspector: list of requests with status,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NotificationBadge": {
@@ -3186,7 +3186,7 @@
     "body": [
       "<NotificationBadge\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe NotificationBadge component.",
+    "description": "Small numeric or dot badge overlay for a host element (e.g. a bell icon).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NotificationCenter": {
@@ -3195,9 +3195,9 @@
       "NotificationCenter"
     ],
     "body": [
-      "<NotificationCenter\n  notifications={${1:/* notifications: NotificationItem[] */}}\n  variant={${2:/* variant: enum */}}\n  accent=\"${3:accent}\"\n/>"
+      "<NotificationCenter\n  notifications={${1:/* notifications: NotificationItem[] */}}\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Voidframe NotificationCenter component.",
+    "description": "Drawer of grouped notifications with read/unread state, per-item actions,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NumberDisplay": {
@@ -3208,7 +3208,7 @@
     "body": [
       "<NumberDisplay\n  value={${1:0}}\n  tone={${2:/* tone: enum */}}\n/>"
     ],
-    "description": "Voidframe NumberDisplay component.",
+    "description": "Locale-aware number formatter via `Intl.NumberFormat`. Takes `value` and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NumberInput": {
@@ -3217,9 +3217,9 @@
       "NumberInput"
     ],
     "body": [
-      "<NumberInput\n  value={${1:0}}\n  onChange={${2:/* onChange: (value: number) => void */}}\n  label=\"${3:label}\"\n/>"
+      "<NumberInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe NumberInput component.",
+    "description": "Numeric text input with min/max/step, keyboard increment/decrement, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NumberStepper": {
@@ -3230,7 +3230,7 @@
     "body": [
       "<NumberStepper\n  size={${1:/* size: enum */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe NumberStepper component.",
+    "description": "Numeric input with +/- buttons. Thinner than `NumberInput` for table cells",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "OfflineBanner": {
@@ -3241,7 +3241,7 @@
     "body": [
       "<OfflineBanner />"
     ],
-    "description": "Voidframe OfflineBanner component.",
+    "description": "Top-of-page banner that appears when `navigator.onLine` flips to false.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "OHLCChart": {
@@ -3263,7 +3263,7 @@
     "body": [
       "<OrganizationCard\n  organization={${1:/* organization: OrganizationCardOrg */}}\n/>"
     ],
-    "description": "Voidframe OrganizationCard component.",
+    "description": "Org identity card: logo, name, tagline, and a metric row. Companion to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "OrgChart": {
@@ -3274,7 +3274,7 @@
     "body": [
       "<OrgChart\n  data={${1:/* data: OrgChartNode */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe OrgChart component.",
+    "description": "Top-down hierarchical chart (e.g. org structure). Collapsible subtrees and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PageHeader": {
@@ -3294,7 +3294,7 @@
       "Pagination"
     ],
     "body": [
-      "<Pagination\n  page={${1:0}}\n  onChange={${2:/* onChange: (page: number) => void */}}\n/>"
+      "<Pagination\n  value={${1:0}}\n  totalPages={${2:0}}\n  onValueChange={${3:/* onValueChange: (page: number) => void */}}\n/>"
     ],
     "description": "Offset-based page picker with numbered buttons plus optional prev/next",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -3307,7 +3307,7 @@
     "body": [
       "<Palette\n  colors={${1:/* colors: (string | PaletteColor)[] */}}\n  size={${2:/* size: number | \"sm\" | \"md\" | \"lg\" */}}\n/>"
     ],
-    "description": "Voidframe Palette component.",
+    "description": "Displays a palette (array of colours) with optional labels and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ParallelCoordinates": {
@@ -3318,7 +3318,7 @@
     "body": [
       "<ParallelCoordinates\n  data={${1:/* data: ParallelDatum[] */}}\n  axes={${2:/* axes: ParallelAxis[] */}}\n/>"
     ],
-    "description": "Voidframe ParallelCoordinates component.",
+    "description": "Parallel-coordinates chart for high-dimensional data. One vertical axis",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PasswordInput": {
@@ -3329,7 +3329,7 @@
     "body": [
       "<PasswordInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe PasswordInput component.",
+    "description": "Password field with show/hide toggle and optional strength meter.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PauseIcon": {
@@ -3340,7 +3340,7 @@
     "body": [
       "<PauseIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe PauseIcon component.",
+    "description": "Pause icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PercentDisplay": {
@@ -3351,7 +3351,7 @@
     "body": [
       "<PercentDisplay\n  value={${1:0}}\n/>"
     ],
-    "description": "Voidframe PercentDisplay component.",
+    "description": "Locale-aware percentage formatter. Takes a 0-1 ratio and emits a localised",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PhoneInput": {
@@ -3362,7 +3362,7 @@
     "body": [
       "<PhoneInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe PhoneInput component.",
+    "description": "Phone number input with country selector, auto-formatting per E.164, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PieChart": {
@@ -3373,7 +3373,7 @@
     "body": [
       "<PieChart\n  data={${1:/* data: PieChartDatum[] */}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Voidframe PieChart component.",
+    "description": "Pie chart for part-of-whole data. For a hollow centre slot see",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PinIcon": {
@@ -3384,7 +3384,7 @@
     "body": [
       "<PinIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe PinIcon component.",
+    "description": "Pin icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PinInput": {
@@ -3395,7 +3395,7 @@
     "body": [
       "<PinInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe PinInput component.",
+    "description": "Segmented OTP-style input for short numeric/alphanumeric codes.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PlanDisplay": {
@@ -3406,7 +3406,7 @@
     "body": [
       "<PlanDisplay\n  steps={${1:/* steps: PlanStep[] */}}\n/>"
     ],
-    "description": "Voidframe PlanDisplay component.",
+    "description": "Pricing-plan card: tier name, price, feature list, and CTA. Used on",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PlayIcon": {
@@ -3417,7 +3417,7 @@
     "body": [
       "<PlayIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe PlayIcon component.",
+    "description": "Play icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PlusIcon": {
@@ -3428,7 +3428,7 @@
     "body": [
       "<PlusIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe PlusIcon component.",
+    "description": "Plus icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Point": {
@@ -3439,7 +3439,7 @@
     "body": [
       "<Point\n  data={${1:/* data: PointDatum[] */}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Voidframe Point component.",
+    "description": "Point (scatter) series primitive. Plots individual `{ x, y }` marks using",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Popconfirm": {
@@ -3450,7 +3450,7 @@
     "body": [
       "<Popconfirm\n  title=\"${1:title}\"\n  onConfirm={${2:/* onConfirm: () => void */}}\n/>"
     ],
-    "description": "Voidframe Popconfirm component.",
+    "description": "Lightweight confirmation popover anchored to a trigger. Cheaper than a",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Popover": {
@@ -3505,7 +3505,7 @@
     "body": [
       "<PresenceList\n  users={${1:/* users: PresenceUser[] */}}\n/>"
     ],
-    "description": "Voidframe PresenceList component.",
+    "description": "List of online users with presence state and optional typing indicator.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PrintButton": {
@@ -3516,7 +3516,7 @@
     "body": [
       "<PrintButton />"
     ],
-    "description": "Voidframe PrintButton component.",
+    "description": "Button that invokes `window.print()` with optional before/after hooks for",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PrintLayout": {
@@ -3527,7 +3527,7 @@
     "body": [
       "<PrintLayout />"
     ],
-    "description": "Voidframe PrintLayout component.",
+    "description": "Print-optimised layout wrapper that suppresses nav chrome and tightens",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Progress": {
@@ -3538,7 +3538,7 @@
     "body": [
       "<Progress\n  label={${1:/* label: ReactNode */}}\n  variant={${2:/* variant: enum */}}\n  tone={${3:/* tone: enum */}}\n  size={${4:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe Progress component.",
+    "description": "Linear progress bar. Determinate (`value`) or indeterminate. Tones mirror",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PromptTemplateEditor": {
@@ -3549,7 +3549,7 @@
     "body": [
       "<PromptTemplateEditor />"
     ],
-    "description": "Voidframe PromptTemplateEditor component.",
+    "description": "Editor for an LLM prompt template: body textarea plus a sidebar of named",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PromptTemplateList": {
@@ -3560,7 +3560,7 @@
     "body": [
       "<PromptTemplateList\n  templates={${1:/* templates: PromptTemplate[] */}}\n/>"
     ],
-    "description": "Voidframe PromptTemplateList component.",
+    "description": "List of saved prompt templates with preview, rename, duplicate, delete.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "QRCode": {
@@ -3571,7 +3571,7 @@
     "body": [
       "<QRCode\n  value=\"${1:value}\"\n  size={${2:0}}\n/>"
     ],
-    "description": "Voidframe QRCode component.",
+    "description": "Renders a QR code SVG from a string. Configurable error-correction level",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "QueryBuilder": {
@@ -3580,9 +3580,9 @@
       "QueryBuilder"
     ],
     "body": [
-      "<QueryBuilder\n  fields={${1:/* fields: QueryFieldDef[] */}}\n  value={${2:/* value: QueryGroup */}}\n  onChange={${3:/* onChange: (next: QueryGroup) => void */}}\n/>"
+      "<QueryBuilder\n  fields={${1:/* fields: QueryFieldDef[] */}}\n  value={${2:/* value: QueryGroup */}}\n  onValueChange={${3:/* onValueChange: (next: QueryGroup) => void */}}\n/>"
     ],
-    "description": "Voidframe QueryBuilder component.",
+    "description": "Visual builder for structured SQL-like queries. Emits a serialisable",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "QuestionIcon": {
@@ -3593,7 +3593,7 @@
     "body": [
       "<QuestionIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe QuestionIcon component.",
+    "description": "Question icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "QuickReplies": {
@@ -3615,7 +3615,7 @@
     "body": [
       "<Quote />"
     ],
-    "description": "Voidframe Quote component.",
+    "description": "Styled pull-quote block with optional attribution.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "QuoteIcon": {
@@ -3626,7 +3626,7 @@
     "body": [
       "<QuoteIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe QuoteIcon component.",
+    "description": "Quote icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RadarChart": {
@@ -3637,7 +3637,7 @@
     "body": [
       "<RadarChart\n  axes={${1:/* axes: string[] */}}\n  series={${2:/* series: RadarSeries[] */}}\n  size={${3:0}}\n/>"
     ],
-    "description": "Voidframe RadarChart component.",
+    "description": "Radar / spider chart for multi-axis categorical data. Each ring is a value",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Radio": {
@@ -3646,9 +3646,9 @@
       "Radio"
     ],
     "body": [
-      "<Radio\n  checked={${1:true}}\n  onChange={${2:/* onChange: () => void */}}\n  label=\"${3:label}\"\n  accent=\"${4:accent}\"\n/>"
+      "<Radio\n  checked={${1:true}}\n  onValueChange={${2:/* onValueChange: () => void */}}\n  label=\"${3:label}\"\n  accent=\"${4:accent}\"\n/>"
     ],
-    "description": "Voidframe Radio component.",
+    "description": "Single radio input with label. For groups use `RadioGroup`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RadioGroup": {
@@ -3670,7 +3670,7 @@
     "body": [
       "<RAGContext\n  chunks={${1:/* chunks: RAGChunk[] */}}\n/>"
     ],
-    "description": "Voidframe RAGContext component.",
+    "description": "Retrieval-augmented-generation context panel: retrieved chunks with",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RatingInput": {
@@ -3681,7 +3681,7 @@
     "body": [
       "<RatingInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe RatingInput component.",
+    "description": "Star rating input (0-N). Half-step support; controllable via `value` /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReactionBar": {
@@ -3692,7 +3692,7 @@
     "body": [
       "<ReactionBar\n  reactions={${1:/* reactions: MessageReactionEntry[] */}}\n/>"
     ],
-    "description": "Voidframe ReactionBar component.",
+    "description": "Emoji reaction row for a message / post. Shows tallies per reaction; emits",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReactionPicker": {
@@ -3703,7 +3703,7 @@
     "body": [
       "<ReactionPicker\n  reactions={${1:/* reactions: Reaction[] */}}\n  onReact={${2:/* onReact: (id: string) => void */}}\n/>"
     ],
-    "description": "Voidframe ReactionPicker component.",
+    "description": "Emoji picker popover used to add a reaction. Paired with `ReactionBar`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReasoningTrace": {
@@ -3714,7 +3714,7 @@
     "body": [
       "<ReasoningTrace\n  content={${1:/* content: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ReasoningTrace component.",
+    "description": "Collapsible block showing an LLM's chain-of-thought reasoning with step",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReferenceBand": {
@@ -3725,7 +3725,7 @@
     "body": [
       "<ReferenceBand\n  from={${1:0}}\n  to={${2:0}}\n  label=\"${3:label}\"\n/>"
     ],
-    "description": "Voidframe ReferenceBand component.",
+    "description": "Chart primitive: coloured band spanning a value range on an axis. Good for",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReferenceLine": {
@@ -3736,7 +3736,7 @@
     "body": [
       "<ReferenceLine\n  value={${1:0}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ReferenceLine component.",
+    "description": "Chart primitive: dashed rule at a reference value on an axis. Optional",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RefreshIcon": {
@@ -3747,7 +3747,7 @@
     "body": [
       "<RefreshIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe RefreshIcon component.",
+    "description": "Refresh icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RegenerateButton": {
@@ -3758,7 +3758,7 @@
     "body": [
       "<RegenerateButton\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe RegenerateButton component.",
+    "description": "Chat action button that re-runs the last assistant turn. Shows a spinner",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RegExpTester": {
@@ -3769,7 +3769,7 @@
     "body": [
       "<RegExpTester\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe RegExpTester component.",
+    "description": "Interactive regex tester: pattern, flags, test string, highlighted matches",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RelativeTime": {
@@ -3780,7 +3780,7 @@
     "body": [
       "<RelativeTime\n  date={${1:/* date: string | number | Date */}}\n/>"
     ],
-    "description": "Voidframe RelativeTime component.",
+    "description": "Formats a timestamp as a relative, auto-updating string (`2m ago`,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReorderList": {
@@ -3789,7 +3789,7 @@
       "ReorderList"
     ],
     "body": [
-      "<ReorderList\n  items={${1:/* items: T[] */}}\n  getKey={${2:/* getKey: (item: T) => string */}}\n  onChange={${3:/* onChange: (next: T[]) => void */}}\n  renderItem={${4:/* renderItem: (item: T, index: number, render: SortableRenderProps) => ReactNode */}}\n/>"
+      "<ReorderList\n  value={${1:/* value: T[] */}}\n  getKey={${2:/* getKey: (item: T) => string */}}\n  onValueChange={${3:/* onValueChange: (next: T[]) => void */}}\n  renderItem={${4:/* renderItem: (item: T, index: number, render: SortableRenderProps) => ReactNode */}}\n/>"
     ],
     "description": "Alias of Sortable with list semantics — same component, different name.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -3802,7 +3802,7 @@
     "body": [
       "<ResizableBox />"
     ],
-    "description": "Voidframe ResizableBox component.",
+    "description": "Resizable container with configurable handles. Emits `onResize({ width,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ResizableGroup": {
@@ -3813,7 +3813,7 @@
     "body": [
       "<ResizableGroup />"
     ],
-    "description": "Voidframe ResizableGroup component.",
+    "description": "Group of panes sharing a split. Drag handles redistribute space among",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ResizableHandle": {
@@ -3824,7 +3824,7 @@
     "body": [
       "<ResizableHandle />"
     ],
-    "description": "Voidframe ResizableHandle component.",
+    "description": "Drag handle subpart for `ResizableGroup` / `ResizablePanel`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ResizablePanel": {
@@ -3835,7 +3835,7 @@
     "body": [
       "<ResizablePanel />"
     ],
-    "description": "Voidframe ResizablePanel component.",
+    "description": "Single pane inside a `ResizableGroup`. Configurable min/max/default size.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ResponsiveBox": {
@@ -3846,7 +3846,7 @@
     "body": [
       "<ResponsiveBox />"
     ],
-    "description": "Voidframe ResponsiveBox component.",
+    "description": "Escape hatch responsive container: accepts a render-prop that receives the",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Result": {
@@ -3857,7 +3857,7 @@
     "body": [
       "<Result\n  status={${1:/* status: enum */}}\n  title=\"${2:title}\"\n/>"
     ],
-    "description": "Voidframe Result component.",
+    "description": "Centred result page (404 / 403 / 500 / success). Icon, title, description,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RichTextEditor": {
@@ -3868,7 +3868,7 @@
     "body": [
       "<RichTextEditor\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe RichTextEditor component.",
+    "description": "WYSIWYG rich-text editor with markdown-compatible output, toolbar, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RovingFocusGroup": {
@@ -3901,7 +3901,7 @@
     "body": [
       "<SafeArea />"
     ],
-    "description": "Voidframe SafeArea component.",
+    "description": "Inset wrapper that respects the device's safe-area insets (notches,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sankey": {
@@ -3912,7 +3912,7 @@
     "body": [
       "<Sankey\n  nodes={${1:/* nodes: SankeyNode[] */}}\n  links={${2:/* links: SankeyLink[] */}}\n/>"
     ],
-    "description": "Voidframe Sankey component.",
+    "description": "Sankey flow diagram. Weighted links between nodes; auto-layout via",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SaveIcon": {
@@ -3923,7 +3923,7 @@
     "body": [
       "<SaveIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe SaveIcon component.",
+    "description": "Save icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScatterMatrix": {
@@ -3934,7 +3934,7 @@
     "body": [
       "<ScatterMatrix\n  data={${1:/* data: ScatterMatrixDatum[] */}}\n  dimensions={${2:/* dimensions: string[] */}}\n/>"
     ],
-    "description": "Voidframe ScatterMatrix component.",
+    "description": "Scatterplot matrix: small-multiples grid pairing every dimension against",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScatterPlot": {
@@ -3945,7 +3945,7 @@
     "body": [
       "<ScatterPlot\n  data={${1:/* data: ScatterDatum[] */}}\n/>"
     ],
-    "description": "Voidframe ScatterPlot component.",
+    "description": "Scatter plot for two numeric dimensions. Axes: linear x linear. Optional",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScrollArea": {
@@ -3967,7 +3967,7 @@
     "body": [
       "<ScrollIndicator />"
     ],
-    "description": "Voidframe ScrollIndicator component.",
+    "description": "Edge indicator showing there's more content to scroll to. Fades in/out",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScrollLock": {
@@ -3989,7 +3989,7 @@
     "body": [
       "<ScrollRow />"
     ],
-    "description": "Voidframe ScrollRow component.",
+    "description": "Horizontally-scrolling row with overflow fading. Good for chip / card",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScrollSpy": {
@@ -4000,7 +4000,7 @@
     "body": [
       "<ScrollSpy />"
     ],
-    "description": "Voidframe ScrollSpy component.",
+    "description": "Tracks which anchored section is in view and exposes it via context /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SearchIcon": {
@@ -4011,7 +4011,7 @@
     "body": [
       "<SearchIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe SearchIcon component.",
+    "description": "Search icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SearchInput": {
@@ -4020,9 +4020,9 @@
       "SearchInput"
     ],
     "body": [
-      "<SearchInput\n  value=\"${1:value}\"\n/>"
+      "<SearchInput />"
     ],
-    "description": "Voidframe SearchInput component.",
+    "description": "Input tuned for search: leading search icon, clear-on-escape, debounce via",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Section": {
@@ -4033,7 +4033,7 @@
     "body": [
       "<Section />"
     ],
-    "description": "Voidframe Section component.",
+    "description": "Semantic section block with heading slot and consistent vertical rhythm.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SegmentBar": {
@@ -4044,7 +4044,7 @@
     "body": [
       "<SegmentBar\n  segments={${1:/* segments: SegmentBarSegment[] */}}\n/>"
     ],
-    "description": "Voidframe SegmentBar component.",
+    "description": "Horizontal bar divided into labelled segments, sized by a weight. Good for",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SegmentedControl": {
@@ -4055,7 +4055,7 @@
     "body": [
       "<SegmentedControl\n  options={${1:/* options: SegmentedOption[] */}}\n  accent=\"${2:accent}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe SegmentedControl component.",
+    "description": "Pill group of mutually-exclusive options (like iOS segmented control).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SegmentedProgress": {
@@ -4066,7 +4066,7 @@
     "body": [
       "<SegmentedProgress\n  segments={${1:/* segments: SegmentedProgressSegment[] */}}\n/>"
     ],
-    "description": "Voidframe SegmentedProgress component.",
+    "description": "Progress bar composed of discrete segments filled left-to-right as",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Select": {
@@ -4075,7 +4075,7 @@
       "Select"
     ],
     "body": [
-      "<Select\n  options={${1:/* options: SelectOption[] */}}\n  value=\"${2:value}\"\n  onChange={${3:/* onChange: (value: string) => void */}}\n  label=\"${4:label}\"\n/>"
+      "<Select\n  options={${1:/* options: SelectOption[] */}}\n  label=\"${2:label}\"\n/>"
     ],
     "description": "A native dropdown for choosing one value from a fixed list of options.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -4088,7 +4088,7 @@
     "body": [
       "<SendIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe SendIcon component.",
+    "description": "Send icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Separator": {
@@ -4110,7 +4110,7 @@
     "body": [
       "<SessionList\n  sessions={${1:/* sessions: ChatSessionEntry[] */}}\n/>"
     ],
-    "description": "Voidframe SessionList component.",
+    "description": "Sidebar list of chat sessions with titles, timestamps, and unread badges.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SessionListItem": {
@@ -4121,7 +4121,7 @@
     "body": [
       "<SessionListItem\n  session={${1:/* session: ChatSessionEntry */}}\n/>"
     ],
-    "description": "Voidframe SessionListItem component.",
+    "description": "Single row in `SessionList`: title, preview, timestamp, unread state.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SettingsIcon": {
@@ -4132,7 +4132,7 @@
     "body": [
       "<SettingsIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe SettingsIcon component.",
+    "description": "Settings icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ShareButton": {
@@ -4143,7 +4143,7 @@
     "body": [
       "<ShareButton\n  url=\"${1:url}\"\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ShareButton component.",
+    "description": "Button that opens a share sheet / menu with configurable destinations",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ShareIcon": {
@@ -4154,7 +4154,7 @@
     "body": [
       "<ShareIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe ShareIcon component.",
+    "description": "Share icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sheet": {
@@ -4176,7 +4176,7 @@
     "body": [
       "<Shimmer />"
     ],
-    "description": "Voidframe Shimmer component.",
+    "description": "Low-level shimmer animation primitive used by skeletons. Respects",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Shortcut": {
@@ -4187,7 +4187,7 @@
     "body": [
       "<Shortcut\n  keys=\"${1:keys}\"\n/>"
     ],
-    "description": "Voidframe Shortcut component.",
+    "description": "Inline rendered keyboard shortcut (`Cmd+K`). Purely visual; for actual",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ShortcutEditor": {
@@ -4198,7 +4198,7 @@
     "body": [
       "<ShortcutEditor\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ShortcutEditor component.",
+    "description": "UI for editing an existing keyboard shortcut binding. Captures the next",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ShortcutGuide": {
@@ -4209,7 +4209,7 @@
     "body": [
       "<ShortcutGuide />"
     ],
-    "description": "Voidframe ShortcutGuide component.",
+    "description": "Modal that lists all registered keyboard shortcuts grouped by scope.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ShortcutProvider": {
@@ -4220,7 +4220,7 @@
     "body": [
       "<ShortcutProvider />"
     ],
-    "description": "Voidframe ShortcutProvider component.",
+    "description": "Provider that registers the global shortcut registry. Wrap your app root;",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Show": {
@@ -4231,7 +4231,7 @@
     "body": [
       "<Show />"
     ],
-    "description": "Voidframe Show component.",
+    "description": "Conditional renderer: shows its children at/above/below specific",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sidebar": {
@@ -4253,7 +4253,7 @@
     "body": [
       "<SignaturePad\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe SignaturePad component.",
+    "description": "Pointer-drawn signature pad. Emits the trace as a data URL or stroke list",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SimpleChat": {
@@ -4264,7 +4264,7 @@
     "body": [
       "<SimpleChat\n  conversation={${1:/* conversation: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe SimpleChat component.",
+    "description": "Prewired minimal chat UI: conversation + composer + model selector.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Skeleton": {
@@ -4275,7 +4275,7 @@
     "body": [
       "<Skeleton />"
     ],
-    "description": "Voidframe Skeleton component.",
+    "description": "Rectangle shimmer placeholder used while content loads. Composed into",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkeletonAvatar": {
@@ -4286,7 +4286,7 @@
     "body": [
       "<SkeletonAvatar\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe SkeletonAvatar component.",
+    "description": "Circular shimmer placeholder sized for an avatar. Part of the skeleton",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkeletonButton": {
@@ -4297,7 +4297,7 @@
     "body": [
       "<SkeletonButton\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe SkeletonButton component.",
+    "description": "Shimmer placeholder shaped like a button. Part of the skeleton kit.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkeletonCard": {
@@ -4308,7 +4308,7 @@
     "body": [
       "<SkeletonCard />"
     ],
-    "description": "Voidframe SkeletonCard component.",
+    "description": "Shimmer placeholder shaped like a `Card`. Configurable with/without",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkeletonForm": {
@@ -4319,7 +4319,7 @@
     "body": [
       "<SkeletonForm />"
     ],
-    "description": "Voidframe SkeletonForm component.",
+    "description": "Pre-composed skeleton matching a typical form (label + input pairs).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkeletonTable": {
@@ -4330,7 +4330,7 @@
     "body": [
       "<SkeletonTable />"
     ],
-    "description": "Voidframe SkeletonTable component.",
+    "description": "Pre-composed skeleton matching a typical data table.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkeletonText": {
@@ -4341,7 +4341,7 @@
     "body": [
       "<SkeletonText\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe SkeletonText component.",
+    "description": "Shimmer placeholder for one or more lines of text. Configurable line count",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkipToContent": {
@@ -4363,7 +4363,7 @@
     "body": [
       "<SlashCommandInput\n  commands={${1:/* commands: SlashCommandOption[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe SlashCommandInput component.",
+    "description": "Text input with `/`-triggered command autocomplete. Emits the selected",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SlashCommandPicker": {
@@ -4374,7 +4374,7 @@
     "body": [
       "<SlashCommandPicker\n  commands={${1:/* commands: SlashCommand[] */}}\n/>"
     ],
-    "description": "Voidframe SlashCommandPicker component.",
+    "description": "Popover listing available slash commands. Used inside `SlashCommandInput`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Slider": {
@@ -4383,9 +4383,9 @@
       "Slider"
     ],
     "body": [
-      "<Slider\n  value={${1:0}}\n  onChange={${2:/* onChange: (value: number) => void */}}\n  label=\"${3:label}\"\n  accent=\"${4:accent}\"\n/>"
+      "<Slider\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Voidframe Slider component.",
+    "description": "Range slider for numeric values. Controllable via `value` /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Slot": {
@@ -4407,7 +4407,7 @@
     "body": [
       "<SmallMultiples\n  items={${1:/* items: T[] */}}\n  renderItem={${2:/* renderItem: (item: T, index: number) => ReactNode */}}\n/>"
     ],
-    "description": "Voidframe SmallMultiples component.",
+    "description": "Grid of small charts sharing encoding / scale. Good for comparing many",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Snackbar": {
@@ -4418,7 +4418,7 @@
     "body": [
       "<Snackbar />"
     ],
-    "description": "Voidframe Snackbar component.",
+    "description": "Transient bottom-anchored message with optional action. Lighter than",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sortable": {
@@ -4427,9 +4427,9 @@
       "Sortable"
     ],
     "body": [
-      "<Sortable\n  items={${1:/* items: T[] */}}\n  getKey={${2:/* getKey: (item: T) => string */}}\n  onChange={${3:/* onChange: (next: T[]) => void */}}\n  renderItem={${4:/* renderItem: (item: T, index: number, render: SortableRenderProps) => ReactNode */}}\n/>"
+      "<Sortable\n  value={${1:/* value: T[] */}}\n  getKey={${2:/* getKey: (item: T) => string */}}\n  onValueChange={${3:/* onValueChange: (next: T[]) => void */}}\n  renderItem={${4:/* renderItem: (item: T, index: number, render: SortableRenderProps) => ReactNode */}}\n/>"
     ],
-    "description": "Voidframe Sortable component.",
+    "description": "Wraps a list to make its items reorderable via drag. Keyboard-reorder with",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SortIcon": {
@@ -4440,7 +4440,7 @@
     "body": [
       "<SortIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe SortIcon component.",
+    "description": "Sort icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SourceCard": {
@@ -4451,7 +4451,7 @@
     "body": [
       "<SourceCard />"
     ],
-    "description": "Voidframe SourceCard component.",
+    "description": "Citation-source card: title, URL, snippet, and metadata. Paired with",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SourceGrid": {
@@ -4462,7 +4462,7 @@
     "body": [
       "<SourceGrid\n  sources={${1:/* sources: SourceRef[] */}}\n/>"
     ],
-    "description": "Voidframe SourceGrid component.",
+    "description": "Grid of `SourceCard`s. Used when multiple sources back a single response.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Spacer": {
@@ -4473,7 +4473,7 @@
     "body": [
       "<Spacer\n  size={${1:0}}\n/>"
     ],
-    "description": "Voidframe Spacer component.",
+    "description": "Layout wrapper that fills the free space in a flex row/column. Use between",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sparkline": {
@@ -4484,7 +4484,7 @@
     "body": [
       "<Sparkline\n  data={${1:/* data: number[] */}}\n/>"
     ],
-    "description": "Voidframe Sparkline component.",
+    "description": "Tiny inline trend chart. No axes / labels — context comes from the",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Spinner": {
@@ -4495,7 +4495,7 @@
     "body": [
       "<Spinner\n  size={${1:0}}\n/>"
     ],
-    "description": "Voidframe Spinner component.",
+    "description": "Animated loading spinner. Respects `prefers-reduced-motion`; sizes",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SpinnerIcon": {
@@ -4506,7 +4506,7 @@
     "body": [
       "<SpinnerIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe SpinnerIcon component.",
+    "description": "Spinner icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SpinnerV2": {
@@ -4517,7 +4517,7 @@
     "body": [
       "<SpinnerV2\n  size={${1:0}}\n  variant={${2:/* variant: enum */}}\n  label=\"${3:label}\"\n/>"
     ],
-    "description": "Voidframe SpinnerV2 component.",
+    "description": "Successor spinner with richer size and tone variants. Source-compatible",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SplitButton": {
@@ -4528,7 +4528,7 @@
     "body": [
       "<SplitButton\n  onClick={${1:/* onClick: () => void */}}\n  label=\"${2:label}\"\n  actions={${3:/* actions: SplitButtonAction[] */}}\n  onAction={${4:/* onAction: (key: string) => void */}}\n  variant={${5:/* variant: enum */}}\n  size={${6:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe SplitButton component.",
+    "description": "Button with a primary action and an adjacent dropdown of alternate",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SplitView": {
@@ -4539,7 +4539,7 @@
     "body": [
       "<SplitView />"
     ],
-    "description": "Voidframe SplitView component.",
+    "description": "Two-pane split view with a draggable divider. Controllable split ratio.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Spotlight": {
@@ -4550,7 +4550,7 @@
     "body": [
       "<Spotlight\n  steps={${1:/* steps: SpotlightStep[] */}}\n/>"
     ],
-    "description": "Voidframe Spotlight component.",
+    "description": "Dimmed overlay with a cut-out highlighting a target element. Used by",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SquareIcon": {
@@ -4561,7 +4561,7 @@
     "body": [
       "<SquareIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe SquareIcon component.",
+    "description": "Square icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Stack": {
@@ -4572,7 +4572,7 @@
     "body": [
       "<Stack />"
     ],
-    "description": "Voidframe Stack component.",
+    "description": "Vertical or horizontal flex stack with a `gap` prop. Composable and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StarIcon": {
@@ -4583,7 +4583,7 @@
     "body": [
       "<StarIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe StarIcon component.",
+    "description": "Star icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Stat": {
@@ -4594,7 +4594,7 @@
     "body": [
       "<Stat\n  label=\"${1:label}\"\n  tone={${2:/* tone: enum */}}\n/>"
     ],
-    "description": "Voidframe Stat component.",
+    "description": "Single statistic block: label, value, and optional delta / help text.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StatGroup": {
@@ -4605,7 +4605,7 @@
     "body": [
       "<StatGroup />"
     ],
-    "description": "Voidframe StatGroup component.",
+    "description": "Row or grid of `Stat`s with consistent spacing and optional dividers.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StatusBar": {
@@ -4616,7 +4616,7 @@
     "body": [
       "<StatusBar\n  items={${1:/* items: StatusBarItem[] */}}\n/>"
     ],
-    "description": "Voidframe StatusBar component.",
+    "description": "Bottom status bar (e.g. for an editor / IDE-style UI). Renders items with",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StatusIndicator": {
@@ -4627,7 +4627,7 @@
     "body": [
       "<StatusIndicator\n  status={${1:/* status: enum */}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe StatusIndicator component.",
+    "description": "Coloured dot plus label indicating a status (`online`, `idle`, `busy`,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Stepper": {
@@ -4649,7 +4649,7 @@
     "body": [
       "<Sticky />"
     ],
-    "description": "Voidframe Sticky component.",
+    "description": "Wrapper that makes its child `position: sticky` with configurable offset",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StopButton": {
@@ -4660,7 +4660,7 @@
     "body": [
       "<StopButton\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe StopButton component.",
+    "description": "Chat action button that halts an in-progress stream. Shows as a stop glyph",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StopIcon": {
@@ -4671,7 +4671,7 @@
     "body": [
       "<StopIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe StopIcon component.",
+    "description": "Stop icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StreamGraph": {
@@ -4682,7 +4682,7 @@
     "body": [
       "<StreamGraph\n  data={${1:/* data: StreamGraphDatum[] */}}\n  series={${2:/* series: StreamGraphSeries[] */}}\n/>"
     ],
-    "description": "Voidframe StreamGraph component.",
+    "description": "Stream graph (river plot) for stacked time-series. Visually emphasises",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StreamingText": {
@@ -4693,7 +4693,7 @@
     "body": [
       "<StreamingText\n  text=\"${1:text}\"\n/>"
     ],
-    "description": "Voidframe StreamingText component.",
+    "description": "Incrementally-rendered text block for streaming LLM output. Shows a",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Stretch": {
@@ -4715,7 +4715,7 @@
     "body": [
       "<SubmitButton />"
     ],
-    "description": "Voidframe SubmitButton component.",
+    "description": "Form submit button with integrated pending state, driven by the nearest",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SuccessIcon": {
@@ -4726,7 +4726,7 @@
     "body": [
       "<SuccessIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe SuccessIcon component.",
+    "description": "Success icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SuggestionChips": {
@@ -4737,7 +4737,7 @@
     "body": [
       "<SuggestionChips\n  suggestions={${1:/* suggestions: SuggestionItem[] */}}\n/>"
     ],
-    "description": "Voidframe SuggestionChips component.",
+    "description": "Row of chips with suggested follow-up prompts. Emits `onSelect(prompt)`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sunburst": {
@@ -4748,7 +4748,7 @@
     "body": [
       "<Sunburst\n  data={${1:/* data: SunburstNode */}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Voidframe Sunburst component.",
+    "description": "Radial hierarchical chart (zoomable). Peer: `d3-hierarchy`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SunIcon": {
@@ -4759,7 +4759,7 @@
     "body": [
       "<SunIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe SunIcon component.",
+    "description": "Sun icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Swipeable": {
@@ -4770,7 +4770,7 @@
     "body": [
       "<Swipeable />"
     ],
-    "description": "Voidframe Swipeable component.",
+    "description": "Wrapper that makes a child horizontally or vertically swipeable. Emits",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SwipeActions": {
@@ -4781,7 +4781,7 @@
     "body": [
       "<SwipeActions />"
     ],
-    "description": "Voidframe SwipeActions component.",
+    "description": "List-item wrapper revealing actions on horizontal swipe (iOS Mail style).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Switch": {
@@ -4792,7 +4792,7 @@
     "body": [
       "<Switch\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Voidframe Switch component.",
+    "description": "Two-state switch control with a visible on/off label option. Controllable",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SystemPromptEditor": {
@@ -4803,7 +4803,7 @@
     "body": [
       "<SystemPromptEditor\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe SystemPromptEditor component.",
+    "description": "Editor for an LLM system-prompt. Textarea plus saved-preset selector.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TabBar": {
@@ -4814,7 +4814,7 @@
     "body": [
       "<TabBar />"
     ],
-    "description": "Voidframe TabBar component.",
+    "description": "Mobile-style bottom tab bar. Horizontal row of icon+label tabs, each",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Table": {
@@ -4825,7 +4825,7 @@
     "body": [
       "<Table\n  columns={${1:/* columns: TableColumn<T>[] */}}\n  data={${2:/* data: T[] */}}\n/>"
     ],
-    "description": "Voidframe Table component.",
+    "description": "Semantic `<table>` wrapper with voidframe styling. For sortable /",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tabs": {
@@ -4834,9 +4834,9 @@
       "Tabs"
     ],
     "body": [
-      "<Tabs\n  tabs={${1:/* tabs: TabItem[] */}}\n  active=\"${2:active}\"\n  onChange={${3:/* onChange: (key: string) => void */}}\n  accent=\"${4:accent}\"\n/>"
+      "<Tabs\n  accent=\"${1:accent}\"\n/>"
     ],
-    "description": "Tabbed navigation with WAI-ARIA tablist semantics and arrow-key / Home /",
+    "description": "Keyboard-navigable tablist. Arrow keys cycle within the list, Home/End",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tag": {
@@ -4847,7 +4847,7 @@
     "body": [
       "<Tag />"
     ],
-    "description": "Voidframe Tag component.",
+    "description": "Small removable label chip with optional leading icon. Emits `onRemove`",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TagInput": {
@@ -4858,7 +4858,7 @@
     "body": [
       "<TagInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe TagInput component.",
+    "description": "Text input that collects tags on Enter/comma. Emits the current array of",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TeamCard": {
@@ -4869,7 +4869,7 @@
     "body": [
       "<TeamCard\n  team={${1:/* team: TeamCardTeam */}}\n/>"
     ],
-    "description": "Voidframe TeamCard component.",
+    "description": "Team identity card: avatar group, name, member count, CTA. Companion to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Terminal": {
@@ -4880,7 +4880,7 @@
     "body": [
       "<Terminal />"
     ],
-    "description": "Voidframe Terminal component.",
+    "description": "Interactive terminal emulator surface. Emits user input lines; host app",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TerminalIcon": {
@@ -4891,7 +4891,7 @@
     "body": [
       "<TerminalIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe TerminalIcon component.",
+    "description": "Terminal icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Text": {
@@ -4924,7 +4924,7 @@
     "body": [
       "<ThemeScope />"
     ],
-    "description": "Voidframe ThemeScope component.",
+    "description": "Subtree-level theme override. Wrap any subtree to apply a different theme",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ThemeSelector": {
@@ -4933,9 +4933,9 @@
       "ThemeSelector"
     ],
     "body": [
-      "<ThemeSelector\n  themes={${1:/* themes: ThemeSelectorOption[] */}}\n  variant={${2:/* variant: enum */}}\n  label={${3:/* label: ReactNode */}}\n  size={${4:/* size: enum */}}\n/>"
+      "<ThemeSelector\n  themes={${1:/* themes: ThemeSelectorOption[] */}}\n  label={${2:/* label: ReactNode */}}\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe ThemeSelector component.",
+    "description": "Dropdown / segmented control for picking the active theme. Pairs with",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ThinkingIndicator": {
@@ -4944,9 +4944,9 @@
       "ThinkingIndicator"
     ],
     "body": [
-      "<ThinkingIndicator\n  variant={${1:/* variant: enum */}}\n/>"
+      "<ThinkingIndicator />"
     ],
-    "description": "Voidframe ThinkingIndicator component.",
+    "description": "Animated `thinking...` indicator used while an LLM response is pending.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Ticker": {
@@ -4957,7 +4957,7 @@
     "body": [
       "<Ticker\n  to={${1:0}}\n/>"
     ],
-    "description": "Voidframe Ticker component.",
+    "description": "Auto-advancing horizontal ticker for news-style headlines. Respects",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TileGridMap": {
@@ -4979,7 +4979,7 @@
     "body": [
       "<Timeline />"
     ],
-    "description": "Voidframe Timeline component.",
+    "description": "Vertical timeline with dotted axis and event cards. Each item has time,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TimePicker": {
@@ -4990,7 +4990,7 @@
     "body": [
       "<TimePicker\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe TimePicker component.",
+    "description": "Time-only picker (hours/minutes/optional seconds). Controllable via",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TimeZoneSelect": {
@@ -5001,7 +5001,7 @@
     "body": [
       "<TimeZoneSelect\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe TimeZoneSelect component.",
+    "description": "Dropdown for selecting an IANA time zone. Groups by region and shows",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Toast": {
@@ -5012,7 +5012,7 @@
     "body": [
       "<Toast\n  message=\"${1:message}\"\n/>"
     ],
-    "description": "Voidframe Toast component.",
+    "description": "Transient popup notification for async feedback. For 1.0+ use the",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Toaster": {
@@ -5045,7 +5045,7 @@
     "body": [
       "<ToggleGroup\n  items={${1:/* items: ToggleGroupItem[] */}}\n  variant={${2:/* variant: enum */}}\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe ToggleGroup component.",
+    "description": "Group of mutually-exclusive (`type=\"single\"`) or multi-select",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TokenCounter": {
@@ -5054,9 +5054,9 @@
       "TokenCounter"
     ],
     "body": [
-      "<TokenCounter\n  variant={${1:/* variant: enum */}}\n/>"
+      "<TokenCounter />"
     ],
-    "description": "Voidframe TokenCounter component.",
+    "description": "Live token counter for a text input / prompt. Pluggable tokenizer; shows",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TokenVisualizer": {
@@ -5067,7 +5067,7 @@
     "body": [
       "<TokenVisualizer\n  tokens={${1:/* tokens: Token[] | string[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe TokenVisualizer component.",
+    "description": "Visualises tokenisation of a string: each token rendered as a chip with",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Toolbar": {
@@ -5089,7 +5089,7 @@
     "body": [
       "<ToolCall\n  name={${1:/* name: ReactNode */}}\n/>"
     ],
-    "description": "Voidframe ToolCall component.",
+    "description": "Chat transcript block representing a single tool invocation: name,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ToolCallGroup": {
@@ -5100,7 +5100,7 @@
     "body": [
       "<ToolCallGroup />"
     ],
-    "description": "Voidframe ToolCallGroup component.",
+    "description": "Groups consecutive `ToolCall`s from the same turn with a collapsed",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tooltip": {
@@ -5133,7 +5133,7 @@
     "body": [
       "<TraceViewer\n  spans={${1:/* spans: TraceSpan[] */}}\n/>"
     ],
-    "description": "Voidframe TraceViewer component.",
+    "description": "Developer trace viewer for agent runs — flamegraph-style timeline of steps",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Transfer": {
@@ -5144,7 +5144,7 @@
     "body": [
       "<Transfer\n  items={${1:/* items: TransferItem[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe Transfer component.",
+    "description": "Two-list transfer component. Users move items between `source` and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Transition": {
@@ -5166,7 +5166,7 @@
     "body": [
       "<TrashIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe TrashIcon component.",
+    "description": "Trash icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TreeMap": {
@@ -5177,7 +5177,7 @@
     "body": [
       "<TreeMap\n  data={${1:/* data: TreeMapNode */}}\n/>"
     ],
-    "description": "Voidframe TreeMap component.",
+    "description": "Hierarchical rectangle tiling weighted by value. Peer: `d3-hierarchy`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TreeNav": {
@@ -5188,7 +5188,7 @@
     "body": [
       "<TreeNav\n  items={${1:/* items: TreeNavItem[] */}}\n/>"
     ],
-    "description": "Voidframe TreeNav component.",
+    "description": "Hierarchical navigation tree. Expand/collapse nodes with keyboard;",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TreeSelect": {
@@ -5199,7 +5199,7 @@
     "body": [
       "<TreeSelect\n  nodes={${1:/* nodes: TreeNode[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe TreeSelect component.",
+    "description": "Select dropdown whose options are organised as a tree (cascader-like but",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TreeTable": {
@@ -5210,7 +5210,7 @@
     "body": [
       "<TreeTable\n  columns={${1:/* columns: TableColumn<T>[] */}}\n  data={${2:/* data: T[] */}}\n  getChildren={${3:/* getChildren: (row: T) => T[] | undefined */}}\n  rowKey={${4:/* rowKey: (row: T) => string */}}\n/>"
     ],
-    "description": "Voidframe TreeTable component.",
+    "description": "Data table with expandable tree rows. Combines `DataGrid`'s",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TreeView": {
@@ -5232,7 +5232,7 @@
     "body": [
       "<TrendIndicator />"
     ],
-    "description": "Voidframe TrendIndicator component.",
+    "description": "Up/down / flat arrow plus percentage showing a delta. Tones follow",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Typewriter": {
@@ -5243,7 +5243,7 @@
     "body": [
       "<Typewriter\n  text=\"${1:text}\"\n/>"
     ],
-    "description": "Voidframe Typewriter component.",
+    "description": "Types out a string character by character. Respects",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UnderlineIcon": {
@@ -5254,7 +5254,7 @@
     "body": [
       "<UnderlineIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe UnderlineIcon component.",
+    "description": "Underline icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UnlockIcon": {
@@ -5265,7 +5265,7 @@
     "body": [
       "<UnlockIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe UnlockIcon component.",
+    "description": "Unlock icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UnreadBadge": {
@@ -5276,7 +5276,7 @@
     "body": [
       "<UnreadBadge\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Voidframe UnreadBadge component.",
+    "description": "Dot/count badge indicating unread items. Accessible count label via",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UploadIcon": {
@@ -5287,7 +5287,7 @@
     "body": [
       "<UploadIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe UploadIcon component.",
+    "description": "Upload icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UserCard": {
@@ -5298,7 +5298,7 @@
     "body": [
       "<UserCard\n  user={${1:/* user: UserCardUser */}}\n/>"
     ],
-    "description": "Voidframe UserCard component.",
+    "description": "User identity card: avatar, name, role, bio, and optional action row.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UserIcon": {
@@ -5309,7 +5309,7 @@
     "body": [
       "<UserIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe UserIcon component.",
+    "description": "User icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UserMenu": {
@@ -5320,7 +5320,7 @@
     "body": [
       "<UserMenu\n  user={${1:/* user: { name: string; email?: string | undefined; avatar?: ReactNode; } */}}\n/>"
     ],
-    "description": "Voidframe UserMenu component.",
+    "description": "Avatar-triggered menu with account actions (profile, settings, sign out).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UsersIcon": {
@@ -5331,7 +5331,7 @@
     "body": [
       "<UsersIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe UsersIcon component.",
+    "description": "Users icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VideoPlayer": {
@@ -5342,7 +5342,7 @@
     "body": [
       "<VideoPlayer\n  src=\"${1:src}\"\n/>"
     ],
-    "description": "Voidframe VideoPlayer component.",
+    "description": "Accessible video player with play/pause, scrub, volume, fullscreen, and",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ViolinPlot": {
@@ -5353,7 +5353,7 @@
     "body": [
       "<ViolinPlot\n  groups={${1:/* groups: ViolinPlotGroup[] */}}\n/>"
     ],
-    "description": "Voidframe ViolinPlot component.",
+    "description": "Violin plot (density + box combined). Axes: band x linear.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VirtualGrid": {
@@ -5364,7 +5364,7 @@
     "body": [
       "<VirtualGrid\n  items={${1:/* items: T[] */}}\n  columnCount={${2:0}}\n  rowHeight={${3:0}}\n  columnWidth={${4:0}}\n  renderCell={${5:/* renderCell: (item: T, index: number, style: CSSProperties) => ReactNode */}}\n/>"
     ],
-    "description": "Voidframe VirtualGrid component.",
+    "description": "Virtualised 2D grid. Renders only the visible cells; suitable for",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VirtualList": {
@@ -5375,7 +5375,7 @@
     "body": [
       "<VirtualList\n  items={${1:/* items: T[] */}}\n  itemHeight={${2:/* itemHeight: number | ((index: number, item: T) => number) */}}\n  renderItem={${3:/* renderItem: (item: T, index: number, style: CSSProperties) => ReactNode */}}\n/>"
     ],
-    "description": "Voidframe VirtualList component.",
+    "description": "Virtualised 1D list. Renders only the visible rows; supports variable",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VisuallyHidden": {
@@ -5397,7 +5397,7 @@
     "body": [
       "<VoiceWaveform />"
     ],
-    "description": "Voidframe VoiceWaveform component.",
+    "description": "Animated audio waveform visualisation from a mic stream or a buffer.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VoidframeProvider": {
@@ -5430,7 +5430,7 @@
     "body": [
       "<WarningIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe WarningIcon component.",
+    "description": "Warning icon. Decorative by default; supply `label` to promote to",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "WaterfallChart": {
@@ -5441,7 +5441,7 @@
     "body": [
       "<WaterfallChart\n  steps={${1:/* steps: WaterfallStep[] */}}\n/>"
     ],
-    "description": "Voidframe WaterfallChart component.",
+    "description": "Waterfall chart showing running totals with positive/negative",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "WhatsNewPopover": {
@@ -5452,7 +5452,7 @@
     "body": [
       "<WhatsNewPopover\n  version=\"${1:version}\"\n  features={${2:/* features: WhatsNewFeature[] */}}\n/>"
     ],
-    "description": "Voidframe WhatsNewPopover component.",
+    "description": "Popover that announces recent releases / changelog entries. Auto-dismisses",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "WidgetShell": {
@@ -5463,7 +5463,7 @@
     "body": [
       "<WidgetShell />"
     ],
-    "description": "Voidframe WidgetShell component.",
+    "description": "Standardised card-shaped shell for a dashboard widget: header, body,",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Wizard": {
@@ -5485,7 +5485,7 @@
     "body": [
       "<XIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Voidframe XIcon component.",
+    "description": "X icon. Decorative by default; supply `label` to promote to `role=\"img\"`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Zoomable": {
@@ -5496,7 +5496,7 @@
     "body": [
       "<Zoomable />"
     ],
-    "description": "Voidframe Zoomable component.",
+    "description": "Wrapper that makes a child pan + zoomable (pinch / wheel / drag). Emits",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   }
 }

@@ -104,6 +104,10 @@ const DescriptionsImpl = forwardRef<HTMLDivElement, DescriptionsProps>(
   }
 );
 DescriptionsImpl.displayName = "Descriptions";
+/**
+ * Compact form of `DescriptionList` optimised for dense detail views (e.g.
+ * entity metadata cards).
+ */
 export const Descriptions = memo(DescriptionsImpl);
 (Descriptions as unknown as { displayName: string }).displayName =
   "Descriptions";

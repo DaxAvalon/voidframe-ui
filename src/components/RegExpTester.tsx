@@ -251,6 +251,10 @@ const RegExpTesterImpl = forwardRef<HTMLDivElement, RegExpTesterProps>(
   }
 );
 RegExpTesterImpl.displayName = "RegExpTester";
+/**
+ * Interactive regex tester: pattern, flags, test string, highlighted matches
+ * and capture groups.
+ */
 export const RegExpTester = memo(RegExpTesterImpl);
 (RegExpTester as unknown as { displayName: string }).displayName =
   "RegExpTester";

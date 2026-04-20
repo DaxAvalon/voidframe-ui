@@ -28,6 +28,10 @@ export interface SwipeableProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Wrapper that makes a child horizontally or vertically swipeable. Emits
+ * swipe-direction events.
+ */
 export const Swipeable = forwardRef<HTMLDivElement, SwipeableProps>(function Swipeable(
   {
     onSwipeLeft,
@@ -185,6 +189,9 @@ const SwipeAction = forwardRef<HTMLButtonElement, SwipeActionProps>(
 );
 SwipeAction.displayName = "SwipeAction";
 
+/**
+ * List-item wrapper revealing actions on horizontal swipe (iOS Mail style).
+ */
 export const SwipeActions = Object.assign(SwipeActionsRoot, {
   Action: SwipeAction,
 });
@@ -203,6 +210,10 @@ export interface ZoomableProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Wrapper that makes a child pan + zoomable (pinch / wheel / drag). Emits
+ * the current transform.
+ */
 export const Zoomable = forwardRef<HTMLDivElement, ZoomableProps>(function Zoomable(
   {
     min = 0.5,

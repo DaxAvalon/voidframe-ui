@@ -3,6 +3,9 @@
 // Creates and ref-counts portal containers in the DOM.
 // ═══════════════════════════════════════════════════════════════
 
+/**
+ * Default DOM id for voidframe's portal root: `"vf-portal-root"`.
+ */
 export const DEFAULT_PORTAL_ID = "vf-portal-root";
 
 const containers = new Map<

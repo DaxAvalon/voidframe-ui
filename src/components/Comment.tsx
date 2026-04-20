@@ -53,6 +53,10 @@ const CommentImpl = forwardRef<HTMLElement, CommentProps>(function Comment(
   );
 });
 CommentImpl.displayName = "Comment";
+/**
+ * Single comment card: avatar, author, timestamp, body, and optional action
+ * rail (reply / react / edit / delete).
+ */
 export const Comment = memo(CommentImpl);
 (Comment as unknown as { displayName: string }).displayName = "Comment";
 
@@ -75,6 +79,9 @@ const CommentListImpl = forwardRef<HTMLDivElement, CommentListProps>(
   }
 );
 CommentListImpl.displayName = "CommentList";
+/**
+ * Vertical list of `Comment`s with threading and load-more affordances.
+ */
 export const CommentList = memo(CommentListImpl);
 (CommentList as unknown as { displayName: string }).displayName =
   "CommentList";

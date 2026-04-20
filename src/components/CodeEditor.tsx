@@ -45,6 +45,10 @@ export interface CodeEditorProps
   style?: CSSProperties;
 }
 
+/**
+ * Minimal in-browser code editor. Controlled via `value` / `onValueChange`;
+ * supports tab-indent, bracket-match, and a small language hint.
+ */
 export const CodeEditor = forwardRef<HTMLDivElement, CodeEditorProps>(
   function CodeEditor(
     {

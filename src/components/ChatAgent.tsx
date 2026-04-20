@@ -29,6 +29,10 @@ export interface ToolCallProps
   errorMessage?: ReactNode;
 }
 
+/**
+ * Chat transcript block representing a single tool invocation: name,
+ * arguments, result, status.
+ */
 export const ToolCall = forwardRef<HTMLDivElement, ToolCallProps>(
   function ToolCall(
     {
@@ -172,6 +176,10 @@ export interface ToolCallGroupProps
   children?: ReactNode;
 }
 
+/**
+ * Groups consecutive `ToolCall`s from the same turn with a collapsed
+ * summary.
+ */
 export const ToolCallGroup = forwardRef<HTMLDivElement, ToolCallGroupProps>(
   function ToolCallGroup({ title, status, className, children, ...props }, ref) {
     return (
@@ -216,6 +224,11 @@ export interface AgentStepProps
   children?: ReactNode;
 }
 
+/**
+ * Single step in an agent trace: a numbered card with title, status pill,
+ * optional tool calls, output, and elapsed time. Controllable/uncontrolled
+ * via `expanded` / `defaultExpanded` / `onExpandedChange`.
+ */
 export const AgentStep = forwardRef<HTMLDivElement, AgentStepProps>(
   function AgentStep(
     {
@@ -320,6 +333,10 @@ export interface AgentTraceProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Full trace view for an agent run — wraps a list of `AgentStep`s with
+ * status summary and expand-all controls.
+ */
 export const AgentTrace = forwardRef<HTMLDivElement, AgentTraceProps>(
   function AgentTrace(
     {
@@ -409,6 +426,10 @@ export interface PlanDisplayProps
   title?: ReactNode;
 }
 
+/**
+ * Pricing-plan card: tier name, price, feature list, and CTA. Used on
+ * pricing pages.
+ */
 export const PlanDisplay = forwardRef<HTMLDivElement, PlanDisplayProps>(
   function PlanDisplay(
     { steps, onStepClick, title, className, ...props },

@@ -63,6 +63,10 @@ export interface ParallelCoordinatesProps
   strokeOpacity?: number;
 }
 
+/**
+ * Parallel-coordinates chart for high-dimensional data. One vertical axis
+ * per dimension; polylines connect a record's values.
+ */
 export const ParallelCoordinates = forwardRef<
   HTMLDivElement,
   ParallelCoordinatesProps

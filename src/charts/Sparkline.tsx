@@ -26,6 +26,10 @@ export interface SparklineProps extends HTMLAttributes<HTMLDivElement> {
   strokeWidth?: number;
 }
 
+/**
+ * Tiny inline trend chart. No axes / labels — context comes from the
+ * surrounding content.
+ */
 export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
   function Sparkline(
     {

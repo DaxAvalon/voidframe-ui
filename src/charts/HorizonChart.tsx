@@ -50,6 +50,10 @@ export interface HorizonChartProps
   xFormat?: (v: number | Date | string) => string;
 }
 
+/**
+ * Horizon chart: stacked banded areas that encode large dynamic ranges
+ * compactly. Good for many time-series densely packed.
+ */
 export const HorizonChart = forwardRef<HTMLDivElement, HorizonChartProps>(
   function HorizonChart(
     {

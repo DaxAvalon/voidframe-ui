@@ -28,6 +28,10 @@ function resolveSize(size: number | "sm" | "md" | "lg"): number {
   return SIZE_MAP[size];
 }
 
+/**
+ * Labelled colour chip used in palettes, legend entries, and form controls.
+ * Renders a coloured square plus label.
+ */
 export const ColorSwatch = forwardRef<HTMLElement, ColorSwatchProps>(
   function ColorSwatch(
     {
@@ -129,6 +133,10 @@ export interface PaletteProps
   columns?: number;
 }
 
+/**
+ * Displays a palette (array of colours) with optional labels and
+ * copy-on-click.
+ */
 export const Palette = forwardRef<HTMLDivElement, PaletteProps>(
   function Palette(
     {

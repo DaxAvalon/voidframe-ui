@@ -25,6 +25,10 @@ export interface ReferenceBandProps {
   style?: CSSProperties;
 }
 
+/**
+ * Chart primitive: coloured band spanning a value range on an axis. Good for
+ * thresholds / SLAs.
+ */
 export const ReferenceBand = forwardRef<SVGGElement, ReferenceBandProps>(
   function ReferenceBand(
     {

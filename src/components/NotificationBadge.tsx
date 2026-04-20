@@ -98,6 +98,10 @@ const NotificationBadgeImpl = forwardRef<HTMLSpanElement, NotificationBadgeProps
   }
 );
 NotificationBadgeImpl.displayName = "NotificationBadge";
+/**
+ * Small numeric or dot badge overlay for a host element (e.g. a bell icon).
+ * Hides at zero by default.
+ */
 export const NotificationBadge = memo(NotificationBadgeImpl);
 (NotificationBadge as unknown as { displayName: string }).displayName =
   "NotificationBadge";

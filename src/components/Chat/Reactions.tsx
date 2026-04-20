@@ -27,6 +27,10 @@ export interface MessageFeedbackProps
   onReasonSelect?: (reasonId: string | undefined) => void;
 }
 
+/**
+ * Thumbs up/down feedback control for a chat message. Emits `{ value,
+ * reason? }` on change.
+ */
 export const MessageFeedback = forwardRef<HTMLDivElement, MessageFeedbackProps>(
   function MessageFeedback(
     {
@@ -129,6 +133,10 @@ export interface ReactionBarProps extends HTMLAttributes<HTMLDivElement> {
   onAdd?: () => void;
 }
 
+/**
+ * Emoji reaction row for a message / post. Shows tallies per reaction; emits
+ * toggle events.
+ */
 export const ReactionBar = forwardRef<HTMLDivElement, ReactionBarProps>(
   function ReactionBar(
     { reactions, onReact, onUnreact, onAdd, className, ...props },

@@ -19,6 +19,10 @@ export interface CrosshairProps
   dashed?: boolean;
 }
 
+/**
+ * Chart crosshair primitive: follows the pointer with vertical/horizontal
+ * rule lines and highlights the nearest datum.
+ */
 export const Crosshair = forwardRef<SVGGElement, CrosshairProps>(
   function Crosshair(
     {

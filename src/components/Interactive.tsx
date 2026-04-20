@@ -291,6 +291,11 @@ const TabsPanel = forwardRef<HTMLDivElement, TabsPanelProps>(function TabsPanel(
 });
 TabsPanel.displayName = "Tabs.Panel";
 
+/**
+ * Keyboard-navigable tablist. Arrow keys cycle within the list, Home/End
+ * jump to first/last, Tab leaves the list. Controllable via `active` /
+ * `onChange`; uncontrolled via `defaultActive`.
+ */
 export const Tabs = Object.assign(TabsRoot, {
   List: TabsList,
   Trigger: TabsTrigger,
@@ -310,6 +315,11 @@ export interface CollapsibleProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Single expand/collapse region. Controllable via `open` / `onOpenChange`;
+ * uncontrolled via `defaultOpen`. `Collapsible.Trigger` toggles,
+ * `Collapsible.Content` holds the panel.
+ */
 export const Collapsible = forwardRef<HTMLDivElement, CollapsibleProps>(
   function Collapsible(
     { title, children, open, defaultOpen = false, onOpenChange, accent, className, style, ...props },
@@ -478,7 +488,14 @@ export interface ToastProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
-/** @deprecated Use `Toaster` + `toast()` from `voidframe` instead. */
+/**
+ * Transient popup notification for async feedback. For 1.0+ use the
+ * module-level `toast` API (`toast.success`, `toast.info`, `toast.warning`,
+ * `toast.danger`, `toast.promise`) with a `Toaster` mounted near the app
+ * root.
+ *
+ * @deprecated Use `Toaster` + `toast()` from `voidframe` instead.
+ */
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
   { message, type = "info", visible = true, onDismiss, className, style, ...props },
   ref
@@ -544,5 +561,9 @@ const KbdImpl = forwardRef<HTMLElement, KbdProps>(function Kbd(
   );
 });
 KbdImpl.displayName = "Kbd";
+/**
+ * Renders a keyboard shortcut label (e.g. `Cmd`+`K`). Accepts an array of
+ * tokens for multi-key chords.
+ */
 export const Kbd = memo(KbdImpl);
 (Kbd as unknown as { displayName: string }).displayName = "Kbd";

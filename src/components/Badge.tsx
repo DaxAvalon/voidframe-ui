@@ -151,5 +151,9 @@ const DotsImpl = forwardRef<HTMLSpanElement, DotsProps>(function Dots(
   );
 });
 DotsImpl.displayName = "Dots";
+/**
+ * Small row of dots used as a step/progress indicator (e.g. carousel
+ * pagination).
+ */
 export const Dots = memo(DotsImpl);
 (Dots as unknown as { displayName: string }).displayName = "Dots";

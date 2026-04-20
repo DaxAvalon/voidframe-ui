@@ -81,6 +81,10 @@ export function computeBoxStats(
   };
 }
 
+/**
+ * Box-and-whisker plot. Axes: band (category) x linear (value). Shows
+ * quartiles, median, whiskers, and optional outliers per category.
+ */
 export const BoxPlot = forwardRef<HTMLDivElement, BoxPlotProps>(
   function BoxPlot(
     {

@@ -59,6 +59,11 @@ export interface CandlestickChartProps
   downColor?: string;
 }
 
+/**
+ * OHLC candlestick chart. Axes: time x linear. Each datum is `{ date, open,
+ * high, low, close }`; wicks and bodies render per standard candle
+ * conventions.
+ */
 export const CandlestickChart = forwardRef<
   HTMLDivElement,
   CandlestickChartProps

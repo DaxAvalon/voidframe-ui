@@ -136,6 +136,10 @@ const MultiProgressImpl = forwardRef<HTMLDivElement, MultiProgressProps>(
   }
 );
 MultiProgressImpl.displayName = "MultiProgress";
+/**
+ * Stacked segmented progress bar representing parts-of-a-whole across
+ * categories.
+ */
 export const MultiProgress = memo(MultiProgressImpl);
 (MultiProgress as unknown as { displayName: string }).displayName =
   "MultiProgress";

@@ -24,6 +24,10 @@ export interface LineProps
   dashed?: boolean;
 }
 
+/**
+ * Line series primitive for line / area / composed charts. Connects points
+ * from the enclosing chart's scales.
+ */
 export const Line = forwardRef<SVGPathElement, LineProps>(function Line(
   { data, stroke, strokeWidth = 1.5, curve = "linear", dashed, className, ...props },
   ref

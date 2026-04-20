@@ -204,6 +204,10 @@ const MegaMenuLink = forwardRef<HTMLAnchorElement, MegaMenuLinkProps>(
 );
 MegaMenuLink.displayName = "MegaMenuLink";
 
+/**
+ * Wide top-nav dropdown with grouped columns of links. Keyboard-navigable
+ * and responsive.
+ */
 export const MegaMenu = Object.assign(MegaMenuBase, {
   Trigger: MegaMenuTrigger,
   Content: MegaMenuContent,

@@ -39,6 +39,10 @@ export interface ShortcutProviderProps {
   children?: ReactNode;
 }
 
+/**
+ * Provider that registers the global shortcut registry. Wrap your app root;
+ * `useShortcut` / `useShortcutRegistry` read from it.
+ */
 export function ShortcutProvider({ children }: ShortcutProviderProps) {
   const [list, setList] = useState<RegisteredShortcut[]>([]);
   const register = useCallback((entry: RegisteredShortcut) => {
@@ -61,6 +65,11 @@ export function ShortcutProvider({ children }: ShortcutProviderProps) {
   );
 }
 
+/**
+ * Low-level read access to the global shortcut registry installed by
+ * `ShortcutProvider`. Returns the full list of registered shortcuts for
+ * custom guide UIs.
+ */
 export function useShortcutRegistry(): ShortcutRegistryValue | null {
   return useContext(ShortcutRegistryContext);
 }

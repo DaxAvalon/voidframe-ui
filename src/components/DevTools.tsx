@@ -36,6 +36,10 @@ export interface CommitGraphProps extends HTMLAttributes<HTMLDivElement> {
   activeId?: string;
 }
 
+/**
+ * Git-style commit graph: branches, merges, and per-commit metadata. Feed
+ * `commits` as `{ id, parents, branch, subject, author, time }[]`.
+ */
 export const CommitGraph = forwardRef<HTMLDivElement, CommitGraphProps>(
   function CommitGraph({ commits, onCommitClick, activeId, className, ...props }, ref) {
     return (
@@ -137,6 +141,10 @@ export interface NetworkInspectorProps
   showDetail?: boolean;
 }
 
+/**
+ * DevTools-style network request inspector: list of requests with status,
+ * timing, headers/body on expand.
+ */
 export const NetworkInspector = forwardRef<
   HTMLDivElement,
   NetworkInspectorProps
@@ -347,6 +355,10 @@ export interface ConsoleOutputProps extends HTMLAttributes<HTMLDivElement> {
 
 const LEVEL_ORDER: ConsoleLevel[] = ["debug", "log", "info", "warn", "error"];
 
+/**
+ * Terminal-style console log view with severity colouring, timestamps, and
+ * auto-scroll-to-bottom toggle.
+ */
 export const ConsoleOutput = forwardRef<HTMLDivElement, ConsoleOutputProps>(
   function ConsoleOutput(
     { entries, filter, showTimestamps = true, className, ...props },
@@ -429,6 +441,10 @@ export interface DebugTreeProps extends HTMLAttributes<HTMLDivElement> {
   rootLabel?: ReactNode;
 }
 
+/**
+ * Collapsible tree view for nested debug data (state, props, JSON). Lighter
+ * than `JSONViewer`.
+ */
 export const DebugTree = forwardRef<HTMLDivElement, DebugTreeProps>(
   function DebugTree(
     {
@@ -544,6 +560,10 @@ export interface KeyValueEditorProps
   allowDisable?: boolean;
 }
 
+/**
+ * Editable list of key/value rows. Supports add/remove/reorder; emits the
+ * full array on change.
+ */
 export const KeyValueEditor = forwardRef<HTMLDivElement, KeyValueEditorProps>(
   function KeyValueEditor(
     {
@@ -694,6 +714,10 @@ function nextId(prefix: string): string {
   return `${prefix}-${Date.now().toString(36)}-${Math.floor(Math.random() * 1000)}`;
 }
 
+/**
+ * Visual builder for structured SQL-like queries. Emits a serialisable
+ * condition tree.
+ */
 export const QueryBuilder = forwardRef<HTMLDivElement, QueryBuilderProps>(
   function QueryBuilder(
     { fields, operators = DEFAULT_OPERATORS, value, onValueChange, className, ...props },
@@ -962,6 +986,10 @@ export interface ShortcutEditorProps
   label?: ReactNode;
 }
 
+/**
+ * UI for editing an existing keyboard shortcut binding. Captures the next
+ * chord pressed.
+ */
 export const ShortcutEditor = forwardRef<HTMLDivElement, ShortcutEditorProps>(
   function ShortcutEditor(
     {

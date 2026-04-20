@@ -234,6 +234,10 @@ const SplitButtonImpl = forwardRef<HTMLDivElement, SplitButtonProps>(
   }
 );
 SplitButtonImpl.displayName = "SplitButton";
+/**
+ * Button with a primary action and an adjacent dropdown of alternate
+ * actions.
+ */
 export const SplitButton = memo(SplitButtonImpl);
 (SplitButton as unknown as { displayName: string }).displayName =
   "SplitButton";

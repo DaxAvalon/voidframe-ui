@@ -47,6 +47,10 @@ export interface ResizableGroupProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Group of panes sharing a split. Drag handles redistribute space among
+ * siblings.
+ */
 export const ResizableGroup = forwardRef<HTMLDivElement, ResizableGroupProps>(
   function ResizableGroup(
     {
@@ -175,6 +179,9 @@ export interface ResizablePanelProps extends HTMLAttributes<HTMLDivElement> {
   __index?: number;
 }
 
+/**
+ * Single pane inside a `ResizableGroup`. Configurable min/max/default size.
+ */
 export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
   function ResizablePanel(
     { children, className, style, __index, ...props },
@@ -208,6 +215,10 @@ export interface ResizableHandleProps extends HTMLAttributes<HTMLDivElement> {
   __index?: number;
 }
 
+/**
+ * Drag handle subpart for `ResizableGroup` / `ResizablePanel`.
+ * Keyboard-resizable with arrow keys.
+ */
 export const ResizableHandle = forwardRef<HTMLDivElement, ResizableHandleProps>(
   function ResizableHandle(
     { className, keyboardStep = 1, __index, ...props },
@@ -318,6 +329,10 @@ export interface ResizableBoxProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Resizable container with configurable handles. Emits `onResize({ width,
+ * height })`.
+ */
 export const ResizableBox = forwardRef<HTMLDivElement, ResizableBoxProps>(
   function ResizableBox(
     {

@@ -91,6 +91,11 @@ export interface BarChartProps
 
 const fmtDefault = (v: number) => formatChartNumber(v);
 
+/**
+ * Vertical or horizontal bar chart (grouped, stacked, or 100%-stacked).
+ * Axes: band (category) x linear (value). Interactions: hover highlight,
+ * legend toggle, optional brush.
+ */
 export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   function BarChart(
     {

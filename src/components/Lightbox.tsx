@@ -43,6 +43,10 @@ export interface LightboxProps extends HTMLAttributes<HTMLDivElement> {
   download?: boolean;
 }
 
+/**
+ * Full-screen image viewer with prev/next navigation, zoom, and keyboard
+ * controls (arrow keys, Esc to close).
+ */
 export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(function Lightbox(
   {
     images,
@@ -228,6 +232,9 @@ export interface ImageGalleryProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Grid or masonry image gallery with click-to-open `Lightbox` integration.
+ */
 export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
   function ImageGallery(
     {

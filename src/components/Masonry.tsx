@@ -62,6 +62,10 @@ function useResponsiveColumns(columns: MasonryColumns): number {
   return cols;
 }
 
+/**
+ * CSS-grid-based masonry layout. Configurable column count per breakpoint;
+ * handles mixed-height children.
+ */
 export const Masonry = forwardRef<HTMLDivElement, MasonryProps>(function Masonry(
   { columns = 3, gap = 12, children, className, style, ...props },
   ref

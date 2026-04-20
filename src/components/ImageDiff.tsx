@@ -212,5 +212,8 @@ const ImageDiffImpl = forwardRef<HTMLDivElement, ImageDiffProps>(
   }
 );
 ImageDiffImpl.displayName = "ImageDiff";
+/**
+ * Two-image comparison viewer: slider, side-by-side, or onion-skin modes.
+ */
 export const ImageDiff = memo(ImageDiffImpl);
 (ImageDiff as unknown as { displayName: string }).displayName = "ImageDiff";

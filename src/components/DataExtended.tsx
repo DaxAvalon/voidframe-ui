@@ -37,6 +37,11 @@ export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Circular or rounded image for a person or entity with initial / icon
+ * fallback. Sizes (`xs`-`xl`), tones, and `loading="lazy" | "eager"` pass
+ * through to the underlying `<img>`.
+ */
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
   { name, src, size = 28, color, fallback, status, square, className, style, ...props },
   ref
@@ -97,6 +102,10 @@ export interface AvatarGroupProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Overlapping stack of `Avatar`s with an optional `+N` overflow chip. `max`
+ * caps the visible count; the rest collapse into the overflow indicator.
+ */
 export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
   function AvatarGroup({ items, max = 5, size = 28, className, style, ...props }, ref) {
     const visible = items.slice(0, max);
@@ -138,6 +147,10 @@ export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Small removable label chip with optional leading icon. Emits `onRemove`
+ * when the dismiss button is clicked.
+ */
 export const Tag = forwardRef<HTMLSpanElement, TagProps>(function Tag(
   { children, color, onRemove, className, style, ...props },
   ref
@@ -168,6 +181,10 @@ export interface TooltipProps {
   style?: CSSProperties;
 }
 
+/**
+ * Small text popover anchored to a trigger on hover / focus. Install one
+ * `TooltipProvider` near the app root to coordinate delays.
+ */
 export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(function Tooltip(
   { children, content, position = "top", className, style },
   ref
@@ -200,6 +217,10 @@ export interface CodeProps extends HTMLAttributes<HTMLElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Inline monospace code span with optional language badge. For multi-line
+ * blocks use `CodeBlock`.
+ */
 export const Code = forwardRef<HTMLElement, CodeProps>(function Code(
   { children, inline, className, style, ...props },
   ref
@@ -327,6 +348,10 @@ const TimelineItemComponent = forwardRef<HTMLDivElement, TimelineItemProps>(
 );
 TimelineItemComponent.displayName = "TimelineItem";
 
+/**
+ * Vertical timeline with dotted axis and event cards. Each item has time,
+ * title, optional body.
+ */
 export const Timeline = Object.assign(TimelineBase, {
   Item: TimelineItemComponent,
 });
@@ -345,6 +370,10 @@ export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Rectangle shimmer placeholder used while content loads. Composed into
+ * `SkeletonText`, `SkeletonAvatar`, etc.
+ */
 export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(function Skeleton(
   {
     width,
@@ -402,6 +431,10 @@ export interface EmptyStateProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Centred illustration + title + description + optional action. Use when a
+ * list/table/view has no data yet.
+ */
 export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
   function EmptyState({ icon, title, description, action, className, style, ...props }, ref) {
     return (
@@ -475,6 +508,10 @@ const ListItemComponent = forwardRef<HTMLDivElement, ListItemProps>(
 );
 ListItemComponent.displayName = "ListItem";
 
+/**
+ * Vertical list with configurable separators, density, and selection.
+ * Compound: `List.Item`.
+ */
 export const List = Object.assign(ListBase, { Item: ListItemComponent });
 
 // ── KeyValue ──────────────────────────────────────────────────
@@ -490,6 +527,10 @@ export interface KeyValueProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Single label/value row. Used inside `DataList` / `Descriptions`;
+ * standalone for inline metadata.
+ */
 export const KeyValue = forwardRef<HTMLDivElement, KeyValueProps>(function KeyValue(
   { items, className, style, ...props },
   ref
@@ -545,5 +586,9 @@ const SpinnerImpl = forwardRef<HTMLDivElement, SpinnerProps>(function Spinner(
   );
 });
 SpinnerImpl.displayName = "Spinner";
+/**
+ * Animated loading spinner. Respects `prefers-reduced-motion`; sizes
+ * configurable.
+ */
 export const Spinner = memo(SpinnerImpl);
 (Spinner as unknown as { displayName: string }).displayName = "Spinner";

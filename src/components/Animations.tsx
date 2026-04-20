@@ -31,6 +31,10 @@ export interface MarqueeProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Scrolling marquee for long inline content. Respects
+ * `prefers-reduced-motion` and pauses on hover.
+ */
 export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(function Marquee(
   {
     speed = 50,
@@ -126,6 +130,10 @@ export interface TypewriterProps extends HTMLAttributes<HTMLSpanElement> {
   onComplete?: () => void;
 }
 
+/**
+ * Types out a string character by character. Respects
+ * `prefers-reduced-motion` (renders immediately).
+ */
 export const Typewriter = forwardRef<HTMLSpanElement, TypewriterProps>(
   function Typewriter(
     {
@@ -210,6 +218,10 @@ function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3);
 }
 
+/**
+ * Auto-advancing horizontal ticker for news-style headlines. Respects
+ * `prefers-reduced-motion`.
+ */
 export const Ticker = forwardRef<HTMLSpanElement, TickerProps>(function Ticker(
   {
     from = 0,

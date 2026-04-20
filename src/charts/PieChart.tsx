@@ -191,9 +191,17 @@ function PieChartImpl(
   );
 }
 
+/**
+ * Pie chart for part-of-whole data. For a hollow centre slot see
+ * `DonutChart`.
+ */
 export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(PieChartImpl);
 PieChart.displayName = "PieChart";
 
+/**
+ * Donut (hollow pie) chart for part-of-whole data. Emits hover/select events
+ * per slice and supports a centred summary slot.
+ */
 export const DonutChart = forwardRef<HTMLDivElement, PieChartProps>(
   function DonutChart(props, ref) {
     // Spread props FIRST, then apply the 0.6 default. Otherwise a caller

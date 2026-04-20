@@ -385,6 +385,10 @@ const CronBuilderImpl = forwardRef<HTMLDivElement, CronBuilderProps>(
   }
 );
 CronBuilderImpl.displayName = "CronBuilder";
+/**
+ * Visual builder for a cron expression. Controllable via `value` /
+ * `onChange`; emits the standard five-field string.
+ */
 export const CronBuilder = memo(CronBuilderImpl);
 (CronBuilder as unknown as { displayName: string }).displayName =
   "CronBuilder";

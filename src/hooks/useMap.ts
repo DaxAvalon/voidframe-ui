@@ -14,6 +14,11 @@ export interface UseMapReturn<K, V> {
   reset: (initial?: Iterable<[K, V]>) => void;
 }
 
+/**
+ * Map-state helper: returns `{ map, set, delete, clear, has, get, entries
+ * }`. Identity of `map` updates on every change so React sees a new
+ * reference.
+ */
 export function useMap<K, V>(
   initialEntries?: Iterable<[K, V]>
 ): UseMapReturn<K, V> {

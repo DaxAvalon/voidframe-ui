@@ -23,6 +23,12 @@ export interface UseListReturn<T> {
   size: number;
 }
 
+/**
+ * Array-state helper: returns `{ list, set, push, pop, shift, unshift,
+ * insertAt, removeAt, updateAt, filter, sort, clear }`. Each mutator has a
+ * stable identity so passing them into memoised children doesn't churn
+ * props.
+ */
 export function useList<T>(initialList?: T[]): UseListReturn<T> {
   const initialRef = useRef(initialList);
   const [list, setList] = useState<T[]>(() => [...(initialList ?? [])]);

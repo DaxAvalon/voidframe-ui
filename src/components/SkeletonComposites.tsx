@@ -56,6 +56,10 @@ const SkeletonTextBase = forwardRef<HTMLDivElement, SkeletonTextProps>(
   }
 );
 SkeletonTextBase.displayName = "SkeletonText";
+/**
+ * Shimmer placeholder for one or more lines of text. Configurable line count
+ * and last-line width.
+ */
 export const SkeletonText = memo(SkeletonTextBase);
 (SkeletonText as unknown as { displayName: string }).displayName = "SkeletonText";
 
@@ -91,6 +95,10 @@ const SkeletonAvatarBase = forwardRef<HTMLDivElement, SkeletonAvatarProps>(
   }
 );
 SkeletonAvatarBase.displayName = "SkeletonAvatar";
+/**
+ * Circular shimmer placeholder sized for an avatar. Part of the skeleton
+ * kit.
+ */
 export const SkeletonAvatar = memo(SkeletonAvatarBase);
 (SkeletonAvatar as unknown as { displayName: string }).displayName = "SkeletonAvatar";
 
@@ -129,6 +137,9 @@ const SkeletonButtonBase = forwardRef<HTMLDivElement, SkeletonButtonProps>(
   }
 );
 SkeletonButtonBase.displayName = "SkeletonButton";
+/**
+ * Shimmer placeholder shaped like a button. Part of the skeleton kit.
+ */
 export const SkeletonButton = memo(SkeletonButtonBase);
 (SkeletonButton as unknown as { displayName: string }).displayName = "SkeletonButton";
 
@@ -192,6 +203,10 @@ const SkeletonCardBase = forwardRef<HTMLDivElement, SkeletonCardProps>(
   }
 );
 SkeletonCardBase.displayName = "SkeletonCard";
+/**
+ * Shimmer placeholder shaped like a `Card`. Configurable with/without
+ * header.
+ */
 export const SkeletonCard = memo(SkeletonCardBase);
 (SkeletonCard as unknown as { displayName: string }).displayName = "SkeletonCard";
 
@@ -249,6 +264,9 @@ const SkeletonTableBase = forwardRef<HTMLDivElement, SkeletonTableProps>(
   }
 );
 SkeletonTableBase.displayName = "SkeletonTable";
+/**
+ * Pre-composed skeleton matching a typical data table.
+ */
 export const SkeletonTable = memo(SkeletonTableBase);
 (SkeletonTable as unknown as { displayName: string }).displayName = "SkeletonTable";
 
@@ -288,5 +306,8 @@ const SkeletonFormBase = forwardRef<HTMLDivElement, SkeletonFormProps>(
   }
 );
 SkeletonFormBase.displayName = "SkeletonForm";
+/**
+ * Pre-composed skeleton matching a typical form (label + input pairs).
+ */
 export const SkeletonForm = memo(SkeletonFormBase);
 (SkeletonForm as unknown as { displayName: string }).displayName = "SkeletonForm";

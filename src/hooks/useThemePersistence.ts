@@ -63,6 +63,11 @@ function defaultStorage(): UseThemePersistenceOptions["storage"] {
   };
 }
 
+/**
+ * Persist the active theme in `localStorage` (key configurable), sync across
+ * tabs via the `storage` event, and resolve `"system"` against
+ * `matchMedia("(prefers-color-scheme: light)")`. Pairs with `ThemeSelector`.
+ */
 export function useThemePersistence<T extends string = string>(
   options: UseThemePersistenceOptions<T> = {}
 ): UseThemePersistenceReturn<T> {

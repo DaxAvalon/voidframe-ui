@@ -38,6 +38,10 @@ export interface BreadcrumbMenuProps extends HTMLAttributes<HTMLElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Breadcrumb variant where the middle segments collapse into a dropdown menu
+ * when space is tight.
+ */
 export const BreadcrumbMenu = forwardRef<HTMLElement, BreadcrumbMenuProps>(
   function BreadcrumbMenu(
     { items, separator = "/", className, style, ...props },

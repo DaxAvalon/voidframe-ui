@@ -82,6 +82,10 @@ function range(from: number, to: number, step: number): number[] {
   return out;
 }
 
+/**
+ * Time-only picker (hours/minutes/optional seconds). Controllable via
+ * `value` / `onChange`.
+ */
 export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
   function TimePicker(
     {

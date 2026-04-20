@@ -64,6 +64,10 @@ export interface TableProps<T = Record<string, unknown>>
 
 type TableRowLookup = Record<string, unknown>;
 
+/**
+ * Semantic `<table>` wrapper with voidframe styling. For sortable /
+ * virtualised tables use `DataGrid`.
+ */
 export const Table = genericForwardRef(function Table<T = Record<string, unknown>>(
   {
     columns,
@@ -283,6 +287,9 @@ export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Single statistic block: label, value, and optional delta / help text.
+ */
 export const Stat = forwardRef<HTMLDivElement, StatProps>(function Stat(
   {
     label,
@@ -376,6 +383,10 @@ export interface ProgressProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Linear progress bar. Determinate (`value`) or indeterminate. Tones mirror
+ * status palette.
+ */
 export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progress(
   {
     value = 0,

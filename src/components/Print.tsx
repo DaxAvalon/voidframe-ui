@@ -24,6 +24,10 @@ export interface PrintLayoutProps
   children?: ReactNode;
 }
 
+/**
+ * Print-optimised layout wrapper that suppresses nav chrome and tightens
+ * typography when `@media print` is active.
+ */
 export const PrintLayout = forwardRef<HTMLDivElement, PrintLayoutProps>(
   function PrintLayout(
     {
@@ -84,6 +88,10 @@ export interface PrintButtonProps extends HTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
 }
 
+/**
+ * Button that invokes `window.print()` with optional before/after hooks for
+ * transient styling.
+ */
 export const PrintButton = forwardRef<HTMLButtonElement, PrintButtonProps>(
   function PrintButton(
     { target, documentTitle, className, children = "Print", onClick, ...props },

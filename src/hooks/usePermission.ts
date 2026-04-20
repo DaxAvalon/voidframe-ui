@@ -18,6 +18,11 @@ export interface UsePermissionReturn {
   isSupported: boolean;
 }
 
+/**
+ * Wrap `navigator.permissions.query({ name })`. Returns `{ state: "granted"
+ * | "denied" | "prompt" | "unsupported" }` and re-evaluates on `change`
+ * events.
+ */
 export function usePermission(name: PermissionName): UsePermissionReturn {
   const [status, setStatus] = useState<PermissionState | "not-supported">(
     "not-supported"

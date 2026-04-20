@@ -374,6 +374,10 @@ export interface ComposerMicButtonProps
   onRecordingChange?: (next: boolean) => void;
 }
 
+/**
+ * Microphone toggle for the composer. Requests mic permission on press and
+ * visualises audio level while active.
+ */
 export const ComposerMicButton = forwardRef<
   HTMLButtonElement,
   ComposerMicButtonProps
@@ -463,6 +467,11 @@ const ComposerTokenCounter = forwardRef<
 });
 ComposerTokenCounter.displayName = "ComposerTokenCounter";
 
+/**
+ * Chat message composer with text area, attachment tray, mic button, and
+ * send. Compound subparts (`Composer.Input`, `Composer.Attachments`,
+ * `Composer.Actions`).
+ */
 export const Composer = Object.assign(ComposerRoot, {
   Toolbar: ComposerToolbar,
   Input: ComposerInput,
@@ -484,6 +493,10 @@ export interface ComposerAttachmentProps
   onRemove?: () => void;
 }
 
+/**
+ * Pending-attachment chip inside the composer; shows upload progress and
+ * supports removal before send.
+ */
 export const ComposerAttachment = forwardRef<
   HTMLDivElement,
   ComposerAttachmentProps
@@ -542,6 +555,10 @@ export interface SubmitButtonProps
   disabled?: boolean;
 }
 
+/**
+ * Form submit button with integrated pending state, driven by the nearest
+ * form's submission state.
+ */
 export const SubmitButton = forwardRef<HTMLButtonElement, SubmitButtonProps>(
   function SubmitButton(
     { status = "idle", onSubmit, onStop, disabled, className, children, ...props },
@@ -576,6 +593,10 @@ export interface StopButtonProps extends HTMLAttributes<HTMLButtonElement> {
   label?: ReactNode;
 }
 
+/**
+ * Chat action button that halts an in-progress stream. Shows as a stop glyph
+ * while streaming.
+ */
 export const StopButton = forwardRef<HTMLButtonElement, StopButtonProps>(
   function StopButton({ onStop, label = "Stop", className, children, ...props }, ref) {
     return (
@@ -605,6 +626,10 @@ export interface RegenerateButtonProps
   label?: ReactNode;
 }
 
+/**
+ * Chat action button that re-runs the last assistant turn. Shows a spinner
+ * while the stream is active.
+ */
 export const RegenerateButton = forwardRef<
   HTMLButtonElement,
   RegenerateButtonProps
@@ -641,6 +666,10 @@ export interface SuggestionChipsProps
   layout?: "horizontal" | "wrap";
 }
 
+/**
+ * Row of chips with suggested follow-up prompts. Emits `onSelect(prompt)`
+ * when a chip is activated.
+ */
 export const SuggestionChips = forwardRef<HTMLDivElement, SuggestionChipsProps>(
   function SuggestionChips(
     { suggestions, onSelect, layout = "horizontal", className, ...props },
@@ -704,6 +733,9 @@ export interface PromptTemplateListProps
   title?: ReactNode;
 }
 
+/**
+ * List of saved prompt templates with preview, rename, duplicate, delete.
+ */
 export const PromptTemplateList = forwardRef<
   HTMLDivElement,
   PromptTemplateListProps
@@ -752,6 +784,10 @@ export interface PromptTemplateEditorProps
   onCancel?: () => void;
 }
 
+/**
+ * Editor for an LLM prompt template: body textarea plus a sidebar of named
+ * variables.
+ */
 export const PromptTemplateEditor = forwardRef<
   HTMLFormElement,
   PromptTemplateEditorProps
@@ -855,6 +891,10 @@ export interface SlashCommandPickerProps
   onActiveIndexChange?: (next: number) => void;
 }
 
+/**
+ * Popover listing available slash commands. Used inside `SlashCommandInput`
+ * and the composer.
+ */
 export const SlashCommandPicker = forwardRef<
   HTMLDivElement,
   SlashCommandPickerProps
@@ -938,6 +978,10 @@ export interface MentionProps extends HTMLAttributes<HTMLSpanElement> {
   onActivate?: () => void;
 }
 
+/**
+ * Rendered mention chip (e.g. `@alice`). Clickable, hoverable, and linkable
+ * to a profile.
+ */
 export const Mention = forwardRef<HTMLSpanElement, MentionProps>(
   function Mention(
     { value, kind = "user", href, onActivate, className, style, ...props },

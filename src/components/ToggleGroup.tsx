@@ -178,5 +178,10 @@ const ToggleGroupImpl = forwardRef<HTMLDivElement, ToggleGroupProps>(
   }
 );
 ToggleGroupImpl.displayName = "ToggleGroup";
+/**
+ * Group of mutually-exclusive (`type="single"`) or multi-select
+ * (`type="multiple"`) toggle buttons. Controllable via `value` /
+ * `onValueChange`.
+ */
 export const ToggleGroup = memo(ToggleGroupImpl);
 (ToggleGroup as unknown as { displayName: string }).displayName = "ToggleGroup";

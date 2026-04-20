@@ -333,6 +333,10 @@ export interface MultiSelectProps
   style?: CSSProperties;
 }
 
+/**
+ * Multi-value select built on `Combobox`. Emits an array of selected values;
+ * renders selections as chips in the field.
+ */
 export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
   function MultiSelect(
     {

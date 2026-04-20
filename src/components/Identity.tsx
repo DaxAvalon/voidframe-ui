@@ -31,6 +31,9 @@ export interface UserCardProps extends HTMLAttributes<HTMLElement> {
   onSelect?: () => void;
 }
 
+/**
+ * User identity card: avatar, name, role, bio, and optional action row.
+ */
 export const UserCard = forwardRef<HTMLElement, UserCardProps>(function UserCard(
   { user, actions, compact, onSelect, className, ...props },
   ref
@@ -111,6 +114,10 @@ export interface TeamCardProps extends HTMLAttributes<HTMLElement> {
   onSelect?: () => void;
 }
 
+/**
+ * Team identity card: avatar group, name, member count, CTA. Companion to
+ * `UserCard` / `OrganizationCard`.
+ */
 export const TeamCard = forwardRef<HTMLElement, TeamCardProps>(function TeamCard(
   { team, actions, onSelect, className, ...props },
   ref
@@ -185,6 +192,10 @@ export interface OrganizationCardProps extends HTMLAttributes<HTMLElement> {
   onSelect?: () => void;
 }
 
+/**
+ * Org identity card: logo, name, tagline, and a metric row. Companion to
+ * `UserCard` / `TeamCard`.
+ */
 export const OrganizationCard = forwardRef<HTMLElement, OrganizationCardProps>(
   function OrganizationCard(
     { organization, actions, onSelect, className, ...props },
@@ -264,6 +275,10 @@ export interface IdenticonProps
   background?: string;
 }
 
+/**
+ * Deterministic pixel/shape avatar generated from a seed string. Useful
+ * fallback when a user has no uploaded avatar.
+ */
 export const Identicon = forwardRef<HTMLDivElement, IdenticonProps>(
   function Identicon(
     { value, size = 40, background = "var(--vf-bg-1)", className, style, ...props },
@@ -351,6 +366,9 @@ export interface PresenceListProps extends HTMLAttributes<HTMLDivElement> {
 
 const STATUS_ORDER: PresenceStatus[] = ["online", "busy", "away", "offline"];
 
+/**
+ * List of online users with presence state and optional typing indicator.
+ */
 export const PresenceList = forwardRef<HTMLDivElement, PresenceListProps>(
   function PresenceList(
     { users, maxVisible, onUserClick, groupByStatus = false, className, ...props },

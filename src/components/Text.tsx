@@ -141,6 +141,10 @@ const LabelImpl = forwardRef<HTMLElement, LabelProps>(function Label(
   );
 });
 LabelImpl.displayName = "Label";
+/**
+ * Accessible form label that associates with its control via `htmlFor`.
+ * `<Field>` wires this automatically.
+ */
 export const Label = memo(LabelImpl);
 (Label as unknown as { displayName: string }).displayName = "Label";
 
@@ -203,6 +207,10 @@ const DividerImpl = forwardRef<HTMLDivElement, DividerProps>(function Divider(
   );
 });
 DividerImpl.displayName = "Divider";
+/**
+ * Horizontal or vertical rule used to separate groups of content. Optional
+ * `label` renders a centred caption break.
+ */
 export const Divider = memo(DividerImpl);
 (Divider as unknown as { displayName: string }).displayName = "Divider";
 
@@ -227,5 +235,9 @@ const SpacerImpl = forwardRef<HTMLDivElement, SpacerProps>(function Spacer(
   );
 });
 SpacerImpl.displayName = "Spacer";
+/**
+ * Layout wrapper that fills the free space in a flex row/column. Use between
+ * children to push them apart.
+ */
 export const Spacer = memo(SpacerImpl);
 (Spacer as unknown as { displayName: string }).displayName = "Spacer";

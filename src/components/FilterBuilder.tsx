@@ -343,6 +343,10 @@ const FilterBuilderImpl = forwardRef<HTMLDivElement, FilterBuilderProps>(
   }
 );
 FilterBuilderImpl.displayName = "FilterBuilder";
+/**
+ * Visual builder for structured filter expressions. Controllable via `value`
+ * / `onChange`; emits a nested condition tree.
+ */
 export const FilterBuilder = memo(FilterBuilderImpl);
 (FilterBuilder as unknown as { displayName: string }).displayName =
   "FilterBuilder";

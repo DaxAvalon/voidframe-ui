@@ -44,6 +44,10 @@ function applyTime(date: Date, time: string): Date {
   return copy;
 }
 
+/**
+ * Combined date + time picker. Controllable via `value` / `onChange`;
+ * honours the user's locale for format.
+ */
 export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
   function DateTimePicker(
     {

@@ -27,6 +27,10 @@ import { Label } from "./Text";
 // a boolean capability (vs. a generic toggle of visibility).
 
 export type SwitchProps = ToggleProps;
+/**
+ * Two-state switch control with a visible on/off label option. Controllable
+ * via `checked` / `onCheckedChange`; keyboard Space / Enter toggles.
+ */
 export const Switch = forwardRef<HTMLDivElement, SwitchProps>(function Switch(
   props,
   ref
@@ -57,6 +61,10 @@ export interface CheckboxGroupProps
   style?: CSSProperties;
 }
 
+/**
+ * Group of related checkboxes sharing a label. Emits an array of selected
+ * values; keyboard navigation is standard.
+ */
 export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
   function CheckboxGroup(
     {
@@ -142,6 +150,10 @@ export interface SegmentedControlProps
   style?: CSSProperties;
 }
 
+/**
+ * Pill group of mutually-exclusive options (like iOS segmented control).
+ * Controllable via `value` / `onValueChange`.
+ */
 export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   function SegmentedControl(
     { options, value, defaultValue, onValueChange, accent, size = "md", className, style, ...props },
@@ -252,6 +264,9 @@ export interface PasswordInputProps
   style?: CSSProperties;
 }
 
+/**
+ * Password field with show/hide toggle and optional strength meter.
+ */
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   function PasswordInput(
     {
@@ -356,6 +371,10 @@ const PIN_PATTERNS: Record<NonNullable<PinInputProps["type"]>, RegExp> = {
   alpha: /^[a-zA-Z]$/,
 };
 
+/**
+ * Segmented OTP-style input for short numeric/alphanumeric codes.
+ * Auto-advances focus.
+ */
 export const PinInput = forwardRef<HTMLDivElement, PinInputProps>(
   function PinInput(
     {
@@ -511,6 +530,10 @@ export interface TagInputProps
   style?: CSSProperties;
 }
 
+/**
+ * Text input that collects tags on Enter/comma. Emits the current array of
+ * tags on change.
+ */
 export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
   function TagInput(
     {

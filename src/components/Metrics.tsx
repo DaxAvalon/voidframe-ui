@@ -20,6 +20,9 @@ export interface StatGroupProps extends HTMLAttributes<HTMLDivElement> {
   divided?: boolean;
 }
 
+/**
+ * Row or grid of `Stat`s with consistent spacing and optional dividers.
+ */
 export const StatGroup = forwardRef<HTMLDivElement, StatGroupProps>(
   function StatGroup({ divided = true, className, children, ...props }, ref) {
     return (
@@ -52,6 +55,10 @@ export interface MetricCardProps
   tone?: StatTone;
 }
 
+/**
+ * Dashboard card showing a metric, delta, and optional sparkline. Richer
+ * variant of `BigNumber`.
+ */
 export const MetricCard = forwardRef<HTMLDivElement, MetricCardProps>(
   function MetricCard(
     {
@@ -119,6 +126,10 @@ export interface CircularProgressProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Circular progress indicator. Supports determinate (`value`) or
+ * indeterminate mode; sizes and thicknesses configurable.
+ */
 export const CircularProgress = forwardRef<HTMLDivElement, CircularProgressProps>(
   function CircularProgress(
     {
@@ -202,6 +213,10 @@ export interface SegmentedProgressProps extends HTMLAttributes<HTMLDivElement> {
   showLabels?: boolean;
 }
 
+/**
+ * Progress bar composed of discrete segments filled left-to-right as
+ * progress advances.
+ */
 export const SegmentedProgress = forwardRef<HTMLDivElement, SegmentedProgressProps>(
   function SegmentedProgress(
     { segments, total, showLabels, className, ...props },
@@ -282,6 +297,10 @@ export interface GaugeProps extends HTMLAttributes<HTMLDivElement> {
   showValue?: boolean;
 }
 
+/**
+ * Radial gauge for a single value in a range. Configurable arc span, tick
+ * marks, and threshold bands.
+ */
 export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(function Gauge(
   {
     value,
@@ -371,6 +390,10 @@ export interface TrendIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
   showArrow?: boolean;
 }
 
+/**
+ * Up/down / flat arrow plus percentage showing a delta. Tones follow
+ * direction (success on rise, danger on fall, with invertable semantics).
+ */
 export const TrendIndicator = forwardRef<HTMLSpanElement, TrendIndicatorProps>(
   function TrendIndicator(
     { value, format = "percent", showArrow = true, className, ...props },
@@ -412,6 +435,10 @@ export interface StatusIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
   label?: ReactNode;
 }
 
+/**
+ * Coloured dot plus label indicating a status (`online`, `idle`, `busy`,
+ * `offline`). Optional pulse.
+ */
 export const StatusIndicator = forwardRef<HTMLSpanElement, StatusIndicatorProps>(
   function StatusIndicator({ status, label, className, ...props }, ref) {
     return (

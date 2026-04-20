@@ -71,6 +71,10 @@ function findLabel(nodes: TreeNode[], value: string): string | null {
   return null;
 }
 
+/**
+ * Select dropdown whose options are organised as a tree (cascader-like but
+ * single-column).
+ */
 export const TreeSelect = forwardRef<HTMLDivElement, TreeSelectProps>(
   function TreeSelect(
     {

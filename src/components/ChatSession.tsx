@@ -34,6 +34,9 @@ export interface SessionListItemProps extends HTMLAttributes<HTMLDivElement> {
   onPin?: () => void;
 }
 
+/**
+ * Single row in `SessionList`: title, preview, timestamp, unread state.
+ */
 export const SessionListItem = forwardRef<
   HTMLDivElement,
   SessionListItemProps
@@ -146,6 +149,10 @@ export interface SessionListProps
   emptyState?: ReactNode;
 }
 
+/**
+ * Sidebar list of chat sessions with titles, timestamps, and unread badges.
+ * Pairs with `ChatLayout`.
+ */
 export const SessionList = forwardRef<HTMLDivElement, SessionListProps>(
   function SessionList(
     {
@@ -304,6 +311,10 @@ export interface ConversationHeaderProps
   status?: ReactNode;
 }
 
+/**
+ * Header for a chat conversation: title, participants, model badge, and
+ * optional actions menu.
+ */
 export const ConversationHeader = forwardRef<
   HTMLElement,
   ConversationHeaderProps
@@ -462,6 +473,10 @@ export interface ConversationEmptyStateProps
   onSuggestionSelect?: (suggestion: ConversationEmptyStateSuggestion) => void;
 }
 
+/**
+ * Empty-state card shown inside `Conversation` when no messages exist yet.
+ * Slot for suggested prompts.
+ */
 export const ConversationEmptyState = forwardRef<
   HTMLDivElement,
   ConversationEmptyStateProps

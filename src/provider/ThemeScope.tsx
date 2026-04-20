@@ -54,6 +54,10 @@ export interface ThemeScopeProps
   children?: ReactNode;
 }
 
+/**
+ * Subtree-level theme override. Wrap any subtree to apply a different theme
+ * without rerooting the whole app.
+ */
 export const ThemeScope = forwardRef<HTMLDivElement, ThemeScopeProps>(
   function ThemeScope(
     {

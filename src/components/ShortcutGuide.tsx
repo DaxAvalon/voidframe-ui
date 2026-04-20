@@ -49,6 +49,10 @@ export interface ShortcutGuideProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Modal that lists all registered keyboard shortcuts grouped by scope.
+ * Populated via `ShortcutProvider`.
+ */
 export const ShortcutGuide = forwardRef<HTMLDivElement, ShortcutGuideProps>(
   function ShortcutGuide(
     {

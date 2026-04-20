@@ -48,6 +48,10 @@ export interface RatingInputProps
 const STAR_FULL = "★";
 const STAR_EMPTY = "☆";
 
+/**
+ * Star rating input (0-N). Half-step support; controllable via `value` /
+ * `onChange`.
+ */
 export const RatingInput = forwardRef<HTMLDivElement, RatingInputProps>(
   function RatingInput(
     {

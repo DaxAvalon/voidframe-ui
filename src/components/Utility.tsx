@@ -32,6 +32,10 @@ export interface ClipboardProps extends Omit<ButtonHTMLAttributes<HTMLButtonElem
   resetMs?: number;
 }
 
+/**
+ * Copy-to-clipboard affordance with success feedback. Wraps a trigger and
+ * announces "Copied" via `LiveRegion` on success.
+ */
 export const Clipboard = forwardRef<HTMLButtonElement, ClipboardProps>(
   function Clipboard(
     { value, children, onCopy, resetMs = 1500, className, ...props },
@@ -85,6 +89,10 @@ export interface ShareButtonProps extends ButtonHTMLAttributes<HTMLButtonElement
   label?: ReactNode;
 }
 
+/**
+ * Button that opens a share sheet / menu with configurable destinations
+ * (copy link, email, native share).
+ */
 export const ShareButton = forwardRef<HTMLButtonElement, ShareButtonProps>(
   function ShareButton(
     {
@@ -145,6 +153,10 @@ export interface ScrollIndicatorProps extends HTMLAttributes<HTMLDivElement> {
   color?: string;
 }
 
+/**
+ * Edge indicator showing there's more content to scroll to. Fades in/out
+ * based on scroll position.
+ */
 export const ScrollIndicator = forwardRef<HTMLDivElement, ScrollIndicatorProps>(
   function ScrollIndicator(
     { target, position = "top", thickness = 2, color, className, style, ...props },
@@ -230,6 +242,9 @@ export interface ReactionPickerProps extends HTMLAttributes<HTMLDivElement> {
   recentCount?: number;
 }
 
+/**
+ * Emoji picker popover used to add a reaction. Paired with `ReactionBar`.
+ */
 export const ReactionPicker = forwardRef<HTMLDivElement, ReactionPickerProps>(
   function ReactionPicker(
     { reactions, onReact, recent, grid, recentCount = 5, className, ...props },

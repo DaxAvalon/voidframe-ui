@@ -70,6 +70,10 @@ export interface ScrollRowProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Horizontally-scrolling row with overflow fading. Good for chip / card
+ * rows.
+ */
 export const ScrollRow = forwardRef<HTMLDivElement, ScrollRowProps>(
   function ScrollRow({ children, gap, className, style, ...props }, ref) {
     const inline: CSSProperties = {
@@ -96,6 +100,10 @@ export interface StatusBarProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Bottom status bar (e.g. for an editor / IDE-style UI). Renders items with
+ * icons and text.
+ */
 export const StatusBar = forwardRef<HTMLDivElement, StatusBarProps>(
   function StatusBar({ items, className, style, ...props }, ref) {
     return (
@@ -131,6 +139,10 @@ export interface SegmentBarProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Horizontal bar divided into labelled segments, sized by a weight. Good for
+ * status/health breakdowns.
+ */
 export const SegmentBar = forwardRef<HTMLDivElement, SegmentBarProps>(
   function SegmentBar({ segments, className, style, ...props }, ref) {
     const total = segments.reduce((s, seg) => s + seg.span, 0);

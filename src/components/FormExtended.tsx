@@ -85,6 +85,9 @@ export interface RadioProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChan
   style?: CSSProperties;
 }
 
+/**
+ * Single radio input with label. For groups use `RadioGroup`.
+ */
 export const Radio = forwardRef<HTMLDivElement, RadioProps>(function Radio(
   { checked, onValueChange, label, accent, disabled, className, style, ...props },
   ref
@@ -218,6 +221,10 @@ export interface SliderProps extends Omit<HTMLAttributes<HTMLDivElement>, "onCha
   style?: CSSProperties;
 }
 
+/**
+ * Range slider for numeric values. Controllable via `value` /
+ * `onValueChange`; supports one or two thumbs.
+ */
 export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
   { value, defaultValue, onValueChange, min = 0, max = 100, step = 1, label, accent, showValue, className, style, ...props },
   ref
@@ -275,6 +282,10 @@ export interface NumberInputProps extends Omit<HTMLAttributes<HTMLDivElement>, "
   style?: CSSProperties;
 }
 
+/**
+ * Numeric text input with min/max/step, keyboard increment/decrement, and
+ * locale parsing.
+ */
 export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
   function NumberInput(
     { value, defaultValue, onValueChange, min, max, step = 1, label, width, className, style, ...props },
@@ -352,6 +363,10 @@ export interface SearchInputProps {
   style?: CSSProperties;
 }
 
+/**
+ * Input tuned for search: leading search icon, clear-on-escape, debounce via
+ * `debounce` prop.
+ */
 export const SearchInput = forwardRef<HTMLDivElement, SearchInputProps>(
   function SearchInput(
     { value, defaultValue, onChange, onValueChange, placeholder = "Search...", onClear, readOnly, width, className, style },
@@ -457,6 +472,10 @@ export interface DropZoneProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * File drop target with visual affordance and keyboard fallback (click to
+ * open file picker). Emits `onFiles(files)`.
+ */
 export const DropZone = forwardRef<HTMLDivElement, DropZoneProps>(function DropZone(
   { onFiles, accept, label, className, style, ...props },
   ref

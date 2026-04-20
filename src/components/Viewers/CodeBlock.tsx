@@ -72,6 +72,10 @@ function escapeHTML(s: string): string {
     .replace(/'/g, "&#39;");
 }
 
+/**
+ * Fenced code block with optional language-aware syntax highlighting, copy
+ * button, and line numbers.
+ */
 export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
   function CodeBlock(
     {

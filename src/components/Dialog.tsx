@@ -433,6 +433,11 @@ export const Dialog = Object.assign(DialogRoot, {
 
 export interface AlertDialogProps extends Omit<DialogProps, "kind"> {}
 
+/**
+ * Modal dialog that confirms a destructive or irreversible action. Like
+ * `Dialog` but with enforced `Cancel` / `Confirm` affordances and
+ * `role="alertdialog"` semantics.
+ */
 export function AlertDialog(props: AlertDialogProps) {
   return <DialogRoot {...props} kind="alertdialog" />;
 }
@@ -453,6 +458,10 @@ export interface ConfirmDialogPropsV2 {
   onCancel?: () => void;
 }
 
+/**
+ * Successor to `ConfirmDialog` built on the compound `Dialog` API. Use
+ * `ConfirmProvider` + `useConfirm` for imperative prompts.
+ */
 export function ConfirmDialogV2({
   open,
   defaultOpen,
@@ -507,6 +516,10 @@ export interface ConfirmProviderProps {
   children?: ReactNode;
 }
 
+/**
+ * App-root provider that hosts imperative confirm dialogs triggered via
+ * `useConfirm()`.
+ */
 export function ConfirmProvider({ children }: ConfirmProviderProps) {
   const [request, setRequest] = useState<ConfirmRequest | null>(null);
   const confirm = useCallback(

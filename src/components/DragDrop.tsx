@@ -52,6 +52,10 @@ export interface DragDropContextProps {
   children?: ReactNode;
 }
 
+/**
+ * Root provider for the drag-and-drop system. Wraps `Draggable` /
+ * `Droppable` children and coordinates drag state.
+ */
 export function DragDropContext({
   onDragStart,
   onDragEnd,
@@ -122,6 +126,10 @@ export interface DroppableProps {
   children: (props: DroppableRenderProps) => ReactNode;
 }
 
+/**
+ * Drop target inside a `DragDropContext`. Emits drop events with the dragged
+ * payload.
+ */
 export function Droppable({ id, children }: DroppableProps) {
   const ctx = useDragDrop();
   const [el, setEl] = useState<HTMLElement | null>(null);
@@ -192,6 +200,10 @@ export interface DraggableProps {
   children: (props: DraggableRenderProps) => ReactNode;
 }
 
+/**
+ * Wraps a child to make it draggable inside a `DragDropContext`. Emits
+ * lifecycle events for drag start, move, end.
+ */
 export function Draggable({
   id,
   index = 0,
@@ -282,6 +294,10 @@ export interface SortableProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, "
   handle?: boolean;
 }
 
+/**
+ * Wraps a list to make its items reorderable via drag. Keyboard-reorder with
+ * arrow keys after picking.
+ */
 export function Sortable<T>({
   value: items,
   getKey,

@@ -114,6 +114,10 @@ export interface MentionInputProps
   textareaProps?: TextareaPassthrough;
 }
 
+/**
+ * Text input with `@`-triggered mention autocomplete. Emits structured
+ * tokens on change.
+ */
 export const MentionInput = forwardRef<HTMLDivElement, MentionInputProps>(
   function MentionInput(
     {
@@ -329,6 +333,10 @@ export interface SlashCommandInputProps
   onCommand?: (cmd: SlashCommandOption) => void;
 }
 
+/**
+ * Text input with `/`-triggered command autocomplete. Emits the selected
+ * command.
+ */
 export const SlashCommandInput = forwardRef<HTMLDivElement, SlashCommandInputProps>(
   function SlashCommandInput(
     { commands, trigger = "/", onCommand, ...rest },

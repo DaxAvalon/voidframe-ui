@@ -18,6 +18,10 @@ export interface GridlinesProps
   dashed?: boolean;
 }
 
+/**
+ * Chart gridlines primitive. Renders horizontal/vertical rules tied to tick
+ * positions of the enclosing scales.
+ */
 export const Gridlines = forwardRef<SVGGElement, GridlinesProps>(
   function Gridlines(
     { mode = "both", ticks: tickCount = 5, dashed, className, ...props },

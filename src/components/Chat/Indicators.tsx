@@ -18,6 +18,9 @@ export interface ThinkingIndicatorProps extends HTMLAttributes<HTMLDivElement> {
   kind?: "dots" | "shimmer";
 }
 
+/**
+ * Animated `thinking...` indicator used while an LLM response is pending.
+ */
 export const ThinkingIndicator = forwardRef<HTMLDivElement, ThinkingIndicatorProps>(
   function ThinkingIndicator(
     { message = "Thinking", duration, kind = "dots", className, ...props },
@@ -76,6 +79,10 @@ export interface ReasoningTraceProps
   title?: ReactNode;
 }
 
+/**
+ * Collapsible block showing an LLM's chain-of-thought reasoning with step
+ * separators.
+ */
 export const ReasoningTrace = forwardRef<HTMLDivElement, ReasoningTraceProps>(
   function ReasoningTrace(
     {

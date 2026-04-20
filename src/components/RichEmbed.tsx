@@ -20,6 +20,10 @@ export interface LegalTextProps extends HTMLAttributes<HTMLDivElement> {
   size?: "xs" | "sm";
 }
 
+/**
+ * Small-print legal prose container with conservative typography. Use for
+ * ToS excerpts, disclaimers, footnotes.
+ */
 export const LegalText = forwardRef<HTMLDivElement, LegalTextProps>(
   function LegalText({ size = "xs", className, children, ...props }, ref) {
     return (
@@ -70,6 +74,10 @@ interface MermaidApi {
   ) => Promise<{ svg: string; bindFunctions?: (el: Element) => void }>;
 }
 
+/**
+ * Renders a Mermaid diagram from a source string. Parses at mount; errors
+ * surface in a fallback block.
+ */
 export const Mermaid = forwardRef<HTMLDivElement, MermaidProps>(
   function Mermaid(
     {

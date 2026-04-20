@@ -92,6 +92,12 @@ function coerceEventValue(
   return el.value;
 }
 
+/**
+ * Controlled-or-uncontrolled form-state primitive with validation. Returns
+ * `{ values, errors, touched, register, handleSubmit, reset, setFieldValue,
+ * setFieldError, trigger }`. Pair with `useFieldArray` for dynamic rows and
+ * `FormErrorSummary` for a live error list.
+ */
 export function useForm<T extends Record<string, unknown>>(
   options: UseFormOptions<T>
 ): UseFormReturn<T> {

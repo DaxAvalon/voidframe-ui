@@ -26,6 +26,10 @@ export interface MessageGroupProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * Visually groups consecutive messages from the same author into a single
+ * run.
+ */
 export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
   function MessageGroup(
     { author, role, timestamp, className, children, ...props },
@@ -86,6 +90,10 @@ export interface MessageProps extends Omit<HTMLAttributes<HTMLDivElement>, "cont
   children?: ReactNode;
 }
 
+/**
+ * Single chat message card: role (`user` | `assistant` | `system` | `tool`),
+ * content, actions, timestamp.
+ */
 export const Message = forwardRef<HTMLDivElement, MessageProps>(function Message(
   {
     role = "assistant",
@@ -191,6 +199,10 @@ export interface MessageContentProps
   citations?: ReactNode;
 }
 
+/**
+ * Body slot of a chat `Message` — renders markdown, attachments, code
+ * blocks, and citations.
+ */
 export const MessageContent = forwardRef<HTMLDivElement, MessageContentProps>(
   function MessageContent(
     { content, markdown, streaming, cursor, citations, className, ...props },
@@ -290,6 +302,10 @@ export interface StreamingTextProps extends HTMLAttributes<HTMLSpanElement> {
   speed?: "instant" | number;
 }
 
+/**
+ * Incrementally-rendered text block for streaming LLM output. Shows a
+ * trailing cursor while active.
+ */
 export const StreamingText = forwardRef<HTMLSpanElement, StreamingTextProps>(
   function StreamingText(
     { text, cursor = true, speed = "instant", className, ...props },

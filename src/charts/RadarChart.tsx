@@ -49,6 +49,10 @@ export interface RadarChartProps
   valueFormat?: (v: number) => string;
 }
 
+/**
+ * Radar / spider chart for multi-axis categorical data. Each ring is a value
+ * level; axes radiate from the centre.
+ */
 export const RadarChart = forwardRef<HTMLDivElement, RadarChartProps>(
   function RadarChart(
     {

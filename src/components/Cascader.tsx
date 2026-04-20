@@ -325,5 +325,9 @@ const CascaderImpl = forwardRef<HTMLDivElement, CascaderProps>(
   }
 );
 CascaderImpl.displayName = "Cascader";
+/**
+ * Hierarchical select. Each column filters the next based on the user's
+ * pick; emits the full path on commit.
+ */
 export const Cascader = memo(CascaderImpl);
 (Cascader as unknown as { displayName: string }).displayName = "Cascader";

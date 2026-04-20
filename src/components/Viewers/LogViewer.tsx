@@ -48,6 +48,10 @@ const levelWeight: Record<LogLevel, number> = {
   error: 3,
 };
 
+/**
+ * Terminal-style log viewer with level filters, timestamp toggle, search,
+ * and auto-scroll-to-bottom.
+ */
 export const LogViewer = forwardRef<HTMLDivElement, LogViewerProps>(
   function LogViewer(
     {
@@ -241,6 +245,10 @@ export interface TerminalProps extends HTMLAttributes<HTMLDivElement> {
   height?: number | string;
 }
 
+/**
+ * Interactive terminal emulator surface. Emits user input lines; host app
+ * supplies output.
+ */
 export const Terminal = forwardRef<HTMLDivElement, TerminalProps>(
   function Terminal(
     {

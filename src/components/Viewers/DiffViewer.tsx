@@ -109,6 +109,10 @@ function lineDiff(oldText: string, newText: string): DiffOp[] {
   return ops;
 }
 
+/**
+ * Unified / side-by-side text diff view with line numbers and hunk
+ * navigation. Feed `before` + `after` strings.
+ */
 export const DiffViewer = forwardRef<HTMLDivElement, DiffViewerProps>(
   function DiffViewer(
     {

@@ -22,6 +22,10 @@ export interface HelpTooltipProps
   label?: string;
 }
 
+/**
+ * Tooltip variant tuned for contextual help text — slightly wider, with a
+ * `?` trigger convention.
+ */
 export const HelpTooltip = forwardRef<HTMLSpanElement, HelpTooltipProps>(
   function HelpTooltip(
     { content, placement = "top", label = "Help", className, ...props },
@@ -78,6 +82,10 @@ export interface ContextHelpProps extends HTMLAttributes<HTMLElement> {
   children?: ReactNode;
 }
 
+/**
+ * Small `?` trigger that opens a tooltip/popover with contextual help text.
+ * Pair with form fields and dense UI.
+ */
 export const ContextHelp = forwardRef<HTMLElement, ContextHelpProps>(
   function ContextHelp(
     { open = true, onDismiss, titleLabel = "Help", for: forId, className, children, ...props },
@@ -143,6 +151,11 @@ export interface ChangelogProps
   title?: ReactNode;
 }
 
+/**
+ * Renders a versioned changelog from a structured `entries` prop. Each entry
+ * has version, date, and grouped `added` / `changed` / `fixed` / `removed`
+ * bullets.
+ */
 export const Changelog = forwardRef<HTMLElement, ChangelogProps>(
   function Changelog(
     { entries, collapsed = false, title = "Changelog", className, ...props },
@@ -243,6 +256,10 @@ export interface WhatsNewPopoverProps
   ctaLabel?: ReactNode;
 }
 
+/**
+ * Popover that announces recent releases / changelog entries. Auto-dismisses
+ * when the user has seen the latest version.
+ */
 export const WhatsNewPopover = forwardRef<HTMLDivElement, WhatsNewPopoverProps>(
   function WhatsNewPopover(
     {

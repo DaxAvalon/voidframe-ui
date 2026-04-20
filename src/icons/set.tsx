@@ -41,6 +41,10 @@ function makeIcon(
 
 // ── Actions ────────────────────────────────────────────────
 
+/**
+ * Plus icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const PlusIcon = makeIcon(
   "PlusIcon",
   "Add",
@@ -50,18 +54,30 @@ export const PlusIcon = makeIcon(
   </>
 );
 
+/**
+ * Minus icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const MinusIcon = makeIcon(
   "MinusIcon",
   "Remove",
   <path d="M5 12h14" />
 );
 
+/**
+ * Check icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const CheckIcon = makeIcon(
   "CheckIcon",
   "Check",
   <path d="M4 12l5 5 11-11" />
 );
 
+/**
+ * X icon. Decorative by default; supply `label` to promote to `role="img"`.
+ * Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const XIcon = makeIcon(
   "XIcon",
   "Close",
@@ -71,6 +87,10 @@ export const XIcon = makeIcon(
   </>
 );
 
+/**
+ * Edit icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const EditIcon = makeIcon(
   "EditIcon",
   "Edit",
@@ -80,6 +100,10 @@ export const EditIcon = makeIcon(
   </>
 );
 
+/**
+ * Trash icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const TrashIcon = makeIcon(
   "TrashIcon",
   "Delete",
@@ -90,6 +114,10 @@ export const TrashIcon = makeIcon(
   </>
 );
 
+/**
+ * Copy icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const CopyIcon = makeIcon(
   "CopyIcon",
   "Copy",
@@ -99,6 +127,10 @@ export const CopyIcon = makeIcon(
   </>
 );
 
+/**
+ * Download icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const DownloadIcon = makeIcon(
   "DownloadIcon",
   "Download",
@@ -109,6 +141,10 @@ export const DownloadIcon = makeIcon(
   </>
 );
 
+/**
+ * Upload icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const UploadIcon = makeIcon(
   "UploadIcon",
   "Upload",
@@ -119,6 +155,10 @@ export const UploadIcon = makeIcon(
   </>
 );
 
+/**
+ * Refresh icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const RefreshIcon = makeIcon(
   "RefreshIcon",
   "Refresh",
@@ -130,6 +170,10 @@ export const RefreshIcon = makeIcon(
   </>
 );
 
+/**
+ * Save icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const SaveIcon = makeIcon(
   "SaveIcon",
   "Save",
@@ -140,6 +184,10 @@ export const SaveIcon = makeIcon(
   </>
 );
 
+/**
+ * Share icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ShareIcon = makeIcon(
   "ShareIcon",
   "Share",
@@ -152,6 +200,10 @@ export const ShareIcon = makeIcon(
   </>
 );
 
+/**
+ * Send icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const SendIcon = makeIcon(
   "SendIcon",
   "Send",
@@ -161,12 +213,20 @@ export const SendIcon = makeIcon(
   { directional: true }
 );
 
+/**
+ * Bookmark icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const BookmarkIcon = makeIcon(
   "BookmarkIcon",
   "Bookmark",
   <path d="M6 4h12v16l-6-4-6 4z" />
 );
 
+/**
+ * Pin icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const PinIcon = makeIcon(
   "PinIcon",
   "Pin",
@@ -178,18 +238,30 @@ export const PinIcon = makeIcon(
 
 // ── Navigation ─────────────────────────────────────────────
 
+/**
+ * ChevronUp icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ChevronUpIcon = makeIcon(
   "ChevronUpIcon",
   "Expand",
   <path d="M6 15l6-6 6 6" />
 );
 
+/**
+ * ChevronDown icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ChevronDownIcon = makeIcon(
   "ChevronDownIcon",
   "Collapse",
   <path d="M6 9l6 6 6-6" />
 );
 
+/**
+ * ChevronLeft icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ChevronLeftIcon = makeIcon(
   "ChevronLeftIcon",
   "Previous",
@@ -197,6 +269,10 @@ export const ChevronLeftIcon = makeIcon(
   { directional: true }
 );
 
+/**
+ * ChevronRight icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ChevronRightIcon = makeIcon(
   "ChevronRightIcon",
   "Next",
@@ -204,6 +280,10 @@ export const ChevronRightIcon = makeIcon(
   { directional: true }
 );
 
+/**
+ * ArrowUp icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ArrowUpIcon = makeIcon(
   "ArrowUpIcon",
   "Up",
@@ -213,6 +293,10 @@ export const ArrowUpIcon = makeIcon(
   </>
 );
 
+/**
+ * ArrowDown icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ArrowDownIcon = makeIcon(
   "ArrowDownIcon",
   "Down",
@@ -222,6 +306,10 @@ export const ArrowDownIcon = makeIcon(
   </>
 );
 
+/**
+ * ArrowLeft icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ArrowLeftIcon = makeIcon(
   "ArrowLeftIcon",
   "Back",
@@ -232,6 +320,10 @@ export const ArrowLeftIcon = makeIcon(
   { directional: true }
 );
 
+/**
+ * ArrowRight icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ArrowRightIcon = makeIcon(
   "ArrowRightIcon",
   "Forward",
@@ -242,6 +334,10 @@ export const ArrowRightIcon = makeIcon(
   { directional: true }
 );
 
+/**
+ * Home icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const HomeIcon = makeIcon(
   "HomeIcon",
   "Home",
@@ -252,6 +348,10 @@ export const HomeIcon = makeIcon(
   </>
 );
 
+/**
+ * ExternalLink icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ExternalLinkIcon = makeIcon(
   "ExternalLinkIcon",
   "Open in new tab",
@@ -262,6 +362,10 @@ export const ExternalLinkIcon = makeIcon(
   </>
 );
 
+/**
+ * MoreHorizontal icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const MoreHorizontalIcon = makeIcon(
   "MoreHorizontalIcon",
   "More",
@@ -272,6 +376,10 @@ export const MoreHorizontalIcon = makeIcon(
   </>
 );
 
+/**
+ * MoreVertical icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const MoreVerticalIcon = makeIcon(
   "MoreVerticalIcon",
   "More",
@@ -282,6 +390,10 @@ export const MoreVerticalIcon = makeIcon(
   </>
 );
 
+/**
+ * Menu icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const MenuIcon = makeIcon(
   "MenuIcon",
   "Menu",
@@ -294,6 +406,10 @@ export const MenuIcon = makeIcon(
 
 // ── Files ──────────────────────────────────────────────────
 
+/**
+ * File icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const FileIcon = makeIcon(
   "FileIcon",
   "File",
@@ -303,6 +419,10 @@ export const FileIcon = makeIcon(
   </>
 );
 
+/**
+ * FileText icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const FileTextIcon = makeIcon(
   "FileTextIcon",
   "Document",
@@ -314,12 +434,20 @@ export const FileTextIcon = makeIcon(
   </>
 );
 
+/**
+ * Folder icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const FolderIcon = makeIcon(
   "FolderIcon",
   "Folder",
   <path d="M4 6h6l2 3h8v10H4z" />
 );
 
+/**
+ * FolderOpen icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const FolderOpenIcon = makeIcon(
   "FolderOpenIcon",
   "Open folder",
@@ -331,6 +459,10 @@ export const FolderOpenIcon = makeIcon(
 
 // ── Editors ────────────────────────────────────────────────
 
+/**
+ * Bold icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const BoldIcon = makeIcon(
   "BoldIcon",
   "Bold",
@@ -340,6 +472,10 @@ export const BoldIcon = makeIcon(
   </>
 );
 
+/**
+ * Italic icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ItalicIcon = makeIcon(
   "ItalicIcon",
   "Italic",
@@ -350,6 +486,10 @@ export const ItalicIcon = makeIcon(
   </>
 );
 
+/**
+ * Underline icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const UnderlineIcon = makeIcon(
   "UnderlineIcon",
   "Underline",
@@ -359,6 +499,10 @@ export const UnderlineIcon = makeIcon(
   </>
 );
 
+/**
+ * Code icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const CodeIcon = makeIcon(
   "CodeIcon",
   "Code",
@@ -368,6 +512,10 @@ export const CodeIcon = makeIcon(
   </>
 );
 
+/**
+ * Quote icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const QuoteIcon = makeIcon(
   "QuoteIcon",
   "Quote",
@@ -377,6 +525,10 @@ export const QuoteIcon = makeIcon(
   </>
 );
 
+/**
+ * Link icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const LinkIcon = makeIcon(
   "LinkIcon",
   "Link",
@@ -388,6 +540,10 @@ export const LinkIcon = makeIcon(
 
 // ── Status ─────────────────────────────────────────────────
 
+/**
+ * Info icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const InfoIcon = makeIcon(
   "InfoIcon",
   "Information",
@@ -398,6 +554,10 @@ export const InfoIcon = makeIcon(
   </>
 );
 
+/**
+ * Warning icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const WarningIcon = makeIcon(
   "WarningIcon",
   "Warning",
@@ -408,6 +568,10 @@ export const WarningIcon = makeIcon(
   </>
 );
 
+/**
+ * Error icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ErrorIcon = makeIcon(
   "ErrorIcon",
   "Error",
@@ -418,6 +582,10 @@ export const ErrorIcon = makeIcon(
   </>
 );
 
+/**
+ * Success icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const SuccessIcon = makeIcon(
   "SuccessIcon",
   "Success",
@@ -427,6 +595,10 @@ export const SuccessIcon = makeIcon(
   </>
 );
 
+/**
+ * Question icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const QuestionIcon = makeIcon(
   "QuestionIcon",
   "Help",
@@ -437,6 +609,10 @@ export const QuestionIcon = makeIcon(
   </>
 );
 
+/**
+ * Spinner icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const SpinnerIcon = makeIcon(
   "SpinnerIcon",
   "Loading",
@@ -448,24 +624,40 @@ export const SpinnerIcon = makeIcon(
 
 // ── Shapes ─────────────────────────────────────────────────
 
+/**
+ * Circle icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const CircleIcon = makeIcon(
   "CircleIcon",
   "Circle",
   <circle cx="12" cy="12" r="9" />
 );
 
+/**
+ * Square icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const SquareIcon = makeIcon(
   "SquareIcon",
   "Square",
   <rect x="4" y="4" width="16" height="16" />
 );
 
+/**
+ * Star icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const StarIcon = makeIcon(
   "StarIcon",
   "Star",
   <path d="M12 3l3 6 6 1-4 5 1 6-6-3-6 3 1-6-4-5 6-1z" />
 );
 
+/**
+ * Heart icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const HeartIcon = makeIcon(
   "HeartIcon",
   "Favorite",
@@ -474,6 +666,10 @@ export const HeartIcon = makeIcon(
 
 // ── System ────────────────────────────────────────────────
 
+/**
+ * Settings icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const SettingsIcon = makeIcon(
   "SettingsIcon",
   "Settings",
@@ -486,6 +682,10 @@ export const SettingsIcon = makeIcon(
   </>
 );
 
+/**
+ * User icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const UserIcon = makeIcon(
   "UserIcon",
   "User",
@@ -495,6 +695,10 @@ export const UserIcon = makeIcon(
   </>
 );
 
+/**
+ * Users icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const UsersIcon = makeIcon(
   "UsersIcon",
   "Users",
@@ -506,6 +710,10 @@ export const UsersIcon = makeIcon(
   </>
 );
 
+/**
+ * Lock icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const LockIcon = makeIcon(
   "LockIcon",
   "Lock",
@@ -515,6 +723,10 @@ export const LockIcon = makeIcon(
   </>
 );
 
+/**
+ * Unlock icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const UnlockIcon = makeIcon(
   "UnlockIcon",
   "Unlock",
@@ -524,6 +736,10 @@ export const UnlockIcon = makeIcon(
   </>
 );
 
+/**
+ * Eye icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const EyeIcon = makeIcon(
   "EyeIcon",
   "Show",
@@ -533,6 +749,10 @@ export const EyeIcon = makeIcon(
   </>
 );
 
+/**
+ * EyeOff icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const EyeOffIcon = makeIcon(
   "EyeOffIcon",
   "Hide",
@@ -543,6 +763,10 @@ export const EyeOffIcon = makeIcon(
   </>
 );
 
+/**
+ * Search icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const SearchIcon = makeIcon(
   "SearchIcon",
   "Search",
@@ -552,12 +776,20 @@ export const SearchIcon = makeIcon(
   </>
 );
 
+/**
+ * Filter icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const FilterIcon = makeIcon(
   "FilterIcon",
   "Filter",
   <path d="M4 5h16l-6 8v6l-4-2v-4z" />
 );
 
+/**
+ * Sort icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const SortIcon = makeIcon(
   "SortIcon",
   "Sort",
@@ -571,6 +803,10 @@ export const SortIcon = makeIcon(
 
 // ── Communication ──────────────────────────────────────────
 
+/**
+ * Mail icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const MailIcon = makeIcon(
   "MailIcon",
   "Mail",
@@ -580,6 +816,10 @@ export const MailIcon = makeIcon(
   </>
 );
 
+/**
+ * Bell icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const BellIcon = makeIcon(
   "BellIcon",
   "Notifications",
@@ -589,6 +829,10 @@ export const BellIcon = makeIcon(
   </>
 );
 
+/**
+ * Message icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const MessageIcon = makeIcon(
   "MessageIcon",
   "Message",
@@ -597,6 +841,10 @@ export const MessageIcon = makeIcon(
 
 // ── Media ─────────────────────────────────────────────────
 
+/**
+ * Play icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const PlayIcon = makeIcon(
   "PlayIcon",
   "Play",
@@ -604,6 +852,10 @@ export const PlayIcon = makeIcon(
   { directional: true }
 );
 
+/**
+ * Pause icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const PauseIcon = makeIcon(
   "PauseIcon",
   "Pause",
@@ -613,6 +865,10 @@ export const PauseIcon = makeIcon(
   </>
 );
 
+/**
+ * Stop icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const StopIcon = makeIcon(
   "StopIcon",
   "Stop",
@@ -621,6 +877,10 @@ export const StopIcon = makeIcon(
 
 // ── Time ──────────────────────────────────────────────────
 
+/**
+ * Clock icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ClockIcon = makeIcon(
   "ClockIcon",
   "Clock",
@@ -630,6 +890,10 @@ export const ClockIcon = makeIcon(
   </>
 );
 
+/**
+ * Calendar icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const CalendarIcon = makeIcon(
   "CalendarIcon",
   "Calendar",
@@ -641,6 +905,10 @@ export const CalendarIcon = makeIcon(
   </>
 );
 
+/**
+ * Sun icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const SunIcon = makeIcon(
   "SunIcon",
   "Light theme",
@@ -657,6 +925,10 @@ export const SunIcon = makeIcon(
   </>
 );
 
+/**
+ * Moon icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const MoonIcon = makeIcon(
   "MoonIcon",
   "Dark theme",
@@ -665,6 +937,10 @@ export const MoonIcon = makeIcon(
 
 // ── Data ──────────────────────────────────────────────────
 
+/**
+ * ChartBar icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ChartBarIcon = makeIcon(
   "ChartBarIcon",
   "Bar chart",
@@ -676,6 +952,10 @@ export const ChartBarIcon = makeIcon(
   </>
 );
 
+/**
+ * ChartLine icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const ChartLineIcon = makeIcon(
   "ChartLineIcon",
   "Line chart",
@@ -685,6 +965,10 @@ export const ChartLineIcon = makeIcon(
   </>
 );
 
+/**
+ * Database icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const DatabaseIcon = makeIcon(
   "DatabaseIcon",
   "Database",
@@ -695,6 +979,10 @@ export const DatabaseIcon = makeIcon(
   </>
 );
 
+/**
+ * Terminal icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const TerminalIcon = makeIcon(
   "TerminalIcon",
   "Terminal",
@@ -705,6 +993,10 @@ export const TerminalIcon = makeIcon(
   </>
 );
 
+/**
+ * Cloud icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const CloudIcon = makeIcon(
   "CloudIcon",
   "Cloud",
@@ -713,6 +1005,10 @@ export const CloudIcon = makeIcon(
 
 // ── Caret (directional, flips on expand) ──────────────────
 
+/**
+ * Caret icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const CaretIcon = makeIcon(
   "CaretIcon",
   "Toggle",
@@ -721,6 +1017,10 @@ export const CaretIcon = makeIcon(
 
 // ── Loading ───────────────────────────────────────────────
 
+/**
+ * LoadingDots icon. Decorative by default; supply `label` to promote to
+ * `role="img"`. Monoline, 1px stroke, 24x24 at `size="md"`.
+ */
 export const LoadingDotsIcon = makeIcon(
   "LoadingDotsIcon",
   "Loading",

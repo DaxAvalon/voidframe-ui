@@ -201,5 +201,9 @@ const HexDumpImpl = forwardRef<HTMLDivElement, HexDumpProps>(function HexDump(
   );
 });
 HexDumpImpl.displayName = "HexDump";
+/**
+ * Monospace hex+ASCII viewer for a buffer. Configurable bytes-per-row and
+ * offset display.
+ */
 export const HexDump = memo(HexDumpImpl);
 (HexDump as unknown as { displayName: string }).displayName = "HexDump";

@@ -51,6 +51,10 @@ const DEFAULT_COLORS = [
   "var(--vf-blue)",
 ];
 
+/**
+ * Two-dimensional heatmap. Axes: band x band. Cells shade by intensity;
+ * tooltip exposes raw value.
+ */
 export const Heatmap = forwardRef<HTMLDivElement, HeatmapProps>(
   function Heatmap(
     {

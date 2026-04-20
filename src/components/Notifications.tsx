@@ -57,6 +57,10 @@ function formatTime(t: Date | string | undefined): string {
   return d.toLocaleDateString();
 }
 
+/**
+ * Drawer of grouped notifications with read/unread state, per-item actions,
+ * and clear-all.
+ */
 export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterProps>(
   function NotificationCenter(
     {
@@ -204,6 +208,10 @@ export interface BannerAlertProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Full-width banner alert anchored to the top (or bottom) of a layout.
+ * Heavier than `Alert`; use for site-wide notices.
+ */
 export const BannerAlert = forwardRef<HTMLDivElement, BannerAlertProps>(
   function BannerAlert(
     {
@@ -259,6 +267,10 @@ export interface CalloutProps extends Omit<HTMLAttributes<HTMLDivElement>, "titl
   children?: ReactNode;
 }
 
+/**
+ * Emphasised inline block with an icon, title, and body. Similar to `Alert`
+ * but for editorial / doc-style calls rather than runtime notices.
+ */
 export const Callout = forwardRef<HTMLDivElement, CalloutProps>(function Callout(
   { icon, title, tone = "info", className, children, ...props },
   ref
@@ -287,6 +299,9 @@ export interface QuoteProps extends HTMLAttributes<HTMLQuoteElement> {
   children?: ReactNode;
 }
 
+/**
+ * Styled pull-quote block with optional attribution.
+ */
 export const Quote = forwardRef<HTMLQuoteElement, QuoteProps>(function Quote(
   { cite, source, className, children, ...props },
   ref
@@ -326,6 +341,10 @@ export interface AlertV2Props extends Omit<HTMLAttributes<HTMLDivElement>, "titl
   children?: ReactNode;
 }
 
+/**
+ * Next-gen inline alert with richer layout slots (title, description,
+ * actions, icon). Controllable dismissed state; tone mirrors `Alert`.
+ */
 export const AlertV2 = forwardRef<HTMLDivElement, AlertV2Props>(function AlertV2(
   {
     title,

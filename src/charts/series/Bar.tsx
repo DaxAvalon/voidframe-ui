@@ -28,6 +28,10 @@ export interface BarProps extends Omit<SVGAttributes<SVGGElement>, "onClick"> {
   radius?: number;
 }
 
+/**
+ * Bar series primitive. Draws rectangles for each datum using the enclosing
+ * chart's band/linear scales.
+ */
 export const Bar = forwardRef<SVGGElement, BarProps>(function Bar(
   {
     data,

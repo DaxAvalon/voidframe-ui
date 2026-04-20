@@ -117,6 +117,10 @@ interface SimLink {
 
 const RESOLVED_RADIUS = (n: SimNode) => n.radius ?? 6;
 
+/**
+ * Force-directed graph. Nodes relax via d3-force; drag a node to pin it.
+ * Peer: `d3-force`.
+ */
 export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
   function NetworkGraph(
     {

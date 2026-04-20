@@ -84,6 +84,10 @@ export interface LineChartProps
 
 const fmtDefault = (v: number) => formatChartNumber(v);
 
+/**
+ * Line chart over a shared X axis. Axes: linear or time (X), linear (Y).
+ * Interactions: hover crosshair, tooltip, legend toggle.
+ */
 export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   function LineChart(
     {

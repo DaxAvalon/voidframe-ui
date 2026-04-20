@@ -60,6 +60,10 @@ const MONTHS = [
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
 
+/**
+ * GitHub-style calendar heatmap. Bins values per day and shades cells by
+ * intensity; supports weekly or monthly layout.
+ */
 export const CalendarHeatmap = forwardRef<HTMLDivElement, CalendarHeatmapProps>(
   function CalendarHeatmap(
     {

@@ -215,5 +215,10 @@ const AnchorBase = forwardRef<HTMLElement, AnchorProps>(function Anchor(
   );
 });
 
+/**
+ * Styled `<a>` with safe-href validation, optional external-link affordance,
+ * and tone variants. Rejects `javascript:` and other unsafe schemes with a
+ * dev warning.
+ */
 export const Anchor = memo(AnchorBase);
 (Anchor as unknown as { displayName: string }).displayName = "Anchor";

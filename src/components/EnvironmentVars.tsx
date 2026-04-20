@@ -261,6 +261,10 @@ const EnvironmentVarsImpl = forwardRef<HTMLDivElement, EnvironmentVarsProps>(
   }
 );
 EnvironmentVarsImpl.displayName = "EnvironmentVars";
+/**
+ * Editor for key/value environment variable pairs. Masks values by default;
+ * supports import/export.
+ */
 export const EnvironmentVars = memo(EnvironmentVarsImpl);
 (EnvironmentVars as unknown as { displayName: string }).displayName =
   "EnvironmentVars";

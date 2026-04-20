@@ -120,6 +120,10 @@ const LiveIndicatorImpl = forwardRef<HTMLDivElement, LiveIndicatorProps>(
   }
 );
 LiveIndicatorImpl.displayName = "LiveIndicator";
+/**
+ * Pulsing dot + label indicating a live feed / stream state. Tones mirror
+ * status palette.
+ */
 export const LiveIndicator = memo(LiveIndicatorImpl);
 (LiveIndicator as unknown as { displayName: string }).displayName =
   "LiveIndicator";

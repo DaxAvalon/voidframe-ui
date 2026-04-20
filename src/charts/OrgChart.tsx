@@ -196,6 +196,10 @@ function connectorPath(
 
 // ── Component ─────────────────────────────────────────────
 
+/**
+ * Top-down hierarchical chart (e.g. org structure). Collapsible subtrees and
+ * pan/zoom.
+ */
 export const OrgChart = forwardRef<HTMLDivElement, OrgChartProps>(
   function OrgChart(
     {

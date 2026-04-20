@@ -174,5 +174,9 @@ const InlineEditImpl = forwardRef<HTMLDivElement, InlineEditProps>(
   }
 );
 InlineEditImpl.displayName = "InlineEdit";
+/**
+ * Click-to-edit text field: displays a value until clicked, then renders an
+ * input with Save/Cancel.
+ */
 export const InlineEdit = memo(InlineEditImpl);
 (InlineEdit as unknown as { displayName: string }).displayName = "InlineEdit";

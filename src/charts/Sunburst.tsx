@@ -46,6 +46,9 @@ export interface SunburstProps
   padAngle?: number;
 }
 
+/**
+ * Radial hierarchical chart (zoomable). Peer: `d3-hierarchy`.
+ */
 export const Sunburst = forwardRef<HTMLDivElement, SunburstProps>(
   function Sunburst(
     {

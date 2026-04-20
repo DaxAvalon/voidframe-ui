@@ -102,6 +102,10 @@ export interface InputGroupAddonProps extends HTMLAttributes<HTMLSpanElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Non-interactive addon slot for `InputGroup` (e.g. a leading currency sign
+ * or trailing unit).
+ */
 export const InputGroupAddon = forwardRef<HTMLSpanElement, InputGroupAddonProps>(
   function InputGroupAddon({ children, className, style, ...props }, ref) {
     return (
@@ -120,6 +124,10 @@ InputGroupAddon.displayName = "InputGroup.Addon";
 
 // Attach compound subcomponent and re-export with the correct compound type.
 type InputGroupCompound = typeof InputGroupRoot & {
+  /**
+   * Non-interactive addon slot for `InputGroup` (e.g. a leading currency
+   * sign or trailing unit).
+   */
   Addon: typeof InputGroupAddon;
 };
 (InputGroupRoot as unknown as InputGroupCompound).Addon = InputGroupAddon;

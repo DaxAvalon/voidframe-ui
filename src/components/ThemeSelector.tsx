@@ -31,6 +31,10 @@ export interface ThemeSelectorProps
   size?: "sm" | "md";
 }
 
+/**
+ * Dropdown / segmented control for picking the active theme. Pairs with
+ * `useThemePersistence`.
+ */
 export const ThemeSelector = forwardRef<HTMLDivElement, ThemeSelectorProps>(
   function ThemeSelector(
     {

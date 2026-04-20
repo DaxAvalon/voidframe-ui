@@ -91,6 +91,10 @@ export interface ConversationProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Vertical transcript of a chat conversation: renders a list of `Message`s
+ * with grouping, auto-scroll, and empty-state slot.
+ */
 export const Conversation = forwardRef<HTMLDivElement, ConversationProps>(
   function Conversation(
     {
@@ -172,6 +176,10 @@ export interface MessageListProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/**
+ * Virtualised scrollable list of `Message`s. Handles auto-scroll-to-bottom
+ * and a "new messages" affordance.
+ */
 export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
   function MessageList(
     {

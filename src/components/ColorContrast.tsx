@@ -176,6 +176,10 @@ const ColorContrastImpl = forwardRef<HTMLDivElement, ColorContrastProps>(
   }
 );
 ColorContrastImpl.displayName = "ColorContrast";
+/**
+ * WCAG contrast checker. Enter a foreground + background colour and it
+ * reports the ratio plus AA / AAA pass/fail for normal and large text.
+ */
 export const ColorContrast = memo(ColorContrastImpl);
 (ColorContrast as unknown as { displayName: string }).displayName =
   "ColorContrast";

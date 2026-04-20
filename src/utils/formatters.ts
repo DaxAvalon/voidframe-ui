@@ -135,6 +135,13 @@ export function deepMerge<T extends Record<string, unknown>>(
  * Simple unique ID generator (not cryptographically secure).
  */
 let counter = 0;
+/**
+ * Generate a short unique ID (monotonic counter, prefixed). Useful for
+ * non-ARIA identifiers where `useId` isn't an option (e.g. module-level
+ * caches). Not cryptographically random.
+ *
+ * @param prefix Default `"vf"`.
+ */
 export function uid(prefix: string = "vf"): string {
   return `${prefix}-${++counter}-${Math.random().toString(36).slice(2, 6)}`;
 }

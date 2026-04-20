@@ -31,6 +31,10 @@ export interface BrushProps
   axis?: "x" | "y";
 }
 
+/**
+ * Chart brush primitive: a draggable window that scopes the visible domain.
+ * Emits `onChange(range)` for coordinating focus+context charts.
+ */
 export const Brush = forwardRef<SVGGElement, BrushProps>(function Brush(
   {
     value,

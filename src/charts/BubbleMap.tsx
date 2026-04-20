@@ -54,6 +54,10 @@ interface ProjectedPoint extends BubbleMapPoint {
   y: number;
 }
 
+/**
+ * Geographic bubble map. Plots value-sized circles over a TopoJSON base map.
+ * Peer: `d3-geo` + `topojson-client`.
+ */
 export const BubbleMap = forwardRef<HTMLDivElement, BubbleMapProps>(
   function BubbleMap(
     {

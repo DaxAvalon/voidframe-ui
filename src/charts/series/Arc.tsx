@@ -31,6 +31,10 @@ export interface ArcProps extends SVGAttributes<SVGGElement> {
   ) => void;
 }
 
+/**
+ * Arc series primitive for donut / pie / gauge charts. Plots a radial slice
+ * bound to a value range and consumes the enclosing chart scales.
+ */
 export const Arc = forwardRef<SVGGElement, ArcProps>(function Arc(
   {
     data,

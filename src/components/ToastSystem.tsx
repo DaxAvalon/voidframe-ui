@@ -356,6 +356,10 @@ function ToastBubble({
 
 export interface SnackbarProps extends Omit<ToasterProps, "position"> {}
 
+/**
+ * Transient bottom-anchored message with optional action. Lighter than
+ * `Toast`; auto-dismisses by default.
+ */
 export function Snackbar(props: SnackbarProps) {
   return <Toaster position="bottom-center" {...props} />;
 }

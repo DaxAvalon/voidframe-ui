@@ -32,6 +32,10 @@ export interface ImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "p
   onError?: ImgHTMLAttributes<HTMLImageElement>["onError"];
 }
 
+/**
+ * Responsive image with intrinsic ratio, optional placeholder / blur-up, and
+ * lazy loading. Wraps the native `<img>`.
+ */
 export const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
   {
     src,

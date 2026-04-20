@@ -105,6 +105,10 @@ export interface MaskedInputProps extends InputBase {
   style?: CSSProperties;
 }
 
+/**
+ * Text input with a display mask (e.g. `###-##-####`). Emits the unmasked
+ * value to `onValueChange`.
+ */
 export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
   function MaskedInput(
     {
@@ -194,6 +198,10 @@ function defaultLocale(): string {
   return "en-US";
 }
 
+/**
+ * Numeric input with currency formatting and live-masked editing. Emits the
+ * raw numeric value to `onValueChange`.
+ */
 export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
   function CurrencyInput(
     {
@@ -352,6 +360,10 @@ export interface PhoneInputProps extends Omit<MaskedInputProps, "mask" | "onChan
   mask?: string;
 }
 
+/**
+ * Phone number input with country selector, auto-formatting per E.164, and
+ * validation.
+ */
 export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
   function PhoneInput({ country = "US", mask, ...props }, ref) {
     const resolved =

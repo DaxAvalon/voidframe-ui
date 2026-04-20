@@ -32,6 +32,10 @@ export interface ModelSelectorProps
   label?: ReactNode;
 }
 
+/**
+ * Richer model picker with per-model metadata (context window, price,
+ * capabilities). For a compact picker see `ModelPicker`.
+ */
 export const ModelSelector = forwardRef<HTMLDivElement, ModelSelectorProps>(
   function ModelSelector(
     {
@@ -127,6 +131,9 @@ export interface SystemPromptEditorProps
   rows?: number;
 }
 
+/**
+ * Editor for an LLM system-prompt. Textarea plus saved-preset selector.
+ */
 export const SystemPromptEditor = forwardRef<
   HTMLDivElement,
   SystemPromptEditorProps
@@ -202,6 +209,10 @@ export interface TokenCounterProps extends HTMLAttributes<HTMLDivElement> {
   kind?: "compact" | "detailed";
 }
 
+/**
+ * Live token counter for a text input / prompt. Pluggable tokenizer; shows
+ * remaining budget against a configured limit.
+ */
 export const TokenCounter = forwardRef<HTMLDivElement, TokenCounterProps>(
   function TokenCounter(
     { input, output, total, max, kind = "compact", className, ...props },
@@ -270,6 +281,10 @@ export interface ContextWindowProps extends HTMLAttributes<HTMLDivElement> {
   label?: ReactNode;
 }
 
+/**
+ * Visualises an LLM context window: used vs available tokens as a meter plus
+ * breakdown by section.
+ */
 export const ContextWindow = forwardRef<HTMLDivElement, ContextWindowProps>(
   function ContextWindow({ used, max, label = "Context", className, ...props }, ref) {
     const pct = Math.min(100, Math.max(0, (used / max) * 100));
@@ -318,6 +333,10 @@ export interface CostDisplayProps extends HTMLAttributes<HTMLDivElement> {
   precision?: number;
 }
 
+/**
+ * Formatted cost / price readout. Combines `CurrencyDisplay` with optional
+ * `per-unit` suffix and trend indicator.
+ */
 export const CostDisplay = forwardRef<HTMLDivElement, CostDisplayProps>(
   function CostDisplay(
     {
@@ -379,6 +398,10 @@ export interface LatencyIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
   label?: ReactNode;
 }
 
+/**
+ * Colour-coded indicator for a latency reading (ms). Thresholds
+ * configurable.
+ */
 export const LatencyIndicator = forwardRef<
   HTMLSpanElement,
   LatencyIndicatorProps
@@ -427,6 +450,10 @@ export interface DebugPanelProps
   children?: ReactNode;
 }
 
+/**
+ * Developer drawer that visualises agent internals: prompt, tool calls, raw
+ * response, timing. Development-only.
+ */
 export const DebugPanel = forwardRef<HTMLElement, DebugPanelProps>(
   function DebugPanel(
     { open = true, onDismiss, events, title = "Debug", className, children, ...props },
@@ -507,6 +534,10 @@ export interface TraceViewerProps extends HTMLAttributes<HTMLDivElement> {
   totalMs?: number;
 }
 
+/**
+ * Developer trace viewer for agent runs — flamegraph-style timeline of steps
+ * and tool calls.
+ */
 export const TraceViewer = forwardRef<HTMLDivElement, TraceViewerProps>(
   function TraceViewer({ spans, totalMs, className, ...props }, ref) {
     const total = totalMs ?? computeTotal(spans);
@@ -584,6 +615,10 @@ export interface UnreadBadgeProps extends HTMLAttributes<HTMLSpanElement> {
   label?: string;
 }
 
+/**
+ * Dot/count badge indicating unread items. Accessible count label via
+ * `aria-label`.
+ */
 export const UnreadBadge = forwardRef<HTMLSpanElement, UnreadBadgeProps>(
   function UnreadBadge(
     { count, max = 99, dot, label = "Unread", className, ...props },
@@ -628,6 +663,11 @@ export interface ChatLayoutProps extends HTMLAttributes<HTMLDivElement> {
   hideInspector?: boolean;
 }
 
+/**
+ * Two-pane chat shell: session list on the left, active conversation on the
+ * right. Responsive: collapses the sidebar into a drawer below the `md`
+ * breakpoint.
+ */
 export const ChatLayout = forwardRef<HTMLDivElement, ChatLayoutProps>(
   function ChatLayout(
     {
@@ -670,6 +710,10 @@ export interface SimpleChatProps extends HTMLAttributes<HTMLDivElement> {
   header?: ReactNode;
 }
 
+/**
+ * Prewired minimal chat UI: conversation + composer + model selector.
+ * Fastest path to a working chat surface.
+ */
 export const SimpleChat = forwardRef<HTMLDivElement, SimpleChatProps>(
   function SimpleChat({ conversation, header, className, ...props }, ref) {
     return (
@@ -703,6 +747,10 @@ export interface ModelPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, "
   label?: string;
 }
 
+/**
+ * Dropdown for selecting an LLM model. Renders name, provider badge, and a
+ * short description per option.
+ */
 export const ModelPicker = forwardRef<HTMLDivElement, ModelPickerProps>(
   function ModelPicker(
     { models, value, defaultValue, onValueChange, label, className, ...props },
@@ -748,6 +796,11 @@ export interface AgentRunnerProps extends HTMLAttributes<HTMLDivElement> {
   header?: ReactNode;
 }
 
+/**
+ * Orchestrates a live agent run: streams reasoning steps, tool calls, and
+ * output into a scrollable trace. Feed `steps` (or an async iterable via
+ * `onStep`) and it renders the history plus current status.
+ */
 export const AgentRunner = forwardRef<HTMLDivElement, AgentRunnerProps>(
   function AgentRunner(
     { conversation, plan, trace, header, className, ...props },

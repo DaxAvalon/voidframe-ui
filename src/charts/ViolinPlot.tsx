@@ -75,6 +75,9 @@ function kde(values: number[], sample: number[], h: number): number[] {
   });
 }
 
+/**
+ * Violin plot (density + box combined). Axes: band x linear.
+ */
 export const ViolinPlot = forwardRef<HTMLDivElement, ViolinPlotProps>(
   function ViolinPlot(
     {

@@ -171,4 +171,8 @@ const TabBarItem = forwardRef<HTMLButtonElement, TabBarItemProps>(
 );
 TabBarItem.displayName = "TabBarItem";
 
+/**
+ * Mobile-style bottom tab bar. Horizontal row of icon+label tabs, each
+ * linked to a route.
+ */
 export const TabBar = Object.assign(TabBarBase, { Item: TabBarItem });

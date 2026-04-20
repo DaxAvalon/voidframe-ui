@@ -47,6 +47,10 @@ function copyPath(path: string): void {
   try { navigator.clipboard.writeText(path); } catch { /* noop */ }
 }
 
+/**
+ * Collapsible JSON tree with type colouring, copy-path affordance, and
+ * search. Handles large payloads via virtualisation.
+ */
 export const JSONViewer = forwardRef<HTMLDivElement, JSONViewerProps>(
   function JSONViewer(
     { data, defaultExpanded = 1, defaultExpandAll, showDataTypes, onSelect, className, ...props },

@@ -23,6 +23,10 @@ export interface ReferenceLineProps {
   style?: CSSProperties;
 }
 
+/**
+ * Chart primitive: dashed rule at a reference value on an axis. Optional
+ * label.
+ */
 export const ReferenceLine = forwardRef<SVGGElement, ReferenceLineProps>(
   function ReferenceLine(
     {

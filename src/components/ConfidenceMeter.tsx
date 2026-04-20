@@ -176,6 +176,10 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
   }
 );
 ConfidenceMeterImpl.displayName = "ConfidenceMeter";
+/**
+ * Horizontal meter for a 0-1 confidence score with qualitative bands (e.g.
+ * low / medium / high).
+ */
 export const ConfidenceMeter = memo(ConfidenceMeterImpl);
 (ConfidenceMeter as unknown as { displayName: string }).displayName =
   "ConfidenceMeter";

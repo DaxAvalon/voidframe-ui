@@ -33,6 +33,11 @@ const defaultState: GeolocationState = {
   isSupported: false,
 };
 
+/**
+ * Track the user's geolocation via `navigator.geolocation`. Returns `{
+ * coords, accuracy, timestamp, error, loading, requestPermission }`.
+ * SSR-safe: returns `{ loading: false, coords: null }` on the server.
+ */
 export function useGeolocation(
   options: UseGeolocationOptions = {}
 ): GeolocationState {

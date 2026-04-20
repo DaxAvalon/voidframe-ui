@@ -3,6 +3,7 @@
     "name": "ShortcutProvider",
     "kind": "function",
     "signature": "export function ShortcutProvider({ children }: ShortcutProviderProps)",
+    "description": "Provider that registers the global shortcut registry. Wrap your app root;\n`useShortcut` / `useShortcutRegistry` read from it.",
     "file": "src/hooks/useShortcuts.tsx"
   },
   {
@@ -128,6 +129,7 @@
     "name": "useEventSource",
     "kind": "function",
     "signature": "export function useEventSource( url: string | null, options: UseEventSourceOptions = {} ): UseEventSourceReturn",
+    "description": "Managed Server-Sent-Events (SSE) subscription. Auto-reconnects with\nexponential backoff; exposes `{ data, readyState, error, close }`. Pass\n`null` for `url` to pause the subscription.",
     "file": "src/hooks/useEventSource.ts"
   },
   {
@@ -176,6 +178,7 @@
     "name": "useForm",
     "kind": "function",
     "signature": "export function useForm<T extends Record<string, unknown>>( options: UseFormOptions<T> ): UseFormReturn<T>",
+    "description": "Controlled-or-uncontrolled form-state primitive with validation. Returns\n`{ values, errors, touched, register, handleSubmit, reset, setFieldValue,\nsetFieldError, trigger }`. Pair with `useFieldArray` for dynamic rows and\n`FormErrorSummary` for a live error list.",
     "file": "src/hooks/useForm.ts"
   },
   {
@@ -189,6 +192,7 @@
     "name": "useGeolocation",
     "kind": "function",
     "signature": "export function useGeolocation( options: UseGeolocationOptions = {} ): GeolocationState",
+    "description": "Track the user's geolocation via `navigator.geolocation`. Returns `{\ncoords, accuracy, timestamp, error, loading, requestPermission }`.\nSSR-safe: returns `{ loading: false, coords: null }` on the server.",
     "file": "src/hooks/useGeolocation.ts"
   },
   {
@@ -265,6 +269,7 @@
     "name": "useList",
     "kind": "function",
     "signature": "export function useList<T>(initialList?: T[]): UseListReturn<T>",
+    "description": "Array-state helper: returns `{ list, set, push, pop, shift, unshift,\ninsertAt, removeAt, updateAt, filter, sort, clear }`. Each mutator has a\nstable identity so passing them into memoised children doesn't churn\nprops.",
     "file": "src/hooks/useList.ts"
   },
   {
@@ -292,6 +297,7 @@
     "name": "useMap",
     "kind": "function",
     "signature": "export function useMap<K, V>( initialEntries?: Iterable<[K, V]> ): UseMapReturn<K, V>",
+    "description": "Map-state helper: returns `{ map, set, delete, clear, has, get, entries\n}`. Identity of `map` updates on every change so React sees a new\nreference.",
     "file": "src/hooks/useMap.ts"
   },
   {
@@ -354,6 +360,7 @@
     "name": "usePermission",
     "kind": "function",
     "signature": "export function usePermission(name: PermissionName): UsePermissionReturn",
+    "description": "Wrap `navigator.permissions.query({ name })`. Returns `{ state: \"granted\"\n| \"denied\" | \"prompt\" | \"unsupported\" }` and re-evaluates on `change`\nevents.",
     "file": "src/hooks/usePermission.ts"
   },
   {
@@ -423,6 +430,7 @@
     "name": "useSet",
     "kind": "function",
     "signature": "export function useSet<T>(initialValues?: Iterable<T>): UseSetReturn<T>",
+    "description": "Set-state helper: returns `{ set, add, delete, toggle, clear, has, values\n}`. Useful for \"selected IDs\" collections.",
     "file": "src/hooks/useSet.ts"
   },
   {
@@ -436,6 +444,7 @@
     "name": "useShortcutRegistry",
     "kind": "function",
     "signature": "export function useShortcutRegistry(): ShortcutRegistryValue | null",
+    "description": "Low-level read access to the global shortcut registry installed by\n`ShortcutProvider`. Returns the full list of registered shortcuts for\ncustom guide UIs.",
     "file": "src/hooks/useShortcuts.tsx"
   },
   {
@@ -449,6 +458,7 @@
     "name": "useThemePersistence",
     "kind": "function",
     "signature": "export function useThemePersistence<T extends string = string>( options: UseThemePersistenceOptions<T> = {} ): UseThemePersistenceReturn<T>",
+    "description": "Persist the active theme in `localStorage` (key configurable), sync across\ntabs via the `storage` event, and resolve `\"system\"` against\n`matchMedia(\"(prefers-color-scheme: light)\")`. Pairs with `ThemeSelector`.",
     "file": "src/hooks/useThemePersistence.ts"
   },
   {
@@ -504,6 +514,7 @@
     "name": "useWebSocket",
     "kind": "function",
     "signature": "export function useWebSocket( url: string | null, options: UseWebSocketOptions = {} ): UseWebSocketReturn",
+    "description": "Managed WebSocket subscription. Exposes `{ readyState, lastMessage, send,\nclose }`; auto-reconnects with exponential backoff; closes on unmount.\nPass `null` for `url` to pause.",
     "file": "src/hooks/useWebSocket.ts"
   },
   {

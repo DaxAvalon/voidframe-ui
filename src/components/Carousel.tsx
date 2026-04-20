@@ -362,6 +362,11 @@ function CarouselDots({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   );
 }
 
+/**
+ * Horizontally-paged carousel with arrow + dot controls. Keyboard:
+ * arrow-keys navigate slides. `loop` wraps; `autoplay` advances
+ * automatically.
+ */
 export const Carousel = Object.assign(CarouselRoot, {
   Viewport: CarouselViewport,
   Slide: CarouselSlide,
@@ -384,6 +389,10 @@ export interface CarouselImageProps extends Omit<CarouselProps, "slides" | "chil
   kenBurns?: boolean;
 }
 
+/**
+ * Image gallery built on `Carousel` with lightbox-on-click, thumbnails
+ * strip, and keyboard navigation.
+ */
 export function CarouselImageGallery({
   images,
   kenBurns,
