@@ -219,6 +219,34 @@ describe("CoachMark", () => {
     expect(screen.getByText("anchor")).toBeInTheDocument();
   });
 
+  it("with a storageKey, persists dismissal across remounts (one-time / 'once' semantics)", () => {
+    const key = `test-once-${Date.now()}`;
+    localStorage.removeItem(`vf-coachmark:${key}`);
+    function Probe() {
+      const ref = useRef<HTMLButtonElement>(null);
+      return (
+        <>
+          <button ref={ref}>anchor</button>
+          <CoachMark target={ref} storageKey={key}>
+            <span data-testid="coach-once">tip body</span>
+          </CoachMark>
+        </>
+      );
+    }
+    const first = renderWithTheme(<Probe />);
+    // First mount shows the coach-mark.
+    expect(first.getByTestId("coach-once")).toBeInTheDocument();
+    fireEvent.click(first.getByLabelText("Dismiss"));
+    expect(first.queryByTestId("coach-once")).not.toBeInTheDocument();
+    expect(localStorage.getItem(`vf-coachmark:${key}`)).toBe("1");
+    first.unmount();
+    // Remount: the persisted dismissal means the coach-mark stays hidden.
+    const second = renderWithTheme(<Probe />);
+    expect(second.queryByTestId("coach-once")).not.toBeInTheDocument();
+    second.unmount();
+    localStorage.removeItem(`vf-coachmark:${key}`);
+  });
+
   it("without a storageKey, stays dismissed for the remainder of the mount after the Dismiss button is clicked", async () => {
     const onDismiss = vi.fn();
     function Probe() {

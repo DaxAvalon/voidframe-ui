@@ -13,6 +13,8 @@ export type {
 
 export { adaptIcon } from "./adapters";
 
+export { AccessibleIcon, type AccessibleIconProps } from "../primitives/AccessibleIcon";
+
 export {
   PlusIcon,
   MinusIcon,

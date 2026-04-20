@@ -196,7 +196,7 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
             {downloadable && (
               <button
                 type="button"
-                className="vf-codeblock__copy"
+                className="vf-codeblock__download"
                 onClick={download}
                 aria-label="Download code"
               >

@@ -48,6 +48,17 @@ describe("Conversation + MessageList", () => {
       "streaming"
     );
   });
+
+  it("adds vf-conversation--virtualized when virtualized=true", () => {
+    const { container } = renderWithTheme(
+      <Conversation virtualized>
+        <div>row</div>
+      </Conversation>
+    );
+    expect(
+      container.querySelector(".vf-conversation--virtualized")
+    ).toBeInTheDocument();
+  });
 });
 
 describe("Message", () => {

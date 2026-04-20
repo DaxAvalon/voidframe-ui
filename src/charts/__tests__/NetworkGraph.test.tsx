@@ -269,4 +269,22 @@ describe("NetworkGraph", () => {
     const svg = container.querySelector(".vf-chart-network__svg");
     expect(svg!.getAttribute("aria-label")).toBe("Network graph");
   });
+
+  it("accepts a custom coolDownAfter value and renders nodes", async () => {
+    // Verifies that supplying a non-default coolDownAfter still renders the
+    // graph and runs the simulation loop. (The idle-exit path itself is
+    // timing-dependent; here we only assert the prop is accepted and the
+    // graph still produces nodes.)
+    const { container } = renderWithTheme(
+      <NetworkGraph
+        nodes={nodes}
+        links={links}
+        width={400}
+        height={300}
+        coolDownAfter={50}
+      />
+    );
+    await waitForNodes(container, nodes.length);
+    expect(container.querySelector(".vf-chart-network")).toBeTruthy();
+  });
 });

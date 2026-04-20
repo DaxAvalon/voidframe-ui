@@ -74,6 +74,22 @@ describe("ViolinPlot", () => {
     expect(shape).toBeTruthy();
   });
 
+  it("accepts an explicit numeric bandwidth", () => {
+    // Explicit number exercises the non-"auto" branch of bandwidth selection.
+    const values = Array.from({ length: 100 }, (_, i) => i / 10);
+    const { container } = renderWithTheme(
+      <ViolinPlot
+        groups={[{ key: "a", values }]}
+        bandwidth={0.5}
+        width={300}
+        height={200}
+      />
+    );
+    expect(
+      container.querySelectorAll(".vf-chart-violin__shape").length
+    ).toBe(1);
+  });
+
   it("applies custom className", () => {
     const { container } = renderWithTheme(
       <ViolinPlot

@@ -270,6 +270,28 @@ describe("BubbleMap", () => {
     });
   });
 
+  it("uses the default accent color fallback when no color prop is given", async () => {
+    const { container } = renderWithTheme(
+      <BubbleMap
+        topology={topology}
+        objectKey="shapes"
+        points={[
+          { id: "p1", coordinates: [5, 5] as [number, number], value: 10 },
+        ]}
+        width={400}
+        height={300}
+      />
+    );
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll(".vf-chart-bubble-map__bubble").length
+      ).toBe(1);
+    });
+    const bubble = container.querySelector(".vf-chart-bubble-map__bubble");
+    // Default should be the tokenised green accent.
+    expect(bubble!.getAttribute("fill")).toBe("var(--vf-green)");
+  });
+
   it("clears error state when inputs change", async () => {
     const { container, rerender } = renderWithTheme(
       <BubbleMap

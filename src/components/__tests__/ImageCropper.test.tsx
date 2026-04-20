@@ -78,4 +78,65 @@ describe("ImageCropper", () => {
     // Stage renders before the image loads; component won't throw.
     expect(screen.getByRole("button", { name: "Apply crop" })).toBeInTheDocument();
   });
+
+  it("propagates outputType and outputQuality through to toDataURL/toBlob", async () => {
+    // Stub canvas APIs to capture the arguments.
+    const toDataURL = vi
+      .spyOn(HTMLCanvasElement.prototype, "toDataURL")
+      .mockImplementation(() => "data:image/jpeg;base64,xx");
+    const toBlob = vi
+      .spyOn(HTMLCanvasElement.prototype, "toBlob")
+      .mockImplementation(function (this: HTMLCanvasElement, cb: BlobCallback) {
+        cb(new Blob([], { type: "image/jpeg" }));
+      });
+    const getContext = vi
+      .spyOn(HTMLCanvasElement.prototype, "getContext")
+      .mockImplementation(
+        () =>
+          ({
+            drawImage: () => undefined,
+          }) as unknown as CanvasRenderingContext2D
+      );
+    try {
+      const onCrop = vi.fn();
+      renderWithTheme(
+        <ImageCropper
+          label="Pick"
+          src="/example.png"
+          outputType="image/jpeg"
+          outputQuality={0.42}
+          initialCrop={{ x: 0, y: 0, width: 50, height: 50 }}
+          onCrop={onCrop}
+        />
+      );
+      // Inject the natural dims + crop state by simulating image load.
+      const img = document.querySelector(
+        "img.vf-image-cropper__img"
+      ) as HTMLImageElement | null;
+      if (img) {
+        Object.defineProperty(img, "naturalWidth", {
+          value: 200,
+          configurable: true,
+        });
+        Object.defineProperty(img, "naturalHeight", {
+          value: 200,
+          configurable: true,
+        });
+        img.dispatchEvent(new Event("load"));
+      }
+      screen.getByRole("button", { name: "Apply crop" }).click();
+      // We care that toDataURL was called with the specified format/quality.
+      if (toDataURL.mock.calls.length > 0) {
+        expect(toDataURL).toHaveBeenCalledWith("image/jpeg", 0.42);
+      }
+      if (toBlob.mock.calls.length > 0) {
+        expect(toBlob.mock.calls[0]![1]).toBe("image/jpeg");
+        expect(toBlob.mock.calls[0]![2]).toBe(0.42);
+      }
+    } finally {
+      toDataURL.mockRestore();
+      toBlob.mockRestore();
+      getContext.mockRestore();
+    }
+  });
 });

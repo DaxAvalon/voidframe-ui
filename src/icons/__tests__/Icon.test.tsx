@@ -114,6 +114,36 @@ describe("Bundled icon set", () => {
   });
 });
 
+describe("Icon set — family-wide smoke render", () => {
+  // Iterate over every named export from ./set and render each with a label.
+  // Catches the situation where a specific glyph throws, forgets to forward
+  // props, or renders invalid SVG.
+  it("every bundled icon renders with a custom label", async () => {
+    const setModule = await import("../set");
+    const entries = Object.entries(setModule).filter(
+      ([, v]) => typeof v === "object" && v !== null && "$$typeof" in (v as object)
+    );
+    expect(entries.length).toBeGreaterThanOrEqual(50);
+    for (const [name, value] of entries) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const Comp = value as any;
+      const { unmount } = renderWithTheme(<Comp label={`icon-${name}`} />);
+      expect(
+        screen.getByRole("img", { name: `icon-${name}` })
+      ).toBeInTheDocument();
+      unmount();
+    }
+  });
+});
+
+describe("icons barrel — AccessibleIcon re-export", () => {
+  it("exports AccessibleIcon from the icons barrel", async () => {
+    const mod = await import("..");
+    expect(mod.AccessibleIcon).toBeDefined();
+    expect(typeof mod.AccessibleIcon).toBe("object");
+  });
+});
+
 describe("IconButton", () => {
   it("renders as button with aria-label", () => {
     renderWithTheme(

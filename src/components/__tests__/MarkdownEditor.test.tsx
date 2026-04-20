@@ -215,4 +215,30 @@ describe("MarkdownEditor", () => {
       screen.queryByRole("region", { name: "Markdown preview" })
     ).not.toBeInTheDocument();
   });
+
+  it("uses renderPreview override for the preview content", () => {
+    const renderPreview = (md: string) => (
+      <div data-testid="custom">custom:{md.length}</div>
+    );
+    renderWithTheme(
+      <MarkdownEditor
+        label="Notes"
+        defaultValue="hello"
+        renderPreview={renderPreview}
+      />
+    );
+    expect(screen.getByTestId("custom")).toHaveTextContent("custom:5");
+  });
+
+  it("applies the stacked frame class when preview='below'", () => {
+    const { container } = renderWithTheme(
+      <MarkdownEditor label="Notes" preview="below" />
+    );
+    expect(
+      container.querySelector(".vf-md__frame--stacked")
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector(".vf-md__frame--side")
+    ).toBeNull();
+  });
 });

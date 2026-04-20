@@ -164,6 +164,48 @@ describe("WhatsNewPopover", () => {
     }
   });
 
+  it("uses a custom storage and writes the version on dismiss (uncontrolled)", async () => {
+    const store = new Map<string, string>();
+    const storage = {
+      get: (k: string) => store.get(k) ?? null,
+      set: (k: string, v: string) => {
+        store.set(k, v);
+      },
+    };
+    renderWithTheme(
+      <WhatsNewPopover
+        version="5.5"
+        features={features}
+        storage={storage}
+        storageKey="wn-test"
+      />
+    );
+    // First render: not yet dismissed, so popover is visible.
+    expect(screen.getByText("Dark mode")).toBeInTheDocument();
+    await userEvent.click(screen.getByText("Got it"));
+    // Version persisted via the injected storage.
+    expect(store.get("wn-test")).toBe("5.5");
+  });
+
+  it("skips rendering when the custom storage already has the current version", () => {
+    const store = new Map<string, string>([["wn-seen", "5.5"]]);
+    const storage = {
+      get: (k: string) => store.get(k) ?? null,
+      set: (k: string, v: string) => {
+        store.set(k, v);
+      },
+    };
+    renderWithTheme(
+      <WhatsNewPopover
+        version="5.5"
+        features={features}
+        storage={storage}
+        storageKey="wn-seen"
+      />
+    );
+    expect(screen.queryByText("Dark mode")).not.toBeInTheDocument();
+  });
+
   it("renders feature icon and description elements", () => {
     const { container } = renderWithTheme(
       <WhatsNewPopover
