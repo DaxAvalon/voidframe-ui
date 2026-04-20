@@ -88,7 +88,9 @@ Audit baseline (2026-04-18) was 23/59 hooks with tests. Segment 4's bundle-file 
 - Minimum: one behavior test per hook via `renderHook`.
 - Focus hooks: `useControllableState`, `useForm`, `useFieldArray`, `useEventSource`, `useWebSocket`, `useFetch`, `useLocalStorage`, `useSessionStorage`, `useClipboardRead`, `useGeolocation`, `usePermission`.
 
-### Segment 8 — Deferred features (F1/F2/F3 from `deferred-features.md`)
+### Segment 8 — Deferred features F1/F2/F3 — ✅ DONE (2026-04-19)
+
+All three previously-removed props reinstated as real features: `CronBuilder.fields` (5|6 Quartz-style with seconds column, auto-detection from value width, getNextRuns seconds path with 1-month compute cap), `Ticker.steps` (exact-count discretized emission via setInterval, always lands on `to`), `VirtualList.estimatedItemHeight` (function-height bypass — ≤50 itemHeight() calls on 1000-row mount, ResizeObserver backfill cache). +6 regression tests.
 
 Now in-scope for v1.0.
 - F1: 6-field cron support in CronBuilder (seconds precision).
