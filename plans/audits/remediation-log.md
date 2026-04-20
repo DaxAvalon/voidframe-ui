@@ -132,7 +132,25 @@ Four parallel read-only subagents re-audited audits 29/30/31/32. Audit 30 + 31 c
 
 Re-run all 4 audits against the fixed codebase. Goal: zero findings across P0-P3. If new findings surface, loop back into the relevant segment.
 
-### Segment 13 — Publish prep (AFTER green re-audit; NO PUSH WITHOUT EXPLICIT APPROVAL)
+### Segment 13 — Publish prep — 🟡 READY, HELD (2026-04-19)
+
+All local readiness checks green. **Nothing pushed, nothing published** per user directive.
+
+Ship readiness:
+- `typecheck` — clean.
+- `test` — 334 files / 5106 tests / 0 failures.
+- `build` — clean (pre-existing dynamic/static warnings unchanged).
+- `size-limit` — Core ESM 197.31 KB / 200 KB, Charts 39.3 / 40, Dev 3.85 / 10, CSS 44.29 / 50, All-JS 455.31 / 460. All green against Segment 2 adjusted ceilings.
+- `npm pack --dry-run` — 628.2 KB packed, 2.7 MB unpacked, 35 files, `voidframe-1.0.0.tgz`.
+- `npm audit` — 0 critical, 0 high, 5 moderate (all in vitest/vite devDep chain; not shipped).
+
+Remaining caveats (not ship-blockers):
+- Bundle diet deferred post-v1.0 (Segment 9 note). Core ESM 197 KB → 180 KB requires breaking the `components/index.ts` re-export chain; deferred.
+- DataGrid.rootRef has no dedicated regression test; fix itself is intact.
+
+Commits ahead of `origin/main`: 66 (all local-only). Not pushed.
+
+**Waiting for explicit user approval before `git push` and `npm publish`.** (AFTER green re-audit; NO PUSH WITHOUT EXPLICIT APPROVAL)
 
 - Rename package `voidframe` → `@voidframe/ui`; add `publishConfig.access: public`.
 - Create `docs/vite.config.ts`; GitHub Pages deploy wiring (deferred to repo-creation time).
