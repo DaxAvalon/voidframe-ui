@@ -77,13 +77,9 @@ Executed all P0/P1 items from `plans/audits/32-remediation.md` except §4 (TSDoc
 - ESLint rule messages + docs URLs.
 - VS Code snippets + hover docs.
 
-### Segment 6 — TSDoc sweep (~439 components + 11 hooks + 3 utils)
+### Segment 6 — TSDoc sweep — ✅ DONE (2026-04-19)
 
-Tiered:
-- Tier A (39 components — already itemised in D7): top-50 prop-count + most-imported.
-- Tier B (rest of components via bucketing from audit 31).
-- Hooks (11 with no TSDoc; prioritize `useForm`).
-- Utils (3 missing).
+500 components + 75 hooks + 96 utils now carry TSDoc block comments. Placement respects react-docgen-typescript's binding-adjacent read pattern, including memo/Object.assign/re-export wrappers and Menu's bottom-re-exported subparts. Wave A/B/C/D prose from `32-remediation.md` used verbatim where given; substantive prose authored from source + inventory for the rest. 75 icon one-liners via the §4.3 template. `docs/data/props.json` regenerated; component-level `description` fields populated on every entry. Prop-level descriptions (2451 empties remaining) are explicitly out of scope per the audit `propsPartial._note`. Gate: typecheck ✓, 5052 tests ✓, build ✓.
 
 ### Segment 7 — Hook test coverage (23/59 → 59/59)
 
