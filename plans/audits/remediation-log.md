@@ -126,7 +126,9 @@ P3 findings (F1.3, F2.3, F2.4, F2.5, F3.1, F4.1, F4.5, F4.6 etc.) are all docume
 
 Stylistic/naming inconsistencies that don't produce runtime bugs. Applied in alongside segment 2 where possible; otherwise mopped up here.
 
-### Segment 12 — Exhaustive re-audit
+### Segment 12 — Exhaustive re-audit — ✅ DONE (2026-04-19)
+
+Four parallel read-only subagents re-audited audits 29/30/31/32. Audit 30 + 31 clean. Audit 29 surfaced 5 residuals (Stepper/MentionInput/Toolbar.ToggleGroup onChange→onValueChange, stale Pagination sample in docs/curated.tsx, MenuItem missing asChild). Audit 32 surfaced 5 residuals (README test-count stale, 3 ESLint rules missing docs.url, 1 snippet description truncation from a too-long TSDoc, 2 stray console.warn sites in Widget.tsx + NetworkGraph.tsx). All 10 fixed in one commit. Gate: typecheck clean, 5106 tests pass, build clean, size-limit green (Core 197.25 / 200 KB, All-JS 455.31 / 460 KB).
 
 Re-run all 4 audits against the fixed codebase. Goal: zero findings across P0-P3. If new findings surface, loop back into the relevant segment.
 
