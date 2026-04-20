@@ -2246,7 +2246,7 @@
         "name": "minWidth",
         "type": "number",
         "defaultValue": "6",
-        "description": "Minimum width of the selection, in px. Default 6.",
+        "description": "Minimum width of the selection, in px. Default 6. When the user's\ndrag-end selection is narrower than `minWidth`, the selection is\ncleared (emits `null`) rather than snapping to the minimum.",
         "required": false
       },
       {
@@ -2463,7 +2463,7 @@
   },
   {
     "name": "Button",
-    "description": "Memoized leaf — skips re-render when props are referentially stable.",
+    "description": "Primary interactive button. Four canonical variants (`solid`, `outline`,\n`ghost`, `subtle`), three sizes, optional `iconLeft` / `iconRight`, loading\nspinner, and polymorphic `asChild` for slot-style composition. Memoized so\nre-renders are skipped when props are referentially stable.",
     "file": "src/components/Button.tsx",
     "props": [
       {
@@ -2914,7 +2914,7 @@
         "name": "xTicks",
         "type": "number",
         "defaultValue": "6",
-        "description": "",
+        "description": "Preferred tick count on the x axis. Note: the candle chart renders its\nx axis on a band scale; band scales emit one tick per category, so this\nvalue is ignored when the chart has category-typed input. Kept for\nfuture compatibility with linear/time x scales.",
         "required": false
       },
       {
@@ -6292,6 +6292,12 @@
         "required": false
       },
       {
+        "name": "defaultTitle",
+        "type": "string",
+        "description": "Uncontrolled initial title.",
+        "required": false
+      },
+      {
         "name": "onTitleChange",
         "type": "((next: string) => void)",
         "description": "",
@@ -6301,6 +6307,12 @@
         "name": "model",
         "type": "ReactNode",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultModel",
+        "type": "string",
+        "description": "Uncontrolled initial model.",
         "required": false
       },
       {
@@ -6337,7 +6349,7 @@
   },
   {
     "name": "CopyButton",
-    "description": "Memoized leaf — skips re-render when props are referentially stable.",
+    "description": "Clipboard button that writes `text` on click and flips to a \"Copied\"\nconfirmation state for `copiedDuration` ms. Emits `onCopy(text)` on success,\n`onError(err)` on clipboard-API failure. Matches Button's canonical variant\nvocabulary. Memoized.",
     "file": "src/components/CopyButton.tsx",
     "props": [
       {
@@ -6615,6 +6627,12 @@
         "type": "boolean",
         "defaultValue": "false",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "fields",
+        "type": "enum",
+        "description": "Number of fields in the cron expression. 5 = standard UNIX\n(minute / hour / day / month / weekday); 6 = Quartz-style with a leading\nseconds field. Defaults to the width of the current `value` / `defaultValue`,\nfalling back to 5.",
         "required": false
       }
     ]
@@ -6934,6 +6952,13 @@
         "type": "number",
         "defaultValue": "4",
         "description": "Empty columns to the right of the furthest card when growing\nhorizontally. Default 4.",
+        "required": false
+      },
+      {
+        "name": "collisionSearchCap",
+        "type": "number",
+        "defaultValue": "4000",
+        "description": "Upper bound on the number of candidate cells the collision-avoidance\nsearch will evaluate before bailing out. Default 4000 — enough for\ngrids up to ~60×60 sub-cells. Raise this if you have a very dense,\nlarge canvas and are seeing drop targets snap to arbitrary positions;\nlower it to cap worst-case CPU on pathological layouts.",
         "required": false
       }
     ]
@@ -10668,7 +10693,7 @@
   },
   {
     "name": "Icon",
-    "description": "Memoized leaf — icons render frequently inside rows/lists.",
+    "description": "Generic SVG icon wrapper. Takes a named glyph or arbitrary children,\nnormalises `size` and `color` tokens, and forwards to a `role=\"img\"` /\n`aria-label`ed `<svg>` when `label` is present (decorative otherwise).\nMemoized — icons render frequently inside rows/lists.",
     "file": "src/icons/Icon.tsx",
     "props": [
       {
@@ -11320,7 +11345,7 @@
       {
         "name": "onSave",
         "type": "(value: string) => void",
-        "description": "",
+        "description": "Called with the committed draft after validation passes. The parent is\nexpected to propagate the change back into `value`; InlineEdit treats\n`value` as authoritative for the display state, so if the upstream state\nupdate lags (async/rejected), the displayed value may briefly trail the\nvalue the user just typed.",
         "required": true
       },
       {
@@ -11622,6 +11647,12 @@
         "name": "onSearch",
         "type": "((query: string) => void)",
         "description": "Callback for search input changes. When omitted, client-side filtering is used.",
+        "required": false
+      },
+      {
+        "name": "getSearchable",
+        "type": "((item: KanbanItem) => string[])",
+        "description": "Customize which fields contribute to the built-in client-side search\nfilter. Return a list of strings to match against. Defaults to\n`[title, label]` when they are strings.",
         "required": false
       }
     ]
@@ -13471,7 +13502,7 @@
   },
   {
     "name": "MessageList",
-    "description": "Virtualised scrollable list of `Message`s. Handles auto-scroll-to-bottom\nand a \"new messages\" affordance.",
+    "description": "Virtualised scrollable list of `Message`s. Handles auto-scroll-to-bottom\nand a \"new messages\" affordance.\n\nPinned-state resolution: when nested inside a `<Conversation>` context,\nthe shared `pinnedToBottom` flag wins — multiple `MessageList`s can share\na single pin-state across the conversation. When rendered standalone, the\nlist falls back to its own local pinned state tied to its own scroll\ncontainer.",
     "file": "src/components/Chat/Conversation.tsx",
     "props": [
       {
@@ -14843,7 +14874,7 @@
         "name": "xTicks",
         "type": "number",
         "defaultValue": "6",
-        "description": "",
+        "description": "Preferred tick count on the x axis. Note: the candle chart renders its\nx axis on a band scale; band scales emit one tick per category, so this\nvalue is ignored when the chart has category-typed input. Kept for\nfuture compatibility with linear/time x scales.",
         "required": false
       },
       {
@@ -16185,7 +16216,7 @@
   },
   {
     "name": "PrintButton",
-    "description": "Button that invokes `window.print()` with optional before/after hooks for\ntransient styling.",
+    "description": "Button that invokes `window.print()` with optional before/after hooks for\ntransient styling.\n\nCaveat: when a `target` ref is provided, the subtree is serialized via\n`outerHTML` into a hidden iframe. Serialization is lossy — canvas bitmaps,\nhydrated event listeners, shadow DOM contents, and `<input>` values not\nreflected in attributes will not round-trip. For pixel-perfect prints of\ndynamic content, take a screenshot via `html2canvas` (or similar) first.",
     "file": "src/components/Print.tsx",
     "props": [
       {
@@ -16949,6 +16980,18 @@
         "name": "recent",
         "type": "boolean",
         "description": "Show recent picks (persisted in component state).",
+        "required": false
+      },
+      {
+        "name": "recents",
+        "type": "string[]",
+        "description": "Hydrate the recents list from outside the component (e.g. a persisted\nstore). When provided, the component treats recents as controlled and\nwill not mutate local state — instead it emits `onRecentsChange`.",
+        "required": false
+      },
+      {
+        "name": "onRecentsChange",
+        "type": "((next: string[]) => void)",
+        "description": "Fired whenever the recents list changes (controlled or uncontrolled).",
         "required": false
       },
       {
@@ -19164,7 +19207,7 @@
   },
   {
     "name": "ShortcutGuide",
-    "description": "Modal that lists all registered keyboard shortcuts grouped by scope.\nPopulated via `ShortcutProvider`.",
+    "description": "Overlay that lists all registered keyboard shortcuts grouped by scope.\nPopulated via `ShortcutProvider`.\n\nNon-modal by design: the guide is intended as an on-demand reference\n(press `?` → peek → dismiss) rather than a task-blocking dialog, so it\ndoes not portal, trap focus, or scroll-lock the page. If you need a\nmodal cheat-sheet, wrap it in a `<Dialog>` instead.",
     "file": "src/components/ShortcutGuide.tsx",
     "props": [
       {
@@ -20965,7 +21008,7 @@
       {
         "name": "xFormat",
         "type": "((v: string | number | Date) => string)",
-        "description": "",
+        "description": "Formatter for the hovered x tick. When omitted, Date-typed values fall\nback to `Date.prototype.toDateString()` (e.g. \"Tue Jan 02 2024\") and\nnumber/string values are stringified. Provide `xFormat` for locale- or\ntime-aware display (see `Intl.DateTimeFormat`).",
         "required": false
       }
     ]
@@ -22073,6 +22116,12 @@
         "type": "((n: number) => string)",
         "defaultValue": "(n) => Math.round(n).toLocaleString()",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "steps",
+        "type": "number",
+        "description": "Emit exactly N evenly-spaced discrete values between `from` and `to`\ninstead of smoothly interpolating. Useful when the ticker should hit\nspecific round numbers. When 0 or unset, the smooth easing path runs.",
         "required": false
       }
     ]
@@ -23252,7 +23301,7 @@
       {
         "name": "onComplete",
         "type": "(() => void)",
-        "description": "",
+        "description": "Fires every time the full string finishes typing. When `loop` is true\nthis fires per cycle (once before each clear + retype), not just the\nfirst completion. Callers that only want the first completion should\ngate inside the handler (e.g. a `useRef` sentinel).",
         "required": false
       }
     ]
@@ -23951,6 +24000,12 @@
         "type": "number | ((index: number, item: T) => number)",
         "description": "",
         "required": true
+      },
+      {
+        "name": "estimatedItemHeight",
+        "type": "number",
+        "description": "Hint for the average rendered size when `itemHeight` is a function.\nUnmeasured rows use this value for offset/viewport math on first paint;\nreal measurements (via ResizeObserver on rendered rows) progressively\nreplace estimates. Ignored when `itemHeight` is a number. Without this\nhint, variable-height lists fall back to calling `itemHeight(index, item)`\nfor every item on mount — fine for hundreds of rows, not thousands.",
+        "required": false
       },
       {
         "name": "overscan",

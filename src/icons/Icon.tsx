@@ -109,6 +109,11 @@ const IconImpl = forwardRef<SVGSVGElement, IconProps>(function Icon(
   );
 });
 IconImpl.displayName = "Icon";
-/** Memoized leaf — icons render frequently inside rows/lists. */
+/**
+ * Generic SVG icon wrapper. Takes a named glyph or arbitrary children,
+ * normalises `size` and `color` tokens, and forwards to a `role="img"` /
+ * `aria-label`ed `<svg>` when `label` is present (decorative otherwise).
+ * Memoized — icons render frequently inside rows/lists.
+ */
 export const Icon = memo(IconImpl);
 (Icon as unknown as { displayName: string }).displayName = "Icon";

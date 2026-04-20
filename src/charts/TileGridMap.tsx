@@ -82,6 +82,12 @@ export const US_STATES_GRID: TileGridCell[] = (() => {
   return out;
 })();
 
+/**
+ * Equal-area cartogram — each region occupies one tile on an integer grid,
+ * coloured by its quantized value. Avoids projection bias for US state / EU
+ * country visualizations. Supply a custom `cells` map for arbitrary regions;
+ * falls back to the built-in US-states layout.
+ */
 export const TileGridMap = forwardRef<HTMLDivElement, TileGridMapProps>(
   function TileGridMap(
     {

@@ -72,7 +72,13 @@ function buildBody(comp) {
 
 function shortDescription(raw) {
   if (!raw) return undefined;
-  const first = raw.split(/\n\n|\r?\n/)[0];
+  // Collapse internal line breaks to single spaces so we don't lose a full
+  // sentence at the first newline. Then take the first full sentence (ending
+  // in . ! or ?) up to 160 chars, falling back to a 160-char slice if the
+  // prose has no sentence-ending punctuation.
+  const flat = raw.replace(/\s*\n\s*/g, " ").trim();
+  const sentenceMatch = flat.match(/^(.*?[.!?])(?:\s|$)/);
+  const first = sentenceMatch ? sentenceMatch[1] : flat;
   return first.length > 160 ? first.slice(0, 157) + "…" : first;
 }
 

@@ -100,6 +100,11 @@ const CopyButtonImpl = forwardRef<HTMLButtonElement, CopyButtonProps>(
 );
 CopyButtonImpl.displayName = "CopyButton";
 
-/** Memoized leaf — skips re-render when props are referentially stable. */
+/**
+ * Clipboard button that writes `text` on click and flips to a "Copied"
+ * confirmation state for `copiedDuration` ms. Emits `onCopy(text)` on success,
+ * `onError(err)` on clipboard-API failure. Matches Button's canonical variant
+ * vocabulary. Memoized.
+ */
 export const CopyButton = memo(CopyButtonImpl);
 (CopyButton as unknown as { displayName: string }).displayName = "CopyButton";

@@ -7,7 +7,7 @@
     "body": [
       "<AccessibleIcon\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Wrap a decorative SVG/glyph with an accessible label. The icon itself",
+    "description": "Wrap a decorative SVG/glyph with an accessible label.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Accordion": {
@@ -18,7 +18,7 @@
     "body": [
       "<Accordion />"
     ],
-    "description": "Vertical stack of collapsible sections. Controlled via `value` /",
+    "description": "Vertical stack of collapsible sections.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Activity": {
@@ -29,7 +29,7 @@
     "body": [
       "<Activity />"
     ],
-    "description": "Vertical activity feed. Pair with `Activity.Item` children — each",
+    "description": "Vertical activity feed.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AgentRunner": {
@@ -40,7 +40,7 @@
     "body": [
       "<AgentRunner\n  conversation={${1:/* conversation: ReactNode */}}\n/>"
     ],
-    "description": "Orchestrates a live agent run: streams reasoning steps, tool calls, and",
+    "description": "Orchestrates a live agent run: streams reasoning steps, tool calls, and output into a scrollable trace.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AgentStep": {
@@ -51,7 +51,7 @@
     "body": [
       "<AgentStep\n  title={${1:/* title: ReactNode */}}\n/>"
     ],
-    "description": "Single step in an agent trace: a numbered card with title, status pill,",
+    "description": "Single step in an agent trace: a numbered card with title, status pill, optional tool calls, output, and elapsed time.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AgentTrace": {
@@ -62,7 +62,7 @@
     "body": [
       "<AgentTrace />"
     ],
-    "description": "Full trace view for an agent run — wraps a list of `AgentStep`s with",
+    "description": "Full trace view for an agent run — wraps a list of `AgentStep`s with status summary and expand-all controls.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Alert": {
@@ -73,7 +73,7 @@
     "body": [
       "<Alert />"
     ],
-    "description": "Inline notice block with a `tone` (`info` | `success` | `warning` |",
+    "description": "Inline notice block with a `tone` (`info` | `success` | `warning` | `danger`), optional `title`, icon, and dismiss affordance.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AlertDialog": {
@@ -84,7 +84,7 @@
     "body": [
       "<AlertDialog />"
     ],
-    "description": "Modal dialog that confirms a destructive or irreversible action. Like",
+    "description": "Modal dialog that confirms a destructive or irreversible action.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AlertV2": {
@@ -95,7 +95,7 @@
     "body": [
       "<AlertV2\n  tone={${1:/* tone: enum */}}\n/>"
     ],
-    "description": "Next-gen inline alert with richer layout slots (title, description,",
+    "description": "Next-gen inline alert with richer layout slots (title, description, actions, icon).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Anchor": {
@@ -106,7 +106,7 @@
     "body": [
       "<Anchor\n  items={${1:/* items: AnchorItem[] */}}\n/>"
     ],
-    "description": "Styled `<a>` with safe-href validation, optional external-link affordance,",
+    "description": "Styled `<a>` with safe-href validation, optional external-link affordance, and tone variants.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AppShell": {
@@ -128,7 +128,7 @@
     "body": [
       "<Arc\n  data={${1:/* data: ArcDatum[] */}}\n  innerRadius={${2:0}}\n  outerRadius={${3:0}}\n/>"
     ],
-    "description": "Arc series primitive for donut / pie / gauge charts. Plots a radial slice",
+    "description": "Arc series primitive for donut / pie / gauge charts.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Area": {
@@ -139,7 +139,7 @@
     "body": [
       "<Area\n  data={${1:/* data: AreaPoint[] */}}\n/>"
     ],
-    "description": "Area series primitive for line/area charts. Fills between a baseline and a",
+    "description": "Area series primitive for line/area charts.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AreaChart": {
@@ -150,7 +150,7 @@
     "body": [
       "<AreaChart\n  data={${1:/* data: AreaChartDatum[] */}}\n  series={${2:/* series: AreaChartSeries[] */}}\n/>"
     ],
-    "description": "Area chart over a shared X axis. Axes: linear or time (X), linear (Y).",
+    "description": "Area chart over a shared X axis.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ArrowDownIcon": {
@@ -161,7 +161,7 @@
     "body": [
       "<ArrowDownIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ArrowDown icon. Decorative by default; supply `label` to promote to",
+    "description": "ArrowDown icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ArrowLeftIcon": {
@@ -172,7 +172,7 @@
     "body": [
       "<ArrowLeftIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ArrowLeft icon. Decorative by default; supply `label` to promote to",
+    "description": "ArrowLeft icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ArrowRightIcon": {
@@ -183,7 +183,7 @@
     "body": [
       "<ArrowRightIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ArrowRight icon. Decorative by default; supply `label` to promote to",
+    "description": "ArrowRight icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ArrowUpIcon": {
@@ -194,7 +194,7 @@
     "body": [
       "<ArrowUpIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ArrowUp icon. Decorative by default; supply `label` to promote to",
+    "description": "ArrowUp icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AspectRatio": {
@@ -205,7 +205,7 @@
     "body": [
       "<AspectRatio />"
     ],
-    "description": "Layout wrapper that locks its content to a given `ratio` (e.g. `16/9`).",
+    "description": "Layout wrapper that locks its content to a given `ratio` (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AsyncData": {
@@ -216,7 +216,7 @@
     "body": [
       "<AsyncData\n  status={${1:/* status: enum */}}\n/>"
     ],
-    "description": "Universal async-data envelope. Eliminates per-component",
+    "description": "Universal async-data envelope.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Attachment": {
@@ -227,7 +227,7 @@
     "body": [
       "<Attachment\n  size={${1:/* size: ReactNode */}}\n/>"
     ],
-    "description": "Single attachment chip: icon, filename, size, optional preview / download",
+    "description": "Single attachment chip: icon, filename, size, optional preview / download affordances.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AttachmentList": {
@@ -238,7 +238,7 @@
     "body": [
       "<AttachmentList />"
     ],
-    "description": "Horizontal list of `Attachment` chips with overflow handling. Feed `items`",
+    "description": "Horizontal list of `Attachment` chips with overflow handling.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AudioAttachment": {
@@ -249,7 +249,7 @@
     "body": [
       "<AudioAttachment\n  src=\"${1:src}\"\n/>"
     ],
-    "description": "Attachment variant for audio files — shows duration and a compact inline",
+    "description": "Attachment variant for audio files — shows duration and a compact inline `AudioPlayer` on expand.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AudioPlayer": {
@@ -260,7 +260,7 @@
     "body": [
       "<AudioPlayer\n  src=\"${1:src}\"\n/>"
     ],
-    "description": "Accessible audio player with play/pause, scrub bar, time readout, and",
+    "description": "Accessible audio player with play/pause, scrub bar, time readout, and volume.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Avatar": {
@@ -271,7 +271,7 @@
     "body": [
       "<Avatar\n  size={${1:0}}\n/>"
     ],
-    "description": "Circular or rounded image for a person or entity with initial / icon",
+    "description": "Circular or rounded image for a person or entity with initial / icon fallback.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "AvatarGroup": {
@@ -282,7 +282,7 @@
     "body": [
       "<AvatarGroup\n  items={${1:/* items: AvatarProps[] */}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Overlapping stack of `Avatar`s with an optional `+N` overflow chip. `max`",
+    "description": "Overlapping stack of `Avatar`s with an optional `+N` overflow chip.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Axis": {
@@ -293,7 +293,7 @@
     "body": [
       "<Axis\n  orientation={${1:/* orientation: enum */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Chart axis primitive. Renders ticks, gridlines, and an axis label for the",
+    "description": "Chart axis primitive.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Backdrop": {
@@ -304,7 +304,7 @@
     "body": [
       "<Backdrop />"
     ],
-    "description": "Dimmed scrim rendered behind overlays. Handles click-outside and fade",
+    "description": "Dimmed scrim rendered behind overlays.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BackToTop": {
@@ -315,7 +315,7 @@
     "body": [
       "<BackToTop\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Floating button that scrolls the page (or a configured container) back to",
+    "description": "Floating button that scrolls the page (or a configured container) back to the top once the user has scrolled past a threshold.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Badge": {
@@ -326,7 +326,7 @@
     "body": [
       "<Badge\n  variant={${1:/* variant: enum */}}\n  tone={${2:/* tone: enum */}}\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Small categorical label for status chips, counts, and highlights. Tone",
+    "description": "Small categorical label for status chips, counts, and highlights.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BannerAlert": {
@@ -348,7 +348,7 @@
     "body": [
       "<Bar\n  data={${1:/* data: BarDatum[] */}}\n/>"
     ],
-    "description": "Bar series primitive. Draws rectangles for each datum using the enclosing",
+    "description": "Bar series primitive.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BarChart": {
@@ -370,7 +370,7 @@
     "body": [
       "<Barcode\n  value=\"${1:value}\"\n/>"
     ],
-    "description": "Renders a 1D barcode (CODE128 / EAN) from a value. Purely visual — use a",
+    "description": "Renders a 1D barcode (CODE128 / EAN) from a value.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BellIcon": {
@@ -381,7 +381,7 @@
     "body": [
       "<BellIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Bell icon. Decorative by default; supply `label` to promote to",
+    "description": "Bell icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BigNumber": {
@@ -392,7 +392,7 @@
     "body": [
       "<BigNumber\n  value={${1:/* value: ReactNode */}}\n  label={${2:/* label: ReactNode */}}\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Large hero metric: value, optional delta/trend, and caption. Use inside",
+    "description": "Large hero metric: value, optional delta/trend, and caption.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BoldIcon": {
@@ -403,7 +403,7 @@
     "body": [
       "<BoldIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Bold icon. Decorative by default; supply `label` to promote to",
+    "description": "Bold icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BookmarkIcon": {
@@ -414,7 +414,7 @@
     "body": [
       "<BookmarkIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Bookmark icon. Decorative by default; supply `label` to promote to",
+    "description": "Bookmark icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Box": {
@@ -436,7 +436,7 @@
     "body": [
       "<BoxPlot\n  groups={${1:/* groups: BoxPlotGroup[] */}}\n/>"
     ],
-    "description": "Box-and-whisker plot. Axes: band (category) x linear (value). Shows",
+    "description": "Box-and-whisker plot.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Breadcrumb": {
@@ -447,7 +447,7 @@
     "body": [
       "<Breadcrumb />"
     ],
-    "description": "Breadcrumb trail as a WAI-ARIA `nav` + `ol`. Dual API: pass `items`",
+    "description": "Breadcrumb trail as a WAI-ARIA `nav` + `ol`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BreadcrumbMenu": {
@@ -458,7 +458,7 @@
     "body": [
       "<BreadcrumbMenu\n  items={${1:/* items: BreadcrumbMenuItem[] */}}\n/>"
     ],
-    "description": "Breadcrumb variant where the middle segments collapse into a dropdown menu",
+    "description": "Breadcrumb variant where the middle segments collapse into a dropdown menu when space is tight.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Brush": {
@@ -491,7 +491,7 @@
     "body": [
       "<BubbleMap\n  topology={${1:/* topology: unknown */}}\n  objectKey=\"${2:objectKey}\"\n  points={${3:/* points: BubbleMapPoint[] */}}\n/>"
     ],
-    "description": "Geographic bubble map. Plots value-sized circles over a TopoJSON base map.",
+    "description": "Geographic bubble map.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Button": {
@@ -502,7 +502,7 @@
     "body": [
       "<Button\n  variant={${1:/* variant: enum */}}\n  accent=\"${2:accent}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Memoized leaf — skips re-render when props are referentially stable.",
+    "description": "Primary interactive button.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ButtonGroup": {
@@ -513,7 +513,7 @@
     "body": [
       "<ButtonGroup\n  options={${1:/* options: ButtonGroupOption[] */}}\n  value=\"${2:value}\"\n  onValueChange={${3:/* onValueChange: (key: string) => void */}}\n  accent=\"${4:accent}\"\n  size={${5:/* size: enum */}}\n/>"
     ],
-    "description": "Horizontal group of buttons with unified borders. Accepts `Button` or",
+    "description": "Horizontal group of buttons with unified borders.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Calendar": {
@@ -535,7 +535,7 @@
     "body": [
       "<CalendarHeatmap\n  start={${1:/* start: Date */}}\n  end={${2:/* end: Date */}}\n  data={${3:/* data: CalendarHeatmapCell[] */}}\n/>"
     ],
-    "description": "GitHub-style calendar heatmap. Bins values per day and shades cells by",
+    "description": "GitHub-style calendar heatmap.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CalendarIcon": {
@@ -546,7 +546,7 @@
     "body": [
       "<CalendarIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Calendar icon. Decorative by default; supply `label` to promote to",
+    "description": "Calendar icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Callout": {
@@ -557,7 +557,7 @@
     "body": [
       "<Callout\n  tone={${1:/* tone: enum */}}\n/>"
     ],
-    "description": "Emphasised inline block with an icon, title, and body. Similar to `Alert`",
+    "description": "Emphasised inline block with an icon, title, and body.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CandlestickChart": {
@@ -568,7 +568,7 @@
     "body": [
       "<CandlestickChart\n  data={${1:/* data: CandleDatum[] */}}\n  variant={${2:/* variant: enum */}}\n/>"
     ],
-    "description": "OHLC candlestick chart. Axes: time x linear. Each datum is `{ date, open,",
+    "description": "OHLC candlestick chart.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Card": {
@@ -579,7 +579,7 @@
     "body": [
       "<Card />"
     ],
-    "description": "Brutalist content container with a bordered surface. Optional `title` /",
+    "description": "Brutalist content container with a bordered surface.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CaretIcon": {
@@ -590,7 +590,7 @@
     "body": [
       "<CaretIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Caret icon. Decorative by default; supply `label` to promote to",
+    "description": "Caret icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Carousel": {
@@ -601,7 +601,7 @@
     "body": [
       "<Carousel />"
     ],
-    "description": "Horizontally-paged carousel with arrow + dot controls. Keyboard:",
+    "description": "Horizontally-paged carousel with arrow + dot controls.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CarouselImageGallery": {
@@ -612,7 +612,7 @@
     "body": [
       "<CarouselImageGallery\n  images={${1:/* images: CarouselImage[] */}}\n/>"
     ],
-    "description": "Image gallery built on `Carousel` with lightbox-on-click, thumbnails",
+    "description": "Image gallery built on `Carousel` with lightbox-on-click, thumbnails strip, and keyboard navigation.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Cascader": {
@@ -623,7 +623,7 @@
     "body": [
       "<Cascader\n  options={${1:/* options: CascaderOption[] */}}\n  size={${2:/* size: enum */}}\n  label=\"${3:label}\"\n/>"
     ],
-    "description": "Hierarchical select. Each column filters the next based on the user's",
+    "description": "Hierarchical select.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Center": {
@@ -634,7 +634,7 @@
     "body": [
       "<Center />"
     ],
-    "description": "Layout primitive that centers its single child on both axes. Honours the",
+    "description": "Layout primitive that centers its single child on both axes.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Changelog": {
@@ -645,7 +645,7 @@
     "body": [
       "<Changelog\n  entries={${1:/* entries: ChangelogEntry[] */}}\n/>"
     ],
-    "description": "Renders a versioned changelog from a structured `entries` prop. Each entry",
+    "description": "Renders a versioned changelog from a structured `entries` prop.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartBarIcon": {
@@ -656,7 +656,7 @@
     "body": [
       "<ChartBarIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ChartBar icon. Decorative by default; supply `label` to promote to",
+    "description": "ChartBar icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartFrame": {
@@ -667,7 +667,7 @@
     "body": [
       "<ChartFrame />"
     ],
-    "description": "Shared chart shell: handles dimensions, margins, ARIA role, and the",
+    "description": "Shared chart shell: handles dimensions, margins, ARIA role, and the internal context that series/axes read.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartLegend": {
@@ -678,7 +678,7 @@
     "body": [
       "<ChartLegend\n  items={${1:/* items: ChartLegendItem[] */}}\n/>"
     ],
-    "description": "Legend primitive for any chart. Maps series colour to label; clickable",
+    "description": "Legend primitive for any chart.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartLineIcon": {
@@ -689,7 +689,7 @@
     "body": [
       "<ChartLineIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ChartLine icon. Decorative by default; supply `label` to promote to",
+    "description": "ChartLine icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartScales": {
@@ -700,7 +700,7 @@
     "body": [
       "<ChartScales />"
     ],
-    "description": "Re-publishes ChartContext with the provided scales merged in. Inner-chart",
+    "description": "Re-publishes ChartContext with the provided scales merged in.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartTooltip": {
@@ -711,7 +711,7 @@
     "body": [
       "<ChartTooltip\n  x={${1:0}}\n  y={${2:0}}\n/>"
     ],
-    "description": "Positioned tooltip primitive for charts. Reads the current hovered datum",
+    "description": "Positioned tooltip primitive for charts.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChartTooltipBody": {
@@ -733,7 +733,7 @@
     "body": [
       "<ChatLayout\n  conversation={${1:/* conversation: ReactNode */}}\n/>"
     ],
-    "description": "Two-pane chat shell: session list on the left, active conversation on the",
+    "description": "Two-pane chat shell: session list on the left, active conversation on the right.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Checkbox": {
@@ -744,7 +744,7 @@
     "body": [
       "<Checkbox\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "WAI-ARIA checkbox with controlled/uncontrolled duality. Pass `checked` +",
+    "description": "WAI-ARIA checkbox with controlled/uncontrolled duality.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CheckboxGroup": {
@@ -755,7 +755,7 @@
     "body": [
       "<CheckboxGroup\n  options={${1:/* options: CheckboxGroupOption[] */}}\n  label=\"${2:label}\"\n  accent=\"${3:accent}\"\n/>"
     ],
-    "description": "Group of related checkboxes sharing a label. Emits an array of selected",
+    "description": "Group of related checkboxes sharing a label.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CheckIcon": {
@@ -766,7 +766,7 @@
     "body": [
       "<CheckIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Check icon. Decorative by default; supply `label` to promote to",
+    "description": "Check icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChevronDownIcon": {
@@ -777,7 +777,7 @@
     "body": [
       "<ChevronDownIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ChevronDown icon. Decorative by default; supply `label` to promote to",
+    "description": "ChevronDown icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChevronLeftIcon": {
@@ -788,7 +788,7 @@
     "body": [
       "<ChevronLeftIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ChevronLeft icon. Decorative by default; supply `label` to promote to",
+    "description": "ChevronLeft icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChevronRightIcon": {
@@ -799,7 +799,7 @@
     "body": [
       "<ChevronRightIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ChevronRight icon. Decorative by default; supply `label` to promote to",
+    "description": "ChevronRight icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChevronUpIcon": {
@@ -810,7 +810,7 @@
     "body": [
       "<ChevronUpIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ChevronUp icon. Decorative by default; supply `label` to promote to",
+    "description": "ChevronUp icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ChordDiagram": {
@@ -832,7 +832,7 @@
     "body": [
       "<ChoroplethMap\n  topology={${1:/* topology: unknown */}}\n  objectKey=\"${2:objectKey}\"\n  featureIdProp=\"${3:featureIdProp}\"\n  values={${4:/* values: Record<string, number> */}}\n/>"
     ],
-    "description": "Geographic choropleth. Fills regions in a TopoJSON base map by value.",
+    "description": "Geographic choropleth.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CircleIcon": {
@@ -843,7 +843,7 @@
     "body": [
       "<CircleIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Circle icon. Decorative by default; supply `label` to promote to",
+    "description": "Circle icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CircularProgress": {
@@ -854,7 +854,7 @@
     "body": [
       "<CircularProgress\n  size={${1:0}}\n  tone={${2:/* tone: enum */}}\n/>"
     ],
-    "description": "Circular progress indicator. Supports determinate (`value`) or",
+    "description": "Circular progress indicator.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Citation": {
@@ -865,7 +865,7 @@
     "body": [
       "<Citation\n  index={${1:/* index: ReactNode */}}\n/>"
     ],
-    "description": "Inline numbered citation chip linking to a source. Click / hover reveals",
+    "description": "Inline numbered citation chip linking to a source.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CitationList": {
@@ -876,7 +876,7 @@
     "body": [
       "<CitationList\n  sources={${1:/* sources: SourceRef[] */}}\n/>"
     ],
-    "description": "Numbered list of citations paired with their source cards. Pairs with",
+    "description": "Numbered list of citations paired with their source cards.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Clipboard": {
@@ -887,7 +887,7 @@
     "body": [
       "<Clipboard\n  value=\"${1:value}\"\n/>"
     ],
-    "description": "Copy-to-clipboard affordance with success feedback. Wraps a trigger and",
+    "description": "Copy-to-clipboard affordance with success feedback.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ClockIcon": {
@@ -898,7 +898,7 @@
     "body": [
       "<ClockIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Clock icon. Decorative by default; supply `label` to promote to",
+    "description": "Clock icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CloudIcon": {
@@ -909,7 +909,7 @@
     "body": [
       "<CloudIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Cloud icon. Decorative by default; supply `label` to promote to",
+    "description": "Cloud icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CoachMark": {
@@ -920,7 +920,7 @@
     "body": [
       "<CoachMark\n  target={${1:/* target: HTMLElement | RefObject<HTMLElement> | null */}}\n/>"
     ],
-    "description": "Spotlight / coach-mark overlay that anchors a tooltip-style card to a",
+    "description": "Spotlight / coach-mark overlay that anchors a tooltip-style card to a target element.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Code": {
@@ -931,7 +931,7 @@
     "body": [
       "<Code />"
     ],
-    "description": "Inline monospace code span with optional language badge. For multi-line",
+    "description": "Inline monospace code span with optional language badge.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CodeAttachment": {
@@ -942,7 +942,7 @@
     "body": [
       "<CodeAttachment\n  code=\"${1:code}\"\n/>"
     ],
-    "description": "Attachment variant for code snippets: filename, language badge,",
+    "description": "Attachment variant for code snippets: filename, language badge, collapsible preview.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CodeBlock": {
@@ -953,7 +953,7 @@
     "body": [
       "<CodeBlock\n  code=\"${1:code}\"\n/>"
     ],
-    "description": "Fenced code block with optional language-aware syntax highlighting, copy",
+    "description": "Fenced code block with optional language-aware syntax highlighting, copy button, and line numbers.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CodeEditor": {
@@ -964,7 +964,7 @@
     "body": [
       "<CodeEditor\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Minimal in-browser code editor. Controlled via `value` / `onValueChange`;",
+    "description": "Minimal in-browser code editor.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CodeIcon": {
@@ -975,7 +975,7 @@
     "body": [
       "<CodeIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Code icon. Decorative by default; supply `label` to promote to",
+    "description": "Code icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Collapsible": {
@@ -986,7 +986,7 @@
     "body": [
       "<Collapsible\n  title=\"${1:title}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Single expand/collapse region. Controllable via `open` / `onOpenChange`;",
+    "description": "Single expand/collapse region.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ColorContrast": {
@@ -997,7 +997,7 @@
     "body": [
       "<ColorContrast\n  foreground=\"${1:foreground}\"\n  background=\"${2:background}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "WCAG contrast checker. Enter a foreground + background colour and it",
+    "description": "WCAG contrast checker.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ColorPicker": {
@@ -1008,7 +1008,7 @@
     "body": [
       "<ColorPicker\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Colour picker with hue/saturation area, alpha slider, hex/rgb/hsl input,",
+    "description": "Colour picker with hue/saturation area, alpha slider, hex/rgb/hsl input, and optional preset palette.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ColorSwatch": {
@@ -1041,7 +1041,7 @@
     "body": [
       "<CommandInput\n  onSubmit={${1:/* onSubmit: (command: string) => void */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Shell-style command input with history recall, inline ghost-text",
+    "description": "Shell-style command input with history recall, inline ghost-text completion, and a Tab-activated completions popup.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CommandPalette": {
@@ -1063,7 +1063,7 @@
     "body": [
       "<Comment\n  content={${1:/* content: ReactNode */}}\n  author=\"${2:author}\"\n/>"
     ],
-    "description": "Single comment card: avatar, author, timestamp, body, and optional action",
+    "description": "Single comment card: avatar, author, timestamp, body, and optional action rail (reply / react / edit / delete).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CommentList": {
@@ -1085,7 +1085,7 @@
     "body": [
       "<CommitGraph\n  commits={${1:/* commits: CommitNode[] */}}\n/>"
     ],
-    "description": "Git-style commit graph: branches, merges, and per-commit metadata. Feed",
+    "description": "Git-style commit graph: branches, merges, and per-commit metadata.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ComposedChart": {
@@ -1096,7 +1096,7 @@
     "body": [
       "<ComposedChart\n  data={${1:/* data: ComposedChartDatum[] */}}\n  series={${2:/* series: ComposedChartSeries[] */}}\n/>"
     ],
-    "description": "Composition chart — combine bars, lines, areas, and reference layers over",
+    "description": "Composition chart — combine bars, lines, areas, and reference layers over shared axes.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Composer": {
@@ -1107,7 +1107,7 @@
     "body": [
       "<Composer />"
     ],
-    "description": "Chat message composer with text area, attachment tray, mic button, and",
+    "description": "Chat message composer with text area, attachment tray, mic button, and send.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ComposerAttachment": {
@@ -1118,7 +1118,7 @@
     "body": [
       "<ComposerAttachment\n  name={${1:/* name: ReactNode */}}\n/>"
     ],
-    "description": "Pending-attachment chip inside the composer; shows upload progress and",
+    "description": "Pending-attachment chip inside the composer; shows upload progress and supports removal before send.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ComposerMicButton": {
@@ -1129,7 +1129,7 @@
     "body": [
       "<ComposerMicButton />"
     ],
-    "description": "Microphone toggle for the composer. Requests mic permission on press and",
+    "description": "Microphone toggle for the composer.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConfidenceMeter": {
@@ -1151,7 +1151,7 @@
     "body": [
       "<ConfirmDialog\n  open={${1:true}}\n  onConfirm={${2:/* onConfirm: () => void */}}\n  onCancel={${3:/* onCancel: () => void */}}\n/>"
     ],
-    "description": "Prompted confirmation dialog. Renders title, message, and Confirm/Cancel",
+    "description": "Prompted confirmation dialog.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConfirmDialogV2": {
@@ -1162,7 +1162,7 @@
     "body": [
       "<ConfirmDialogV2 />"
     ],
-    "description": "Successor to `ConfirmDialog` built on the compound `Dialog` API. Use",
+    "description": "Successor to `ConfirmDialog` built on the compound `Dialog` API.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConfirmProvider": {
@@ -1173,7 +1173,7 @@
     "body": [
       "<ConfirmProvider />"
     ],
-    "description": "App-root provider that hosts imperative confirm dialogs triggered via",
+    "description": "App-root provider that hosts imperative confirm dialogs triggered via `useConfirm()`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConnectionStatus": {
@@ -1184,7 +1184,7 @@
     "body": [
       "<ConnectionStatus\n  status={${1:/* status: enum */}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Inline indicator for a network/channel connection state (`connecting` |",
+    "description": "Inline indicator for a network/channel connection state (`connecting` | `connected` | `disconnected` | `error`).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConsoleOutput": {
@@ -1195,7 +1195,7 @@
     "body": [
       "<ConsoleOutput\n  entries={${1:/* entries: ConsoleEntry[] */}}\n/>"
     ],
-    "description": "Terminal-style console log view with severity colouring, timestamps, and",
+    "description": "Terminal-style console log view with severity colouring, timestamps, and auto-scroll-to-bottom toggle.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Container": {
@@ -1206,7 +1206,7 @@
     "body": [
       "<Container />"
     ],
-    "description": "Max-width centered container. `maxWidth` and `padding` accept `Responsive<T>`.",
+    "description": "Max-width centered container.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ContextHelp": {
@@ -1228,7 +1228,7 @@
     "body": [
       "<ContextMenu\n  content={${1:/* content: ReactNode */}}\n/>"
     ],
-    "description": "Right-click / long-press context menu. Subparts mirror `Menu`; position",
+    "description": "Right-click / long-press context menu.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ContextWindow": {
@@ -1239,7 +1239,7 @@
     "body": [
       "<ContextWindow\n  used={${1:0}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Visualises an LLM context window: used vs available tokens as a meter plus",
+    "description": "Visualises an LLM context window: used vs available tokens as a meter plus breakdown by section.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Conversation": {
@@ -1250,7 +1250,7 @@
     "body": [
       "<Conversation />"
     ],
-    "description": "Vertical transcript of a chat conversation: renders a list of `Message`s",
+    "description": "Vertical transcript of a chat conversation: renders a list of `Message`s with grouping, auto-scroll, and empty-state slot.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ConversationEmptyState": {
@@ -1272,7 +1272,7 @@
     "body": [
       "<ConversationHeader />"
     ],
-    "description": "Header for a chat conversation: title, participants, model badge, and",
+    "description": "Header for a chat conversation: title, participants, model badge, and optional actions menu.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CopyButton": {
@@ -1283,7 +1283,7 @@
     "body": [
       "<CopyButton\n  text=\"${1:text}\"\n  label=\"${2:label}\"\n  variant={${3:/* variant: enum */}}\n  size={${4:/* size: enum */}}\n/>"
     ],
-    "description": "Memoized leaf — skips re-render when props are referentially stable.",
+    "description": "Clipboard button that writes `text` on click and flips to a \"Copied\" confirmation state for `copiedDuration` ms.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CopyIcon": {
@@ -1294,7 +1294,7 @@
     "body": [
       "<CopyIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Copy icon. Decorative by default; supply `label` to promote to",
+    "description": "Copy icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CostDisplay": {
@@ -1305,7 +1305,7 @@
     "body": [
       "<CostDisplay />"
     ],
-    "description": "Formatted cost / price readout. Combines `CurrencyDisplay` with optional",
+    "description": "Formatted cost / price readout.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Countdown": {
@@ -1316,7 +1316,7 @@
     "body": [
       "<Countdown\n  target={${1:/* target: string | number | Date */}}\n/>"
     ],
-    "description": "Countdown timer to a target date/time. Auto-updates every second; fires",
+    "description": "Countdown timer to a target date/time.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CronBuilder": {
@@ -1327,7 +1327,7 @@
     "body": [
       "<CronBuilder\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Visual builder for a cron expression. Controllable via `value` /",
+    "description": "Visual builder for a cron expression.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Crosshair": {
@@ -1338,7 +1338,7 @@
     "body": [
       "<Crosshair />"
     ],
-    "description": "Chart crosshair primitive: follows the pointer with vertical/horizontal",
+    "description": "Chart crosshair primitive: follows the pointer with vertical/horizontal rule lines and highlights the nearest datum.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CSVViewer": {
@@ -1360,7 +1360,7 @@
     "body": [
       "<CurrencyDisplay\n  value={${1:0}}\n/>"
     ],
-    "description": "Locale-aware currency formatter via `Intl.NumberFormat`. Takes a numeric",
+    "description": "Locale-aware currency formatter via `Intl.NumberFormat`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CurrencyInput": {
@@ -1371,7 +1371,7 @@
     "body": [
       "<CurrencyInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Numeric input with currency formatting and live-masked editing. Emits the",
+    "description": "Numeric input with currency formatting and live-masked editing.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CursorPagination": {
@@ -1382,7 +1382,7 @@
     "body": [
       "<CursorPagination />"
     ],
-    "description": "Cursor-based pagination with prev / next buttons for APIs that page by",
+    "description": "Cursor-based pagination with prev / next buttons for APIs that page by cursor token rather than offset.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DashboardGrid": {
@@ -1404,7 +1404,7 @@
     "body": [
       "<DatabaseIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Database icon. Decorative by default; supply `label` to promote to",
+    "description": "Database icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DataGrid": {
@@ -1448,7 +1448,7 @@
     "body": [
       "<DateRangePicker\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Two-month calendar for picking a date range. Controllable via `value` /",
+    "description": "Two-month calendar for picking a date range.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DateTimePicker": {
@@ -1459,7 +1459,7 @@
     "body": [
       "<DateTimePicker\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Combined date + time picker. Controllable via `value` / `onChange`;",
+    "description": "Combined date + time picker.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DebugPanel": {
@@ -1470,7 +1470,7 @@
     "body": [
       "<DebugPanel />"
     ],
-    "description": "Developer drawer that visualises agent internals: prompt, tool calls, raw",
+    "description": "Developer drawer that visualises agent internals: prompt, tool calls, raw response, timing.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DebugTree": {
@@ -1481,7 +1481,7 @@
     "body": [
       "<DebugTree\n  data={${1:/* data: unknown */}}\n/>"
     ],
-    "description": "Collapsible tree view for nested debug data (state, props, JSON). Lighter",
+    "description": "Collapsible tree view for nested debug data (state, props, JSON).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DependencyGraph": {
@@ -1492,7 +1492,7 @@
     "body": [
       "<DependencyGraph\n  nodes={${1:/* nodes: DependencyNode[] */}}\n  edges={${2:/* edges: DependencyEdge[] */}}\n/>"
     ],
-    "description": "Directed graph of dependencies with hierarchical layout. Useful for module",
+    "description": "Directed graph of dependencies with hierarchical layout.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DescriptionList": {
@@ -1503,7 +1503,7 @@
     "body": [
       "<DescriptionList />"
     ],
-    "description": "Semantic `<dl>` list of term/description pairs. Responsive: stacks below",
+    "description": "Semantic `<dl>` list of term/description pairs.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Descriptions": {
@@ -1525,7 +1525,7 @@
     "body": [
       "<Dialog />"
     ],
-    "description": "Compound modal overlay. Use `Dialog.Trigger` to open, `Dialog.Content`",
+    "description": "Compound modal overlay.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DiffViewer": {
@@ -1536,7 +1536,7 @@
     "body": [
       "<DiffViewer\n  oldValue=\"${1:oldValue}\"\n  newValue=\"${2:newValue}\"\n/>"
     ],
-    "description": "Unified / side-by-side text diff view with line numbers and hunk",
+    "description": "Unified / side-by-side text diff view with line numbers and hunk navigation.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DismissableLayer": {
@@ -1558,7 +1558,7 @@
     "body": [
       "<Divider\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Horizontal or vertical rule used to separate groups of content. Optional",
+    "description": "Horizontal or vertical rule used to separate groups of content.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DocumentPreview": {
@@ -1569,7 +1569,7 @@
     "body": [
       "<DocumentPreview\n  filename=\"${1:filename}\"\n  size={${2:0}}\n/>"
     ],
-    "description": "Renders a preview for a document attachment (PDF / image / text). Falls",
+    "description": "Renders a preview for a document attachment (PDF / image / text).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DonutChart": {
@@ -1580,7 +1580,7 @@
     "body": [
       "<DonutChart\n  data={${1:/* data: PieChartDatum[] */}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Donut (hollow pie) chart for part-of-whole data. Emits hover/select events",
+    "description": "Donut (hollow pie) chart for part-of-whole data.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Dots": {
@@ -1591,7 +1591,7 @@
     "body": [
       "<Dots\n  count={${1:0}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Small row of dots used as a step/progress indicator (e.g. carousel",
+    "description": "Small row of dots used as a step/progress indicator (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DownloadIcon": {
@@ -1602,7 +1602,7 @@
     "body": [
       "<DownloadIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Download icon. Decorative by default; supply `label` to promote to",
+    "description": "Download icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DragDropContext": {
@@ -1613,7 +1613,7 @@
     "body": [
       "<DragDropContext />"
     ],
-    "description": "Root provider for the drag-and-drop system. Wraps `Draggable` /",
+    "description": "Root provider for the drag-and-drop system.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Draggable": {
@@ -1624,7 +1624,7 @@
     "body": [
       "<Draggable\n  id=\"${1:id}\"\n/>"
     ],
-    "description": "Wraps a child to make it draggable inside a `DragDropContext`. Emits",
+    "description": "Wraps a child to make it draggable inside a `DragDropContext`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Drawer": {
@@ -1646,7 +1646,7 @@
     "body": [
       "<DrawerV2 />"
     ],
-    "description": "Compound side-panel overlay. Slides in from any edge (`left`, `right`,",
+    "description": "Compound side-panel overlay.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Dropdown": {
@@ -1657,7 +1657,7 @@
     "body": [
       "<Dropdown\n  trigger={${1:/* trigger: ReactNode */}}\n  items={${2:/* items: DropdownMenuItem[] */}}\n/>"
     ],
-    "description": "Simple trigger + menu dropdown. For richer composition (submenus,",
+    "description": "Simple trigger + menu dropdown.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Droppable": {
@@ -1668,7 +1668,7 @@
     "body": [
       "<Droppable\n  id=\"${1:id}\"\n/>"
     ],
-    "description": "Drop target inside a `DragDropContext`. Emits drop events with the dragged",
+    "description": "Drop target inside a `DragDropContext`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DropZone": {
@@ -1679,7 +1679,7 @@
     "body": [
       "<DropZone\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "File drop target with visual affordance and keyboard fallback (click to",
+    "description": "File drop target with visual affordance and keyboard fallback (click to open file picker).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DurationDisplay": {
@@ -1690,7 +1690,7 @@
     "body": [
       "<DurationDisplay\n  seconds={${1:0}}\n/>"
     ],
-    "description": "Formats a millisecond duration as a human-readable string (`2m 13s`, `1h",
+    "description": "Formats a millisecond duration as a human-readable string (`2m 13s`, `1h 04m`, etc.).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EditIcon": {
@@ -1701,7 +1701,7 @@
     "body": [
       "<EditIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Edit icon. Decorative by default; supply `label` to promote to",
+    "description": "Edit icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EmptyLayout": {
@@ -1712,7 +1712,7 @@
     "body": [
       "<EmptyLayout />"
     ],
-    "description": "Minimal layout shell with just a centred slot — for error pages, login",
+    "description": "Minimal layout shell with just a centred slot — for error pages, login screens, etc.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EmptyState": {
@@ -1723,7 +1723,7 @@
     "body": [
       "<EmptyState />"
     ],
-    "description": "Centred illustration + title + description + optional action. Use when a",
+    "description": "Centred illustration + title + description + optional action.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EnvironmentVars": {
@@ -1734,7 +1734,7 @@
     "body": [
       "<EnvironmentVars\n  value={${1:/* value: EnvVar[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Editor for key/value environment variable pairs. Masks values by default;",
+    "description": "Editor for key/value environment variable pairs.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ErrorBoundary": {
@@ -1745,7 +1745,7 @@
     "body": [
       "<ErrorBoundary />"
     ],
-    "description": "Class-based error boundary. Catches render/effect errors in descendants,",
+    "description": "Class-based error boundary.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ErrorIcon": {
@@ -1756,7 +1756,7 @@
     "body": [
       "<ErrorIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Error icon. Decorative by default; supply `label` to promote to",
+    "description": "Error icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ErrorState": {
@@ -1778,7 +1778,7 @@
     "body": [
       "<ExternalLinkIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "ExternalLink icon. Decorative by default; supply `label` to promote to",
+    "description": "ExternalLink icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EyeIcon": {
@@ -1789,7 +1789,7 @@
     "body": [
       "<EyeIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Eye icon. Decorative by default; supply `label` to promote to",
+    "description": "Eye icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "EyeOffIcon": {
@@ -1800,7 +1800,7 @@
     "body": [
       "<EyeOffIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "EyeOff icon. Decorative by default; supply `label` to promote to",
+    "description": "EyeOff icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Field": {
@@ -1811,7 +1811,7 @@
     "body": [
       "<Field />"
     ],
-    "description": "Compound form field wrapper. Auto-wires `htmlFor`, `aria-describedby`,",
+    "description": "Compound form field wrapper.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Field.Error": {
@@ -1822,7 +1822,7 @@
     "body": [
       "<Field.Error />"
     ],
-    "description": "Error slot for `Field`. Renders only when the field's validation state is",
+    "description": "Error slot for `Field`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Field.Help": {
@@ -1833,7 +1833,7 @@
     "body": [
       "<Field.Help />"
     ],
-    "description": "Help-text slot for `Field`. Auto-wired to the control via",
+    "description": "Help-text slot for `Field`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Field.Label": {
@@ -1844,7 +1844,7 @@
     "body": [
       "<Field.Label />"
     ],
-    "description": "Label slot for `Field`. Auto-wires `htmlFor` to the nested control.",
+    "description": "Label slot for `Field`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FieldControl": {
@@ -1855,7 +1855,7 @@
     "body": [
       "<FieldControl />"
     ],
-    "description": "Wraps a single form element (Input, Textarea, Select, etc.) and injects",
+    "description": "Wraps a single form element (Input, Textarea, Select, etc.) and injects the `id`, `aria-describedby`, `aria-invalid`, `aria-required`, and `disabled` props d…",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FieldSet": {
@@ -1866,7 +1866,7 @@
     "body": [
       "<FieldSet />"
     ],
-    "description": "Native `<fieldset>` with Voidframe styling. Use with `<Legend>` inside.",
+    "description": "Native `<fieldset>` with Voidframe styling.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FileAttachment": {
@@ -1877,7 +1877,7 @@
     "body": [
       "<FileAttachment\n  size={${1:/* size: ReactNode */}}\n/>"
     ],
-    "description": "Attachment variant for a generic file — shows filename, size, and",
+    "description": "Attachment variant for a generic file — shows filename, size, and kind-specific icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FileIcon": {
@@ -1888,7 +1888,7 @@
     "body": [
       "<FileIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "File icon. Decorative by default; supply `label` to promote to",
+    "description": "File icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FileTextIcon": {
@@ -1899,7 +1899,7 @@
     "body": [
       "<FileTextIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "FileText icon. Decorative by default; supply `label` to promote to",
+    "description": "FileText icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FileUpload": {
@@ -1910,7 +1910,7 @@
     "body": [
       "<FileUpload\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "File upload control with drag-drop, picker, progress per file, and list",
+    "description": "File upload control with drag-drop, picker, progress per file, and list management.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FilterBuilder": {
@@ -1921,7 +1921,7 @@
     "body": [
       "<FilterBuilder\n  fields={${1:/* fields: FilterField[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Visual builder for structured filter expressions. Controllable via `value`",
+    "description": "Visual builder for structured filter expressions.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FilterIcon": {
@@ -1932,7 +1932,7 @@
     "body": [
       "<FilterIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Filter icon. Decorative by default; supply `label` to promote to",
+    "description": "Filter icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Flex": {
@@ -1943,7 +1943,7 @@
     "body": [
       "<Flex />"
     ],
-    "description": "Flexbox primitive. Foundation for HStack/VStack. Every visual prop accepts a `Responsive<T>` object for per-breakpoint values.",
+    "description": "Flexbox primitive.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FloatingActionButton": {
@@ -1954,7 +1954,7 @@
     "body": [
       "<FloatingActionButton\n  icon={${1:/* icon: ReactNode */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n  variant={${4:/* variant: enum */}}\n/>"
     ],
-    "description": "Fixed-position circular action button (material-style FAB). Anchored to a",
+    "description": "Fixed-position circular action button (material-style FAB).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FocusScope": {
@@ -1965,7 +1965,7 @@
     "body": [
       "<FocusScope />"
     ],
-    "description": "Trap Tab focus inside a region. Used by Modal, Drawer, Sheet, ConfirmDialog.",
+    "description": "Trap Tab focus inside a region.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FolderIcon": {
@@ -1976,7 +1976,7 @@
     "body": [
       "<FolderIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Folder icon. Decorative by default; supply `label` to promote to",
+    "description": "Folder icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FolderOpenIcon": {
@@ -1987,7 +1987,7 @@
     "body": [
       "<FolderOpenIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "FolderOpen icon. Decorative by default; supply `label` to promote to",
+    "description": "FolderOpen icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Form": {
@@ -1998,7 +1998,7 @@
     "body": [
       "<Form />"
     ],
-    "description": "Read the nearest `<Form>` context. Throws if not inside a `<Form>`.",
+    "description": "Read the nearest `<Form>` context.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FormActions": {
@@ -2009,7 +2009,7 @@
     "body": [
       "<FormActions />"
     ],
-    "description": "Right-aligned footer for submit/cancel buttons. Flex container with",
+    "description": "Right-aligned footer for submit/cancel buttons.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FormErrorSummary": {
@@ -2020,7 +2020,7 @@
     "body": [
       "<FormErrorSummary />"
     ],
-    "description": "Renders a list of current form errors. Reads from `useFormContext`.",
+    "description": "Renders a list of current form errors.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FormField": {
@@ -2031,7 +2031,7 @@
     "body": [
       "<FormField\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Wrapper for form controls that renders an optional `label`, `required`",
+    "description": "Wrapper for form controls that renders an optional `label`, `required` asterisk, and either an `error` message or `help` text below the input.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FunnelChart": {
@@ -2064,7 +2064,7 @@
     "body": [
       "<Gauge\n  size={${1:0}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Radial gauge for a single value in a range. Configurable arc span, tick",
+    "description": "Radial gauge for a single value in a range.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Grid": {
@@ -2075,7 +2075,7 @@
     "body": [
       "<Grid />"
     ],
-    "description": "CSS Grid wrapper. All visual props accept `Responsive<T>` objects.",
+    "description": "CSS Grid wrapper.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "GridItem": {
@@ -2086,7 +2086,7 @@
     "body": [
       "<GridItem />"
     ],
-    "description": "Child of `DashboardGrid` (or any CSS-grid parent) that declares column/row",
+    "description": "Child of `DashboardGrid` (or any CSS-grid parent) that declares column/row span per breakpoint.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Gridlines": {
@@ -2097,7 +2097,7 @@
     "body": [
       "<Gridlines />"
     ],
-    "description": "Chart gridlines primitive. Renders horizontal/vertical rules tied to tick",
+    "description": "Chart gridlines primitive.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HeartIcon": {
@@ -2108,7 +2108,7 @@
     "body": [
       "<HeartIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Heart icon. Decorative by default; supply `label` to promote to",
+    "description": "Heart icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Heatmap": {
@@ -2119,7 +2119,7 @@
     "body": [
       "<Heatmap\n  rows={${1:/* rows: string[] */}}\n  columns={${2:/* columns: string[] */}}\n  data={${3:/* data: HeatmapCellData[] */}}\n/>"
     ],
-    "description": "Two-dimensional heatmap. Axes: band x band. Cells shade by intensity;",
+    "description": "Two-dimensional heatmap.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HelpTooltip": {
@@ -2130,7 +2130,7 @@
     "body": [
       "<HelpTooltip\n  content={${1:/* content: ReactNode */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Tooltip variant tuned for contextual help text — slightly wider, with a",
+    "description": "Tooltip variant tuned for contextual help text — slightly wider, with a `?` trigger convention.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HexDump": {
@@ -2141,7 +2141,7 @@
     "body": [
       "<HexDump\n  data={${1:/* data: Uint8Array<ArrayBufferLike> | number[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Monospace hex+ASCII viewer for a buffer. Configurable bytes-per-row and",
+    "description": "Monospace hex+ASCII viewer for a buffer.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Hide": {
@@ -2152,7 +2152,7 @@
     "body": [
       "<Hide />"
     ],
-    "description": "Conditional renderer: hides its children below / above / at specific",
+    "description": "Conditional renderer: hides its children below / above / at specific breakpoints.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Histogram": {
@@ -2163,7 +2163,7 @@
     "body": [
       "<Histogram\n  values={${1:/* values: number[] */}}\n/>"
     ],
-    "description": "Binned frequency chart. Axes: linear (bin) x linear (count). Configurable",
+    "description": "Binned frequency chart.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HomeIcon": {
@@ -2174,7 +2174,7 @@
     "body": [
       "<HomeIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Home icon. Decorative by default; supply `label` to promote to",
+    "description": "Home icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HorizonChart": {
@@ -2185,7 +2185,7 @@
     "body": [
       "<HorizonChart\n  data={${1:/* data: HorizonPoint[] */}}\n/>"
     ],
-    "description": "Horizon chart: stacked banded areas that encode large dynamic ranges",
+    "description": "Horizon chart: stacked banded areas that encode large dynamic ranges compactly.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HorizontalTimeline": {
@@ -2196,7 +2196,7 @@
     "body": [
       "<HorizontalTimeline\n  events={${1:/* events: HorizontalTimelineEvent[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Horizontal timeline of events with a scrollable track. Good for roadmaps",
+    "description": "Horizontal timeline of events with a scrollable track.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HoverCard": {
@@ -2207,7 +2207,7 @@
     "body": [
       "<HoverCard />"
     ],
-    "description": "Open-on-hover anchored overlay for rich previews (profile cards, link",
+    "description": "Open-on-hover anchored overlay for rich previews (profile cards, link metadata).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "HStack": {
@@ -2229,7 +2229,7 @@
     "body": [
       "<HydrationBoundary />"
     ],
-    "description": "Suspends a subtree from SSR. Useful for components that inherently",
+    "description": "Suspends a subtree from SSR.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Icon": {
@@ -2240,7 +2240,7 @@
     "body": [
       "<Icon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Memoized leaf — icons render frequently inside rows/lists.",
+    "description": "Generic SVG icon wrapper.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "IconButton": {
@@ -2251,7 +2251,7 @@
     "body": [
       "<IconButton\n  variant={${1:/* variant: enum */}}\n  size={${2:/* size: enum */}}\n  accent=\"${3:accent}\"\n/>"
     ],
-    "description": "Icon-only button. Requires `aria-label` (or `aria-labelledby`) so screen",
+    "description": "Icon-only button.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "IconGroup": {
@@ -2262,7 +2262,7 @@
     "body": [
       "<IconGroup />"
     ],
-    "description": "Compact group of icons displayed inline (e.g. status badges). Optional",
+    "description": "Compact group of icons displayed inline (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Identicon": {
@@ -2273,7 +2273,7 @@
     "body": [
       "<Identicon\n  value=\"${1:value}\"\n  size={${2:0}}\n/>"
     ],
-    "description": "Deterministic pixel/shape avatar generated from a seed string. Useful",
+    "description": "Deterministic pixel/shape avatar generated from a seed string.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "IFrame": {
@@ -2284,7 +2284,7 @@
     "body": [
       "<IFrame\n  src=\"${1:src}\"\n  title=\"${2:title}\"\n/>"
     ],
-    "description": "Sandboxed `<iframe>` wrapper with safe defaults (no top navigation,",
+    "description": "Sandboxed `<iframe>` wrapper with safe defaults (no top navigation, restricted sandbox).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Image": {
@@ -2295,7 +2295,7 @@
     "body": [
       "<Image\n  src=\"${1:src}\"\n  alt=\"${2:alt}\"\n/>"
     ],
-    "description": "Responsive image with intrinsic ratio, optional placeholder / blur-up, and",
+    "description": "Responsive image with intrinsic ratio, optional placeholder / blur-up, and lazy loading.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ImageAttachment": {
@@ -2306,7 +2306,7 @@
     "body": [
       "<ImageAttachment\n  src=\"${1:src}\"\n/>"
     ],
-    "description": "Attachment variant for images — shows a thumbnail plus filename/size",
+    "description": "Attachment variant for images — shows a thumbnail plus filename/size metadata.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ImageCropper": {
@@ -2317,7 +2317,7 @@
     "body": [
       "<ImageCropper\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Interactive image cropper. Emits the cropped region as a data URL or",
+    "description": "Interactive image cropper.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ImageDiff": {
@@ -2350,7 +2350,7 @@
     "body": [
       "<InfiniteScroll\n  hasMore={${1:true}}\n  onLoadMore={${2:/* onLoadMore: () => void */}}\n/>"
     ],
-    "description": "Infinite scroll loader. Calls `onLoadMore` when the sentinel enters the",
+    "description": "Infinite scroll loader.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "InfoIcon": {
@@ -2361,7 +2361,7 @@
     "body": [
       "<InfoIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Info icon. Decorative by default; supply `label` to promote to",
+    "description": "Info icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "InlineEdit": {
@@ -2372,7 +2372,7 @@
     "body": [
       "<InlineEdit\n  value=\"${1:value}\"\n  onSave={${2:/* onSave: (value: string) => void */}}\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Click-to-edit text field: displays a value until clicked, then renders an",
+    "description": "Click-to-edit text field: displays a value until clicked, then renders an input with Save/Cancel.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Input": {
@@ -2394,7 +2394,7 @@
     "body": [
       "<InputGroup.Addon />"
     ],
-    "description": "Non-interactive addon slot for `InputGroup` (e.g. a leading currency sign",
+    "description": "Non-interactive addon slot for `InputGroup` (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ItalicIcon": {
@@ -2405,7 +2405,7 @@
     "body": [
       "<ItalicIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Italic icon. Decorative by default; supply `label` to promote to",
+    "description": "Italic icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "JSONViewer": {
@@ -2416,7 +2416,7 @@
     "body": [
       "<JSONViewer\n  data={${1:/* data: unknown */}}\n/>"
     ],
-    "description": "Collapsible JSON tree with type colouring, copy-path affordance, and",
+    "description": "Collapsible JSON tree with type colouring, copy-path affordance, and search.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Kanban": {
@@ -2438,7 +2438,7 @@
     "body": [
       "<Kbd />"
     ],
-    "description": "Renders a keyboard shortcut label (e.g. `Cmd`+`K`). Accepts an array of",
+    "description": "Renders a keyboard shortcut label (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "KeyValue": {
@@ -2449,7 +2449,7 @@
     "body": [
       "<KeyValue\n  items={${1:/* items: KeyValueItem[] */}}\n/>"
     ],
-    "description": "Single label/value row. Used inside `DataList` / `Descriptions`;",
+    "description": "Single label/value row.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "KeyValueEditor": {
@@ -2460,7 +2460,7 @@
     "body": [
       "<KeyValueEditor\n  value={${1:/* value: KeyValuePair[] */}}\n  onValueChange={${2:/* onValueChange: (next: KeyValuePair[]) => void */}}\n/>"
     ],
-    "description": "Editable list of key/value rows. Supports add/remove/reorder; emits the",
+    "description": "Editable list of key/value rows.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Label": {
@@ -2482,7 +2482,7 @@
     "body": [
       "<LatencyIndicator\n  value={${1:0}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Colour-coded indicator for a latency reading (ms). Thresholds",
+    "description": "Colour-coded indicator for a latency reading (ms).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LegalText": {
@@ -2493,7 +2493,7 @@
     "body": [
       "<LegalText\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Small-print legal prose container with conservative typography. Use for",
+    "description": "Small-print legal prose container with conservative typography.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Legend": {
@@ -2515,7 +2515,7 @@
     "body": [
       "<Lightbox\n  images={${1:/* images: LightboxImage[] */}}\n  open={${2:true}}\n  onOpenChange={${3:/* onOpenChange: (open: boolean) => void */}}\n/>"
     ],
-    "description": "Full-screen image viewer with prev/next navigation, zoom, and keyboard",
+    "description": "Full-screen image viewer with prev/next navigation, zoom, and keyboard controls (arrow keys, Esc to close).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Line": {
@@ -2526,7 +2526,7 @@
     "body": [
       "<Line\n  data={${1:/* data: LinePoint[] */}}\n/>"
     ],
-    "description": "Line series primitive for line / area / composed charts. Connects points",
+    "description": "Line series primitive for line / area / composed charts.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LineChart": {
@@ -2537,7 +2537,7 @@
     "body": [
       "<LineChart\n  data={${1:/* data: LineChartDatum[] */}}\n  series={${2:/* series: LineChartSeries[] */}}\n/>"
     ],
-    "description": "Line chart over a shared X axis. Axes: linear or time (X), linear (Y).",
+    "description": "Line chart over a shared X axis.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LinkIcon": {
@@ -2548,7 +2548,7 @@
     "body": [
       "<LinkIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Link icon. Decorative by default; supply `label` to promote to",
+    "description": "Link icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "List": {
@@ -2570,7 +2570,7 @@
     "body": [
       "<LiveIndicator\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Pulsing dot + label indicating a live feed / stream state. Tones mirror",
+    "description": "Pulsing dot + label indicating a live feed / stream state.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LiveRegion": {
@@ -2581,7 +2581,7 @@
     "body": [
       "<LiveRegion />"
     ],
-    "description": "Declarative `aria-live` region. Consumers drive announcements via `message`.",
+    "description": "Declarative `aria-live` region.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LoadingDotsIcon": {
@@ -2592,7 +2592,7 @@
     "body": [
       "<LoadingDotsIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "LoadingDots icon. Decorative by default; supply `label` to promote to",
+    "description": "LoadingDots icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LoadingOverlay": {
@@ -2603,7 +2603,7 @@
     "body": [
       "<LoadingOverlay\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Semi-transparent scrim with a centred spinner, overlaid on a",
+    "description": "Semi-transparent scrim with a centred spinner, overlaid on a relatively-positioned parent while async work is in flight.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LockIcon": {
@@ -2614,7 +2614,7 @@
     "body": [
       "<LockIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Lock icon. Decorative by default; supply `label` to promote to",
+    "description": "Lock icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LogViewer": {
@@ -2625,7 +2625,7 @@
     "body": [
       "<LogViewer\n  entries={${1:/* entries: LogEntry[] */}}\n/>"
     ],
-    "description": "Terminal-style log viewer with level filters, timestamp toggle, search,",
+    "description": "Terminal-style log viewer with level filters, timestamp toggle, search, and auto-scroll-to-bottom.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MailIcon": {
@@ -2636,7 +2636,7 @@
     "body": [
       "<MailIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Mail icon. Decorative by default; supply `label` to promote to",
+    "description": "Mail icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MarkdownEditor": {
@@ -2647,7 +2647,7 @@
     "body": [
       "<MarkdownEditor\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Markdown editor with live preview. Sanitises rendered HTML via DOMPurify",
+    "description": "Markdown editor with live preview.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MarkdownRenderer": {
@@ -2658,7 +2658,7 @@
     "body": [
       "<MarkdownRenderer\n  content=\"${1:content}\"\n/>"
     ],
-    "description": "Safe markdown renderer. Sanitises HTML via DOMPurify (peer dependency);",
+    "description": "Safe markdown renderer.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Marquee": {
@@ -2669,7 +2669,7 @@
     "body": [
       "<Marquee />"
     ],
-    "description": "Scrolling marquee for long inline content. Respects",
+    "description": "Scrolling marquee for long inline content.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MaskedInput": {
@@ -2680,7 +2680,7 @@
     "body": [
       "<MaskedInput\n  mask=\"${1:mask}\"\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Text input with a display mask (e.g. `###-##-####`). Emits the unmasked",
+    "description": "Text input with a display mask (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Masonry": {
@@ -2691,7 +2691,7 @@
     "body": [
       "<Masonry />"
     ],
-    "description": "CSS-grid-based masonry layout. Configurable column count per breakpoint;",
+    "description": "CSS-grid-based masonry layout.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MegaMenu": {
@@ -2702,7 +2702,7 @@
     "body": [
       "<MegaMenu />"
     ],
-    "description": "Wide top-nav dropdown with grouped columns of links. Keyboard-navigable",
+    "description": "Wide top-nav dropdown with grouped columns of links.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Mention": {
@@ -2713,7 +2713,7 @@
     "body": [
       "<Mention\n  value={${1:/* value: ReactNode */}}\n/>"
     ],
-    "description": "Rendered mention chip (e.g. `@alice`). Clickable, hoverable, and linkable",
+    "description": "Rendered mention chip (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MentionInput": {
@@ -2724,7 +2724,7 @@
     "body": [
       "<MentionInput\n  options={${1:/* options: MentionOption[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Text input with `@`-triggered mention autocomplete. Emits structured",
+    "description": "Text input with `@`-triggered mention autocomplete.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Menu": {
@@ -2746,7 +2746,7 @@
     "body": [
       "<MenuBar />"
     ],
-    "description": "Top-level menu bar (like a desktop app). Horizontal row of `MenuBarMenu`",
+    "description": "Top-level menu bar (like a desktop app).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuBarMenu": {
@@ -2757,7 +2757,7 @@
     "body": [
       "<MenuBarMenu\n  trigger={${1:/* trigger: ReactNode */}}\n/>"
     ],
-    "description": "Single menu entry inside a `MenuBar`. Owns a dropdown activated by click",
+    "description": "Single menu entry inside a `MenuBar`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuCheckboxItem": {
@@ -2768,7 +2768,7 @@
     "body": [
       "<MenuCheckboxItem />"
     ],
-    "description": "Menu item with a checkbox control. Controllable via `checked` /",
+    "description": "Menu item with a checkbox control.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuContent": {
@@ -2779,7 +2779,7 @@
     "body": [
       "<MenuContent />"
     ],
-    "description": "Positioned popover that holds menu items. Subpart of `Menu`.",
+    "description": "Positioned popover that holds menu items.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuIcon": {
@@ -2790,7 +2790,7 @@
     "body": [
       "<MenuIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Menu icon. Decorative by default; supply `label` to promote to",
+    "description": "Menu icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuItem": {
@@ -2801,7 +2801,7 @@
     "body": [
       "<MenuItem />"
     ],
-    "description": "Actionable menu item. Emits `onSelect` on activation; optional icon and",
+    "description": "Actionable menu item.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuLabel": {
@@ -2823,7 +2823,7 @@
     "body": [
       "<MenuRadioGroup />"
     ],
-    "description": "Group of mutually-exclusive menu radio items. Controllable via `value` /",
+    "description": "Group of mutually-exclusive menu radio items.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuRadioItem": {
@@ -2856,7 +2856,7 @@
     "body": [
       "<MenuSub />"
     ],
-    "description": "Submenu container within a parent menu. Opens on hover / focus / arrow",
+    "description": "Submenu container within a parent menu.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuSubContent": {
@@ -2878,7 +2878,7 @@
     "body": [
       "<MenuSubTrigger />"
     ],
-    "description": "Trigger for a `MenuSub`. Shows a chevron and opens the submenu on",
+    "description": "Trigger for a `MenuSub`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MenuTrigger": {
@@ -2889,7 +2889,7 @@
     "body": [
       "<MenuTrigger />"
     ],
-    "description": "Element that opens the menu. Typically wraps a `Button` or `IconButton`.",
+    "description": "Element that opens the menu.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Mermaid": {
@@ -2900,7 +2900,7 @@
     "body": [
       "<Mermaid\n  chart=\"${1:chart}\"\n/>"
     ],
-    "description": "Renders a Mermaid diagram from a source string. Parses at mount; errors",
+    "description": "Renders a Mermaid diagram from a source string.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Message": {
@@ -2911,7 +2911,7 @@
     "body": [
       "<Message />"
     ],
-    "description": "Single chat message card: role (`user` | `assistant` | `system` | `tool`),",
+    "description": "Single chat message card: role (`user` | `assistant` | `system` | `tool`), content, actions, timestamp.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageActions": {
@@ -2922,7 +2922,7 @@
     "body": [
       "<MessageActions />"
     ],
-    "description": "Action rail for a chat message (copy / edit / regenerate / react). Visible",
+    "description": "Action rail for a chat message (copy / edit / regenerate / react).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageContent": {
@@ -2933,7 +2933,7 @@
     "body": [
       "<MessageContent\n  content={${1:/* content: string | MessagePart[] */}}\n/>"
     ],
-    "description": "Body slot of a chat `Message` — renders markdown, attachments, code",
+    "description": "Body slot of a chat `Message` — renders markdown, attachments, code blocks, and citations.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageEdit": {
@@ -2944,7 +2944,7 @@
     "body": [
       "<MessageEdit\n  value=\"${1:value}\"\n  onValueChange={${2:/* onValueChange: (next: string) => void */}}\n/>"
     ],
-    "description": "Inline edit mode for a chat message: textarea plus Save / Cancel. Keyboard",
+    "description": "Inline edit mode for a chat message: textarea plus Save / Cancel.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageFeedback": {
@@ -2955,7 +2955,7 @@
     "body": [
       "<MessageFeedback />"
     ],
-    "description": "Thumbs up/down feedback control for a chat message. Emits `{ value,",
+    "description": "Thumbs up/down feedback control for a chat message.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageGroup": {
@@ -2966,7 +2966,7 @@
     "body": [
       "<MessageGroup />"
     ],
-    "description": "Visually groups consecutive messages from the same author into a single",
+    "description": "Visually groups consecutive messages from the same author into a single run.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageIcon": {
@@ -2977,7 +2977,7 @@
     "body": [
       "<MessageIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Message icon. Decorative by default; supply `label` to promote to",
+    "description": "Message icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessageList": {
@@ -2988,7 +2988,7 @@
     "body": [
       "<MessageList />"
     ],
-    "description": "Virtualised scrollable list of `Message`s. Handles auto-scroll-to-bottom",
+    "description": "Virtualised scrollable list of `Message`s.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessagesProvider": {
@@ -2999,7 +2999,7 @@
     "body": [
       "<MessagesProvider />"
     ],
-    "description": "Standalone messages provider. `VoidframeProvider` wires this in",
+    "description": "Standalone messages provider.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MetricCard": {
@@ -3010,7 +3010,7 @@
     "body": [
       "<MetricCard\n  title={${1:/* title: ReactNode */}}\n  tone={${2:/* tone: enum */}}\n/>"
     ],
-    "description": "Dashboard card showing a metric, delta, and optional sparkline. Richer",
+    "description": "Dashboard card showing a metric, delta, and optional sparkline.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MinusIcon": {
@@ -3021,7 +3021,7 @@
     "body": [
       "<MinusIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Minus icon. Decorative by default; supply `label` to promote to",
+    "description": "Minus icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Modal": {
@@ -3032,7 +3032,7 @@
     "body": [
       "<Modal\n  open={${1:true}}\n  onDismiss={${2:/* onDismiss: () => void */}}\n/>"
     ],
-    "description": "Props-driven modal overlay with backdrop + centered panel. Portaled,",
+    "description": "Props-driven modal overlay with backdrop + centered panel.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ModelCompare": {
@@ -3043,7 +3043,7 @@
     "body": [
       "<ModelCompare\n  models={${1:/* models: [ModelCompareModel, ModelCompareModel] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Side-by-side comparison UI for model outputs. Synced scroll and per-column",
+    "description": "Side-by-side comparison UI for model outputs.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ModelPicker": {
@@ -3054,7 +3054,7 @@
     "body": [
       "<ModelPicker\n  models={${1:/* models: ModelPickerOption[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Dropdown for selecting an LLM model. Renders name, provider badge, and a",
+    "description": "Dropdown for selecting an LLM model.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ModelSelector": {
@@ -3065,7 +3065,7 @@
     "body": [
       "<ModelSelector\n  models={${1:/* models: ChatModelOption[] */}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Richer model picker with per-model metadata (context window, price,",
+    "description": "Richer model picker with per-model metadata (context window, price, capabilities).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MoonIcon": {
@@ -3076,7 +3076,7 @@
     "body": [
       "<MoonIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Moon icon. Decorative by default; supply `label` to promote to",
+    "description": "Moon icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MoreHorizontalIcon": {
@@ -3087,7 +3087,7 @@
     "body": [
       "<MoreHorizontalIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "MoreHorizontal icon. Decorative by default; supply `label` to promote to",
+    "description": "MoreHorizontal icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MoreVerticalIcon": {
@@ -3098,7 +3098,7 @@
     "body": [
       "<MoreVerticalIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "MoreVertical icon. Decorative by default; supply `label` to promote to",
+    "description": "MoreVertical icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MultiProgress": {
@@ -3109,7 +3109,7 @@
     "body": [
       "<MultiProgress\n  items={${1:/* items: MultiProgressItem[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Stacked segmented progress bar representing parts-of-a-whole across",
+    "description": "Stacked segmented progress bar representing parts-of-a-whole across categories.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MultiSelect": {
@@ -3120,7 +3120,7 @@
     "body": [
       "<MultiSelect\n  options={${1:/* options: ComboboxOption[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Multi-value select built on `Combobox`. Emits an array of selected values;",
+    "description": "Multi-value select built on `Combobox`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Navbar": {
@@ -3131,7 +3131,7 @@
     "body": [
       "<Navbar />"
     ],
-    "description": "Brutalist top navigation bar. Slot-based compound layout: `Navbar.Brand`,",
+    "description": "Brutalist top navigation bar.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NavGroup": {
@@ -3142,7 +3142,7 @@
     "body": [
       "<NavGroup\n  title=\"${1:title}\"\n/>"
     ],
-    "description": "Grouped section of a nav/sidebar with an optional heading. Used inside",
+    "description": "Grouped section of a nav/sidebar with an optional heading.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NavItem": {
@@ -3153,7 +3153,7 @@
     "body": [
       "<NavItem />"
     ],
-    "description": "Single nav/sidebar item: icon, label, optional badge, active state. Wraps",
+    "description": "Single nav/sidebar item: icon, label, optional badge, active state.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NetworkGraph": {
@@ -3164,7 +3164,7 @@
     "body": [
       "<NetworkGraph\n  nodes={${1:/* nodes: NetworkNode[] */}}\n  links={${2:/* links: NetworkLink[] */}}\n/>"
     ],
-    "description": "Force-directed graph. Nodes relax via d3-force; drag a node to pin it.",
+    "description": "Force-directed graph.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NetworkInspector": {
@@ -3175,7 +3175,7 @@
     "body": [
       "<NetworkInspector\n  requests={${1:/* requests: NetworkRequest[] */}}\n/>"
     ],
-    "description": "DevTools-style network request inspector: list of requests with status,",
+    "description": "DevTools-style network request inspector: list of requests with status, timing, headers/body on expand.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NotificationBadge": {
@@ -3186,7 +3186,7 @@
     "body": [
       "<NotificationBadge\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Small numeric or dot badge overlay for a host element (e.g. a bell icon).",
+    "description": "Small numeric or dot badge overlay for a host element (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NotificationCenter": {
@@ -3197,7 +3197,7 @@
     "body": [
       "<NotificationCenter\n  notifications={${1:/* notifications: NotificationItem[] */}}\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Drawer of grouped notifications with read/unread state, per-item actions,",
+    "description": "Drawer of grouped notifications with read/unread state, per-item actions, and clear-all.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NumberDisplay": {
@@ -3208,7 +3208,7 @@
     "body": [
       "<NumberDisplay\n  value={${1:0}}\n  tone={${2:/* tone: enum */}}\n/>"
     ],
-    "description": "Locale-aware number formatter via `Intl.NumberFormat`. Takes `value` and",
+    "description": "Locale-aware number formatter via `Intl.NumberFormat`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NumberInput": {
@@ -3219,7 +3219,7 @@
     "body": [
       "<NumberInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Numeric text input with min/max/step, keyboard increment/decrement, and",
+    "description": "Numeric text input with min/max/step, keyboard increment/decrement, and locale parsing.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "NumberStepper": {
@@ -3230,7 +3230,7 @@
     "body": [
       "<NumberStepper\n  size={${1:/* size: enum */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Numeric input with +/- buttons. Thinner than `NumberInput` for table cells",
+    "description": "Numeric input with +/- buttons.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "OfflineBanner": {
@@ -3263,7 +3263,7 @@
     "body": [
       "<OrganizationCard\n  organization={${1:/* organization: OrganizationCardOrg */}}\n/>"
     ],
-    "description": "Org identity card: logo, name, tagline, and a metric row. Companion to",
+    "description": "Org identity card: logo, name, tagline, and a metric row.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "OrgChart": {
@@ -3274,7 +3274,7 @@
     "body": [
       "<OrgChart\n  data={${1:/* data: OrgChartNode */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Top-down hierarchical chart (e.g. org structure). Collapsible subtrees and",
+    "description": "Top-down hierarchical chart (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PageHeader": {
@@ -3285,7 +3285,7 @@
     "body": [
       "<PageHeader\n  title={${1:/* title: ReactNode */}}\n/>"
     ],
-    "description": "Page-title block for top-of-page sections. Renders a `title` (h1) with",
+    "description": "Page-title block for top-of-page sections.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Pagination": {
@@ -3296,7 +3296,7 @@
     "body": [
       "<Pagination\n  value={${1:0}}\n  totalPages={${2:0}}\n  onValueChange={${3:/* onValueChange: (page: number) => void */}}\n/>"
     ],
-    "description": "Offset-based page picker with numbered buttons plus optional prev/next",
+    "description": "Offset-based page picker with numbered buttons plus optional prev/next and first/last chevrons.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Palette": {
@@ -3307,7 +3307,7 @@
     "body": [
       "<Palette\n  colors={${1:/* colors: (string | PaletteColor)[] */}}\n  size={${2:/* size: number | \"sm\" | \"md\" | \"lg\" */}}\n/>"
     ],
-    "description": "Displays a palette (array of colours) with optional labels and",
+    "description": "Displays a palette (array of colours) with optional labels and copy-on-click.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ParallelCoordinates": {
@@ -3318,7 +3318,7 @@
     "body": [
       "<ParallelCoordinates\n  data={${1:/* data: ParallelDatum[] */}}\n  axes={${2:/* axes: ParallelAxis[] */}}\n/>"
     ],
-    "description": "Parallel-coordinates chart for high-dimensional data. One vertical axis",
+    "description": "Parallel-coordinates chart for high-dimensional data.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PasswordInput": {
@@ -3340,7 +3340,7 @@
     "body": [
       "<PauseIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Pause icon. Decorative by default; supply `label` to promote to",
+    "description": "Pause icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PercentDisplay": {
@@ -3351,7 +3351,7 @@
     "body": [
       "<PercentDisplay\n  value={${1:0}}\n/>"
     ],
-    "description": "Locale-aware percentage formatter. Takes a 0-1 ratio and emits a localised",
+    "description": "Locale-aware percentage formatter.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PhoneInput": {
@@ -3362,7 +3362,7 @@
     "body": [
       "<PhoneInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Phone number input with country selector, auto-formatting per E.164, and",
+    "description": "Phone number input with country selector, auto-formatting per E.164, and validation.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PieChart": {
@@ -3373,7 +3373,7 @@
     "body": [
       "<PieChart\n  data={${1:/* data: PieChartDatum[] */}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Pie chart for part-of-whole data. For a hollow centre slot see",
+    "description": "Pie chart for part-of-whole data.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PinIcon": {
@@ -3384,7 +3384,7 @@
     "body": [
       "<PinIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Pin icon. Decorative by default; supply `label` to promote to",
+    "description": "Pin icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PinInput": {
@@ -3406,7 +3406,7 @@
     "body": [
       "<PlanDisplay\n  steps={${1:/* steps: PlanStep[] */}}\n/>"
     ],
-    "description": "Pricing-plan card: tier name, price, feature list, and CTA. Used on",
+    "description": "Pricing-plan card: tier name, price, feature list, and CTA.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PlayIcon": {
@@ -3417,7 +3417,7 @@
     "body": [
       "<PlayIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Play icon. Decorative by default; supply `label` to promote to",
+    "description": "Play icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PlusIcon": {
@@ -3428,7 +3428,7 @@
     "body": [
       "<PlusIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Plus icon. Decorative by default; supply `label` to promote to",
+    "description": "Plus icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Point": {
@@ -3439,7 +3439,7 @@
     "body": [
       "<Point\n  data={${1:/* data: PointDatum[] */}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Point (scatter) series primitive. Plots individual `{ x, y }` marks using",
+    "description": "Point (scatter) series primitive.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Popconfirm": {
@@ -3450,7 +3450,7 @@
     "body": [
       "<Popconfirm\n  title=\"${1:title}\"\n  onConfirm={${2:/* onConfirm: () => void */}}\n/>"
     ],
-    "description": "Lightweight confirmation popover anchored to a trigger. Cheaper than a",
+    "description": "Lightweight confirmation popover anchored to a trigger.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Popover": {
@@ -3461,7 +3461,7 @@
     "body": [
       "<Popover\n  trigger={${1:/* trigger: ReactNode */}}\n/>"
     ],
-    "description": "V1 popover anchored to a `trigger` with click- or hover-activation and",
+    "description": "V1 popover anchored to a `trigger` with click- or hover-activation and a fixed `position` (top/right/bottom/left).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PopoverV2": {
@@ -3472,7 +3472,7 @@
     "body": [
       "<PopoverV2 />"
     ],
-    "description": "Compound anchored popover. Compose `PopoverV2.Trigger` and",
+    "description": "Compound anchored popover.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Portal": {
@@ -3483,7 +3483,7 @@
     "body": [
       "<Portal />"
     ],
-    "description": "Render children into a detached DOM node. Returns `null` until mount so",
+    "description": "Render children into a detached DOM node.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Presence": {
@@ -3516,7 +3516,7 @@
     "body": [
       "<PrintButton />"
     ],
-    "description": "Button that invokes `window.print()` with optional before/after hooks for",
+    "description": "Button that invokes `window.print()` with optional before/after hooks for transient styling.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PrintLayout": {
@@ -3527,7 +3527,7 @@
     "body": [
       "<PrintLayout />"
     ],
-    "description": "Print-optimised layout wrapper that suppresses nav chrome and tightens",
+    "description": "Print-optimised layout wrapper that suppresses nav chrome and tightens typography when `@media print` is active.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Progress": {
@@ -3538,7 +3538,7 @@
     "body": [
       "<Progress\n  label={${1:/* label: ReactNode */}}\n  variant={${2:/* variant: enum */}}\n  tone={${3:/* tone: enum */}}\n  size={${4:/* size: enum */}}\n/>"
     ],
-    "description": "Linear progress bar. Determinate (`value`) or indeterminate. Tones mirror",
+    "description": "Linear progress bar.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PromptTemplateEditor": {
@@ -3549,7 +3549,7 @@
     "body": [
       "<PromptTemplateEditor />"
     ],
-    "description": "Editor for an LLM prompt template: body textarea plus a sidebar of named",
+    "description": "Editor for an LLM prompt template: body textarea plus a sidebar of named variables.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PromptTemplateList": {
@@ -3571,7 +3571,7 @@
     "body": [
       "<QRCode\n  value=\"${1:value}\"\n  size={${2:0}}\n/>"
     ],
-    "description": "Renders a QR code SVG from a string. Configurable error-correction level",
+    "description": "Renders a QR code SVG from a string.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "QueryBuilder": {
@@ -3582,7 +3582,7 @@
     "body": [
       "<QueryBuilder\n  fields={${1:/* fields: QueryFieldDef[] */}}\n  value={${2:/* value: QueryGroup */}}\n  onValueChange={${3:/* onValueChange: (next: QueryGroup) => void */}}\n/>"
     ],
-    "description": "Visual builder for structured SQL-like queries. Emits a serialisable",
+    "description": "Visual builder for structured SQL-like queries.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "QuestionIcon": {
@@ -3593,7 +3593,7 @@
     "body": [
       "<QuestionIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Question icon. Decorative by default; supply `label` to promote to",
+    "description": "Question icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "QuickReplies": {
@@ -3626,7 +3626,7 @@
     "body": [
       "<QuoteIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Quote icon. Decorative by default; supply `label` to promote to",
+    "description": "Quote icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RadarChart": {
@@ -3637,7 +3637,7 @@
     "body": [
       "<RadarChart\n  axes={${1:/* axes: string[] */}}\n  series={${2:/* series: RadarSeries[] */}}\n  size={${3:0}}\n/>"
     ],
-    "description": "Radar / spider chart for multi-axis categorical data. Each ring is a value",
+    "description": "Radar / spider chart for multi-axis categorical data.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Radio": {
@@ -3648,7 +3648,7 @@
     "body": [
       "<Radio\n  checked={${1:true}}\n  onValueChange={${2:/* onValueChange: () => void */}}\n  label=\"${3:label}\"\n  accent=\"${4:accent}\"\n/>"
     ],
-    "description": "Single radio input with label. For groups use `RadioGroup`.",
+    "description": "Single radio input with label.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RadioGroup": {
@@ -3659,7 +3659,7 @@
     "body": [
       "<RadioGroup\n  options={${1:/* options: RadioGroupOption[] */}}\n  label=\"${2:label}\"\n  accent=\"${3:accent}\"\n/>"
     ],
-    "description": "WAI-ARIA radio group with controlled/uncontrolled duality. Accepts an",
+    "description": "WAI-ARIA radio group with controlled/uncontrolled duality.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RAGContext": {
@@ -3670,7 +3670,7 @@
     "body": [
       "<RAGContext\n  chunks={${1:/* chunks: RAGChunk[] */}}\n/>"
     ],
-    "description": "Retrieval-augmented-generation context panel: retrieved chunks with",
+    "description": "Retrieval-augmented-generation context panel: retrieved chunks with source, score, and preview.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RatingInput": {
@@ -3681,7 +3681,7 @@
     "body": [
       "<RatingInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Star rating input (0-N). Half-step support; controllable via `value` /",
+    "description": "Star rating input (0-N).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReactionBar": {
@@ -3692,7 +3692,7 @@
     "body": [
       "<ReactionBar\n  reactions={${1:/* reactions: MessageReactionEntry[] */}}\n/>"
     ],
-    "description": "Emoji reaction row for a message / post. Shows tallies per reaction; emits",
+    "description": "Emoji reaction row for a message / post.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReactionPicker": {
@@ -3703,7 +3703,7 @@
     "body": [
       "<ReactionPicker\n  reactions={${1:/* reactions: Reaction[] */}}\n  onReact={${2:/* onReact: (id: string) => void */}}\n/>"
     ],
-    "description": "Emoji picker popover used to add a reaction. Paired with `ReactionBar`.",
+    "description": "Emoji picker popover used to add a reaction.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReasoningTrace": {
@@ -3714,7 +3714,7 @@
     "body": [
       "<ReasoningTrace\n  content={${1:/* content: ReactNode */}}\n/>"
     ],
-    "description": "Collapsible block showing an LLM's chain-of-thought reasoning with step",
+    "description": "Collapsible block showing an LLM's chain-of-thought reasoning with step separators.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReferenceBand": {
@@ -3725,7 +3725,7 @@
     "body": [
       "<ReferenceBand\n  from={${1:0}}\n  to={${2:0}}\n  label=\"${3:label}\"\n/>"
     ],
-    "description": "Chart primitive: coloured band spanning a value range on an axis. Good for",
+    "description": "Chart primitive: coloured band spanning a value range on an axis.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReferenceLine": {
@@ -3736,7 +3736,7 @@
     "body": [
       "<ReferenceLine\n  value={${1:0}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Chart primitive: dashed rule at a reference value on an axis. Optional",
+    "description": "Chart primitive: dashed rule at a reference value on an axis.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RefreshIcon": {
@@ -3747,7 +3747,7 @@
     "body": [
       "<RefreshIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Refresh icon. Decorative by default; supply `label` to promote to",
+    "description": "Refresh icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RegenerateButton": {
@@ -3758,7 +3758,7 @@
     "body": [
       "<RegenerateButton\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Chat action button that re-runs the last assistant turn. Shows a spinner",
+    "description": "Chat action button that re-runs the last assistant turn.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RegExpTester": {
@@ -3769,7 +3769,7 @@
     "body": [
       "<RegExpTester\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Interactive regex tester: pattern, flags, test string, highlighted matches",
+    "description": "Interactive regex tester: pattern, flags, test string, highlighted matches and capture groups.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RelativeTime": {
@@ -3780,7 +3780,7 @@
     "body": [
       "<RelativeTime\n  date={${1:/* date: string | number | Date */}}\n/>"
     ],
-    "description": "Formats a timestamp as a relative, auto-updating string (`2m ago`,",
+    "description": "Formats a timestamp as a relative, auto-updating string (`2m ago`, `yesterday`).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ReorderList": {
@@ -3802,7 +3802,7 @@
     "body": [
       "<ResizableBox />"
     ],
-    "description": "Resizable container with configurable handles. Emits `onResize({ width,",
+    "description": "Resizable container with configurable handles.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ResizableGroup": {
@@ -3813,7 +3813,7 @@
     "body": [
       "<ResizableGroup />"
     ],
-    "description": "Group of panes sharing a split. Drag handles redistribute space among",
+    "description": "Group of panes sharing a split.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ResizableHandle": {
@@ -3835,7 +3835,7 @@
     "body": [
       "<ResizablePanel />"
     ],
-    "description": "Single pane inside a `ResizableGroup`. Configurable min/max/default size.",
+    "description": "Single pane inside a `ResizableGroup`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ResponsiveBox": {
@@ -3846,7 +3846,7 @@
     "body": [
       "<ResponsiveBox />"
     ],
-    "description": "Escape hatch responsive container: accepts a render-prop that receives the",
+    "description": "Escape hatch responsive container: accepts a render-prop that receives the current breakpoint.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Result": {
@@ -3857,7 +3857,7 @@
     "body": [
       "<Result\n  status={${1:/* status: enum */}}\n  title=\"${2:title}\"\n/>"
     ],
-    "description": "Centred result page (404 / 403 / 500 / success). Icon, title, description,",
+    "description": "Centred result page (404 / 403 / 500 / success).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RichTextEditor": {
@@ -3868,7 +3868,7 @@
     "body": [
       "<RichTextEditor\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "WYSIWYG rich-text editor with markdown-compatible output, toolbar, and",
+    "description": "WYSIWYG rich-text editor with markdown-compatible output, toolbar, and inline formatting shortcuts.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "RovingFocusGroup": {
@@ -3890,7 +3890,7 @@
     "body": [
       "<RovingFocusGroup.Item\n  value=\"${1:value}\"\n/>"
     ],
-    "description": "A single rovable item. Spread its props onto the element you want focused.",
+    "description": "A single rovable item.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SafeArea": {
@@ -3901,7 +3901,7 @@
     "body": [
       "<SafeArea />"
     ],
-    "description": "Inset wrapper that respects the device's safe-area insets (notches,",
+    "description": "Inset wrapper that respects the device's safe-area insets (notches, rounded corners) on iOS/Android.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sankey": {
@@ -3912,7 +3912,7 @@
     "body": [
       "<Sankey\n  nodes={${1:/* nodes: SankeyNode[] */}}\n  links={${2:/* links: SankeyLink[] */}}\n/>"
     ],
-    "description": "Sankey flow diagram. Weighted links between nodes; auto-layout via",
+    "description": "Sankey flow diagram.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SaveIcon": {
@@ -3923,7 +3923,7 @@
     "body": [
       "<SaveIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Save icon. Decorative by default; supply `label` to promote to",
+    "description": "Save icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScatterMatrix": {
@@ -3934,7 +3934,7 @@
     "body": [
       "<ScatterMatrix\n  data={${1:/* data: ScatterMatrixDatum[] */}}\n  dimensions={${2:/* dimensions: string[] */}}\n/>"
     ],
-    "description": "Scatterplot matrix: small-multiples grid pairing every dimension against",
+    "description": "Scatterplot matrix: small-multiples grid pairing every dimension against every other.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScatterPlot": {
@@ -3945,7 +3945,7 @@
     "body": [
       "<ScatterPlot\n  data={${1:/* data: ScatterDatum[] */}}\n/>"
     ],
-    "description": "Scatter plot for two numeric dimensions. Axes: linear x linear. Optional",
+    "description": "Scatter plot for two numeric dimensions.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScrollArea": {
@@ -3956,7 +3956,7 @@
     "body": [
       "<ScrollArea />"
     ],
-    "description": "Overflow container with CSS-only brutalist scrollbars. Native scrolling",
+    "description": "Overflow container with CSS-only brutalist scrollbars.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScrollIndicator": {
@@ -3967,7 +3967,7 @@
     "body": [
       "<ScrollIndicator />"
     ],
-    "description": "Edge indicator showing there's more content to scroll to. Fades in/out",
+    "description": "Edge indicator showing there's more content to scroll to.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScrollLock": {
@@ -3989,7 +3989,7 @@
     "body": [
       "<ScrollRow />"
     ],
-    "description": "Horizontally-scrolling row with overflow fading. Good for chip / card",
+    "description": "Horizontally-scrolling row with overflow fading.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ScrollSpy": {
@@ -4000,7 +4000,7 @@
     "body": [
       "<ScrollSpy />"
     ],
-    "description": "Tracks which anchored section is in view and exposes it via context /",
+    "description": "Tracks which anchored section is in view and exposes it via context / render-prop.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SearchIcon": {
@@ -4011,7 +4011,7 @@
     "body": [
       "<SearchIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Search icon. Decorative by default; supply `label` to promote to",
+    "description": "Search icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SearchInput": {
@@ -4022,7 +4022,7 @@
     "body": [
       "<SearchInput />"
     ],
-    "description": "Input tuned for search: leading search icon, clear-on-escape, debounce via",
+    "description": "Input tuned for search: leading search icon, clear-on-escape, debounce via `debounce` prop.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Section": {
@@ -4044,7 +4044,7 @@
     "body": [
       "<SegmentBar\n  segments={${1:/* segments: SegmentBarSegment[] */}}\n/>"
     ],
-    "description": "Horizontal bar divided into labelled segments, sized by a weight. Good for",
+    "description": "Horizontal bar divided into labelled segments, sized by a weight.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SegmentedControl": {
@@ -4066,7 +4066,7 @@
     "body": [
       "<SegmentedProgress\n  segments={${1:/* segments: SegmentedProgressSegment[] */}}\n/>"
     ],
-    "description": "Progress bar composed of discrete segments filled left-to-right as",
+    "description": "Progress bar composed of discrete segments filled left-to-right as progress advances.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Select": {
@@ -4088,7 +4088,7 @@
     "body": [
       "<SendIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Send icon. Decorative by default; supply `label` to promote to",
+    "description": "Send icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Separator": {
@@ -4132,7 +4132,7 @@
     "body": [
       "<SettingsIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Settings icon. Decorative by default; supply `label` to promote to",
+    "description": "Settings icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ShareButton": {
@@ -4143,7 +4143,7 @@
     "body": [
       "<ShareButton\n  url=\"${1:url}\"\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Button that opens a share sheet / menu with configurable destinations",
+    "description": "Button that opens a share sheet / menu with configurable destinations (copy link, email, native share).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ShareIcon": {
@@ -4154,7 +4154,7 @@
     "body": [
       "<ShareIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Share icon. Decorative by default; supply `label` to promote to",
+    "description": "Share icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sheet": {
@@ -4165,7 +4165,7 @@
     "body": [
       "<Sheet />"
     ],
-    "description": "Mobile-style bottom sheet with drag-to-resize snap points. Compound",
+    "description": "Mobile-style bottom sheet with drag-to-resize snap points.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Shimmer": {
@@ -4176,7 +4176,7 @@
     "body": [
       "<Shimmer />"
     ],
-    "description": "Low-level shimmer animation primitive used by skeletons. Respects",
+    "description": "Low-level shimmer animation primitive used by skeletons.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Shortcut": {
@@ -4187,7 +4187,7 @@
     "body": [
       "<Shortcut\n  keys=\"${1:keys}\"\n/>"
     ],
-    "description": "Inline rendered keyboard shortcut (`Cmd+K`). Purely visual; for actual",
+    "description": "Inline rendered keyboard shortcut (`Cmd+K`).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ShortcutEditor": {
@@ -4198,7 +4198,7 @@
     "body": [
       "<ShortcutEditor\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "UI for editing an existing keyboard shortcut binding. Captures the next",
+    "description": "UI for editing an existing keyboard shortcut binding.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ShortcutGuide": {
@@ -4209,7 +4209,7 @@
     "body": [
       "<ShortcutGuide />"
     ],
-    "description": "Modal that lists all registered keyboard shortcuts grouped by scope.",
+    "description": "Overlay that lists all registered keyboard shortcuts grouped by scope.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ShortcutProvider": {
@@ -4220,7 +4220,7 @@
     "body": [
       "<ShortcutProvider />"
     ],
-    "description": "Provider that registers the global shortcut registry. Wrap your app root;",
+    "description": "Provider that registers the global shortcut registry.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Show": {
@@ -4231,7 +4231,7 @@
     "body": [
       "<Show />"
     ],
-    "description": "Conditional renderer: shows its children at/above/below specific",
+    "description": "Conditional renderer: shows its children at/above/below specific breakpoints.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sidebar": {
@@ -4242,7 +4242,7 @@
     "body": [
       "<Sidebar />"
     ],
-    "description": "Brutalist app-shell side navigation. Compound: compose `Sidebar.Brand`,",
+    "description": "Brutalist app-shell side navigation.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SignaturePad": {
@@ -4253,7 +4253,7 @@
     "body": [
       "<SignaturePad\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Pointer-drawn signature pad. Emits the trace as a data URL or stroke list",
+    "description": "Pointer-drawn signature pad.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SimpleChat": {
@@ -4275,7 +4275,7 @@
     "body": [
       "<Skeleton />"
     ],
-    "description": "Rectangle shimmer placeholder used while content loads. Composed into",
+    "description": "Rectangle shimmer placeholder used while content loads.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkeletonAvatar": {
@@ -4286,7 +4286,7 @@
     "body": [
       "<SkeletonAvatar\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Circular shimmer placeholder sized for an avatar. Part of the skeleton",
+    "description": "Circular shimmer placeholder sized for an avatar.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkeletonButton": {
@@ -4297,7 +4297,7 @@
     "body": [
       "<SkeletonButton\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Shimmer placeholder shaped like a button. Part of the skeleton kit.",
+    "description": "Shimmer placeholder shaped like a button.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkeletonCard": {
@@ -4308,7 +4308,7 @@
     "body": [
       "<SkeletonCard />"
     ],
-    "description": "Shimmer placeholder shaped like a `Card`. Configurable with/without",
+    "description": "Shimmer placeholder shaped like a `Card`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkeletonForm": {
@@ -4341,7 +4341,7 @@
     "body": [
       "<SkeletonText\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Shimmer placeholder for one or more lines of text. Configurable line count",
+    "description": "Shimmer placeholder for one or more lines of text.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SkipToContent": {
@@ -4352,7 +4352,7 @@
     "body": [
       "<SkipToContent\n  href=\"${1:href}\"\n/>"
     ],
-    "description": "Keyboard-only skip link. Hidden visually until focused (Tab as the first",
+    "description": "Keyboard-only skip link.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SlashCommandInput": {
@@ -4363,7 +4363,7 @@
     "body": [
       "<SlashCommandInput\n  commands={${1:/* commands: SlashCommandOption[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Text input with `/`-triggered command autocomplete. Emits the selected",
+    "description": "Text input with `/`-triggered command autocomplete.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SlashCommandPicker": {
@@ -4374,7 +4374,7 @@
     "body": [
       "<SlashCommandPicker\n  commands={${1:/* commands: SlashCommand[] */}}\n/>"
     ],
-    "description": "Popover listing available slash commands. Used inside `SlashCommandInput`",
+    "description": "Popover listing available slash commands.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Slider": {
@@ -4385,7 +4385,7 @@
     "body": [
       "<Slider\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Range slider for numeric values. Controllable via `value` /",
+    "description": "Range slider for numeric values.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Slot": {
@@ -4407,7 +4407,7 @@
     "body": [
       "<SmallMultiples\n  items={${1:/* items: T[] */}}\n  renderItem={${2:/* renderItem: (item: T, index: number) => ReactNode */}}\n/>"
     ],
-    "description": "Grid of small charts sharing encoding / scale. Good for comparing many",
+    "description": "Grid of small charts sharing encoding / scale.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Snackbar": {
@@ -4418,7 +4418,7 @@
     "body": [
       "<Snackbar />"
     ],
-    "description": "Transient bottom-anchored message with optional action. Lighter than",
+    "description": "Transient bottom-anchored message with optional action.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sortable": {
@@ -4429,7 +4429,7 @@
     "body": [
       "<Sortable\n  value={${1:/* value: T[] */}}\n  getKey={${2:/* getKey: (item: T) => string */}}\n  onValueChange={${3:/* onValueChange: (next: T[]) => void */}}\n  renderItem={${4:/* renderItem: (item: T, index: number, render: SortableRenderProps) => ReactNode */}}\n/>"
     ],
-    "description": "Wraps a list to make its items reorderable via drag. Keyboard-reorder with",
+    "description": "Wraps a list to make its items reorderable via drag.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SortIcon": {
@@ -4440,7 +4440,7 @@
     "body": [
       "<SortIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Sort icon. Decorative by default; supply `label` to promote to",
+    "description": "Sort icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SourceCard": {
@@ -4451,7 +4451,7 @@
     "body": [
       "<SourceCard />"
     ],
-    "description": "Citation-source card: title, URL, snippet, and metadata. Paired with",
+    "description": "Citation-source card: title, URL, snippet, and metadata.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SourceGrid": {
@@ -4462,7 +4462,7 @@
     "body": [
       "<SourceGrid\n  sources={${1:/* sources: SourceRef[] */}}\n/>"
     ],
-    "description": "Grid of `SourceCard`s. Used when multiple sources back a single response.",
+    "description": "Grid of `SourceCard`s.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Spacer": {
@@ -4473,7 +4473,7 @@
     "body": [
       "<Spacer\n  size={${1:0}}\n/>"
     ],
-    "description": "Layout wrapper that fills the free space in a flex row/column. Use between",
+    "description": "Layout wrapper that fills the free space in a flex row/column.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sparkline": {
@@ -4484,7 +4484,7 @@
     "body": [
       "<Sparkline\n  data={${1:/* data: number[] */}}\n/>"
     ],
-    "description": "Tiny inline trend chart. No axes / labels — context comes from the",
+    "description": "Tiny inline trend chart.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Spinner": {
@@ -4495,7 +4495,7 @@
     "body": [
       "<Spinner\n  size={${1:0}}\n/>"
     ],
-    "description": "Animated loading spinner. Respects `prefers-reduced-motion`; sizes",
+    "description": "Animated loading spinner.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SpinnerIcon": {
@@ -4506,7 +4506,7 @@
     "body": [
       "<SpinnerIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Spinner icon. Decorative by default; supply `label` to promote to",
+    "description": "Spinner icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SpinnerV2": {
@@ -4517,7 +4517,7 @@
     "body": [
       "<SpinnerV2\n  size={${1:0}}\n  variant={${2:/* variant: enum */}}\n  label=\"${3:label}\"\n/>"
     ],
-    "description": "Successor spinner with richer size and tone variants. Source-compatible",
+    "description": "Successor spinner with richer size and tone variants.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SplitButton": {
@@ -4528,7 +4528,7 @@
     "body": [
       "<SplitButton\n  onClick={${1:/* onClick: () => void */}}\n  label=\"${2:label}\"\n  actions={${3:/* actions: SplitButtonAction[] */}}\n  onAction={${4:/* onAction: (key: string) => void */}}\n  variant={${5:/* variant: enum */}}\n  size={${6:/* size: enum */}}\n/>"
     ],
-    "description": "Button with a primary action and an adjacent dropdown of alternate",
+    "description": "Button with a primary action and an adjacent dropdown of alternate actions.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SplitView": {
@@ -4539,7 +4539,7 @@
     "body": [
       "<SplitView />"
     ],
-    "description": "Two-pane split view with a draggable divider. Controllable split ratio.",
+    "description": "Two-pane split view with a draggable divider.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Spotlight": {
@@ -4550,7 +4550,7 @@
     "body": [
       "<Spotlight\n  steps={${1:/* steps: SpotlightStep[] */}}\n/>"
     ],
-    "description": "Dimmed overlay with a cut-out highlighting a target element. Used by",
+    "description": "Dimmed overlay with a cut-out highlighting a target element.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SquareIcon": {
@@ -4561,7 +4561,7 @@
     "body": [
       "<SquareIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Square icon. Decorative by default; supply `label` to promote to",
+    "description": "Square icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Stack": {
@@ -4572,7 +4572,7 @@
     "body": [
       "<Stack />"
     ],
-    "description": "Vertical or horizontal flex stack with a `gap` prop. Composable and",
+    "description": "Vertical or horizontal flex stack with a `gap` prop.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StarIcon": {
@@ -4583,7 +4583,7 @@
     "body": [
       "<StarIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Star icon. Decorative by default; supply `label` to promote to",
+    "description": "Star icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Stat": {
@@ -4616,7 +4616,7 @@
     "body": [
       "<StatusBar\n  items={${1:/* items: StatusBarItem[] */}}\n/>"
     ],
-    "description": "Bottom status bar (e.g. for an editor / IDE-style UI). Renders items with",
+    "description": "Bottom status bar (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StatusIndicator": {
@@ -4627,7 +4627,7 @@
     "body": [
       "<StatusIndicator\n  status={${1:/* status: enum */}}\n  label={${2:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Coloured dot plus label indicating a status (`online`, `idle`, `busy`,",
+    "description": "Coloured dot plus label indicating a status (`online`, `idle`, `busy`, `offline`).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Stepper": {
@@ -4638,7 +4638,7 @@
     "body": [
       "<Stepper\n  current={${1:0}}\n  variant={${2:/* variant: enum */}}\n/>"
     ],
-    "description": "Linear step indicator rendered as an `ol` with completed / active /",
+    "description": "Linear step indicator rendered as an `ol` with completed / active / upcoming states.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sticky": {
@@ -4649,7 +4649,7 @@
     "body": [
       "<Sticky />"
     ],
-    "description": "Wrapper that makes its child `position: sticky` with configurable offset",
+    "description": "Wrapper that makes its child `position: sticky` with configurable offset and enabled breakpoints.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StopButton": {
@@ -4660,7 +4660,7 @@
     "body": [
       "<StopButton\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Chat action button that halts an in-progress stream. Shows as a stop glyph",
+    "description": "Chat action button that halts an in-progress stream.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StopIcon": {
@@ -4671,7 +4671,7 @@
     "body": [
       "<StopIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Stop icon. Decorative by default; supply `label` to promote to",
+    "description": "Stop icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StreamGraph": {
@@ -4682,7 +4682,7 @@
     "body": [
       "<StreamGraph\n  data={${1:/* data: StreamGraphDatum[] */}}\n  series={${2:/* series: StreamGraphSeries[] */}}\n/>"
     ],
-    "description": "Stream graph (river plot) for stacked time-series. Visually emphasises",
+    "description": "Stream graph (river plot) for stacked time-series.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "StreamingText": {
@@ -4693,7 +4693,7 @@
     "body": [
       "<StreamingText\n  text=\"${1:text}\"\n/>"
     ],
-    "description": "Incrementally-rendered text block for streaming LLM output. Shows a",
+    "description": "Incrementally-rendered text block for streaming LLM output.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Stretch": {
@@ -4715,7 +4715,7 @@
     "body": [
       "<SubmitButton />"
     ],
-    "description": "Form submit button with integrated pending state, driven by the nearest",
+    "description": "Form submit button with integrated pending state, driven by the nearest form's submission state.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SuccessIcon": {
@@ -4726,7 +4726,7 @@
     "body": [
       "<SuccessIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Success icon. Decorative by default; supply `label` to promote to",
+    "description": "Success icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SuggestionChips": {
@@ -4737,7 +4737,7 @@
     "body": [
       "<SuggestionChips\n  suggestions={${1:/* suggestions: SuggestionItem[] */}}\n/>"
     ],
-    "description": "Row of chips with suggested follow-up prompts. Emits `onSelect(prompt)`",
+    "description": "Row of chips with suggested follow-up prompts.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Sunburst": {
@@ -4748,7 +4748,7 @@
     "body": [
       "<Sunburst\n  data={${1:/* data: SunburstNode */}}\n  size={${2:0}}\n/>"
     ],
-    "description": "Radial hierarchical chart (zoomable). Peer: `d3-hierarchy`.",
+    "description": "Radial hierarchical chart (zoomable).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SunIcon": {
@@ -4759,7 +4759,7 @@
     "body": [
       "<SunIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Sun icon. Decorative by default; supply `label` to promote to",
+    "description": "Sun icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Swipeable": {
@@ -4770,7 +4770,7 @@
     "body": [
       "<Swipeable />"
     ],
-    "description": "Wrapper that makes a child horizontally or vertically swipeable. Emits",
+    "description": "Wrapper that makes a child horizontally or vertically swipeable.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SwipeActions": {
@@ -4792,7 +4792,7 @@
     "body": [
       "<Switch\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Two-state switch control with a visible on/off label option. Controllable",
+    "description": "Two-state switch control with a visible on/off label option.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SystemPromptEditor": {
@@ -4803,7 +4803,7 @@
     "body": [
       "<SystemPromptEditor\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Editor for an LLM system-prompt. Textarea plus saved-preset selector.",
+    "description": "Editor for an LLM system-prompt.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TabBar": {
@@ -4814,7 +4814,7 @@
     "body": [
       "<TabBar />"
     ],
-    "description": "Mobile-style bottom tab bar. Horizontal row of icon+label tabs, each",
+    "description": "Mobile-style bottom tab bar.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Table": {
@@ -4825,7 +4825,7 @@
     "body": [
       "<Table\n  columns={${1:/* columns: TableColumn<T>[] */}}\n  data={${2:/* data: T[] */}}\n/>"
     ],
-    "description": "Semantic `<table>` wrapper with voidframe styling. For sortable /",
+    "description": "Semantic `<table>` wrapper with voidframe styling.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tabs": {
@@ -4836,7 +4836,7 @@
     "body": [
       "<Tabs\n  accent=\"${1:accent}\"\n/>"
     ],
-    "description": "Keyboard-navigable tablist. Arrow keys cycle within the list, Home/End",
+    "description": "Keyboard-navigable tablist.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tag": {
@@ -4847,7 +4847,7 @@
     "body": [
       "<Tag />"
     ],
-    "description": "Small removable label chip with optional leading icon. Emits `onRemove`",
+    "description": "Small removable label chip with optional leading icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TagInput": {
@@ -4858,7 +4858,7 @@
     "body": [
       "<TagInput\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Text input that collects tags on Enter/comma. Emits the current array of",
+    "description": "Text input that collects tags on Enter/comma.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TeamCard": {
@@ -4869,7 +4869,7 @@
     "body": [
       "<TeamCard\n  team={${1:/* team: TeamCardTeam */}}\n/>"
     ],
-    "description": "Team identity card: avatar group, name, member count, CTA. Companion to",
+    "description": "Team identity card: avatar group, name, member count, CTA.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Terminal": {
@@ -4880,7 +4880,7 @@
     "body": [
       "<Terminal />"
     ],
-    "description": "Interactive terminal emulator surface. Emits user input lines; host app",
+    "description": "Interactive terminal emulator surface.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TerminalIcon": {
@@ -4891,7 +4891,7 @@
     "body": [
       "<TerminalIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Terminal icon. Decorative by default; supply `label` to promote to",
+    "description": "Terminal icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Text": {
@@ -4902,7 +4902,7 @@
     "body": [
       "<Text\n  size={${1:/* size: TextSize */}}\n/>"
     ],
-    "description": "Generic text element. Size, color, transform are CSS-driven; `color`,",
+    "description": "Generic text element.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Textarea": {
@@ -4924,7 +4924,7 @@
     "body": [
       "<ThemeScope />"
     ],
-    "description": "Subtree-level theme override. Wrap any subtree to apply a different theme",
+    "description": "Subtree-level theme override.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ThemeSelector": {
@@ -4935,7 +4935,7 @@
     "body": [
       "<ThemeSelector\n  themes={${1:/* themes: ThemeSelectorOption[] */}}\n  label={${2:/* label: ReactNode */}}\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Dropdown / segmented control for picking the active theme. Pairs with",
+    "description": "Dropdown / segmented control for picking the active theme.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ThinkingIndicator": {
@@ -4957,7 +4957,7 @@
     "body": [
       "<Ticker\n  to={${1:0}}\n/>"
     ],
-    "description": "Auto-advancing horizontal ticker for news-style headlines. Respects",
+    "description": "Auto-advancing horizontal ticker for news-style headlines.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TileGridMap": {
@@ -4968,7 +4968,7 @@
     "body": [
       "<TileGridMap />"
     ],
-    "description": "Built-in US-states layout (postal code keys). Source: standard",
+    "description": "Built-in US-states layout (postal code keys).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Timeline": {
@@ -4979,7 +4979,7 @@
     "body": [
       "<Timeline />"
     ],
-    "description": "Vertical timeline with dotted axis and event cards. Each item has time,",
+    "description": "Vertical timeline with dotted axis and event cards.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TimePicker": {
@@ -4990,7 +4990,7 @@
     "body": [
       "<TimePicker\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Time-only picker (hours/minutes/optional seconds). Controllable via",
+    "description": "Time-only picker (hours/minutes/optional seconds).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TimeZoneSelect": {
@@ -5001,7 +5001,7 @@
     "body": [
       "<TimeZoneSelect\n  label={${1:/* label: ReactNode */}}\n/>"
     ],
-    "description": "Dropdown for selecting an IANA time zone. Groups by region and shows",
+    "description": "Dropdown for selecting an IANA time zone.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Toast": {
@@ -5012,7 +5012,7 @@
     "body": [
       "<Toast\n  message=\"${1:message}\"\n/>"
     ],
-    "description": "Transient popup notification for async feedback. For 1.0+ use the",
+    "description": "Transient popup notification for async feedback.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Toaster": {
@@ -5034,7 +5034,7 @@
     "body": [
       "<Toggle\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Binary on/off switch with WAI-ARIA `role=\"switch\"` and",
+    "description": "Binary on/off switch with WAI-ARIA `role=\"switch\"` and controlled/uncontrolled duality.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ToggleGroup": {
@@ -5045,7 +5045,7 @@
     "body": [
       "<ToggleGroup\n  items={${1:/* items: ToggleGroupItem[] */}}\n  variant={${2:/* variant: enum */}}\n  size={${3:/* size: enum */}}\n/>"
     ],
-    "description": "Group of mutually-exclusive (`type=\"single\"`) or multi-select",
+    "description": "Group of mutually-exclusive (`type=\"single\"`) or multi-select (`type=\"multiple\"`) toggle buttons.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TokenCounter": {
@@ -5056,7 +5056,7 @@
     "body": [
       "<TokenCounter />"
     ],
-    "description": "Live token counter for a text input / prompt. Pluggable tokenizer; shows",
+    "description": "Live token counter for a text input / prompt.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TokenVisualizer": {
@@ -5067,7 +5067,7 @@
     "body": [
       "<TokenVisualizer\n  tokens={${1:/* tokens: Token[] | string[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Visualises tokenisation of a string: each token rendered as a chip with",
+    "description": "Visualises tokenisation of a string: each token rendered as a chip with index and id.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Toolbar": {
@@ -5089,7 +5089,7 @@
     "body": [
       "<ToolCall\n  name={${1:/* name: ReactNode */}}\n/>"
     ],
-    "description": "Chat transcript block representing a single tool invocation: name,",
+    "description": "Chat transcript block representing a single tool invocation: name, arguments, result, status.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ToolCallGroup": {
@@ -5100,7 +5100,7 @@
     "body": [
       "<ToolCallGroup />"
     ],
-    "description": "Groups consecutive `ToolCall`s from the same turn with a collapsed",
+    "description": "Groups consecutive `ToolCall`s from the same turn with a collapsed summary.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tooltip": {
@@ -5111,7 +5111,7 @@
     "body": [
       "<Tooltip\n  content={${1:/* content: ReactNode */}}\n/>"
     ],
-    "description": "Compact labelling overlay. Wraps a single child and shows `content`",
+    "description": "Compact labelling overlay.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TooltipProvider": {
@@ -5122,7 +5122,7 @@
     "body": [
       "<TooltipProvider />"
     ],
-    "description": "Groups `Tooltip` instances to share timing. Once one tooltip closes,",
+    "description": "Groups `Tooltip` instances to share timing.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TraceViewer": {
@@ -5133,7 +5133,7 @@
     "body": [
       "<TraceViewer\n  spans={${1:/* spans: TraceSpan[] */}}\n/>"
     ],
-    "description": "Developer trace viewer for agent runs — flamegraph-style timeline of steps",
+    "description": "Developer trace viewer for agent runs — flamegraph-style timeline of steps and tool calls.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Transfer": {
@@ -5144,7 +5144,7 @@
     "body": [
       "<Transfer\n  items={${1:/* items: TransferItem[] */}}\n  size={${2:/* size: enum */}}\n/>"
     ],
-    "description": "Two-list transfer component. Users move items between `source` and",
+    "description": "Two-list transfer component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Transition": {
@@ -5155,7 +5155,7 @@
     "body": [
       "<Transition\n  show={${1:true}}\n/>"
     ],
-    "description": "High-level enter/exit animation wrapper. Composes `<Presence>` with a",
+    "description": "High-level enter/exit animation wrapper.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TrashIcon": {
@@ -5166,7 +5166,7 @@
     "body": [
       "<TrashIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Trash icon. Decorative by default; supply `label` to promote to",
+    "description": "Trash icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TreeMap": {
@@ -5177,7 +5177,7 @@
     "body": [
       "<TreeMap\n  data={${1:/* data: TreeMapNode */}}\n/>"
     ],
-    "description": "Hierarchical rectangle tiling weighted by value. Peer: `d3-hierarchy`.",
+    "description": "Hierarchical rectangle tiling weighted by value.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TreeNav": {
@@ -5188,7 +5188,7 @@
     "body": [
       "<TreeNav\n  items={${1:/* items: TreeNavItem[] */}}\n/>"
     ],
-    "description": "Hierarchical navigation tree. Expand/collapse nodes with keyboard;",
+    "description": "Hierarchical navigation tree.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TreeSelect": {
@@ -5199,7 +5199,7 @@
     "body": [
       "<TreeSelect\n  nodes={${1:/* nodes: TreeNode[] */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Select dropdown whose options are organised as a tree (cascader-like but",
+    "description": "Select dropdown whose options are organised as a tree (cascader-like but single-column).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TreeTable": {
@@ -5210,7 +5210,7 @@
     "body": [
       "<TreeTable\n  columns={${1:/* columns: TableColumn<T>[] */}}\n  data={${2:/* data: T[] */}}\n  getChildren={${3:/* getChildren: (row: T) => T[] | undefined */}}\n  rowKey={${4:/* rowKey: (row: T) => string */}}\n/>"
     ],
-    "description": "Data table with expandable tree rows. Combines `DataGrid`'s",
+    "description": "Data table with expandable tree rows.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TreeView": {
@@ -5232,7 +5232,7 @@
     "body": [
       "<TrendIndicator />"
     ],
-    "description": "Up/down / flat arrow plus percentage showing a delta. Tones follow",
+    "description": "Up/down / flat arrow plus percentage showing a delta.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Typewriter": {
@@ -5243,7 +5243,7 @@
     "body": [
       "<Typewriter\n  text=\"${1:text}\"\n/>"
     ],
-    "description": "Types out a string character by character. Respects",
+    "description": "Types out a string character by character.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UnderlineIcon": {
@@ -5254,7 +5254,7 @@
     "body": [
       "<UnderlineIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Underline icon. Decorative by default; supply `label` to promote to",
+    "description": "Underline icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UnlockIcon": {
@@ -5265,7 +5265,7 @@
     "body": [
       "<UnlockIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Unlock icon. Decorative by default; supply `label` to promote to",
+    "description": "Unlock icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UnreadBadge": {
@@ -5276,7 +5276,7 @@
     "body": [
       "<UnreadBadge\n  label=\"${1:label}\"\n/>"
     ],
-    "description": "Dot/count badge indicating unread items. Accessible count label via",
+    "description": "Dot/count badge indicating unread items.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UploadIcon": {
@@ -5287,7 +5287,7 @@
     "body": [
       "<UploadIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Upload icon. Decorative by default; supply `label` to promote to",
+    "description": "Upload icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UserCard": {
@@ -5309,7 +5309,7 @@
     "body": [
       "<UserIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "User icon. Decorative by default; supply `label` to promote to",
+    "description": "User icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "UserMenu": {
@@ -5331,7 +5331,7 @@
     "body": [
       "<UsersIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Users icon. Decorative by default; supply `label` to promote to",
+    "description": "Users icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VideoPlayer": {
@@ -5342,7 +5342,7 @@
     "body": [
       "<VideoPlayer\n  src=\"${1:src}\"\n/>"
     ],
-    "description": "Accessible video player with play/pause, scrub, volume, fullscreen, and",
+    "description": "Accessible video player with play/pause, scrub, volume, fullscreen, and captions support.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ViolinPlot": {
@@ -5353,7 +5353,7 @@
     "body": [
       "<ViolinPlot\n  groups={${1:/* groups: ViolinPlotGroup[] */}}\n/>"
     ],
-    "description": "Violin plot (density + box combined). Axes: band x linear.",
+    "description": "Violin plot (density + box combined).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VirtualGrid": {
@@ -5364,7 +5364,7 @@
     "body": [
       "<VirtualGrid\n  items={${1:/* items: T[] */}}\n  columnCount={${2:0}}\n  rowHeight={${3:0}}\n  columnWidth={${4:0}}\n  renderCell={${5:/* renderCell: (item: T, index: number, style: CSSProperties) => ReactNode */}}\n/>"
     ],
-    "description": "Virtualised 2D grid. Renders only the visible cells; suitable for",
+    "description": "Virtualised 2D grid.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VirtualList": {
@@ -5375,7 +5375,7 @@
     "body": [
       "<VirtualList\n  items={${1:/* items: T[] */}}\n  itemHeight={${2:/* itemHeight: number | ((index: number, item: T) => number) */}}\n  renderItem={${3:/* renderItem: (item: T, index: number, style: CSSProperties) => ReactNode */}}\n/>"
     ],
-    "description": "Virtualised 1D list. Renders only the visible rows; supports variable",
+    "description": "Virtualised 1D list.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VisuallyHidden": {
@@ -5408,7 +5408,7 @@
     "body": [
       "<VoidframeProvider />"
     ],
-    "description": "Theme provider. Wraps your app (or a subtree) and injects:",
+    "description": "Theme provider.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VStack": {
@@ -5430,7 +5430,7 @@
     "body": [
       "<WarningIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Warning icon. Decorative by default; supply `label` to promote to",
+    "description": "Warning icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "WaterfallChart": {
@@ -5441,7 +5441,7 @@
     "body": [
       "<WaterfallChart\n  steps={${1:/* steps: WaterfallStep[] */}}\n/>"
     ],
-    "description": "Waterfall chart showing running totals with positive/negative",
+    "description": "Waterfall chart showing running totals with positive/negative contributions.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "WhatsNewPopover": {
@@ -5452,7 +5452,7 @@
     "body": [
       "<WhatsNewPopover\n  version=\"${1:version}\"\n  features={${2:/* features: WhatsNewFeature[] */}}\n/>"
     ],
-    "description": "Popover that announces recent releases / changelog entries. Auto-dismisses",
+    "description": "Popover that announces recent releases / changelog entries.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "WidgetShell": {
@@ -5463,7 +5463,7 @@
     "body": [
       "<WidgetShell />"
     ],
-    "description": "Standardised card-shaped shell for a dashboard widget: header, body,",
+    "description": "Standardised card-shaped shell for a dashboard widget: header, body, optional footer actions.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Wizard": {
@@ -5474,7 +5474,7 @@
     "body": [
       "<Wizard />"
     ],
-    "description": "Multi-step form/workflow container. Compose `Wizard.Step` (one per",
+    "description": "Multi-step form/workflow container.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "XIcon": {
@@ -5485,7 +5485,7 @@
     "body": [
       "<XIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "X icon. Decorative by default; supply `label` to promote to `role=\"img\"`.",
+    "description": "X icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Zoomable": {
@@ -5496,7 +5496,7 @@
     "body": [
       "<Zoomable />"
     ],
-    "description": "Wrapper that makes a child pan + zoomable (pinch / wheel / drag). Emits",
+    "description": "Wrapper that makes a child pan + zoomable (pinch / wheel / drag).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   }
 }

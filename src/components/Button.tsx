@@ -129,7 +129,12 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   );
 });
 ButtonImpl.displayName = "Button";
-/** Memoized leaf — skips re-render when props are referentially stable. */
+/**
+ * Primary interactive button. Four canonical variants (`solid`, `outline`,
+ * `ghost`, `subtle`), three sizes, optional `iconLeft` / `iconRight`, loading
+ * spinner, and polymorphic `asChild` for slot-style composition. Memoized so
+ * re-renders are skipped when props are referentially stable.
+ */
 export const Button = memo(ButtonImpl);
 (Button as unknown as { displayName: string }).displayName = "Button";
 
