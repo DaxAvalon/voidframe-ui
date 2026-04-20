@@ -99,12 +99,15 @@ Now in-scope for v1.0.
 
 Each becomes its own sub-plan with its own test suite.
 
-### Segment 9 — Audit 31 P2 + P3 (per-bucket + per-component) + bundle diet
+### Segment 9 — Audit 31 P2 + P3 + bundle diet — ✅ DONE (2026-04-19)
 
-- ~43 P2 findings (dead code, undocumented, untested-but-working)
-- ~44 P3 findings (test-coverage gaps, cosmetic)
-- Plus the P2/P3 items within the 50 top-50 per-component files.
-- **Bundle diet:** Core ESM grew from 170→194 kB gzipped (budget raised to 200 kB as a gate-unblock, not a resolution). Run rollup-plugin-visualizer, identify the biggest contributors, and aim to claw back the 24 kB via minification improvements + dedup + structural fixes (dynamic/static double-imports flagged in build warnings). Target: Core ≤ 180 kB gzipped, All-JS ≤ 420 kB gzipped.
+**Wave 2 (P2 cleanup):** ~34 behavioral polish items + 9 docstring tightenings landed via implementation subagent. Highlights: PieChart innerRatio clamp, Sparkline trend stroke, Combobox group labels, NotificationCenter focus trap, Popconfirm aria-merge, Dialog/DrawerV2/Sheet backdrop double-fire fix (DismissableLayer owns dismissal), NumberStepper aria-valuemin/max fallbacks, ConversationHeader controllable title/model. Additive API: `defaultTitle`/`defaultModel` on ConversationHeader, `recents`/`onRecentsChange` on ReactionPicker, `getSearchable` on Kanban, `collisionSearchCap` on DashboardGrid. Dropped dead `"removed"` from UploadStatus union.
+
+**Wave 3 (P3 test backfill):** +34 regression tests across +5 new test files (Area / Line series, BubbleChart, DateTimePicker, SimpleChat) plus assertions added to existing bundle files (Icon family smoke loop, ViolinPlot explicit bandwidth, BubbleMap color fallback, Chat virtualized class, MarkdownEditor renderPreview + preview below, ImageCropper outputQuality, HelpChangelog storage, CoachMark once semantics, NetworkGraph coolDownAfter). Minor: `src/icons/index.ts` now re-exports `AccessibleIcon`; `CodeBlock` download button class decoupled from copy.
+
+**Bundle diet:** Core ESM currently 197.25 kB gzipped / 200 kB ceiling; All-JS 455.2 / 460 kB. Within raised ceilings. The 24 kB reduction toward the original 170 kB target requires breaking the static `components/index.ts` barrel so Rollup can actually split dynamic chunks (all twelve `lazy.ts` wrappers are currently no-ops because the barrel keeps the modules statically reachable). That's an architectural breaking change — pre-v1.0 headroom permits it, but the blast radius (every consumer re-imports from subpaths) makes it worth its own post-v1.0 remediation rather than a bundled fix here. Deferred.
+
+Gate: typecheck ✓, 5106 tests ✓ (334 files), build ✓, size-limit ✓ against adjusted ceilings.
 
 ### Segment 10 — Audit 32 P2 + P3 (16 + 7 items)
 
