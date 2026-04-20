@@ -66,7 +66,9 @@ Executed Wave 1 of `plans/audits/31-remediation.md` as a single batch via implem
 
 Gate: typecheck ✓, 5052 tests ✓ (327 files), build ✓, size-limit ✓ (All-JS 452 KB / 460 KB ceiling).
 
-### Segment 5 — Audit 32 P0 + P1 (12 + 24 items)
+### Segment 5 — Audit 32 P0 + P1 (12 + 24 items) — ✅ DONE (2026-04-19)
+
+Executed all P0/P1 items from `plans/audits/32-remediation.md` except §4 (TSDoc — Segment 6) and §1.6 (package rename — post-publish). README prose fixes, CHANGELOG `[1.0.0]` promotion consolidating phases 1-28 + 29-35 + 40-47 + 50-54 + framework expansion + Segments 1-4, docs-site a11y blurb + migration entry + Contributing section, VS Code repo URL + doctor peer-check + codemod unknown-transform message + require-a11y-label ESLint wording, accessible-name warning unification across Form primitives, 2 direct `console.warn` sites routed through `warnOnce()`. §7 P2/P3 batch: 1 smart-quote fix; 4 items deferred (TSDoc belongs to Segment 6, Chat Quickstart dup intentional per audit, brand-capitalisation already compliant, snippet-generator rewrite substantive). Gate: typecheck ✓, 5052 tests ✓, build ✓.
 
 - README: fix component count, theme count, bundle budgets, test-count drift (use audit 32's ready-to-paste prose in `32-remediation.md`).
 - Docs site: a11y-audit page blurb, Migration guide placeholder.
