@@ -14,7 +14,14 @@ import {
 } from "react";
 import { cx } from "../utils/cx";
 import { safeHref } from "../utils/safeHref";
+import { warnOnce } from "../utils/warn";
 import { Label } from "./Text";
+
+function sandboxEscapesOrigin(sandbox: string | undefined): boolean {
+  if (!sandbox) return false;
+  const tokens = new Set(sandbox.trim().split(/\s+/));
+  return tokens.has("allow-scripts") && tokens.has("allow-same-origin");
+}
 
 // ── IFrame ──────────────────────────────────────────────────
 
@@ -41,6 +48,12 @@ export const IFrame = forwardRef<HTMLIFrameElement, IFrameProps>(function IFrame
   },
   ref
 ) {
+  if (sandboxEscapesOrigin(sandbox)) {
+    warnOnce(
+      `IFrame:sandbox-escape:${sandbox}`,
+      `<IFrame> sandbox="${sandbox}" grants the embedded document full host privileges (allow-scripts + allow-same-origin defeats the sandbox). Remove one of the two tokens unless you fully trust the frame source.`
+    );
+  }
   const merged: CSSProperties = {
     width: "100%",
     border: "none",
@@ -50,7 +63,7 @@ export const IFrame = forwardRef<HTMLIFrameElement, IFrameProps>(function IFrame
   return (
     <iframe
       ref={ref}
-      src={src}
+      src={safeHref(src)}
       title={title}
       sandbox={sandbox}
       loading={loading}

@@ -15,6 +15,7 @@ import {
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 
 // ── Types ────────────────────────────────────────────────────
 
@@ -176,7 +177,7 @@ const AnchorBase = forwardRef<HTMLElement, AnchorProps>(function Anchor(
               />
             )}
             <a
-              href={item.href}
+              href={safeHref(item.href)}
               className={cx(
                 "vf-anchor__link",
                 isActive && "vf-anchor__link--active",

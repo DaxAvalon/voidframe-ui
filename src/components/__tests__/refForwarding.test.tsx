@@ -135,20 +135,16 @@ describe("Components — forwardRef + displayName invariants", () => {
     [
       "Pagination",
       Components.Pagination,
-      { page: 1, total: 5, onChange: () => {} },
+      { value: 1, totalPages: 5, onValueChange: () => {} },
       HTMLElement,
     ],
-    ["Stepper", Components.Stepper, { steps: ["a"], current: 0 }, HTMLDivElement],
+    ["Stepper", Components.Stepper, { steps: ["a"], current: 0 }, HTMLOListElement],
     ["NavItem", Components.NavItem, { children: "x" }, HTMLDivElement],
     ["NavGroup", Components.NavGroup, { title: "X" }, HTMLDivElement],
     [
       "Tabs",
       Components.Tabs,
-      {
-        tabs: [{ key: "a", label: "A" }],
-        active: "a",
-        onChange: () => {},
-      },
+      { defaultValue: "a" },
       HTMLDivElement,
     ],
     [

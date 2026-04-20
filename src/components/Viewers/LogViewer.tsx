@@ -14,6 +14,10 @@ import { cx } from "../../utils/cx";
 
 // ── LogViewer ────────────────────────────────────────────────
 
+// Catastrophic-backtracking self-DoS guard for user-typed filter/highlight
+// patterns. LogViewer compiles on every keystroke across every log row.
+const MAX_FILTER_PATTERN_LENGTH = 200;
+
 export type LogLevel = "info" | "warn" | "error" | "debug";
 
 export interface LogEntry {
@@ -98,9 +102,12 @@ export const LogViewer = forwardRef<HTMLDivElement, LogViewerProps>(
       setDisplayEntries(lastEntriesRef.current);
     };
 
-    // Build regex filter.
+    // Build regex filter. Cap user-typed pattern length as a
+    // catastrophic-backtracking self-DoS guard — the filter compiles on every
+    // keystroke against every visible log line.
     const filterRegex = useMemo(() => {
       if (!filterText) return null;
+      if (filterText.length > MAX_FILTER_PATTERN_LENGTH) return null;
       try { return new RegExp(filterText, "i"); } catch { return null; }
     }, [filterText]);
 

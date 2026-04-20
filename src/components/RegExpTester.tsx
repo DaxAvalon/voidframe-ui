@@ -25,6 +25,13 @@ export interface RegExpTesterProps
 
 const FLAG_OPTIONS = ["g", "i", "m", "s"] as const;
 
+// Guardrails against catastrophic-backtracking self-DoS. RegExpTester
+// compiles user-typed patterns against user-typed strings on every keystroke;
+// a single `(a+)+$` + long input can freeze the tab. Caps are generous enough
+// to cover real-world regexes and test payloads.
+const MAX_PATTERN_LENGTH = 200;
+const MAX_TEST_STRING_LENGTH = 100_000;
+
 interface MatchResult {
   match: string;
   index: number;
@@ -34,6 +41,8 @@ interface MatchResult {
 
 function getMatches(pattern: string, flags: string, text: string): MatchResult[] {
   if (!pattern) return [];
+  if (pattern.length > MAX_PATTERN_LENGTH) return [];
+  if (text.length > MAX_TEST_STRING_LENGTH) return [];
   const results: MatchResult[] = [];
   try {
     const effectiveFlags = flags.includes("g") ? flags : flags + "g";
@@ -56,6 +65,9 @@ function getMatches(pattern: string, flags: string, text: string): MatchResult[]
 
 function getError(pattern: string, flags: string): string | null {
   if (!pattern) return null;
+  if (pattern.length > MAX_PATTERN_LENGTH) {
+    return `Pattern exceeds ${MAX_PATTERN_LENGTH}-char limit (${pattern.length})`;
+  }
   try {
     new RegExp(pattern, flags);
     return null;
