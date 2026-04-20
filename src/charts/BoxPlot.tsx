@@ -248,6 +248,27 @@ function BoxPlotInner({
         const color = group.color ?? palette[i]!;
         const boxTop = y(s.q3);
         const boxBottom = y(s.q1);
+        // Empty group: nothing to summarize — render a muted "no data" glyph
+        // at the group's horizontal position so the axis still aligns.
+        if (group.values.length === 0) {
+          return (
+            <g
+              key={group.key}
+              className="vf-chart-boxplot__empty"
+              aria-label={`${group.label ?? group.key}: no data`}
+            >
+              <text
+                x={mid}
+                y={innerHeight / 2}
+                textAnchor="middle"
+                fill="var(--vf-text-2)"
+                fontSize={10}
+              >
+                no data
+              </text>
+            </g>
+          );
+        }
         return (
           <g
             key={group.key}

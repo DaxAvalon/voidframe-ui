@@ -5,7 +5,9 @@ import {
   forwardRef,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type HTMLAttributes,
 } from "react";
@@ -131,12 +133,14 @@ function JSONNode({
   const initialOpen = expandedPaths !== null ? expandedPaths.has(path) : naturalDefault;
   const [open, setOpen] = useState(initialOpen);
   // Sync with context changes from expand/collapse all.
-  const [lastGen, setLastGen] = useState(generation);
-  if (generation !== lastGen) {
-    setLastGen(generation);
-    const next = expandedPaths !== null ? expandedPaths.has(path) : naturalDefault;
-    if (next !== open) setOpen(next);
-  }
+  const lastGenRef = useRef(generation);
+  useEffect(() => {
+    if (generation !== lastGenRef.current) {
+      lastGenRef.current = generation;
+      const next = expandedPaths !== null ? expandedPaths.has(path) : naturalDefault;
+      setOpen(next);
+    }
+  }, [generation, expandedPaths, path, naturalDefault]);
 
   const isArray = Array.isArray(value);
   const isObject = value !== null && typeof value === "object";

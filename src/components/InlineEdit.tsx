@@ -7,6 +7,13 @@ import { cx } from "../utils/cx";
 export interface InlineEditProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onSubmit"> {
   value: string;
+  /**
+   * Called with the committed draft after validation passes. The parent is
+   * expected to propagate the change back into `value`; InlineEdit treats
+   * `value` as authoritative for the display state, so if the upstream state
+   * update lags (async/rejected), the displayed value may briefly trail the
+   * value the user just typed.
+   */
   onSave: (value: string) => void;
   onCancel?: () => void;
   placeholder?: string;
@@ -71,6 +78,12 @@ const InlineEditImpl = forwardRef<HTMLDivElement, InlineEditProps>(
     };
 
     const save = () => {
+      // Guard: if the component was flipped to disabled/readOnly mid-edit,
+      // treat submit (blur/enter) as a cancel rather than committing stale data.
+      if (disabled || readOnly) {
+        cancel();
+        return;
+      }
       if (validation) {
         const result = validation(draft);
         if (result) {

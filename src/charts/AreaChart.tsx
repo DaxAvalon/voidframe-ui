@@ -247,7 +247,7 @@ function AreaChartInner({
 }: AreaChartInnerProps) {
   const { innerWidth, innerHeight } = useChart();
   const [crosshair, setCrosshair] = useState<number | null>(null);
-  const xValuesRaw = data.map((d) => d.x);
+  const xValuesRaw = useMemo(() => data.map((d) => d.x), [data]);
 
   const xScale = useMemo(() => {
     if (xKind === "time") {

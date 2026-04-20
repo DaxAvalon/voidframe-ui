@@ -53,20 +53,14 @@ export const CommitGraph = forwardRef<HTMLDivElement, CommitGraphProps>(
         {commits.map((commit, i) => {
           const isLast = i === commits.length - 1;
           const isActive = activeId === commit.id;
-          return (
-            <button
-              key={commit.id}
-              type="button"
-              role="listitem"
-              aria-current={isActive ? "true" : undefined}
-              className={cx(
-                "vf-commit-graph__row",
-                isActive && "vf-commit-graph__row--active",
-                commit.tone && `vf-commit-graph__row--${commit.tone}`
-              )}
-              onClick={() => onCommitClick?.(commit.id)}
-              disabled={!onCommitClick}
-            >
+          const interactive = !!onCommitClick;
+          const commonClassName = cx(
+            "vf-commit-graph__row",
+            isActive && "vf-commit-graph__row--active",
+            commit.tone && `vf-commit-graph__row--${commit.tone}`
+          );
+          const inner = (
+            <>
               <span className="vf-commit-graph__rail" aria-hidden="true">
                 <span className="vf-commit-graph__node">●</span>
                 {!isLast && <span className="vf-commit-graph__line">│</span>}
@@ -96,7 +90,30 @@ export const CommitGraph = forwardRef<HTMLDivElement, CommitGraphProps>(
                   </span>
                 )}
               </span>
+            </>
+          );
+          // When there is no click callback, skip the <button> shell: a
+          // disabled button advertises interactivity the row does not have.
+          return interactive ? (
+            <button
+              key={commit.id}
+              type="button"
+              role="listitem"
+              aria-current={isActive ? "true" : undefined}
+              className={commonClassName}
+              onClick={() => onCommitClick(commit.id)}
+            >
+              {inner}
             </button>
+          ) : (
+            <div
+              key={commit.id}
+              role="listitem"
+              aria-current={isActive ? "true" : undefined}
+              className={commonClassName}
+            >
+              {inner}
+            </div>
           );
         })}
       </div>

@@ -13,6 +13,7 @@
 //   - Enter commits, Escape closes
 
 import {
+  Fragment,
   forwardRef,
   useCallback,
   useEffect,
@@ -277,33 +278,46 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             {filtered.map((opt, idx) => {
               const isHighlighted = idx === highlighted;
               const isSelected = opt.value === current;
+              const prevGroup = idx > 0 ? filtered[idx - 1]!.group : undefined;
+              const showGroupHeader =
+                opt.group !== undefined && opt.group !== prevGroup;
               return (
-                <li
-                  key={opt.value}
-                  id={`${listboxId}-${opt.value}`}
-                  role="option"
-                  aria-selected={isSelected}
-                  aria-disabled={opt.disabled || undefined}
-                  className={cx(
-                    "vf-combobox__option",
-                    isHighlighted && "vf-combobox__option--highlighted",
-                    isSelected && "vf-combobox__option--selected",
-                    opt.disabled && "vf-combobox__option--disabled"
+                <Fragment key={opt.value}>
+                  {showGroupHeader && (
+                    <li
+                      className="vf-combobox__group-label"
+                      role="presentation"
+                      aria-hidden="true"
+                    >
+                      {opt.group}
+                    </li>
                   )}
-                  onMouseDown={(e) => {
-                    // Prevent blur-close before the click commits.
-                    e.preventDefault();
-                    commit(opt);
-                  }}
-                  onMouseEnter={() => setHighlighted(idx)}
-                >
-                  {renderOption
-                    ? renderOption(opt, {
-                        highlighted: isHighlighted,
-                        selected: isSelected,
-                      })
-                    : opt.label}
-                </li>
+                  <li
+                    id={`${listboxId}-${opt.value}`}
+                    role="option"
+                    aria-selected={isSelected}
+                    aria-disabled={opt.disabled || undefined}
+                    className={cx(
+                      "vf-combobox__option",
+                      isHighlighted && "vf-combobox__option--highlighted",
+                      isSelected && "vf-combobox__option--selected",
+                      opt.disabled && "vf-combobox__option--disabled"
+                    )}
+                    onMouseDown={(e) => {
+                      // Prevent blur-close before the click commits.
+                      e.preventDefault();
+                      commit(opt);
+                    }}
+                    onMouseEnter={() => setHighlighted(idx)}
+                  >
+                    {renderOption
+                      ? renderOption(opt, {
+                          highlighted: isHighlighted,
+                          selected: isSelected,
+                        })
+                      : opt.label}
+                  </li>
+                </Fragment>
               );
             })}
           </ul>
@@ -517,30 +531,43 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
               const isHighlighted = idx === highlighted;
               const isSelected = current.includes(opt.value);
               const atCap = !!maxSelected && current.length >= maxSelected && !isSelected;
+              const prevGroup = idx > 0 ? filtered[idx - 1]!.group : undefined;
+              const showGroupHeader =
+                opt.group !== undefined && opt.group !== prevGroup;
               return (
-                <li
-                  key={opt.value}
-                  id={`${listboxId}-${opt.value}`}
-                  role="option"
-                  aria-selected={isSelected}
-                  aria-disabled={(opt.disabled || atCap) || undefined}
-                  className={cx(
-                    "vf-combobox__option",
-                    isHighlighted && "vf-combobox__option--highlighted",
-                    isSelected && "vf-combobox__option--selected",
-                    (opt.disabled || atCap) && "vf-combobox__option--disabled"
+                <Fragment key={opt.value}>
+                  {showGroupHeader && (
+                    <li
+                      className="vf-combobox__group-label"
+                      role="presentation"
+                      aria-hidden="true"
+                    >
+                      {opt.group}
+                    </li>
                   )}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    if (!atCap) toggle(opt);
-                  }}
-                  onMouseEnter={() => setHighlighted(idx)}
-                >
-                  <span className="vf-combobox__check" aria-hidden="true">
-                    {isSelected ? "✓" : ""}
-                  </span>
-                  {opt.label}
-                </li>
+                  <li
+                    id={`${listboxId}-${opt.value}`}
+                    role="option"
+                    aria-selected={isSelected}
+                    aria-disabled={(opt.disabled || atCap) || undefined}
+                    className={cx(
+                      "vf-combobox__option",
+                      isHighlighted && "vf-combobox__option--highlighted",
+                      isSelected && "vf-combobox__option--selected",
+                      (opt.disabled || atCap) && "vf-combobox__option--disabled"
+                    )}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      if (!atCap) toggle(opt);
+                    }}
+                    onMouseEnter={() => setHighlighted(idx)}
+                  >
+                    <span className="vf-combobox__check" aria-hidden="true">
+                      {isSelected ? "✓" : ""}
+                    </span>
+                    {opt.label}
+                  </li>
+                </Fragment>
               );
             })}
           </ul>

@@ -236,6 +236,14 @@ export interface ReactionPickerProps extends HTMLAttributes<HTMLDivElement> {
   onReact: (id: string) => void;
   /** Show recent picks (persisted in component state). */
   recent?: boolean;
+  /**
+   * Hydrate the recents list from outside the component (e.g. a persisted
+   * store). When provided, the component treats recents as controlled and
+   * will not mutate local state — instead it emits `onRecentsChange`.
+   */
+  recents?: string[];
+  /** Fired whenever the recents list changes (controlled or uncontrolled). */
+  onRecentsChange?: (next: string[]) => void;
   /** Render as a grid (vs. row). */
   grid?: boolean;
   /** Number of recent reactions to remember. Default 5. */
@@ -247,17 +255,33 @@ export interface ReactionPickerProps extends HTMLAttributes<HTMLDivElement> {
  */
 export const ReactionPicker = forwardRef<HTMLDivElement, ReactionPickerProps>(
   function ReactionPicker(
-    { reactions, onReact, recent, grid, recentCount = 5, className, ...props },
+    {
+      reactions,
+      onReact,
+      recent,
+      recents: controlledRecents,
+      onRecentsChange,
+      grid,
+      recentCount = 5,
+      className,
+      ...props
+    },
     ref
   ) {
-    const [recents, setRecents] = useState<string[]>([]);
+    const [internalRecents, setInternalRecents] = useState<string[]>(
+      controlledRecents ?? []
+    );
+    const isRecentsControlled = controlledRecents !== undefined;
+    const recents = isRecentsControlled
+      ? (controlledRecents as string[])
+      : internalRecents;
     const pick = (id: string) => {
       onReact(id);
       if (recent) {
-        setRecents((prev) => {
-          const without = prev.filter((x) => x !== id);
-          return [id, ...without].slice(0, recentCount);
-        });
+        const without = recents.filter((x) => x !== id);
+        const next = [id, ...without].slice(0, recentCount);
+        if (!isRecentsControlled) setInternalRecents(next);
+        onRecentsChange?.(next);
       }
     };
     const recentIds = new Set(recents);

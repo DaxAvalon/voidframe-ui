@@ -165,7 +165,7 @@ describe("Dialog.Content portal", () => {
     expect(panel).toBeInTheDocument();
   });
 
-  it("clicking the backdrop closes the dialog", () => {
+  it("clicking the backdrop closes the dialog (routed through DismissableLayer)", () => {
     const onOpenChange = vi.fn();
     renderWithTheme(
       <Dialog defaultOpen onOpenChange={onOpenChange}>
@@ -178,7 +178,9 @@ describe("Dialog.Content portal", () => {
       ".vf-dialog__backdrop"
     ) as HTMLElement;
     expect(backdrop).toBeInTheDocument();
-    fireEvent.click(backdrop);
+    // Dismissal is now routed via DismissableLayer.onPointerDownOutside —
+    // a pointerdown on the backdrop (outside the panel) is what fires it.
+    fireEvent.pointerDown(backdrop);
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });
 });

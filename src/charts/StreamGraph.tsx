@@ -58,6 +58,12 @@ export interface StreamGraphProps
   showLegend?: boolean;
   accessibleLabel?: string;
   valueFormat?: (v: number) => string;
+  /**
+   * Formatter for the hovered x tick. When omitted, Date-typed values fall
+   * back to `Date.prototype.toDateString()` (e.g. "Tue Jan 02 2024") and
+   * number/string values are stringified. Provide `xFormat` for locale- or
+   * time-aware display (see `Intl.DateTimeFormat`).
+   */
   xFormat?: (v: number | Date | string) => string;
 }
 

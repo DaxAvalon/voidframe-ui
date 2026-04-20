@@ -184,6 +184,14 @@ export interface DashboardGridProps
   /** Empty columns to the right of the furthest card when growing
    * horizontally. Default 4. */
   autoPaddingCols?: number;
+  /**
+   * Upper bound on the number of candidate cells the collision-avoidance
+   * search will evaluate before bailing out. Default 4000 — enough for
+   * grids up to ~60×60 sub-cells. Raise this if you have a very dense,
+   * large canvas and are seeing drop targets snap to arbitrary positions;
+   * lower it to cap worst-case CPU on pathological layouts.
+   */
+  collisionSearchCap?: number;
 }
 
 interface MoveDragState {
@@ -244,7 +252,8 @@ function findNearestEmpty(
   h: number,
   others: Array<{ x: number; y: number; w: number; h: number }>,
   cols: number,
-  rowsLimit: number
+  rowsLimit: number,
+  searchCap = 4000
 ): { x: number; y: number } {
   const fits = (cx: number, cy: number) => {
     if (cx < 0 || cy < 0) return false;
@@ -276,7 +285,7 @@ function findNearestEmpty(
       if (fits(nx, ny)) return { x: nx, y: ny };
       queue.push([nx, ny]);
     }
-    if (seen.size > 4000) break; // hard cap so we never spin
+    if (seen.size > searchCap) break; // hard cap so we never spin
   }
   // Fallback: clamp into bounds even if it overlaps (shouldn't happen
   // unless the canvas is impossibly full).
@@ -308,6 +317,7 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       bounds = "auto",
       autoPaddingRows = 4,
       autoPaddingCols = 4,
+      collisionSearchCap = 4000,
       className,
       style,
       ...props
@@ -417,7 +427,8 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
         movingItem.h,
         others,
         colsLimit,
-        rowsLimit
+        rowsLimit,
+        collisionSearchCap
       );
       return { x: snap.x, y: snap.y, swapTargetId: null };
     }, [moving, movingItem, pointer, items, cellStep, colsLimit, rowsLimit, subToPx]);

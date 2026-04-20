@@ -9,6 +9,7 @@ import {
   type HTMLAttributes,
   type ReactNode,
 } from "react";
+import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
 
 // ── Session types ───────────────────────────────────────────
@@ -302,8 +303,12 @@ function groupSessions(
 export interface ConversationHeaderProps
   extends Omit<HTMLAttributes<HTMLElement>, "onChange" | "title"> {
   title?: ReactNode;
+  /** Uncontrolled initial title. */
+  defaultTitle?: string;
   onTitleChange?: (next: string) => void;
   model?: ReactNode;
+  /** Uncontrolled initial model. */
+  defaultModel?: string;
   onModelChange?: (next: string) => void;
   tokens?: ReactNode;
   cost?: ReactNode;
@@ -321,8 +326,10 @@ export const ConversationHeader = forwardRef<
 >(function ConversationHeader(
   {
     title,
+    defaultTitle,
     onTitleChange,
     model,
+    defaultModel,
     onModelChange,
     tokens,
     cost,
@@ -333,35 +340,52 @@ export const ConversationHeader = forwardRef<
   },
   ref
 ) {
+  // Route `title` through useControllableState so callers can pass either a
+  // controlled `title` or an uncontrolled `defaultTitle` and still get a live
+  // in-place edit experience.
+  const [currentTitle, setCurrentTitle] = useControllableState<string>({
+    value: typeof title === "string" ? title : undefined,
+    defaultValue: defaultTitle ?? "",
+    onChange: onTitleChange,
+    componentName: "ConversationHeader",
+  });
+  const displayTitle: ReactNode =
+    typeof title === "string" || title === undefined ? currentTitle : title;
+
   const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState(typeof title === "string" ? title : "");
+  const [draft, setDraft] = useState(currentTitle);
 
   const beginEdit = () => {
-    if (!onTitleChange) return;
-    setDraft(typeof title === "string" ? title : "");
+    if (!onTitleChange && title !== undefined) return;
+    setDraft(currentTitle);
     setEditing(true);
   };
   const commit = () => {
-    if (onTitleChange) onTitleChange(draft);
+    setCurrentTitle(draft);
     setEditing(false);
   };
 
   // Model edit flow — mirrors title flow but only when `model` is a string
   // (if it's a complex ReactNode the caller is responsible for rendering
   // their own edit affordance; we don't know how to serialize it).
+  const modelIsString = typeof model === "string" || model === undefined;
+  const [currentModel, setCurrentModel] = useControllableState<string>({
+    value: typeof model === "string" ? model : undefined,
+    defaultValue: defaultModel ?? "",
+    onChange: onModelChange,
+    componentName: "ConversationHeader.model",
+  });
   const modelEditable =
-    typeof model === "string" && typeof onModelChange === "function";
+    modelIsString && typeof onModelChange === "function";
   const [editingModel, setEditingModel] = useState(false);
-  const [modelDraft, setModelDraft] = useState(
-    typeof model === "string" ? model : ""
-  );
+  const [modelDraft, setModelDraft] = useState(currentModel);
   const beginModelEdit = () => {
     if (!modelEditable) return;
-    setModelDraft(typeof model === "string" ? model : "");
+    setModelDraft(currentModel);
     setEditingModel(true);
   };
   const commitModel = () => {
-    if (onModelChange) onModelChange(modelDraft);
+    setCurrentModel(modelDraft);
     setEditingModel(false);
   };
 
@@ -400,7 +424,7 @@ export const ConversationHeader = forwardRef<
             aria-label={onTitleChange ? "Rename conversation" : undefined}
             disabled={!onTitleChange}
           >
-            {title ?? "Untitled"}
+            {displayTitle || "Untitled"}
           </button>
         )}
         {status && (
@@ -408,7 +432,7 @@ export const ConversationHeader = forwardRef<
         )}
       </div>
       <div className="vf-conversation-header__meta">
-        {model && (
+        {(model || currentModel) && (
           editingModel && modelEditable ? (
             <input
               type="text"
@@ -436,10 +460,12 @@ export const ConversationHeader = forwardRef<
               onClick={beginModelEdit}
               aria-label="Change model"
             >
-              {model}
+              {modelIsString ? currentModel : model}
             </button>
           ) : (
-            <span className="vf-conversation-header__model">{model}</span>
+            <span className="vf-conversation-header__model">
+              {modelIsString ? currentModel : model}
+            </span>
           )
         )}
         {tokens && (

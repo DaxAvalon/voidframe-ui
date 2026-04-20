@@ -27,8 +27,7 @@ export type UploadStatus =
   | "queued"
   | "uploading"
   | "success"
-  | "error"
-  | "removed";
+  | "error";
 
 export interface UploadItem {
   id: string;
@@ -215,8 +214,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
         }
 
         setItems((prev) => {
-          const active = prev.filter((it) => it.status !== "removed");
-          const merged = multiple ? [...active, ...validated] : validated;
+          const merged = multiple ? [...prev, ...validated] : validated;
           if (maxFiles && merged.length > maxFiles) {
             const overflow = merged.slice(maxFiles).map<UploadItem>((it) => ({
               ...it,

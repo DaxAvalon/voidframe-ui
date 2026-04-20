@@ -204,14 +204,18 @@ export const MentionInput = forwardRef<HTMLDivElement, MentionInputProps>(
         const mentionText = renderMention(opt);
         const before = liveText.slice(0, startIdx);
         const after = liveText.slice(caret);
-        const next = before + mentionText + " " + after;
+        // Skip the trailing space when the command opts out of inserting a
+        // token (e.g. slash-command mode emits ""): inserting " " would leave
+        // an orphan space at the caret.
+        const trailing = mentionText === "" ? "" : " ";
+        const next = before + mentionText + trailing + after;
         setText(next);
         triggerIdxRef.current = null;
         setQuery(null);
         onMention?.(opt, { text: liveText, triggerIndex: startIdx, caret });
         // Reposition caret just after the inserted mention.
         requestAnimationFrame(() => {
-          const pos = before.length + mentionText.length + 1;
+          const pos = before.length + mentionText.length + trailing.length;
           ta.focus();
           ta.selectionStart = ta.selectionEnd = pos;
         });

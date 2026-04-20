@@ -154,21 +154,30 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
       };
     }, [isOpen, placement]);
 
-    // Clone trigger to attach click handler
+    // Clone trigger to attach click handler. Respect caller-provided
+    // `aria-haspopup` / `aria-expanded` — only fill them in when absent so
+    // consumers that manage those semantics themselves aren't silently
+    // overwritten.
     const trigger = isValidElement(children)
-      ? cloneElement(children as ReactElement<Record<string, unknown>>, {
-          onClick: (e: React.MouseEvent) => {
-            handleTriggerClick();
-            const childOnClick = (
-              children as ReactElement<Record<string, unknown>>
-            ).props.onClick as
-              | ((e: React.MouseEvent) => void)
-              | undefined;
-            childOnClick?.(e);
-          },
-          "aria-haspopup": "dialog",
-          "aria-expanded": isOpen,
-        })
+      ? (() => {
+          const childProps = (children as ReactElement<Record<string, unknown>>)
+            .props as Record<string, unknown>;
+          const ariaHaspopup =
+            "aria-haspopup" in childProps ? childProps["aria-haspopup"] : "dialog";
+          const ariaExpanded =
+            "aria-expanded" in childProps ? childProps["aria-expanded"] : isOpen;
+          return cloneElement(children as ReactElement<Record<string, unknown>>, {
+            onClick: (e: React.MouseEvent) => {
+              handleTriggerClick();
+              const childOnClick = childProps.onClick as
+                | ((e: React.MouseEvent) => void)
+                | undefined;
+              childOnClick?.(e);
+            },
+            "aria-haspopup": ariaHaspopup,
+            "aria-expanded": ariaExpanded,
+          });
+        })()
       : children;
 
     return (

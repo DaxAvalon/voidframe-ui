@@ -25,7 +25,11 @@ export interface BrushProps
   onValueChange?: (selection: BrushSelection) => void;
   /** Fires only when the user releases the pointer. */
   onChangeEnd?: (selection: BrushSelection) => void;
-  /** Minimum width of the selection, in px. Default 6. */
+  /**
+   * Minimum width of the selection, in px. Default 6. When the user's
+   * drag-end selection is narrower than `minWidth`, the selection is
+   * cleared (emits `null`) rather than snapping to the minimum.
+   */
   minWidth?: number;
   /** Restrict to the X axis (default) or Y axis. */
   axis?: "x" | "y";

@@ -91,6 +91,18 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
         aria-label={label ?? "Confidence"}
         {...props}
       >
+        {kind === "text-only" && (
+          <span
+            className="vf-confidence-meter__text"
+            style={{ color: zoneColor }}
+          >
+            {formattedValue}
+            {zoneLabel && (
+              <span className="vf-confidence-meter__text-zone">{` · ${zoneLabel}`}</span>
+            )}
+          </span>
+        )}
+
         {kind === "bar" && (
           <div className="vf-confidence-meter__bar">
             <div

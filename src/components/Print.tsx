@@ -91,6 +91,12 @@ export interface PrintButtonProps extends HTMLAttributes<HTMLButtonElement> {
 /**
  * Button that invokes `window.print()` with optional before/after hooks for
  * transient styling.
+ *
+ * Caveat: when a `target` ref is provided, the subtree is serialized via
+ * `outerHTML` into a hidden iframe. Serialization is lossy — canvas bitmaps,
+ * hydrated event listeners, shadow DOM contents, and `<input>` values not
+ * reflected in attributes will not round-trip. For pixel-perfect prints of
+ * dynamic content, take a screenshot via `html2canvas` (or similar) first.
  */
 export const PrintButton = forwardRef<HTMLButtonElement, PrintButtonProps>(
   function PrintButton(

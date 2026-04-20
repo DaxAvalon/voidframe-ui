@@ -77,9 +77,10 @@ const CopyButtonImpl = forwardRef<HTMLButtonElement, CopyButtonProps>(
       <button
         ref={ref}
         type="button"
+        aria-label={copied ? copiedLabel : label}
+        {...props}
         onClick={handleClick}
         aria-disabled={disabled || undefined}
-        aria-label={copied ? copiedLabel : label}
         className={cx(
           "vf-copy-button",
           `vf-copy-button--${variant}`,
@@ -88,7 +89,6 @@ const CopyButtonImpl = forwardRef<HTMLButtonElement, CopyButtonProps>(
           className
         )}
         data-disabled={disabled ? "true" : undefined}
-        {...props}
       >
         <span className="vf-copy-button__icon" aria-hidden="true">
           {copied ? "\u2713" : "\u2398"}

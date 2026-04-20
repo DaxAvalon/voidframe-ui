@@ -50,8 +50,13 @@ export interface ShortcutGuideProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Modal that lists all registered keyboard shortcuts grouped by scope.
+ * Overlay that lists all registered keyboard shortcuts grouped by scope.
  * Populated via `ShortcutProvider`.
+ *
+ * Non-modal by design: the guide is intended as an on-demand reference
+ * (press `?` → peek → dismiss) rather than a task-blocking dialog, so it
+ * does not portal, trap focus, or scroll-lock the page. If you need a
+ * modal cheat-sheet, wrap it in a `<Dialog>` instead.
  */
 export const ShortcutGuide = forwardRef<HTMLDivElement, ShortcutGuideProps>(
   function ShortcutGuide(

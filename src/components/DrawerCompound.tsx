@@ -188,11 +188,9 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
       <div className={cx("vf-drawer-v2", `vf-drawer-v2--${ctx.side}`)}>
         <ScrollLock enabled={ctx.open && ctx.modal} />
         {ctx.modal && (
-          <div
-            className="vf-drawer-v2__backdrop"
-            aria-hidden="true"
-            onClick={() => ctx.setOpen(false)}
-          />
+          // Backdrop is decorative; dismissal routes through
+          // DismissableLayer.onPointerDownOutside to avoid double-firing.
+          <div className="vf-drawer-v2__backdrop" aria-hidden="true" />
         )}
         <DismissableLayer
           onEscapeKeyDown={(e) => {
@@ -424,11 +422,9 @@ function SheetContent({
     <div className="vf-sheet">
       <ScrollLock enabled={ctx.open && ctx.modal} />
       {ctx.modal && (
-        <div
-          className="vf-sheet__backdrop"
-          aria-hidden="true"
-          onClick={() => ctx.setOpen(false)}
-        />
+        // Backdrop is decorative; dismissal routes through
+        // DismissableLayer.onDismiss to avoid double-firing.
+        <div className="vf-sheet__backdrop" aria-hidden="true" />
       )}
       <DismissableLayer onDismiss={() => ctx.setOpen(false)}>
         <FocusScope

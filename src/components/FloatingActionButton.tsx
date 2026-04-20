@@ -95,14 +95,19 @@ const FloatingActionButtonImpl = forwardRef<
     };
   }, [open]);
 
+  // Only apply sub-keys of `offset` that make sense for the current
+  // anchor `position` — e.g. `bottom-right` should not honor `left`.
+  const allowLeft = position === "bottom-left";
+  const allowRight = position === "bottom-right";
+  const allowBottom = true; // all supported positions anchor to bottom
   const composedStyle: CSSProperties = {
-    ...(offset?.bottom !== undefined
+    ...(allowBottom && offset?.bottom !== undefined
       ? { "--vf-fab-bottom": `${offset.bottom}px` }
       : {}),
-    ...(offset?.right !== undefined
+    ...(allowRight && offset?.right !== undefined
       ? { "--vf-fab-right": `${offset.right}px` }
       : {}),
-    ...(offset?.left !== undefined
+    ...(allowLeft && offset?.left !== undefined
       ? { "--vf-fab-left": `${offset.left}px` }
       : {}),
     ...style,

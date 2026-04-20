@@ -51,7 +51,6 @@ export const HelpTooltip = forwardRef<HTMLSpanElement, HelpTooltipProps>(
           type="button"
           className="vf-help-tooltip__trigger"
           aria-label={label}
-          aria-expanded={open}
           tabIndex={0}
         >
           ?

@@ -53,6 +53,26 @@ describe("Axis", () => {
     expect(container.querySelector(".vf-chart-axis__label")).toBeFalsy();
   });
 
+  it("hideLine suppresses the main axis line", () => {
+    const scale = linearScale({ domain: [0, 10], range: [0, 100] });
+    const { container } = renderWithTheme(
+      <ChartFrame width={300} height={200} xScale={scale}>
+        <Axis orientation="bottom" hideLine />
+      </ChartFrame>
+    );
+    expect(container.querySelector(".vf-chart-axis__line")).toBeFalsy();
+  });
+
+  it("hideTickLines suppresses per-tick marks", () => {
+    const scale = linearScale({ domain: [0, 10], range: [0, 100] });
+    const { container } = renderWithTheme(
+      <ChartFrame width={300} height={200} xScale={scale}>
+        <Axis orientation="bottom" hideTickLines />
+      </ChartFrame>
+    );
+    expect(container.querySelector(".vf-chart-axis__tick-line")).toBeFalsy();
+  });
+
   it("autoRotate on a left-oriented axis rotates tick labels when density is high", () => {
     const scale = linearScale({ domain: [0, 20], range: [0, 200] });
     const { container } = renderWithTheme(

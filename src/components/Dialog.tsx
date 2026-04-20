@@ -223,11 +223,9 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
     const inner = (
       <div className="vf-dialog">
         <ScrollLock enabled={ctx.open && modal} />
-        <div
-          className="vf-dialog__backdrop"
-          onClick={() => ctx.setOpen(false)}
-          aria-hidden="true"
-        />
+        {/* Backdrop is purely decorative; dismissal is routed through
+            DismissableLayer.onPointerDownOutside to avoid double-firing. */}
+        <div className="vf-dialog__backdrop" aria-hidden="true" />
         <DismissableLayer
           onEscapeKeyDown={(e) => {
             onEscape?.(e);

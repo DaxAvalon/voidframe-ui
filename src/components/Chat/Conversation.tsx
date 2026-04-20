@@ -179,6 +179,12 @@ export interface MessageListProps extends HTMLAttributes<HTMLDivElement> {
 /**
  * Virtualised scrollable list of `Message`s. Handles auto-scroll-to-bottom
  * and a "new messages" affordance.
+ *
+ * Pinned-state resolution: when nested inside a `<Conversation>` context,
+ * the shared `pinnedToBottom` flag wins — multiple `MessageList`s can share
+ * a single pin-state across the conversation. When rendered standalone, the
+ * list falls back to its own local pinned state tied to its own scroll
+ * container.
  */
 export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
   function MessageList(

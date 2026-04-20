@@ -4,6 +4,7 @@
 
 import {
   forwardRef,
+  useEffect,
   useState,
   type CSSProperties,
   type HTMLAttributes,
@@ -13,6 +14,7 @@ import { cx } from "../utils/cx";
 import { Label } from "./Text";
 import { useClickOutside } from "../hooks";
 import { useMergedRefs } from "../hooks/useMergedRefs";
+import { FocusScope } from "../primitives/FocusScope";
 
 // ── NotificationCenter ──────────────────────────────────────
 
@@ -83,6 +85,18 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
     const [open, setOpen] = useState(false);
     const outsideRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
     const mergedRef = useMergedRefs(ref, outsideRef);
+    // Close on Escape while the dialog is open.
+    useEffect(() => {
+      if (!open) return;
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          e.stopPropagation();
+          setOpen(false);
+        }
+      };
+      document.addEventListener("keydown", onKey);
+      return () => document.removeEventListener("keydown", onKey);
+    }, [open]);
     const unread = unreadCount ?? notifications.filter((n) => !n.read).length;
     const composedStyle = accent
       ? ({ "--vf-accent": accent, ...style } as React.CSSProperties)
@@ -128,7 +142,11 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
           )}
         </button>
         {open && (
-          <div
+          <FocusScope
+            trapped
+            loop
+            autoFocus
+            restoreFocus
             role="dialog"
             aria-label={triggerLabel}
             className="vf-notif-center__panel"
@@ -188,7 +206,7 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
                 </li>
               ))}
             </ul>
-          </div>
+          </FocusScope>
         )}
       </div>
     );

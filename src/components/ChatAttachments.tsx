@@ -375,10 +375,13 @@ export const AudioAttachment = forwardRef<HTMLDivElement, AudioAttachmentProps>(
         )}
         {...props}
       >
-        {(title || duration !== undefined || onDownload || onRemove) && (
+        {(title ||
+          (duration !== undefined && duration > 0) ||
+          onDownload ||
+          onRemove) && (
           <header className="vf-audio-attachment__header">
             {title && <span className="vf-audio-attachment__title">{title}</span>}
-            {duration !== undefined && (
+            {duration !== undefined && duration > 0 && (
               <span className="vf-audio-attachment__duration">
                 {formatDuration(duration)}
               </span>

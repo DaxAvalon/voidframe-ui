@@ -318,12 +318,16 @@ describe("CommitGraph extended", () => {
     expect(screen.getByText("2h ago")).toBeInTheDocument();
   });
 
-  it("disables buttons when no onCommitClick", () => {
+  it("renders a non-interactive div when no onCommitClick is provided", () => {
     renderWithTheme(
       <CommitGraph commits={[{ id: "abc1234", message: "msg" }]} />
     );
-    const btn = document.querySelector(".vf-commit-graph__row") as HTMLButtonElement;
-    expect(btn.disabled).toBe(true);
+    const row = document.querySelector(".vf-commit-graph__row") as HTMLElement;
+    // The disabled-button shell has been dropped: rows without a click
+    // handler are rendered as plain list-item divs instead of disabled
+    // buttons so they don't advertise interactivity.
+    expect(row.tagName).toBe("DIV");
+    expect(row.getAttribute("role")).toBe("listitem");
   });
 });
 

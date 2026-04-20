@@ -162,6 +162,24 @@ describe("Marquee — additional", () => {
     expect(container.querySelector(".vf-marquee--no-loop")).toBeInTheDocument();
   });
 
+  it("ships the no-loop CSS rule that freezes animation iteration", async () => {
+    // We read the CSS file directly (rather than loading it into jsdom) to
+    // prove the rule that backs `loop={false}` still exists; regressions
+    // here would silently let the marquee keep scrolling.
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const css = fs.readFileSync(
+      path.resolve(
+        process.cwd(),
+        "src/css/components/interactive-media.css"
+      ),
+      "utf-8"
+    );
+    expect(css).toMatch(
+      /\.vf-marquee--no-loop[^{]*\{[^}]*animation-iteration-count:\s*1/
+    );
+  });
+
   it("down direction uses y axis + reverse", () => {
     const { container } = renderWithTheme(
       <Marquee direction="down"><span>Text</span></Marquee>

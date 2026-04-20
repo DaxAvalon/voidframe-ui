@@ -49,6 +49,12 @@ export interface KanbanProps extends HTMLAttributes<HTMLDivElement> {
   searchable?: boolean;
   /** Callback for search input changes. When omitted, client-side filtering is used. */
   onSearch?: (query: string) => void;
+  /**
+   * Customize which fields contribute to the built-in client-side search
+   * filter. Return a list of strings to match against. Defaults to
+   * `[title, label]` when they are strings.
+   */
+  getSearchable?: (item: KanbanItem) => string[];
   style?: CSSProperties;
 }
 
@@ -66,6 +72,7 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
     readOnly,
     searchable,
     onSearch,
+    getSearchable,
     className,
     style,
     ...props
@@ -85,11 +92,15 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
     if (!searchable || onSearch || !searchQuery) return items;
     const q = searchQuery.toLowerCase();
     return items.filter((it) => {
-      const title = typeof it.title === "string" ? it.title : "";
-      const label = typeof it.label === "string" ? it.label : "";
-      return title.toLowerCase().includes(q) || label.toLowerCase().includes(q);
+      const fields = getSearchable
+        ? getSearchable(it)
+        : [
+            typeof it.title === "string" ? it.title : "",
+            typeof it.label === "string" ? it.label : "",
+          ];
+      return fields.some((f) => f.toLowerCase().includes(q));
     });
-  }, [items, searchable, onSearch, searchQuery]);
+  }, [items, searchable, onSearch, searchQuery, getSearchable]);
 
   const columnItems = (colId: string) =>
     filteredItems.filter((it) => it.columnId === colId);

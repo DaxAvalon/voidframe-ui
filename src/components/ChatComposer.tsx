@@ -530,6 +530,14 @@ export const ComposerAttachment = forwardRef<
           />
         </span>
       )}
+      {progress === 100 && (
+        <span
+          className="vf-composer-attachment__done"
+          aria-label="Upload complete"
+        >
+          ✓
+        </span>
+      )}
       {onRemove && (
         <button
           type="button"

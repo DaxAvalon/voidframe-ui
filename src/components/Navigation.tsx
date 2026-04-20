@@ -231,6 +231,9 @@ function computePages(
     if (p > 0 && p <= totalPages) set.add(p);
   }
   for (const p of endBoundary) set.add(p);
+  // Ensure the active page is always represented, even when
+  // boundaryCount + siblingCount collapse to zero entries.
+  if (page >= 1 && page <= totalPages) set.add(page);
 
   const sorted = [...set].sort((a, b) => a - b);
   const out: PageEntry[] = [];

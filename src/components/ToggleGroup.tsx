@@ -69,20 +69,6 @@ const ToggleGroupImpl = forwardRef<HTMLDivElement, ToggleGroupProps>(
       }
     };
 
-    const focusItem = (index: number) => {
-      const enabledItems = items.reduce<number[]>((acc, item, i) => {
-        if (!item.disabled && !disabled) acc.push(i);
-        return acc;
-      }, []);
-      if (enabledItems.length === 0) return;
-
-      // Find the enabled item relative to the given index
-      const currentEnabledIdx = enabledItems.indexOf(index);
-      if (currentEnabledIdx !== -1) {
-        itemsRef.current[index]?.focus();
-      }
-    };
-
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
       const focusedEl = document.activeElement;
       const currentIdx = itemsRef.current.findIndex((el) => el === focusedEl);

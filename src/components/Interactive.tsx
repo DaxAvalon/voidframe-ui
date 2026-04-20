@@ -191,11 +191,15 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsList(
     if (nextValue) ctx.setValue(nextValue);
     target.focus();
   };
+  const hasExplicitLabel =
+    (props as Record<string, unknown>)["aria-label"] !== undefined ||
+    (props as Record<string, unknown>)["aria-labelledby"] !== undefined;
   return (
     <div
       ref={ref}
       role="tablist"
       aria-orientation={ctx.orientation}
+      aria-label={hasExplicitLabel ? undefined : "Tabs"}
       className={cx("vf-tabs__list", className)}
       onKeyDown={handleKey}
       {...props}

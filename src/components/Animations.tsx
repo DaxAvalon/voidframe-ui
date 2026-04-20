@@ -127,6 +127,12 @@ export interface TypewriterProps extends HTMLAttributes<HTMLSpanElement> {
   loop?: boolean;
   /** Pause at end before looping (ms). */
   loopDelay?: number;
+  /**
+   * Fires every time the full string finishes typing. When `loop` is true
+   * this fires per cycle (once before each clear + retype), not just the
+   * first completion. Callers that only want the first completion should
+   * gate inside the handler (e.g. a `useRef` sentinel).
+   */
   onComplete?: () => void;
 }
 

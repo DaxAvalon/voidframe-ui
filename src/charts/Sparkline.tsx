@@ -103,9 +103,10 @@ export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
               y1={meanY}
               x2={width}
               y2={meanY}
-              stroke="var(--vf-border-2)"
+              stroke={stroke ?? 'var(--vf-border-2)'}
               strokeWidth={1}
               strokeDasharray="3 3"
+              strokeOpacity={stroke ? 0.5 : 1}
             />
           )}
           <Line

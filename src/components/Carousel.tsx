@@ -6,10 +6,8 @@
 // trackpad inertia "just works"; arrow keys / Prev / Next nudge by one slide.
 
 import {
-  Children,
   createContext,
   forwardRef,
-  isValidElement,
   useCallback,
   useContext,
   useEffect,
@@ -398,8 +396,6 @@ export function CarouselImageGallery({
   kenBurns,
   ...props
 }: CarouselImageProps) {
-  void Children; // silence unused import for tree-shaking guard
-  void isValidElement;
   return (
     <Carousel
       {...props}

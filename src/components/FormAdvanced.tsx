@@ -18,6 +18,7 @@ import { useControllableState } from "../hooks/useControllableState";
 import { useId } from "../hooks/useId";
 import { useMergedRefs } from "../hooks/useMergedRefs";
 import { cx } from "../utils/cx";
+import { warnOnce } from "../utils/warn";
 import { Checkbox } from "./FormExtended";
 import { Toggle, type ToggleProps } from "./Form";
 import { Label } from "./Text";
@@ -571,7 +572,15 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
       if (dedupe && tags.some((t) => t.toLowerCase() === tag.toLowerCase())) return;
       if (validate) {
         const result = validate(tag);
-        if (result === false || typeof result === "string") return;
+        if (result === false || typeof result === "string") {
+          if (typeof result === "string") {
+            warnOnce(
+              `TagInput:validate:${result}`,
+              `<TagInput validate> rejected tag "${tag}": ${result}`
+            );
+          }
+          return;
+        }
       }
       setTags([...tags, tag]);
       setDraft("");
@@ -608,7 +617,15 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
         if (dedupe && next.some((t) => t.toLowerCase() === p.toLowerCase())) continue;
         if (validate) {
           const result = validate(p);
-          if (result === false || typeof result === "string") continue;
+          if (result === false || typeof result === "string") {
+            if (typeof result === "string") {
+              warnOnce(
+                `TagInput:validate:${result}`,
+                `<TagInput validate> rejected tag "${p}": ${result}`
+              );
+            }
+            continue;
+          }
         }
         next.push(p);
       }

@@ -314,7 +314,6 @@ export const StreamingText = forwardRef<HTMLSpanElement, StreamingTextProps>(
     const [rendered, setRendered] = useState(() =>
       speed === "instant" ? text : ""
     );
-    const lastText = useRef(text);
     const lastSpeed = useRef<"instant" | number>(speed);
     const activeRef = useRef(true);
 
@@ -328,7 +327,6 @@ export const StreamingText = forwardRef<HTMLSpanElement, StreamingTextProps>(
     useEffect(() => {
       if (speed === "instant") {
         setRendered(text);
-        lastText.current = text;
         lastSpeed.current = speed;
         return;
       }

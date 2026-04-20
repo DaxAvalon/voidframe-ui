@@ -48,6 +48,12 @@ export interface CandlestickChartProps
   description?: ReactNode;
   valueTicks?: number;
   valueFormat?: (v: number) => string;
+  /**
+   * Preferred tick count on the x axis. Note: the candle chart renders its
+   * x axis on a band scale; band scales emit one tick per category, so this
+   * value is ignored when the chart has category-typed input. Kept for
+   * future compatibility with linear/time x scales.
+   */
   xTicks?: number;
   xFormat?: (v: string) => string;
   accessibleLabel?: string;

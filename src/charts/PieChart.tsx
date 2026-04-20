@@ -96,7 +96,8 @@ function PieChartImpl(
   }, [data]);
 
   const outerR = Math.max(20, size / 2 - 8);
-  const innerR = outerR * innerRatio;
+  const clampedInnerRatio = Math.min(1, Math.max(0, innerRatio));
+  const innerR = outerR * clampedInnerRatio;
 
   const [hover, setHover] = useState<{
     datum: PieChartDatum;

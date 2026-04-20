@@ -169,7 +169,9 @@ describe("DrawerV2", () => {
     const backdrop = document.querySelector(".vf-drawer-v2__backdrop");
     expect(backdrop).toBeInTheDocument();
     expect(backdrop).toHaveAttribute("aria-hidden", "true");
-    fireEvent.click(backdrop!);
+    // Dismissal is now routed via DismissableLayer.onPointerDownOutside —
+    // the backdrop itself is decorative and no longer handles clicks.
+    fireEvent.pointerDown(backdrop!);
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });
 
