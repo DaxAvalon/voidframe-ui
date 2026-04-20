@@ -11,6 +11,7 @@ const rule = {
     type: "suggestion" as const,
     docs: {
       description: "Prefer compound component variants over simple ones",
+      url: "https://voidframe.github.io/ui/eslint-plugin#prefer-compound-pattern",
     },
     messages: {
       preferCompound: "Consider using <{{suggested}}> instead of <{{original}}> for richer accessibility and composition.",

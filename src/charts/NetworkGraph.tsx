@@ -47,6 +47,7 @@ import {
 } from "./math/edges";
 import { loadPeer, MissingPeerDependencyError } from "./peer";
 import { cx } from "../utils/cx";
+import { warnOnce } from "../utils/warn";
 import { useElementSize } from "../hooks/useElementSize";
 
 export interface NetworkNode {
@@ -300,9 +301,10 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
       (node: SimNode) => (e: ReactPointerEvent<SVGElement>) => {
         const sim = simulationRef.current;
         if (!sim) {
-          if (process.env.NODE_ENV !== "production" && !rubberBand) {
-            console.warn(
-              "[voidframe] NetworkGraph: drag is a no-op because the d3-force peer dep is not loaded."
+          if (!rubberBand) {
+            warnOnce(
+              "NetworkGraph:drag-without-d3-force",
+              "NetworkGraph: drag is a no-op because the d3-force peer dep is not loaded."
             );
           }
           return;

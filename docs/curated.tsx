@@ -1695,9 +1695,9 @@ render(<Example />);`,
   return (
     <VStack gap={8}>
       <Pagination
-        page={page}
+        value={page}
         totalPages={10}
-        onChange={setPage}
+        onValueChange={setPage}
         showFirstLast
       />
       <div style={{ fontSize: 12, color: "var(--vf-text-4)" }}>

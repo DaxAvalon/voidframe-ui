@@ -10,6 +10,7 @@ const rule = {
     type: "problem" as const,
     docs: {
       description: "Disallow deprecated component props",
+      url: "https://voidframe.github.io/ui/eslint-plugin#no-deprecated-props",
     },
     messages: {
       deprecated: "Prop '{{prop}}' on <{{component}}>: {{message}}",

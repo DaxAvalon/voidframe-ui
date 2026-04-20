@@ -97,7 +97,7 @@ export interface ToolbarToggleGroupProps extends Omit<HTMLAttributes<HTMLDivElem
   type?: "single" | "multiple";
   value?: ToggleGroupValue;
   defaultValue?: ToggleGroupValue;
-  onChange?: (value: ToggleGroupValue) => void;
+  onValueChange?: (value: ToggleGroupValue) => void;
   children?: ReactNode;
 }
 
@@ -105,7 +105,7 @@ function ToolbarToggleGroup({
   type = "single",
   value,
   defaultValue,
-  onChange,
+  onValueChange,
   children,
   className,
   ...props
@@ -124,7 +124,7 @@ function ToolbarToggleGroup({
       next = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
     }
     if (value === undefined) setInternal(next);
-    onChange?.(next);
+    onValueChange?.(next);
   };
 
   const ctxValue = useMemo<ToolbarToggleContextValue>(

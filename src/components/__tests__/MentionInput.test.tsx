@@ -44,13 +44,13 @@ describe("MentionInput", () => {
   });
 
   it("ArrowDown+Enter inserts the highlighted mention", async () => {
-    const onChange = vi.fn();
+    const onValueChange = vi.fn();
     const onMention = vi.fn();
     renderWithTheme(
       <MentionInput
         label="Message"
         options={people}
-        onChange={onChange}
+        onValueChange={onValueChange}
         onMention={onMention}
       />
     );
@@ -62,8 +62,8 @@ describe("MentionInput", () => {
     const [opt, ctx] = onMention.mock.calls[0]!;
     expect(opt).toEqual(people[0]);
     expect(ctx).toMatchObject({ triggerIndex: expect.any(Number), caret: expect.any(Number), text: expect.any(String) });
-    // Last onChange value should include the inserted mention.
-    const last = onChange.mock.calls.at(-1)![0];
+    // Last onValueChange value should include the inserted mention.
+    const last = onValueChange.mock.calls.at(-1)![0];
     expect(last).toContain("@Alice");
   });
 

@@ -41,7 +41,7 @@ describe("Toolbar", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <Toolbar>
-        <Toolbar.ToggleGroup type="single" onChange={onChange}>
+        <Toolbar.ToggleGroup type="single" onValueChange={onChange}>
           <Toolbar.ToggleItem value="left">L</Toolbar.ToggleItem>
           <Toolbar.ToggleItem value="right">R</Toolbar.ToggleItem>
         </Toolbar.ToggleGroup>
@@ -57,7 +57,7 @@ describe("Toolbar", () => {
     const onChange = vi.fn();
     renderWithTheme(
       <Toolbar>
-        <Toolbar.ToggleGroup type="multiple" onChange={onChange}>
+        <Toolbar.ToggleGroup type="multiple" onValueChange={onChange}>
           <Toolbar.ToggleItem value="b">B</Toolbar.ToggleItem>
           <Toolbar.ToggleItem value="i">I</Toolbar.ToggleItem>
         </Toolbar.ToggleGroup>

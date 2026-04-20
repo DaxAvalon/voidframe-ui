@@ -135,9 +135,9 @@ export interface FieldControlProps {
 }
 
 /**
- * Wraps a single form element (Input, Textarea, Select, etc.) and injects
- * the `id`, `aria-describedby`, `aria-invalid`, `aria-required`, and
- * `disabled` props derived from the surrounding <Field>.
+ * Wires a single form control (Input / Textarea / Select / ...) to the
+ * surrounding `<Field>` — injects `id`, `aria-describedby`, `aria-invalid`,
+ * `aria-required`, and `disabled`.
  */
 export function FieldControl({ children }: FieldControlProps) {
   const ctx = useFieldContext("Field.Control");

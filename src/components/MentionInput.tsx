@@ -97,7 +97,7 @@ export interface MentionInputProps
   options: MentionOption[];
   value?: string;
   defaultValue?: string;
-  onChange?: (text: string) => void;
+  onValueChange?: (text: string) => void;
   /** Emits whenever a mention is inserted. */
   onMention?: (option: MentionOption, context: MentionInputContext) => void;
   label?: string;
@@ -124,7 +124,7 @@ export const MentionInput = forwardRef<HTMLDivElement, MentionInputProps>(
       options,
       value,
       defaultValue,
-      onChange,
+      onValueChange,
       onMention,
       label,
       trigger = "@",
@@ -144,7 +144,7 @@ export const MentionInput = forwardRef<HTMLDivElement, MentionInputProps>(
     const [text, setText] = useControllableState<string>({
       value,
       defaultValue: defaultValue ?? "",
-      onChange,
+      onChange: onValueChange,
       componentName: "MentionInput",
     });
 

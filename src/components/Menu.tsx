@@ -226,6 +226,8 @@ export interface MenuItemProps extends Omit<HTMLAttributes<HTMLDivElement>, "onS
   disabled?: boolean;
   onSelect?: () => void;
   shortcut?: string;
+  /** Render through `<Slot>` and merge menu semantics onto a consumer-provided element (e.g. a router link). */
+  asChild?: boolean;
   children?: ReactNode;
 }
 
@@ -234,7 +236,7 @@ export interface MenuItemProps extends Omit<HTMLAttributes<HTMLDivElement>, "onS
  * trailing shortcut slot.
  */
 const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(function MenuItem(
-  { disabled, onSelect, shortcut, children, className, onKeyDown, ...props },
+  { disabled, onSelect, shortcut, asChild, children, className, onKeyDown, ...props },
   ref
 ) {
   const ctx = useMenu();
@@ -243,28 +245,40 @@ const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(function MenuItem(
     onSelect?.();
     ctx.setOpen(false);
   };
+  const commonProps = {
+    ref,
+    role: "menuitem" as const,
+    tabIndex: disabled ? -1 : 0,
+    "aria-disabled": disabled || undefined,
+    className: cx(
+      "vf-menu__item",
+      disabled && "vf-menu__item--disabled",
+      className
+    ),
+    onClick: activate,
+    onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(e);
+      if (e.defaultPrevented) return;
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        activate();
+      }
+    },
+    ...props,
+  };
+  if (asChild && isValidElement(children)) {
+    const child = children as ReactElement<Record<string, unknown>>;
+    const childProps = child.props as Record<string, unknown>;
+    return cloneElement(child, {
+      ...commonProps,
+      onClick: (e: React.MouseEvent<HTMLElement>) => {
+        (childProps.onClick as ((e: React.MouseEvent<HTMLElement>) => void) | undefined)?.(e);
+        activate();
+      },
+    });
+  }
   return (
-    <div
-      ref={ref}
-      role="menuitem"
-      tabIndex={disabled ? -1 : 0}
-      aria-disabled={disabled || undefined}
-      className={cx(
-        "vf-menu__item",
-        disabled && "vf-menu__item--disabled",
-        className
-      )}
-      onClick={activate}
-      onKeyDown={(e) => {
-        onKeyDown?.(e);
-        if (e.defaultPrevented) return;
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          activate();
-        }
-      }}
-      {...props}
-    >
+    <div {...commonProps}>
       <span className="vf-menu__item-label">{children}</span>
       {shortcut && <span className="vf-menu__item-shortcut">{shortcut}</span>}
     </div>

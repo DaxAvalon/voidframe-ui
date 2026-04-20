@@ -15,6 +15,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { warnOnce } from "../utils/warn";
 
 // ── WidgetShell ─────────────────────────────────────────────
 
@@ -476,11 +477,10 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       (e: ReactPointerEvent<HTMLDivElement>) => {
         if (!movable) return;
         if (!onLayoutChange) {
-          if (process.env.NODE_ENV !== "production") {
-            console.warn(
-              "[voidframe] DashboardGrid: `movable` is enabled but `onLayoutChange` is missing — drag is a no-op."
-            );
-          }
+          warnOnce(
+            "DashboardGrid:movable-without-onLayoutChange",
+            "DashboardGrid: `movable` is enabled but `onLayoutChange` is missing — drag is a no-op."
+          );
           return;
         }
         // Avoid initiating move when the press starts inside the resize

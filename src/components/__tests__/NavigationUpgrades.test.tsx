@@ -156,10 +156,10 @@ describe("Stepper (upgrade)", () => {
     expect(screen.getByText("(optional)")).toBeInTheDocument();
   });
 
-  it("clickable steps fire onChange", async () => {
+  it("clickable steps fire onValueChange", async () => {
     const onChange = vi.fn();
     renderWithTheme(
-      <Stepper current={0} clickable onChange={onChange}>
+      <Stepper current={0} clickable onValueChange={onChange}>
         <Stepper.Step label="A" />
         <Stepper.Step label="B" />
       </Stepper>

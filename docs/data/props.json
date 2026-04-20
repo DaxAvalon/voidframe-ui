@@ -8932,7 +8932,7 @@
   },
   {
     "name": "FieldControl",
-    "description": "Wraps a single form element (Input, Textarea, Select, etc.) and injects\nthe `id`, `aria-describedby`, `aria-invalid`, `aria-required`, and\n`disabled` props derived from the surrounding <Field>.",
+    "description": "Wires a single form control (Input / Textarea / Select / ...) to the\nsurrounding `<Field>` — injects `id`, `aria-describedby`, `aria-invalid`,\n`aria-required`, and `disabled`.",
     "file": "src/components/Field.tsx",
     "props": []
   },
@@ -12812,7 +12812,7 @@
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((text: string) => void)",
         "description": "",
         "required": false
@@ -13051,6 +13051,12 @@
         "name": "shortcut",
         "type": "string",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Render through `<Slot>` and merge menu semantics onto a consumer-provided element (e.g. a router link).",
         "required": false
       }
     ]
@@ -16971,9 +16977,9 @@
         "required": true
       },
       {
-        "name": "onReact",
+        "name": "onPick",
         "type": "(id: string) => void",
-        "description": "",
+        "description": "Fires with the picked `Reaction.id` (not an emoji). Distinct from\n`ReactionBar.onReact`, which emits the emoji character directly.",
         "required": true
       },
       {
@@ -19642,12 +19648,6 @@
         "required": false
       },
       {
-        "name": "onChange",
-        "type": "((text: string) => void)",
-        "description": "",
-        "required": false
-      },
-      {
         "name": "defaultValue",
         "type": "string",
         "description": "",
@@ -19662,6 +19662,12 @@
       {
         "name": "value",
         "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((text: string) => void)",
         "description": "",
         "required": false
       },
@@ -20762,7 +20768,7 @@
   },
   {
     "name": "Stepper",
-    "description": "Linear step indicator rendered as an `ol` with completed / active /\nupcoming states. Dual API: pass a `steps` string array or compose\n`Stepper.Step` children (with `label`, `description`, `optional`).\n`numbered` or `dotted` variant; `horizontal` or `vertical` orientation;\nset `clickable` to wire `onChange(index)`.",
+    "description": "Linear step indicator rendered as an `ol` with completed / active /\nupcoming states. Dual API: pass a `steps` string array or compose\n`Stepper.Step` children (with `label`, `description`, `optional`).\n`numbered` or `dotted` variant; `horizontal` or `vertical` orientation;\nset `clickable` to wire `onValueChange(index)`.",
     "file": "src/components/Navigation.tsx",
     "props": [
       {
@@ -20794,11 +20800,11 @@
       {
         "name": "clickable",
         "type": "boolean",
-        "description": "When true, clicking a step index fires onChange.",
+        "description": "When true, clicking a step index fires onValueChange.",
         "required": false
       },
       {
-        "name": "onChange",
+        "name": "onValueChange",
         "type": "((index: number) => void)",
         "description": "",
         "required": false

@@ -1855,7 +1855,7 @@
     "body": [
       "<FieldControl />"
     ],
-    "description": "Wraps a single form element (Input, Textarea, Select, etc.) and injects the `id`, `aria-describedby`, `aria-invalid`, `aria-required`, and `disabled` props d…",
+    "description": "Wires a single form control (Input / Textarea / Select / ...) to the surrounding `<Field>` — injects `id`, `aria-describedby`, `aria-invalid`, `aria-required…",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "FieldSet": {
@@ -3701,7 +3701,7 @@
       "ReactionPicker"
     ],
     "body": [
-      "<ReactionPicker\n  reactions={${1:/* reactions: Reaction[] */}}\n  onReact={${2:/* onReact: (id: string) => void */}}\n/>"
+      "<ReactionPicker\n  reactions={${1:/* reactions: Reaction[] */}}\n  onPick={${2:/* onPick: (id: string) => void */}}\n/>"
     ],
     "description": "Emoji picker popover used to add a reaction.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"

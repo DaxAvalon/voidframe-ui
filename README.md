@@ -586,7 +586,7 @@ it("persists theme through storage", () => {
 **Scripts** (the framework's own CI matrix, mirrored in `package.json`):
 
 ```bash
-npm run test              # full vitest suite (5,052 tests as of 2026-04-19)
+npm run test              # full vitest suite (5,106 tests as of 2026-04-19)
 npm run test:watch        # interactive
 npm run test:coverage     # v8 coverage + enforced floor thresholds
 npm run test:ssr          # renderToString smoke test per phase
@@ -917,7 +917,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (5,052 tests as of 2026-04-19)
+npm run test      # full vitest suite (5,106 tests as of 2026-04-19)
 npm run typecheck # tsc --noEmit
 ```
 

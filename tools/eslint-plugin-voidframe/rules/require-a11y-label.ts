@@ -5,6 +5,7 @@ const rule = {
     type: "suggestion" as const,
     docs: {
       description: "Require aria-label on IconButton components",
+      url: "https://voidframe.github.io/ui/eslint-plugin#require-a11y-label",
     },
     messages: {
       missingLabel:

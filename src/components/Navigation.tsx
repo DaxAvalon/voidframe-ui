@@ -405,9 +405,9 @@ export interface StepperProps
   current: number;
   orientation?: StepperOrientation;
   variant?: StepperVariant;
-  /** When true, clicking a step index fires onChange. */
+  /** When true, clicking a step index fires onValueChange. */
   clickable?: boolean;
-  onChange?: (index: number) => void;
+  onValueChange?: (index: number) => void;
   children?: ReactNode;
   style?: CSSProperties;
 }
@@ -450,7 +450,7 @@ const StepperBase = forwardRef<HTMLOListElement, StepperProps>(function Stepper(
     orientation = "horizontal",
     variant = "numbered",
     clickable,
-    onChange,
+    onValueChange,
     className,
     style,
     children,
@@ -511,7 +511,7 @@ const StepperBase = forwardRef<HTMLOListElement, StepperProps>(function Stepper(
               type="button"
               className="vf-stepper__node"
               disabled={!clickable}
-              onClick={() => clickable && onChange?.(i)}
+              onClick={() => clickable && onValueChange?.(i)}
               aria-label={typeof step.label === "string" ? step.label : undefined}
             >
               <span
@@ -568,7 +568,7 @@ StepperBase.displayName = "Stepper";
  * upcoming states. Dual API: pass a `steps` string array or compose
  * `Stepper.Step` children (with `label`, `description`, `optional`).
  * `numbered` or `dotted` variant; `horizontal` or `vertical` orientation;
- * set `clickable` to wire `onChange(index)`.
+ * set `clickable` to wire `onValueChange(index)`.
  */
 export const Stepper = Object.assign(StepperBase, {
   Step: StepperStepComponent,
