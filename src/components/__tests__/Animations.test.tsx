@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 import { Marquee, Typewriter, Ticker } from "../Animations";
@@ -132,10 +132,24 @@ describe("Ticker", () => {
     expect(ticker!.textContent).toMatch(/\$/);
   });
 
-  it("renders with steps prop (advisory)", () => {
-    const { container } = renderWithTheme(
-      <Ticker to={100} steps={60} />
-    );
+  it("emits exactly `steps` discrete values and lands on `to`", async () => {
+    vi.useFakeTimers();
+    try {
+      const { container } = renderWithTheme(
+        <Ticker from={0} to={100} duration={500} steps={5} format={(n) => String(Math.round(n))} />
+      );
+      const el = container.querySelector(".vf-ticker")!;
+      await act(async () => {
+        vi.advanceTimersByTime(600);
+      });
+      expect((el.textContent ?? "").trim()).toBe("100");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("smooth path (no steps) falls back to rAF interpolation", () => {
+    const { container } = renderWithTheme(<Ticker to={50} />);
     expect(container.querySelector(".vf-ticker")).toBeInTheDocument();
   });
 });

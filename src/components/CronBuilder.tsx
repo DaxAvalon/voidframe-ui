@@ -21,6 +21,13 @@ export interface CronBuilderProps
   previewCount?: number;
   size?: "sm" | "md";
   disabled?: boolean;
+  /**
+   * Number of fields in the cron expression. 5 = standard UNIX
+   * (minute / hour / day / month / weekday); 6 = Quartz-style with a leading
+   * seconds field. Defaults to the width of the current `value` / `defaultValue`,
+   * falling back to 5.
+   */
+  fields?: 5 | 6;
 }
 
 const DEFAULT_PRESETS: CronPreset[] = [
@@ -31,14 +38,20 @@ const DEFAULT_PRESETS: CronPreset[] = [
   { label: "Monthly 1st", value: "0 0 1 * *" },
 ];
 
-const FIELD_NAMES = ["minute", "hour", "day", "month", "weekday"] as const;
-const FIELD_LABELS = ["Minute", "Hour", "Day of Month", "Month", "Day of Week"];
-const FIELD_RANGES: [number, number][] = [
+const FIELD_NAMES_5 = ["minute", "hour", "day", "month", "weekday"] as const;
+const FIELD_NAMES_6 = ["second", "minute", "hour", "day", "month", "weekday"] as const;
+const FIELD_LABELS_5 = ["Minute", "Hour", "Day of Month", "Month", "Day of Week"];
+const FIELD_LABELS_6 = ["Second", "Minute", "Hour", "Day of Month", "Month", "Day of Week"];
+const FIELD_RANGES_5: [number, number][] = [
   [0, 59],
   [0, 23],
   [1, 31],
   [1, 12],
   [0, 6],
+];
+const FIELD_RANGES_6: [number, number][] = [
+  [0, 59],
+  ...FIELD_RANGES_5,
 ];
 
 type FieldType = "every" | "specific" | "range" | "interval";
@@ -78,8 +91,8 @@ function parseField(expr: string, _fieldIdx: number): ParsedField {
   };
 }
 
-function buildField(parsed: ParsedField, fieldIdx: number): string {
-  const [min] = FIELD_RANGES[fieldIdx]!;
+function buildField(parsed: ParsedField, fieldIdx: number, ranges: [number, number][]): string {
+  const [min] = ranges[fieldIdx]!;
   switch (parsed.type) {
     case "every":
       return "*";
@@ -94,10 +107,11 @@ function buildField(parsed: ParsedField, fieldIdx: number): string {
   }
 }
 
-/** Simple next-run calculator for cron expressions. */
+/** Simple next-run calculator for cron expressions. Accepts 5- or 6-field form. */
 export function getNextRuns(cron: string, count: number): Date[] {
   const parts = cron.trim().split(/\s+/);
-  if (parts.length < 5) return [];
+  if (parts.length !== 5 && parts.length !== 6) return [];
+  const hasSeconds = parts.length === 6;
 
   const parseSegment = (
     seg: string,
@@ -124,13 +138,16 @@ export function getNextRuns(cron: string, count: number): Date[] {
     return seg.split(",").map(Number).filter((n) => !isNaN(n));
   };
 
-  const minutes = parseSegment(parts[0]!, 0, 59);
-  const hours = parseSegment(parts[1]!, 0, 23);
-  const days = parseSegment(parts[2]!, 1, 31);
-  const months = parseSegment(parts[3]!, 1, 12);
-  const weekdays = parseSegment(parts[4]!, 0, 6);
+  const offset = hasSeconds ? 1 : 0;
+  const seconds = hasSeconds ? parseSegment(parts[0]!, 0, 59) : null;
+  const minutes = parseSegment(parts[0 + offset]!, 0, 59);
+  const hours = parseSegment(parts[1 + offset]!, 0, 23);
+  const days = parseSegment(parts[2 + offset]!, 1, 31);
+  const months = parseSegment(parts[3 + offset]!, 1, 12);
+  const weekdays = parseSegment(parts[4 + offset]!, 0, 6);
 
   const matches = (d: Date): boolean => {
+    if (seconds && !seconds.includes(d.getSeconds())) return false;
     if (minutes && !minutes.includes(d.getMinutes())) return false;
     if (hours && !hours.includes(d.getHours())) return false;
     if (days && !days.includes(d.getDate())) return false;
@@ -141,15 +158,23 @@ export function getNextRuns(cron: string, count: number): Date[] {
 
   const results: Date[] = [];
   const cursor = new Date();
-  cursor.setSeconds(0, 0);
-  cursor.setMinutes(cursor.getMinutes() + 1);
+  if (hasSeconds) {
+    cursor.setMilliseconds(0);
+    cursor.setSeconds(cursor.getSeconds() + 1);
+  } else {
+    cursor.setSeconds(0, 0);
+    cursor.setMinutes(cursor.getMinutes() + 1);
+  }
 
-  const limit = 525960; // ~1 year of minutes
+  // 1 year of seconds ≈ 31.5M ticks; keep minute-granularity when not using
+  // seconds to preserve previous cost envelope.
+  const limit = hasSeconds ? 60 * 60 * 24 * 31 : 525960;
+  const stepMs = hasSeconds ? 1000 : 60_000;
   for (let i = 0; i < limit && results.length < count; i++) {
     if (matches(cursor)) {
       results.push(new Date(cursor));
     }
-    cursor.setMinutes(cursor.getMinutes() + 1);
+    cursor.setTime(cursor.getTime() + stepMs);
   }
 
   return results;
@@ -157,8 +182,19 @@ export function getNextRuns(cron: string, count: number): Date[] {
 
 function isValidCron(expr: string): boolean {
   const parts = expr.trim().split(/\s+/);
-  if (parts.length !== 5) return false;
+  if (parts.length !== 5 && parts.length !== 6) return false;
   return parts.every((p) => /^[\d,\-\*\/]+$/.test(p));
+}
+
+function resolveFieldCount(
+  fields: 5 | 6 | undefined,
+  value: string | undefined,
+  defaultValue: string | undefined
+): 5 | 6 {
+  if (fields) return fields;
+  const probe = (value ?? defaultValue ?? "").trim();
+  if (!probe) return 5;
+  return probe.split(/\s+/).length === 6 ? 6 : 5;
 }
 
 const CronBuilderImpl = forwardRef<HTMLDivElement, CronBuilderProps>(
@@ -173,35 +209,43 @@ const CronBuilderImpl = forwardRef<HTMLDivElement, CronBuilderProps>(
       previewCount = 5,
       size = "md",
       disabled = false,
+      fields,
       className,
       style,
       ...props
     },
     ref
   ) {
+    const fieldCount = resolveFieldCount(fields, value, defaultValue);
+    const FIELD_NAMES = fieldCount === 6 ? FIELD_NAMES_6 : FIELD_NAMES_5;
+    const FIELD_LABELS = fieldCount === 6 ? FIELD_LABELS_6 : FIELD_LABELS_5;
+    const FIELD_RANGES = fieldCount === 6 ? FIELD_RANGES_6 : FIELD_RANGES_5;
+    const initial = defaultValue ?? (fieldCount === 6 ? "* * * * * *" : "* * * * *");
+
     const [current, setCurrent] = useControllableState<string>({
       value,
-      defaultValue: defaultValue ?? "* * * * *",
+      defaultValue: initial,
       onChange: onValueChange,
       componentName: "CronBuilder",
     });
 
     const cronParts = current.trim().split(/\s+/);
-    const valid = isValidCron(current);
+    const valid = isValidCron(current) && cronParts.length === fieldCount;
 
     const parsedFields = useMemo(() => {
       if (!valid) return FIELD_NAMES.map(() => parseField("*", 0));
       return FIELD_NAMES.map((_, i) => parseField(cronParts[i] ?? "*", i));
-    }, [current, valid]);
+    }, [current, valid, FIELD_NAMES]);
 
     const updateField = useCallback(
       (fieldIdx: number, parsed: ParsedField) => {
         const parts = current.trim().split(/\s+/);
-        while (parts.length < 5) parts.push("*");
-        parts[fieldIdx] = buildField(parsed, fieldIdx);
+        while (parts.length < fieldCount) parts.push("*");
+        if (parts.length > fieldCount) parts.length = fieldCount;
+        parts[fieldIdx] = buildField(parsed, fieldIdx, FIELD_RANGES);
         setCurrent(parts.join(" "));
       },
-      [current, setCurrent]
+      [current, setCurrent, fieldCount, FIELD_RANGES]
     );
 
     const preview = useMemo(() => {

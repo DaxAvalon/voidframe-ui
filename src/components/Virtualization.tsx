@@ -25,6 +25,15 @@ export interface VirtualListProps<T>
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
   items: T[];
   itemHeight: number | ((index: number, item: T) => number);
+  /**
+   * Hint for the average rendered size when `itemHeight` is a function.
+   * Unmeasured rows use this value for offset/viewport math on first paint;
+   * real measurements (via ResizeObserver on rendered rows) progressively
+   * replace estimates. Ignored when `itemHeight` is a number. Without this
+   * hint, variable-height lists fall back to calling `itemHeight(index, item)`
+   * for every item on mount — fine for hundreds of rows, not thousands.
+   */
+  estimatedItemHeight?: number;
   /** Rows to render beyond the visible window. */
   overscan?: number;
   horizontal?: boolean;
@@ -43,6 +52,7 @@ export const VirtualList = genericForwardRef(function VirtualList<T>(
   {
     items,
     itemHeight,
+    estimatedItemHeight,
     overscan = 3,
     horizontal,
     renderItem,
@@ -58,12 +68,22 @@ export const VirtualList = genericForwardRef(function VirtualList<T>(
   const [scrollOffset, setScrollOffset] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  // Measured-size cache: index → measured pixel extent. Only written when a
+  // rendered row's ResizeObserver reports a concrete size. Used in preference
+  // to `itemHeight()` / `estimatedItemHeight` whenever available.
+  const [measured, setMeasured] = useState<Map<number, number>>(() => new Map());
+  const useEstimate =
+    typeof itemHeight === "function" && typeof estimatedItemHeight === "number";
+
   const resolveSize = useCallback(
     (index: number): number => {
+      const hit = measured.get(index);
+      if (hit !== undefined) return hit;
       if (typeof itemHeight === "number") return itemHeight;
+      if (useEstimate) return estimatedItemHeight as number;
       return itemHeight(index, items[index]!);
     },
-    [itemHeight, items]
+    [itemHeight, items, measured, useEstimate, estimatedItemHeight]
   );
 
   // Pre-compute offsets; cheap for fixed size, O(n) for variable.
@@ -141,12 +161,51 @@ export const VirtualList = genericForwardRef(function VirtualList<T>(
     return Math.min(items.length - 1, i + overscan);
   }, [items, offsets, scrollOffset, viewportSize, totalSize, overscan, startIndex]);
 
+  // ResizeObserver-driven measurement: write rendered rows' actual extents
+  // back into `measured` so subsequent offset calculations use real sizes
+  // instead of `estimatedItemHeight`. Only active when useEstimate is set.
+  const observeRow = useCallback(
+    (index: number) => (el: HTMLDivElement | null) => {
+      if (!useEstimate || !el || typeof ResizeObserver === "undefined") return;
+      const ro = new ResizeObserver(() => {
+        const size = horizontal ? el.offsetWidth : el.offsetHeight;
+        if (!size) return;
+        setMeasured((prev) => {
+          if (prev.get(index) === size) return prev;
+          const next = new Map(prev);
+          next.set(index, size);
+          return next;
+        });
+      });
+      ro.observe(el);
+      (el as unknown as { __vfRo?: ResizeObserver }).__vfRo = ro;
+    },
+    [useEstimate, horizontal]
+  );
+
   const slice: ReactNode[] = [];
   for (let i = startIndex; i <= endIndex; i++) {
     const item = items[i];
     if (item === undefined) continue;
     const pos = offsets.offsets[i] ?? 0;
     const size = resolveSize(i);
+    // When using estimates, wrap each row in a measuring slot. The wrapper is
+    // absolutely positioned and lets the consumer's content define its own
+    // height, which ResizeObserver then reports back.
+    if (useEstimate) {
+      const slotStyle: CSSProperties = horizontal
+        ? { position: "absolute", left: pos, top: 0, height: "100%" }
+        : { position: "absolute", top: pos, left: 0, width: "100%" };
+      const inner: CSSProperties = horizontal
+        ? { height: "100%" }
+        : { width: "100%" };
+      slice.push(
+        <div key={i} ref={observeRow(i)} style={slotStyle}>
+          {renderItem(item, i, inner)}
+        </div>
+      );
+      continue;
+    }
     const style: CSSProperties = horizontal
       ? { position: "absolute", left: pos, top: 0, width: size, height: "100%" }
       : { position: "absolute", top: pos, left: 0, width: "100%", height: size };

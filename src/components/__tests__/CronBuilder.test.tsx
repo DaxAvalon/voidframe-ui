@@ -137,4 +137,42 @@ describe("getNextRuns", () => {
     const results = getNextRuns("* * * * *", 3);
     expect(results.length).toBe(3);
   });
+
+  it("accepts 6-field Quartz-style expressions with seconds", () => {
+    const results = getNextRuns("*/15 * * * * *", 3);
+    expect(results).toHaveLength(3);
+    for (const d of results) {
+      expect([0, 15, 30, 45]).toContain(d.getSeconds());
+    }
+  });
+
+  it("rejects malformed field counts", () => {
+    expect(getNextRuns("* * *", 3)).toEqual([]);
+    expect(getNextRuns("* * * * * * *", 3)).toEqual([]);
+  });
+});
+
+describe("CronBuilder 6-field", () => {
+  it("renders 6 visual fields when fields={6}", () => {
+    renderWithTheme(
+      <CronBuilder fields={6} defaultValue="0 0 0 * * *" mode="visual" />
+    );
+    for (const label of [
+      "Second",
+      "Minute",
+      "Hour",
+      "Day of Month",
+      "Month",
+      "Day of Week",
+    ]) {
+      expect(screen.getByText(label)).toBeInTheDocument();
+    }
+  });
+
+  it("auto-detects 6-field width from defaultValue when fields is unset", () => {
+    renderWithTheme(
+      <CronBuilder defaultValue="*/10 0 0 * * *" mode="visual" />
+    );
+    expect(screen.getByText("Second")).toBeInTheDocument();
+  });
 });

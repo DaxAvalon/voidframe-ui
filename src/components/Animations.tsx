@@ -212,6 +212,12 @@ export interface TickerProps extends HTMLAttributes<HTMLSpanElement> {
   /** Animation duration in ms. Default 800. */
   duration?: number;
   format?: (n: number) => string;
+  /**
+   * Emit exactly N evenly-spaced discrete values between `from` and `to`
+   * instead of smoothly interpolating. Useful when the ticker should hit
+   * specific round numbers. When 0 or unset, the smooth easing path runs.
+   */
+  steps?: number;
 }
 
 function easeOutCubic(t: number): number {
@@ -228,6 +234,7 @@ export const Ticker = forwardRef<HTMLSpanElement, TickerProps>(function Ticker(
     to,
     duration = 800,
     format = (n) => Math.round(n).toLocaleString(),
+    steps,
     className,
     ...props
   },
@@ -236,6 +243,26 @@ export const Ticker = forwardRef<HTMLSpanElement, TickerProps>(function Ticker(
   const [value, setValue] = useState(from);
 
   useEffect(() => {
+    // Discretized path: emit exactly `steps` values at duration/steps intervals,
+    // always landing on `to` for the final tick.
+    if (steps && steps > 0) {
+      let cancelled = false;
+      let i = 0;
+      const interval = duration / steps;
+      const id = setInterval(() => {
+        if (cancelled) return;
+        i += 1;
+        const next = i >= steps ? to : from + ((to - from) * i) / steps;
+        setValue(next);
+        if (i >= steps) clearInterval(id);
+      }, interval);
+      return () => {
+        cancelled = true;
+        clearInterval(id);
+      };
+    }
+
+    // Smooth path: eased rAF interpolation.
     const start = performance.now();
     let raf = 0;
     const tick = (now: number) => {
@@ -246,7 +273,7 @@ export const Ticker = forwardRef<HTMLSpanElement, TickerProps>(function Ticker(
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [from, to, duration]);
+  }, [from, to, duration, steps]);
 
   return (
     <span

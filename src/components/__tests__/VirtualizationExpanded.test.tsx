@@ -67,6 +67,34 @@ describe("VirtualList", () => {
     expect(screen.getByText("short")).toBeInTheDocument();
     expect(screen.getByText("tall")).toBeInTheDocument();
   });
+
+  it("uses estimatedItemHeight to size the scroller when itemHeight is a function", () => {
+    // 1000 rows × 40px estimate = 40_000px scroller without calling
+    // itemHeight(i) for any row beyond what's rendered in the viewport.
+    const callLog: number[] = [];
+    const items = Array.from({ length: 1000 }, (_, i) => `Row ${i}`);
+    const { container } = renderWithTheme(
+      <VirtualList
+        items={items}
+        itemHeight={(i) => {
+          callLog.push(i);
+          return 40;
+        }}
+        estimatedItemHeight={40}
+        style={{ height: 200 }}
+        renderItem={(item, idx, style) => (
+          <div key={idx} style={style}>{item}</div>
+        )}
+      />
+    );
+    // With estimate active, itemHeight() should NOT be called for every row
+    // on mount — only for the visible + overscan slice (if at all).
+    expect(callLog.length).toBeLessThan(50);
+    // The inner scroller should size itself from the estimate × itemCount.
+    const inner = container.querySelector(".vf-virtual-list > div") as HTMLElement;
+    expect(inner).toBeTruthy();
+    expect(inner.style.height).toBe("40000px");
+  });
 });
 
 describe("VirtualGrid", () => {
