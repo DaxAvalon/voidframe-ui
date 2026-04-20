@@ -131,7 +131,7 @@ export const ScatterPlot = forwardRef<HTMLDivElement, ScatterPlotProps>(
             onHover={setHover}
           />
         </ChartFrame>
-        {showLegend && resolvedSeries.length > 1 && (
+        {showLegend && resolvedSeries.length >= 1 && (
           <ChartLegend
             className="vf-chart-scatter__legend"
             items={resolvedSeries.map<ChartLegendItem>((s, i) => ({

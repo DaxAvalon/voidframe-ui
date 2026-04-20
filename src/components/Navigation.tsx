@@ -2,6 +2,7 @@
 
 import {
   Children,
+  cloneElement,
   forwardRef,
   isValidElement,
   useState,
@@ -339,7 +340,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
           <label className="vf-pagination__page-size">
             <span className="vf-pagination__page-size-label">Per page</span>
             <select
-              value={pageSize}
+              value={pageSize ?? pageSizeOptions[0]}
               onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
               aria-label="Rows per page"
             >
@@ -623,19 +624,31 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
   };
   if (asChild && isValidElement(children)) {
     // Let the caller provide the outer element (e.g. router <Link>).
-    const child = children as ReactElement<Record<string, unknown>>;
+    const child = children as ReactElement<Record<string, unknown>> & {
+      ref?: React.Ref<HTMLElement>;
+    };
+    // Preserve child's own ref (React 18 shape) alongside forwarded ref from NavItem.
+    const childRef = child.ref;
+    const mergedRef = (node: HTMLElement | null) => {
+      if (typeof childRef === "function") childRef(node);
+      else if (childRef && typeof childRef === "object") {
+        (childRef as { current: HTMLElement | null }).current = node;
+      }
+      if (typeof ref === "function") ref(node as unknown as HTMLDivElement);
+      else if (ref && typeof ref === "object") {
+        (ref as { current: HTMLDivElement | null }).current =
+          node as unknown as HTMLDivElement;
+      }
+    };
     return (
       <>
-        {/* No-op wrapper to keep ref semantics explicit. */}
         {typeof child.type === "function" || typeof child.type === "string"
-          ? ({
-              ...child,
-              props: {
-                ...(child.props as Record<string, unknown>),
-                ...commonProps,
-                onClick,
-              },
-            } as ReactElement)
+          ? cloneElement(child, {
+              ...(props as Record<string, unknown>),
+              ...commonProps,
+              onClick,
+              ref: mergedRef,
+            } as Record<string, unknown>)
           : child}
       </>
     );

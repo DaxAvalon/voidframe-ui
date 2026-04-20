@@ -1,6 +1,7 @@
+import { createRef } from "react";
 import { describe, expect, it } from "vitest";
 import { renderWithTheme } from "../../../../test/renderWithTheme";
-import { ChartFrame } from "../ChartFrame";
+import { ChartFrame, type ChartFrameHandle } from "../ChartFrame";
 import { useChart } from "../ChartContext";
 
 function Probe({ onCtx }: { onCtx: (ctx: ReturnType<typeof useChart>) => void }) {
@@ -49,6 +50,22 @@ describe("ChartFrame", () => {
     );
     expect(getByText("Sales")).toBeTruthy();
     expect(getByText("Q1")).toBeTruthy();
+  });
+
+  it("main ref points at the container DOM node; exportRef exposes imperative toSVG", () => {
+    const domRef = createRef<HTMLDivElement>();
+    const exportRef = createRef<ChartFrameHandle>();
+    renderWithTheme(
+      <ChartFrame
+        ref={domRef}
+        exportRef={exportRef}
+        width={200}
+        height={100}
+      />
+    );
+    expect(domRef.current).toBeInstanceOf(HTMLDivElement);
+    expect(typeof exportRef.current?.toSVG).toBe("function");
+    expect(typeof exportRef.current?.toPNG).toBe("function");
   });
 
   it("exposes role=img and aria-label when accessibleLabel is set", () => {

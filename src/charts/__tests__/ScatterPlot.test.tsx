@@ -66,11 +66,18 @@ describe("ScatterPlot", () => {
     expect(container.querySelector(".vf-chart-scatter__legend")).toBeTruthy();
   });
 
-  it("hides legend for single series (no series prop)", () => {
+  it("hides legend when showLegend=false (single series)", () => {
     const { container } = renderWithTheme(
-      <ScatterPlot data={data} width={400} height={240} />
+      <ScatterPlot data={data} width={400} height={240} showLegend={false} />
     );
     expect(container.querySelector(".vf-chart-scatter__legend")).toBeFalsy();
+  });
+
+  it("showLegend=true renders a legend for single-series charts", () => {
+    const { container } = renderWithTheme(
+      <ScatterPlot data={data} width={400} height={240} showLegend />
+    );
+    expect(container.querySelector(".vf-chart-scatter__legend")).toBeTruthy();
   });
 
   it("renders title and description", () => {

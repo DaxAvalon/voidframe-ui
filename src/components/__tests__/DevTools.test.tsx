@@ -60,6 +60,19 @@ describe("NetworkInspector", () => {
     await userEvent.click(screen.getByText("/b"));
     expect(onSelect).toHaveBeenCalledWith("2");
   });
+  it("filter prop updates the rendered list when controlled", () => {
+    const { rerender } = renderWithTheme(
+      <NetworkInspector requests={requests} filter="/a" onFilterChange={() => {}} />
+    );
+    expect(screen.getByText("/a")).toBeInTheDocument();
+    expect(screen.queryByText("/b")).not.toBeInTheDocument();
+    rerender(
+      <NetworkInspector requests={requests} filter="/b" onFilterChange={() => {}} />
+    );
+    expect(screen.queryByText("/a")).not.toBeInTheDocument();
+    expect(screen.getByText("/b")).toBeInTheDocument();
+  });
+
   it("picks a tone per status", () => {
     renderWithTheme(<NetworkInspector requests={requests} />);
     const ok = screen.getByText("200");

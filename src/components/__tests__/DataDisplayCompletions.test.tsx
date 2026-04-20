@@ -63,7 +63,7 @@ describe("DataGrid (closeout)", () => {
     expect(screen.getByText("Beta")).toBeInTheDocument();
   });
 
-  it("fires onGroupByChange and resets collapsed groups when groupBy changes", () => {
+  it("resets collapsed groups when groupBy changes (prop-driven; no echo callback)", () => {
     const onGroupByChange = vi.fn();
     function Wrapper() {
       const [gb, setGb] = useState<string | undefined>("group");
@@ -81,11 +81,10 @@ describe("DataGrid (closeout)", () => {
       );
     }
     renderWithTheme(<Wrapper />);
-    // Groups by "group" initially — A and B headers visible
     expect(screen.getByText("A")).toBeInTheDocument();
-    // Switch groupBy
     fireEvent.click(screen.getByText("Switch"));
-    expect(onGroupByChange).toHaveBeenCalledWith("score");
+    // Prop-driven change should NOT echo back through onGroupByChange.
+    expect(onGroupByChange).not.toHaveBeenCalled();
   });
 
   it("column resize handle has separator role", () => {

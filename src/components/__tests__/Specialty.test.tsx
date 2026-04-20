@@ -340,6 +340,16 @@ describe("ColorSwatch / Palette", () => {
     await userEvent.click(screen.getByRole("button", { name: "#ff0000" }));
     expect(onSelect).toHaveBeenCalled();
   });
+  it("ColorSwatch without onSelect is not disabled and not focusable", () => {
+    renderWithTheme(<ColorSwatch color="#111" />);
+    // No button should render for display-only swatches.
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    const el = document.querySelector(".vf-color-swatch") as HTMLElement;
+    expect(el).toBeTruthy();
+    expect(el.tagName).toBe("DIV");
+    expect(el.hasAttribute("data-disabled")).toBe(false);
+  });
+
   it("Palette emits color + index on click", async () => {
     const onSelect = vi.fn();
     renderWithTheme(

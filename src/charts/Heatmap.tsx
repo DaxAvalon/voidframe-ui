@@ -180,7 +180,7 @@ export const Heatmap = forwardRef<HTMLDivElement, HeatmapProps>(
                 i === 0
                   ? "Low"
                   : i === colors.length - 1
-                    ? `${Math.round(max)}+`
+                    ? `${valueFormat(max)}+`
                     : "",
               color,
               glyph: "square",

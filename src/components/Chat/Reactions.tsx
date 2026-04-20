@@ -24,7 +24,7 @@ export interface MessageFeedbackProps
   onValueChange?: (next: FeedbackValue) => void;
   reasons?: FeedbackReason[];
   selectedReason?: string;
-  onReasonSelect?: (reasonId: string) => void;
+  onReasonSelect?: (reasonId: string | undefined) => void;
 }
 
 export const MessageFeedback = forwardRef<HTMLDivElement, MessageFeedbackProps>(
@@ -54,7 +54,7 @@ export const MessageFeedback = forwardRef<HTMLDivElement, MessageFeedbackProps>(
     const selectReason = (reasonId: string) => {
       const next = currentReason === reasonId ? undefined : reasonId;
       if (selectedReasonProp === undefined) setReasonInternal(next);
-      if (next !== undefined) onReasonSelect?.(next);
+      onReasonSelect?.(next);
     };
 
     return (

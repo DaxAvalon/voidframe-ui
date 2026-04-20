@@ -12,6 +12,32 @@ describe("Carousel", () => {
     expect(screen.getByText("Slide A")).toBeInTheDocument();
   });
 
+  it("Carousel with defaultIndex=2 scrolls to slide 2 after mount", async () => {
+    // Spy the prototype BEFORE render so we capture the mount rAF.
+    const scrollSpy = vi
+      .spyOn(HTMLElement.prototype, "scrollTo")
+      .mockImplementation(() => {});
+    try {
+      renderWithTheme(
+        <Carousel
+          defaultIndex={2}
+          slides={[
+            <div key="1">S1</div>,
+            <div key="2">S2</div>,
+            <div key="3">S3</div>,
+          ]}
+        />
+      );
+      // Wait for two animation frames so the rAF-scheduled scroll runs.
+      await new Promise<void>((r) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => r()))
+      );
+      expect(scrollSpy).toHaveBeenCalled();
+    } finally {
+      scrollSpy.mockRestore();
+    }
+  });
+
   it("ArrowRight advances the index", async () => {
     const onSlideChange = vi.fn();
     renderWithTheme(

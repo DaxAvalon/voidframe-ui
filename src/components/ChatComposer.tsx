@@ -396,6 +396,8 @@ export const ComposerMicButton = forwardRef<
   const [internal, setInternal] = useState(defaultRecording);
   const isRecording = recording ?? internal;
   const setRecording = (next: boolean) => {
+    // Only emit callbacks on an actual transition.
+    if (next === isRecording) return;
     if (recording === undefined) setInternal(next);
     onRecordingChange?.(next);
     if (next) onRecordStart?.();
@@ -404,7 +406,10 @@ export const ComposerMicButton = forwardRef<
 
   useEffect(() => {
     if (!isRecording || !maxDuration) return;
-    const t = setTimeout(() => setRecording(false), maxDuration);
+    const t = setTimeout(() => {
+      // Only flip when still actually recording.
+      if (isRecording) setRecording(false);
+    }, maxDuration);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRecording, maxDuration]);

@@ -19,6 +19,7 @@ export interface ImageDiffProps extends HTMLAttributes<HTMLDivElement> {
   afterLabel?: string;
   mode?: "side-by-side" | "overlay" | "slider";
   overlayOpacity?: number;
+  onOpacityChange?: (opacity: number) => void;
   zoom?: number;
   onZoomChange?: (zoom: number) => void;
   showZoomControls?: boolean;
@@ -35,6 +36,7 @@ const ImageDiffImpl = forwardRef<HTMLDivElement, ImageDiffProps>(
       afterLabel = "After",
       mode = "slider",
       overlayOpacity: overlayOpacityProp,
+      onOpacityChange,
       zoom: zoomProp,
       onZoomChange,
       showZoomControls = true,
@@ -53,9 +55,12 @@ const ImageDiffImpl = forwardRef<HTMLDivElement, ImageDiffProps>(
       componentName: "ImageDiff",
     });
 
-    const [overlayOpacity, setOverlayOpacity] = useState(
-      overlayOpacityProp ?? 0.5
-    );
+    const [overlayOpacity, setOverlayOpacity] = useControllableState<number>({
+      value: overlayOpacityProp,
+      defaultValue: 0.5,
+      onChange: onOpacityChange,
+      componentName: "ImageDiff",
+    });
     const [sliderPos, setSliderPos] = useState(50);
     const viewportRef = useRef<HTMLDivElement>(null);
     const dragging = useRef(false);

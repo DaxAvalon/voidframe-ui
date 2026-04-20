@@ -14,8 +14,6 @@ import { useMergedRefs } from "../hooks/useMergedRefs";
 const layerStack: DismissableLayerHandle[] = [];
 
 interface DismissableLayerHandle {
-  onEscape?: (e: KeyboardEvent) => void;
-  onPointerDownOutside?: (e: PointerEvent) => void;
   element: HTMLElement | null;
 }
 
@@ -56,14 +54,6 @@ export const DismissableLayer = forwardRef<HTMLDivElement, DismissableLayerProps
     useEffect(() => {
       const handle: DismissableLayerHandle = {
         element: innerRef.current,
-        onEscape: (e) => {
-          escRef.current?.(e);
-          dismissRef.current?.();
-        },
-        onPointerDownOutside: (e) => {
-          outRef.current?.(e);
-          dismissRef.current?.();
-        },
       };
       layerStack.push(handle);
       return () => {

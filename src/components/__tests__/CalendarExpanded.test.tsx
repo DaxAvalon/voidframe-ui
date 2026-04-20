@@ -329,5 +329,24 @@ describe("Calendar", () => {
       expect(range).toHaveProperty("start");
       expect(range).toHaveProperty("end");
     });
+
+    it("fires at most once for an unchanged range", () => {
+      const onRangeChange = vi.fn();
+      const { rerender } = renderWithTheme(
+        <Calendar
+          defaultDisplayMonth={jan2024}
+          onRangeChange={onRangeChange}
+        />
+      );
+      const initial = onRangeChange.mock.calls.length;
+      rerender(
+        <Calendar
+          defaultDisplayMonth={jan2024}
+          onRangeChange={onRangeChange}
+          showWeekNumbers
+        />
+      );
+      expect(onRangeChange.mock.calls.length).toBe(initial);
+    });
   });
 });

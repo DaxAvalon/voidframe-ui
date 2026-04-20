@@ -186,7 +186,7 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
 
     const inner = (
       <div className={cx("vf-drawer-v2", `vf-drawer-v2--${ctx.side}`)}>
-        <ScrollLock enabled={ctx.open} />
+        <ScrollLock enabled={ctx.open && ctx.modal} />
         {ctx.modal && (
           <div
             className="vf-drawer-v2__backdrop"
@@ -422,7 +422,7 @@ function SheetContent({
     : { height: `${heightRatio * 100}vh`, ...style };
   const inner = (
     <div className="vf-sheet">
-      <ScrollLock enabled={ctx.open} />
+      <ScrollLock enabled={ctx.open && ctx.modal} />
       {ctx.modal && (
         <div
           className="vf-sheet__backdrop"

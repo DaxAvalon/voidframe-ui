@@ -87,6 +87,18 @@ describe("RadarChart", () => {
     ).toBe(true);
   });
 
+  it("showLegend=true renders a legend for single-series charts", () => {
+    const { container } = renderWithTheme(
+      <RadarChart
+        axes={["A", "B", "C"]}
+        series={[{ key: "p", label: "P", values: [1, 2, 3] }]}
+        size={200}
+        showLegend
+      />
+    );
+    expect(container.querySelector(".vf-chart-radar__legend")).toBeTruthy();
+  });
+
   it("renders axis lines per dimension", () => {
     const { container } = renderWithTheme(
       <RadarChart

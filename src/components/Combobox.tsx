@@ -153,6 +153,16 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       [setCurrent]
     );
 
+    const nextEnabledIndex = (start: number, dir: 1 | -1): number => {
+      let i = start;
+      for (let steps = 0; steps < filtered.length; steps++) {
+        i += dir;
+        if (i < 0 || i > filtered.length - 1) break;
+        if (!filtered[i]?.disabled) return i;
+      }
+      return start;
+    };
+
     const handleKey = (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "ArrowDown") {
         e.preventDefault();
@@ -160,14 +170,14 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           setOpen(true);
           return;
         }
-        setHighlighted((i) => Math.min(filtered.length - 1, Math.max(0, i + 1)));
+        setHighlighted((i) => nextEnabledIndex(Math.max(-1, i), 1));
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
         if (!open) {
           setOpen(true);
           return;
         }
-        setHighlighted((i) => Math.max(0, i - 1));
+        setHighlighted((i) => (i <= 0 ? 0 : nextEnabledIndex(i, -1)));
       } else if (e.key === "Enter") {
         e.preventDefault();
         if (open && highlighted >= 0 && filtered[highlighted]) {
@@ -200,7 +210,14 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     }, [query, open]);
 
     const handleBlur = () => {
-      if (!allowCustomValue) return;
+      if (!allowCustomValue) {
+        // Visually reset to the current selection's label — do not silently
+        // drop the typed query.
+        if (query !== (selectedOption?.label ?? "")) {
+          setQuery(selectedOption?.label ?? "");
+        }
+        return;
+      }
       // Only commit custom value on blur if there's no matching option.
       if (query && !options.some((o) => o.label === query || o.value === query)) {
         setCurrent(query);

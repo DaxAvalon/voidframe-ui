@@ -456,6 +456,14 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
     const startMove = (item: DashboardLayoutItem) =>
       (e: ReactPointerEvent<HTMLDivElement>) => {
         if (!movable) return;
+        if (!onLayoutChange) {
+          if (process.env.NODE_ENV !== "production") {
+            console.warn(
+              "[voidframe] DashboardGrid: `movable` is enabled but `onLayoutChange` is missing — drag is a no-op."
+            );
+          }
+          return;
+        }
         // Avoid initiating move when the press starts inside the resize
         // grip; the grip's own handler stops propagation, so we only
         // need to defend against rare event ordering issues.
@@ -569,10 +577,13 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       );
     }, [resizing, pointer, items, onLayoutChange, cellStep, minW, minH, maxW, maxH, bounds]);
 
-    // Re-run the resize delta every time the pointer moves.
+    // Re-run the resize delta each time the pointer position actually changes.
+    // Depending on `pointer` directly (not the tick callback) keeps emits at
+    // most once per pointer event.
     useEffect(() => {
       onResizeMoveTick();
-    }, [onResizeMoveTick]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pointer]);
 
     const showOverlay = !!moving;
     const dragging = !!moving || !!resizing;

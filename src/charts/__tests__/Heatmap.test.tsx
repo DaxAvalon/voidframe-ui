@@ -170,6 +170,19 @@ describe("Heatmap", () => {
     expect(container.querySelector(".vf-chart-heatmap")).toBeTruthy();
   });
 
+  it("legend labels use the valueFormat prop", () => {
+    const { container } = renderWithTheme(
+      <Heatmap
+        rows={["r"]}
+        columns={["c"]}
+        data={[{ x: "c", y: "r", value: 1000 }]}
+        valueFormat={(v) => `$${v}`}
+      />
+    );
+    const legend = container.querySelector(".vf-chart-heatmap__legend");
+    expect(legend?.textContent ?? "").toMatch(/\$1000/);
+  });
+
   it("uses custom accessibleLabel", () => {
     const { container } = renderWithTheme(
       <Heatmap

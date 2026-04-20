@@ -254,7 +254,7 @@ export const RadarChart = forwardRef<HTMLDivElement, RadarChartProps>(
             })
           )}
         </svg>
-        {showLegend && series.length > 1 && (
+        {showLegend && series.length >= 1 && (
           <ChartLegend
             className="vf-chart-radar__legend"
             items={series.map<ChartLegendItem>((s, i) => ({

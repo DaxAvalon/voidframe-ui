@@ -278,4 +278,24 @@ describe("ComposedChart", () => {
     );
     expect(container.querySelectorAll(".vf-chart-bar__rect").length).toBe(2);
   });
+
+  it("formats tick labels using formatChartNumber by default", () => {
+    const { container } = renderWithTheme(
+      <ComposedChart
+        data={[
+          { x: "A", val: 1500 },
+          { x: "B", val: 2500 },
+        ]}
+        series={[{ key: "val", type: "bar" }]}
+        width={500}
+        height={300}
+      />
+    );
+    // formatChartNumber renders 1500 with locale separators ("1,500"),
+    // whereas String() would produce "1500". Verify the separator appears.
+    const labels = Array.from(
+      container.querySelectorAll(".vf-chart-axis__label")
+    ).map((el) => el.textContent ?? "");
+    expect(labels.some((l) => /[0-9],[0-9]/.test(l))).toBe(true);
+  });
 });

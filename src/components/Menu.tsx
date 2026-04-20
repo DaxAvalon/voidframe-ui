@@ -614,10 +614,33 @@ export interface MenuBarProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function MenuBar({ children, className, ...props }: MenuBarProps) {
+  const barRef = useRef<HTMLDivElement | null>(null);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const root = barRef.current;
+    if (!root) return;
+    // Find the registered MenuBarMenu triggers (rendered as MenuRoot.Trigger).
+    const triggers = Array.from(
+      root.querySelectorAll<HTMLElement>('[data-vf-menubar-trigger="true"]')
+    );
+    if (triggers.length === 0) return;
+    const active = document.activeElement as HTMLElement | null;
+    let currentIdx = triggers.findIndex((el) => el === active || el.contains(active));
+    if (currentIdx === -1) currentIdx = 0;
+    const dir = e.key === "ArrowRight" ? 1 : -1;
+    const nextIdx = (currentIdx + dir + triggers.length) % triggers.length;
+    e.preventDefault();
+    const nextEl = triggers[nextIdx];
+    if (!nextEl) return;
+    nextEl.focus();
+    nextEl.click();
+  };
   return (
     <div
+      ref={barRef}
       role="menubar"
       className={cx("vf-menubar", className)}
+      onKeyDown={handleKeyDown}
       {...props}
     >
       {children}
@@ -633,7 +656,7 @@ export interface MenuBarMenuProps {
 export function MenuBarMenu({ trigger, children }: MenuBarMenuProps) {
   return (
     <MenuRoot>
-      <MenuRoot.Trigger>
+      <MenuRoot.Trigger data-vf-menubar-trigger="true">
         <span className="vf-menubar__trigger-label">{trigger}</span>
       </MenuRoot.Trigger>
       <MenuRoot.Content>{children}</MenuRoot.Content>

@@ -14,6 +14,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type CSSProperties,
   type HTMLAttributes,
@@ -161,7 +162,12 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calen
     return { start: day, end: day };
   }, [view, current, firstDayOfWeek]);
 
+  // Dedupe `onRangeChange` by epoch-ms so stable ranges don't re-emit.
+  const lastRangeKey = useRef<string>("");
   useEffect(() => {
+    const key = `${range.start.getTime()}:${range.end.getTime()}`;
+    if (key === lastRangeKey.current) return;
+    lastRangeKey.current = key;
     onRangeChange?.(range);
   }, [range, onRangeChange]);
 

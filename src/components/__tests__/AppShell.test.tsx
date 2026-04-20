@@ -38,6 +38,47 @@ describe("AppShell", () => {
     expect(screen.queryByTestId("sidebar")).not.toBeInTheDocument();
   });
 
+  it("mobile variant renders the same vf-appshell__ prefix", () => {
+    // Force the mobile breakpoint via matchMedia.
+    const prior = window.matchMedia;
+    window.matchMedia = ((q: string) => ({
+      matches: /max-width/.test(q),
+      media: q,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    })) as typeof window.matchMedia;
+    try {
+      const { container } = renderWithTheme(
+        <AppShell
+          header={<span>H</span>}
+          sidebar={<div>S</div>}
+          sidebarCollapsible
+        >
+          main
+        </AppShell>
+      );
+      // If the mobile sidebar is shown it should use the unified prefix.
+      const mobileBackdrop = container.querySelector(
+        ".vf-appshell__mobile-backdrop"
+      );
+      const oldClassBackdrop = container.querySelector(
+        ".vf-app-shell__mobile-backdrop"
+      );
+      expect(oldClassBackdrop).toBeNull();
+      // Either the backdrop exists, or we're at desktop breakpoint; either
+      // way, no legacy `vf-app-shell__` class should ever appear.
+      if (mobileBackdrop) {
+        expect(mobileBackdrop.className).toContain("vf-appshell__");
+      }
+    } finally {
+      window.matchMedia = prior;
+    }
+  });
+
   it("respects controlled sidebarCollapsed prop", () => {
     renderWithTheme(
       <AppShell

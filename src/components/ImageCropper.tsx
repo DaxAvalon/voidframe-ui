@@ -144,12 +144,25 @@ export const ImageCropper = forwardRef<HTMLDivElement, ImageCropperProps>(
       onSrcChange?.(url);
     };
 
+    // Track displayed image width so displayScale recomputes on resize.
+    const [displayWidth, setDisplayWidth] = useState<number>(0);
+    useEffect(() => {
+      const el = imgRef.current;
+      if (!el || typeof ResizeObserver === "undefined") return;
+      const ro = new ResizeObserver((entries) => {
+        const w = entries[0]?.contentRect.width ?? el.getBoundingClientRect().width;
+        setDisplayWidth(w);
+      });
+      ro.observe(el);
+      return () => ro.disconnect();
+    }, [imgSrc]);
+
     // Compute the CSS → natural scale factor.
     const displayScale = useMemo(() => {
       if (!natural || !imgRef.current) return 1;
-      const rect = imgRef.current.getBoundingClientRect();
-      return rect.width / natural.width || 1;
-    }, [natural]);
+      const width = displayWidth || imgRef.current.getBoundingClientRect().width;
+      return width / natural.width || 1;
+    }, [natural, displayWidth]);
 
     const handleSurfaceDown = (
       e: ReactPointerEvent<HTMLDivElement>,

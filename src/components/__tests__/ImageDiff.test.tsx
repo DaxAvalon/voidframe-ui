@@ -58,6 +58,21 @@ describe("ImageDiff", () => {
     expect(screen.getByLabelText("Overlay opacity")).toBeInTheDocument();
   });
 
+  it("overlayOpacity prop drives the overlay when provided", () => {
+    const { rerender, container } = renderWithTheme(
+      <ImageDiff before={BEFORE} after={AFTER} mode="overlay" overlayOpacity={0.2} />
+    );
+    const pickOverlay = () =>
+      container.querySelector<HTMLElement>(
+        ".vf-image-diff--overlay .vf-image-diff__after"
+      );
+    expect(pickOverlay()?.style.opacity).toBe("0.2");
+    rerender(
+      <ImageDiff before={BEFORE} after={AFTER} mode="overlay" overlayOpacity={0.8} />
+    );
+    expect(pickOverlay()?.style.opacity).toBe("0.8");
+  });
+
   it("renders slider divider in slider mode", () => {
     renderWithTheme(<ImageDiff before={BEFORE} after={AFTER} mode="slider" />);
     expect(screen.getByRole("separator")).toBeInTheDocument();

@@ -333,6 +333,59 @@ describe("DataGrid bulk actions", () => {
   });
 });
 
+describe("DataGrid selection scope", () => {
+  it("toggleAll selects all filtered rows across pages", async () => {
+    const onSelectionChange = vi.fn();
+    const cols: DataGridColumn<Row>[] = [{ key: "name", header: "Name" }];
+    const many: Row[] = Array.from({ length: 6 }, (_, i) => ({
+      id: `r${i}`,
+      name: `Row ${i}`,
+      value: i,
+      group: "A",
+    }));
+    renderWithTheme(
+      <DataGrid
+        columns={cols}
+        data={many}
+        rowKey={(r) => r.id}
+        rowSelection="multi"
+        onSelectionChange={onSelectionChange}
+        pagination={{ page: 1, pageSize: 3 }}
+      />
+    );
+    const selectAll = screen.getAllByRole("checkbox")[0]!;
+    await userEvent.click(selectAll);
+    const selected = onSelectionChange.mock.calls.at(-1)?.[0] as
+      | Set<string>
+      | undefined;
+    expect(selected?.size).toBe(many.length);
+  });
+
+  it("onGroupByChange does not re-fire when the parent re-passes the same groupBy prop", () => {
+    const onGroupByChange = vi.fn();
+    const cols: DataGridColumn<Row>[] = [{ key: "name", header: "Name" }];
+    const { rerender } = renderWithTheme(
+      <DataGrid
+        columns={cols}
+        data={data}
+        rowKey={(r) => r.id}
+        groupBy="group"
+        onGroupByChange={onGroupByChange}
+      />
+    );
+    rerender(
+      <DataGrid
+        columns={cols}
+        data={data}
+        rowKey={(r) => r.id}
+        groupBy="group"
+        onGroupByChange={onGroupByChange}
+      />
+    );
+    expect(onGroupByChange).not.toHaveBeenCalled();
+  });
+});
+
 describe("DataGrid inline editing", () => {
   it("starts editing on double-click", async () => {
     const onCellEdit = vi.fn();

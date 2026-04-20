@@ -55,6 +55,40 @@ describe("Combobox", () => {
     expect(onChange).not.toHaveBeenCalledWith("date");
   });
 
+  it("ArrowDown skips disabled options", async () => {
+    const onChange = vi.fn();
+    const opts = [
+      { value: "a", label: "Apple" },
+      { value: "b", label: "Banana", disabled: true },
+      { value: "c", label: "Cherry" },
+    ];
+    renderWithTheme(<Combobox label="Fruit" options={opts} onValueChange={onChange} />);
+    const input = screen.getByRole("combobox");
+    await userEvent.click(input);
+    // First ArrowDown highlights "Apple"; second should skip "Banana" → "Cherry".
+    await userEvent.keyboard("{ArrowDown}{ArrowDown}{Enter}");
+    expect(onChange).toHaveBeenLastCalledWith("c");
+  });
+
+  it("allowCustomValue=false visually resets the input on blur", async () => {
+    const { fireEvent } = await import("@testing-library/react");
+    renderWithTheme(
+      <Combobox
+        label="Fruit"
+        options={fruits}
+        defaultValue="apple"
+      />
+    );
+    const input = screen.getByRole("combobox") as HTMLInputElement;
+    await userEvent.click(input);
+    await userEvent.clear(input);
+    await userEvent.type(input, "zzz");
+    expect(input.value).toBe("zzz");
+    fireEvent.blur(input);
+    // Apple is the selected label — the input should reset to it.
+    expect(input.value).toBe("Apple");
+  });
+
   it("empty message shown when filter has no hits", async () => {
     renderWithTheme(
       <Combobox

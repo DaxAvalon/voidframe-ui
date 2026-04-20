@@ -38,8 +38,14 @@ export function Presence({ present, children }: PresenceProps) {
 
   // useMergedRefs is called unconditionally to satisfy hooks rules.
   // `childRef` is undefined when there's no valid element child — that's fine.
+  // React 18 exposes ref on the element; React 19+ exposes it as `props.ref`.
+  // Read both to stay compatible across React majors.
   const childRef: Ref<HTMLElement> | null = isValidElement(children)
-    ? ((children as { ref?: Ref<HTMLElement> | null }).ref ?? null)
+    ? ((children as { ref?: Ref<HTMLElement> | null }).ref ??
+        (
+          (children as { props?: { ref?: Ref<HTMLElement> | null } }).props
+            ?.ref ?? null
+        ))
     : null;
   const mergedRef = useMergedRefs<HTMLElement>(nodeRef, childRef);
 

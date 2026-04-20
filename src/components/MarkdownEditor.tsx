@@ -19,6 +19,7 @@ import {
   Fragment,
   forwardRef,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -99,6 +100,21 @@ const COMMAND_GLYPH: Record<MarkdownCommand, string> = {
   hr: "—",
 };
 
+function setTextareaValue(textarea: HTMLTextAreaElement, next: string): void {
+  // Use React's native setter so controlled-value components still dispatch
+  // `onChange` on the resulting `input` event.
+  const setter =
+    Object.getOwnPropertyDescriptor(
+      HTMLTextAreaElement.prototype,
+      "value"
+    )?.set;
+  if (setter) {
+    setter.call(textarea, next);
+  } else {
+    textarea.value = next;
+  }
+}
+
 function wrapSelection(
   textarea: HTMLTextAreaElement,
   before: string,
@@ -113,7 +129,7 @@ function wrapSelection(
     selected +
     after +
     value.slice(selectionEnd);
-  textarea.value = next;
+  setTextareaValue(textarea, next);
   const newCaret = selectionStart + before.length + selected.length;
   textarea.selectionStart = selectionStart + before.length;
   textarea.selectionEnd = newCaret;
@@ -124,7 +140,7 @@ function prependLine(textarea: HTMLTextAreaElement, prefix: string): void {
   const { selectionStart, value } = textarea;
   const lineStart = value.lastIndexOf("\n", Math.max(0, selectionStart - 1)) + 1;
   const next = value.slice(0, lineStart) + prefix + value.slice(lineStart);
-  textarea.value = next;
+  setTextareaValue(textarea, next);
   textarea.selectionStart = selectionStart + prefix.length;
   textarea.selectionEnd = selectionStart + prefix.length;
   textarea.dispatchEvent(new Event("input", { bubbles: true }));
@@ -505,6 +521,10 @@ export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
     const containerRef = useMergedRefs(ref);
 
     const [previewShown, setPreviewShown] = useState<boolean>(preview !== false);
+    // Resync when the caller toggles the `preview` prop externally.
+    useEffect(() => {
+      setPreviewShown(preview !== false);
+    }, [preview]);
 
     const handleChange = useCallback(
       (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -513,12 +533,16 @@ export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
       [setMd]
     );
 
-    const runCommand = useCallback((cmd: MarkdownCommand) => {
-      const ta = textareaRef.current;
-      if (!ta) return;
-      applyMarkdownCommand(ta, cmd);
-      ta.focus();
-    }, []);
+    const runCommand = useCallback(
+      (cmd: MarkdownCommand) => {
+        if (readOnly) return;
+        const ta = textareaRef.current;
+        if (!ta) return;
+        applyMarkdownCommand(ta, cmd);
+        ta.focus();
+      },
+      [readOnly]
+    );
 
     const previewNode = useMemo(() => renderMarkdownBlocks(md), [md]);
 

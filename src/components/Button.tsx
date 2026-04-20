@@ -1,6 +1,7 @@
 "use client";
 
-import { forwardRef, memo } from "react";
+import { cloneElement, forwardRef, isValidElement, memo } from "react";
+import type { ReactElement } from "react";
 import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";
 import { cx } from "../utils/cx";
@@ -70,16 +71,37 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
       typeof children !== "string",
       "<Button asChild> expects a single React element child (not a plain string)."
     );
+    // Decorate the child element: inject icons/spinner around its existing
+    // children, then pass the decorated child to Slot for prop merging.
+    let decoratedChild = children;
+    if (isValidElement(children)) {
+      const childEl = children as ReactElement<{ children?: React.ReactNode }>;
+      decoratedChild = cloneElement(childEl, {
+        children: (
+          <>
+            {loading ? (
+              <span className="vf-button__spinner" aria-hidden="true">&#x27F3;</span>
+            ) : iconLeft ? (
+              <span className="vf-button__icon vf-button__icon--left">{iconLeft}</span>
+            ) : null}
+            {childEl.props.children}
+            {iconRight && (
+              <span className="vf-button__icon vf-button__icon--right">{iconRight}</span>
+            )}
+          </>
+        ),
+      });
+    }
     return (
       <Slot
         ref={ref as never}
-        onClick={disabled ? undefined : onClick}
+        onClick={isDisabled ? undefined : onClick}
         className={composedClass}
         style={composedStyle}
         {...dataAttrs}
         {...props}
       >
-        {children}
+        {decoratedChild}
       </Slot>
     );
   }

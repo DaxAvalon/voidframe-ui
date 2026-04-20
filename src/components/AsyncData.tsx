@@ -89,7 +89,13 @@ export const AsyncData = forwardRef<HTMLDivElement, AsyncDataProps<unknown>>(
         );
         break;
       case "success":
-        content = data !== undefined && data !== null ? children(data) : null;
+        if (data !== undefined && data !== null) {
+          content = children(data);
+        } else {
+          content = empty ?? (
+            <div className="vf-async-data__empty">No data.</div>
+          );
+        }
         break;
     }
     return (

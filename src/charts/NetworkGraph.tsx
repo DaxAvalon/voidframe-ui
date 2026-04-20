@@ -295,7 +295,14 @@ export const NetworkGraph = forwardRef<HTMLDivElement, NetworkGraphProps>(
     const onNodeDown =
       (node: SimNode) => (e: ReactPointerEvent<SVGElement>) => {
         const sim = simulationRef.current;
-        if (!sim) return;
+        if (!sim) {
+          if (process.env.NODE_ENV !== "production" && !rubberBand) {
+            console.warn(
+              "[voidframe] NetworkGraph: drag is a no-op because the d3-force peer dep is not loaded."
+            );
+          }
+          return;
+        }
         e.stopPropagation();
         if (rubberBand) {
           // Re-warm + restart so subsequent .alpha(0.3) calls produce ticks.

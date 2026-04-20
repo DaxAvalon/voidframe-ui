@@ -8,6 +8,7 @@ import { DismissableLayer } from "../primitives/DismissableLayer";
 import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
 import { Presence } from "../primitives/Presence";
+import { ScrollLock } from "../primitives/ScrollLock";
 import type { Side, ToastType } from "../types";
 import { cx } from "../utils/cx";
 import { warn } from "../utils/warn";
@@ -73,6 +74,8 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
   );
 
   const inner = (
+    <>
+    <ScrollLock enabled={open} />
     <div
       ref={ref}
       role="dialog"
@@ -120,6 +123,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
         </FocusScope>
       </DismissableLayer>
     </div>
+    </>
   );
 
   if (!motion) {
@@ -369,7 +373,7 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
           className={cx("vf-confirm__panel", className)}
           style={style}
           role="alertdialog"
-          aria-modal="true"
+          aria-modal={open ? "true" : undefined}
           aria-label={title}
           {...(props as HTMLAttributes<HTMLDivElement>)}
         >

@@ -41,6 +41,37 @@ describe("Button", () => {
     }
   );
 
+  it("asChild renders iconLeft/iconRight/spinner and suppresses onClick while loading", async () => {
+    const onClick = vi.fn();
+    const { container, rerender } = renderWithTheme(
+      <Button
+        asChild
+        iconLeft={<span data-testid="left">L</span>}
+        iconRight={<span data-testid="right">R</span>}
+        onClick={onClick}
+      >
+        <a href="#x">Go</a>
+      </Button>
+    );
+    expect(screen.getByTestId("left")).toBeInTheDocument();
+    expect(screen.getByTestId("right")).toBeInTheDocument();
+
+    rerender(
+      <Button
+        asChild
+        loading
+        iconLeft={<span data-testid="left">L</span>}
+        onClick={onClick}
+      >
+        <a href="#x">Go</a>
+      </Button>
+    );
+    expect(container.querySelector(".vf-button__spinner")).toBeInTheDocument();
+    expect(screen.queryByTestId("left")).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("link"));
+    expect(onClick).not.toHaveBeenCalled();
+  });
+
   it("has no a11y violations", async () => {
     const { container } = renderWithTheme(<Button>Accessible</Button>);
     await expectNoA11yViolations(container);

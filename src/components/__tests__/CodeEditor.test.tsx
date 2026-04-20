@@ -56,6 +56,16 @@ describe("CodeEditor", () => {
     expect(pre).toHaveAttribute("aria-hidden", "true");
   });
 
+  it("readOnly suppresses Tab insertion", async () => {
+    renderWithTheme(
+      <CodeEditor label="Source" defaultValue="" tabSize={4} readOnly />
+    );
+    const ta = screen.getByLabelText("Source") as HTMLTextAreaElement;
+    ta.focus();
+    await userEvent.keyboard("{Tab}");
+    expect(ta.value).toBe("");
+  });
+
   it("emits onChange when typing", async () => {
     const onChange = vi.fn();
     renderWithTheme(<CodeEditor label="Source" onValueChange={onChange} />);

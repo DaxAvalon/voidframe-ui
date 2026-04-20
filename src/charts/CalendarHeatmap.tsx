@@ -249,7 +249,7 @@ export const CalendarHeatmap = forwardRef<HTMLDivElement, CalendarHeatmapProps>(
                 i === 0
                   ? "None"
                   : i === colors.length - 1
-                    ? `${Math.round(maxValue)}+`
+                    ? `${valueFormat(maxValue)}+`
                     : "",
               color: c,
               glyph: "square",

@@ -190,6 +190,29 @@ describe("AudioPlayer extended", () => {
     expect(audio?.loop).toBe(true);
     expect(audio?.muted).toBe(true);
   });
+
+  it("renders caption tracks when captions prop is provided", () => {
+    const { container } = renderWithTheme(
+      <AudioPlayer
+        src="track.mp3"
+        captions={[
+          { src: "c.vtt", srcLang: "en", label: "English", default: true },
+        ]}
+      />
+    );
+    const track = container.querySelector("audio track");
+    expect(track).not.toBeNull();
+    expect(track?.getAttribute("srclang")).toBe("en");
+  });
+
+  it("programmatic muted prop change updates the media element", () => {
+    const { container, rerender } = renderWithTheme(
+      <AudioPlayer src="track.mp3" muted={false} />
+    );
+    const audio = container.querySelector("audio") as HTMLAudioElement;
+    rerender(<AudioPlayer src="track.mp3" muted />);
+    expect(audio.muted).toBe(true);
+  });
 });
 
 describe("VoiceWaveform extended", () => {

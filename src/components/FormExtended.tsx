@@ -57,10 +57,11 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(function Check
       className={cx("vf-checkbox", className)}
       style={composedStyle}
       data-disabled={disabled ? "true" : undefined}
+      aria-disabled={disabled || undefined}
       onClick={() => !disabled && setValue(!value)}
       role="checkbox"
       aria-checked={value}
-      tabIndex={0}
+      tabIndex={disabled ? -1 : 0}
       onKeyDown={handleKey}
       {...props}
     >
@@ -103,10 +104,11 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(function Radio(
       className={cx("vf-radio", className)}
       style={composedStyle}
       data-disabled={disabled ? "true" : undefined}
+      aria-disabled={disabled || undefined}
       onClick={() => !disabled && onValueChange()}
       role="radio"
       aria-checked={checked}
-      tabIndex={0}
+      tabIndex={disabled ? -1 : 0}
       onKeyDown={handleKey}
       {...props}
     >

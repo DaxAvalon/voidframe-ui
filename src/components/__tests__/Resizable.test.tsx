@@ -105,6 +105,16 @@ describe("ResizableBox", () => {
     expect(box.style.height).toBe("120px");
   });
 
+  it("width prop updates propagate to the rendered container", () => {
+    const { container, rerender } = renderWithTheme(
+      <ResizableBox width={100} height={100}>x</ResizableBox>
+    );
+    const box = container.querySelector(".vf-resizable-box") as HTMLElement;
+    expect(box.style.width).toBe("100px");
+    rerender(<ResizableBox width={350} height={100}>x</ResizableBox>);
+    expect(box.style.width).toBe("350px");
+  });
+
   it("axis=x exposes only the width grip", () => {
     const { container } = renderWithTheme(
       <ResizableBox axis="x" defaultWidth={200} defaultHeight={100} />

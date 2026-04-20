@@ -41,6 +41,21 @@ describe("Drawer", () => {
     await userEvent.click(screen.getByText("×"));
     expect(onDismiss).toHaveBeenCalledTimes(1);
   });
+
+  it("deprecated Drawer locks body scroll when open", () => {
+    const { rerender } = renderWithTheme(
+      <Drawer open={false} onDismiss={() => {}} title="L">
+        body
+      </Drawer>
+    );
+    expect(document.body.style.overflow).not.toBe("hidden");
+    rerender(
+      <Drawer open onDismiss={() => {}} title="L">
+        body
+      </Drawer>
+    );
+    expect(document.body.style.overflow).toBe("hidden");
+  });
 });
 
 describe("Dropdown", () => {
@@ -168,6 +183,32 @@ describe("ConfirmDialog", () => {
       />
     );
     expect(screen.queryByText("DELETE?")).not.toBeInTheDocument();
+  });
+
+  it("drops aria-modal when open=false (motion branch mounted)", () => {
+    const { rerender } = renderWithTheme(
+      <ConfirmDialog
+        open
+        title="T"
+        onConfirm={() => {}}
+        onCancel={() => {}}
+      />
+    );
+    let panel = document.querySelector(".vf-confirm__panel");
+    expect(panel?.getAttribute("aria-modal")).toBe("true");
+    rerender(
+      <ConfirmDialog
+        open={false}
+        title="T"
+        onConfirm={() => {}}
+        onCancel={() => {}}
+      />
+    );
+    panel = document.querySelector(".vf-confirm__panel");
+    // If still mounted during exit animation, aria-modal must be gone
+    if (panel) {
+      expect(panel.getAttribute("aria-modal")).toBeNull();
+    }
   });
 
   it("renders title + message + buttons when open", () => {

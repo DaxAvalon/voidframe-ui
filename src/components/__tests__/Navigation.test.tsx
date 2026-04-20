@@ -55,6 +55,28 @@ describe("Pagination", () => {
     expect(onChange).toHaveBeenCalledWith(3);
   });
 
+  it("renders without the controlled-input warning when showPageSize=true and pageSize is omitted", () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      renderWithTheme(
+        <Pagination
+          value={1}
+          totalPages={5}
+          onValueChange={() => {}}
+          showPageSize
+          pageSizeOptions={[10, 25, 50]}
+        />
+      );
+      for (const call of errorSpy.mock.calls) {
+        expect(String(call[0] ?? "")).not.toMatch(/uncontrolled|controlled/i);
+      }
+    } finally {
+      errorSpy.mockRestore();
+      warnSpy.mockRestore();
+    }
+  });
+
   it("disables previous at page 1", async () => {
     const onChange = vi.fn();
     renderWithTheme(<Pagination value={1} totalPages={5} onValueChange={onChange} />);
@@ -90,6 +112,18 @@ describe("NavItem", () => {
     renderWithTheme(<NavItem onClick={onClick}>Go</NavItem>);
     await userEvent.click(screen.getByText("Go"));
     expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("asChild forwards ref and arbitrary aria-label", () => {
+    const ref: { current: HTMLElement | null } = { current: null };
+    renderWithTheme(
+      <NavItem asChild aria-label="custom-label">
+        <a ref={ref as unknown as React.Ref<HTMLAnchorElement>} href="/x">Go</a>
+      </NavItem>
+    );
+    const link = screen.getByRole("link");
+    expect(link.getAttribute("aria-label")).toBe("custom-label");
+    expect(ref.current).toBe(link);
   });
 
   it("renders icon when given", () => {

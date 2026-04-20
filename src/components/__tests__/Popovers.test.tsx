@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { HoverCard, PopoverV2, Tooltip, Backdrop } from "../Popovers";
+import { HoverCard, PopoverV2, Tooltip, TooltipProvider, Backdrop } from "../Popovers";
 import { Button } from "../Button";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 
@@ -102,6 +102,40 @@ describe("Tooltip", () => {
       expect(screen.getByRole("tooltip")).toBeInTheDocument()
     );
     expect(screen.getByText("Tooltip text")).toBeInTheDocument();
+  });
+
+  it("second tooltip opens with 0 delay when re-opened within skipDelayDuration", async () => {
+    const user = userEvent.setup();
+    renderWithTheme(
+      <TooltipProvider delayDuration={1000} skipDelayDuration={500}>
+        <Tooltip content="First">
+          <button>A</button>
+        </Tooltip>
+        <Tooltip content="Second">
+          <button>B</button>
+        </Tooltip>
+      </TooltipProvider>
+    );
+    const a = screen.getByRole("button", { name: "A" });
+    const b = screen.getByRole("button", { name: "B" });
+    // Hover A, wait for open, then leave (sets lastClosedAt).
+    await user.hover(a);
+    await waitFor(
+      () => expect(screen.getByText("First")).toBeInTheDocument(),
+      { timeout: 2000 }
+    );
+    await user.unhover(a);
+    await waitFor(() =>
+      expect(screen.queryByText("First")).not.toBeInTheDocument()
+    );
+    // Immediately hover B — should open without waiting ~delayDuration.
+    const started = Date.now();
+    await user.hover(b);
+    await waitFor(() =>
+      expect(screen.getByText("Second")).toBeInTheDocument()
+    );
+    const elapsed = Date.now() - started;
+    expect(elapsed).toBeLessThan(900);
   });
 });
 

@@ -20,7 +20,7 @@ import {
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import { ChartLegend, type ChartLegendItem } from "./primitives/Legend";
 import { Gridlines } from "./primitives/Gridlines";
-import { seriesPalette } from "./math/color";
+import { formatChartNumber, seriesPalette } from "./math/color";
 import {
   bandScale,
   linearScale,
@@ -88,7 +88,7 @@ export const ComposedChart = forwardRef<HTMLDivElement, ComposedChartProps>(
       showGrid = true,
       valueTicks = 5,
       xTicks = 6,
-      valueFormat = String,
+      valueFormat = (v: number) => formatChartNumber(v),
       xFormat,
       accessibleLabel,
       padding = 0.2,

@@ -239,6 +239,25 @@ describe("ComposerMicButton", () => {
     expect(screen.queryByTestId("wf")).not.toBeInTheDocument();
   });
 
+  it("onRecordStop fires exactly once in controlled mode after maxDuration", async () => {
+    vi.useFakeTimers();
+    try {
+      const onRecordStop = vi.fn();
+      const { rerender } = renderWithTheme(
+        <ComposerMicButton recording onRecordStop={onRecordStop} maxDuration={200} />
+      );
+      vi.advanceTimersByTime(220);
+      // Parent flips to controlled false in response.
+      rerender(
+        <ComposerMicButton recording={false} onRecordStop={onRecordStop} maxDuration={200} />
+      );
+      vi.advanceTimersByTime(400);
+      expect(onRecordStop).toHaveBeenCalledTimes(1);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("transcribing adds transcribing class", () => {
     const { container } = renderWithTheme(
       <ComposerMicButton transcribing />

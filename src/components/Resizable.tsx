@@ -340,6 +340,14 @@ export const ResizableBox = forwardRef<HTMLDivElement, ResizableBoxProps>(
   ) {
     const [w, setW] = useState(controlledW ?? defaultWidth);
     const [h, setH] = useState(controlledH ?? defaultHeight);
+    // Keep internal state aligned with controlled props so a later uncontrolled
+    // use or child consumers of `liveW`/`liveH` stay in sync.
+    useEffect(() => {
+      if (controlledW !== undefined) setW(controlledW);
+    }, [controlledW]);
+    useEffect(() => {
+      if (controlledH !== undefined) setH(controlledH);
+    }, [controlledH]);
     const liveW = controlledW ?? w;
     const liveH = controlledH ?? h;
     const dragging = useRef<{

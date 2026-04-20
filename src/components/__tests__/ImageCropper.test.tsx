@@ -35,6 +35,37 @@ describe("ImageCropper", () => {
     expect(screen.getByRole("button", { name: "Apply crop" })).toBeInTheDocument();
   });
 
+  it("attaches a ResizeObserver to keep crop coordinates in sync on container resize", () => {
+    const observeSpy = vi.fn();
+    const disconnectSpy = vi.fn();
+    class MockRO {
+      callback: ResizeObserverCallback;
+      constructor(cb: ResizeObserverCallback) {
+        this.callback = cb;
+      }
+      observe(el: Element) {
+        observeSpy(el);
+      }
+      unobserve() {}
+      disconnect() {
+        disconnectSpy();
+      }
+    }
+    const prior = (globalThis as unknown as { ResizeObserver?: typeof ResizeObserver }).ResizeObserver;
+    (globalThis as unknown as { ResizeObserver: typeof ResizeObserver }).ResizeObserver = MockRO as unknown as typeof ResizeObserver;
+    try {
+      const { unmount } = renderWithTheme(
+        <ImageCropper label="Pick" src="/example.png" />
+      );
+      expect(observeSpy).toHaveBeenCalled();
+      unmount();
+      expect(disconnectSpy).toHaveBeenCalled();
+    } finally {
+      if (prior)
+        (globalThis as unknown as { ResizeObserver: typeof ResizeObserver }).ResizeObserver = prior;
+    }
+  });
+
   it("respects an explicit initial crop via aspect", () => {
     renderWithTheme(
       <ImageCropper

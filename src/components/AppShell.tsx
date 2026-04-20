@@ -136,11 +136,11 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         {sidebar && isMobile && !collapsed && (
           <>
             <div
-              className="vf-app-shell__mobile-backdrop"
+              className="vf-appshell__mobile-backdrop"
               onClick={toggle}
               aria-hidden="true"
             />
-            <aside className="vf-app-shell__sidebar--mobile">
+            <aside className="vf-appshell__sidebar--mobile">
               {sidebar}
             </aside>
           </>

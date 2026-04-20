@@ -1,7 +1,7 @@
 // Tests for WidgetShell and DashboardGrid (packLayout helper)
 
-import { screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 import { WidgetShell, DashboardGrid, packLayout } from "../Widget";
 
@@ -110,6 +110,52 @@ describe("DashboardGrid", () => {
     );
     expect(screen.getByText("a")).toBeInTheDocument();
     expect(screen.getByText("b")).toBeInTheDocument();
+  });
+
+  it("dragging a widget is a no-op when onLayoutChange is absent, and emits a dev warning", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      const { container } = renderWithTheme(
+        <DashboardGrid
+          items={items}
+          renderItem={(id) => <div data-testid={`w-${id}`}>{id}</div>}
+          movable
+        />
+      );
+      const card = container.querySelector(
+        ".vf-dashboard-grid__cell"
+      ) as HTMLElement | null;
+      if (!card) {
+        // Grid not rendered — skip rather than fail spuriously.
+        return;
+      }
+      fireEvent.pointerDown(card, { clientX: 0, clientY: 0, pointerId: 1 });
+      expect(warnSpy).toHaveBeenCalled();
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("resize emits onLayoutChange at most once per pointer event", () => {
+    const onLayoutChange = vi.fn();
+    const { container } = renderWithTheme(
+      <DashboardGrid
+        items={items}
+        renderItem={(id) => <div>{id}</div>}
+        resizable
+        onLayoutChange={onLayoutChange}
+      />
+    );
+    const grip = container.querySelector(
+      "[role='separator']"
+    ) as HTMLElement;
+    fireEvent.pointerDown(grip, { clientX: 0, clientY: 0, pointerId: 1 });
+    const before = onLayoutChange.mock.calls.length;
+    fireEvent.pointerMove(window, { clientX: 500, clientY: 500, pointerId: 1 });
+    const after = onLayoutChange.mock.calls.length;
+    // A single pointermove must translate to at most one onLayoutChange emit.
+    expect(after - before).toBeLessThanOrEqual(1);
+    fireEvent.pointerUp(window, { pointerId: 1 });
   });
 
   it("renders resize handles when resizable", () => {

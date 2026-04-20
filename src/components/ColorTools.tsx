@@ -10,13 +10,15 @@ import {
 import { cx } from "../utils/cx";
 
 export interface ColorSwatchProps
-  extends Omit<HTMLAttributes<HTMLButtonElement>, "color"> {
+  extends Omit<HTMLAttributes<HTMLElement>, "color"> {
   color: string;
   size?: number | "sm" | "md" | "lg";
   showLabel?: boolean;
   label?: ReactNode;
   selected?: boolean;
   onSelect?: () => void;
+  /** Explicit disabled state. Defaults to `!onSelect` when interactive. */
+  disabled?: boolean;
 }
 
 const SIZE_MAP = { sm: 16, md: 24, lg: 36 } as const;
@@ -26,7 +28,7 @@ function resolveSize(size: number | "sm" | "md" | "lg"): number {
   return SIZE_MAP[size];
 }
 
-export const ColorSwatch = forwardRef<HTMLButtonElement, ColorSwatchProps>(
+export const ColorSwatch = forwardRef<HTMLElement, ColorSwatchProps>(
   function ColorSwatch(
     {
       color,
@@ -35,6 +37,7 @@ export const ColorSwatch = forwardRef<HTMLButtonElement, ColorSwatchProps>(
       label,
       selected,
       onSelect,
+      disabled,
       className,
       style,
       ...props
@@ -43,9 +46,43 @@ export const ColorSwatch = forwardRef<HTMLButtonElement, ColorSwatchProps>(
   ) {
     const dim = resolveSize(size);
     const displayLabel = label ?? color;
+    const isInteractive = !!onSelect;
+    const isDisabled = disabled ?? (isInteractive ? false : undefined);
+
+    if (!isInteractive) {
+      // Display-only: render a non-interactive container.
+      return (
+        <div
+          ref={ref as unknown as React.Ref<HTMLDivElement>}
+          aria-label={
+            typeof displayLabel === "string" ? displayLabel : undefined
+          }
+          className={cx(
+            "vf-color-swatch",
+            "vf-color-swatch--display",
+            selected && "vf-color-swatch--selected",
+            showLabel && "vf-color-swatch--with-label",
+            className
+          )}
+          style={style}
+          data-disabled={isDisabled ? "true" : undefined}
+          {...(props as HTMLAttributes<HTMLDivElement>)}
+        >
+          <span
+            className="vf-color-swatch__chip"
+            style={{ background: color, width: dim, height: dim }}
+            aria-hidden="true"
+          />
+          {showLabel && (
+            <span className="vf-color-swatch__label">{displayLabel}</span>
+          )}
+        </div>
+      );
+    }
+
     return (
       <button
-        ref={ref}
+        ref={ref as unknown as React.Ref<HTMLButtonElement>}
         type="button"
         aria-pressed={selected ? "true" : undefined}
         aria-label={
@@ -58,9 +95,9 @@ export const ColorSwatch = forwardRef<HTMLButtonElement, ColorSwatchProps>(
           className
         )}
         onClick={onSelect}
-        disabled={!onSelect}
+        disabled={isDisabled}
         style={style}
-        {...props}
+        {...(props as HTMLAttributes<HTMLButtonElement>)}
       >
         <span
           className="vf-color-swatch__chip"

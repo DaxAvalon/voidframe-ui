@@ -305,10 +305,19 @@ export const InfiniteScroll = forwardRef<HTMLDivElement, InfiniteScrollProps>(
       const target = sentinelRef.current;
       if (!target) return;
       if (typeof IntersectionObserver === "undefined") return;
+      let hasFired = false;
       const io = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            if (entry.isIntersecting && !loading) onLoadMore();
+            if (entry.isIntersecting) {
+              if (!loading && !hasFired) {
+                hasFired = true;
+                onLoadMore();
+              }
+            } else {
+              // Sentinel out of view → reset guard for the next intersection.
+              hasFired = false;
+            }
           }
         },
         { root: scrollParent ?? null, threshold }

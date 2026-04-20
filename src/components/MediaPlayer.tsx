@@ -103,6 +103,7 @@ function MediaShell({
   children,
   controls = "custom",
   isAudio,
+  mutedProp,
 }: {
   el: MutableRefObject<HTMLMediaElement | null>;
   captions: CaptionTrack[];
@@ -111,6 +112,7 @@ function MediaShell({
   children?: ReactNode;
   controls?: "custom" | "native" | "none";
   isAudio?: boolean;
+  mutedProp?: boolean;
 }) {
   const [playing, setPlayingInternal] = useState(false);
   const [duration, setDuration] = useState(0);
@@ -170,6 +172,14 @@ function MediaShell({
     document.addEventListener("fullscreenchange", onChange);
     return () => document.removeEventListener("fullscreenchange", onChange);
   }, []);
+
+  // Propagate controlled `muted` prop changes to the underlying element.
+  useEffect(() => {
+    if (mutedProp === undefined) return;
+    const m = el.current;
+    if (!m) return;
+    m.muted = mutedProp;
+  }, [mutedProp, el]);
 
   // Sync state from media element events.
   useEffect(() => {
@@ -313,6 +323,7 @@ const VideoPlayerRoot = forwardRef<HTMLVideoElement, VideoPlayerProps>(
         className={className}
         style={style}
         controls={controls}
+        mutedProp={muted}
       >
         <video
           ref={setRef}
@@ -353,7 +364,7 @@ VideoPlayerRoot.displayName = "VideoPlayer";
 // ── AudioPlayer ─────────────────────────────────────────────
 
 export interface AudioPlayerProps
-  extends PlayerCommonProps,
+  extends Omit<PlayerCommonProps, "poster" | "playsInline">,
     Omit<HTMLAttributes<HTMLAudioElement>, keyof PlayerCommonProps | "controls"> {
   children?: ReactNode;
   className?: string;
@@ -368,6 +379,7 @@ export const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
       loop,
       muted,
       controls = "custom",
+      captions = [],
       onPlay,
       onPause,
       onTimeUpdate,
@@ -388,11 +400,12 @@ export const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
     return (
       <MediaShell
         el={el}
-        captions={[]}
+        captions={captions}
         className={className}
         style={style}
         controls={controls}
         isAudio
+        mutedProp={muted}
       >
         <audio
           ref={setRef}
@@ -409,7 +422,18 @@ export const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
           onEnded={() => onEnded?.()}
           className="vf-media__el"
           {...props}
-        />
+        >
+          {captions.map((c, i) => (
+            <track
+              key={i}
+              kind="subtitles"
+              src={c.src}
+              srcLang={c.srcLang}
+              label={c.label}
+              default={c.default}
+            />
+          ))}
+        </audio>
         {controls === "custom" && (children ?? <DefaultControls audioOnly />)}
       </MediaShell>
     );

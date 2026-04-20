@@ -17,6 +17,24 @@ import { cx } from "../utils/cx";
 import { Shortcut } from "./NavigationExtended";
 import { useShortcutRegistry } from "../hooks/useShortcuts";
 
+function shortcutMatches(keys: string, e: KeyboardEvent): boolean {
+  const parts = keys.split("+").map((p) => p.trim().toLowerCase());
+  const wantsMod = parts.includes("mod") || parts.includes("cmd");
+  const wantsCtrl = parts.includes("ctrl");
+  const wantsShift = parts.includes("shift");
+  const wantsAlt = parts.includes("alt") || parts.includes("opt");
+  const key = parts.find(
+    (p) => !["mod", "cmd", "ctrl", "shift", "alt", "opt"].includes(p)
+  );
+  if (!key) return false;
+  if (e.key.toLowerCase() !== key.toLowerCase()) return false;
+  if (wantsMod && !(e.metaKey || e.ctrlKey)) return false;
+  if (wantsCtrl && !e.ctrlKey) return false;
+  if (wantsShift !== e.shiftKey) return false;
+  if (wantsAlt !== e.altKey) return false;
+  return true;
+}
+
 export interface ShortcutGuideProps extends HTMLAttributes<HTMLDivElement> {
   /** Key combo that toggles the guide. Default "?". */
   triggerKeys?: string;
@@ -66,7 +84,7 @@ export const ShortcutGuide = forwardRef<HTMLDivElement, ShortcutGuideProps>(
             target.tagName === "TEXTAREA" ||
             target.isContentEditable);
         if (inInput) return;
-        if (e.key === triggerKeys) {
+        if (shortcutMatches(triggerKeys, e)) {
           e.preventDefault();
           setOpen(!isOpen);
         } else if (e.key === "Escape" && isOpen) {

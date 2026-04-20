@@ -99,6 +99,20 @@ describe("TreeView", () => {
     expect(onSelectionChange).not.toHaveBeenCalled();
   });
 
+  it("ArrowRight on a hasChildren node with no children-yet triggers the expand handler", async () => {
+    const onExpandedChange = vi.fn();
+    const lazyItems: TreeNode[] = [
+      { id: "lazy", label: "LazyNode", hasChildren: true },
+    ];
+    renderWithTheme(
+      <TreeView items={lazyItems} onExpandedChange={onExpandedChange} />
+    );
+    const item = screen.getByText("LazyNode").closest<HTMLElement>("[role='treeitem']")!;
+    item.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(onExpandedChange).toHaveBeenCalled();
+  });
+
   it("fires onExpandedChange", async () => {
     const onExpandedChange = vi.fn();
     renderWithTheme(

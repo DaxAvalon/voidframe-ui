@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { useRef, useEffect } from "react";
+import { describe, expect, it, vi } from "vitest";
 import { Presence } from "../Presence";
 
 describe("Presence", () => {
@@ -37,6 +38,27 @@ describe("Presence", () => {
       </Presence>
     );
     expect(queryByTestId("p")).not.toBeInTheDocument();
+  });
+
+  it("populates the child's ref regardless of how the ref is exposed", () => {
+    const gotRef = vi.fn();
+    function Inner() {
+      const myRef = useRef<HTMLDivElement | null>(null);
+      useEffect(() => {
+        gotRef(myRef.current);
+      }, []);
+      return (
+        <Presence present>
+          <div ref={myRef} data-testid="p">
+            hi
+          </div>
+        </Presence>
+      );
+    }
+    render(<Inner />);
+    expect(gotRef).toHaveBeenCalled();
+    const el = gotRef.mock.calls.at(-1)?.[0];
+    expect(el).toBeInstanceOf(HTMLElement);
   });
 
   it("renders null initially when present=false", () => {

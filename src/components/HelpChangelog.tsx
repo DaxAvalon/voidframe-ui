@@ -276,13 +276,17 @@ export const WhatsNewPopover = forwardRef<HTMLDivElement, WhatsNewPopoverProps>(
     const effectiveOpen = open ?? dismissed !== version;
     if (!effectiveOpen) return null;
     const dismiss = () => {
-      try {
-        if (storage) storage.set(storageKey, version);
-        else if (typeof localStorage !== "undefined")
-          localStorage.setItem(storageKey, version);
-        setDismissed(version);
-      } catch {
-        /* noop */
+      // Only persist in uncontrolled mode; the parent owns the state when
+      // `open` is explicitly passed.
+      if (open === undefined) {
+        try {
+          if (storage) storage.set(storageKey, version);
+          else if (typeof localStorage !== "undefined")
+            localStorage.setItem(storageKey, version);
+          setDismissed(version);
+        } catch {
+          /* noop */
+        }
       }
       onDismiss?.();
     };

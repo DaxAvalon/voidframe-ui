@@ -85,6 +85,7 @@ export const CodeEditor = forwardRef<HTMLDivElement, CodeEditorProps>(
 
     const handleKey = useCallback(
       (e: KeyboardEvent<HTMLTextAreaElement>) => {
+        if (readOnly) return;
         if (e.key === "Tab") {
           e.preventDefault();
           const ta = e.currentTarget;
@@ -97,7 +98,7 @@ export const CodeEditor = forwardRef<HTMLDivElement, CodeEditorProps>(
           setCode(next);
         }
       },
-      [tabSize, setCode]
+      [tabSize, setCode, readOnly]
     );
 
     const lineCount = useMemo(() => Math.max(1, code.split("\n").length), [code]);

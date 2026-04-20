@@ -57,6 +57,12 @@ export interface ChartFrameProps
   svgClassName?: string;
   /** Forwarded to the inner SVG, not the outer div. */
   svgStyle?: CSSProperties;
+  /**
+   * Imperative handle for `toSVG` / `toPNG` exports. The component's main
+   * ref exposes the underlying `<div>` element; export helpers live here
+   * to keep DOM-ref semantics clean.
+   */
+  exportRef?: React.Ref<ChartFrameHandle>;
 }
 
 export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
@@ -77,6 +83,7 @@ export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
       style,
       svgClassName,
       svgStyle,
+      exportRef,
       ...props
     },
     ref
@@ -87,46 +94,48 @@ export const ChartFrame = forwardRef<HTMLDivElement, ChartFrameProps>(
     const measured = useElementSize(containerRef);
 
     useImperativeHandle(
-      ref,
+      exportRef,
       () => {
-        const div = containerRef.current!;
-        const handle = div as HTMLDivElement & ChartFrameHandle;
-        handle.toSVG = () => {
-          const svg = svgRef.current;
-          if (!svg) return "";
-          return svg.outerHTML;
-        };
-        handle.toPNG = async (scale = 2) => {
-          const svg = svgRef.current;
-          if (!svg) return "";
-          const svgString = svg.outerHTML;
-          const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
-          const url = URL.createObjectURL(blob);
-          const img = new Image();
-          const w = svg.viewBox.baseVal.width || svg.clientWidth;
-          const h = svg.viewBox.baseVal.height || svg.clientHeight;
-          return new Promise<string>((resolve, reject) => {
-            img.onload = () => {
-              const canvas = document.createElement("canvas");
-              canvas.width = w * scale;
-              canvas.height = h * scale;
-              const ctx2d = canvas.getContext("2d");
-              if (!ctx2d) {
+        const handle: ChartFrameHandle = {
+          toSVG: () => {
+            const svg = svgRef.current;
+            if (!svg) return "";
+            return svg.outerHTML;
+          },
+          toPNG: async (scale = 2) => {
+            const svg = svgRef.current;
+            if (!svg) return "";
+            const svgString = svg.outerHTML;
+            const blob = new Blob([svgString], {
+              type: "image/svg+xml;charset=utf-8",
+            });
+            const url = URL.createObjectURL(blob);
+            const img = new Image();
+            const w = svg.viewBox.baseVal.width || svg.clientWidth;
+            const h = svg.viewBox.baseVal.height || svg.clientHeight;
+            return new Promise<string>((resolve, reject) => {
+              img.onload = () => {
+                const canvas = document.createElement("canvas");
+                canvas.width = w * scale;
+                canvas.height = h * scale;
+                const ctx2d = canvas.getContext("2d");
+                if (!ctx2d) {
+                  URL.revokeObjectURL(url);
+                  reject(new Error("Canvas 2D context unavailable"));
+                  return;
+                }
+                ctx2d.scale(scale, scale);
+                ctx2d.drawImage(img, 0, 0, w, h);
                 URL.revokeObjectURL(url);
-                reject(new Error("Canvas 2D context unavailable"));
-                return;
-              }
-              ctx2d.scale(scale, scale);
-              ctx2d.drawImage(img, 0, 0, w, h);
-              URL.revokeObjectURL(url);
-              resolve(canvas.toDataURL("image/png"));
-            };
-            img.onerror = () => {
-              URL.revokeObjectURL(url);
-              reject(new Error("Failed to load SVG into image"));
-            };
-            img.src = url;
-          });
+                resolve(canvas.toDataURL("image/png"));
+              };
+              img.onerror = () => {
+                URL.revokeObjectURL(url);
+                reject(new Error("Failed to load SVG into image"));
+              };
+              img.src = url;
+            });
+          },
         };
         return handle;
       },

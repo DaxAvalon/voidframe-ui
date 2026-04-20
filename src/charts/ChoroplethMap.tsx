@@ -242,7 +242,7 @@ export const ChoroplethMap = forwardRef<HTMLDivElement, ChoroplethMapProps>(
                 i === 0
                   ? "0"
                   : i === colors.length - 1
-                    ? `${formatChartNumber(max)}+`
+                    ? `${valueFormat(max)}+`
                     : "",
               color: c,
               glyph: "square",

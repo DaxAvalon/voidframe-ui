@@ -295,15 +295,17 @@ function DataGridRoot<T = Record<string, unknown>>({
   const currentFilters = filters ?? filtersInternal;
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(() => new Set());
 
-  // Reset collapsed groups when the groupBy key changes.
+  // Reset collapsed groups when the groupBy key changes. The `groupBy` prop
+  // is source-of-truth — we do NOT echo the caller's own value back via
+  // `onGroupByChange`; that callback is reserved for future internal-state
+  // transitions.
   const prevGroupBy = useRef(groupBy);
   useEffect(() => {
     if (prevGroupBy.current !== groupBy) {
       prevGroupBy.current = groupBy;
       setCollapsedGroups(new Set());
-      onGroupByChange?.(groupBy);
     }
-  }, [groupBy, onGroupByChange]);
+  }, [groupBy]);
 
   // Column order resolution — re-sort the source columns to match `order`.
   const columnsInOrder = useMemo(() => {
@@ -387,8 +389,9 @@ function DataGridRoot<T = Record<string, unknown>>({
     });
   }, []);
 
-  // Filter → sort → paginate.
-  const filteredData = useMemo(() => {
+  // Filter → sort (no pagination yet — that comes after we compute the
+  // "all filtered keys" set that drives the select-all checkbox).
+  const filteredSortedData = useMemo(() => {
     let rows = data;
     for (const [key, query] of Object.entries(currentFilters)) {
       if (!query) continue;
@@ -413,16 +416,21 @@ function DataGridRoot<T = Record<string, unknown>>({
         rows = [...rows].sort((a, b) => cmp(a, b) * dir);
       }
     }
+    return rows;
+  }, [data, currentFilters, currentSort, columns]);
+
+  const filteredData = useMemo(() => {
     if (pagination) {
       const start = (pagination.page - 1) * pagination.pageSize;
-      rows = rows.slice(start, start + pagination.pageSize);
+      return filteredSortedData.slice(start, start + pagination.pageSize);
     }
-    return rows;
-  }, [data, currentFilters, currentSort, columns, pagination]);
+    return filteredSortedData;
+  }, [filteredSortedData, pagination]);
 
   const allRowKeys = useMemo(
-    () => new Set(filteredData.map((row, i) => rowKey(row, i))),
-    [filteredData, rowKey]
+    () =>
+      new Set(filteredSortedData.map((row, i) => rowKey(row, i))),
+    [filteredSortedData, rowKey]
   );
   const allSelected =
     selected.size > 0 && [...allRowKeys].every((k) => selected.has(k));

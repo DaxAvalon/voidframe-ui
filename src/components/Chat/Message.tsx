@@ -299,6 +299,7 @@ export const StreamingText = forwardRef<HTMLSpanElement, StreamingTextProps>(
       speed === "instant" ? text : ""
     );
     const lastText = useRef(text);
+    const lastSpeed = useRef<"instant" | number>(speed);
     const activeRef = useRef(true);
 
     useEffect(() => {
@@ -312,15 +313,22 @@ export const StreamingText = forwardRef<HTMLSpanElement, StreamingTextProps>(
       if (speed === "instant") {
         setRendered(text);
         lastText.current = text;
+        lastSpeed.current = speed;
         return;
       }
       // Typewriter mode.
       let i = rendered.length;
-      if (!text.startsWith(rendered)) {
+      // If we just flipped from "instant" back to a number with unchanged text,
+      // restart the animation so the active-class reflects the real state.
+      if (lastSpeed.current === "instant" && rendered === text) {
+        setRendered("");
+        i = 0;
+      } else if (!text.startsWith(rendered)) {
         // Text changed incompatibly; restart from scratch.
         setRendered("");
         i = 0;
       }
+      lastSpeed.current = speed;
       if (i >= text.length) return;
       const perChar = Math.max(8, Math.round(1000 / speed));
       const handle = setInterval(() => {

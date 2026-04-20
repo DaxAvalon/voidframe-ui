@@ -53,6 +53,20 @@ describe("Axis", () => {
     expect(container.querySelector(".vf-chart-axis__label")).toBeFalsy();
   });
 
+  it("autoRotate on a left-oriented axis rotates tick labels when density is high", () => {
+    const scale = linearScale({ domain: [0, 20], range: [0, 200] });
+    const { container } = renderWithTheme(
+      <ChartFrame width={300} height={200} yScale={scale}>
+        <Axis orientation="left" ticks={20} autoRotate />
+      </ChartFrame>
+    );
+    const labels = container.querySelectorAll(".vf-chart-axis__label");
+    const anyRotated = Array.from(labels).some((l) =>
+      (l.getAttribute("transform") ?? "").includes("rotate")
+    );
+    expect(anyRotated).toBe(true);
+  });
+
   it("applies a custom label format", () => {
     const scale = linearScale({ domain: [0, 1], range: [0, 100] });
     const { container } = renderWithTheme(

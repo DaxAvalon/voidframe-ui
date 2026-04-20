@@ -224,7 +224,7 @@ export const PopoverV2 = Object.assign(PopoverRoot, {
 interface TooltipProviderValue {
   delayDuration: number;
   skipDelayDuration: number;
-  lastClosedAt: number;
+  getLastClosedAt: () => number;
   setLastClosedAt: (n: number) => void;
 }
 
@@ -252,7 +252,7 @@ export function TooltipProvider({
     () => ({
       delayDuration,
       skipDelayDuration,
-      lastClosedAt: lastClosed.current,
+      getLastClosedAt: () => lastClosed.current,
       setLastClosedAt: (n) => {
         lastClosed.current = n;
       },
@@ -290,10 +290,10 @@ export function Tooltip({
   asAriaLabel,
 }: TooltipProps) {
   const provider = useContext(TooltipProviderCtx);
-  const effectiveOpenDelay =
+  const computeOpenDelay = () =>
     openDelay ??
     (provider
-      ? Date.now() - provider.lastClosedAt < provider.skipDelayDuration
+      ? Date.now() - provider.getLastClosedAt() < provider.skipDelayDuration
         ? 0
         : provider.delayDuration
       : 300);
@@ -312,7 +312,7 @@ export function Tooltip({
 
   const show = () => {
     cancelTimers();
-    openTimer.current = setTimeout(() => setOpen(true), effectiveOpenDelay);
+    openTimer.current = setTimeout(() => setOpen(true), computeOpenDelay());
   };
   const hide = () => {
     cancelTimers();

@@ -107,11 +107,12 @@ const SwipeActionsRoot = forwardRef<HTMLDivElement, SwipeActionsProps>(
     const onPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
       if (start.current === null) return;
       const dx = e.clientX - start.current;
-      let next = startOffset.current + dx;
-      const max = trailingActions ? actionWidth : 0;
-      const min = leadingActions ? -actionWidth : 0;
-      next = Math.max(-max, Math.min(-min, -next));
-      setOffset(-next);
+      // offset > 0 → leading actions revealed (card slid right).
+      // offset < 0 → trailing actions revealed (card slid left).
+      const max = leadingActions ? actionWidth : 0;
+      const min = trailingActions ? -actionWidth : 0;
+      const next = Math.max(min, Math.min(max, startOffset.current + dx));
+      setOffset(next);
     };
     const onPointerUp = () => {
       // Snap to nearest open/closed.

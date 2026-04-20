@@ -265,4 +265,20 @@ describe("ChoroplethMap", () => {
       ).toBe(2);
     });
   });
+
+  it("legend labels use the valueFormat prop", () => {
+    const { container } = renderWithTheme(
+      <ChoroplethMap
+        topology={topology}
+        objectKey="regions"
+        featureIdProp="id"
+        values={{ A: 5, B: 500 }}
+        valueFormat={(v) => `#${v}`}
+        width={400}
+        height={300}
+      />
+    );
+    const legend = container.querySelector(".vf-chart-choropleth__legend");
+    expect(legend?.textContent ?? "").toMatch(/#500/);
+  });
 });

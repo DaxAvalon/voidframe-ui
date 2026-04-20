@@ -75,6 +75,19 @@ describe("CalendarHeatmap", () => {
     ).toBe(true);
   });
 
+  it("legend labels use the valueFormat prop", () => {
+    const { container } = renderWithTheme(
+      <CalendarHeatmap
+        start={new Date(2026, 0, 1)}
+        end={new Date(2026, 0, 7)}
+        data={[{ date: new Date(2026, 0, 1), value: 500 }]}
+        valueFormat={(v) => `$${v}`}
+      />
+    );
+    const legend = container.querySelector(".vf-chart-calheat__legend");
+    expect(legend?.textContent ?? "").toMatch(/\$500/);
+  });
+
   it("renders day-of-week labels", () => {
     const { container } = renderWithTheme(
       <CalendarHeatmap

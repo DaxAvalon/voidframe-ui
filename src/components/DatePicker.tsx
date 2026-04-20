@@ -591,8 +591,16 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       [format]
     );
 
+    const isDateAllowed = (d: Date): boolean => {
+      if (min && d < startOfDay(min)) return false;
+      if (max && d > startOfDay(max)) return false;
+      if (disabledDates?.(d)) return false;
+      return true;
+    };
+
     const handleSelect = (d: Date) => {
       const day = startOfDay(d);
+      if (!isDateAllowed(day)) return;
       if (!current.start || (current.start && current.end)) {
         setRange({ start: day, end: null });
       } else if (day < current.start) {
@@ -606,7 +614,19 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
 
     const applyPreset = (preset: DateRangePreset) => {
       const r = preset.range();
-      setRange({ start: startOfDay(r.start), end: startOfDay(r.end) });
+      const s = startOfDay(r.start);
+      const e = startOfDay(r.end);
+      if (!isDateAllowed(s) || !isDateAllowed(e)) return;
+      if (
+        current.start &&
+        current.end &&
+        current.start.getTime() === s.getTime() &&
+        current.end.getTime() === e.getTime()
+      ) {
+        setOpen(false);
+        return;
+      }
+      setRange({ start: s, end: e });
       setViewMonth(startOfMonth(r.start));
       setOpen(false);
     };

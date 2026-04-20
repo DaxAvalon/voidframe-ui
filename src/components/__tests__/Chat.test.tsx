@@ -133,6 +133,18 @@ describe("StreamingText", () => {
     const cursor = container.querySelector(".vf-streaming-text__cursor");
     expect(cursor).toHaveClass("vf-streaming-text__cursor--done");
   });
+
+  it("re-animates when speed flips from 'instant' back to a number", () => {
+    const { container, rerender } = renderWithTheme(
+      <StreamingText text="hello" speed="instant" cursor={false} />
+    );
+    const spanText = () =>
+      container.querySelector(".vf-streaming-text")?.textContent ?? "";
+    expect(spanText()).toBe("hello");
+    rerender(<StreamingText text="hello" speed={60} cursor={false} />);
+    // Immediately after the flip, rendered should have reset to empty (re-animating).
+    expect(spanText()).not.toBe("hello");
+  });
 });
 
 describe("ThinkingIndicator", () => {
@@ -286,6 +298,20 @@ describe("MessageFeedback", () => {
       "aria-checked",
       "false"
     );
+  });
+
+  it("onReasonSelect(undefined) fires when the active reason is toggled off", async () => {
+    const onReasonSelect = vi.fn();
+    const reasons = [{ id: "wrong", label: "Wrong answer" }];
+    renderWithTheme(
+      <MessageFeedback reasons={reasons} onReasonSelect={onReasonSelect} />
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Thumbs down" }));
+    const wrongBtn = screen.getByRole("radio", { name: "Wrong answer" });
+    await userEvent.click(wrongBtn);
+    expect(onReasonSelect).toHaveBeenLastCalledWith("wrong");
+    await userEvent.click(wrongBtn);
+    expect(onReasonSelect).toHaveBeenLastCalledWith(undefined);
   });
 
   it("supports controlled selectedReason", () => {

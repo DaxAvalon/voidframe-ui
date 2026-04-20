@@ -299,7 +299,9 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorProps>(
             suppressContentEditableWarning
             className="vf-rte__content"
             style={{ minHeight }}
-            onInput={(e) => setHtml(readHTML(e.target as HTMLDivElement))}
+            onInput={(e) =>
+              setHtml(sanitize(readHTML(e.target as HTMLDivElement)))
+            }
             onPaste={(e) => {
               // Intercept paste so any HTML payload flows through the
               // sanitizer before touching the DOM. Plain-text pastes

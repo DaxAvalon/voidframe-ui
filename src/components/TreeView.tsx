@@ -218,7 +218,8 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(function TreeV
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
       const kids = resolveChildren(current.node);
-      if (kids?.length) {
+      const hasKids = !!kids?.length || current.node.hasChildren;
+      if (hasKids) {
         if (!expanded.has(current.node.id)) {
           void toggleExpand(current.node);
         } else {

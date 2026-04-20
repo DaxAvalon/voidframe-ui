@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import {
   MarkdownEditor,
@@ -155,6 +156,54 @@ describe("MarkdownEditor", () => {
     ta.selectionEnd = 5;
     await userEvent.click(screen.getByRole("button", { name: "Bold" }));
     expect(ta.value).toBe("**hello**");
+  });
+
+  it("toolbar Bold updates controlled value via onChange", async () => {
+    const onChange = vi.fn();
+    function Controlled() {
+      const [v, setV] = useState("hello");
+      return (
+        <MarkdownEditor
+          label="Notes"
+          value={v}
+          onValueChange={(next) => {
+            onChange(next);
+            setV(next);
+          }}
+        />
+      );
+    }
+    renderWithTheme(<Controlled />);
+    const ta = screen.getByLabelText("Notes") as HTMLTextAreaElement;
+    ta.selectionStart = 0;
+    ta.selectionEnd = 5;
+    await userEvent.click(screen.getByRole("button", { name: "Bold" }));
+    expect(onChange).toHaveBeenCalledWith("**hello**");
+    expect(ta.value).toBe("**hello**");
+  });
+
+  it("readOnly suppresses toolbar commands", async () => {
+    renderWithTheme(
+      <MarkdownEditor label="Notes" defaultValue="hi" readOnly />
+    );
+    const ta = screen.getByLabelText("Notes") as HTMLTextAreaElement;
+    ta.selectionStart = 0;
+    ta.selectionEnd = 2;
+    await userEvent.click(screen.getByRole("button", { name: "Bold" }));
+    expect(ta.value).toBe("hi");
+  });
+
+  it("previewShown reflects prop changes when parent toggles preview", () => {
+    const { rerender } = renderWithTheme(
+      <MarkdownEditor label="Notes" preview="side" />
+    );
+    expect(
+      screen.getByRole("region", { name: "Markdown preview" })
+    ).toBeInTheDocument();
+    rerender(<MarkdownEditor label="Notes" preview={false} />);
+    expect(
+      screen.queryByRole("region", { name: "Markdown preview" })
+    ).not.toBeInTheDocument();
   });
 
   it("toggle preview button hides/shows the preview pane", async () => {

@@ -121,6 +121,44 @@ describe("InfiniteScroll", () => {
     expect(screen.getByText("Custom…")).toBeInTheDocument();
   });
 
+  it("onLoadMore fires exactly once per intersection batch", () => {
+    let ioCallback: IntersectionObserverCallback = () => {};
+    class MockIO {
+      constructor(cb: IntersectionObserverCallback) {
+        ioCallback = cb;
+      }
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+      takeRecords() {
+        return [];
+      }
+      root = null;
+      rootMargin = "";
+      thresholds = [];
+    }
+    const prior = globalThis.IntersectionObserver;
+    (globalThis as unknown as { IntersectionObserver: unknown }).IntersectionObserver = MockIO;
+    try {
+      const onLoadMore = vi.fn();
+      renderWithTheme(
+        <InfiniteScroll hasMore onLoadMore={onLoadMore}>
+          Content
+        </InfiniteScroll>
+      );
+      // Fire intersecting twice — only the first call should trigger.
+      const entry = {
+        isIntersecting: true,
+        intersectionRatio: 1,
+      } as IntersectionObserverEntry;
+      ioCallback([entry], {} as IntersectionObserver);
+      ioCallback([entry], {} as IntersectionObserver);
+      expect(onLoadMore).toHaveBeenCalledTimes(1);
+    } finally {
+      globalThis.IntersectionObserver = prior;
+    }
+  });
+
   it("does not show loader when not loading", () => {
     renderWithTheme(
       <InfiniteScroll hasMore onLoadMore={() => {}}>

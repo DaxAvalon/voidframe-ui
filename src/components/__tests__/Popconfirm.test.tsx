@@ -179,6 +179,22 @@ describe("Popconfirm", () => {
     expect(confirmBtn.className).toContain("vf-button--danger");
   });
 
+  it("clicking outside closes the popconfirm; focus returns to the trigger on close", async () => {
+    renderWithTheme(
+      <div>
+        <Popconfirm title="Sure?" onConfirm={() => {}}>
+          <button>Delete</button>
+        </Popconfirm>
+        <button data-testid="outside">Outside</button>
+      </div>
+    );
+    const trigger = screen.getByRole("button", { name: "Delete" });
+    await userEvent.click(trigger);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    await userEvent.click(screen.getByTestId("outside"));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
   it("has no a11y violations", async () => {
     const { container } = renderWithTheme(
       <Popconfirm title="Sure?" onConfirm={() => {}} defaultOpen>

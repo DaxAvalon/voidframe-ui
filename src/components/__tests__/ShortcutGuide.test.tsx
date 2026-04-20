@@ -32,6 +32,22 @@ describe("ShortcutGuide", () => {
     expect(screen.getByText("Go to top")).toBeInTheDocument();
   });
 
+  it("triggerKeys='mod+?' opens the guide when Meta+? is pressed", () => {
+    const onOpenChange = vi.fn();
+    renderWithTheme(
+      <ShortcutProvider>
+        <ShortcutGuide triggerKeys="mod+?" open={false} onOpenChange={onOpenChange} />
+      </ShortcutProvider>
+    );
+    const ev = new KeyboardEvent("keydown", {
+      key: "?",
+      metaKey: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(ev);
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+  });
+
   it("shows empty state when no shortcuts are registered", () => {
     renderWithTheme(
       <ShortcutProvider>

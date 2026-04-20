@@ -98,12 +98,15 @@ export const Axis = forwardRef<SVGGElement, AxisProps>(function Axis(
     baselineY2 = innerHeight;
   }
 
-  // Determine whether labels need rotation for X axes by rough width check.
+  // Determine whether labels need rotation. For X axes, rotate when tick
+  // density exceeds a rough width budget; for Y axes, rotate when density
+  // exceeds a rough height budget.
   const shouldRotate =
     rotate &&
-    isX &&
     tickList.length > 0 &&
-    innerWidth / tickList.length < 44;
+    (isX
+      ? innerWidth / tickList.length < 44
+      : innerHeight / tickList.length < 18);
 
   return (
     <g
@@ -189,8 +192,8 @@ export const Axis = forwardRef<SVGGElement, AxisProps>(function Axis(
                 textAnchor={textAnchor}
                 dominantBaseline={dominantBaseline}
                 transform={
-                  shouldRotate && isX
-                    ? `rotate(-45, ${textX}, ${textY})`
+                  shouldRotate
+                    ? `rotate(${isX ? -45 : -30}, ${textX}, ${textY})`
                     : undefined
                 }
               >

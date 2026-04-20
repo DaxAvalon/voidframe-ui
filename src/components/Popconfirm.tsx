@@ -16,7 +16,8 @@ import {
   type ReactNode,
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
-import { useEscapeKey } from "../hooks/useEscapeKey";
+import { DismissableLayer } from "../primitives/DismissableLayer";
+import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
 import {
   computeAnchoredPosition,
@@ -95,8 +96,6 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
       onCancel?.();
       close();
     }, [onCancel, close]);
-
-    useEscapeKey(close, isOpen);
 
     // Focus the confirm button when opened
     useEffect(() => {
@@ -184,6 +183,18 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
         </div>
         {isOpen && (
           <Portal>
+            <FocusScope trapped restoreFocus>
+            <DismissableLayer
+              onPointerDownOutside={(e) => {
+                const trigger = triggerWrapperRef.current;
+                if (trigger && trigger.contains(e.target as Node | null)) {
+                  e.preventDefault();
+                  return;
+                }
+                close();
+              }}
+              onEscapeKeyDown={() => close()}
+            >
             <div
               ref={overlayRef}
               className={cx(
@@ -192,6 +203,7 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
                 confirmVariant === "danger" && "vf-popconfirm--danger"
               )}
               role="dialog"
+              aria-modal="true"
               aria-label={title}
               style={
                 pos
@@ -243,6 +255,8 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
                 </button>
               </div>
             </div>
+            </DismissableLayer>
+            </FocusScope>
           </Portal>
         )}
       </div>

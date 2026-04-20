@@ -29,6 +29,17 @@ describe("DrawerV2", () => {
     expect(btn).toHaveAttribute("aria-expanded", "false");
   });
 
+  it("modal=false drawer does not add overflow:hidden to the body", async () => {
+    document.body.style.overflow = "";
+    renderWithTheme(
+      <DrawerV2 modal={false} defaultOpen>
+        <DrawerV2.Trigger>Open</DrawerV2.Trigger>
+        <DrawerV2.Content>Non-modal content</DrawerV2.Content>
+      </DrawerV2>
+    );
+    expect(document.body.style.overflow).not.toBe("hidden");
+  });
+
   it("opens drawer on trigger click", async () => {
     renderWithTheme(
       <DrawerV2>

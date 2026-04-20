@@ -65,6 +65,21 @@ describe("Lightbox", () => {
     expect(onIndexChange).toHaveBeenCalledWith(1);
   });
 
+  it("onIndexChange does not fire when navigating past the last slide", () => {
+    const onIndexChange = vi.fn();
+    renderWithTheme(
+      <Lightbox
+        images={IMAGES}
+        open
+        onOpenChange={() => {}}
+        index={IMAGES.length - 1}
+        onIndexChange={onIndexChange}
+      />
+    );
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(onIndexChange).not.toHaveBeenCalled();
+  });
+
   it("keyboard ArrowLeft navigates to previous image", () => {
     const onIndexChange = vi.fn();
     renderWithTheme(

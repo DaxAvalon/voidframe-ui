@@ -145,6 +145,25 @@ describe("WhatsNewPopover", () => {
     expect(onDismiss).toHaveBeenCalled();
   });
 
+  it("dismiss in controlled mode does not touch localStorage", async () => {
+    const ls = typeof localStorage !== "undefined" ? localStorage : null;
+    if (ls) ls.removeItem("vf-whatsnew");
+    const onDismiss = vi.fn();
+    renderWithTheme(
+      <WhatsNewPopover
+        version="3.5"
+        features={features}
+        open
+        onDismiss={onDismiss}
+      />
+    );
+    await userEvent.click(screen.getByText("Got it"));
+    expect(onDismiss).toHaveBeenCalled();
+    if (ls) {
+      expect(ls.getItem("vf-whatsnew")).toBeNull();
+    }
+  });
+
   it("renders feature icon and description elements", () => {
     const { container } = renderWithTheme(
       <WhatsNewPopover

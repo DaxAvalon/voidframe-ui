@@ -32,6 +32,13 @@ describe("Checkbox", () => {
     await userEvent.click(screen.getByRole("checkbox"));
     expect(onChange).not.toHaveBeenCalled();
   });
+
+  it("disabled Checkbox is skipped in tab order and reports aria-disabled", () => {
+    renderWithTheme(<Checkbox checked={false} disabled onValueChange={() => {}} />);
+    const cb = screen.getByRole("checkbox");
+    expect(cb.getAttribute("tabindex")).toBe("-1");
+    expect(cb.getAttribute("aria-disabled")).toBe("true");
+  });
 });
 
 describe("Radio", () => {
@@ -45,6 +52,13 @@ describe("Radio", () => {
     renderWithTheme(<Radio checked={false} onValueChange={onChange} />);
     await userEvent.click(screen.getByRole("radio"));
     expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it("disabled Radio is skipped in tab order and reports aria-disabled", () => {
+    renderWithTheme(<Radio checked={false} disabled onValueChange={() => {}} />);
+    const rb = screen.getByRole("radio");
+    expect(rb.getAttribute("tabindex")).toBe("-1");
+    expect(rb.getAttribute("aria-disabled")).toBe("true");
   });
 });
 

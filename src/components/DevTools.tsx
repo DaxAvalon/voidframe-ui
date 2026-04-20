@@ -12,6 +12,7 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
+import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
 import { JSONViewer } from "./Viewers";
 
@@ -152,8 +153,13 @@ export const NetworkInspector = forwardRef<
   },
   ref
 ) {
-  const [internalFilter, setInternalFilter] = useState(filter);
-  const q = (onFilterChange ? filter : internalFilter).trim().toLowerCase();
+  const [currentFilter, setCurrentFilter] = useControllableState<string>({
+    value: onFilterChange ? filter : undefined,
+    defaultValue: filter,
+    onChange: onFilterChange,
+    componentName: "NetworkInspector",
+  });
+  const q = currentFilter.trim().toLowerCase();
   const filtered = useMemo(
     () =>
       q
@@ -173,8 +179,7 @@ export const NetworkInspector = forwardRef<
     : undefined;
 
   const setFilter = (next: string) => {
-    if (onFilterChange) onFilterChange(next);
-    else setInternalFilter(next);
+    setCurrentFilter(next);
   };
 
   return (
@@ -186,7 +191,7 @@ export const NetworkInspector = forwardRef<
       <header className="vf-network-inspector__bar">
         <input
           type="search"
-          value={onFilterChange ? filter : internalFilter}
+          value={currentFilter}
           onChange={(e) => setFilter(e.target.value)}
           placeholder="Filter requests…"
           className="vf-network-inspector__search"

@@ -212,4 +212,23 @@ describe("MenuBar", () => {
     await userEvent.click(screen.getByRole("button", { name: "File" }));
     expect(screen.getByRole("menuitem", { name: "New" })).toBeInTheDocument();
   });
+
+  it("ArrowRight on an open MenuBarMenu moves focus to the next sibling menu", async () => {
+    renderWithTheme(
+      <MenuBar>
+        <MenuBarMenu trigger="File">
+          <Menu.Item>New</Menu.Item>
+        </MenuBarMenu>
+        <MenuBarMenu trigger="Edit">
+          <Menu.Item>Cut</Menu.Item>
+        </MenuBarMenu>
+      </MenuBar>
+    );
+    const file = screen.getByRole("button", { name: "File" });
+    file.focus();
+    await userEvent.click(file);
+    await userEvent.keyboard("{ArrowRight}");
+    const edit = screen.getByRole("button", { name: "Edit" });
+    expect(document.activeElement).toBe(edit);
+  });
 });

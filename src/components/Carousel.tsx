@@ -135,9 +135,11 @@ function CarouselRoot({
     []
   );
 
-  // Sync DOM scroll when index changes externally.
+  // Sync DOM scroll when index changes externally. Defer via rAF so initial
+  // mount waits for slide children to register before scrolling.
   useEffect(() => {
-    scrollToIndex(index);
+    const raf = requestAnimationFrame(() => scrollToIndex(index));
+    return () => cancelAnimationFrame(raf);
   }, [index, scrollToIndex]);
 
   // Auto-play.

@@ -263,6 +263,32 @@ describe("DateRangePicker", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
+  it("DateRangePicker cannot apply a preset outside min/max", async () => {
+    const onChange = vi.fn();
+    const min = new Date(2026, 0, 15);
+    const max = new Date(2026, 0, 20);
+    renderWithTheme(
+      <DateRangePicker
+        label="Range"
+        min={min}
+        max={max}
+        onValueChange={onChange}
+        presets={[
+          {
+            label: "OutOfRange",
+            range: () => ({
+              start: new Date(2026, 0, 1),
+              end: new Date(2026, 0, 7),
+            }),
+          },
+        ]}
+      />
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Range" }));
+    await userEvent.click(screen.getByRole("button", { name: "OutOfRange" }));
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it("navigating the second calendar shifts base view month", async () => {
     // This covers lines 674-677: onViewMonthChange for i===1 shifts by -1
     renderWithTheme(

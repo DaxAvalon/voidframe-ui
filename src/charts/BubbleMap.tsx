@@ -93,6 +93,9 @@ export const BubbleMap = forwardRef<HTMLDivElement, BubbleMapProps>(
 
     useEffect(() => {
       let cancelled = false;
+      // Clear any prior error so retries and successful re-resolves after
+      // a peer becomes available aren't stuck with a stale error UI.
+      setError(null);
       (async () => {
         try {
           const [d3geo, topo] = await Promise.all([

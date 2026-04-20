@@ -64,10 +64,12 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(function Light
   const setIndex = useCallback(
     (next: number) => {
       const clamped = Math.max(0, Math.min(images.length - 1, next));
+      const current = indexProp ?? internal;
+      if (clamped === current) return;
       if (indexProp === undefined) setInternal(clamped);
       onIndexChange?.(clamped);
     },
-    [images.length, indexProp, onIndexChange]
+    [images.length, indexProp, internal, onIndexChange]
   );
   const [scale, setScale] = useState(1);
   const imgRef = useRef<HTMLImageElement>(null);

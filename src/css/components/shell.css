@@ -235,11 +235,11 @@
   padding: var(--vf-sp-2) var(--vf-sp-4);
 }
 
-.vf-app-shell__mobile-backdrop {
+.vf-appshell__mobile-backdrop {
   position: fixed; inset: 0; background: var(--vf-scrim);
   z-index: var(--vf-z-modal, 1000);
 }
-.vf-app-shell__sidebar--mobile {
+.vf-appshell__sidebar--mobile {
   position: fixed; inset-block: 0; inset-inline-start: 0;
   z-index: calc(var(--vf-z-modal, 1000) + 1);
   width: 280px; background: var(--vf-bg-1);
