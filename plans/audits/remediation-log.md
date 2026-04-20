@@ -113,7 +113,16 @@ Gate: typecheck ✓, 5106 tests ✓ (334 files), build ✓, size-limit ✓ again
 
 Tightened terse TSDoc on Button/CopyButton/Icon (purpose-first prose replacing the "memoized leaf" boilerplate); added missing TSDoc on TileGridMap. Rewrote `scripts/generate-vscode-snippets.mjs` `shortDescription()` to extract the first full sentence instead of chopping at the first newline — regenerated all 500 snippets + `docs/data/props.json`. Brand capitalization, smart-quote, Chat quickstart items were already resolved in earlier segments or explicitly marked ship-as-is by the audit.
 
-### Segment 11 — Audit 29 P2 + P3
+### Segment 11 — Audit 29 P2 + P3 — ✅ DONE (2026-04-19)
+
+Actionable P2 items:
+- F1.4 ReactionPicker.onReact(id) renamed to `onPick(id)` to disambiguate from ReactionBar's onReact(emoji).
+- F1.6 onClose→onDismiss: already fully resolved (only useWebSocket.onClose remains, correctly named for the DOM CloseEvent).
+- F2.2 tone outliers (ProgressTone info, DevTools neutral, BannerAlert neutral): resolved in Segment 2.A.
+- F3.6 readOnly typing: Input/Textarea inherit via `extends InputHTMLAttributes`; typed in public API.
+- F4.2 ReferenceLine/ReferenceBand forwardRef: resolved in Segment 2.A.
+
+P3 findings (F1.3, F2.3, F2.4, F2.5, F3.1, F4.1, F4.5, F4.6 etc.) are all documentation recommendations — covered by the Segment 6 TSDoc sweep which added purpose-driven prose to every exported component.
 
 Stylistic/naming inconsistencies that don't produce runtime bugs. Applied in alongside segment 2 where possible; otherwise mopped up here.
 
