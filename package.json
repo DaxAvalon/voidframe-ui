@@ -73,8 +73,12 @@
     "vscode:snippets": "node scripts/generate-vscode-snippets.mjs",
     "vscode:package": "node scripts/package-vscode.mjs",
     "prepublishOnly": "npm run typecheck && npm test -- --run && npm run build",
-    "test:visual": "npx playwright test",
-    "test:visual:update": "npx playwright test --update-snapshots",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "e2e:serve": "vite serve e2e --host 0.0.0.0 --port 5176",
+    "test:e2e": "playwright test --config e2e/playwright.config.ts",
+    "test:e2e:headed": "playwright test --config e2e/playwright.config.ts --headed",
+    "test:e2e:ui": "playwright test --config e2e/playwright.config.ts --ui",
     "pack:check": "npm pack --dry-run",
     "tokens:export": "node scripts/export-tokens.mjs --format all"
   },
@@ -111,8 +115,9 @@
     }
   ],
   "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
+    "@testing-library/jest-dom": ">=6.0.0",
+    "@testing-library/react": ">=15.0.0",
+    "@testing-library/user-event": ">=14.0.0",
     "d3-array": ">=3.0.0",
     "d3-force": ">=3.0.0",
     "d3-geo": ">=3.0.0",
@@ -121,33 +126,67 @@
     "d3-scale": ">=4.0.0",
     "d3-shape": ">=3.0.0",
     "d3-time": ">=3.0.0",
-    "topojson-client": ">=3.0.0",
     "dompurify": ">=3.2.4",
+    "jest-axe": ">=9.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
     "react-live": ">=4.0.0",
-    "@testing-library/react": ">=15.0.0",
-    "@testing-library/jest-dom": ">=6.0.0",
-    "@testing-library/user-event": ">=14.0.0",
-    "jest-axe": ">=9.0.0"
+    "topojson-client": ">=3.0.0"
   },
   "peerDependenciesMeta": {
-    "d3-array": { "optional": true },
-    "d3-force": { "optional": true },
-    "d3-geo": { "optional": true },
-    "d3-hierarchy": { "optional": true },
-    "d3-sankey": { "optional": true },
-    "d3-scale": { "optional": true },
-    "d3-shape": { "optional": true },
-    "d3-time": { "optional": true },
-    "topojson-client": { "optional": true },
-    "dompurify": { "optional": true },
-    "react-live": { "optional": true },
-    "@testing-library/react": { "optional": true },
-    "@testing-library/jest-dom": { "optional": true },
-    "@testing-library/user-event": { "optional": true },
-    "jest-axe": { "optional": true }
+    "d3-array": {
+      "optional": true
+    },
+    "d3-force": {
+      "optional": true
+    },
+    "d3-geo": {
+      "optional": true
+    },
+    "d3-hierarchy": {
+      "optional": true
+    },
+    "d3-sankey": {
+      "optional": true
+    },
+    "d3-scale": {
+      "optional": true
+    },
+    "d3-shape": {
+      "optional": true
+    },
+    "d3-time": {
+      "optional": true
+    },
+    "topojson-client": {
+      "optional": true
+    },
+    "dompurify": {
+      "optional": true
+    },
+    "react-live": {
+      "optional": true
+    },
+    "@testing-library/react": {
+      "optional": true
+    },
+    "@testing-library/jest-dom": {
+      "optional": true
+    },
+    "@testing-library/user-event": {
+      "optional": true
+    },
+    "jest-axe": {
+      "optional": true
+    }
   },
-  "dependencies": {},
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.2",
+    "@playwright/test": "^1.59.1",
+    "@size-limit/file": "^11.1.4",
+    "@testing-library/jest-dom": "^6.4.0",
+    "@testing-library/react": "^15.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/d3-array": "^3.2.1",
     "@types/d3-force": "^3.0.10",
     "@types/d3-geo": "^3.1.0",
@@ -156,8 +195,20 @@
     "@types/d3-scale": "^4.0.9",
     "@types/d3-shape": "^3.1.7",
     "@types/d3-time": "^3.0.4",
+    "@types/jest-axe": "^3.5.9",
+    "@types/jscodeshift": "^0.11.11",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
+    "@types/vscode": "^1.84.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@typescript-eslint/rule-tester": "^7.18.0",
+    "@typescript-eslint/utils": "^7.18.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vscode/vsce": "^2.29.0",
+    "commander": "^12.1.0",
     "d3-array": "^3.2.4",
     "d3-force": "^3.0.0",
     "d3-geo": "^3.1.1",
@@ -167,37 +218,21 @@
     "d3-shape": "^3.2.0",
     "d3-time": "^3.1.0",
     "dompurify": "^3.2.4",
-    "topojson-client": "^3.1.0",
-    "@testing-library/jest-dom": "^6.4.0",
-    "@testing-library/react": "^15.0.0",
-    "@testing-library/user-event": "^14.5.2",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "@vitejs/plugin-react": "^4.2.0",
-    "@vitest/coverage-v8": "^1.6.0",
+    "eslint": "^8.57.0",
     "happy-dom": "^20.9.0",
     "jest-axe": "^9.0.0",
-    "@types/jest-axe": "^3.5.9",
+    "jscodeshift": "^0.15.2",
     "react": "^18.2.0",
+    "react-docgen-typescript": "^2.2.2",
     "react-dom": "^18.2.0",
+    "react-live": "^4.1.6",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "size-limit": "^11.1.4",
+    "topojson-client": "^3.1.0",
     "typescript": "^5.4.0",
     "vite": "^5.0.0",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^1.6.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "@typescript-eslint/utils": "^7.18.0",
-    "@typescript-eslint/rule-tester": "^7.18.0",
-    "eslint": "^8.57.0",
-    "jscodeshift": "^0.15.2",
-    "@types/jscodeshift": "^0.11.11",
-    "rollup-plugin-visualizer": "^5.12.0",
-    "size-limit": "^11.1.4",
-    "@size-limit/file": "^11.1.4",
-    "react-live": "^4.1.6",
-    "react-docgen-typescript": "^2.2.2",
-    "commander": "^12.1.0",
-    "@vscode/vsce": "^2.29.0",
-    "@types/vscode": "^1.84.0"
+    "vitest": "^1.6.0"
   },
   "keywords": [
     "react",

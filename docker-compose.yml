@@ -82,5 +82,34 @@ services:
     <<: *base
     command: npm install --no-fund --no-audit
 
+  # Dedicated e2e harness Vite server — Playwright-driven interaction
+  # tests target this port. Run with `make e2e-ui` for Playwright UI
+  # mode, or let the `e2e` service spawn it automatically via webServer.
+  e2e-serve:
+    <<: *base
+    command: npm run e2e:serve
+    ports:
+      - "5176:5176"
+
+  # One-shot Playwright run. Uses the official Microsoft image which
+  # ships glibc-linked Chromium + Firefox + Webkit binaries pre-installed
+  # (alpine in the *base image can't run those). A dedicated
+  # node_modules volume keeps the jammy install isolated from the
+  # alpine one — no musl↔glibc native-binary mismatch.
+  # Bind-mount the repo read-write so Playwright can write
+  # playwright-report / test-results / snapshots back to the host.
+  e2e:
+    image: mcr.microsoft.com/playwright:v1.59.1-jammy
+    working_dir: /app
+    volumes:
+      - .:/app
+      - voidframe_e2e_node_modules:/app/node_modules
+    environment:
+      - CI=true
+    # On first run npm installs into the dedicated volume (~60s).
+    # Subsequent runs reuse it — reset via `docker compose down -v`.
+    command: sh -c "[ -x node_modules/.bin/playwright ] || npm install --no-audit --no-fund; npm run test:e2e"
+
 volumes:
   voidframe_node_modules:
+  voidframe_e2e_node_modules:

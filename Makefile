@@ -3,7 +3,7 @@
 
 .DEFAULT_GOAL := help
 
-.PHONY: help build-image demo dev check tc test test-watch coverage build sh install clean down logs reset install-hooks
+.PHONY: help build-image demo dev check tc test test-watch coverage build sh install clean down logs reset install-hooks e2e e2e-ui
 
 help: ## Show this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -55,3 +55,9 @@ clean: ## Remove build artifacts from the host
 
 install-hooks: ## Activate git pre-push hook (runs tests in Docker before push)
 	./scripts/install-hooks.sh
+
+e2e: ## Run Playwright e2e tests (chromium + firefox + webkit)
+	docker compose run --rm e2e
+
+e2e-ui: ## Serve e2e harness on localhost:5176 for Playwright UI mode
+	docker compose up e2e-serve
