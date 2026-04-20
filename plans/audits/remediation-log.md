@@ -109,9 +109,9 @@ Each becomes its own sub-plan with its own test suite.
 
 Gate: typecheck ✓, 5106 tests ✓ (334 files), build ✓, size-limit ✓ against adjusted ceilings.
 
-### Segment 10 — Audit 32 P2 + P3 (16 + 7 items)
+### Segment 10 — Audit 32 P2 + P3 — ✅ DONE (2026-04-19)
 
-Marketing-fluff, capitalization/brand consistency, typos, stale cross-references, smart-quote normalization.
+Tightened terse TSDoc on Button/CopyButton/Icon (purpose-first prose replacing the "memoized leaf" boilerplate); added missing TSDoc on TileGridMap. Rewrote `scripts/generate-vscode-snippets.mjs` `shortDescription()` to extract the first full sentence instead of chopping at the first newline — regenerated all 500 snippets + `docs/data/props.json`. Brand capitalization, smart-quote, Chat quickstart items were already resolved in earlier segments or explicitly marked ship-as-is by the audit.
 
 ### Segment 11 — Audit 29 P2 + P3
 
