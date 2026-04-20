@@ -60,10 +60,11 @@ Work proceeds in segments so context stays manageable. Each segment ends with a 
 | `vite-plugin-dts` 3.8 → 4.5 (drops transitive high/critical) | ✅ |
 | Gate | typecheck ✓, 4996 tests ✓, build ✓, npm audit: critical/high resolved, 5 moderate remaining in vitest/vite devDep chain (ship-safe) |
 
-### Segment 4 — Audit 31 P1 (45 items)
+### Segment 4 — Audit 31 P1 (45 items) — ✅ DONE (2026-04-19)
 
-By severity across buckets. Bucket-by-bucket order to preserve context:
-- charts (8) → forms (3) → overlays (7) → chat+media (6) → smalls (9) → core (3) → misc-a (8) → misc-b (1).
+Executed Wave 1 of `plans/audits/31-remediation.md` as a single batch via implementation subagent. 42 P1 fixes landed (the other ~3 were discovered to already be resolved by Segments 1–3), +56 regression tests. Notable API surface touches documented in the commit message: `ChartFrame` split to separate container ref vs `exportRef<ChartFrameHandle>`; `ImageDiff` gained `onOpacityChange`; `AudioPlayer` dropped audio-irrelevant `poster`/`playsInline` and gained `captions` forwarding; `ColorSwatch` gained explicit `disabled` prop; `TooltipProvider` context switched `lastClosedAt: number` → `getLastClosedAt(): number` to defeat stale memo snapshot.
+
+Gate: typecheck ✓, 5052 tests ✓ (327 files), build ✓, size-limit ✓ (All-JS 452 KB / 460 KB ceiling).
 
 ### Segment 5 — Audit 32 P0 + P1 (12 + 24 items)
 
