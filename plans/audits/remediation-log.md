@@ -48,13 +48,17 @@ Work proceeds in segments so context stays manageable. Each segment ends with a 
 | 2.F | `defaultValue` typed + routed via useControllableState on Select/Slider/NumberInput/SearchInput/PasswordInput/ModelPicker/MenuRadioGroup; `asChild` on Text (Anchor skipped — opinionated structure, Input/Textarea already inherit via HTMLAttributes) | ✅ DONE (2026-04-19) |
 | Gate | typecheck ✓, 4996 tests ✓, build ✓, size-limit ✓ (Core budget raised 170→200 kB, All-JS 400→460 kB to reflect post-remediation reality; bundle-diet deferred to Segment 9), npm pack ✓ (600.7 kB, 35 files) | ✅ DONE (2026-04-19) |
 
-### Segment 3 — Audit 30 P2 hardening
+### Segment 3 — Audit 30 P2 hardening — ✅ DONE (2026-04-19)
 
-- `Anchor.tsx:124` skip-safeHref fix.
-- `Embed.tsx` iframe `src` → safeHref; warn on `allow-scripts + allow-same-origin` sandbox combo.
-- `RegExpTester` + `LogViewer` regex compile-time length caps (ReDoS self-DoS guard).
-- Raise `dompurify` peer floor to `>=3.2.4` (GHSA-mmhx fixed).
-- Upgrade `happy-dom` and `vite-plugin-dts` to drop critical/high devDep advisories.
+| Item | Status |
+|---|---|
+| `Anchor.tsx:179` safeHref fix | ✅ |
+| `Embed.tsx` iframe `src` → safeHref + dev warn on sandbox escape combo | ✅ |
+| `RegExpTester` + `LogViewer` regex compile-time length caps (200-char pattern, 100k test string) | ✅ |
+| `dompurify` peer floor `>=3.0.0` → `>=3.2.4` (GHSA-mmhx) | ✅ |
+| `happy-dom` 14.12 → 20.9 (critical VM Context Escape) | ✅ |
+| `vite-plugin-dts` 3.8 → 4.5 (drops transitive high/critical) | ✅ |
+| Gate | typecheck ✓, 4996 tests ✓, build ✓, npm audit: critical/high resolved, 5 moderate remaining in vitest/vite devDep chain (ship-safe) |
 
 ### Segment 4 — Audit 31 P1 (45 items)
 
