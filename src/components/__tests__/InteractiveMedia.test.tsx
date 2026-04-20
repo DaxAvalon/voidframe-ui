@@ -340,15 +340,15 @@ describe("Utility", () => {
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 
-  it("ReactionPicker fires onReact", async () => {
-    const onReact = vi.fn();
+  it("ReactionPicker fires onPick", async () => {
+    const onPick = vi.fn();
     renderWithTheme(
       <ReactionPicker
-        onReact={onReact}
+        onPick={onPick}
         reactions={[{ id: "thumbsup", label: "👍" }]}
       />
     );
     await userEvent.click(screen.getByRole("button", { name: "👍" }));
-    expect(onReact).toHaveBeenCalledWith("thumbsup");
+    expect(onPick).toHaveBeenCalledWith("thumbsup");
   });
 });

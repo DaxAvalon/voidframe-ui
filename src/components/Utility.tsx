@@ -233,7 +233,9 @@ export interface Reaction {
 
 export interface ReactionPickerProps extends HTMLAttributes<HTMLDivElement> {
   reactions: Reaction[];
-  onReact: (id: string) => void;
+  /** Fires with the picked `Reaction.id` (not an emoji). Distinct from
+   * `ReactionBar.onReact`, which emits the emoji character directly. */
+  onPick: (id: string) => void;
   /** Show recent picks (persisted in component state). */
   recent?: boolean;
   /**
@@ -257,7 +259,7 @@ export const ReactionPicker = forwardRef<HTMLDivElement, ReactionPickerProps>(
   function ReactionPicker(
     {
       reactions,
-      onReact,
+      onPick,
       recent,
       recents: controlledRecents,
       onRecentsChange,
@@ -276,7 +278,7 @@ export const ReactionPicker = forwardRef<HTMLDivElement, ReactionPickerProps>(
       ? (controlledRecents as string[])
       : internalRecents;
     const pick = (id: string) => {
-      onReact(id);
+      onPick(id);
       if (recent) {
         const without = recents.filter((x) => x !== id);
         const next = [id, ...without].slice(0, recentCount);

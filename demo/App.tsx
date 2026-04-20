@@ -2705,7 +2705,7 @@ function UtilitySection() {
             { id: "smile", label: "😄" },
             { id: "tada", label: "🎉" },
           ]}
-          onReact={(id) => toast({ title: `Reacted ${id}` })}
+          onPick={(id: string) => toast({ title: `Reacted ${id}` })}
         />
       </Block>
     </Frame>
