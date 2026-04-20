@@ -81,7 +81,9 @@ Executed all P0/P1 items from `plans/audits/32-remediation.md` except §4 (TSDoc
 
 500 components + 75 hooks + 96 utils now carry TSDoc block comments. Placement respects react-docgen-typescript's binding-adjacent read pattern, including memo/Object.assign/re-export wrappers and Menu's bottom-re-exported subparts. Wave A/B/C/D prose from `32-remediation.md` used verbatim where given; substantive prose authored from source + inventory for the rest. 75 icon one-liners via the §4.3 template. `docs/data/props.json` regenerated; component-level `description` fields populated on every entry. Prop-level descriptions (2451 empties remaining) are explicitly out of scope per the audit `propsPartial._note`. Gate: typecheck ✓, 5052 tests ✓, build ✓.
 
-### Segment 7 — Hook test coverage (23/59 → 59/59)
+### Segment 7 — Hook test coverage — ✅ DONE (2026-04-19)
+
+Audit baseline (2026-04-18) was 23/59 hooks with tests. Segment 4's bundle-file additions (+56 tests across a11yHooks/asyncHooks/domHooks/effectHooks/etc.) closed most of the gap; only `useShortcuts` and `useIsomorphicLayoutEffect` lacked behavioral describe blocks. Dedicated test files added for both (+11 tests). Final: 60/60 hooks have at least one describe block; 5063 total tests across 329 files.
 
 - Minimum: one behavior test per hook via `renderHook`.
 - Focus hooks: `useControllableState`, `useForm`, `useFieldArray`, `useEventSource`, `useWebSocket`, `useFetch`, `useLocalStorage`, `useSessionStorage`, `useClipboardRead`, `useGeolocation`, `usePermission`.
