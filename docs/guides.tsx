@@ -106,11 +106,11 @@ createRoot(document.getElementById("root")!).render(
       <Section title="Contributing">
         <Text>
           The canonical repository lives at{" "}
-          <a href="https://git.ahadley.local/aeryn/VoidFrame">
-            git.ahadley.local/aeryn/VoidFrame
+          <a href="https://github.com/DaxAvalon/voidframe-ui">
+            github.com/DaxAvalon/voidframe-ui
           </a>
-          . Clone, <code>npm install</code>, then <code>npm test</code>. Phase
-          plans and audits live under <code>plans/</code>.
+          . Clone, <code>npm install</code>, then <code>npm test</code>. See{" "}
+          <code>CONTRIBUTING.md</code> for the full contributor workflow.
         </Text>
       </Section>
     </>

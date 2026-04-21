@@ -961,8 +961,10 @@ voidframe/
 ## Contributing
 
 The canonical repository lives at
-[git.ahadley.local/aeryn/VoidFrame](https://git.ahadley.local/aeryn/VoidFrame)
-(Forgejo instance). Issues, patches, and long-form discussion happen there.
+[github.com/DaxAvalon/voidframe-ui](https://github.com/DaxAvalon/voidframe-ui).
+Issues, patches, and long-form discussion happen there. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for workflow, coding standards, and
+notes for AI coding assistants working in this repo.
 
 Local workflow:
 

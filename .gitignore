@@ -25,3 +25,12 @@ npm-debug.log*
 # Playwright
 playwright-report/
 test-results/
+
+# Internal development / planning docs. Kept locally but not pushed to the
+# public mirror — consumer-facing history lives in CHANGELOG.md, and the
+# contributor workflow lives in CONTRIBUTING.md.
+plans/
+VoidFrameImplementationPlan.md
+
+# Claude Code project-level settings (permissions allowlist).
+.claude/

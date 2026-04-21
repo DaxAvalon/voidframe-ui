@@ -52,7 +52,7 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   Slider: '<Slider value={60} min={0} max={100} onValueChange={() => {}} label="Volume" />',
   RangeSlider: '<RangeSlider value={[20, 80]} min={0} max={100} onValueChange={() => {}} label="Price range" />',
   Textarea: '<Textarea label="Description" placeholder="Write something..." value="Hello world" onValueChange={() => {}} />',
-  PasswordInput: '<PasswordInput label="Password" value="secret123" onValueChange={() => {}} />',
+  PasswordInput: '<PasswordInput label="Password" value="VF-EXAMPLE-1234" onValueChange={() => {}} />',
   PinInput: '<PinInput length={6} value="1234" onValueChange={() => {}} />',
   TagInput: '<TagInput value={["React", "Vue", "Svelte"]} onValueChange={() => {}} placeholder="Add framework..." />',
   SearchInput: '<SearchInput value="" onValueChange={() => {}} placeholder="Search..." />',
@@ -598,7 +598,7 @@ function getDefaultValueForProp(prop: PropDoc): string | null {
   if (prop.name === "events" && t.includes("array"))
     return '{[{ key: "1", label: "Start", status: "completed" }, { key: "2", label: "Middle", status: "active" }, { key: "3", label: "End", status: "pending" }]}';
   if (prop.name === "variables" && t.includes("array"))
-    return '{[{ key: "API_KEY", value: "sk-1234", secret: true }, { key: "PORT", value: "3000" }]}';
+    return '{[{ key: "API_KEY", value: "VF-EXAMPLE-1234", secret: true }, { key: "PORT", value: "3000" }]}';
 
   // Callbacks
   if (prop.name === "onSubmit" || prop.name === "onConfirm" || prop.name === "onClick")

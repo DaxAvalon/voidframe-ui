@@ -4076,7 +4076,7 @@ function ChatCitationsSection() {
       title: "Voidframe — README",
       url: "https://example.com/readme",
       snippet: "A dark-monochrome React UI framework.",
-      publisher: "git.ahadley.local",
+      publisher: "github.com/DaxAvalon/voidframe-ui",
     },
     {
       id: 2,
