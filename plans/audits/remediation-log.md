@@ -22,7 +22,7 @@
 
 Work proceeds in segments so context stays manageable. Each segment ends with a verification pass (`make test`, `make check`) and a progress entry below.
 
-### Segment 1 — Audit 31 P0s (Waves A-E of `P0-execution-queue.md`) — IN PROGRESS
+### Segment 1 — Audit 31 P0s (Waves A-E of `P0-execution-queue.md`) — ✅ DONE (2026-04-19)
 
 | Wave | Scope | Status |
 |---|---|---|
@@ -33,7 +33,7 @@ Work proceeds in segments so context stays manageable. Each segment ends with a 
 | E' (2) | CLI test.mjs wire + VS Code docsUrl configurable | ✅ DONE (2026-04-19) |
 | Gate | Full test + typecheck + build + pack dry-run | ✅ PASS (2026-04-19) |
 
-### Segment 2 — Audit 29 P1 (param standardization — breaking) — IN PROGRESS
+### Segment 2 — Audit 29 P1 (param standardization — breaking) — ✅ DONE (2026-04-19)
 
 | Sub-segment | Scope | Status |
 |---|---|---|
@@ -131,6 +131,19 @@ Stylistic/naming inconsistencies that don't produce runtime bugs. Applied in alo
 Four parallel read-only subagents re-audited audits 29/30/31/32. Audit 30 + 31 clean. Audit 29 surfaced 5 residuals (Stepper/MentionInput/Toolbar.ToggleGroup onChange→onValueChange, stale Pagination sample in docs/curated.tsx, MenuItem missing asChild). Audit 32 surfaced 5 residuals (README test-count stale, 3 ESLint rules missing docs.url, 1 snippet description truncation from a too-long TSDoc, 2 stray console.warn sites in Widget.tsx + NetworkGraph.tsx). All 10 fixed in one commit. Gate: typecheck clean, 5106 tests pass, build clean, size-limit green (Core 197.25 / 200 KB, All-JS 455.31 / 460 KB).
 
 Re-run all 4 audits against the fixed codebase. Goal: zero findings across P0-P3. If new findings surface, loop back into the relevant segment.
+
+### Segment 14 — Playwright e2e suite + 5 library gap fixes — ✅ DONE (2026-04-20)
+
+Dedicated `e2e/` Vite harness app on port 5176 with 25 component fixtures, 27 spec files covering ~40 flagship interaction flows across overlays / compound keyboard / forms / data / canvas, and an `@axe-core/playwright` sweep over all routes. Tri-browser (chromium + firefox + webkit) via `mcr.microsoft.com/playwright:v1.59.1-jammy` in a dedicated docker service.
+
+The sweep immediately surfaced 5 real library a11y/focus bugs that 5106 unit tests didn't see — all closed in the same segment:
+1. `FileUpload` hidden `<input type=file>` now carries `aria-label`.
+2. `MenuBar` triggers now `role="menuitem"` (satisfies `aria-required-children`).
+3. `Dialog.Cancel` + `Dialog.Action` gained `asChild` support (eliminates `nested-interactive`).
+4. `Menu.Content` auto-focuses first item on open (arrow-nav works immediately).
+5. `MenuBar` owns a shared `activeId` registry — opening a sibling closes the previous; arrow-key resolver falls back on `aria-expanded` to locate "current" once focus enters a portaled panel.
+
+Gate: typecheck ✓, 5106 unit tests ✓, build ✓, size-limit ✓ (Core 197.6/200 KB, All-JS 456/460 KB), e2e tri-browser **158 passed / 64 skipped / 0 failed**.
 
 ### Segment 13 — Publish prep — 🟡 READY, HELD (2026-04-19)
 
