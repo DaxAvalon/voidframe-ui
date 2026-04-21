@@ -76,31 +76,11 @@ jobs:
       - name: Dry-run pack
         run: npm pack --dry-run
 
-      # Artifact uploads require Forgejo artifact storage to be
-      # configured. If it's not, these steps fail silently (continue-on-error).
-      - name: Upload coverage report
-        if: always()
-        uses: actions/upload-artifact@v3
-        continue-on-error: true
-        with:
-          name: coverage
-          path: coverage/
-          retention-days: 14
-
-      - name: Upload dist
-        uses: actions/upload-artifact@v3
-        continue-on-error: true
-        with:
-          name: voidframe-dist
-          path: |
-            dist/voidframe.es.js
-            dist/voidframe.cjs.js
-            dist/charts.es.js
-            dist/charts.cjs.js
-            dist/dev.es.js
-            dist/dev.cjs.js
-            dist/voidframe.css
-          retention-days: 30
+      # Artifact upload steps intentionally omitted. This library
+      # publishes to npm via `npm publish` from a maintainer workstation,
+      # not from CI, and coverage/dist are regenerated on every run —
+      # there's nothing downstream that consumes them. Add back if
+      # Forgejo artifact storage is ever wired up.
 
   release:
     name: Publish release artifacts
@@ -139,31 +119,10 @@ jobs:
       - name: Dry-run pack
         run: npm pack --dry-run
 
-      - name: Package dist tarball
-        run: |
-          TAG="${GITHUB_REF_NAME}"
-          tar -czf "voidframe-${TAG}.tgz" \
-            dist/voidframe.es.js \
-            dist/voidframe.cjs.js \
-            dist/charts.es.js \
-            dist/charts.cjs.js \
-            dist/dev.es.js \
-            dist/dev.cjs.js \
-            dist/voidframe.css \
-            package.json README.md LICENSE
-
-      - name: Upload release tarball
-        uses: actions/upload-artifact@v3
-        continue-on-error: true
-        with:
-          name: voidframe-release-${{ github.ref_name }}
-          path: voidframe-*.tgz
-          retention-days: 90
-
       # npm publish is gated behind the NPM_TOKEN secret.
-      # To enable: add NPM_TOKEN to Forgejo repository secrets,
-      # then create .npmrc with registry auth. Until then this
-      # step is skipped automatically.
+      # By default, maintainers publish from a workstation with `npm publish`
+      # so this step no-ops. If you want CI-driven publish, add NPM_TOKEN to
+      # Forgejo repository secrets.
       - name: Publish to npm
         if: ${{ secrets.NPM_TOKEN != '' }}
         run: |
