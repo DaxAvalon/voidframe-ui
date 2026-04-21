@@ -111,6 +111,24 @@ export default defineConfig({
         dev: resolve(__dirname, "src/dev/index.ts"),
         tokens: resolve(__dirname, "src/tokens.ts"),
         testing: resolve(__dirname, "src/testing/index.ts"),
+        // Per-category tree-shaking subpaths — one bundle per taxonomy
+        // section so consumers can pull just Forms, Data, Icons, etc.
+        // without dragging the whole library in. Source of truth for
+        // membership: docs/taxonomy.ts.
+        primitives: resolve(__dirname, "src/subpaths/primitives.ts"),
+        core: resolve(__dirname, "src/subpaths/core.ts"),
+        layout: resolve(__dirname, "src/subpaths/layout.ts"),
+        navigation: resolve(__dirname, "src/subpaths/navigation.ts"),
+        forms: resolve(__dirname, "src/subpaths/forms.ts"),
+        data: resolve(__dirname, "src/subpaths/data.ts"),
+        activity: resolve(__dirname, "src/subpaths/activity.ts"),
+        overlays: resolve(__dirname, "src/subpaths/overlays.ts"),
+        media: resolve(__dirname, "src/subpaths/media.ts"),
+        animation: resolve(__dirname, "src/subpaths/animation.ts"),
+        icons: resolve(__dirname, "src/subpaths/icons.ts"),
+        chat: resolve(__dirname, "src/subpaths/chat.ts"),
+        specialty: resolve(__dirname, "src/subpaths/specialty.ts"),
+        interactive: resolve(__dirname, "src/subpaths/interactive.ts"),
       },
       name: "Voidframe",
       formats: ["es", "cjs"],

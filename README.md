@@ -50,6 +50,20 @@ the root entry:
 | `voidframe-ui/dev` | `<Playground>`, `<PropsTable>`, `<DevPanel>`, `ProfilerScope` — dev-only surface, never ships to production. |
 | `voidframe-ui/tokens` | Token object (`darkTheme`, `lightTheme`, …) without pulling in React. Useful for tooling and design-tool sync. |
 | `voidframe-ui/testing` | `renderWithTheme`, `expectNoA11yViolations`, `installMatchMedia`, `createMockStorage`. |
+| `voidframe-ui/primitives` | Low-level primitives: `Slot`, `Portal`, `FocusScope`, `DismissableLayer`, `Presence`, `LiveRegion`, a11y helpers. |
+| `voidframe-ui/core` | `Button`, `Badge`, `Card`, `Text`, `Loading`, `SplitButton`, `CopyButton`, `Result`. |
+| `voidframe-ui/layout` | `Layout` family, `AppShell`, `Sidebar`, `Masonry`, `Resizable`, `ScrollArea`, responsive `Show`/`ResponsiveBox`. |
+| `voidframe-ui/navigation` | `Menu`, `MegaMenu`, `BreadcrumbMenu`, `CommandPalette`, `Navbar`, `Toolbar`, `Wizard`, `Anchor`, `FloatingActionButton`. |
+| `voidframe-ui/forms` | Every form control — inputs, date/time/color pickers, editors, `FormProvider`, `Field`, `Combobox`, `Cascader`, etc. |
+| `voidframe-ui/data` | `DataGrid`, `TreeTable`, `TreeView`, `Virtualization`, `Viewers/*`, `Metrics`, `AsyncData`, skeletons, descriptions. |
+| `voidframe-ui/activity` | `Calendar`, `Gantt`, `Kanban`, `Comment`, `LiveIndicator`, `Activity`. |
+| `voidframe-ui/overlays` | `Dialog`, `Drawer`, `Popovers`, `Spotlight`, `ToastSystem`, `Notifications`, `Network`, `Popconfirm`. |
+| `voidframe-ui/media` | `Carousel`, `Lightbox`, `Image`, `MediaPlayer`, `Embed`/`RichEmbed`, `ImageDiff`. |
+| `voidframe-ui/animation` | `FadeIn`, `SlideIn`, and the rest of the `Animations` module. |
+| `voidframe-ui/icons` | `Icon`, `IconButton`, the bundled icon set, and `adaptIcon`. |
+| `voidframe-ui/chat` | Chat surface — `Conversation`, `Message*`, `ChatComposer`, `ChatSession`, `ModelCompare`, `TokenVisualizer`. |
+| `voidframe-ui/specialty` | Niche surface: `ThemeSelector`, `ShortcutGuide`, `Print`, `ColorTools`, `Numeric`, `TimeDisplays`, etc. |
+| `voidframe-ui/interactive` | `Accordion`, `DragDrop`, `Gestures`, `FilterBuilder`, `Interactive` primitives. |
 | `voidframe-ui/styles.css` | The single bundled stylesheet. |
 | `voidframe-ui/theme-script.js` | Inline `<head>` snippet that applies the persisted theme pre-hydration (no flash). |
 

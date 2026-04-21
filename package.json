@@ -37,6 +37,76 @@
       "import": "./dist/testing.es.js",
       "require": "./dist/testing.cjs.js"
     },
+    "./primitives": {
+      "types": "./dist/types/primitives.d.ts",
+      "import": "./dist/primitives.es.js",
+      "require": "./dist/primitives.cjs.js"
+    },
+    "./core": {
+      "types": "./dist/types/core.d.ts",
+      "import": "./dist/core.es.js",
+      "require": "./dist/core.cjs.js"
+    },
+    "./layout": {
+      "types": "./dist/types/layout.d.ts",
+      "import": "./dist/layout.es.js",
+      "require": "./dist/layout.cjs.js"
+    },
+    "./navigation": {
+      "types": "./dist/types/navigation.d.ts",
+      "import": "./dist/navigation.es.js",
+      "require": "./dist/navigation.cjs.js"
+    },
+    "./forms": {
+      "types": "./dist/types/forms.d.ts",
+      "import": "./dist/forms.es.js",
+      "require": "./dist/forms.cjs.js"
+    },
+    "./data": {
+      "types": "./dist/types/data.d.ts",
+      "import": "./dist/data.es.js",
+      "require": "./dist/data.cjs.js"
+    },
+    "./activity": {
+      "types": "./dist/types/activity.d.ts",
+      "import": "./dist/activity.es.js",
+      "require": "./dist/activity.cjs.js"
+    },
+    "./overlays": {
+      "types": "./dist/types/overlays.d.ts",
+      "import": "./dist/overlays.es.js",
+      "require": "./dist/overlays.cjs.js"
+    },
+    "./media": {
+      "types": "./dist/types/media.d.ts",
+      "import": "./dist/media.es.js",
+      "require": "./dist/media.cjs.js"
+    },
+    "./animation": {
+      "types": "./dist/types/animation.d.ts",
+      "import": "./dist/animation.es.js",
+      "require": "./dist/animation.cjs.js"
+    },
+    "./icons": {
+      "types": "./dist/types/icons.d.ts",
+      "import": "./dist/icons.es.js",
+      "require": "./dist/icons.cjs.js"
+    },
+    "./chat": {
+      "types": "./dist/types/chat.d.ts",
+      "import": "./dist/chat.es.js",
+      "require": "./dist/chat.cjs.js"
+    },
+    "./specialty": {
+      "types": "./dist/types/specialty.d.ts",
+      "import": "./dist/specialty.es.js",
+      "require": "./dist/specialty.cjs.js"
+    },
+    "./interactive": {
+      "types": "./dist/types/interactive.d.ts",
+      "import": "./dist/interactive.es.js",
+      "require": "./dist/interactive.cjs.js"
+    },
     "./theme-script.js": "./theme-script.js",
     "./package.json": "./package.json"
   },
@@ -51,7 +121,7 @@
     "*.css"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json --emitDeclarationOnly && vite build",
+    "build": "tsc -p tsconfig.build.json --emitDeclarationOnly && NODE_OPTIONS=\"--max-old-space-size=4096\" vite build",
     "dev": "vite",
     "preview": "vite preview",
     "demo": "vite serve demo",
@@ -112,9 +182,93 @@
       "gzip": true
     },
     {
-      "name": "All JS (ES + CJS, all entries)",
+      "name": "Primitives ESM (dist/primitives.es.js)",
+      "path": "dist/primitives.es.js",
+      "limit": "15 KB",
+      "gzip": true
+    },
+    {
+      "name": "Core ESM (dist/core.es.js)",
+      "path": "dist/core.es.js",
+      "limit": "25 KB",
+      "gzip": true
+    },
+    {
+      "name": "Layout ESM (dist/layout.es.js)",
+      "path": "dist/layout.es.js",
+      "limit": "30 KB",
+      "gzip": true
+    },
+    {
+      "name": "Navigation ESM (dist/navigation.es.js)",
+      "path": "dist/navigation.es.js",
+      "limit": "40 KB",
+      "gzip": true
+    },
+    {
+      "name": "Forms ESM (dist/forms.es.js)",
+      "path": "dist/forms.es.js",
+      "limit": "80 KB",
+      "gzip": true
+    },
+    {
+      "name": "Data ESM (dist/data.es.js)",
+      "path": "dist/data.es.js",
+      "limit": "100 KB",
+      "gzip": true
+    },
+    {
+      "name": "Activity ESM (dist/activity.es.js)",
+      "path": "dist/activity.es.js",
+      "limit": "60 KB",
+      "gzip": true
+    },
+    {
+      "name": "Overlays ESM (dist/overlays.es.js)",
+      "path": "dist/overlays.es.js",
+      "limit": "50 KB",
+      "gzip": true
+    },
+    {
+      "name": "Media ESM (dist/media.es.js)",
+      "path": "dist/media.es.js",
+      "limit": "40 KB",
+      "gzip": true
+    },
+    {
+      "name": "Animation ESM (dist/animation.es.js)",
+      "path": "dist/animation.es.js",
+      "limit": "15 KB",
+      "gzip": true
+    },
+    {
+      "name": "Icons ESM (dist/icons.es.js)",
+      "path": "dist/icons.es.js",
+      "limit": "20 KB",
+      "gzip": true
+    },
+    {
+      "name": "Chat ESM (dist/chat.es.js)",
+      "path": "dist/chat.es.js",
+      "limit": "50 KB",
+      "gzip": true
+    },
+    {
+      "name": "Specialty ESM (dist/specialty.es.js)",
+      "path": "dist/specialty.es.js",
+      "limit": "40 KB",
+      "gzip": true
+    },
+    {
+      "name": "Interactive ESM (dist/interactive.es.js)",
+      "path": "dist/interactive.es.js",
+      "limit": "30 KB",
+      "gzip": true
+    },
+    {
+      "name": "All JS (ES + CJS, all entries) — coarse aggregate, not a diet target; per-subpath ceilings are the real guardrail",
       "path": "dist/*.js",
-      "limit": "460 KB",
+      "limit": "1.5 MB",
       "gzip": true
     }
   ],
