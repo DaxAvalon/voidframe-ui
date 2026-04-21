@@ -614,7 +614,7 @@ export const componentHooks: Record<string, HookRelation> = {
     internal: [],
     recommended: [
       { hook: "useAsync", reason: "Load all stats from API" },
-      { hook: "useBreakpoint", reason: "Responsive stat grid layout" },
+      { hook: "useMediaQuery", reason: "Responsive stat grid layout" },
     ],
   },
   MetricCard: {
@@ -923,7 +923,7 @@ export const componentHooks: Record<string, HookRelation> = {
     internal: [],
     recommended: [
       { hook: "useAsync", reason: "Load description data" },
-      { hook: "useBreakpoint", reason: "Responsive column layout" },
+      { hook: "useMediaQuery", reason: "Responsive column layout" },
     ],
   },
   List: {
@@ -1140,8 +1140,7 @@ export const componentHooks: Record<string, HookRelation> = {
   Navbar: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive mobile menu" },
-      { hook: "useMediaQuery", reason: "Collapse navigation at breakpoint" },
+      { hook: "useMediaQuery", reason: "Responsive mobile menu / collapse at breakpoint" },
       { hook: "useScrollDirection", reason: "Hide navbar on scroll down" },
       { hook: "useLocalStorage", reason: "Persist mobile menu state" },
     ],
@@ -1150,15 +1149,14 @@ export const componentHooks: Record<string, HookRelation> = {
     internal: [],
     recommended: [
       { hook: "useControllableState", reason: "Controlled active tab" },
-      { hook: "useBreakpoint", reason: "Responsive tab display" },
+      { hook: "useMediaQuery", reason: "Responsive tab display" },
     ],
   },
   Sidebar: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Auto-collapse on mobile" },
+      { hook: "useMediaQuery", reason: "Auto-collapse on mobile / responsive sidebar mode" },
       { hook: "useLocalStorage", reason: "Persist collapsed state" },
-      { hook: "useMediaQuery", reason: "Responsive sidebar mode" },
       { hook: "useKeyboardShortcut", reason: "Toggle sidebar hotkey" },
     ],
   },
@@ -1189,7 +1187,7 @@ export const componentHooks: Record<string, HookRelation> = {
     recommended: [
       { hook: "useEscapeKey", reason: "Close mega menu" },
       { hook: "useClickOutside", reason: "Dismiss on outside click" },
-      { hook: "useBreakpoint", reason: "Responsive mega menu layout" },
+      { hook: "useMediaQuery", reason: "Responsive mega menu layout" },
       { hook: "useHover", reason: "Open on hover with delay" },
     ],
   },
@@ -1207,7 +1205,7 @@ export const componentHooks: Record<string, HookRelation> = {
     internal: [],
     recommended: [
       { hook: "useKeyboardShortcut", reason: "Toolbar action hotkeys" },
-      { hook: "useBreakpoint", reason: "Responsive toolbar overflow" },
+      { hook: "useMediaQuery", reason: "Responsive toolbar overflow" },
     ],
   },
   FloatingActionButton: {
@@ -1283,7 +1281,7 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "useEscapeKey", reason: "Close drawer" },
       { hook: "useFocusReturn", reason: "Return focus on close" },
       { hook: "useLockBodyScroll", reason: "Prevent background scroll" },
-      { hook: "useBreakpoint", reason: "Full-screen on mobile" },
+      { hook: "useMediaQuery", reason: "Full-screen on mobile" },
     ],
   },
   DrawerV2: {
@@ -1292,7 +1290,7 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "useEscapeKey", reason: "Close drawer" },
       { hook: "useFocusReturn", reason: "Return focus on close" },
       { hook: "useLockBodyScroll", reason: "Prevent background scroll" },
-      { hook: "useBreakpoint", reason: "Full-screen on mobile" },
+      { hook: "useMediaQuery", reason: "Full-screen on mobile" },
       { hook: "usePrefersReducedMotion", reason: "Disable slide animation" },
     ],
   },
@@ -1302,7 +1300,7 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "useEscapeKey", reason: "Close sheet" },
       { hook: "useFocusReturn", reason: "Return focus on close" },
       { hook: "useLockBodyScroll", reason: "Prevent background scroll" },
-      { hook: "useBreakpoint", reason: "Responsive sheet sizing" },
+      { hook: "useMediaQuery", reason: "Responsive sheet sizing" },
     ],
   },
   Popover: {
@@ -1442,46 +1440,45 @@ export const componentHooks: Record<string, HookRelation> = {
   Flex: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive flex direction" },
+      { hook: "useMediaQuery", reason: "Responsive flex direction" },
       { hook: "useResizeObserver", reason: "Dynamic sizing" },
     ],
   },
   HStack: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Switch to vertical on mobile" },
+      { hook: "useMediaQuery", reason: "Switch to vertical on mobile" },
     ],
   },
   VStack: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive spacing" },
+      { hook: "useMediaQuery", reason: "Responsive spacing" },
     ],
   },
   Stack: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive direction and spacing" },
+      { hook: "useMediaQuery", reason: "Responsive direction and spacing" },
     ],
   },
   Grid: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive column count" },
-      { hook: "useContainerQuery", reason: "Container-aware columns" },
-      { hook: "useResizeObserver", reason: "Dynamic grid sizing" },
+      { hook: "useMediaQuery", reason: "Responsive column count" },
+      { hook: "useResizeObserver", reason: "Dynamic grid sizing / container-aware columns" },
     ],
   },
   GridItem: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive span" },
+      { hook: "useMediaQuery", reason: "Responsive span" },
     ],
   },
   Container: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive max-width" },
+      { hook: "useMediaQuery", reason: "Responsive max-width" },
     ],
   },
   Center: {
@@ -1492,7 +1489,7 @@ export const componentHooks: Record<string, HookRelation> = {
     internal: [],
     recommended: [
       { hook: "useResizeObserver", reason: "Track box dimensions" },
-      { hook: "useContainerQuery", reason: "Container query responsive" },
+      { hook: "useMediaQuery", reason: "Container query responsive" },
     ],
   },
   AspectRatio: {
@@ -1506,7 +1503,7 @@ export const componentHooks: Record<string, HookRelation> = {
     recommended: [
       { hook: "useLocalStorage", reason: "Persist panel sizes" },
       { hook: "useResizeObserver", reason: "Responsive split layout" },
-      { hook: "useBreakpoint", reason: "Stack panels on mobile" },
+      { hook: "useMediaQuery", reason: "Stack panels on mobile" },
     ],
   },
   Stretch: {
@@ -1521,7 +1518,7 @@ export const componentHooks: Record<string, HookRelation> = {
     internal: [],
     recommended: [
       { hook: "useDocumentTitle", reason: "Set page title from header" },
-      { hook: "useBreakpoint", reason: "Responsive header layout" },
+      { hook: "useMediaQuery", reason: "Responsive header layout" },
     ],
   },
   Sticky: {
@@ -1551,7 +1548,7 @@ export const componentHooks: Record<string, HookRelation> = {
     recommended: [
       { hook: "useResizeObserver", reason: "Responsive column count" },
       { hook: "useIntersectionObserver", reason: "Lazy load masonry items" },
-      { hook: "useBreakpoint", reason: "Responsive columns" },
+      { hook: "useMediaQuery", reason: "Responsive columns" },
     ],
   },
 
@@ -1561,7 +1558,7 @@ export const componentHooks: Record<string, HookRelation> = {
     internal: [],
     recommended: [
       { hook: "useLocalStorage", reason: "Persist panel sizes" },
-      { hook: "useBreakpoint", reason: "Responsive panel layout" },
+      { hook: "useMediaQuery", reason: "Responsive panel layout" },
     ],
   },
   ResizablePanel: {
@@ -1583,7 +1580,7 @@ export const componentHooks: Record<string, HookRelation> = {
   AppShell: {
     internal: ["useMediaQuery"],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive sidebar collapse" },
+      { hook: "useMediaQuery", reason: "Responsive sidebar collapse" },
       { hook: "useLocalStorage", reason: "Remember sidebar state" },
       { hook: "useKeyboardShortcut", reason: "Toggle sidebar with hotkey" },
     ],
@@ -1603,7 +1600,7 @@ export const componentHooks: Record<string, HookRelation> = {
     internal: [],
     recommended: [
       { hook: "useLocalStorage", reason: "Persist dashboard layout" },
-      { hook: "useBreakpoint", reason: "Responsive grid columns" },
+      { hook: "useMediaQuery", reason: "Responsive grid columns" },
       { hook: "useResizeObserver", reason: "Track grid dimensions" },
     ],
   },
@@ -1806,7 +1803,7 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "useAsync", reason: "Load events from API" },
       { hook: "useLocalStorage", reason: "Persist view preferences" },
       { hook: "useKeyboardShortcut", reason: "Navigate dates with arrows" },
-      { hook: "useBreakpoint", reason: "Responsive calendar view" },
+      { hook: "useMediaQuery", reason: "Responsive calendar view" },
     ],
   },
   Gantt: {
@@ -1919,7 +1916,7 @@ export const componentHooks: Record<string, HookRelation> = {
   SuggestionChips: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive chip layout" },
+      { hook: "useMediaQuery", reason: "Responsive chip layout" },
     ],
   },
   PromptTemplateList: {
@@ -2049,7 +2046,7 @@ export const componentHooks: Record<string, HookRelation> = {
   ChatLayout: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive chat layout" },
+      { hook: "useMediaQuery", reason: "Responsive chat layout" },
       { hook: "useLocalStorage", reason: "Persist layout preferences" },
     ],
   },
@@ -2104,7 +2101,7 @@ export const componentHooks: Record<string, HookRelation> = {
   SourceGrid: {
     internal: [],
     recommended: [
-      { hook: "useBreakpoint", reason: "Responsive source grid" },
+      { hook: "useMediaQuery", reason: "Responsive source grid" },
     ],
   },
   RAGContext: {
@@ -2645,7 +2642,7 @@ export const componentHooks: Record<string, HookRelation> = {
     recommended: [
       { hook: "useAsync", reason: "Load faceted data" },
       { hook: "useResizeObserver", reason: "Responsive grid sizing" },
-      { hook: "useBreakpoint", reason: "Responsive column count" },
+      { hook: "useMediaQuery", reason: "Responsive column count" },
     ],
   },
   HorizonChart: {

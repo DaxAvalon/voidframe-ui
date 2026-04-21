@@ -188,6 +188,25 @@ const FILE_MAP: Record<string, Category> = {
   // Responsive system
   "src/responsive/Show.tsx": "Layout",
   "src/responsive/ResponsiveBox.tsx": "Layout",
+
+  // Data — split out of the former Viewers.tsx bundle
+  "src/components/Viewers/CodeBlock.tsx": "Data",
+  "src/components/Viewers/DiffViewer.tsx": "Data",
+  "src/components/Viewers/JSONViewer.tsx": "Data",
+  "src/components/Viewers/LogViewer.tsx": "Data",
+  "src/components/Viewers/MarkdownRenderer.tsx": "Data",
+
+  // Chat — split out of the former Chat.tsx bundle
+  "src/components/Chat/Actions.tsx": "Chat & AI",
+  "src/components/Chat/Conversation.tsx": "Chat & AI",
+  "src/components/Chat/Edit.tsx": "Chat & AI",
+  "src/components/Chat/Indicators.tsx": "Chat & AI",
+  "src/components/Chat/Message.tsx": "Chat & AI",
+  "src/components/Chat/Reactions.tsx": "Chat & AI",
+
+  // Misc surface additions
+  "src/components/AsyncData.tsx": "Data",
+  "src/components/FormProvider.tsx": "Forms",
 };
 
 // Prefix rules — matched after the exact map misses. Order matters.

@@ -18,19 +18,21 @@ export const curated: Record<string, CuratedOverride> = {
   Button: {
     summary: (
       <p>
-        The canonical interactive element. Supports several tones (default /
-        primary / ghost / danger) and can accept a tone accent that recolors
-        the border and focus ring.
+        The canonical interactive element. Four canonical variants (
+        <code>solid</code> / <code>outline</code> / <code>ghost</code> /{" "}
+        <code>subtle</code>) plus an optional <code>accent</code> prop that
+        recolors the background, border, and focus ring via{" "}
+        <code>--vf-accent</code>.
       </p>
     ),
     examples: [
       {
         title: "Variants",
         code: `<div style={{ display: "flex", gap: 8 }}>
-  <Button>Default</Button>
-  <Button variant="primary">Primary</Button>
+  <Button variant="solid">Solid</Button>
+  <Button variant="outline">Outline</Button>
   <Button variant="ghost">Ghost</Button>
-  <Button variant="danger">Danger</Button>
+  <Button variant="subtle" accent="var(--vf-red)">Subtle</Button>
 </div>`,
       },
       {
@@ -174,7 +176,7 @@ render(<Example />);`,
           <div style={{ marginBottom: 12 }}>This action cannot be undone.</div>
           <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
             <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button variant="danger" onClick={() => setOpen(false)}>Delete</Button>
+            <Button variant="solid" accent="var(--vf-red)" onClick={() => setOpen(false)}>Delete</Button>
           </div>
         </div>
       </Dialog>
@@ -190,7 +192,7 @@ render(<Example />);`,
       <p>
         Vertical bar chart with tooltip, legend, and axis primitives. Pairs
         with <code>AreaChart</code>, <code>LineChart</code>, and other
-        core-chart surfaces. Available from <code>@voidframe/ui/charts</code>.
+        core-chart surfaces. Available from <code>voidframe-ui/charts</code>.
       </p>
     ),
     examples: [
@@ -198,7 +200,7 @@ render(<Example />);`,
         title: "Usage",
         code: `<VStack gap={8}>
   <Text size="sm" color="var(--vf-text-2)">Chart components require D3 peer dependencies and are imported from the charts subpath:</Text>
-  <Code>import {"{"} BarChart {"}"} from "@voidframe/ui/charts"</Code>
+  <Code>import {"{"} BarChart {"}"} from "voidframe-ui/charts"</Code>
   <Text size="sm" color="var(--vf-text-3)">Props: width, height, data (array), xKey, yKeys, stacked, horizontal, tooltip, legend.</Text>
 </VStack>`,
       },
@@ -633,7 +635,7 @@ render(<Example />);`,
   confirmVariant="danger"
   onConfirm={() => {}}
 >
-  <Button variant="danger">Delete</Button>
+  <Button variant="solid" accent="var(--vf-red)">Delete</Button>
 </Popconfirm>`,
       },
     ],
@@ -696,8 +698,8 @@ render(<Example />);`,
       {
         title: "Two copy targets",
         code: `<div style={{ display: "flex", gap: 12 }}>
-  <CopyButton text="npm install voidframe" label="Copy install command" />
-  <CopyButton text="import { Button } from 'voidframe';" variant="subtle" />
+  <CopyButton text="npm install voidframe-ui" label="Copy install command" />
+  <CopyButton text="import { Button } from 'voidframe-ui';" variant="subtle" />
 </div>`,
       },
     ],
@@ -818,7 +820,7 @@ render(<Example />);`,
     status="success"
     title="Payment Complete"
     description="Your order has been placed successfully."
-    extra={<Button variant="primary">View Order</Button>}
+    extra={<Button variant="solid">View Order</Button>}
   />
   <Result
     status="404"
@@ -971,7 +973,7 @@ render(<Example />);`,
       <p>
         Hierarchical organization tree rendered as SVG. Supports collapsible
         nodes, click handlers, and multiple connector styles. Imported
-        from <code>voidframe/charts</code>.
+        from <code>voidframe-ui/charts</code>.
       </p>
     ),
     examples: [
@@ -1014,7 +1016,7 @@ render(<Example />);`,
       <p>
         Single-line text field with optional label. Wraps a
         native <code>&lt;input&gt;</code> with accessible labeling and the
-        standard voidframe field layout.
+        standard voidframe-ui field layout.
       </p>
     ),
     examples: [
@@ -1145,7 +1147,8 @@ render(<Example />);`,
     summary: (
       <p>
         Multi-line text field with configurable rows and optional label.
-        Supports both <code>onChange</code> and <code>onValueChange</code> handlers.
+        Emits <code>onValueChange(value)</code> for controlled updates —
+        the canonical voidframe-ui form handler.
       </p>
     ),
     examples: [
@@ -1450,7 +1453,7 @@ render(<Example />);`,
         title: "Inline and block",
         code: `<VStack gap={8}>
   <p>
-    Run <Code inline>npm install voidframe</Code> to get started.
+    Run <Code inline>npm install voidframe-ui</Code> to get started.
   </p>
   <Code>{"const x = 42;\\nconst y = x * 2;\\nconsole.log(y);"}</Code>
 </VStack>`,
@@ -1572,7 +1575,7 @@ render(<Example />);`,
   icon={<span style={{ fontSize: 32 }}>📭</span>}
   title="No messages yet"
   description="When you receive messages they will appear here."
-  action={<Button variant="primary">Compose</Button>}
+  action={<Button variant="solid">Compose</Button>}
 />`,
       },
     ],
@@ -1673,7 +1676,7 @@ render(<Example />);`,
   items={[
     { label: "Home", href: "#" },
     { label: "Projects", href: "#" },
-    { label: "voidframe" },
+    { label: "voidframe-ui" },
   ]}
   separator="/"
 />`,
@@ -1728,11 +1731,11 @@ render(<Example />);`,
         steps={["Account", "Profile", "Settings", "Confirm"]}
         current={step}
         clickable
-        onChange={setStep}
+        onValueChange={setStep}
       />
       <div style={{ display: "flex", gap: 8 }}>
         <Button disabled={step <= 0} onClick={() => setStep(step - 1)}>Back</Button>
-        <Button variant="primary" disabled={step >= 3} onClick={() => setStep(step + 1)}>Next</Button>
+        <Button variant="solid" disabled={step >= 3} onClick={() => setStep(step + 1)}>Next</Button>
       </div>
     </VStack>
   );
@@ -1753,7 +1756,7 @@ render(<Example />);`,
         title: "3 panels",
         code: `<Accordion type="single" defaultValue="item-1" collapsible>
   <Accordion.Item value="item-1">
-    <Accordion.Trigger>What is voidframe?</Accordion.Trigger>
+    <Accordion.Trigger>What is voidframe-ui?</Accordion.Trigger>
     <Accordion.Content>
       <div style={{ padding: "8px 0" }}>
         A developer-focused React component library with 200+ components, dark-first theming, and built-in dev tools.
@@ -1772,7 +1775,7 @@ render(<Example />);`,
     <Accordion.Trigger>How do I install it?</Accordion.Trigger>
     <Accordion.Content>
       <div style={{ padding: "8px 0" }}>
-        Run npm install voidframe and import the components you need.
+        Run npm install voidframe-ui and import the components you need.
       </div>
     </Accordion.Content>
   </Accordion.Item>
@@ -1820,7 +1823,7 @@ render(<Example />);`,
   actions={
     <div style={{ display: "flex", gap: 8 }}>
       <Button variant="ghost">Cancel</Button>
-      <Button variant="primary">Deploy</Button>
+      <Button variant="solid">Deploy</Button>
     </div>
   }
 >
@@ -1858,8 +1861,10 @@ render(<Example />);`,
   Callout: {
     summary: (
       <p>
-        Aside block for tips, notes, and warnings. Five tones match the
-        platform semantic colors.
+        Inline note block for tips, warnings, and callouts. Five tones match
+        the platform semantic colors. Renders as a <code>&lt;div&gt;</code>{" "}
+        with <code>role="note"</code> — wrap in your own landmark if the
+        callout is section-level commentary.
       </p>
     ),
     examples: [
@@ -1867,7 +1872,7 @@ render(<Example />);`,
         title: "Info callout",
         code: `<Callout tone="info" title="Good to know" icon="i">
   <p style={{ margin: 0 }}>
-    All voidframe components support the <code>className</code> and{" "}
+    All voidframe-ui components support the <code>className</code> and{" "}
     <code>style</code> props for custom overrides.
   </p>
 </Callout>`,
@@ -1933,7 +1938,7 @@ greet("World");\`}
         title: "Nested object",
         code: `<JSONViewer
   data={{
-    name: "voidframe",
+    name: "voidframe-ui",
     version: "1.0.0",
     features: ["components", "charts", "dev-tools"],
     config: {
@@ -1994,7 +1999,7 @@ console.log("Result:", result);\`}
         title: "Interactive terminal",
         code: `function Example() {
   const [lines, setLines] = useState([
-    "Welcome to voidframe terminal.",
+    "Welcome to voidframe-ui terminal.",
     "Type a command and press Enter.",
   ]);
   return (

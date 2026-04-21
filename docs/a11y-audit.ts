@@ -34,10 +34,14 @@ export const auditData: ComponentAudit[] = [
   { name: "Tabs", category: "Navigation", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["tablist", "tab", "tabpanel"], focusManagement: "scoped" },
   { name: "Breadcrumb", category: "Navigation", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["navigation"], focusManagement: "natural" },
   { name: "Anchor", category: "Navigation", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["navigation"], focusManagement: "natural" },
-  { name: "Menu", category: "Navigation", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["menu", "menuitem"], focusManagement: "trapped" },
+  { name: "Menu", category: "Navigation", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["menu", "menuitem"], focusManagement: "trapped", notes: "Auto-focuses the first item on open (Segment 14)" },
+  { name: "MenuBar", category: "Navigation", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["menubar", "menuitem"], focusManagement: "scoped", notes: "Triggers render role=\"menuitem\" (not button); siblings close via shared activeId registry" },
+  { name: "ContextMenu", category: "Navigation", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["menu", "menuitem"], focusManagement: "trapped", notes: "Item clicks now dismiss the menu (behavior change in Segment 15)" },
+  { name: "Toolbar", category: "Navigation", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["toolbar"], focusManagement: "scoped", notes: "Arrow keys move focus between child controls (roving tabindex, Segment 15)" },
+  { name: "CommandPalette", category: "Navigation", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["combobox", "listbox", "option"], focusManagement: "trapped", notes: "Input is role=\"combobox\" with aria-controls/aria-owns; List has aria-label=\"Commands\"; Group is role=\"presentation\"" },
 
   // Overlays
-  { name: "Dialog", category: "Overlays", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["dialog"], focusManagement: "trapped" },
+  { name: "Dialog", category: "Overlays", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["dialog"], focusManagement: "trapped", notes: "Dialog.Cancel and Dialog.Action accept asChild to avoid nested interactive elements (Segment 14)" },
   { name: "Popconfirm", category: "Overlays", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["dialog"], focusManagement: "trapped" },
   { name: "Popover", category: "Overlays", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["dialog"], focusManagement: "scoped" },
 

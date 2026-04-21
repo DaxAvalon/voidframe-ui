@@ -12909,7 +12909,7 @@
   },
   {
     "name": "MenuBar",
-    "description": "Top-level menu bar (like a desktop app). Horizontal row of `MenuBarMenu`\nentries, each with a dropdown.",
+    "description": "Top-level menu bar (like a desktop app). Horizontal row of `MenuBarMenu`\nentries, each with a dropdown. Ensures only one sibling menu is open at\na time via a shared activeId registry.",
     "file": "src/components/Menu.tsx",
     "props": []
   },
@@ -22571,7 +22571,7 @@
   },
   {
     "name": "Toolbar",
-    "description": "Horizontal (or vertical) action strip with WAI-ARIA `role=\"toolbar\"`.\nCompose with `Toolbar.Button`, `Toolbar.Link`, `Toolbar.Separator`, and\n`Toolbar.ToggleGroup` + `Toolbar.ToggleItem` for single/multi press\nstate. `aria-orientation` tracks the `orientation` prop.",
+    "description": "Horizontal (or vertical) action strip with WAI-ARIA `role=\"toolbar\"`.\nCompose with `Toolbar.Button`, `Toolbar.Link`, `Toolbar.Separator`, and\n`Toolbar.ToggleGroup` + `Toolbar.ToggleItem` for single/multi press state.\n`aria-orientation` tracks the `orientation` prop. Arrow keys move focus\nbetween child controls; Home/End jump to first/last.",
     "file": "src/components/Toolbar.tsx",
     "props": [
       {

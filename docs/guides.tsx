@@ -56,24 +56,24 @@ function GettingStartedGuide() {
           Voidframe is a regular npm package with React 18+ as a peer
           dependency.
         </Text>
-        <CodeBlock>{`npm install voidframe`}</CodeBlock>
+        <CodeBlock>{`npm install voidframe-ui`}</CodeBlock>
       </Section>
       <Section title="Import the stylesheet">
         <Text>
           The entire component library lives in one bundled CSS file. Import
           it once at your entry point.
         </Text>
-        <CodeBlock>{`import "voidframe/styles.css";`}</CodeBlock>
+        <CodeBlock>{`import "voidframe-ui/styles.css";`}</CodeBlock>
       </Section>
       <Section title="Wrap your app in VoidframeProvider">
         <Text>
           The provider installs the active theme, density, direction, and
           reduced-motion preferences onto the DOM as CSS custom properties
-          and data attributes. Every voidframe component reads from these.
+          and data attributes. Every voidframe-ui component reads from these.
         </Text>
         <CodeBlock>{`import { createRoot } from "react-dom/client";
 import { VoidframeProvider } from "voidframe-ui";
-import "voidframe/styles.css";
+import "voidframe-ui/styles.css";
 import App from "./App";
 
 createRoot(document.getElementById("root")!).render(
@@ -84,14 +84,14 @@ createRoot(document.getElementById("root")!).render(
       </Section>
       <Section title="First component">
         <Playground
-          title="Hello, voidframe"
+          title="Hello, voidframe-ui"
           scope={playgroundScope}
           paneHeight={200}
           code={`<Card style={{ padding: 16, maxWidth: 320 }}>
   <Text size="lg" color="var(--vf-text-0)">Welcome to Voidframe</Text>
   <Text size="sm" color="var(--vf-text-3)">Edit the code on the left.</Text>
   <div style={{ marginTop: 12 }}>
-    <Button variant="primary">Ship it</Button>
+    <Button variant="solid">Ship it</Button>
   </div>
 </Card>`}
         />
@@ -169,10 +169,10 @@ const theme = {
       </Section>
       <Section title="Generating a custom theme file">
         <Text>
-          The <code>voidframe</code> CLI can drop a theme override stub into
+          The <code>voidframe-ui</code> CLI can drop a theme override stub into
           your project:
         </Text>
-        <CodeBlock>{`npx voidframe theme dark
+        <CodeBlock>{`npx voidframe-ui theme dark
 # writes voidframe.theme.ts`}</CodeBlock>
       </Section>
     </>
@@ -186,7 +186,7 @@ function ProviderGuide() {
         <Text>
           The top-level provider. Installs the current theme, density,
           contrast, text direction, and reduced-motion preferences on a
-          wrapper element. Every voidframe component reads from these.
+          wrapper element. Every voidframe-ui component reads from these.
         </Text>
       </Section>
       <Section title="Props at a glance">
@@ -211,7 +211,7 @@ function ProviderGuide() {
       <Section title="Reduced motion">
         <Text>
           When reducedMotion is <code>"reduce"</code>, or the OS-level
-          preference is set via <code>"auto"</code>, voidframe disables
+          preference is set via <code>"auto"</code>, voidframe-ui disables
           transitions on overlays, toasts, and interactive animation atoms.
         </Text>
       </Section>
@@ -369,7 +369,7 @@ export const guides: Guide[] = [
   {
     id: "getting-started",
     title: "Getting started",
-    subtitle: "Install voidframe, import the stylesheet, mount the provider.",
+    subtitle: "Install voidframe-ui, import the stylesheet, mount the provider.",
     render: () => <GettingStartedGuide />,
   },
   {
