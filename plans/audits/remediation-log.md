@@ -167,6 +167,46 @@ Library gaps surfaced and closed in the same segment:
 
 Gate: typecheck ✓, 5106 unit tests ✓, build ✓, e2e tri-browser **363 passed / 116 skipped (chromium-only axe sweeps) / 0 failed / 1 pre-existing flake** (Menu SubTrigger, passes on retry).
 
+### Segment 16 — v1.0 pre-release polish (5 tracks) — ✅ DONE (2026-04-21)
+
+Five parallel polish tracks landed as four commits under the approved plan at `~/.claude/plans/voidframe-v1-polish.md`. Drives the library from "functionally done" to "npm-publish ready."
+
+**Track 1 — Package rename (voidframe → voidframe-ui).** `package.json` name + homepage/bugs/repository retargeted to `github.com/DaxAvalon/voidframe-ui`; 45 e2e routes + demo + docs source imports rewritten; e2e Vite alias updated (still resolves to `src/index.ts`); tool sweeps across CLI templates, `doctor.mjs`, `theme.mjs`, eslint-plugin recommended-config slug (`voidframe` → `voidframe-ui`) and rule source checks, codemod transforms + legacy-sources table (now accepts both pre- and post-rename variants), testing mocks doc, DevPanel About `framework` dd. Dist filenames kept as `voidframe.{es,cjs}.js` — internal artifact names.
+
+**Track 3 — Visual rhythm tokens.** Four new theme knobs, each preserving current CSS when unset:
+
+1. `--vf-font-mono` / `--vf-font-sans` / `--vf-font-display` (plus `--vf-font-family` kept as alias).
+2. `--vf-heading-case` (default `uppercase`; 93 hardcoded `text-transform: uppercase` occurrences across `src/css/**` rewritten to `var(--vf-heading-case, uppercase)`).
+3. `--vf-heading-tracking` (default `0.08em`; 4 hardcoded `letter-spacing: 0.08em` heading occurrences routed through the token).
+4. `--vf-radius-0/1/2` scale (default 0 preserves the brutalist zero-corner policy).
+
+Exposed in `VoidframeTokens` (TypeScript) so consumers can override via `VoidframeProvider theme=` as well as CSS.
+
+**Track 2 — Docs one-pass polish.** Re-ran `scripts/extract-props.mjs`: props.json picked up 2 segment-15 description updates (MenuBar, Toolbar). Content sweeps:
+
+- `docs/curated.tsx` (~14 edits): Button/Dialog/Popconfirm/Result/EmptyState/Card/Stepper canonical `variant="solid"` + tone-based accent; Stepper `onChange` → `onValueChange`; BarChart/OrgChart subpath rename; Callout summary aligned to `<div>`+`role="note"`; Textarea canonical `onValueChange`.
+- `docs/autoPlayground.ts` (~18 edits): npm install command rename; Button variant vocabulary; Badge `variant` → `tone`; form-control `onChange` → `onValueChange` across 15 components; Dialog stale `onClose` → `onOpenChange`.
+- `docs/guides.tsx`, `docs/taxonomy.ts` (18 new FILE_MAP entries — 500/500 coverage, 0 "Other"), `docs/hookMap.ts` (stale `useBreakpoint`/`useContainerQuery` → `useMediaQuery`; dedup), `docs/migration.tsx` (new `pre-1.0-readiness` section), `docs/a11y-audit.ts` (MenuBar/ContextMenu/Toolbar/CommandPalette rows).
+
+All 708/708 docs tests pass.
+
+**Track 5 — Tree-shaking (14 per-category subpaths).** Added `src/subpaths/{primitives,core,layout,navigation,forms,data,activity,overlays,media,animation,icons,chat,specialty,interactive}.ts` as pure-reexport barrels driven by `docs/taxonomy.ts`; wired into `vite.config.ts` (19 total lib entries); added 14 `package.json` exports entries + 14 size-limit ceilings (All-JS aggregate bumped to 1.5 MB as a coarse slack target). Monolithic `voidframe-ui` root import kept working — back-compat preserved. Rollup code-splitting pushed almost all component code into shared chunks, so the root bundle shrank `569 KB → 82 KB` and every subpath entry bundle is under 1 KB gzipped. Build script gained `NODE_OPTIONS="--max-old-space-size=4096"` so `vite-plugin-dts` can rollup 19 entries without OOM.
+
+Consumer smoke test (`scripts/smoke-consumer.sh`): pack tarball → install into fresh Vite+React project with all optional peers → verify monolith + 20 subpaths resolve. All 20 imports OK; package metadata correct (`name: voidframe-ui`, 22 exports in the map).
+
+**Track 4 — ESLint plugin (+7 rules: 6 → 13).** New rules (each with a RuleTester-based test file, 6 cases per rule): `require-voidframe-provider` (off, opt-in), `prefer-subpath-import` (warn, autofix for single-subpath groups), `no-inline-style-overrides` (warn), `prefer-asChild` (warn, autofix), `exhaustive-kind-variant` (off, opt-in), `no-deprecated-prop-combination` (error), `require-controlled-pair` (warn). Plugin slug + recommended config rewritten to `voidframe-ui`; docs URLs point at `https://daxavalon.github.io/voidframe-ui/eslint-plugin#<rule>` (aspirational — Pages deploy deferred). Barrel test updated to assert the 13-rule sorted set. 72/72 plugin tests pass. Full vitest sweep: **5148 tests pass** (5106 baseline + 42 new rule tests).
+
+**Final gate:**
+
+- Unit: 5148/5148 pass (341 files).
+- Typecheck: clean.
+- Production build: green; 19 subpath bundles produced.
+- Size-limit: all 19 ceilings green (aggregate 359.64 KB gzipped under the 1.5 MB slack).
+- Tri-browser e2e (chromium + firefox + webkit): **364 passed / 116 skipped (chromium-only axe sweeps by design) / 0 failed**.
+- Consumer smoke: 20/20 subpath imports resolve in a fresh project after installing optional peers.
+
+Commits landed under this segment are visible in `git log` between this entry and the Segment 15 entry above.
+
 ### Segment 13 — Publish prep — 🟡 READY, HELD (2026-04-19)
 
 All local readiness checks green. **Nothing pushed, nothing published** per user directive.
