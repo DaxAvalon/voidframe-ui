@@ -209,11 +209,11 @@ describe("MenuBar", () => {
       </MenuBar>
     );
     expect(screen.getByRole("menubar")).toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: "File" }));
+    await userEvent.click(screen.getByRole("menuitem", { name: "File" }));
     expect(screen.getByRole("menuitem", { name: "New" })).toBeInTheDocument();
   });
 
-  it("ArrowRight on an open MenuBarMenu moves focus to the next sibling menu", async () => {
+  it("ArrowRight on an open MenuBarMenu opens the next sibling and closes the previous", async () => {
     renderWithTheme(
       <MenuBar>
         <MenuBarMenu trigger="File">
@@ -224,11 +224,13 @@ describe("MenuBar", () => {
         </MenuBarMenu>
       </MenuBar>
     );
-    const file = screen.getByRole("button", { name: "File" });
+    const file = screen.getByRole("menuitem", { name: "File" });
     file.focus();
     await userEvent.click(file);
+    expect(screen.getByRole("menuitem", { name: "New" })).toBeInTheDocument();
     await userEvent.keyboard("{ArrowRight}");
-    const edit = screen.getByRole("button", { name: "Edit" });
-    expect(document.activeElement).toBe(edit);
+    // Edit menu opens, File menu closes (MenuBar-scoped activeId registry).
+    expect(screen.getByRole("menuitem", { name: "Cut" })).toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: "New" })).not.toBeInTheDocument();
   });
 });

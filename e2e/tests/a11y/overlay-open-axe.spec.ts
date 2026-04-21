@@ -7,11 +7,6 @@ test.describe("axe: overlay-open state", () => {
   test.skip(({ browserName }) => browserName !== "chromium", "Axe sweep runs on chromium only");
 
   test("Dialog open", async ({ gotoRoute, page, expectAxeClean }) => {
-    // KNOWN GAP: Dialog.Close/Dialog.Action with asChild + <Button>
-    // produces nested-interactive (serious). The Slot wrapper isn't
-    // collapsing the inner button in one of these subparts.
-    // Tracked in POST-SHIP-GAPS.
-    test.fixme(true, "nested-interactive in Dialog.Close/Action asChild path");
     await gotoRoute("Dialog");
     await page.getByTestId("trigger").click();
     await expect(page.getByRole("dialog")).toBeVisible();

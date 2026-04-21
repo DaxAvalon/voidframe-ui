@@ -1,13 +1,16 @@
 import { test, expect } from "../helpers/fixtures";
 
 test.describe("Menu", () => {
-  test("ArrowDown cycles items once focus is inside the menu", async ({ gotoRoute, page }) => {
+  test("opening the menu auto-focuses the first item; arrow-nav cycles", async ({
+    gotoRoute,
+    page,
+  }) => {
     await gotoRoute("Menu");
     await page.getByTestId("trigger").click();
     await expect(page.getByRole("menu")).toBeVisible();
-    // NOTE: Menu.Trigger click-opens the menu but does not auto-move focus
-    // into it (library gap; item 1 in POST-SHIP-GAPS). Seed focus manually.
-    await page.getByTestId("item-first").focus();
+    // Menu.Content's effect moves focus to the first non-disabled item on
+    // open via rAF; Playwright auto-waits on toBeFocused.
+    await expect(page.getByTestId("item-first")).toBeFocused();
     await page.keyboard.press("ArrowDown");
     await expect(page.getByTestId("item-second")).toBeFocused();
     await page.keyboard.press("ArrowUp");

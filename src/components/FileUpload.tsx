@@ -330,6 +330,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
           ref={inputRef}
           type="file"
           className="vf-visually-hidden"
+          aria-label={label ?? "Upload files"}
           accept={accept}
           multiple={multiple}
           disabled={disabled}

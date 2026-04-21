@@ -152,6 +152,21 @@ function MenuContent({ children, className, ...props }: MenuContentProps) {
     return () => document.removeEventListener("keydown", onKey);
   }, [ctx]);
 
+  // On open, move focus into the menu so arrow-key navigation works
+  // immediately. rAF ensures the content has mounted before the lookup.
+  useEffect(() => {
+    if (!ctx.open) return;
+    const frame = requestAnimationFrame(() => {
+      const menuEl = outsideRef.current;
+      if (!menuEl) return;
+      const first = menuEl.querySelector<HTMLElement>(
+        '[role="menuitem"]:not([aria-disabled="true"]),[role="menuitemcheckbox"]:not([aria-disabled="true"]),[role="menuitemradio"]:not([aria-disabled="true"])'
+      );
+      first?.focus();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [ctx.open, outsideRef]);
+
   if (!ctx.open) return null;
 
   const items: ReactElement[] = [];
@@ -665,16 +680,28 @@ export function ContextMenu({
 
 // ── MenuBar ──────────────────────────────────────────────────
 
+interface MenuBarContextValue {
+  activeId: string | null;
+  setActiveId: (id: string | null) => void;
+}
+const MenuBarContext = createContext<MenuBarContextValue | null>(null);
+
 export interface MenuBarProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
 /**
  * Top-level menu bar (like a desktop app). Horizontal row of `MenuBarMenu`
- * entries, each with a dropdown.
+ * entries, each with a dropdown. Ensures only one sibling menu is open at
+ * a time via a shared activeId registry.
  */
 export function MenuBar({ children, className, ...props }: MenuBarProps) {
   const barRef = useRef<HTMLDivElement | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const ctxValue = useMemo<MenuBarContextValue>(
+    () => ({ activeId, setActiveId }),
+    [activeId]
+  );
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
     const root = barRef.current;
@@ -685,7 +712,17 @@ export function MenuBar({ children, className, ...props }: MenuBarProps) {
     );
     if (triggers.length === 0) return;
     const active = document.activeElement as HTMLElement | null;
+    // Resolve the "current" trigger in this order:
+    //   1. the trigger (or its child) that currently has focus, or
+    //   2. the trigger whose menu is open (aria-expanded="true") — needed
+    //      once focus has moved into a portaled menu panel, which sits
+    //      outside the trigger's subtree.
     let currentIdx = triggers.findIndex((el) => el === active || el.contains(active));
+    if (currentIdx === -1) {
+      currentIdx = triggers.findIndex(
+        (el) => el.getAttribute("aria-expanded") === "true"
+      );
+    }
     if (currentIdx === -1) currentIdx = 0;
     const dir = e.key === "ArrowRight" ? 1 : -1;
     const nextIdx = (currentIdx + dir + triggers.length) % triggers.length;
@@ -696,15 +733,17 @@ export function MenuBar({ children, className, ...props }: MenuBarProps) {
     nextEl.click();
   };
   return (
-    <div
-      ref={barRef}
-      role="menubar"
-      className={cx("vf-menubar", className)}
-      onKeyDown={handleKeyDown}
-      {...props}
-    >
-      {children}
-    </div>
+    <MenuBarContext.Provider value={ctxValue}>
+      <div
+        ref={barRef}
+        role="menubar"
+        className={cx("vf-menubar", className)}
+        onKeyDown={handleKeyDown}
+        {...props}
+      >
+        {children}
+      </div>
+    </MenuBarContext.Provider>
   );
 }
 
@@ -718,9 +757,26 @@ export interface MenuBarMenuProps {
  * or keyboard.
  */
 export function MenuBarMenu({ trigger, children }: MenuBarMenuProps) {
+  // The button inside a `role="menubar"` must itself be `role="menuitem"`
+  // with `aria-haspopup="menu"` to satisfy aria-required-children. The
+  // parent `MenuRoot.Trigger` already sets `aria-haspopup="menu"`; we
+  // override the implicit button role via the passthrough props spread.
+  const bar = useContext(MenuBarContext);
+  const id = useReactId();
+  const controlled = bar !== null;
+  const open = controlled ? bar.activeId === id : undefined;
+  const onOpenChange = controlled
+    ? (next: boolean) => {
+        if (next) bar.setActiveId(id);
+        else if (bar.activeId === id) bar.setActiveId(null);
+      }
+    : undefined;
   return (
-    <MenuRoot>
-      <MenuRoot.Trigger data-vf-menubar-trigger="true">
+    <MenuRoot open={open} onOpenChange={onOpenChange}>
+      <MenuRoot.Trigger
+        role="menuitem"
+        data-vf-menubar-trigger="true"
+      >
         <span className="vf-menubar__trigger-label">{trigger}</span>
       </MenuRoot.Trigger>
       <MenuRoot.Content>{children}</MenuRoot.Content>

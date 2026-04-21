@@ -356,51 +356,96 @@ function DialogClose({
   );
 }
 
-const DialogCancel = forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->(function DialogCancel({ className, onClick, children, ...props }, ref) {
-  const ctx = useDialog();
-  return (
-    <button
-      ref={ref}
-      type="button"
-      className={cx("vf-button", "vf-button--ghost", className)}
-      onClick={(e) => {
-        onClick?.(e);
-        ctx.setOpen(false);
-      }}
-      {...props}
-    >
-      {children ?? "Cancel"}
-    </button>
-  );
-});
+interface DialogCancelProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Render through a single consumer-provided element. Avoids nesting
+   * a `<button>` inside a `<button>` (which axe flags as
+   * nested-interactive). */
+  asChild?: boolean;
+}
+
+const DialogCancel = forwardRef<HTMLButtonElement, DialogCancelProps>(
+  function DialogCancel({ asChild, className, onClick, children, ...props }, ref) {
+    const ctx = useDialog();
+    const handle = (e: React.MouseEvent<HTMLElement>) => {
+      onClick?.(e as React.MouseEvent<HTMLButtonElement>);
+      ctx.setOpen(false);
+    };
+    if (asChild && isValidElement(children)) {
+      const child = children as ReactElement<Record<string, unknown>>;
+      const childProps = child.props as Record<string, unknown>;
+      return cloneElement(child, {
+        ref,
+        className: cx(
+          childProps.className as string | undefined,
+          className
+        ),
+        ...props,
+        onClick: (e: React.MouseEvent<HTMLElement>) => {
+          (childProps.onClick as ((e: React.MouseEvent<HTMLElement>) => void) | undefined)?.(e);
+          handle(e);
+        },
+      });
+    }
+    return (
+      <button
+        ref={ref}
+        type="button"
+        className={cx("vf-button", "vf-button--ghost", className)}
+        onClick={handle}
+        {...props}
+      >
+        {children ?? "Cancel"}
+      </button>
+    );
+  }
+);
 DialogCancel.displayName = "DialogCancel";
 
-const DialogAction = forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement> & { autoClose?: boolean }
->(function DialogAction(
-  { className, onClick, children, autoClose = true, ...props },
-  ref
-) {
-  const ctx = useDialog();
-  return (
-    <button
-      ref={ref}
-      type="button"
-      className={cx("vf-button", className)}
-      onClick={(e) => {
-        onClick?.(e);
-        if (autoClose) ctx.setOpen(false);
-      }}
-      {...props}
-    >
-      {children ?? "OK"}
-    </button>
-  );
-});
+interface DialogActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  autoClose?: boolean;
+  /** Render through a single consumer-provided element. See DialogCancel. */
+  asChild?: boolean;
+}
+
+const DialogAction = forwardRef<HTMLButtonElement, DialogActionProps>(
+  function DialogAction(
+    { asChild, className, onClick, children, autoClose = true, ...props },
+    ref
+  ) {
+    const ctx = useDialog();
+    const handle = (e: React.MouseEvent<HTMLElement>) => {
+      onClick?.(e as React.MouseEvent<HTMLButtonElement>);
+      if (autoClose) ctx.setOpen(false);
+    };
+    if (asChild && isValidElement(children)) {
+      const child = children as ReactElement<Record<string, unknown>>;
+      const childProps = child.props as Record<string, unknown>;
+      return cloneElement(child, {
+        ref,
+        className: cx(
+          childProps.className as string | undefined,
+          className
+        ),
+        ...props,
+        onClick: (e: React.MouseEvent<HTMLElement>) => {
+          (childProps.onClick as ((e: React.MouseEvent<HTMLElement>) => void) | undefined)?.(e);
+          handle(e);
+        },
+      });
+    }
+    return (
+      <button
+        ref={ref}
+        type="button"
+        className={cx("vf-button", className)}
+        onClick={handle}
+        {...props}
+      >
+        {children ?? "OK"}
+      </button>
+    );
+  }
+);
 DialogAction.displayName = "DialogAction";
 
 // ── Compound ──────────────────────────────────────────────────
