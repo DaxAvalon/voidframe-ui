@@ -2,14 +2,21 @@ import { describe, expect, it } from "vitest";
 import plugin, { rules, configs } from "../index";
 
 describe("eslint-plugin-voidframe barrel", () => {
-  it("exports all three rules under their kebab-case names", () => {
+  it("exports all rules under their kebab-case names", () => {
     expect(Object.keys(rules).sort()).toEqual([
+      "exhaustive-kind-variant",
+      "no-deprecated-prop-combination",
       "no-deprecated-props",
+      "no-inline-style-overrides",
       "no-legacy-chart-imports",
       "no-raw-hex-colors",
+      "prefer-asChild",
       "prefer-compound-pattern",
+      "prefer-subpath-import",
       "require-a11y-label",
+      "require-controlled-pair",
       "require-use-client",
+      "require-voidframe-provider",
     ]);
   });
 
