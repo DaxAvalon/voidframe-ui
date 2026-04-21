@@ -133,6 +133,7 @@ interface PaletteContextValue {
   selectByItem: (id: string) => void;
   contentId: string;
   inputId: string;
+  listboxId: string;
 }
 
 const PaletteContext = createContext<PaletteContextValue | null>(null);
@@ -252,9 +253,15 @@ function CommandPaletteShell({
   dim: boolean;
   children?: ReactNode;
 }) {
-  const baseId = useId();
+  // React's useId() produces `:r0:`-style ids. Some axe rules reject colons
+  // in IDREF-target positions; normalize to a consistent alnum prefix so the
+  // various aria-controls/owns/activedescendant links are valid across all
+  // AT sniffers.
+  const rawBaseId = useId();
+  const baseId = `vfcmd-${rawBaseId.replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const inputId = `${baseId}-input`;
   const contentId = `${baseId}-content`;
+  const listboxId = `${baseId}-list`;
   const [query, setQuery] = useState("");
   const [highlighted, setHighlighted] = useState<string | null>(null);
   const itemScores = useRef(new Map<string, number>());
@@ -319,6 +326,7 @@ function CommandPaletteShell({
       selectByItem,
       contentId,
       inputId,
+      listboxId,
     }),
     [
       open,
@@ -331,6 +339,7 @@ function CommandPaletteShell({
       selectByItem,
       contentId,
       inputId,
+      listboxId,
     ]
   );
 
@@ -446,6 +455,9 @@ const CommandPaletteInput = forwardRef<HTMLInputElement, CommandPaletteInputProp
         ref={ref}
         id={ctx.inputId}
         type="text"
+        role="combobox"
+        aria-expanded="true"
+        aria-autocomplete="list"
         autoFocus
         autoComplete="off"
         spellCheck={false}
@@ -454,7 +466,8 @@ const CommandPaletteInput = forwardRef<HTMLInputElement, CommandPaletteInputProp
         onChange={(e) => ctx.setQuery(e.target.value)}
         onKeyDown={onKey}
         placeholder={placeholder}
-        aria-controls={ctx.contentId}
+        aria-controls={ctx.listboxId}
+        aria-owns={ctx.listboxId}
         aria-activedescendant={ctx.highlighted ?? undefined}
         {...props}
       />
@@ -464,8 +477,15 @@ const CommandPaletteInput = forwardRef<HTMLInputElement, CommandPaletteInputProp
 CommandPaletteInput.displayName = "CommandPaletteInput";
 
 function CommandPaletteList({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
+  const ctx = usePalette();
   return (
-    <div role="listbox" className={cx("vf-cmd__list", className)} {...props}>
+    <div
+      id={ctx.listboxId}
+      role="listbox"
+      aria-label="Commands"
+      className={cx("vf-cmd__list", className)}
+      {...props}
+    >
       {children}
     </div>
   );
@@ -493,8 +513,12 @@ function CommandPaletteGroup({
   ...props
 }: CommandPaletteGroupProps) {
   return (
-    <div role="group" className={cx("vf-cmd__group", className)} {...props}>
-      {heading && <div className="vf-cmd__group-heading">{heading}</div>}
+    <div role="presentation" className={cx("vf-cmd__group", className)} {...props}>
+      {heading && (
+        <div role="presentation" className="vf-cmd__group-heading">
+          {heading}
+        </div>
+      )}
       {children}
     </div>
   );
@@ -528,7 +552,11 @@ function CommandPaletteItem({
 }: CommandPaletteItemProps) {
   const ctx = usePalette();
   const handlers = useContext(PaletteHandlersContext);
-  const id = useId();
+  // React's useId() returns `:r1:` style ids which axe's IDREF validator
+  // rejects (colons disallowed as a leading char). Sanitize so the id is
+  // a valid HTML4+ IDREF for aria-activedescendant.
+  const rawId = useId();
+  const id = `vfcmd-${rawId.replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const text = value ?? (typeof children === "string" ? children : id);
   const score = useMemo(() => fuzzyScore(ctx.query, text), [ctx.query, text]);
 
@@ -552,8 +580,10 @@ function CommandPaletteItem({
   }
 
   const isHighlighted = ctx.highlighted === id;
+  const { id: _userProvidedId, ...safeProps } = props;
   return (
     <div
+      {...safeProps}
       role="option"
       id={id}
       aria-selected={isHighlighted}
@@ -570,7 +600,6 @@ function CommandPaletteItem({
         onSelect();
         ctx.setOpen(false);
       }}
-      {...props}
     >
       {icon && <span className="vf-cmd__item-icon">{icon}</span>}
       <span className="vf-cmd__item-label">

@@ -47,4 +47,34 @@ test.describe("axe: overlay-open state", () => {
     await expect(page.getByRole("dialog")).toBeVisible();
     await expectAxeClean();
   });
+
+  test("ContextMenu open", async ({ gotoRoute, page, expectAxeClean }) => {
+    await gotoRoute("ContextMenu");
+    await page.getByTestId("rightclick-surface").click({ button: "right" });
+    await expect(page.getByRole("menu")).toBeVisible();
+    await expectAxeClean();
+  });
+
+  test("Spotlight open", async ({ gotoRoute, page, expectAxeClean }) => {
+    await gotoRoute("Spotlight");
+    await page.getByTestId("start").click();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await expectAxeClean();
+  });
+
+  test("CommandPalette open", async ({ gotoRoute, page, expectAxeClean }) => {
+    await gotoRoute("CommandPalette");
+    await page.getByTestId("open").click();
+    await expect(
+      page.getByRole("dialog", { name: "Command palette" })
+    ).toBeVisible();
+    await expectAxeClean();
+  });
+
+  test("ToastSystem open", async ({ gotoRoute, page, expectAxeClean }) => {
+    await gotoRoute("ToastSystem");
+    await page.getByTestId("fire-success").click();
+    await expect(page.getByRole("region", { name: "Notifications" })).toBeVisible();
+    await expectAxeClean();
+  });
 });

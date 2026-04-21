@@ -284,6 +284,7 @@ export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(function Toaster
         aria-label="Notifications"
         aria-live="polite"
         aria-relevant="additions"
+        data-vf-ignore-outside-click="true"
         className={cx("vf-toaster", `vf-toaster--${position}`, className)}
         style={{ gap, ...style }}
         {...props}

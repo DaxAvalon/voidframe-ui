@@ -294,7 +294,7 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(function Callout
   ref
 ) {
   return (
-    <aside
+    <div
       ref={ref}
       className={cx("vf-callout", `vf-callout--${tone}`, className)}
       {...props}
@@ -304,7 +304,7 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(function Callout
         {title && <div className="vf-callout__title">{title}</div>}
         <div className="vf-callout__content">{children}</div>
       </div>
-    </aside>
+    </div>
   );
 });
 Callout.displayName = "Callout";

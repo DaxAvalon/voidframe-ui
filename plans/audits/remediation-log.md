@@ -145,6 +145,28 @@ The sweep immediately surfaced 5 real library a11y/focus bugs that 5106 unit tes
 
 Gate: typecheck ✓, 5106 unit tests ✓, build ✓, size-limit ✓ (Core 197.6/200 KB, All-JS 456/460 KB), e2e tri-browser **158 passed / 64 skipped / 0 failed**.
 
+### Segment 15 — Tier B/C/D e2e expansion + 9 library gap fixes — ✅ DONE (2026-04-20)
+
+Extended the Playwright suite from ~40 flagship flows to a 3-tier structure spanning 44 component routes and 43 spec files:
+
+- **Tier B (14 new components / ~40 new flows):** ContextMenu, Toast, Spotlight, Carousel, ScrollArea, Resizable, Collapsible, CommandPalette, Stepper, Toolbar, Calendar, NumberStepper, ColorPicker, Wizard.
+- **Tier C (display sweep):** single `DisplaySweep` route rendering 24 passive components (Card/StatusBar, Badge, Avatar/AvatarGroup, Progress/MultiProgress, Alert/AlertV2/BannerAlert/Callout/Quote, EmptyState, all Skeleton composites, Kbd, StatusIndicator, NotificationBadge, LiveIndicator) axe-scanned across all 4 built-in themes.
+- **Tier D (6 integration specs / 12 flows):** nested overlays (Popover in Dialog, ContextMenu over Drawer, Toast during Dialog), focus-restore chains, Escape unwind ordering, scroll-lock stacking, theme-switch while overlay open, portal z-order.
+
+Library gaps surfaced and closed in the same segment:
+
+1. **`DismissableLayer.isTopmost()` broken across portal boundaries** (critical). Pure DOM containment made both a Dialog and a nested Popover portaled to `document.body` believe they're topmost, so Escape closed both simultaneously and nested outside-clicks dismissed parents. Fixed by combined push-order + DOM-containment check: a layer is topmost iff no descendant layer exists AND no later-pushed non-ancestor layer exists.
+2. **Toaster non-modal outside-click leak.** Added `data-vf-ignore-outside-click="true"` opt-out on Toaster + ignore check in `DismissableLayer` pointer handler so toast Dismiss buttons don't close any open Dialog.
+3. **ContextMenu item-click dismissal.** Removed `onClick={stopPropagation}` on the portaled menu content so plain `role=menuitem` clicks reach the document-level close listener.
+4. **Resizable handle missing aria-valuenow/min/max.** `ResizableHandle` now exposes `aria-valuenow`/`aria-valuemin`/`aria-valuemax`/`aria-valuetext` reflecting the percentage split of the panel left of the handle.
+5. **CommandPalette listbox missing accessible name.** Added `aria-label="Commands"` on the `role=listbox`.
+6. **CommandPalette aria-activedescendant invalid reference.** Rewrote Input as `role="combobox"` + `aria-expanded="true"` + `aria-autocomplete="list"` + `aria-controls={listboxId}` + `aria-owns={listboxId}`; flattened CommandPalette.Group to `role="presentation"` so items are direct listbox children; sanitized all React `useId()` outputs (stripped colons so `aria-activedescendant` IDREFs pass axe's validator); and protected the Item's internal id from being overridden by consumer-provided `id` props via destructure.
+7. **Avatar status span missing role.** Added `role="img"` to the status dot so its `aria-label` isn't rejected as `aria-prohibited-attr`.
+8. **Callout landmark-complementary-is-top-level.** Changed root element from `<aside>` (complementary landmark) to `<div>` — Callout is editorial emphasis, not a page-level aside.
+9. **Toolbar roving nav comment lied.** Implemented actual arrow-key navigation at the Toolbar root: Arrow keys move focus between focusable children (orientation-aware); Home/End jump to first/last. Updated header comment.
+
+Gate: typecheck ✓, 5106 unit tests ✓, build ✓, e2e tri-browser **363 passed / 116 skipped (chromium-only axe sweeps) / 0 failed / 1 pre-existing flake** (Menu SubTrigger, passes on retry).
+
 ### Segment 13 — Publish prep — 🟡 READY, HELD (2026-04-19)
 
 All local readiness checks green. **Nothing pushed, nothing published** per user directive.

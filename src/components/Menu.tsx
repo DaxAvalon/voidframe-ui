@@ -669,7 +669,6 @@ export function ContextMenu({
             top: position.y,
             zIndex: 1000,
           }}
-          onClick={(e) => e.stopPropagation()}
         >
           {content}
         </div>

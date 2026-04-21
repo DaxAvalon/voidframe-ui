@@ -2,21 +2,25 @@
 
 // Phase 8 — Toolbar (compound)
 //
-// Horizontal (or vertical) tool strip with roving tabindex. Children can be
-// plain `Toolbar.Button`, `Toolbar.Link`, `Toolbar.Separator`, or grouped
-// `Toolbar.ToggleGroup` / `Toolbar.ToggleItem`.
+// Horizontal (or vertical) tool strip. Children can be plain `Toolbar.Button`,
+// `Toolbar.Link`, `Toolbar.Separator`, or grouped `Toolbar.ToggleGroup` /
+// `Toolbar.ToggleItem`. Arrow keys move focus between toolbar controls
+// (orientation-aware); Home/End jump to first/last.
 
 import {
   createContext,
   forwardRef,
   useContext,
   useMemo,
+  useRef,
   useState,
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
   type HTMLAttributes,
+  type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from "react";
+import { useMergedRefs } from "../hooks/useMergedRefs";
 import { cx } from "../utils/cx";
 
 export type ToolbarOrientation = "horizontal" | "vertical";
@@ -26,16 +30,48 @@ export interface ToolbarProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+const TOOLBAR_FOCUSABLE_SELECTOR =
+  "button:not([disabled]),a[href],[role='menuitem']:not([aria-disabled='true'])";
+
 const ToolbarBase = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
-  { orientation = "horizontal", className, children, ...props },
+  { orientation = "horizontal", className, children, onKeyDown, ...props },
   ref
 ) {
+  const innerRef = useRef<HTMLDivElement>(null);
+  const mergedRef = useMergedRefs(ref, innerRef);
+
+  const handleKey = (e: ReactKeyboardEvent<HTMLDivElement>) => {
+    onKeyDown?.(e);
+    if (e.defaultPrevented) return;
+    const root = innerRef.current;
+    if (!root) return;
+    const nextKey = orientation === "horizontal" ? "ArrowRight" : "ArrowDown";
+    const prevKey = orientation === "horizontal" ? "ArrowLeft" : "ArrowUp";
+    if (e.key !== nextKey && e.key !== prevKey && e.key !== "Home" && e.key !== "End") return;
+    const items = Array.from(
+      root.querySelectorAll<HTMLElement>(TOOLBAR_FOCUSABLE_SELECTOR)
+    );
+    if (items.length === 0) return;
+    const active = document.activeElement as HTMLElement | null;
+    const currentIdx = active ? items.indexOf(active) : -1;
+    let nextIdx = currentIdx;
+    if (e.key === nextKey) nextIdx = currentIdx < 0 ? 0 : (currentIdx + 1) % items.length;
+    else if (e.key === prevKey)
+      nextIdx = currentIdx < 0 ? items.length - 1 : (currentIdx - 1 + items.length) % items.length;
+    else if (e.key === "Home") nextIdx = 0;
+    else if (e.key === "End") nextIdx = items.length - 1;
+    if (nextIdx === currentIdx) return;
+    e.preventDefault();
+    items[nextIdx]?.focus();
+  };
+
   return (
     <div
-      ref={ref}
+      ref={mergedRef}
       role="toolbar"
       aria-orientation={orientation}
       className={cx("vf-toolbar", `vf-toolbar--${orientation}`, className)}
+      onKeyDown={handleKey}
       {...props}
     >
       {children}
@@ -178,8 +214,9 @@ ToolbarToggleItem.displayName = "ToolbarToggleItem";
 /**
  * Horizontal (or vertical) action strip with WAI-ARIA `role="toolbar"`.
  * Compose with `Toolbar.Button`, `Toolbar.Link`, `Toolbar.Separator`, and
- * `Toolbar.ToggleGroup` + `Toolbar.ToggleItem` for single/multi press
- * state. `aria-orientation` tracks the `orientation` prop.
+ * `Toolbar.ToggleGroup` + `Toolbar.ToggleItem` for single/multi press state.
+ * `aria-orientation` tracks the `orientation` prop. Arrow keys move focus
+ * between child controls; Home/End jump to first/last.
  */
 export const Toolbar = Object.assign(ToolbarBase, {
   Button: ToolbarButton,

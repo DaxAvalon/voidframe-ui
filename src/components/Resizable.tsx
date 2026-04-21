@@ -281,6 +281,7 @@ export const ResizableHandle = forwardRef<HTMLDivElement, ResizableHandleProps>(
       ctx.setSizeDelta(idx, forward ? keyboardStep : -keyboardStep);
     };
 
+    const leftSize = ctx?.sizes[idx] ?? 50;
     return (
       <div
         ref={(node) => {
@@ -290,6 +291,10 @@ export const ResizableHandle = forwardRef<HTMLDivElement, ResizableHandleProps>(
         }}
         role="separator"
         aria-orientation={ctx?.direction === "horizontal" ? "vertical" : "horizontal"}
+        aria-valuenow={Math.round(leftSize)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuetext={`${Math.round(leftSize)}%`}
         tabIndex={0}
         className={cx(
           "vf-resizable__handle",

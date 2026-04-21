@@ -152,7 +152,7 @@ describe("CommandPalette.List / Group / Empty / Separator / Footer", () => {
     expect(list.getAttribute("role")).toBe("listbox");
   });
 
-  it("Group renders heading text and role=group", () => {
+  it("Group renders heading text with role=presentation so items remain direct listbox children for aria-activedescendant", () => {
     renderWithTheme(
       <CommandPalette defaultOpen>
         <CommandPalette.Input placeholder="search-me" />
@@ -164,7 +164,7 @@ describe("CommandPalette.List / Group / Empty / Separator / Footer", () => {
       </CommandPalette>
     );
     expect(screen.getByText("Files")).toBeInTheDocument();
-    expect(screen.getByTestId("g").getAttribute("role")).toBe("group");
+    expect(screen.getByTestId("g").getAttribute("role")).toBe("presentation");
   });
 
   it("Empty renders default text when no items registered", () => {

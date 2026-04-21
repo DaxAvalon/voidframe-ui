@@ -62,15 +62,22 @@ export const DismissableLayer = forwardRef<HTMLDivElement, DismissableLayerProps
       };
     }, []);
 
-    // The topmost layer is the one whose element is not contained by any
-    // other registered layer's element. (React mounts child effects before
-    // parent, so push order alone isn't a reliable topology indicator.)
+    // Topmost = no descendant layer exists (an inner nested layer wins) AND
+    // no later-pushed sibling layer exists (a more-recently-opened portal wins).
+    // Using push order alone fails for nested non-portaled layers because
+    // React mounts child effects before parent; using DOM containment alone
+    // fails for portaled siblings at document.body. Both checks together
+    // handle both topologies.
     const isTopmost = (): boolean => {
       const me = innerRef.current;
       if (!me) return false;
-      for (const other of layerStack) {
-        if (other.element === me) continue;
-        if (other.element && me.contains(other.element)) return false;
+      const myIdx = layerStack.findIndex((l) => l.element === me);
+      if (myIdx === -1) return false;
+      for (let i = 0; i < layerStack.length; i++) {
+        const other = layerStack[i];
+        if (!other?.element || other.element === me) continue;
+        if (me.contains(other.element)) return false;
+        if (i > myIdx && !other.element.contains(me)) return false;
       }
       return true;
     };
@@ -88,13 +95,19 @@ export const DismissableLayer = forwardRef<HTMLDivElement, DismissableLayerProps
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Outside pointer-down — fires only for the topmost layer.
+    // Outside pointer-down — fires only for the topmost layer. Non-modal
+    // portaled elements (Toaster, etc.) can opt out by setting
+    // `data-vf-ignore-outside-click="true"` on an ancestor so their own
+    // buttons don't trip outside-click dismissal of whatever is open.
     useEffect(() => {
       const onPointer = (e: PointerEvent) => {
         const target = e.target as Node | null;
         const el = innerRef.current;
         if (!el || !target) return;
         if (el.contains(target)) return;
+        if (target instanceof Element && target.closest("[data-vf-ignore-outside-click='true']")) {
+          return;
+        }
         if (!isTopmost()) return;
         outRef.current?.(e);
         dismissRef.current?.();

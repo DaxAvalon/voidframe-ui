@@ -84,6 +84,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
       )}
       {status && (
         <span
+          role="img"
           aria-label={`status ${status}`}
           className={cx("vf-avatar__status", `vf-avatar__status--${status}`)}
         />
