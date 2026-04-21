@@ -92,6 +92,10 @@ const rule = {
         // Only PascalCase / compound tags — skip raw HTML like <input>.
         const first = tag[0]!;
         if (first !== first.toUpperCase()) return;
+        // React Context providers take a `value` prop that ISN'T a
+        // controllable-state pair — it's the raw context value. Skip
+        // any `<Foo.Provider>` / `<FooProvider>` tag.
+        if (tag.endsWith(".Provider") || tag.endsWith("Provider")) return;
 
         const attrs = node.attributes ?? [];
         // Bail if any spread or read-only escape hatches are present.
