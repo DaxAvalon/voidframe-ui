@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sheet, Button } from "voidframe";
+import { Sheet, Button } from "voidframe-ui";
 
 export default function SheetRoute() {
   const [open, setOpen] = useState(false);

@@ -303,7 +303,7 @@ function AboutTab({ version }: { version?: string }) {
     <div className="vf-dev-panel__pane vf-dev-panel__about">
       <dl>
         <dt>framework</dt>
-        <dd>voidframe</dd>
+        <dd>voidframe-ui</dd>
         {version && (
           <>
             <dt>version</dt>

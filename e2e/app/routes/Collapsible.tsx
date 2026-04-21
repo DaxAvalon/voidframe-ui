@@ -1,4 +1,4 @@
-import { Collapsible } from "voidframe";
+import { Collapsible } from "voidframe-ui";
 
 export default function CollapsibleRoute() {
   // Two Collapsibles: the first is closed by default (for toggling assertions),

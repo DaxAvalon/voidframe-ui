@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CommandPalette, Button } from "voidframe";
+import { CommandPalette, Button } from "voidframe-ui";
 
 export default function CommandPaletteRoute() {
   // `shortcut={null}` disables the global cmd+k binding so tests don't

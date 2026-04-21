@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DrawerV2, Button } from "voidframe";
+import { DrawerV2, Button } from "voidframe-ui";
 
 export default function DrawerV2Route() {
   const [open, setOpen] = useState(false);

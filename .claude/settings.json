@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Edit(**)",
+      "Write(**)",
+      "Bash(docker compose run:*)",
+      "Bash(docker compose ps:*)",
+      "Bash(docker compose logs:*)",
+      "Bash(docker compose build:*)",
+      "Bash(docker compose up:*)",
+      "Bash(docker compose down:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker logs:*)",
+      "Bash(docker inspect:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm audit:*)",
+      "Bash(node plans/*)",
+      "Bash(node scripts/*)"
+    ]
+  }
+}

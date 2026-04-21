@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Toolbar } from "voidframe";
+import { Toolbar } from "voidframe-ui";
 
 export default function ToolbarRoute() {
   const [align, setAlign] = useState<string>("left");

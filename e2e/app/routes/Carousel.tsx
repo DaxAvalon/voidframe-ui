@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Carousel } from "voidframe";
+import { Carousel } from "voidframe-ui";
 
 export default function CarouselRoute() {
   const [index, setIndex] = useState(0);

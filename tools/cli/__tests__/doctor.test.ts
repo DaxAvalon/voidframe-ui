@@ -22,14 +22,14 @@ describe("doctor command", () => {
 
   it("passes when everything is in order", async () => {
     pkg(cwd, {
-      voidframe: "^1.0.0",
+      "voidframe-ui": "^1.0.0",
       react: "^18.2.0",
       "react-dom": "^18.2.0",
     });
     mkdirSync(join(cwd, "src"));
     writeFileSync(
       join(cwd, "src", "main.tsx"),
-      `import "voidframe/styles.css";`
+      `import "voidframe-ui/styles.css";`
     );
     const code = await doctorCommand({
       cwd,
@@ -38,7 +38,7 @@ describe("doctor command", () => {
     expect(code).toBe(0);
   });
 
-  it("fails when voidframe is missing", async () => {
+  it("fails when voidframe-ui is missing", async () => {
     pkg(cwd, { react: "^18.2.0", "react-dom": "^18.2.0" });
     const errors: string[] = [];
     const code = await doctorCommand({
@@ -46,12 +46,12 @@ describe("doctor command", () => {
       log: { log: () => {}, error: (m: string) => errors.push(m) },
     });
     expect(code).toBe(1);
-    expect(errors.some((e) => /voidframe installed/.test(e))).toBe(true);
+    expect(errors.some((e) => /voidframe-ui installed/.test(e))).toBe(true);
   });
 
   it("fails when react is below 18", async () => {
     pkg(cwd, {
-      voidframe: "^1.0.0",
+      "voidframe-ui": "^1.0.0",
       react: "^17.0.0",
       "react-dom": "^17.0.0",
     });
@@ -64,9 +64,9 @@ describe("doctor command", () => {
     expect(errors.some((e) => /react >= 18/.test(e))).toBe(true);
   });
 
-  it("flags missing voidframe/styles.css import", async () => {
+  it("flags missing voidframe-ui/styles.css import", async () => {
     pkg(cwd, {
-      voidframe: "^1.0.0",
+      "voidframe-ui": "^1.0.0",
       react: "^18.2.0",
       "react-dom": "^18.2.0",
     });
@@ -76,6 +76,6 @@ describe("doctor command", () => {
       log: { log: () => {}, error: (m: string) => errors.push(m) },
     });
     expect(code).toBe(1);
-    expect(errors.some((e) => /voidframe\/styles\.css/.test(e))).toBe(true);
+    expect(errors.some((e) => /voidframe-ui\/styles\.css/.test(e))).toBe(true);
   });
 });

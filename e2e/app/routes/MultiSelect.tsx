@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MultiSelect } from "voidframe";
+import { MultiSelect } from "voidframe-ui";
 
 const options = [
   { value: "alpha", label: "Alpha" },

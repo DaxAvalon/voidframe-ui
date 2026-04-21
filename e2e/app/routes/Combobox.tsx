@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Combobox } from "voidframe";
+import { Combobox } from "voidframe-ui";
 
 const options = [
   { value: "apple", label: "Apple" },

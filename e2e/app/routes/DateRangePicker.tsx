@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DateRangePicker } from "voidframe";
+import { DateRangePicker } from "voidframe-ui";
 
 export default function DateRangePickerRoute() {
   const [range, setRange] = useState<{ start: Date | null; end: Date | null }>({

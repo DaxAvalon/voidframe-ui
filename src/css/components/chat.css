@@ -114,7 +114,7 @@
 }
 
 .vf-message__role-label {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -203,7 +203,7 @@
 }
 
 .vf-message-content__thinking-label {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -674,7 +674,7 @@
 }
 
 .vf-code-attachment__lang {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -791,7 +791,7 @@
 .vf-tool-call__section-title {
   margin: 0;
   font-size: 9px;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
 }
@@ -933,7 +933,7 @@
 }
 
 .vf-agent-trace__metric-label {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -959,7 +959,7 @@
 }
 
 .vf-plan-display__title {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -1054,7 +1054,7 @@
 }
 
 .vf-citation-list__title {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -1438,7 +1438,7 @@
 }
 
 .vf-prompt-template-list__title {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -1493,7 +1493,7 @@
 .vf-prompt-template-editor__label {
   font-size: var(--vf-font-xs);
   color: var(--vf-text-3);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
 }
 
@@ -1635,7 +1635,7 @@
 }
 
 .vf-session-list__group-label {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -1883,7 +1883,7 @@
 }
 
 .vf-model-selector__label-text {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -1925,7 +1925,7 @@
 }
 
 .vf-system-prompt-editor__label-text {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -1974,7 +1974,7 @@
 }
 
 .vf-token-counter__part-label {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
 }
@@ -2012,7 +2012,7 @@
 
 .vf-context-window__label {
   color: var(--vf-text-3);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
 }

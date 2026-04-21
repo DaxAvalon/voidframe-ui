@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Slider } from "voidframe";
+import { Slider } from "voidframe-ui";
 
 export default function SliderRoute() {
   const [value, setValue] = useState(50);

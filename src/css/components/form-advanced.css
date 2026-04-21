@@ -69,7 +69,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-label-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 
 /* ── Field compound state data attrs ─────────────────────────── */
@@ -97,7 +97,7 @@
   color: var(--vf-text-3);
   font-family: var(--vf-font-family);
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   cursor: pointer;
   outline: none;
   transition: var(--vf-transition);
@@ -213,7 +213,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xxs);
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 .vf-tag-input__remove {
   background: transparent;

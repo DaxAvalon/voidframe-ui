@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, Button } from "voidframe";
+import { Dialog, Button } from "voidframe-ui";
 
 export default function DialogRoute() {
   const [open, setOpen] = useState(false);

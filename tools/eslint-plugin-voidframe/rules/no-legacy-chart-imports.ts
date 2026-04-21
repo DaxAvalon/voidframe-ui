@@ -32,7 +32,7 @@ export default createRule({
     },
     messages: {
       legacyModule:
-        'Module "{{module}}" is the legacy chart path. Import from "voidframe" instead.',
+        'Module "{{module}}" is the legacy chart path. Import from "voidframe-ui" instead.',
       legacyName:
         'Legacy voidframe export "{{name}}". {{hint}}',
     },
@@ -52,7 +52,7 @@ export default createRule({
           });
           return;
         }
-        if (source !== "voidframe") return;
+        if (source !== "voidframe-ui") return;
         for (const spec of node.specifiers) {
           if (spec.type !== "ImportSpecifier") continue;
           const imported = spec.imported;

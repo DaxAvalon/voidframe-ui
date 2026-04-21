@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 const KNOWN = ["dark", "light", "midnight", "grey"];
 
 const TEMPLATE = `// Voidframe theme override — edit and wire via <VoidframeProvider theme={...}>.
-import { {{BASE}}Theme, type ThemeOverrides } from "voidframe";
+import { {{BASE}}Theme, type ThemeOverrides } from "voidframe-ui";
 
 export const theme: ThemeOverrides = {
   ...{{BASE}}Theme,

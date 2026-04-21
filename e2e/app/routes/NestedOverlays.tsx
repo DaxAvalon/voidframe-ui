@@ -7,7 +7,7 @@ import {
   PopoverV2,
   Toaster,
   toast,
-} from "voidframe";
+} from "voidframe-ui";
 
 /**
  * Composed fixture for Tier D integration coverage:

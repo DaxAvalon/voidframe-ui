@@ -36,7 +36,7 @@
 .vf-env-vars__group-header {
   font-weight: 600;
   color: var(--vf-text-2);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   font-size: 0.85em;
   letter-spacing: var(--vf-letter-spacing);
   padding: var(--vf-sp-2) 0;
@@ -88,7 +88,7 @@
   display: inline-block;
   padding: var(--vf-sp-1) var(--vf-sp-2);
   font-size: 0.75em;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: var(--vf-letter-spacing);
   border-radius: var(--vf-radius);
   background: color-mix(in srgb, var(--vf-text-3) 10%, transparent);

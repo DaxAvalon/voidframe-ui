@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DataGrid } from "voidframe";
+import { DataGrid } from "voidframe-ui";
 
 interface Row {
   id: string;

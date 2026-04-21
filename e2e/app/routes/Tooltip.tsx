@@ -1,4 +1,4 @@
-import { Tooltip, TooltipProvider, Button } from "voidframe";
+import { Tooltip, TooltipProvider, Button } from "voidframe-ui";
 
 export default function TooltipRoute() {
   // TooltipProvider with a short skipDelayDuration so the "rapid re-hover

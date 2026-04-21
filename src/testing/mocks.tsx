@@ -141,8 +141,8 @@ export function createMockStorage(seed?: Record<string, string>): MockStorageApi
 // ───────────────────────────────────────────────────────────────
 // Mock components — lightweight replacements for heavy components.
 // Consumers use:
-//   vi.mock("voidframe", async () => ({
-//     ...(await vi.importActual("voidframe")),
+//   vi.mock("voidframe-ui", async () => ({
+//     ...(await vi.importActual("voidframe-ui")),
 //     ...mockComponents,
 //   }));
 // ───────────────────────────────────────────────────────────────

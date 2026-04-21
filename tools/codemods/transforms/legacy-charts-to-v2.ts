@@ -2,13 +2,13 @@
  * legacy-charts-to-v2
  *
  * Rewrites imports that still reference the legacy voidframe chart
- * surface (src/components/Charts) onto the top-level "voidframe" entry
+ * surface (src/components/Charts) onto the top-level "voidframe-ui" entry
  * that now exposes the Phase 22 chart surface.
  *
  * Covers:
- *   - `from "voidframe/dist/components/Charts"`  → `from "voidframe"`
- *   - `from "voidframe/src/components/Charts"`   → `from "voidframe"`
- *   - `from "voidframe/components/Charts"`       → `from "voidframe"`
+ *   - `from "voidframe-ui/dist/components/Charts"` → `from "voidframe-ui"`
+ *   - `from "voidframe-ui/src/components/Charts"`  → `from "voidframe-ui"`
+ *   - `from "voidframe-ui/components/Charts"`      → `from "voidframe-ui"`
  *
  * Does NOT attempt to rename identifiers (Sparkline → Sparkline is a
  * no-op; the new one has different props). Authors still need to review
@@ -21,9 +21,14 @@ import type {
 } from "jscodeshift";
 
 const LEGACY_SOURCES = new Set([
+  // Pre-rename variants (voidframe package name from phase 22).
   "voidframe/dist/components/Charts",
   "voidframe/src/components/Charts",
   "voidframe/components/Charts",
+  // Post-rename variants (voidframe-ui package name from v1.0).
+  "voidframe-ui/dist/components/Charts",
+  "voidframe-ui/src/components/Charts",
+  "voidframe-ui/components/Charts",
 ]);
 
 export default function transform(
@@ -42,7 +47,7 @@ export default function transform(
       return typeof s === "string" && LEGACY_SOURCES.has(s);
     })
     .forEach((p) => {
-      p.node.source = j.literal("voidframe");
+      p.node.source = j.literal("voidframe-ui");
       changed = true;
     });
 

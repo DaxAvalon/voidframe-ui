@@ -23,7 +23,7 @@
 .vf-transfer__panel-header {
   padding: var(--vf-sp-2) var(--vf-sp-3);
   font-size: var(--vf-font-xs);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-3);
   border-bottom: 1px solid var(--vf-border-1);

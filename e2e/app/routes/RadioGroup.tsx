@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RadioGroup } from "voidframe";
+import { RadioGroup } from "voidframe-ui";
 
 const options = [
   { value: "s", label: "Small" },

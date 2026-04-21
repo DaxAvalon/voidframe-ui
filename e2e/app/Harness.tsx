@@ -1,5 +1,5 @@
 import { Suspense, type ReactNode } from "react";
-import { VoidframeProvider } from "voidframe";
+import { VoidframeProvider } from "voidframe-ui";
 
 type ThemeName = "dark" | "light" | "midnight" | "grey" | "system";
 

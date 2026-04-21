@@ -335,7 +335,7 @@
   color: var(--vf-text-3);
   font-size: var(--vf-font-xxs);
   letter-spacing: var(--vf-label-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 .vf-megamenu__section-list { list-style: none; padding: 0; margin: 0; }
 .vf-megamenu__link-item { margin: 0; }
@@ -384,7 +384,7 @@
   margin: 0;
   font-size: var(--vf-font-lg);
   color: var(--vf-text-0);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: var(--vf-letter-spacing);
 }
 .vf-shortcut-guide__close {
@@ -401,7 +401,7 @@
   font-size: var(--vf-font-xs);
   color: var(--vf-text-3);
   letter-spacing: var(--vf-label-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 .vf-shortcut-guide__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--vf-sp-2); }
 .vf-shortcut-guide__row {

@@ -31,7 +31,7 @@
   color: var(--vf-text-4);
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   pointer-events: none;
 }
 .vf-signature__clear {
@@ -45,7 +45,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   cursor: pointer;
   transition: var(--vf-transition);
 }
@@ -162,7 +162,7 @@
 .vf-file-upload__cta {
   color: var(--vf-text-0);
   font-size: var(--vf-font-sm);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: var(--vf-letter-spacing);
 }
 .vf-file-upload__hint {

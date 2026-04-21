@@ -1,7 +1,11 @@
 {
-  "name": "voidframe",
+  "name": "voidframe-ui",
   "version": "1.0.0",
   "description": "Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-radius. Monospace-first.",
+  "homepage": "https://daxavalon.github.io/voidframe-ui",
+  "bugs": {
+    "url": "https://github.com/DaxAvalon/voidframe-ui/issues"
+  },
   "type": "module",
   "main": "dist/voidframe.cjs.js",
   "module": "dist/voidframe.es.js",
@@ -248,6 +252,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://git.ahadley.local/aeryn/VoidFrame.git"
+    "url": "git+https://github.com/DaxAvalon/voidframe-ui.git"
   }
 }

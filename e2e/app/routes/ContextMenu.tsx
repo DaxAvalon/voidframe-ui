@@ -1,4 +1,4 @@
-import { ContextMenu } from "voidframe";
+import { ContextMenu } from "voidframe-ui";
 
 export default function ContextMenuRoute() {
   // ContextMenu renders raw children inside `content` — it does NOT supply

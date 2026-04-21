@@ -33,18 +33,18 @@ describe("init command", () => {
     expect(pkg.name).toMatch(/^vf-init-/);
   });
 
-  it("wires voidframe, react, react-dom deps", async () => {
+  it("wires voidframe-ui, react, react-dom deps", async () => {
     await initCommand({ dir, force: true, log: silentLog });
     const pkg = JSON.parse(readFileSync(join(dir, "package.json"), "utf-8"));
-    expect(pkg.dependencies).toHaveProperty("voidframe");
+    expect(pkg.dependencies).toHaveProperty("voidframe-ui");
     expect(pkg.dependencies).toHaveProperty("react");
     expect(pkg.dependencies).toHaveProperty("react-dom");
   });
 
-  it("main.tsx imports voidframe/styles.css", async () => {
+  it("main.tsx imports voidframe-ui/styles.css", async () => {
     await initCommand({ dir, force: true, log: silentLog });
     const main = readFileSync(join(dir, "src", "main.tsx"), "utf-8");
-    expect(main).toContain("voidframe/styles.css");
+    expect(main).toContain("voidframe-ui/styles.css");
   });
 
   it("refuses to overwrite a non-empty directory without --force", async () => {

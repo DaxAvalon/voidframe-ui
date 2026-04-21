@@ -20,7 +20,7 @@ ruleTester.run("no-legacy-chart-imports", rule, {
   valid: [
     {
       name: "new ChartFrame import",
-      code: `import { ChartFrame, BarChart } from "voidframe";`,
+      code: `import { ChartFrame, BarChart } from "voidframe-ui";`,
     },
     {
       name: "unrelated package",
@@ -28,7 +28,7 @@ ruleTester.run("no-legacy-chart-imports", rule, {
     },
     {
       name: "non-legacy voidframe names",
-      code: `import { Button, Tabs } from "voidframe";`,
+      code: `import { Button, Tabs } from "voidframe-ui";`,
     },
   ],
   invalid: [
@@ -39,7 +39,7 @@ ruleTester.run("no-legacy-chart-imports", rule, {
     },
     {
       name: "legacy ChartContainer name",
-      code: `import { ChartContainer } from "voidframe";`,
+      code: `import { ChartContainer } from "voidframe-ui";`,
       errors: [{ messageId: "legacyName" }],
     },
     {

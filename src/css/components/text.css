@@ -18,7 +18,7 @@
 .vf-text--3xl { font-size: var(--vf-font-3xl); }
 
 .vf-text--upper {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 
 .vf-label {
@@ -26,7 +26,7 @@
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-label-spacing);
   color: var(--vf-text-3);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 
 .vf-divider {
@@ -59,7 +59,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 
 .vf-spacer {

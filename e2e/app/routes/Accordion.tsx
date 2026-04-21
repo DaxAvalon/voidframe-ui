@@ -1,4 +1,4 @@
-import { Accordion } from "voidframe";
+import { Accordion } from "voidframe-ui";
 
 export default function AccordionRoute() {
   return (

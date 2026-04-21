@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Spotlight, Button } from "voidframe";
+import { Spotlight, Button } from "voidframe-ui";
 
 export default function SpotlightRoute() {
   const [open, setOpen] = useState(false);

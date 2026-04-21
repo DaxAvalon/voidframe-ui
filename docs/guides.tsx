@@ -72,7 +72,7 @@ function GettingStartedGuide() {
           and data attributes. Every voidframe component reads from these.
         </Text>
         <CodeBlock>{`import { createRoot } from "react-dom/client";
-import { VoidframeProvider } from "voidframe";
+import { VoidframeProvider } from "voidframe-ui";
 import "voidframe/styles.css";
 import App from "./App";
 
@@ -133,7 +133,7 @@ function ThemingGuide() {
           Four bundled themes ship out of the box. Pick one via the{" "}
           <code>theme</code> prop on the provider.
         </Text>
-        <CodeBlock>{`import { VoidframeProvider } from "voidframe";
+        <CodeBlock>{`import { VoidframeProvider } from "voidframe-ui";
 
 <VoidframeProvider theme="dark">      {/* default */}
 <VoidframeProvider theme="light">
@@ -145,7 +145,7 @@ function ThemingGuide() {
           Pass a <code>ThemeOverrides</code> object to merge on top of a base
           theme. Unlisted tokens fall through.
         </Text>
-        <CodeBlock>{`import { darkTheme, VoidframeProvider } from "voidframe";
+        <CodeBlock>{`import { darkTheme, VoidframeProvider } from "voidframe-ui";
 
 const theme = {
   ...darkTheme,
@@ -161,7 +161,7 @@ const theme = {
           just part of the tree — useful for rendering a light-mode preview
           inside a dark app.
         </Text>
-        <CodeBlock>{`import { ThemeScope, lightTheme } from "voidframe";
+        <CodeBlock>{`import { ThemeScope, lightTheme } from "voidframe-ui";
 
 <ThemeScope theme={lightTheme}>
   {/* everything in here reads the light tokens */}
@@ -220,7 +220,7 @@ function ProviderGuide() {
           Pair with <code>useThemePersistence()</code> to store the user's
           chosen theme in <code>localStorage</code> so it survives reloads.
         </Text>
-        <CodeBlock>{`import { VoidframeProvider, useThemePersistence } from "voidframe";
+        <CodeBlock>{`import { VoidframeProvider, useThemePersistence } from "voidframe-ui";
 
 function Root({ children }) {
   const [theme, setTheme] = useThemePersistence("dark");
@@ -244,7 +244,7 @@ function I18nGuide() {
   VoidframeProvider,
   MessagesProvider,
   LOCALE_PACKS,
-} from "voidframe";
+} from "voidframe-ui";
 
 <VoidframeProvider locale="fr">
   <MessagesProvider messages={LOCALE_PACKS.fr.messages}>
@@ -257,7 +257,7 @@ function I18nGuide() {
           Merge partial overrides on top of a locale pack with{" "}
           <code>mergeMessages</code>:
         </Text>
-        <CodeBlock>{`import { enMessages, mergeMessages, MessagesProvider } from "voidframe";
+        <CodeBlock>{`import { enMessages, mergeMessages, MessagesProvider } from "voidframe-ui";
 
 const messages = mergeMessages(enMessages, {
   dialog: { close: "Dismiss" },
@@ -273,7 +273,7 @@ const messages = mergeMessages(enMessages, {
           percents, dates, relative times, and lists. They all read the
           active locale from the provider.
         </Text>
-        <CodeBlock>{`import { formatCurrency, formatRelativeTime, useI18n } from "voidframe";
+        <CodeBlock>{`import { formatCurrency, formatRelativeTime, useI18n } from "voidframe-ui";
 
 formatCurrency(1234.56, { locale: "fr", currency: "EUR" });
 // "1 234,56 €"
@@ -308,7 +308,7 @@ function DevToolsGuide() {
           it renders <code>null</code> unless{" "}
           <code>showInProduction</code> is set.
         </Text>
-        <CodeBlock>{`import { DevPanel } from "voidframe";
+        <CodeBlock>{`import { DevPanel } from "voidframe-ui";
 
 <App>
   {children}
@@ -323,7 +323,7 @@ function DevToolsGuide() {
           that surfaces the error name, message, collapsible stack, and a
           reset button.
         </Text>
-        <CodeBlock>{`import { ErrorBoundary, DevErrorFallback } from "voidframe";
+        <CodeBlock>{`import { ErrorBoundary, DevErrorFallback } from "voidframe-ui";
 
 <ErrorBoundary
   fallback={(err, reset) => (
@@ -352,7 +352,7 @@ function DevToolsGuide() {
           <code>subscribeWarnings()</code> or read the buffer via{" "}
           <code>getWarningHistory()</code>.
         </Text>
-        <CodeBlock>{`import { subscribeWarnings } from "voidframe";
+        <CodeBlock>{`import { subscribeWarnings } from "voidframe-ui";
 
 const unsub = subscribeWarnings((entry) => {
   // forward to Sentry / Datadog / a test harness

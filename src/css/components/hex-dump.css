@@ -25,7 +25,7 @@
   padding-bottom: var(--vf-sp-1);
   margin-bottom: var(--vf-sp-1);
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   font-size: 0.85em;
   letter-spacing: var(--vf-letter-spacing);
 }

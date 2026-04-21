@@ -15,7 +15,7 @@
   letter-spacing: var(--vf-label-spacing);
   color: var(--vf-text-0);
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   font-family: var(--vf-font-family);
   border-bottom: 1px solid var(--vf-border-3);
   background: var(--vf-bg-2);

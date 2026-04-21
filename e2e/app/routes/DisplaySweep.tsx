@@ -24,7 +24,7 @@ import {
   SkeletonTable,
   SkeletonForm,
   Button,
-} from "voidframe";
+} from "voidframe-ui";
 
 // Tier C display sweep. Every mostly-passive display component is rendered
 // in a single route so the axe sweep can exercise all four themes without

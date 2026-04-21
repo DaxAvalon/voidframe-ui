@@ -1,4 +1,4 @@
-import { VoidframeProvider, Text, Button, Card } from "voidframe";
+import { VoidframeProvider, Text, Button, Card } from "voidframe-ui";
 
 export default function App() {
   return (

@@ -1,4 +1,4 @@
-import { Tabs } from "voidframe";
+import { Tabs } from "voidframe-ui";
 
 export default function TabsRoute() {
   return (

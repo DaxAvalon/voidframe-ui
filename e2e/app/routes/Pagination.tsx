@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pagination } from "voidframe";
+import { Pagination } from "voidframe-ui";
 
 export default function PaginationRoute() {
   const [page, setPage] = useState(3);

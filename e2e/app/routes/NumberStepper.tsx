@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NumberStepper } from "voidframe";
+import { NumberStepper } from "voidframe-ui";
 
 export default function NumberStepperRoute() {
   const [value, setValue] = useState(5);

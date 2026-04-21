@@ -1,4 +1,4 @@
-import { Toaster, toast, Button } from "voidframe";
+import { Toaster, toast, Button } from "voidframe-ui";
 
 export default function ToastSystemRoute() {
   // Long-ish default duration so assertions about presence have time to

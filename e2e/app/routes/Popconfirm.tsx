@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Popconfirm, Button } from "voidframe";
+import { Popconfirm, Button } from "voidframe-ui";
 
 export default function PopconfirmRoute() {
   const [confirmCount, setConfirmCount] = useState(0);

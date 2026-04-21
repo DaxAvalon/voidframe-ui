@@ -57,7 +57,7 @@
   font-weight: 600;
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 .vf-datagrid__head { display: contents; }
 .vf-datagrid__body { display: contents; }
@@ -126,7 +126,7 @@
   border-bottom: 1px solid var(--vf-border-1);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-1);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: var(--vf-letter-spacing);
 }
 .vf-datagrid__group-toggle {
@@ -191,7 +191,7 @@
   color: var(--vf-text-3);
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 .vf-datalist__value { color: var(--vf-text-0); }
 .vf-dl { display: flex; flex-direction: column; gap: var(--vf-sp-2); font-family: var(--vf-font-family); }
@@ -475,7 +475,7 @@
 }
 .vf-log-viewer__entry { display: flex; gap: var(--vf-sp-2); padding: 2px 0; }
 .vf-log-viewer__time { color: var(--vf-text-4); }
-.vf-log-viewer__level { color: var(--vf-text-3); text-transform: uppercase; letter-spacing: var(--vf-letter-spacing); min-width: 40px; }
+.vf-log-viewer__level { color: var(--vf-text-3); text-transform: var(--vf-heading-case, uppercase); letter-spacing: var(--vf-letter-spacing); min-width: 40px; }
 .vf-log-viewer__level--info { color: var(--vf-blue); }
 .vf-log-viewer__level--warn { color: var(--vf-amber); }
 .vf-log-viewer__level--error { color: var(--vf-red); }
@@ -536,7 +536,7 @@
 .vf-calendar-view__weekhead {
   padding: var(--vf-sp-2); text-align: center;
   color: var(--vf-text-3); font-size: var(--vf-font-xxs);
-  text-transform: uppercase; letter-spacing: var(--vf-label-spacing);
+  text-transform: var(--vf-heading-case, uppercase); letter-spacing: var(--vf-label-spacing);
 }
 .vf-calendar-view__weeknum { color: var(--vf-text-4); align-self: center; text-align: center; }
 .vf-calendar-view__day {
@@ -582,7 +582,7 @@
   justify-content: center;
 }
 .vf-calendar-view__hour-weekday {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xxs);
   color: var(--vf-text-3);

@@ -203,7 +203,7 @@
 .vf-cmd__group-heading {
   padding: var(--vf-sp-2) var(--vf-sp-6);
   color: var(--vf-text-3); font-size: var(--vf-font-xxs);
-  text-transform: uppercase; letter-spacing: var(--vf-label-spacing);
+  text-transform: var(--vf-heading-case, uppercase); letter-spacing: var(--vf-label-spacing);
 }
 .vf-cmd__separator { height: 1px; background: var(--vf-border-1); margin: var(--vf-sp-2) 0; }
 .vf-cmd__item {

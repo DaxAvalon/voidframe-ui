@@ -85,7 +85,11 @@
   --vf-info: var(--vf-blue);
 
   /* typography */
-  --vf-font-family: "Courier New", "Courier", "Liberation Mono", monospace;
+  --vf-font-mono: "Courier New", "Courier", "Liberation Mono", monospace;
+  --vf-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --vf-font-display: var(--vf-font-mono);
+  /* Back-compat alias (pre-v1.0 consumers may reference this name). */
+  --vf-font-family: var(--vf-font-mono);
   --vf-font-xxs: 8px;
   --vf-font-xs: 9px;
   --vf-font-sm: 10px;
@@ -97,6 +101,16 @@
   --vf-line-height: 1.6;
   --vf-letter-spacing: 1.5px;
   --vf-label-spacing: 2px;
+  /* Heading tracking (em-based; applied to .vf-h1/.vf-h2 + component headings). */
+  --vf-heading-tracking: 0.08em;
+  /* Heading text-transform. Default `uppercase` preserves brutalist behavior;
+     consumers can override to `none`, `lowercase`, or `capitalize`. */
+  --vf-heading-case: uppercase;
+  /* Border-radius scale. Default 0 keeps the brutalist zero-corner policy;
+     override --vf-radius or --vf-radius-1/2 to soften corners globally. */
+  --vf-radius-0: 0;
+  --vf-radius-1: 2px;
+  --vf-radius-2: 4px;
 
   /* spacing */
   --vf-sp-1: 2px;

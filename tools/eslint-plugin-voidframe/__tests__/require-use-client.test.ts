@@ -20,11 +20,11 @@ ruleTester.run("require-use-client", rule, {
   valid: [
     {
       name: "has use client directive",
-      code: `"use client";\nimport { Button } from "voidframe";`,
+      code: `"use client";\nimport { Button } from "voidframe-ui";`,
     },
     {
       name: "only imports non-client components",
-      code: `import { Text, Label } from "voidframe";`,
+      code: `import { Text, Label } from "voidframe-ui";`,
     },
     {
       name: "imports from different package",
@@ -34,17 +34,17 @@ ruleTester.run("require-use-client", rule, {
   invalid: [
     {
       name: "Button without directive",
-      code: `import { Button } from "voidframe";`,
+      code: `import { Button } from "voidframe-ui";`,
       errors: [{ messageId: "missingDirective" }],
     },
     {
       name: "Tabs without directive",
-      code: `import { Text, Tabs } from "voidframe";`,
+      code: `import { Text, Tabs } from "voidframe-ui";`,
       errors: [{ messageId: "missingDirective" }],
     },
     {
       name: "mixed imports reports once",
-      code: `import { Button, Select, Dialog } from "voidframe";`,
+      code: `import { Button, Select, Dialog } from "voidframe-ui";`,
       errors: [{ messageId: "missingDirective" }],
     },
   ],

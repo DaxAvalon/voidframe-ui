@@ -16,14 +16,14 @@ export const rules = {
 
 export const configs = {
   recommended: {
-    plugins: ["voidframe"],
+    plugins: ["voidframe-ui"],
     rules: {
-      "voidframe/no-raw-hex-colors": "warn",
-      "voidframe/no-legacy-chart-imports": "error",
-      "voidframe/require-use-client": "warn",
-      "voidframe/require-a11y-label": "warn",
-      "voidframe/prefer-compound-pattern": "warn",
-      "voidframe/no-deprecated-props": "error",
+      "voidframe-ui/no-raw-hex-colors": "warn",
+      "voidframe-ui/no-legacy-chart-imports": "error",
+      "voidframe-ui/require-use-client": "warn",
+      "voidframe-ui/require-a11y-label": "warn",
+      "voidframe-ui/prefer-compound-pattern": "warn",
+      "voidframe-ui/no-deprecated-props": "error",
     },
   },
 };

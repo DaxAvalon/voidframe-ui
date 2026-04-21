@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FileUpload, type UploadItem } from "voidframe";
+import { FileUpload, type UploadItem } from "voidframe-ui";
 
 export default function FileUploadRoute() {
   const [items, setItems] = useState<UploadItem[]>([]);

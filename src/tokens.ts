@@ -57,6 +57,12 @@ export interface VoidframeTokens {
 
   // Typography
   fontFamily: string;
+  /** Monospace font stack (body text, dense UI). Falls through to fontFamily. */
+  fontMono: string;
+  /** Sans-serif font stack (opt-in for specific subtrees via ThemeScope). */
+  fontSans: string;
+  /** Display font stack (page-level headings, if a distinct face is desired). */
+  fontDisplay: string;
   fontXxs: number;
   fontXs: number;
   fontSm: number;
@@ -68,6 +74,10 @@ export interface VoidframeTokens {
   lineHeight: number;
   letterSpacing: number;
   labelSpacing: number;
+  /** Heading letter-spacing (em-based). Applied to `.vf-h*` utilities + chrome headings. */
+  headingTracking: string;
+  /** Heading `text-transform`. Default `"uppercase"` preserves brutalist behavior; set to `"none"` for title-case. */
+  headingCase: "uppercase" | "none" | "lowercase" | "capitalize";
 
   // Spacing
   sp1: number;
@@ -92,6 +102,9 @@ export interface VoidframeTokens {
 
   // Misc
   radius: number;
+  /** Border-radius scale (brutalist default 0; consumers can soften corners). */
+  radius1: number;
+  radius2: number;
   transition: string;
 
   // Border widths
@@ -158,8 +171,13 @@ export const defaultTokens: VoidframeTokens = {
   info: "#6b9fdd",
 
   // ── TYPOGRAPHY ────────────────────────────────────────────
-  // Monospace only. No secondary typeface.
+  // Monospace by default. Sans + display slots let consumers opt into a
+  // secondary face without forking the library.
   fontFamily: "'Courier New', 'Courier', 'Liberation Mono', monospace",
+  fontMono: "'Courier New', 'Courier', 'Liberation Mono', monospace",
+  fontSans:
+    "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+  fontDisplay: "'Courier New', 'Courier', 'Liberation Mono', monospace",
   fontXxs: 8,
   fontXs: 9,
   fontSm: 10,
@@ -172,6 +190,8 @@ export const defaultTokens: VoidframeTokens = {
   lineHeight: 1.6,
   letterSpacing: 1.5,
   labelSpacing: 2,
+  headingTracking: "0.08em",
+  headingCase: "uppercase",
 
   // ── SPACING ───────────────────────────────────────────────
   // 12-step scale. Use by name in components.
@@ -197,6 +217,8 @@ export const defaultTokens: VoidframeTokens = {
 
   // ── MISC ──────────────────────────────────────────────────
   radius: 0,
+  radius1: 2,
+  radius2: 4,
   transition: "all 0.15s ease",
 
   // ── BORDER WIDTHS ─────────────────────────────────────────

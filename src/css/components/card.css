@@ -65,7 +65,7 @@
   overflow: hidden;
   white-space: nowrap;
   font-family: var(--vf-font-family);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   border-bottom: 2px solid var(--vf-border-2);
 }
 

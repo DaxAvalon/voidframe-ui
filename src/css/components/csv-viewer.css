@@ -41,7 +41,7 @@
   font-weight: 600;
   color: var(--vf-text-2);
   border-bottom: 2px solid var(--vf-border);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   font-size: 0.85em;
   letter-spacing: var(--vf-letter-spacing);
 }

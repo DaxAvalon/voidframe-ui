@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Dialog, DrawerV2 } from "voidframe";
+import { Button, Dialog, DrawerV2 } from "voidframe-ui";
 
 /**
  * Fixture for scroll-lock ref-count behaviour:

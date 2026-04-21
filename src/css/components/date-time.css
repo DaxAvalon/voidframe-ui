@@ -60,7 +60,7 @@
   color: var(--vf-text-0);
   font-size: var(--vf-font-sm);
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 
 .vf-calendar__grid {
@@ -83,7 +83,7 @@
   color: var(--vf-text-3);
   font-size: var(--vf-font-xxs);
   letter-spacing: var(--vf-label-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 .vf-calendar__weeknum {
   padding: var(--vf-sp-2);
@@ -161,7 +161,7 @@
   padding: var(--vf-sp-2) var(--vf-sp-4);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: var(--vf-letter-spacing);
   cursor: pointer;
   text-align: left;
@@ -221,7 +221,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   cursor: pointer;
   outline: none;
   transition: var(--vf-transition);

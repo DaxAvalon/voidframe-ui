@@ -1,4 +1,4 @@
-import { ScrollArea } from "voidframe";
+import { ScrollArea } from "voidframe-ui";
 
 export default function ScrollAreaRoute() {
   return (

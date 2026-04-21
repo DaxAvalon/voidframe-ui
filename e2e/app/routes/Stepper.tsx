@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Stepper } from "voidframe";
+import { Stepper } from "voidframe-ui";
 
 export default function StepperRoute() {
   const [current, setCurrent] = useState(0);

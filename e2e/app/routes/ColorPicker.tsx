@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ColorPicker } from "voidframe";
+import { ColorPicker } from "voidframe-ui";
 
 export default function ColorPickerRoute() {
   const [hex, setHex] = useState("#3366ff");

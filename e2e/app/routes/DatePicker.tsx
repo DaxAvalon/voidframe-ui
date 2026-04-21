@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DatePicker } from "voidframe";
+import { DatePicker } from "voidframe-ui";
 
 export default function DatePickerRoute() {
   const [date, setDate] = useState<Date | null>(new Date(2026, 3, 15));

@@ -40,7 +40,7 @@
 .vf-confidence-meter__label {
   font-size: var(--vf-fs-0);
   color: var(--vf-text-2);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.04em;
 }
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar } from "voidframe";
+import { Calendar } from "voidframe-ui";
 
 export default function CalendarRoute() {
   // Display-only variant: no selection/value, just day-click feedback.

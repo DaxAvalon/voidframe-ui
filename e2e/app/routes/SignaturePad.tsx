@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SignaturePad } from "voidframe";
+import { SignaturePad } from "voidframe-ui";
 
 export default function SignaturePadRoute() {
   const [dataUrl, setDataUrl] = useState<string | null>(null);

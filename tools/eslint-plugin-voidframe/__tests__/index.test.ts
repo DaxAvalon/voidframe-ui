@@ -25,13 +25,13 @@ describe("eslint-plugin-voidframe barrel", () => {
   });
 
   it("recommended config registers the plugin", () => {
-    expect(configs.recommended.plugins).toContain("voidframe");
+    expect(configs.recommended.plugins).toContain("voidframe-ui");
   });
 
   it("recommended config wires every exported rule", () => {
     const ruleEntries = Object.keys(configs.recommended.rules);
     for (const name of Object.keys(rules)) {
-      expect(ruleEntries).toContain(`voidframe/${name}`);
+      expect(ruleEntries).toContain(`voidframe-ui/${name}`);
     }
   });
 

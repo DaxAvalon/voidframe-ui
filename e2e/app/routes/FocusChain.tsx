@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Dialog, PopoverV2 } from "voidframe";
+import { Button, Dialog, PopoverV2 } from "voidframe-ui";
 
 /**
  * Fixture for focus-restore and Escape-unwind chains:

@@ -1,4 +1,4 @@
-import { Menu, Button } from "voidframe";
+import { Menu, Button } from "voidframe-ui";
 
 export default function MenuRoute() {
   return (

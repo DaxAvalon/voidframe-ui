@@ -99,7 +99,7 @@ export default defineConfig({
   },
   build: {
     // All CSS imports across the library bundle into a single file
-    // emitted as `dist/voidframe.css`. Consumers do `import "voidframe/styles.css"`.
+    // emitted as `dist/voidframe.css`. Consumers do `import "voidframe-ui/styles.css"`.
     cssCodeSplit: false,
     lib: {
       // Multi-entry: core (root barrel), charts (subpath), and dev

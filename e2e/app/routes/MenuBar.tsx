@@ -1,4 +1,4 @@
-import { MenuBar, MenuBarMenu, Menu } from "voidframe";
+import { MenuBar, MenuBarMenu, Menu } from "voidframe-ui";
 
 export default function MenuBarRoute() {
   return (

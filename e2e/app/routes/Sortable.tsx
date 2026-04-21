@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sortable } from "voidframe";
+import { Sortable } from "voidframe-ui";
 
 interface Item {
   id: string;

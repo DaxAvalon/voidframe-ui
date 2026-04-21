@@ -1,4 +1,4 @@
-import { TreeView, type TreeNode } from "voidframe";
+import { TreeView, type TreeNode } from "voidframe-ui";
 
 const items: TreeNode[] = [
   {

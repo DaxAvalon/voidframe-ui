@@ -2813,7 +2813,7 @@ function I18nSection() {
         </Flex>
         <Text size="xs" color="var(--vf-text-3)">
           Consumers import only the packs they need —{" "}
-          <Code>{`import { ja } from "voidframe"`}</Code> is tree-shakable.
+          <Code>{`import { ja } from "voidframe-ui"`}</Code> is tree-shakable.
         </Text>
       </Block>
     </Frame>

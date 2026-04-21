@@ -36,7 +36,7 @@ async function grepForVoidframeCss(cwd, depth = 4) {
         if (await walk(full, d + 1)) return true;
       } else if (/\.(ts|tsx|js|jsx|html|css)$/.test(e.name)) {
         const raw = await readFile(full, "utf-8").catch(() => "");
-        if (raw.includes("voidframe/styles.css")) return true;
+        if (raw.includes("voidframe-ui/styles.css")) return true;
       }
     }
     return false;
@@ -81,9 +81,9 @@ export async function doctorCommand({ cwd = process.cwd(), log = console } = {})
   }
   const deps = { ...(pkg.dependencies ?? {}), ...(pkg.devDependencies ?? {}) };
 
-  const vfVersion = deps.voidframe;
+  const vfVersion = deps["voidframe-ui"];
   checks.push(
-    check("voidframe installed", Boolean(vfVersion), vfVersion ?? "missing")
+    check("voidframe-ui installed", Boolean(vfVersion), vfVersion ?? "missing")
   );
 
   const reactVersion = deps.react ?? "(missing)";
@@ -106,11 +106,11 @@ export async function doctorCommand({ cwd = process.cwd(), log = console } = {})
   const cssImported = await grepForVoidframeCss(cwd);
   checks.push(
     check(
-      'imports "voidframe/styles.css"',
+      'imports "voidframe-ui/styles.css"',
       cssImported,
       cssImported
         ? "ok"
-        : 'add `import "voidframe/styles.css"` to your entry file'
+        : 'add `import "voidframe-ui/styles.css"` to your entry file'
     )
   );
 

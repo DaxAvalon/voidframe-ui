@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ResizableGroup, ResizablePanel, ResizableHandle } from "voidframe";
+import { ResizableGroup, ResizablePanel, ResizableHandle } from "voidframe-ui";
 
 export default function ResizableRoute() {
   const [sizes, setSizes] = useState<number[]>([30, 70]);

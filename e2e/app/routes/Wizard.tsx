@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Wizard } from "voidframe";
+import { Wizard } from "voidframe-ui";
 
 type StepId = "account" | "billing" | "review";
 

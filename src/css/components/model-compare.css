@@ -63,7 +63,7 @@
   border-bottom: 1px solid var(--vf-border-1);
   font-weight: 600;
   font-size: var(--vf-fs-0);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.04em;
   color: var(--vf-text-0);
 }

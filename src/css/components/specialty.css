@@ -61,7 +61,7 @@
 
 .vf-theme-selector__label-text {
   font-size: 9px;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
 }
@@ -165,7 +165,7 @@
   padding: 0 var(--vf-sp-2);
   border: 1px solid var(--vf-border-2);
   font-size: 9px;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-2);
 }
@@ -237,7 +237,7 @@
 
 .vf-network-inspector__table th {
   font-size: 9px;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
   background: var(--vf-bg-2);
@@ -311,7 +311,7 @@
 
 .vf-network-inspector__section-title {
   font-size: 9px;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
 }
@@ -372,7 +372,7 @@
 }
 
 .vf-debug-tree__label {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -544,7 +544,7 @@
 
 .vf-shortcut-editor__label {
   font-size: 9px;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
 }
@@ -832,7 +832,7 @@
 
 .vf-big-number__label {
   font-size: 9px;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
 }
@@ -885,7 +885,7 @@
 
 .vf-tz-select__label {
   font-size: 9px;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
 }
@@ -1014,7 +1014,7 @@
 }
 
 .vf-changelog__title {
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   font-size: 9px;
   color: var(--vf-text-4);
@@ -1079,7 +1079,7 @@
 
 .vf-changelog__kind {
   font-size: 9px;
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   padding: 1px var(--vf-sp-2);
   border: 1px solid var(--vf-border-2);
@@ -1344,7 +1344,7 @@
   color: var(--vf-text-0);
   font-weight: 600;
   font-size: var(--vf-font-sm);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
 }
 

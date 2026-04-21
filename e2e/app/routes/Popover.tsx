@@ -1,4 +1,4 @@
-import { PopoverV2, Button } from "voidframe";
+import { PopoverV2, Button } from "voidframe-ui";
 
 export default function PopoverRoute() {
   // Push the trigger near the viewport right edge so Playwright can

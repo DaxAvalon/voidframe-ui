@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ImageCropper, type CropResult } from "voidframe";
+import { ImageCropper, type CropResult } from "voidframe-ui";
 
 // A tiny 200×100 solid-colour SVG, data-URL-encoded so no network hop is
 // needed in CI. Big enough for the crop tool to produce a meaningful

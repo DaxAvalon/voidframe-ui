@@ -26,7 +26,7 @@
   font-size: var(--vf-font-lg);
   font-weight: 500;
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 .vf-section__description { color: var(--vf-text-3); }
 .vf-section__actions { display: inline-flex; gap: var(--vf-sp-2); }
@@ -60,7 +60,7 @@
   font-size: var(--vf-font-xl);
   font-weight: 500;
   letter-spacing: var(--vf-letter-spacing);
-  text-transform: uppercase;
+  text-transform: var(--vf-heading-case, uppercase);
 }
 .vf-page-header__description { color: var(--vf-text-3); }
 .vf-page-header__actions { display: inline-flex; gap: var(--vf-sp-2); }

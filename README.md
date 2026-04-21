@@ -11,7 +11,7 @@ Built for dashboards, dev tools, data interfaces, internal consoles, AI chat pro
 ## Install
 
 ```bash
-npm install voidframe
+npm install voidframe-ui
 ```
 
 **Peer dependencies.** Required: `react >= 18.0.0`, `react-dom >= 18.0.0`.
@@ -24,17 +24,17 @@ npm install voidframe
 | `d3-geo`, `topojson-client` | `ChoroplethMap`, `BubbleMap` |
 | `d3-hierarchy` | `TreeMap`, `Sunburst` |
 | `d3-sankey` | `Sankey` |
-| `d3-scale`, `d3-shape`, `d3-array`, `d3-time` | All other charts (pulled in via the `voidframe/charts` subpath) |
+| `d3-scale`, `d3-shape`, `d3-array`, `d3-time` | All other charts (pulled in via the `voidframe-ui/charts` subpath) |
 | `dompurify` | `MarkdownRenderer`, `MarkdownEditor` preview |
 | `react-live` | `docs/` site and any `<Playground>` consumer |
-| `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`, `jest-axe` | Required only when using `voidframe/testing`'s helpers |
+| `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`, `jest-axe` | Required only when using `voidframe-ui/testing`'s helpers |
 
 Voidframe throws `MissingPeerDependencyError` at render time with the exact `npm install` command if an optional peer isn't resolvable. See the Charts section for per-chart install examples.
 
 Import the stylesheet once at the top of your app:
 
 ```js
-import "voidframe/styles.css";
+import "voidframe-ui/styles.css";
 ```
 
 ### Subpath imports
@@ -45,17 +45,17 @@ the root entry:
 
 | Subpath | When to use it |
 |---|---|
-| `voidframe` | Default — every component, hook, and utility. |
-| `voidframe/charts` | Charts only (dead-code elimination if you don't touch any non-chart component). |
-| `voidframe/dev` | `<Playground>`, `<PropsTable>`, `<DevPanel>`, `ProfilerScope` — dev-only surface, never ships to production. |
-| `voidframe/tokens` | Token object (`darkTheme`, `lightTheme`, …) without pulling in React. Useful for tooling and design-tool sync. |
-| `voidframe/testing` | `renderWithTheme`, `expectNoA11yViolations`, `installMatchMedia`, `createMockStorage`. |
-| `voidframe/styles.css` | The single bundled stylesheet. |
-| `voidframe/theme-script.js` | Inline `<head>` snippet that applies the persisted theme pre-hydration (no flash). |
+| `voidframe-ui` | Default — every component, hook, and utility. |
+| `voidframe-ui/charts` | Charts only (dead-code elimination if you don't touch any non-chart component). |
+| `voidframe-ui/dev` | `<Playground>`, `<PropsTable>`, `<DevPanel>`, `ProfilerScope` — dev-only surface, never ships to production. |
+| `voidframe-ui/tokens` | Token object (`darkTheme`, `lightTheme`, …) without pulling in React. Useful for tooling and design-tool sync. |
+| `voidframe-ui/testing` | `renderWithTheme`, `expectNoA11yViolations`, `installMatchMedia`, `createMockStorage`. |
+| `voidframe-ui/styles.css` | The single bundled stylesheet. |
+| `voidframe-ui/theme-script.js` | Inline `<head>` snippet that applies the persisted theme pre-hydration (no flash). |
 
 ### Scaffold a new app
 
-The `voidframe` CLI can set up a fresh Vite + React project pre-wired
+The `voidframe-ui` CLI can set up a fresh Vite + React project pre-wired
 with the provider, stylesheet, and a starter page:
 
 ```bash
@@ -101,7 +101,7 @@ import {
   StatGroup,
   Toaster,
   toast,
-} from "voidframe";
+} from "voidframe-ui";
 
 function App() {
   return (
@@ -144,7 +144,7 @@ function App() {
 Wrap your app (or any subtree) in `VoidframeProvider`. All child components read tokens from context.
 
 ```jsx
-import { VoidframeProvider } from "voidframe";
+import { VoidframeProvider } from "voidframe-ui";
 
 <VoidframeProvider>
   <App />
@@ -156,7 +156,7 @@ import { VoidframeProvider } from "voidframe";
 Four themes ship out of the box: `darkTheme` (default), `lightTheme`, `midnightTheme` (deep-black OLED-friendly), and `greyTheme` (neutral mid-grey for print and projection). Pass any of them to `VoidframeProvider`'s `theme` prop or address them by name via `themeName="dark" | "light" | "midnight" | "grey" | "system"`.
 
 ```jsx
-import { VoidframeProvider } from "voidframe";
+import { VoidframeProvider } from "voidframe-ui";
 
 // By name — sets data-vf-theme and uses the stylesheet cascade (no FOUC).
 <VoidframeProvider themeName="midnight">
@@ -164,7 +164,7 @@ import { VoidframeProvider } from "voidframe";
 </VoidframeProvider>
 
 // Or pass a full token set via `theme` for runtime overrides.
-import { lightTheme } from "voidframe";
+import { lightTheme } from "voidframe-ui";
 <VoidframeProvider theme={lightTheme}>
   <App />
 </VoidframeProvider>
@@ -183,7 +183,7 @@ Subscribes to `prefers-color-scheme` and re-resolves automatically.
 ### Custom tokens
 
 ```jsx
-import { VoidframeProvider, createTheme } from "voidframe";
+import { VoidframeProvider, createTheme } from "voidframe-ui";
 
 const warmVoid = createTheme({
   bg0: "#0a0806",
@@ -218,7 +218,7 @@ Independent, composable props on the provider — all cascade via `data-*` attri
 Override any of the above for a subtree without remounting the rest.
 
 ```jsx
-import { ThemeScope, lightTheme } from "voidframe";
+import { ThemeScope, lightTheme } from "voidframe-ui";
 
 <VoidframeProvider themeName="dark">
   <Header />
@@ -232,7 +232,7 @@ import { ThemeScope, lightTheme } from "voidframe";
 ### Persistence
 
 ```jsx
-import { useThemePersistence, VoidframeProvider, ThemeSelector } from "voidframe";
+import { useThemePersistence, VoidframeProvider, ThemeSelector } from "voidframe-ui";
 
 function App() {
   const { theme, setTheme } = useThemePersistence({
@@ -262,7 +262,7 @@ Reads from `localStorage`, survives reloads, and syncs across tabs via the `stor
 ### Accessing Tokens
 
 ```jsx
-import { useTokens } from "voidframe";
+import { useTokens } from "voidframe-ui";
 
 function MyComponent() {
   const t = useTokens();
@@ -289,7 +289,7 @@ function MyComponent() {
 
 ## Component Inventory
 
-Everything below ships from the top-level `voidframe` import. Compound components expose their subparts as dot-properties (e.g. `Sidebar.Item`, `Menu.Trigger`, `Dialog.Content`).
+Everything below ships from the top-level `voidframe-ui` import. Compound components expose their subparts as dot-properties (e.g. `Sidebar.Item`, `Menu.Trigger`, `Dialog.Content`).
 
 ### Foundations & layout
 
@@ -431,7 +431,7 @@ Toasts: `toast()` imperative API, `useToast()` hook, `Toaster` (placement wrappe
 
 ### Chat & AI
 
-Purpose-built surface for Claude-/ChatGPT-/agent-style products. Everything below is in the top-level `voidframe` import.
+Purpose-built surface for Claude-/ChatGPT-/agent-style products. Everything below is in the top-level `voidframe-ui` import.
 
 **Conversation + messages:** `Conversation`, `MessageList`, `MessageGroup`, `Message`, `MessageContent` (with `MessagePart[]` — text / code / tool_use / tool_result / thinking), `StreamingText`, `ThinkingIndicator` / `TypingIndicator`, `ReasoningTrace`, `MessageActions` (compound: `Copy`/`Regenerate`/`Edit`/`Delete`/`Share`/`Feedback`/`Pin`/`Branch`), `MessageFeedback`, `ReactionBar` / `MessageReactions`, `MessageEdit`.
 
@@ -453,7 +453,7 @@ Purpose-built surface for Claude-/ChatGPT-/agent-style products. Everything belo
 
 ### Specialty
 
-Domain surfaces that round out the tier-1 offering. Everything below is in the top-level `voidframe` import.
+Domain surfaces that round out the tier-1 offering. Everything below is in the top-level `voidframe-ui` import.
 
 **Dev tools:** `CommitGraph`, `NetworkInspector` (JSON headers/body drill-down), `ConsoleOutput` (level filter `"warn+"`), `DebugTree` (JSON or YAML via `format` prop — `toYaml` helper exported), `KeyValueEditor`, `QueryBuilder` (AND/OR groups + rules), `ShortcutEditor` (records chords to `mod+shift+k`-style strings with conflict detection).
 
@@ -488,7 +488,7 @@ Monoline, 1px-stroke, 24×24 brutalist icon system. Decorative by default; suppl
 **Third-party adapter:** `adaptIcon(Component, { defaultLabel, directional })` wraps any Lucide/Phosphor/Heroicons/Tabler icon so framework sizing, color, spin, and RTL mirroring all apply.
 
 ```jsx
-import { SearchIcon, IconButton, adaptIcon } from "voidframe";
+import { SearchIcon, IconButton, adaptIcon } from "voidframe-ui";
 import { Compass } from "lucide-react";
 
 const CompassIcon = adaptIcon(Compass, { defaultLabel: "Compass" });
@@ -512,7 +512,7 @@ import {
   LazyDatePicker, LazyDateRangePicker, LazyCalendar,
   LazySparkline, LazyHeatmap,
   LazySignaturePad, LazyImageCropper, LazyVideoPlayer,
-} from "voidframe";
+} from "voidframe-ui";
 
 <Suspense fallback={<Spinner />}>
   <LazyDataGrid columns={cols} data={rows} />
@@ -521,7 +521,7 @@ import {
 
 **Memoized leaves.** High-traffic stateless components — `Button`, `Badge`, `Dots`, `Label`, `Divider`, `Spacer`, `Spinner`, `Kbd`, `Icon` — are wrapped in `React.memo`. Re-renders skip when props are referentially stable, which is the typical case inside tables, feeds, and icon-heavy lists.
 
-**Tree-shaking.** `package.json` declares `sideEffects: ["*.css"]`. Every export is named; barrels re-export without side effects. Bundlers drop unused components automatically — `import { SearchIcon } from "voidframe"` costs you just the icon and its primitive.
+**Tree-shaking.** `package.json` declares `sideEffects: ["*.css"]`. Every export is named; barrels re-export without side effects. Bundlers drop unused components automatically — `import { SearchIcon } from "voidframe-ui"` costs you just the icon and its primitive.
 
 **CSS perf hints.** Overlay panels (modals, drawers, popovers, tooltips, toasts, command palette) carry `contain: layout paint` so they don't invalidate the surrounding page on open/close. For virtualized content, opt in to `content-visibility: auto` via `data-content-visibility="auto"` or the `vf-cv-auto` class — browsers skip rendering off-screen descendants entirely.
 
@@ -541,13 +541,13 @@ import {
 | Stylesheet (`dist/voidframe.css`) | ≤50 KB |
 | All JS (ES + CJS, every entry) | ≤460 KB |
 
-Tree-shaking still applies — `import { Button } from "voidframe"` costs roughly **4–5 KB** gzipped, `import { SearchIcon }` about **2 KB**. Those per-import figures are measured ad-hoc, not enforced in CI; open a PR before relying on them for a strict budget.
+Tree-shaking still applies — `import { Button } from "voidframe-ui"` costs roughly **4–5 KB** gzipped, `import { SearchIcon }` about **2 KB**. Those per-import figures are measured ad-hoc, not enforced in CI; open a PR before relying on them for a strict budget.
 
 **Production DCE.** All dev-only `warn()` and `warnOnce()` calls are guarded by `process.env.NODE_ENV !== "production"` — bundlers strip them from production builds entirely, so warning message strings never ship.
 
 ### Testing your app against Voidframe
 
-Voidframe ships a `voidframe/testing` subpath with the same helpers used internally — so consuming apps can write tests against our components with the provider, a11y checks, and viewport mocks pre-wired.
+Voidframe ships a `voidframe-ui/testing` subpath with the same helpers used internally — so consuming apps can write tests against our components with the provider, a11y checks, and viewport mocks pre-wired.
 
 ```jsx
 import { describe, expect, it } from "vitest";
@@ -557,7 +557,7 @@ import {
   expectNoA11yViolations,
   installMatchMedia,
   createMockStorage,
-} from "voidframe/testing";
+} from "voidframe-ui/testing";
 import { MyFeature } from "./MyFeature";
 
 it("renders inside the provider + passes axe", async () => {
@@ -613,14 +613,14 @@ Voidframe is SSR-safe and carries `"use client"` directives on every stateful mo
 ```tsx
 // app/providers.tsx
 "use client";
-import { VoidframeProvider } from "voidframe";
+import { VoidframeProvider } from "voidframe-ui";
 export function AppProviders({ children }) {
   return <VoidframeProvider>{children}</VoidframeProvider>;
 }
 
 // app/layout.tsx
 import { AppProviders } from "./providers";
-import "voidframe/styles.css";
+import "voidframe-ui/styles.css";
 
 export default function RootLayout({ children }) {
   return (
@@ -635,13 +635,13 @@ export default function RootLayout({ children }) {
 }
 ```
 
-**Remix / Vite SSR / Astro:** identical pattern — import `VoidframeProvider` in a client-only entry, include `voidframe/styles.css` in your root layout, add the theme-sync script inline to `<head>`.
+**Remix / Vite SSR / Astro:** identical pattern — import `VoidframeProvider` in a client-only entry, include `voidframe-ui/styles.css` in your root layout, add the theme-sync script inline to `<head>`.
 
-**Pre-hydration theme script.** Prevents the dark→light flash when a user has a persisted or `"system"` theme preference. Inline the script in `<head>` *before* your app bundle — it's shipped at the package root as `voidframe/theme-script.js`:
+**Pre-hydration theme script.** Prevents the dark→light flash when a user has a persisted or `"system"` theme preference. Inline the script in `<head>` *before* your app bundle — it's shipped at the package root as `voidframe-ui/theme-script.js`:
 
 ```html
 <!-- via <script src> — shipped at the package root -->
-<script src="/node_modules/voidframe/theme-script.js"></script>
+<script src="/node_modules/voidframe-ui/theme-script.js"></script>
 
 <!-- or inline — identical behavior -->
 <script>
@@ -662,7 +662,7 @@ The snippet runs synchronously, reads the user's persisted pref (the same `voidf
 **`<HydrationBoundary>`.** For components that genuinely can't SSR (canvas, measured layouts, time-of-day text), wrap them to render a fallback until after hydration — no mismatch, no broken diff.
 
 ```jsx
-import { HydrationBoundary } from "voidframe";
+import { HydrationBoundary } from "voidframe-ui";
 
 <HydrationBoundary fallback={<Skeleton lines={3} />}>
   <SignaturePad />
@@ -686,7 +686,7 @@ import {
   pluralize,
   pseudolocalize,
   ja, ar, enXA,                   // locale packs
-} from "voidframe";
+} from "voidframe-ui";
 
 // Provider — pass a LocalePack (messages + direction + firstDayOfWeek).
 <VoidframeProvider locale={ja}>
@@ -750,7 +750,7 @@ import {
   useDeviceType,
   useResponsive,
   useContainerQuery,
-} from "voidframe";
+} from "voidframe-ui";
 
 // CSS-based visibility — no flash, no JS required.
 <Show above="md"><DesktopNav /></Show>
@@ -864,7 +864,7 @@ import {
   Composer,
   ToolCall,
   toast,
-} from "voidframe";
+} from "voidframe-ui";
 
 function ChatApp() {
   return (
@@ -953,8 +953,8 @@ The canonical repository lives at
 Local workflow:
 
 ```bash
-git clone https://git.ahadley.local/aeryn/VoidFrame.git voidframe
-cd voidframe
+git clone https://github.com/DaxAvalon/voidframe-ui.git
+cd voidframe-ui
 npm install
 npm test              # unit + a11y + SSR matrix
 npm run docs          # local docs site on :5175

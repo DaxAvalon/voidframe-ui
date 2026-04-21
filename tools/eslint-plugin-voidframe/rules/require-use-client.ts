@@ -64,7 +64,7 @@ export default createRule({
     return {
       ImportDeclaration(node) {
         const source = node.source.value;
-        if (source !== "voidframe") return;
+        if (source !== "voidframe-ui") return;
         for (const spec of node.specifiers) {
           if (spec.type !== "ImportSpecifier") continue;
           if (spec.imported.type !== "Identifier") continue;

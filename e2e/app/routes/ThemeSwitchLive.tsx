@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Dialog } from "voidframe";
+import { Button, Dialog } from "voidframe-ui";
 
 /**
  * Fixture for "change theme while a modal is open":

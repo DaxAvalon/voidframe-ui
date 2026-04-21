@@ -1,4 +1,4 @@
-import { HoverCard, Button } from "voidframe";
+import { HoverCard, Button } from "voidframe-ui";
 
 export default function HoverCardRoute() {
   return (

@@ -26,7 +26,7 @@ export default defineConfig({
     alias: {
       // Resolve the library from source so Playwright exercises the
       // working tree, not dist/.
-      voidframe: resolve(__dirname, "../src/index.ts"),
+      "voidframe-ui": resolve(__dirname, "../src/index.ts"),
     },
   },
 });

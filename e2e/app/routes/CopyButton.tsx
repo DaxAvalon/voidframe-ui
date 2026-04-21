@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CopyButton } from "voidframe";
+import { CopyButton } from "voidframe-ui";
 
 export default function CopyButtonRoute() {
   const [lastCopied, setLastCopied] = useState<string | null>(null);
