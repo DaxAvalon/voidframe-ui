@@ -5,7 +5,18 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
-_Nothing yet._
+### Documentation
+
+- README "Subpath imports" section now explains when to reach for a
+  subpath vs the root. Bundler consumers (Vite, Webpack, Next.js,
+  Remix, …) should keep using `voidframe-ui` — bundlers tree-shake.
+  Bundler-free consumers (raw Node scripts, Deno, Bun without a
+  bundler, `node --input-type=module`, esm.sh, unpkg) should import
+  from the category subpath (`voidframe-ui/core`, `.../forms`, etc.)
+  because the root bundle statically references every optional peer's
+  chunk; without tree-shaking, Node's ESM loader fails to resolve
+  `dompurify` / `d3-*` / `react-live` at load time unless those
+  optional peers are installed.
 
 ## [1.0.0] - 2026-04-21
 

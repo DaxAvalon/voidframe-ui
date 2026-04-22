@@ -67,6 +67,26 @@ the root entry:
 | `voidframe-ui/styles.css` | The single bundled stylesheet. |
 | `voidframe-ui/theme-script.js` | Inline `<head>` snippet that applies the persisted theme pre-hydration (no flash). |
 
+#### When to reach for a subpath vs the root
+
+For the vast majority of consumers — anyone using a bundler (Vite, Webpack, Rspack, Rollup, esbuild, Next.js, Remix, Astro, Parcel) — `import { Button } from "voidframe-ui"` is fine. The bundler tree-shakes unused modules, so pulling `Button` from the root bundle only ships `Button`.
+
+The category subpaths (`voidframe-ui/core`, `voidframe-ui/forms`, `voidframe-ui/data`, …) exist for two cases:
+
+1. **Bundler-free consumers** — raw Node scripts, Deno, Bun without a bundler, `node --input-type=module`, esm.sh, unpkg with `?module`, etc. The monolithic root entry statically references chunks for every optional peer (`dompurify`, `d3-*`, `react-live`). Without tree-shaking, Node's ESM loader will try to resolve every referenced chunk at module-load time and fail if the optional peers aren't installed.
+
+    ```js
+    // ✗ needs dompurify + d3-* + react-live installed to even load
+    import { Button } from "voidframe-ui";
+
+    // ✓ loads clean with only react + react-dom
+    import { Button } from "voidframe-ui/core";
+    ```
+
+    If you're writing a small script, importing from the relevant subpath is the right call.
+
+2. **Explicit boundary control** — if you want to guarantee at review time that a file only reaches into one category, `import { DataGrid } from "voidframe-ui/data"` makes the intent reviewable. Some teams lint for this with the bundled `voidframe-ui/prefer-subpath-import` ESLint rule.
+
 ### Scaffold a new app
 
 The `voidframe-ui` CLI can set up a fresh Vite + React project pre-wired
