@@ -151,6 +151,9 @@ export default defineConfig({
         // only. Consumers install what they already use for their tests.
         /^@testing-library\//,
         "jest-axe",
+        // Encoding peers — lazy-loaded by <QRCode> and <Barcode> only.
+        "qrcode-generator",
+        "jsbarcode",
       ],
       output: {
         globals: {

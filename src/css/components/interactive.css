@@ -1,8 +1,93 @@
 /* Tabs / Collapsible / Modal / Toast / Kbd */
 
+/* ── Tabs ─────────────────────────────────────────────────────────
+ * Root lays out direction; List is the trigger strip; Trigger is each
+ * tab button; Panel is the content region below (horizontal) or beside
+ * (vertical). Active state shows an accent bar along the edge nearest
+ * the panel.
+ */
 .vf-tabs {
   display: flex;
-  gap: var(--vf-sp-1);
+  flex-direction: column;
+  gap: var(--vf-sp-4);
+  font-family: var(--vf-font-family);
+}
+.vf-tabs--vertical {
+  flex-direction: row;
+  gap: var(--vf-sp-6);
+}
+
+.vf-tabs__list {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  border-bottom: 1px solid var(--vf-border-1);
+  align-items: stretch;
+  min-height: 0;
+}
+.vf-tabs--vertical .vf-tabs__list {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 1px solid var(--vf-border-1);
+  min-width: 120px;
+}
+
+.vf-tabs__trigger {
+  appearance: none;
+  background: transparent;
+  color: var(--vf-text-3);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  letter-spacing: var(--vf-label-spacing);
+  text-transform: var(--vf-heading-case, uppercase);
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: var(--vf-sp-5) var(--vf-sp-7);
+  margin-bottom: -1px;
+  cursor: pointer;
+  outline: none;
+  transition: color var(--vf-transition), border-color var(--vf-transition);
+  white-space: nowrap;
+}
+.vf-tabs__trigger:hover:not([aria-disabled="true"]) {
+  color: var(--vf-text-1);
+}
+.vf-tabs__trigger:focus-visible {
+  outline: 2px solid var(--vf-accent, var(--vf-blue));
+  outline-offset: -2px;
+  color: var(--vf-text-0);
+}
+.vf-tabs__trigger[aria-disabled="true"],
+.vf-tabs__trigger:disabled {
+  color: var(--vf-text-4);
+  cursor: not-allowed;
+}
+.vf-tabs__trigger--active {
+  color: var(--vf-text-0);
+  border-bottom-color: var(--vf-accent, var(--vf-green));
+}
+
+.vf-tabs--vertical .vf-tabs__trigger {
+  border-bottom: none;
+  border-right: 2px solid transparent;
+  margin-bottom: 0;
+  margin-right: -1px;
+  text-align: left;
+  padding: var(--vf-sp-5) var(--vf-sp-7);
+}
+.vf-tabs--vertical .vf-tabs__trigger--active {
+  border-right-color: var(--vf-accent, var(--vf-green));
+}
+
+.vf-tabs__panel {
+  min-height: 0;
+  outline: none;
+  padding: var(--vf-sp-2) 0;
+  flex: 1 1 auto;
+}
+.vf-tabs__panel:focus-visible {
+  outline: 2px solid var(--vf-accent, var(--vf-blue));
+  outline-offset: 2px;
 }
 
 /* Collapsible */

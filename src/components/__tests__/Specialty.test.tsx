@@ -141,8 +141,14 @@ describe("NumberDisplay / CurrencyDisplay / PercentDisplay", () => {
       "vf-currency--success"
     );
   });
-  it("PercentDisplay converts fraction to percent by default", () => {
-    renderWithTheme(<PercentDisplay value={0.1234} locale="en-US" />);
+  it("PercentDisplay treats value as already-in-percent by default", () => {
+    renderWithTheme(<PercentDisplay value={50} locale="en-US" />);
+    expect(screen.getByText("50.0%")).toBeInTheDocument();
+  });
+  it('PercentDisplay with basis="fraction" converts 0-1 ratio', () => {
+    renderWithTheme(
+      <PercentDisplay value={0.1234} basis="fraction" locale="en-US" />
+    );
     expect(screen.getByText("12.3%")).toBeInTheDocument();
   });
 });

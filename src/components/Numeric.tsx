@@ -157,11 +157,13 @@ CurrencyDisplay.displayName = "CurrencyDisplay";
 export interface PercentDisplayProps
   extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {
   /**
-   * Fraction (0.1 = 10%) by default. Pass `basis="percent"` if value is
-   * already in percent units (10 = 10%).
+   * Value to render. By default interpreted as already in percent units
+   * (`value={50}` → `"50%"`). Pass `basis="fraction"` if your value is a
+   * 0-1 ratio (`value={0.5}` + `basis="fraction"` → `"50%"`).
    */
   value: number;
-  basis?: "fraction" | "percent";
+  /** `"percent"` (default): value is 0-100. `"fraction"`: value is 0-1. */
+  basis?: "percent" | "fraction";
   decimals?: number;
   locale?: string;
   signed?: boolean;
@@ -169,8 +171,9 @@ export interface PercentDisplayProps
 }
 
 /**
- * Locale-aware percentage formatter. Takes a 0-1 ratio and emits a localised
- * percent string.
+ * Locale-aware percentage formatter. Defaults to treating `value` as
+ * already-in-percent (50 → "50%"); switch with `basis="fraction"` when
+ * your source is a 0-1 ratio.
  */
 export const PercentDisplay = forwardRef<
   HTMLSpanElement,
@@ -178,7 +181,7 @@ export const PercentDisplay = forwardRef<
 >(function PercentDisplay(
   {
     value,
-    basis = "fraction",
+    basis = "percent",
     decimals = 1,
     locale,
     signed,

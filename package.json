@@ -1,6 +1,6 @@
 {
   "name": "voidframe-ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-radius. Monospace-first.",
   "author": "DaxAvalon",
   "license": "MIT",
@@ -288,6 +288,8 @@
     "d3-time": ">=3.0.0",
     "dompurify": ">=3.2.4",
     "jest-axe": ">=9.0.0",
+    "jsbarcode": ">=3.11.0",
+    "qrcode-generator": ">=1.4.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
     "react-live": ">=4.0.0",
@@ -338,6 +340,12 @@
     },
     "jest-axe": {
       "optional": true
+    },
+    "jsbarcode": {
+      "optional": true
+    },
+    "qrcode-generator": {
+      "optional": true
     }
   },
   "devDependencies": {
@@ -381,7 +389,9 @@
     "eslint": "^8.57.0",
     "happy-dom": "^20.9.0",
     "jest-axe": "^9.0.0",
+    "jsbarcode": "^3.11.6",
     "jscodeshift": "^0.15.2",
+    "qrcode-generator": "^1.4.4",
     "react": "^18.2.0",
     "react-docgen-typescript": "^2.2.2",
     "react-dom": "^18.2.0",

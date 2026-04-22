@@ -2,21 +2,35 @@
 
 // Phase 13 — Encoding: QRCode + Barcode.
 //
-// Both components support a "renderMatrix" / "renderBars" escape hatch
-// that accepts pre-computed binary output. For real QR or barcode
-// encoding you bring your own peer dep (e.g. `qrcode-generator`,
-// `jsbarcode`) and pipe its output in. When no matrix is provided, the
-// components render a deterministic placeholder pattern derived from
-// the `value` so layouts are still testable and visible in the demo.
+// Both components produce real, scannable output when the matching
+// optional peer dependency is installed:
+//
+//   QRCode   → `qrcode-generator`
+//   Barcode  → `jsbarcode`
+//
+// The peer is loaded lazily on first render via the shared `loadPeer`
+// helper. Until it resolves (and forever if it's missing), the
+// component renders a clearly-labelled PLACEHOLDER pattern so layouts
+// are testable in Storybook-style previews without needing the peer
+// installed. The placeholder is NOT scannable — do not ship it.
+//
+// Consumers can still provide a pre-computed `matrix` (QR) or `pattern`
+// (Barcode) to bypass both the peer load and the placeholder entirely.
 
 import {
   forwardRef,
+  useEffect,
   useMemo,
+  useRef,
+  useState,
   type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { loadPeer, MissingPeerDependencyError } from "../charts/peer";
+
+// ── QRCode ─────────────────────────────────────────────────
 
 export type QRErrorCorrection = "L" | "M" | "Q" | "H";
 
@@ -24,15 +38,22 @@ export interface QRCodeProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
   size?: number;
   ecc?: QRErrorCorrection;
-  /** Provide a NxN boolean matrix. Takes precedence over placeholder. */
+  /**
+   * Provide a pre-computed NxN boolean matrix to bypass both the
+   * peer-dep encoder and the placeholder. Takes precedence when set.
+   */
   matrix?: boolean[][];
   /** Optional logo overlay (rendered centered, 20% size). */
   logo?: ReactNode;
 }
 
 /**
- * Renders a QR code SVG from a string. Configurable error-correction level
- * and cell size.
+ * Renders a scannable QR code SVG from a string.
+ *
+ * Requires the optional peer dependency `qrcode-generator` to produce
+ * real output. When the peer is missing OR still loading, the
+ * component renders a clearly-labelled placeholder. Bypass both by
+ * passing a pre-computed `matrix` prop.
  */
 export const QRCode = forwardRef<HTMLDivElement, QRCodeProps>(function QRCode(
   {
@@ -51,10 +72,56 @@ export const QRCode = forwardRef<HTMLDivElement, QRCodeProps>(function QRCode(
   // would flip the scanner's read of the encoded bits. These are hardcoded.
   const foreground = "#000000";
   const background = "#ffffff";
+
+  // Peer-loaded matrix state. Null means "not attempted yet or peer
+  // missing" — use the placeholder path.
+  const [computed, setComputed] = useState<boolean[][] | null>(null);
+  const [peerMissing, setPeerMissing] = useState(false);
+
+  useEffect(() => {
+    if (matrix) return; // consumer-supplied, skip peer load
+    let active = true;
+    loadPeer("qrcode-generator", "<QRCode>", () => import("qrcode-generator"))
+      .then((mod) => {
+        if (!active) return;
+        // qrcode-generator's default export is `qrcode(typeNumber, ecc)`.
+        const qrcode = (mod as { default: unknown }).default as (
+          typeNumber: number,
+          errorCorrectionLevel: string
+        ) => {
+          addData(data: string): void;
+          make(): void;
+          getModuleCount(): number;
+          isDark(row: number, col: number): boolean;
+        };
+        const qr = qrcode(0, ecc); // 0 = auto-detect best version
+        qr.addData(value);
+        qr.make();
+        const n = qr.getModuleCount();
+        const g: boolean[][] = [];
+        for (let r = 0; r < n; r++) {
+          const row: boolean[] = [];
+          for (let c = 0; c < n; c++) row.push(qr.isDark(r, c));
+          g.push(row);
+        }
+        setComputed(g);
+        setPeerMissing(false);
+      })
+      .catch((err) => {
+        if (!active) return;
+        if (err instanceof MissingPeerDependencyError) setPeerMissing(true);
+        setComputed(null);
+      });
+    return () => {
+      active = false;
+    };
+  }, [matrix, value, ecc]);
+
   const grid = useMemo(
-    () => matrix ?? placeholderMatrix(value, 25),
-    [matrix, value]
+    () => matrix ?? computed ?? placeholderMatrix(value, 25),
+    [matrix, computed, value]
   );
+  const isPlaceholder = !matrix && !computed;
   const dim = grid.length;
   const cell = Math.max(2, Math.floor(size / dim));
   const total = cell * dim;
@@ -74,7 +141,8 @@ export const QRCode = forwardRef<HTMLDivElement, QRCodeProps>(function QRCode(
       role="img"
       aria-label={`QR code encoding ${value}`}
       data-ecc={ecc}
-      className={cx("vf-qrcode", className)}
+      data-placeholder={isPlaceholder || undefined}
+      className={cx("vf-qrcode", isPlaceholder && "vf-qrcode--placeholder", className)}
       style={composed}
       {...props}
     >
@@ -84,7 +152,39 @@ export const QRCode = forwardRef<HTMLDivElement, QRCodeProps>(function QRCode(
           style={{ background: on ? foreground : background }}
         />
       ))}
-      {logo && (
+      {isPlaceholder && (
+        <div
+          className="vf-qrcode__placeholder-label"
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            pointerEvents: "none",
+          }}
+        >
+          <span
+            style={{
+              background: "#ffffff",
+              color: "#000000",
+              padding: "4px 8px",
+              fontFamily: "monospace",
+              fontSize: Math.max(9, Math.floor(size / 16)),
+              fontWeight: 700,
+              border: "1px solid #000",
+              letterSpacing: 1,
+              textAlign: "center",
+              lineHeight: 1.2,
+            }}
+          >
+            PLACEHOLDER
+            <br />
+            {peerMissing ? "install qrcode-generator" : "loading…"}
+          </span>
+        </div>
+      )}
+      {logo && !isPlaceholder && (
         <div
           className="vf-qrcode__logo"
           style={{
@@ -106,7 +206,8 @@ QRCode.displayName = "QRCode";
 
 function placeholderMatrix(input: string, size: number): boolean[][] {
   // Fast hash → deterministic pseudo-QR for layout/preview. NOT a valid
-  // QR code.
+  // QR code. Only used when the peer is missing AND no matrix prop was
+  // passed. The "PLACEHOLDER" overlay makes this visually unambiguous.
   let seed = 0x811c9dc5;
   for (let i = 0; i < input.length; i++) {
     seed ^= input.charCodeAt(i);
@@ -156,6 +257,17 @@ export type BarcodeFormat =
   | "itf"
   | "custom";
 
+// jsbarcode accepts format strings in uppercase plus variants. This map
+// normalises our canonical lowercase prop to what the peer expects.
+const JSBARCODE_FORMATS: Record<Exclude<BarcodeFormat, "custom">, string> = {
+  code128: "CODE128",
+  code39: "CODE39",
+  ean13: "EAN13",
+  ean8: "EAN8",
+  upc: "UPC",
+  itf: "ITF",
+};
+
 export interface BarcodeProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
   format?: BarcodeFormat;
@@ -164,16 +276,21 @@ export interface BarcodeProps extends HTMLAttributes<HTMLDivElement> {
   /** Pixel width per "unit" bar. Default 2. */
   barWidth?: number;
   /**
-   * Pre-computed binary bar pattern (1 = bar, 0 = gap). When omitted, a
-   * deterministic placeholder pattern derived from `value` is used.
+   * Pre-computed binary bar pattern (1 = bar, 0 = gap). Bypasses both
+   * the peer-dep encoder and the placeholder. Takes precedence when
+   * set.
    */
   pattern?: number[];
   showText?: boolean;
 }
 
 /**
- * Renders a 1D barcode (CODE128 / EAN) from a value. Purely visual — use a
- * dedicated library for decoding.
+ * Renders a scannable 1D barcode from a value.
+ *
+ * Requires the optional peer dependency `jsbarcode` to produce real
+ * output. When the peer is missing OR still loading, the component
+ * renders a clearly-labelled placeholder pattern. Bypass both by
+ * passing a pre-computed `pattern` prop (1 = bar, 0 = gap).
  */
 export const Barcode = forwardRef<HTMLDivElement, BarcodeProps>(function Barcode(
   {
@@ -194,41 +311,137 @@ export const Barcode = forwardRef<HTMLDivElement, BarcodeProps>(function Barcode
   // gaps as bars and vice-versa.
   const foreground = "#000000";
   const background = "#ffffff";
-  const bars = useMemo(() => pattern ?? placeholderBars(value), [pattern, value]);
+
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const [peerRendered, setPeerRendered] = useState(false);
+  const [peerMissing, setPeerMissing] = useState(false);
+
+  useEffect(() => {
+    if (pattern) return; // consumer-supplied, skip peer load
+    if (format === "custom") return; // no jsbarcode format mapping; placeholder path
+    const svgEl = svgRef.current;
+    if (!svgEl) return;
+    let active = true;
+    loadPeer("jsbarcode", "<Barcode>", () => import("jsbarcode"))
+      .then((mod) => {
+        if (!active || !svgRef.current) return;
+        const JsBarcode = (mod as { default: unknown }).default as (
+          element: SVGSVGElement,
+          data: string,
+          options?: Record<string, unknown>
+        ) => void;
+        try {
+          JsBarcode(svgRef.current, value, {
+            format: JSBARCODE_FORMATS[format],
+            height,
+            width: barWidth,
+            displayValue: showText,
+            background,
+            lineColor: foreground,
+            margin: 0,
+          });
+          setPeerRendered(true);
+          setPeerMissing(false);
+        } catch {
+          // jsbarcode throws on invalid value-for-format (e.g. EAN13
+          // requires 12-13 digits). Fall back to placeholder pattern.
+          setPeerRendered(false);
+        }
+      })
+      .catch((err) => {
+        if (!active) return;
+        if (err instanceof MissingPeerDependencyError) setPeerMissing(true);
+        setPeerRendered(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [pattern, value, format, height, barWidth, showText]);
+
+  // If peer rendered, the svg IS the barcode — no fallback overlay.
+  // Otherwise: render fallback placeholder + label.
+  const bars = useMemo(
+    () => pattern ?? placeholderBars(value),
+    [pattern, value]
+  );
   const total = bars.length * barWidth;
+  const isPlaceholder = !pattern && !peerRendered;
+
   return (
     <div
       ref={ref}
       role="img"
       aria-label={`Barcode (${format}) encoding ${value}`}
       data-format={format}
-      className={cx("vf-barcode", className)}
-      style={{ background, display: "inline-flex", flexDirection: "column", ...style }}
+      data-placeholder={isPlaceholder || undefined}
+      className={cx("vf-barcode", isPlaceholder && "vf-barcode--placeholder", className)}
+      style={{
+        background,
+        display: "inline-flex",
+        flexDirection: "column",
+        position: "relative",
+        ...style,
+      }}
       {...props}
     >
-      <div
-        style={{
-          display: "flex",
-          width: total,
-          height,
-          background,
-        }}
-      >
-        {bars.map((bit, i) => (
-          <span
-            key={i}
+      {/* jsbarcode target — always rendered so the ref is stable, but
+          hidden when falling back to placeholder. */}
+      <svg
+        ref={svgRef}
+        aria-hidden="true"
+        style={{ display: peerRendered && !pattern ? "block" : "none" }}
+      />
+      {!peerRendered || pattern ? (
+        <>
+          <div
             style={{
-              display: "inline-block",
-              width: barWidth,
-              height: "100%",
-              background: bit ? foreground : background,
+              display: "flex",
+              width: total,
+              height,
+              background,
             }}
-          />
-        ))}
-      </div>
-      {showText && (
-        <span className="vf-barcode__text">{value}</span>
-      )}
+          >
+            {bars.map((bit, i) => (
+              <span
+                key={i}
+                style={{
+                  display: "inline-block",
+                  width: barWidth,
+                  height: "100%",
+                  background: bit ? foreground : background,
+                }}
+              />
+            ))}
+          </div>
+          {showText && <span className="vf-barcode__text">{value}</span>}
+          {isPlaceholder && (
+            <div
+              className="vf-barcode__placeholder-label"
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                background: "#ffffff",
+                color: "#000000",
+                padding: "4px 8px",
+                fontFamily: "monospace",
+                fontSize: 11,
+                fontWeight: 700,
+                border: "1px solid #000",
+                letterSpacing: 1,
+                pointerEvents: "none",
+                textAlign: "center",
+                lineHeight: 1.2,
+              }}
+            >
+              PLACEHOLDER
+              <br />
+              {peerMissing ? "install jsbarcode" : "loading…"}
+            </div>
+          )}
+        </>
+      ) : null}
     </div>
   );
 });

@@ -5,18 +5,95 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
-### Documentation
+_Nothing yet._
 
-- README "Subpath imports" section now explains when to reach for a
-  subpath vs the root. Bundler consumers (Vite, Webpack, Next.js,
-  Remix, …) should keep using `voidframe-ui` — bundlers tree-shake.
-  Bundler-free consumers (raw Node scripts, Deno, Bun without a
-  bundler, `node --input-type=module`, esm.sh, unpkg) should import
-  from the category subpath (`voidframe-ui/core`, `.../forms`, etc.)
-  because the root bundle statically references every optional peer's
-  chunk; without tree-shaking, Node's ESM loader fails to resolve
-  `dompurify` / `d3-*` / `react-live` at load time unless those
-  optional peers are installed.
+## [1.0.1] - 2026-04-22
+
+First patch release. Fixes four user-reported bugs from the first day
+on npm, plus two docs-only rough edges discovered along the way.
+
+### Fixed
+
+- **Tabs render unstyled.** The component emitted six CSS classes
+  (`__list`, `__trigger`, `__trigger--active`, `__panel`, `--horizontal`,
+  `--vertical`) but `src/css/components/interactive.css` only defined
+  a rule for the root container, so the tab strip had no border, no
+  active indicator, and no padding. Added the missing selectors with
+  the library's canonical brutalist vocabulary (1px borders, token-
+  driven `text-transform` / `letter-spacing`, accent-color active bar,
+  horizontal + vertical orientation). Affects every Tabs consumer.
+  (#3)
+- **QR codes are now actually scannable.** `<QRCode>` previously
+  shipped a deterministic hash-to-pattern placeholder that looked
+  like a QR code but encoded nothing. The component now lazy-loads
+  the new optional peer dependency `qrcode-generator` on first
+  render and produces a real scannable SVG. When the peer is
+  missing, the component renders a clearly-labelled
+  **PLACEHOLDER / install qrcode-generator** overlay so the
+  fallback can't be shipped to production by accident. Consumers
+  can still bypass both paths by passing a pre-computed `matrix`
+  prop. (#1)
+- **Barcodes are now actually scannable.** Same shape as QR:
+  `<Barcode>` lazy-loads the new optional peer dependency `jsbarcode`
+  and renders a real scannable SVG in CODE128 / CODE39 / EAN13 / EAN8
+  / UPC / ITF. When the peer is missing, falls back to a clearly-
+  labelled **PLACEHOLDER / install jsbarcode** overlay. `pattern`
+  prop still bypasses both. (#2)
+- **`<PercentDisplay value={50} />` returned `"5,000%"`.** The
+  default `basis` was `"fraction"`, interpreting `50` as "50.0× of
+  the whole" → `5,000%`. The intuitive default is now `"percent"`
+  (value is already 0–100), so `value={50}` renders `"50%"`. The
+  `basis="fraction"` mode is still available for 0–1 ratio inputs.
+  **Breaking semantic change** for any 1.0.0 consumer who relied on
+  the fraction default; justified by the ~0-hour shelf life of 1.0.0.
+  (#4)
+
+### Docs
+
+- **DashboardGrid playground now demonstrates drag + resize.** The
+  previous snippet rendered a static four-card grid because it
+  didn't wire `onLayoutChange` — the library's defensive "drag is
+  a no-op without a state updater" path silently disabled
+  interactivity. Rewritten as a stateful function component that
+  passes `onLayoutChange={setItems}` and enables `resizable`, so
+  the docs reader sees the intended behavior.
+- **AudioPlayer and VideoPlayer playground URLs retargeted.** Both
+  previously pointed at W3Schools hotlinked assets that return
+  inconsistently across hosts and don't support Safari for `.ogg`.
+  Swapped to Google's CodeSkulptor demo bucket
+  (`commondatastorage.googleapis.com`) and the Big Buck Bunny GTV
+  sample — both universally-playable formats, hotlink-friendly,
+  stable for a decade.
+- **README "Subpath imports" section** now explains when to reach
+  for a subpath vs the root. Bundler consumers (Vite, Webpack,
+  Next.js, Remix, …) should keep using `voidframe-ui` — bundlers
+  tree-shake. Bundler-free consumers (raw Node scripts, Deno, Bun
+  without a bundler, `node --input-type=module`, esm.sh, unpkg)
+  should import from the category subpath (`voidframe-ui/core`,
+  `.../forms`, etc.) because the root bundle statically references
+  every optional peer's chunk; without tree-shaking, Node's ESM
+  loader fails to resolve `dompurify` / `d3-*` / `react-live` at
+  load time unless those optional peers are installed.
+
+### Added
+
+- `.markdownlint.json` — `MD024` relaxed to `siblings_only: true` so
+  the keepachangelog pattern of repeated `### Added` / `### Fixed` /
+  `### Docs` under different version headings stops tripping. Also
+  disabled `MD013` (line length), `MD033` (inline HTML), and `MD041`
+  (first-line H1 requirement) to match the repo's existing prose
+  style.
+
+### Optional peer dependencies added
+
+- `qrcode-generator >= 1.4.0` — required for real `<QRCode>` output.
+- `jsbarcode >= 3.11.0` — required for real `<Barcode>` output.
+
+Both are marked `optional: true` in `peerDependenciesMeta`, so
+consumers who don't use `<QRCode>` or `<Barcode>` don't need to
+install them. Consumers who DO use those components but skip
+installing the peer will see the PLACEHOLDER overlay at runtime,
+matching the existing BYO-peer pattern used by the chart suite.
 
 ## [1.0.0] - 2026-04-21
 
