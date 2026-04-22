@@ -2,6 +2,8 @@
   "name": "voidframe-ui",
   "version": "1.0.0",
   "description": "Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-radius. Monospace-first.",
+  "author": "DaxAvalon",
+  "license": "MIT",
   "homepage": "https://daxavalon.github.io/voidframe-ui",
   "bugs": {
     "url": "https://github.com/DaxAvalon/voidframe-ui/issues"
@@ -403,7 +405,6 @@
     "components",
     "design-system"
   ],
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DaxAvalon/voidframe-ui.git"
