@@ -1,0 +1,75 @@
+name: Deploy docs to GitHub Pages
+
+on:
+  # Auto-deploy on every push to main so the published docs stay in sync
+  # with the default branch. The workflow is idempotent — re-running
+  # against the same commit just re-uploads the same artifact.
+  push:
+    branches: [main]
+
+  # Re-deploy on every release so tagged versions have fresh docs.
+  release:
+    types: [published]
+
+  # Manual trigger, e.g. to redeploy after a Pages settings change.
+  workflow_dispatch:
+
+# Pages deploy uses GitHub's OIDC token + Pages-specific permissions.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deploy at a time. Later pushes skip the queue until
+# the current deploy finishes; cancel-in-progress=false keeps the
+# running deploy intact (don't interrupt mid-deploy).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-fund
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build docs
+        env:
+          # Pages serves this repo at https://daxavalon.github.io/voidframe-ui/.
+          # docs/vite.config.ts reads this env var to prefix every emitted
+          # asset path with the subpath.
+          DOCS_BASE_PATH: /voidframe-ui/
+        run: npm run docs:build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist-docs
+
+  deploy:
+    name: Deploy to Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

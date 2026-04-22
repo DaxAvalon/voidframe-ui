@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-docs/
 coverage/
 
 # VS Code extension bundles are build artifacts, produced by
