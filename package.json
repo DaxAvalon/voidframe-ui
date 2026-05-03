@@ -11,20 +11,20 @@
   "type": "module",
   "main": "dist/voidframe.cjs.js",
   "module": "dist/voidframe.es.js",
-  "types": "dist/types/voidframe.d.ts",
+  "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/voidframe.d.ts",
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/voidframe.es.js",
       "require": "./dist/voidframe.cjs.js"
     },
     "./charts": {
-      "types": "./dist/types/charts.d.ts",
+      "types": "./dist/types/charts/index.d.ts",
       "import": "./dist/charts.es.js",
       "require": "./dist/charts.cjs.js"
     },
     "./dev": {
-      "types": "./dist/types/dev.d.ts",
+      "types": "./dist/types/dev/index.d.ts",
       "import": "./dist/dev.es.js",
       "require": "./dist/dev.cjs.js"
     },
@@ -35,87 +35,87 @@
       "require": "./dist/tokens.cjs.js"
     },
     "./testing": {
-      "types": "./dist/types/testing.d.ts",
+      "types": "./dist/types/testing/index.d.ts",
       "import": "./dist/testing.es.js",
       "require": "./dist/testing.cjs.js"
     },
     "./primitives": {
-      "types": "./dist/types/primitives.d.ts",
+      "types": "./dist/types/subpaths/primitives.d.ts",
       "import": "./dist/primitives.es.js",
       "require": "./dist/primitives.cjs.js"
     },
     "./core": {
-      "types": "./dist/types/core.d.ts",
+      "types": "./dist/types/subpaths/core.d.ts",
       "import": "./dist/core.es.js",
       "require": "./dist/core.cjs.js"
     },
     "./layout": {
-      "types": "./dist/types/layout.d.ts",
+      "types": "./dist/types/subpaths/layout.d.ts",
       "import": "./dist/layout.es.js",
       "require": "./dist/layout.cjs.js"
     },
     "./navigation": {
-      "types": "./dist/types/navigation.d.ts",
+      "types": "./dist/types/subpaths/navigation.d.ts",
       "import": "./dist/navigation.es.js",
       "require": "./dist/navigation.cjs.js"
     },
     "./forms": {
-      "types": "./dist/types/forms.d.ts",
+      "types": "./dist/types/subpaths/forms.d.ts",
       "import": "./dist/forms.es.js",
       "require": "./dist/forms.cjs.js"
     },
     "./data": {
-      "types": "./dist/types/data.d.ts",
+      "types": "./dist/types/subpaths/data.d.ts",
       "import": "./dist/data.es.js",
       "require": "./dist/data.cjs.js"
     },
     "./activity": {
-      "types": "./dist/types/activity.d.ts",
+      "types": "./dist/types/subpaths/activity.d.ts",
       "import": "./dist/activity.es.js",
       "require": "./dist/activity.cjs.js"
     },
     "./overlays": {
-      "types": "./dist/types/overlays.d.ts",
+      "types": "./dist/types/subpaths/overlays.d.ts",
       "import": "./dist/overlays.es.js",
       "require": "./dist/overlays.cjs.js"
     },
     "./media": {
-      "types": "./dist/types/media.d.ts",
+      "types": "./dist/types/subpaths/media.d.ts",
       "import": "./dist/media.es.js",
       "require": "./dist/media.cjs.js"
     },
     "./animation": {
-      "types": "./dist/types/animation.d.ts",
+      "types": "./dist/types/subpaths/animation.d.ts",
       "import": "./dist/animation.es.js",
       "require": "./dist/animation.cjs.js"
     },
     "./icons": {
-      "types": "./dist/types/icons.d.ts",
+      "types": "./dist/types/subpaths/icons.d.ts",
       "import": "./dist/icons.es.js",
       "require": "./dist/icons.cjs.js"
     },
     "./chat": {
-      "types": "./dist/types/chat.d.ts",
+      "types": "./dist/types/subpaths/chat.d.ts",
       "import": "./dist/chat.es.js",
       "require": "./dist/chat.cjs.js"
     },
     "./specialty": {
-      "types": "./dist/types/specialty.d.ts",
+      "types": "./dist/types/subpaths/specialty.d.ts",
       "import": "./dist/specialty.es.js",
       "require": "./dist/specialty.cjs.js"
     },
     "./interactive": {
-      "types": "./dist/types/interactive.d.ts",
+      "types": "./dist/types/subpaths/interactive.d.ts",
       "import": "./dist/interactive.es.js",
       "require": "./dist/interactive.cjs.js"
     },
     "./reactflow": {
-      "types": "./dist/types/reactflow.d.ts",
+      "types": "./dist/types/subpaths/reactflow.d.ts",
       "import": "./dist/reactflow.es.js",
       "require": "./dist/reactflow.cjs.js"
     },
     "./compat-shadcn": {
-      "types": "./dist/types/compat-shadcn.d.ts",
+      "types": "./dist/types/subpaths/compat-shadcn.d.ts",
       "import": "./dist/compat-shadcn.es.js",
       "require": "./dist/compat-shadcn.cjs.js"
     },

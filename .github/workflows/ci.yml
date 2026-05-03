@@ -64,10 +64,23 @@ jobs:
 
       - name: Verify dist
         run: |
-          test -f dist/voidframe.es.js  || { echo "Missing voidframe.es.js"; exit 1; }
-          test -f dist/charts.es.js     || { echo "Missing charts.es.js"; exit 1; }
-          test -f dist/dev.es.js        || { echo "Missing dev.es.js"; exit 1; }
-          test -f dist/voidframe.css    || { echo "Missing voidframe.css"; exit 1; }
+          ENTRIES="voidframe charts dev tokens testing primitives core layout navigation forms data activity overlays media animation icons chat specialty interactive reactflow compat-shadcn"
+          FAIL=0
+          for name in $ENTRIES; do
+            for ext in es.js cjs.js; do
+              test -f "dist/${name}.${ext}" || { echo "MISSING dist/${name}.${ext}"; FAIL=1; }
+            done
+          done
+          test -f "dist/types/index.d.ts" || { echo "MISSING dist/types/index.d.ts"; FAIL=1; }
+          test -f "dist/types/charts/index.d.ts" || { echo "MISSING dist/types/charts/index.d.ts"; FAIL=1; }
+          test -f "dist/types/dev/index.d.ts" || { echo "MISSING dist/types/dev/index.d.ts"; FAIL=1; }
+          test -f "dist/types/tokens.d.ts" || { echo "MISSING dist/types/tokens.d.ts"; FAIL=1; }
+          test -f "dist/types/testing/index.d.ts" || { echo "MISSING dist/types/testing/index.d.ts"; FAIL=1; }
+          for name in primitives core layout navigation forms data activity overlays media animation icons chat specialty interactive reactflow compat-shadcn; do
+            test -f "dist/types/subpaths/${name}.d.ts" || { echo "MISSING dist/types/subpaths/${name}.d.ts"; FAIL=1; }
+          done
+          test -f dist/voidframe.css || { echo "MISSING dist/voidframe.css"; FAIL=1; }
+          [ "$FAIL" -eq 0 ] || exit 1
           echo "All dist files present:"
           ls -lh dist/*.es.js dist/*.cjs.js dist/voidframe.css
 

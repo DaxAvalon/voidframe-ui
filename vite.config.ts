@@ -68,7 +68,7 @@ export default defineConfig({
     react(),
     dts({
       outDir: "dist/types",
-      rollupTypes: true,
+      rollupTypes: false,
       tsconfigPath: "./tsconfig.build.json",
     }),
     // Opt-in bundle analyzer. Produces dist/stats.html when ANALYZE=1.
