@@ -131,8 +131,8 @@
   border-bottom: none; border-right: none;
   transform: rotate(45deg);
 }
-.vf-popover-v2__arrow--top { bottom: -5px; left: 50%; margin-left: -4px; transform: rotate(225deg); }
-.vf-popover-v2__arrow--bottom { top: -5px; left: 50%; margin-left: -4px; }
+.vf-popover-v2__arrow--top { bottom: -5px; inset-inline-start: 50%; margin-inline-start: -4px; transform: rotate(225deg); }
+.vf-popover-v2__arrow--bottom { top: -5px; inset-inline-start: 50%; margin-inline-start: -4px; }
 .vf-popover-v2__arrow--left { right: -5px; top: 50%; margin-top: -4px; transform: rotate(135deg); }
 .vf-popover-v2__arrow--right { left: -5px; top: 50%; margin-top: -4px; transform: rotate(-45deg); }
 

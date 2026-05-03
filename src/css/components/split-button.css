@@ -15,8 +15,9 @@
   align-items: center;
   justify-content: center;
   border: 1px solid var(--vf-border-1);
-  border-right: none;
-  border-radius: var(--vf-radius) 0 0 var(--vf-radius);
+  border-inline-end: none;
+  border-start-start-radius: var(--vf-radius);
+  border-end-start-radius: var(--vf-radius);
   background: transparent;
   color: var(--vf-text-3);
   cursor: pointer;
@@ -101,7 +102,7 @@
   color: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 80%, transparent);
 }
 .vf-split-button--subtle .vf-split-button__primary {
-  border-right: none;
+  border-inline-end: none;
 }
 .vf-split-button--subtle .vf-split-button__primary:hover:not([data-disabled="true"]),
 .vf-split-button--subtle .vf-split-button__caret:hover:not([data-disabled="true"]) {
@@ -119,7 +120,7 @@
   color: var(--vf-bg-0);
 }
 .vf-split-button--solid .vf-split-button__primary {
-  border-right: none;
+  border-inline-end: none;
 }
 .vf-split-button--solid .vf-split-button__primary:hover:not([data-disabled="true"]),
 .vf-split-button--solid .vf-split-button__caret:hover:not([data-disabled="true"]) {

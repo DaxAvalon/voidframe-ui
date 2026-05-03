@@ -28,7 +28,7 @@
 .vf-tabs--vertical .vf-tabs__list {
   flex-direction: column;
   border-bottom: none;
-  border-right: 1px solid var(--vf-border-1);
+  border-inline-end: 1px solid var(--vf-border-1);
   min-width: 120px;
 }
 
@@ -105,7 +105,7 @@
   gap: var(--vf-sp-4);
   text-transform: var(--vf-heading-case, uppercase);
   width: 100%;
-  text-align: left;
+  text-align: start;
   outline: none;
 }
 .vf-collapsible__caret {

@@ -301,7 +301,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
           onChange={(e) => setCurrent(Number(e.target.value))}
           {...inputProps}
         />
-        <div className="vf-slider__thumb" style={{ left: `calc(${pct}% - 6px)` }} />
+        <div className="vf-slider__thumb" style={{ insetInlineStart: `calc(${pct}% - 6px)` }} />
       </div>
     </div>
   );

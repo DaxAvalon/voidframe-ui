@@ -101,7 +101,7 @@
   background: var(--vf-accent, var(--vf-green));
   border: 1px solid var(--vf-accent, var(--vf-green));
   pointer-events: none;
-  transition: left 0.05s;
+  transition: inset-inline-start 0.05s;
 }
 
 /* NumberInput */

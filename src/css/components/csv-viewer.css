@@ -75,7 +75,7 @@
 }
 
 .vf-csv-viewer__cell--number {
-  text-align: right;
+  text-align: end;
   font-family: var(--vf-font-mono, monospace);
 }
 
