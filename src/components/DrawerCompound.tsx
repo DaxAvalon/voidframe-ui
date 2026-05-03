@@ -128,10 +128,22 @@ DrawerTrigger.displayName = "DrawerV2Trigger";
 
 export interface DrawerV2ContentProps extends HTMLAttributes<HTMLDivElement> {
   size?: number | string;
+  /**
+   * Override the `side` set on the `<DrawerV2>` root. Useful when a single
+   * drawer instance swaps between sides at runtime (e.g. RTL flip, responsive
+   * reorient). Defaults to the root's `side` when omitted — no behavior
+   * change for existing consumers.
+   */
+  side?: DrawerSide;
   trapFocus?: boolean;
   restoreFocus?: boolean;
   /** Expand to full-width below the `md` breakpoint. Default true. */
   adaptive?: boolean;
+  /**
+   * When true, renders the drawer body in a monospace font — useful for
+   * log-output drawers, prompt dumps, and code diffs. Mirrors `Card.monospace`.
+   */
+  monospace?: boolean;
   onEscape?: (e: KeyboardEvent) => void;
   onInteractOutside?: (e: PointerEvent) => void;
   /** Focus this element when the drawer opens instead of the first focusable child. */
@@ -145,9 +157,11 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
   function DrawerContent(
     {
       size = 360,
+      side: sideOverride,
       trapFocus = true,
       restoreFocus = true,
       adaptive = true,
+      monospace,
       onEscape,
       onInteractOutside,
       initialFocus,
@@ -160,8 +174,9 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
     ref
   ) {
     const ctx = useDrawerCtx();
+    const side = sideOverride ?? ctx.side;
     const dimension =
-      ctx.side === "left" || ctx.side === "right" ? "width" : "height";
+      side === "left" || side === "right" ? "width" : "height";
     const merged: CSSProperties = {
       [dimension]: typeof size === "number" ? `${size}px` : size,
       ...style,
@@ -185,7 +200,7 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
     }, [finalFocus]);
 
     const inner = (
-      <div className={cx("vf-drawer-v2", `vf-drawer-v2--${ctx.side}`)}>
+      <div className={cx("vf-drawer-v2", `vf-drawer-v2--${side}`)}>
         <ScrollLock enabled={ctx.open && ctx.modal} />
         {ctx.modal && (
           // Backdrop is decorative; dismissal routes through
@@ -214,8 +229,9 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
             aria-labelledby={ctx.titleId}
             className={cx(
               "vf-drawer-v2__panel",
-              `vf-drawer-v2__panel--${ctx.side}`,
+              `vf-drawer-v2__panel--${side}`,
               adaptive && "vf-drawer-v2__panel--adaptive",
+              monospace && "vf-drawer-v2__panel--monospace",
               className
             )}
             style={merged}
@@ -279,6 +295,7 @@ function DrawerClose({
     <button
       type="button"
       aria-label="Close"
+      data-testid="vf-drawer-close-button"
       className="vf-drawer-v2__close"
       onClick={handle}
       {...props}
@@ -306,6 +323,20 @@ export const DrawerV2 = Object.assign(DrawerRoot, {
   Footer: DrawerFooter,
   Close: DrawerClose,
 });
+
+// Named re-exports so vite-plugin-dts can resolve subcomponent types
+// when re-exporting through `voidframe-ui/compat-shadcn` and similar
+// downstream subpaths.
+export {
+  DrawerRoot,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerBody,
+  DrawerFooter,
+  DrawerClose,
+};
 
 // ── Sheet (mobile bottom drawer with snap points) ────────────
 

@@ -45,6 +45,27 @@ export interface FieldProps extends HTMLAttributes<HTMLDivElement> {
  * Compound form field wrapper. Auto-wires `htmlFor`, `aria-describedby`,
  * `aria-invalid`, and `aria-required` across its subcomponents via context.
  *
+ * @remarks
+ * **When to use `Field` vs the built-in `label` prop.** Most voidframe form
+ * controls (`Input`, `Textarea`, `Select`, `NumberInput`, `PasswordInput`,
+ * `Combobox`, etc.) accept a `label` prop directly — for single-purpose
+ * cases (just a label, no auxiliary text), that's the cleaner shape:
+ *
+ *     <Input label="Email" value={email} onValueChange={setEmail} />
+ *
+ * Reach for `<Field>` when the field needs auxiliary content (`helpText`,
+ * `errorMessage`, an icon-decorated label, a custom label slot) bundled
+ * into one a11y-correct group:
+ *
+ *     <Field required invalid={!!errors.email}>
+ *       <Field.Label>Email</Field.Label>
+ *       <Field.Control><Input type="email" /></Field.Control>
+ *       <Field.Help>We'll never share it.</Field.Help>
+ *       <Field.Error>{errors.email}</Field.Error>
+ *     </Field>
+ *
+ * Both shapes are first-class; pick by which reads shorter at the call site.
+ *
  * @example
  * <Field required>
  *   <Field.Label>Email</Field.Label>

@@ -136,9 +136,14 @@ export function deepMerge<T extends Record<string, unknown>>(
  */
 let counter = 0;
 /**
- * Generate a short unique ID (monotonic counter, prefixed). Useful for
- * non-ARIA identifiers where `useId` isn't an option (e.g. module-level
- * caches). Not cryptographically random.
+ * Generate a short unique ID (monotonic counter, prefixed). Intended for
+ * **internal-only** non-rendered identifiers — e.g. module-level cache
+ * keys, dev-warning de-dup keys, transient state lookups. The randomness
+ * comes from `Math.random()` which is **not SSR-safe**; if you place
+ * the result in the DOM, server and client will mismatch on hydration.
+ *
+ * For DOM-rendered identifiers (id, htmlFor, aria-labelledby, list keys
+ * that touch the DOM), use React's `useId()` hook instead.
  *
  * @param prefix Default `"vf"`.
  */

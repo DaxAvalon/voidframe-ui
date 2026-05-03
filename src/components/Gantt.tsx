@@ -8,6 +8,7 @@
 
 import {
   forwardRef,
+  memo,
   useMemo,
   useRef,
   useState,
@@ -16,6 +17,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { addDays } from "../utils/date";
 
 export interface GanttTask {
@@ -76,7 +78,7 @@ function unitsToMs(units: number, g: GanttGranularity): number {
  * A horizontal timeline that renders tasks as bars across a day, week, or month axis.
  * Useful for schedule overviews, project plans, and resource-allocation views.
  */
-export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
+const GanttImpl = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
   {
     tasks,
     start,
@@ -314,6 +316,7 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
               key={task.id}
               role="row"
               className="vf-gantt__row"
+              data-task-id={task.id}
               style={{ display: "contents" }}
             >
               <div role="cell" className="vf-gantt__name">
@@ -325,11 +328,12 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
                 style={{ height: rowHeight, position: "relative" }}
               >
                 {task.milestone ? (
+                  (() => {
+                    const mTa = toneAttrs("vf-gantt__milestone", { tone: task.tone });
+                    return (
                   <svg
-                    className={cx(
-                      "vf-gantt__milestone",
-                      task.tone && `vf-gantt__milestone--${task.tone}`
-                    )}
+                    className={mTa.className}
+                    {...mTa.attrs}
                     style={{
                       position: "absolute",
                       top: 4,
@@ -346,12 +350,15 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
                   >
                     <polygon points="8,0 16,8 8,16 0,8" fill="currentColor" />
                   </svg>
+                    );
+                  })()
                 ) : (
                   <div
                     className={cx(
                       "vf-gantt__bar",
                       task.tone && `vf-gantt__bar--${task.tone}`
                     )}
+                    data-tone={task.tone}
                     style={{
                       position: "absolute",
                       top: 4,
@@ -457,4 +464,12 @@ export const Gantt = forwardRef<HTMLDivElement, GanttProps>(function Gantt(
     </div>
   );
 });
-Gantt.displayName = "Gantt";
+GanttImpl.displayName = "Gantt";
+
+/**
+ * Gantt timeline. Memoized at the export site so parent re-renders
+ * with referentially-stable `tasks` / `start` / `end` skip the
+ * SVG-bar / dependency-line render walk.
+ */
+export const Gantt = memo(GanttImpl);
+(Gantt as unknown as { displayName: string }).displayName = "Gantt";

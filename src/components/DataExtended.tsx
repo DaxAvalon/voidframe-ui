@@ -4,6 +4,7 @@ import { forwardRef, memo, useState } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import type { Side } from "../types";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { deprecatedComponent } from "../utils/deprecate";
 import { Label } from "./Text";
 
@@ -321,14 +322,12 @@ const TimelineItemComponent = forwardRef<HTMLDivElement, TimelineItemProps>(
     { time, icon, tone = "neutral", title, description, children, className, ...props },
     ref
   ) {
+    const ta = toneAttrs("vf-timeline__event", { tone });
     return (
       <div
         ref={ref}
-        className={cx(
-          "vf-timeline__event",
-          `vf-timeline__event--${tone}`,
-          className
-        )}
+        className={cx(ta.className, className)}
+        {...ta.attrs}
         {...props}
       >
         <div className="vf-timeline__dot" aria-hidden="true">
@@ -339,8 +338,11 @@ const TimelineItemComponent = forwardRef<HTMLDivElement, TimelineItemProps>(
             {title && <span className="vf-timeline__title">{title}</span>}
             {time && <Label style={{ flexShrink: 0 }}>{time}</Label>}
           </div>
-          {(description || children) && (
-            <div className="vf-timeline__content">{description ?? children}</div>
+          {description && (
+            <div className="vf-timeline__content">{description}</div>
+          )}
+          {children && (
+            <div className="vf-timeline__expanded">{children}</div>
           )}
         </div>
       </div>
@@ -429,18 +431,57 @@ export interface EmptyStateProps extends HTMLAttributes<HTMLDivElement> {
   title?: string;
   description?: string;
   action?: ReactNode;
+  /**
+   * Visual variant.
+   * - `"decorated"` (default) — renders a default inbox glyph + framed tile
+   *   when no explicit icon / action is supplied, so the no-props case still
+   *   reads as intentional empty-UI instead of centred naked text.
+   * - `"plain"` — skips the default icon + tile; just centres whatever props
+   *   are passed. Use inside pre-styled containers.
+   */
+  variant?: "decorated" | "plain";
   style?: CSSProperties;
 }
+
+const DEFAULT_EMPTY_ICON = (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    aria-hidden="true"
+  >
+    <path d="M3 7h18v13H3z" />
+    <path d="M3 10h5l2 3h4l2-3h5" />
+  </svg>
+);
 
 /**
  * Centred illustration + title + description + optional action. Use when a
  * list/table/view has no data yet.
+ *
+ * When neither `icon` nor `action` is supplied, the `"decorated"` variant
+ * renders a default inbox glyph and a bordered tile so the no-props case
+ * doesn't feel bare. Opt into `variant="plain"` for pre-styled containers.
  */
 export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
-  function EmptyState({ icon, title, description, action, className, style, ...props }, ref) {
+  function EmptyState(
+    { icon, title, description, action, variant = "decorated", className, style, ...props },
+    ref
+  ) {
+    const resolvedIcon =
+      icon ?? (variant === "decorated" && !action ? DEFAULT_EMPTY_ICON : null);
     return (
-      <div ref={ref} className={cx("vf-empty-state", className)} style={style} {...props}>
-        {icon && <div className="vf-empty-state__icon">{icon}</div>}
+      <div
+        ref={ref}
+        className={cx("vf-empty-state", `vf-empty-state--${variant}`, className)}
+        data-variant={variant}
+        style={style}
+        {...props}
+      >
+        {resolvedIcon && <div className="vf-empty-state__icon">{resolvedIcon}</div>}
         {title && <div className="vf-empty-state__title">{title}</div>}
         {description && <div className="vf-empty-state__desc">{description}</div>}
         {action && <div className="vf-empty-state__action">{action}</div>}
@@ -473,7 +514,7 @@ const ListBase = forwardRef<HTMLDivElement, ListProps>(function List(
     <div ref={ref} className={cx("vf-list", className)} style={inline} {...props}>
       {items
         ? items.map((item, i) => (
-            <div key={i} className="vf-list__item">
+            <div key={i} className="vf-list__item" data-item-index={i}>
               {marker !== false && (
                 <span className="vf-list__marker">{marker ?? "●"}</span>
               )}
@@ -489,15 +530,19 @@ ListBase.displayName = "List";
 export interface ListItemProps extends HTMLAttributes<HTMLDivElement> {
   leading?: ReactNode;
   trailing?: ReactNode;
+  /** Semantic tone — mirrors Badge/AlertV2/Card tone vocabulary. */
+  tone?: "neutral" | "info" | "success" | "warning" | "danger";
   children?: ReactNode;
 }
 
 const ListItemComponent = forwardRef<HTMLDivElement, ListItemProps>(
-  function ListItem({ leading, trailing, className, children, ...props }, ref) {
+  function ListItem({ leading, trailing, tone, className, children, ...props }, ref) {
+    const ta = toneAttrs("vf-list__item", { tone });
     return (
       <div
         ref={ref}
-        className={cx("vf-list__item", "vf-list__item--compound", className)}
+        className={cx(ta.className, "vf-list__item--compound", className)}
+        {...ta.attrs}
         {...props}
       >
         {leading && <span className="vf-list__leading">{leading}</span>}
@@ -563,12 +608,12 @@ export interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
-/** @deprecated Use `SpinnerV2` from `voidframe` instead. Will be removed in v1.1. */
+/** @deprecated Use `SpinnerV2` from `voidframe-ui` instead. Will be removed in v1.2. */
 const SpinnerImpl = forwardRef<HTMLDivElement, SpinnerProps>(function Spinner(
   { size = 16, color, className, style, ...props },
   ref
 ) {
-  deprecatedComponent("Spinner", "SpinnerV2", "v1.1");
+  deprecatedComponent("Spinner", "SpinnerV2", "v1.2");
   const composed: CSSProperties = {
     width: size,
     height: size,

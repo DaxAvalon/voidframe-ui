@@ -186,6 +186,16 @@
 .vf-empty-state__action {
   margin-top: var(--vf-sp-7);
 }
+/* Decorated variant: subtle dashed tile so no-props EmptyState reads as
+   intentional empty-UI. Plain variant is just centred content. */
+.vf-empty-state--decorated {
+  border: 1px dashed var(--vf-border-2);
+  background: color-mix(in srgb, var(--vf-bg-3) 40%, transparent);
+  border-radius: var(--vf-radius);
+}
+.vf-empty-state--plain {
+  /* No ornamentation — consumer owns the container styling. */
+}
 
 /* List */
 .vf-list {

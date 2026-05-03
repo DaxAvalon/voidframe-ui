@@ -105,7 +105,7 @@ export type {
 } from "./FormExtended";
 
 // ── Data Display (Core) ─────────────────────────────────────
-export { Table, Stat, Progress } from "./Data";
+export { Table, Stat, Progress, defineColumns } from "./Data";
 export type {
   TableProps,
   TableColumn,
@@ -396,6 +396,7 @@ export {
 } from "./CommandPalette";
 export type {
   CommandPaletteProps,
+  CommandPaletteFilter,
   CommandPaletteInputProps,
   CommandPaletteGroupProps,
   CommandPaletteItemProps,
@@ -527,6 +528,7 @@ export type {
 
 export {
   CodeBlock,
+  CodeContextView,
   JSONViewer,
   DiffViewer,
   LogViewer,
@@ -536,6 +538,7 @@ export {
 } from "./Viewers";
 export type {
   CodeBlockProps,
+  CodeContextViewProps,
   JSONViewerProps,
   DiffViewerProps,
   LogViewerProps,
@@ -941,6 +944,7 @@ export type {
 export {
   ModelSelector,
   ModelPicker,
+  toModelPickerOptions,
   SystemPromptEditor,
   TokenCounter as ChatTokenCounter,
   ContextWindow,
@@ -1165,6 +1169,8 @@ export { ToggleGroup } from "./ToggleGroup";
 export type { ToggleGroupProps, ToggleGroupItem } from "./ToggleGroup";
 export { Anchor } from "./Anchor";
 export type { AnchorProps, AnchorItem } from "./Anchor";
+export { Link } from "./Link";
+export type { LinkProps, LinkVariant, LinkTone } from "./Link";
 export { Cascader } from "./Cascader";
 export type { CascaderProps, CascaderOption } from "./Cascader";
 export { HorizontalTimeline } from "./HorizontalTimeline";

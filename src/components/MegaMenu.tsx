@@ -20,6 +20,7 @@ import {
 } from "react";
 import { useClickOutside, useId } from "../hooks";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 
 interface MegaMenuContextValue {
   open: boolean;
@@ -181,16 +182,20 @@ function MegaMenuSection({
 
 export interface MegaMenuLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   description?: ReactNode;
+  /** Semantic tone — destructive / warning / success mega-menu entries. */
+  tone?: "neutral" | "danger" | "warning" | "success";
 }
 
 const MegaMenuLink = forwardRef<HTMLAnchorElement, MegaMenuLinkProps>(
-  function MegaMenuLink({ description, className, children, ...props }, ref) {
+  function MegaMenuLink({ description, tone, className, children, ...props }, ref) {
+    const ta = toneAttrs("vf-megamenu__link", { tone });
     return (
       <li className="vf-megamenu__link-item">
         <a
           ref={ref}
           role="menuitem"
-          className={cx("vf-megamenu__link", className)}
+          className={cx(ta.className, className)}
+          {...ta.attrs}
           {...props}
         >
           <span className="vf-megamenu__link-label">{children}</span>

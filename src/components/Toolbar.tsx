@@ -22,6 +22,7 @@ import {
 } from "react";
 import { useMergedRefs } from "../hooks/useMergedRefs";
 import { cx } from "../utils/cx";
+import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
 
 export type ToolbarOrientation = "horizontal" | "vertical";
 
@@ -84,7 +85,7 @@ export interface ToolbarButtonProps extends ButtonHTMLAttributes<HTMLButtonEleme
 }
 
 const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
-  function ToolbarButton({ className, pressed, ...props }, ref) {
+  function ToolbarButton({ className, pressed, disabled, ...props }, ref) {
     return (
       <button
         ref={ref}
@@ -95,6 +96,7 @@ const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
           pressed && "vf-toolbar__button--pressed",
           className
         )}
+        {...buttonDisabledAttrs(disabled)}
         {...props}
       />
     );
@@ -186,7 +188,7 @@ export interface ToolbarToggleItemProps extends ButtonHTMLAttributes<HTMLButtonE
 }
 
 const ToolbarToggleItem = forwardRef<HTMLButtonElement, ToolbarToggleItemProps>(
-  function ToolbarToggleItem({ value, className, children, ...props }, ref) {
+  function ToolbarToggleItem({ value, className, children, disabled, ...props }, ref) {
     const ctx = useContext(ToolbarToggleContext);
     if (!ctx) throw new Error("Toolbar.ToggleItem must be inside Toolbar.ToggleGroup");
     const pressed =
@@ -202,6 +204,7 @@ const ToolbarToggleItem = forwardRef<HTMLButtonElement, ToolbarToggleItemProps>(
           className
         )}
         onClick={() => ctx.toggle(value)}
+        {...buttonDisabledAttrs(disabled)}
         {...props}
       >
         {children}

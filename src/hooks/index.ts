@@ -492,3 +492,8 @@ export { usePreferredLanguage } from "./usePreferredLanguage";
 export type { PreferredLanguage } from "./usePreferredLanguage";
 export { useAbortController } from "./useAbortController";
 export type { UseAbortControllerReturn } from "./useAbortController";
+
+// Standardization helpers (Phase A/B buckets).
+export { useDisclosure } from "./useDisclosure";
+export type { UseDisclosureOptions, DisclosureState } from "./useDisclosure";
+export { resolveItemKey, itemKeyAttrs, type ItemKey } from "./useItemKey";

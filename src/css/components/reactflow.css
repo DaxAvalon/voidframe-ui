@@ -1,0 +1,88 @@
+/* ─────────────────────────────────────────────────────────────────
+ * voidframe-ui — reactflow.css
+ *
+ * Scoped overrides for `@xyflow/react`. Activated only inside elements
+ * carrying `[data-vf-reactflow]` so consumers who don't use the wrapper
+ * pay zero cost. All selectors target official ReactFlow class names
+ * (`.react-flow__controls`, `.react-flow__minimap`, etc.).
+ *
+ * No `!important` — the wrapper's CSS-variable bridge is sufficient.
+ * ───────────────────────────────────────────────────────────────── */
+
+[data-vf-reactflow] .react-flow__controls {
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-3);
+  border-radius: var(--vf-radius-1);
+  box-shadow: var(--vf-shadow-md);
+}
+[data-vf-reactflow] .react-flow__controls-button {
+  background: transparent;
+  border-bottom: 1px solid var(--vf-border-3);
+  color: var(--vf-text-0);
+  fill: var(--vf-text-0);
+}
+[data-vf-reactflow] .react-flow__controls-button:hover {
+  background: color-mix(in srgb, var(--vf-accent) 12%, transparent);
+}
+[data-vf-reactflow] .react-flow__controls-button:last-child {
+  border-bottom: 0;
+}
+
+[data-vf-reactflow] .react-flow__minimap {
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-3);
+  border-radius: var(--vf-radius-1);
+}
+[data-vf-reactflow] .react-flow__minimap-mask {
+  fill: color-mix(in srgb, var(--vf-bg-0) 60%, transparent);
+}
+[data-vf-reactflow] .react-flow__minimap-node {
+  fill: var(--vf-text-2);
+  stroke: var(--vf-border-3);
+}
+
+[data-vf-reactflow] .react-flow__background {
+  background: var(--vf-bg-1);
+}
+[data-vf-reactflow] .react-flow__background-pattern {
+  color: var(--vf-border-2);
+}
+
+[data-vf-reactflow] .react-flow__handle {
+  background: var(--vf-accent);
+  border: 1px solid var(--vf-bg-0);
+}
+[data-vf-reactflow] .react-flow__handle:hover {
+  background: var(--vf-text-0);
+}
+
+[data-vf-reactflow] .react-flow__edge-path {
+  stroke: var(--vf-border-3);
+  stroke-width: 1.5;
+}
+[data-vf-reactflow] .react-flow__edge.selected .react-flow__edge-path,
+[data-vf-reactflow] .react-flow__edge:focus .react-flow__edge-path {
+  stroke: var(--vf-accent);
+}
+
+[data-vf-reactflow] .react-flow__node {
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-0);
+}
+[data-vf-reactflow] .react-flow__node-default {
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-3);
+  border-radius: var(--vf-radius-1);
+  padding: var(--vf-sp-3) var(--vf-sp-5);
+}
+[data-vf-reactflow] .react-flow__node.selected .react-flow__node-default {
+  border-color: var(--vf-accent);
+  box-shadow: 0 0 0 1px var(--vf-accent);
+}
+
+[data-vf-reactflow] .react-flow__attribution {
+  background: transparent;
+  color: var(--vf-text-2);
+  font-size: var(--vf-font-xs);
+}

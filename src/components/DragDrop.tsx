@@ -21,6 +21,7 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
+import { itemKeyAttrs } from "../hooks/useItemKey";
 import { cx } from "../utils/cx";
 
 export interface DragEndEvent {
@@ -278,8 +279,19 @@ export function Draggable({
 
 export type SortStrategy = "vertical" | "horizontal" | "grid";
 
+/**
+ * Handle props emitted by voidframe's `Sortable`. Typed with `any` as
+ * the element parameter so consumers can spread these onto a `<button>`,
+ * `<span>`, `<div>`, or custom polymorphic component without a type cast.
+ * Narrowing this via a generic would require threading a second type
+ * parameter through `Sortable<T, HandleEl>`, which hurts ergonomics for
+ * a prop whose contents are deliberately a structural open set.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type SortableDragHandleProps = React.HTMLAttributes<any>;
+
 export interface SortableRenderProps {
-  dragHandleProps: React.HTMLAttributes<HTMLElement>;
+  dragHandleProps: SortableDragHandleProps;
   isDragging: boolean;
 }
 
@@ -379,6 +391,7 @@ export function Sortable<T>({
           <div
             key={key}
             role="listitem"
+            {...itemKeyAttrs("item", String(key))}
             className={cx(
               "vf-sortable__item",
               isDragging && "vf-sortable__item--dragging",

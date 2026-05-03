@@ -11,6 +11,7 @@ import { Presence } from "../primitives/Presence";
 import { ScrollLock } from "../primitives/ScrollLock";
 import type { Side, ToastType } from "../types";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { warn } from "../utils/warn";
 import { deprecatedComponent } from "../utils/deprecate";
 import { Button } from "./Button";
@@ -45,7 +46,7 @@ export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
  * Controlled via `open` / `onDismiss` and anchored to `left` or `right`.
  *
  * @deprecated Use `DrawerV2` instead for compound API, all four sides,
- * and scroll-lock. Will be removed in v1.1.
+ * and scroll-lock. Will be removed in v1.2.
  */
 export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
   {
@@ -63,7 +64,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
   },
   ref
 ) {
-  deprecatedComponent("Drawer", "DrawerV2", "v1.1");
+  deprecatedComponent("Drawer", "DrawerV2", "v1.2");
   warn(
     Boolean(
       title ||
@@ -112,6 +113,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
             )}
             <button
               type="button"
+              data-testid="vf-drawer-close-button"
               className="vf-drawer__close"
               onClick={onDismiss}
               aria-label="Close"
@@ -161,13 +163,13 @@ export interface DropdownProps extends HTMLAttributes<HTMLDivElement> {
  * Simple trigger + menu dropdown. For richer composition (submenus,
  * checkbox items, radio groups) use `Menu`.
  *
- * @deprecated Use `Menu` from `voidframe` instead. Will be removed in v1.1.
+ * @deprecated Use `Menu` from `voidframe-ui` instead. Will be removed in v1.2.
  */
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(function Dropdown(
   { trigger, items, align = "left", className, style, ...props },
   ref
 ) {
-  deprecatedComponent("Dropdown", "Menu", "v1.1");
+  deprecatedComponent("Dropdown", "Menu", "v1.2");
   const [open, setOpen] = useState(false);
   const clickOutsideRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
   const mergedRef = useMergedRefs(ref, clickOutsideRef);
@@ -241,13 +243,13 @@ export interface PopoverProps extends HTMLAttributes<HTMLDivElement> {
  * a fixed `position` (top/right/bottom/left).
  *
  * @deprecated Use `PopoverV2` instead for compound API, viewport-flip
- * positioning, and portaled content. Will be removed in v1.1.
+ * positioning, and portaled content. Will be removed in v1.2.
  */
 export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover(
   { trigger, children, on = "click", position = "bottom", width = "240px", className, style, ...props },
   ref
 ) {
-  deprecatedComponent("Popover", "PopoverV2", "v1.1");
+  deprecatedComponent("Popover", "PopoverV2", "v1.2");
   const [show, setShow] = useState(false);
   const clickOutsideRef = useClickOutside<HTMLDivElement>(() => {
     if (on === "click") setShow(false);
@@ -294,24 +296,26 @@ export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
  * `danger`), optional `title`, icon, and dismiss affordance. For transient
  * popups use `Toast`; for blocking confirmation use `Dialog` / `AlertDialog`.
  *
- * @deprecated Use `AlertV2` from `voidframe` instead. Will be removed in v1.1.
+ * @deprecated Use `AlertV2` from `voidframe-ui` instead. Will be removed in v1.2.
  */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   { type = "info", title, children, onDismiss, className, style, ...props },
   ref
 ) {
-  deprecatedComponent("Alert", "AlertV2", "v1.1");
+  deprecatedComponent("Alert", "AlertV2", "v1.2");
   const composedStyle: CSSProperties = {
     ["--vf-alert-color" as never]: ALERT_VAR[type],
     ...style,
   };
   const role = type === "danger" ? "alert" : "status";
+  const ta = toneAttrs("vf-alert", { tone: type });
   return (
     <div
       ref={ref}
       role={role}
-      className={cx("vf-alert", className)}
+      className={cx(ta.className, className)}
       style={composedStyle}
+      {...ta.attrs}
       {...props}
     >
       <div className="vf-alert__row">
@@ -322,6 +326,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
         {onDismiss && (
           <button
             type="button"
+            data-testid="vf-alert-dismiss-button"
             className="vf-alert__dismiss"
             onClick={onDismiss}
             aria-label="Dismiss"
@@ -358,8 +363,8 @@ export interface ConfirmDialogProps extends HTMLAttributes<HTMLDivElement> {
  * buttons; use the paired `useConfirm` hook for an imperative Promise-based
  * flow.
  *
- * @deprecated Use `ConfirmDialogV2` from `voidframe` instead. Will be
- * removed in v1.1.
+ * @deprecated Use `ConfirmDialogV2` from `voidframe-ui` instead. Will be
+ * removed in v1.2.
  */
 export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
   function ConfirmDialog(
@@ -379,7 +384,7 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
     },
     ref
   ) {
-    deprecatedComponent("ConfirmDialog", "ConfirmDialogV2", "v1.1");
+    deprecatedComponent("ConfirmDialog", "ConfirmDialogV2", "v1.2");
     const inner = (
       <DismissableLayer onDismiss={onCancel} className="vf-modal__backdrop">
         <FocusScope

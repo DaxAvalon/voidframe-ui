@@ -6,7 +6,9 @@
 import {
   forwardRef,
   useEffect,
+  useId as useReactId,
   useMemo,
+  useRef,
   useState,
   type HTMLAttributes,
   type KeyboardEvent,
@@ -14,6 +16,7 @@ import {
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { JSONViewer } from "./Viewers";
 
 // ── CommitGraph ─────────────────────────────────────────────
@@ -54,10 +57,10 @@ export const CommitGraph = forwardRef<HTMLDivElement, CommitGraphProps>(
           const isLast = i === commits.length - 1;
           const isActive = activeId === commit.id;
           const interactive = !!onCommitClick;
+          const rowTa = toneAttrs("vf-commit-graph__row", { tone: commit.tone });
           const commonClassName = cx(
-            "vf-commit-graph__row",
-            isActive && "vf-commit-graph__row--active",
-            commit.tone && `vf-commit-graph__row--${commit.tone}`
+            rowTa.className,
+            isActive && "vf-commit-graph__row--active"
           );
           const inner = (
             <>
@@ -101,6 +104,7 @@ export const CommitGraph = forwardRef<HTMLDivElement, CommitGraphProps>(
               role="listitem"
               aria-current={isActive ? "true" : undefined}
               className={commonClassName}
+              {...rowTa.attrs}
               onClick={() => onCommitClick(commit.id)}
             >
               {inner}
@@ -111,6 +115,7 @@ export const CommitGraph = forwardRef<HTMLDivElement, CommitGraphProps>(
               role="listitem"
               aria-current={isActive ? "true" : undefined}
               className={commonClassName}
+              {...rowTa.attrs}
             >
               {inner}
             </div>
@@ -595,6 +600,8 @@ export const KeyValueEditor = forwardRef<HTMLDivElement, KeyValueEditorProps>(
     },
     ref
   ) {
+    const instanceId = useReactId();
+    const counterRef = useRef(0);
     const update = (i: number, patch: Partial<KeyValuePair>) => {
       onValueChange(entries.map((e, idx) => (idx === i ? { ...e, ...patch } : e)));
     };
@@ -602,9 +609,10 @@ export const KeyValueEditor = forwardRef<HTMLDivElement, KeyValueEditorProps>(
       onValueChange(entries.filter((_, idx) => idx !== i));
     };
     const add = () => {
+      counterRef.current += 1;
       onValueChange([
         ...entries,
-        { key: "", value: "", id: `kv-${Date.now().toString(36)}` },
+        { key: "", value: "", id: `kv-${instanceId}-${counterRef.current}` },
       ]);
     };
     return (
@@ -727,8 +735,18 @@ function isGroup(node: QueryRule | QueryGroup): node is QueryGroup {
   return (node as QueryGroup).rules !== undefined;
 }
 
-function nextId(prefix: string): string {
-  return `${prefix}-${Date.now().toString(36)}-${Math.floor(Math.random() * 1000)}`;
+// Returns a stable per-instance ID generator. The prefix combines the
+// React `useId` value (server/client agree) with a per-instance counter
+// so additions made post-mount are unique without using Date.now() or
+// Math.random() — both of which break hydration when an SSR-rendered
+// rule list is later mutated client-side.
+function useIdGenerator(): (kind: string) => string {
+  const root = useReactId();
+  const counterRef = useRef(0);
+  return (kind: string) => {
+    counterRef.current += 1;
+    return `${kind}-${root}-${counterRef.current}`;
+  };
 }
 
 /**
@@ -740,6 +758,7 @@ export const QueryBuilder = forwardRef<HTMLDivElement, QueryBuilderProps>(
     { fields, operators = DEFAULT_OPERATORS, value, onValueChange, className, ...props },
     ref
   ) {
+    const nextId = useIdGenerator();
     const update = (next: QueryGroup) => onValueChange(next);
 
     const replaceIn = (

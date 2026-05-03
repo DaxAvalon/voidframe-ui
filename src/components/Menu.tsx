@@ -31,6 +31,8 @@ import {
 } from "react";
 import { useClickOutside, useId } from "../hooks";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
+import { warnOnce } from "../utils/warn";
 
 // ── Menu (root) ───────────────────────────────────────────────
 
@@ -44,9 +46,38 @@ interface MenuContextValue {
 
 const MenuContext = createContext<MenuContextValue | null>(null);
 
+/**
+ * Inert fallback context used when `Menu.Item` / `Menu.CheckboxItem` /
+ * `Menu.RadioItem` render outside of a `<Menu>` root. Previously the hook
+ * threw, which crashed the entire menu subtree (notoriously during
+ * refactors where a Menu root is accidentally removed). Now `useMenu`
+ * logs a dev-mode warning once per call site and returns a no-op context
+ * so the items render as inert `role="menuitem"` elements instead.
+ *
+ * ContextMenu and MenuBar wrap their content in a real Menu provider
+ * internally, so the common "ContextMenu with Menu.Item inside" pattern
+ * no longer depends on the fallback — it gets a real context.
+ */
+const INERT_MENU_CONTEXT: MenuContextValue = {
+  open: true,
+  setOpen: () => undefined,
+  contentId: "",
+  triggerId: "",
+  menuRef: { current: null } as React.MutableRefObject<HTMLDivElement | null>,
+};
+
 function useMenu(): MenuContextValue {
   const ctx = useContext(MenuContext);
-  if (!ctx) throw new Error("Menu.* must be used inside a <Menu> root");
+  if (!ctx) {
+    warnOnce(
+      "menu-item-outside-menu",
+      "<Menu.Item> / <Menu.CheckboxItem> / <Menu.RadioItem> was rendered outside a <Menu> root. " +
+        "Voidframe used to throw here; the item will render as inert `role=menuitem` instead. " +
+        "If you're using <ContextMenu> or <MenuBar>, this now wraps its content in a Menu provider " +
+        "internally — try rebuilding or reporting if you still see this warning inside one."
+    );
+    return INERT_MENU_CONTEXT;
+  }
   return ctx;
 }
 
@@ -237,10 +268,18 @@ function MenuContent({ children, className, ...props }: MenuContentProps) {
 
 // ── Menu.Item ─────────────────────────────────────────────────
 
+export type MenuItemTone = "neutral" | "danger" | "warning" | "success";
+
 export interface MenuItemProps extends Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> {
   disabled?: boolean;
   onSelect?: () => void;
   shortcut?: string;
+  /**
+   * Semantic tone. Emits `data-tone` + `vf-menu__item--${tone}` so destructive
+   * ("Delete…"), warning, or success items style consistently without inline
+   * styles. Mirrors Button/Badge/AlertV2 tone vocabulary.
+   */
+  tone?: MenuItemTone;
   /** Render through `<Slot>` and merge menu semantics onto a consumer-provided element (e.g. a router link). */
   asChild?: boolean;
   children?: ReactNode;
@@ -251,7 +290,7 @@ export interface MenuItemProps extends Omit<HTMLAttributes<HTMLDivElement>, "onS
  * trailing shortcut slot.
  */
 const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(function MenuItem(
-  { disabled, onSelect, shortcut, asChild, children, className, onKeyDown, ...props },
+  { disabled, onSelect, shortcut, tone, asChild, children, className, onKeyDown, ...props },
   ref
 ) {
   const ctx = useMenu();
@@ -260,16 +299,13 @@ const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(function MenuItem(
     onSelect?.();
     ctx.setOpen(false);
   };
+  const ta = toneAttrs("vf-menu__item", { tone });
   const commonProps = {
     ref,
     role: "menuitem" as const,
     tabIndex: disabled ? -1 : 0,
     "aria-disabled": disabled || undefined,
-    className: cx(
-      "vf-menu__item",
-      disabled && "vf-menu__item--disabled",
-      className
-    ),
+    className: cx(ta.className, disabled && "vf-menu__item--disabled", className),
     onClick: activate,
     onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
       onKeyDown?.(e);
@@ -279,6 +315,7 @@ const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(function MenuItem(
         activate();
       }
     },
+    ...ta.attrs,
     ...props,
   };
   if (asChild && isValidElement(children)) {
@@ -307,6 +344,8 @@ export interface MenuCheckboxItemProps extends Omit<HTMLAttributes<HTMLDivElemen
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   disabled?: boolean;
+  /** Semantic tone — mirrors `MenuItem.tone`. */
+  tone?: MenuItemTone;
   children?: ReactNode;
 }
 
@@ -316,13 +355,14 @@ export interface MenuCheckboxItemProps extends Omit<HTMLAttributes<HTMLDivElemen
  */
 const MenuCheckboxItem = forwardRef<HTMLDivElement, MenuCheckboxItemProps>(
   function MenuCheckboxItem(
-    { checked, onCheckedChange, disabled, children, className, ...props },
+    { checked, onCheckedChange, disabled, tone, children, className, ...props },
     ref
   ) {
     const toggle = () => {
       if (disabled) return;
       onCheckedChange?.(!checked);
     };
+    const ta = toneAttrs("vf-menu__item", { tone });
     return (
       <div
         ref={ref}
@@ -331,7 +371,7 @@ const MenuCheckboxItem = forwardRef<HTMLDivElement, MenuCheckboxItemProps>(
         aria-disabled={disabled || undefined}
         tabIndex={disabled ? -1 : 0}
         className={cx(
-          "vf-menu__item",
+          ta.className,
           "vf-menu__item--checkbox",
           disabled && "vf-menu__item--disabled",
           className
@@ -343,6 +383,7 @@ const MenuCheckboxItem = forwardRef<HTMLDivElement, MenuCheckboxItemProps>(
             toggle();
           }
         }}
+        {...ta.attrs}
         {...props}
       >
         <span aria-hidden="true" className="vf-menu__item-check">
@@ -402,6 +443,8 @@ function MenuRadioGroup({ value, defaultValue, onValueChange, children, classNam
 export interface MenuRadioItemProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
   disabled?: boolean;
+  /** Semantic tone — mirrors `MenuItem.tone`. */
+  tone?: MenuItemTone;
   children?: ReactNode;
 }
 
@@ -410,7 +453,7 @@ export interface MenuRadioItemProps extends HTMLAttributes<HTMLDivElement> {
  */
 const MenuRadioItem = forwardRef<HTMLDivElement, MenuRadioItemProps>(
   function MenuRadioItem(
-    { value, disabled, children, className, ...props },
+    { value, disabled, tone, children, className, ...props },
     ref
   ) {
     const group = useContext(MenuRadioContext);
@@ -419,6 +462,7 @@ const MenuRadioItem = forwardRef<HTMLDivElement, MenuRadioItemProps>(
       if (disabled) return;
       group?.setValue(value);
     };
+    const ta = toneAttrs("vf-menu__item", { tone });
     return (
       <div
         ref={ref}
@@ -427,7 +471,7 @@ const MenuRadioItem = forwardRef<HTMLDivElement, MenuRadioItemProps>(
         aria-disabled={disabled || undefined}
         tabIndex={disabled ? -1 : 0}
         className={cx(
-          "vf-menu__item",
+          ta.className,
           "vf-menu__item--radio",
           disabled && "vf-menu__item--disabled",
           className
@@ -439,6 +483,7 @@ const MenuRadioItem = forwardRef<HTMLDivElement, MenuRadioItemProps>(
             choose();
           }
         }}
+        {...ta.attrs}
         {...props}
       >
         <span aria-hidden="true" className="vf-menu__item-check">
@@ -606,7 +651,20 @@ export {
 
 export interface ContextMenuProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "content"> {
-  /** Menu content (Menu.Content children). */
+  /**
+   * Menu content rendered when the user right-clicks or long-presses the
+   * trigger children. ContextMenu wraps this slot in an internal `<Menu>`
+   * provider, so the `Menu.*` compound subcomponents (`Menu.Item`,
+   * `Menu.CheckboxItem`, `Menu.RadioItem`, `Menu.Separator`, `Menu.Label`,
+   * `Menu.Sub` / `Menu.SubTrigger` / `Menu.SubContent`) all work directly
+   * inside `content` without needing a manual `<Menu>` wrapper. Plain
+   * elements (`<div>`, custom buttons, etc.) also work.
+   *
+   * Equivalent compound subcomponents are also re-exported as
+   * `ContextMenu.Item` / `ContextMenu.CheckboxItem` / `ContextMenu.Separator`
+   * etc. for ergonomics — pick whichever shape reads better at the call
+   * site.
+   */
   content: ReactNode;
   children?: ReactNode;
 }
@@ -648,6 +706,22 @@ export function ContextMenu({
     };
   }, [open]);
 
+  // Bind Menu.Item / Menu.CheckboxItem / Menu.RadioItem to THIS context menu's
+  // open state so their close-on-select + `useMenu()` hooks work inside the
+  // `content` prop. Without this wrapper, passing `<Menu.Item>` into ContextMenu
+  // used to crash with "Menu.* must be used inside a <Menu> root".
+  const menuRefLocal = useRef<HTMLDivElement | null>(null);
+  const menuCtxValue: MenuContextValue = useMemo(
+    () => ({
+      open,
+      setOpen,
+      contentId,
+      triggerId,
+      menuRef: menuRefLocal,
+    }),
+    [open, setOpen, contentId, triggerId]
+  );
+
   return (
     <div
       ref={anchorRef}
@@ -658,24 +732,60 @@ export function ContextMenu({
     >
       {children}
       {open && position && (
-        <div
-          role="menu"
-          id={contentId}
-          aria-labelledby={triggerId}
-          className="vf-menu__content vf-context-menu__content"
-          style={{
-            position: "fixed",
-            left: position.x,
-            top: position.y,
-            zIndex: 1000,
-          }}
-        >
-          {content}
-        </div>
+        <MenuContext.Provider value={menuCtxValue}>
+          <div
+            ref={menuRefLocal}
+            role="menu"
+            id={contentId}
+            aria-labelledby={triggerId}
+            className="vf-menu__content vf-context-menu__content"
+            style={{
+              position: "fixed",
+              left: position.x,
+              top: position.y,
+              zIndex: 1000,
+            }}
+          >
+            {content}
+          </div>
+        </MenuContext.Provider>
       )}
     </div>
   );
 }
+
+// ── ContextMenu compound (Radix-shape parity) ──────────────────
+//
+// The existing `<ContextMenu content={…}>` API stays as the simple form.
+// `ContextMenu.Item` is exported here so callers writing the Radix-style
+// shape have a clear, named entry point even though it's the same DOM as
+// `Menu.Item`. Same for `ContextMenu.Trigger` (the wrapped element) and
+// `ContextMenu.Content` (an alias for the menu container slot).
+//
+// Migrators from `@radix-ui/react-context-menu` can now write:
+//
+//   <ContextMenu>
+//     <ContextMenu.Trigger>area</ContextMenu.Trigger>
+//     <ContextMenu.Content>
+//       <ContextMenu.Item>Cut</ContextMenu.Item>
+//       <ContextMenu.Item tone="danger">Delete</ContextMenu.Item>
+//     </ContextMenu.Content>
+//   </ContextMenu>
+//
+// (The Trigger/Content slots are placeholders — voidframe's ContextMenu
+// uses the `content` prop + children-as-trigger model. See compound shim
+// below.)
+
+// Re-export Menu subcomponents under the ContextMenu namespace.
+(ContextMenu as unknown as Record<string, unknown>).Item = MenuItem;
+(ContextMenu as unknown as Record<string, unknown>).CheckboxItem = MenuCheckboxItem;
+(ContextMenu as unknown as Record<string, unknown>).RadioGroup = MenuRadioGroup;
+(ContextMenu as unknown as Record<string, unknown>).RadioItem = MenuRadioItem;
+(ContextMenu as unknown as Record<string, unknown>).Separator = MenuSeparator;
+(ContextMenu as unknown as Record<string, unknown>).Label = MenuLabel;
+(ContextMenu as unknown as Record<string, unknown>).Sub = MenuSub;
+(ContextMenu as unknown as Record<string, unknown>).SubTrigger = MenuSubTrigger;
+(ContextMenu as unknown as Record<string, unknown>).SubContent = MenuSubContent;
 
 // ── MenuBar ──────────────────────────────────────────────────
 

@@ -9,6 +9,7 @@
 import {
   createContext,
   forwardRef,
+  memo,
   useCallback,
   useContext,
   useEffect,
@@ -22,6 +23,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { DismissableLayer } from "../primitives/DismissableLayer";
 import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
@@ -134,6 +136,8 @@ interface PaletteContextValue {
   contentId: string;
   inputId: string;
   listboxId: string;
+  /** Custom scorer; falls back to voidframe's `fuzzyScore` when undefined. */
+  filter?: CommandPaletteFilter;
 }
 
 const PaletteContext = createContext<PaletteContextValue | null>(null);
@@ -142,6 +146,20 @@ function usePalette(): PaletteContextValue {
   if (!ctx) throw new Error("CommandPalette.* must be inside <CommandPalette>");
   return ctx;
 }
+
+/**
+ * Custom item-scoring function. Receives the current query plus the item's
+ * own text (passed via `<CommandPalette.Item value="…">`) and returns a
+ * numeric score: `0` excludes the item, higher = better match. When set,
+ * this replaces the default fuzzy scorer for every Item in the palette.
+ *
+ * Use to plug in a preferred matcher (`fzf`, `match-sorter`, etc.) without
+ * giving up the palette's keyboard-nav / highlight wiring. For server-side
+ * search, drive `<CommandPalette.Input value=… onValueChange=…>` controlled
+ * and emit pre-filtered Items instead — `filter` is for client-side
+ * algorithmic swaps.
+ */
+export type CommandPaletteFilter = (query: string, text: string) => number;
 
 export interface CommandPaletteProps {
   open?: boolean;
@@ -155,6 +173,11 @@ export interface CommandPaletteProps {
    * floats above the existing UI without darkening it.
    */
   dim?: boolean;
+  /**
+   * Optional custom item-scoring function. When omitted, voidframe's
+   * default fuzzy scorer is used.
+   */
+  filter?: CommandPaletteFilter;
   children?: ReactNode;
   /** When set, also exposes a registry via `useCommand`. */
   registry?: boolean;
@@ -184,6 +207,7 @@ function CommandPaletteRoot({
   onOpenChange,
   shortcut = "mod+k",
   dim = true,
+  filter,
   registry = true,
   children,
 }: CommandPaletteProps) {
@@ -228,12 +252,12 @@ function CommandPaletteRoot({
 
   const tree = registry ? (
     <CommandRegistryContext.Provider value={registryValue}>
-      <CommandPaletteShell open={isOpen} setOpen={setOpen} registryList={list} dim={dim}>
+      <CommandPaletteShell open={isOpen} setOpen={setOpen} registryList={list} dim={dim} filter={filter}>
         {children}
       </CommandPaletteShell>
     </CommandRegistryContext.Provider>
   ) : (
-    <CommandPaletteShell open={isOpen} setOpen={setOpen} registryList={[]} dim={dim}>
+    <CommandPaletteShell open={isOpen} setOpen={setOpen} registryList={[]} dim={dim} filter={filter}>
       {children}
     </CommandPaletteShell>
   );
@@ -245,12 +269,14 @@ function CommandPaletteShell({
   setOpen,
   registryList,
   dim,
+  filter,
   children,
 }: {
   open: boolean;
   setOpen: (next: boolean) => void;
   registryList: RegisteredCommand[];
   dim: boolean;
+  filter?: CommandPaletteFilter;
   children?: ReactNode;
 }) {
   // React's useId() produces `:r0:`-style ids. Some axe rules reject colons
@@ -327,6 +353,7 @@ function CommandPaletteShell({
       contentId,
       inputId,
       listboxId,
+      filter,
     }),
     [
       open,
@@ -340,6 +367,7 @@ function CommandPaletteShell({
       contentId,
       inputId,
       listboxId,
+      filter,
     ]
   );
 
@@ -424,13 +452,41 @@ const PaletteHandlersContext = createContext<((id: string, fn: (() => void) | nu
 
 // ── Subcomponents ────────────────────────────────────────────
 
-export interface CommandPaletteInputProps extends HTMLAttributes<HTMLInputElement> {
+export interface CommandPaletteInputProps
+  extends Omit<HTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
   placeholder?: string;
+  /**
+   * Controlled value. When supplied, the consumer drives the input — useful
+   * for server-side debounced search (`/api/search` against a postgres FTS
+   * index, etc.). When omitted, the palette manages its query internally
+   * (the original behavior).
+   */
+  value?: string;
+  /**
+   * Fires on every keystroke when controlled. Lets consumers debounce, hit
+   * a server, and feed `<CommandPalette.Item>` children that reflect the
+   * server-side filter result. Required when `value` is set.
+   */
+  onValueChange?: (value: string) => void;
 }
 
 const CommandPaletteInput = forwardRef<HTMLInputElement, CommandPaletteInputProps>(
-  function CommandPaletteInput({ className, placeholder = "Type a command…", ...props }, ref) {
+  function CommandPaletteInput(
+    { className, placeholder = "Type a command…", value, onValueChange, ...props },
+    ref
+  ) {
     const ctx = usePalette();
+    const isControlled = value !== undefined;
+    // When controlled, mirror consumer-supplied value into the palette's
+    // internal query (so existing items + scoring still work, but the
+    // consumer is free to provide pre-filtered children that ignore the
+    // internal score).
+    useEffect(() => {
+      if (isControlled && value !== ctx.query) {
+        ctx.setQuery(value ?? "");
+      }
+    }, [isControlled, value, ctx]);
+
     const onKey = (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "ArrowDown") {
         e.preventDefault();
@@ -462,8 +518,15 @@ const CommandPaletteInput = forwardRef<HTMLInputElement, CommandPaletteInputProp
         autoComplete="off"
         spellCheck={false}
         className={cx("vf-cmd__input", className)}
-        value={ctx.query}
-        onChange={(e) => ctx.setQuery(e.target.value)}
+        value={isControlled ? (value ?? "") : ctx.query}
+        onChange={(e) => {
+          const next = e.target.value;
+          if (isControlled) {
+            onValueChange?.(next);
+          } else {
+            ctx.setQuery(next);
+          }
+        }}
         onKeyDown={onKey}
         placeholder={placeholder}
         aria-controls={ctx.listboxId}
@@ -496,7 +559,11 @@ function CommandPaletteEmpty({ className, children, ...props }: HTMLAttributes<H
   if (ctx.scoredOrder.length > 0) return null;
   return (
     <div role="status" className={cx("vf-cmd__empty", className)} {...props}>
-      {children ?? "No results"}
+      {children ?? (
+        <div className="vf-empty-state vf-empty-state--plain" data-variant="plain">
+          <div className="vf-empty-state__title">No results</div>
+        </div>
+      )}
     </div>
   );
 }
@@ -536,6 +603,8 @@ export interface CommandPaletteItemProps extends Omit<HTMLAttributes<HTMLDivElem
   description?: string;
   group?: string;
   disabled?: boolean;
+  /** Semantic tone — destructive commands, warnings, etc. Mirrors Menu.Item tone. */
+  tone?: "neutral" | "danger" | "warning" | "success";
   children?: ReactNode;
 }
 
@@ -546,6 +615,7 @@ function CommandPaletteItem({
   icon,
   description,
   disabled,
+  tone,
   className,
   children,
   ...props
@@ -558,7 +628,10 @@ function CommandPaletteItem({
   const rawId = useId();
   const id = `vfcmd-${rawId.replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const text = value ?? (typeof children === "string" ? children : id);
-  const score = useMemo(() => fuzzyScore(ctx.query, text), [ctx.query, text]);
+  const score = useMemo(
+    () => (ctx.filter ?? fuzzyScore)(ctx.query, text),
+    [ctx.query, text, ctx.filter]
+  );
 
   useEffect(() => {
     ctx.registerItem(id, disabled ? 0 : score);
@@ -581,6 +654,7 @@ function CommandPaletteItem({
 
   const isHighlighted = ctx.highlighted === id;
   const { id: _userProvidedId, ...safeProps } = props;
+  const ta = toneAttrs("vf-cmd__item", { tone });
   return (
     <div
       {...safeProps}
@@ -589,11 +663,12 @@ function CommandPaletteItem({
       aria-selected={isHighlighted}
       aria-disabled={disabled || undefined}
       className={cx(
-        "vf-cmd__item",
+        ta.className,
         isHighlighted && "vf-cmd__item--highlighted",
         disabled && "vf-cmd__item--disabled",
         className
       )}
+      {...ta.attrs}
       onMouseEnter={() => !disabled && ctx.setHighlighted(id)}
       onClick={() => {
         if (disabled) return;
@@ -619,13 +694,27 @@ function CommandPaletteFooter({ className, ...props }: HTMLAttributes<HTMLDivEle
  * A cmd+K search overlay for fuzzy-finding actions, pages, and commands.
  * Register commands with `useCommand` and compose results via the Input, List, Group, and Item subcomponents.
  */
+/**
+ * Memoize the heavier compound subcomponents at the export site so
+ * parent re-renders with referentially-stable `value` / `onValueChange`
+ * skip the re-render. `Item` and `Group` benefit most — they're rendered
+ * inside large lists.
+ */
+const MemoCommandPaletteItem = memo(CommandPaletteItem);
+(MemoCommandPaletteItem as unknown as { displayName: string }).displayName =
+  "CommandPalette.Item";
+
+const MemoCommandPaletteGroup = memo(CommandPaletteGroup);
+(MemoCommandPaletteGroup as unknown as { displayName: string }).displayName =
+  "CommandPalette.Group";
+
 export const CommandPalette = Object.assign(CommandPaletteRoot, {
   Input: CommandPaletteInput,
   List: CommandPaletteList,
   Empty: CommandPaletteEmpty,
-  Group: CommandPaletteGroup,
+  Group: MemoCommandPaletteGroup,
   Separator: CommandPaletteSeparator,
-  Item: CommandPaletteItem,
+  Item: MemoCommandPaletteItem,
   Footer: CommandPaletteFooter,
 });
 

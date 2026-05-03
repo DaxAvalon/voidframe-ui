@@ -9,6 +9,7 @@ import {
   type CSSProperties,
   type ReactNode,
 } from "react";
+import { useIsomorphicLayoutEffect } from "../hooks/useIsomorphicLayoutEffect";
 import "../css/index.css";
 import {
   defaultTokens,
@@ -38,6 +39,20 @@ export type VoidframeContrast = "normal" | "high";
 export type VoidframeDirection = "ltr" | "rtl";
 export type VoidframeReducedMotion = "auto" | "always" | "never";
 export type ThemeName = BuiltInThemeName | "system" | (string & {});
+
+/**
+ * Where theme attributes (`data-vf-theme`, `data-vf-density`, `data-vf-contrast`,
+ * `data-vf-motion`) get written.
+ *
+ * - `"global"` (default) — attributes are written to `document.documentElement`
+ *   AND the provider's wrapper div, so portaled overlays (Dialog, DrawerV2,
+ *   Menu, ContextMenu, Toaster, Tooltip, Popover, Popconfirm, HoverCard,
+ *   Lightbox, Spotlight) inherit the theme even when mounted at `document.body`.
+ * - `"root"` — attributes only on the provider's wrapper div. Use when you want
+ *   strictly-scoped theming and will handle portal-theme inheritance manually
+ *   (e.g. by wrapping individual portaled surfaces in `<ThemeScope>`).
+ */
+export type VoidframeScope = "global" | "root";
 
 interface ResolvedScope {
   tokens: VoidframeTokens;
@@ -95,6 +110,12 @@ export interface VoidframeProviderProps {
   firstDayOfWeek?: number;
   /** Default time zone for date/time rendering. */
   timeZone?: string;
+  /**
+   * Where theme attributes get written. Default `"global"` writes to
+   * `document.documentElement` so portaled overlays inherit the theme.
+   * Pass `"root"` to restrict theme scoping to the provider's wrapper div.
+   */
+  scope?: VoidframeScope;
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
@@ -141,6 +162,7 @@ export function VoidframeProvider({
   localeTag,
   firstDayOfWeek,
   timeZone,
+  scope: themeScopeMode = "global",
   className,
   style,
   children,
@@ -203,6 +225,50 @@ export function VoidframeProvider({
     Object.keys(overrideStyle).length > 0 || style
       ? { ...overrideStyle, ...style }
       : undefined;
+
+  // Mirror theme attributes to <html> so portaled overlays (Dialog, DrawerV2,
+  // Menu, ContextMenu, Toaster, Tooltip, Popover, Popconfirm, HoverCard,
+  // Lightbox, Spotlight) inherit the active theme. React Portals mount at
+  // document.body, outside the provider's subtree, so without this write
+  // the CSS var cascade never reaches them.
+  useIsomorphicLayoutEffect(() => {
+    if (themeScopeMode !== "global") return;
+    if (typeof document === "undefined") return;
+    const root = document.documentElement;
+
+    const prevTheme = root.getAttribute("data-vf-theme");
+    const prevDensity = root.getAttribute("data-vf-density");
+    const prevContrast = root.getAttribute("data-vf-contrast");
+    const prevMotion = root.getAttribute("data-vf-motion");
+    const prevDir = root.getAttribute("dir");
+
+    root.setAttribute("data-vf-theme", resolvedThemeName);
+    if (density !== "comfortable") root.setAttribute("data-vf-density", density);
+    else root.removeAttribute("data-vf-density");
+    if (contrast !== "normal") root.setAttribute("data-vf-contrast", contrast);
+    else root.removeAttribute("data-vf-contrast");
+    if (reducedMotion !== "auto")
+      root.setAttribute("data-vf-motion", reducedMotion);
+    else root.removeAttribute("data-vf-motion");
+    if (resolvedDirection === "rtl") root.setAttribute("dir", "rtl");
+    else if (prevDir === "rtl") root.removeAttribute("dir");
+
+    return () => {
+      // Restore whatever was there before this provider mounted, so that
+      // nested providers or late-unmounting providers don't leave stale
+      // attributes on <html>.
+      if (prevTheme !== null) root.setAttribute("data-vf-theme", prevTheme);
+      else root.removeAttribute("data-vf-theme");
+      if (prevDensity !== null) root.setAttribute("data-vf-density", prevDensity);
+      else root.removeAttribute("data-vf-density");
+      if (prevContrast !== null) root.setAttribute("data-vf-contrast", prevContrast);
+      else root.removeAttribute("data-vf-contrast");
+      if (prevMotion !== null) root.setAttribute("data-vf-motion", prevMotion);
+      else root.removeAttribute("data-vf-motion");
+      if (prevDir !== null) root.setAttribute("dir", prevDir);
+      else root.removeAttribute("dir");
+    };
+  }, [themeScopeMode, resolvedThemeName, density, contrast, reducedMotion, resolvedDirection]);
 
   return (
     <VoidframeContext.Provider value={tokens}>

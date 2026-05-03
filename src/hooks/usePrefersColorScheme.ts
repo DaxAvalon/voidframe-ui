@@ -1,3 +1,5 @@
+"use client";
+
 import { useMediaQuery } from "./useMediaQuery";
 
 /** `"dark" | "light"` — user's system preference. Returns `null` pre-match. */

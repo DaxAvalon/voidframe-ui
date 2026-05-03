@@ -110,6 +110,10 @@ export interface MentionInputProps
   minHeight?: number | string;
   disabled?: boolean;
   id?: string;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
   textareaProps?: TextareaPassthrough;
 }
@@ -134,6 +138,8 @@ export const MentionInput = forwardRef<HTMLDivElement, MentionInputProps>(
       minHeight = 120,
       disabled,
       id,
+      size = "md",
+      wrapperProps,
       className,
       style,
       textareaProps,
@@ -247,8 +253,10 @@ export const MentionInput = forwardRef<HTMLDivElement, MentionInputProps>(
     return (
       <div
         ref={containerRef}
-        className={cx("vf-mention", className)}
+        className={cx("vf-mention", `vf-mention--${size}`, className)}
+        data-size={size}
         style={style}
+        {...wrapperProps}
         {...props}
       >
         {label && (

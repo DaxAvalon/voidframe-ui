@@ -22,6 +22,7 @@ import {
 } from "react";
 import { useClickOutside, useId, useMergedRefs } from "../hooks";
 import { useControllableState } from "../hooks/useControllableState";
+import { itemKeyAttrs } from "../hooks/useItemKey";
 import { cx } from "../utils/cx";
 import { Label } from "./Text";
 
@@ -29,6 +30,8 @@ export interface TreeNode {
   value: string;
   label: string;
   disabled?: boolean;
+  /** Semantic tone emitted as `data-tone` + BEM class on the rendered node. */
+  tone?: "neutral" | "danger" | "warning" | "success";
   children?: TreeNode[];
 }
 
@@ -46,6 +49,15 @@ export interface TreeSelectProps
   selectableBranches?: boolean;
   disabled?: boolean;
   id?: string;
+  /**
+   * Return arbitrary HTML attributes for each rendered node `<li>`. Mirrors
+   * `Table.rowAttributes` — tests can attach `data-testid` per node.
+   */
+  itemAttributes?: (node: TreeNode, depth: number) => HTMLAttributes<HTMLLIElement>;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -88,6 +100,9 @@ export const TreeSelect = forwardRef<HTMLDivElement, TreeSelectProps>(
       selectableBranches = true,
       disabled,
       id,
+      itemAttributes,
+      size = "md",
+      wrapperProps,
       className,
       style,
       ...props
@@ -169,8 +184,10 @@ export const TreeSelect = forwardRef<HTMLDivElement, TreeSelectProps>(
     return (
       <div
         ref={mergedRef}
-        className={cx("vf-tree-select", className)}
+        className={cx("vf-tree-select", `vf-tree-select--${size}`, className)}
+        data-size={size}
         style={style}
+        {...wrapperProps}
         {...props}
       >
         {label && (
@@ -227,8 +244,12 @@ export const TreeSelect = forwardRef<HTMLDivElement, TreeSelectProps>(
                     className={cx(
                       "vf-tree-select__node",
                       isSelected && "vf-tree-select__node--selected",
-                      node.disabled && "vf-tree-select__node--disabled"
+                      node.disabled && "vf-tree-select__node--disabled",
+                      node.tone && `vf-tree-select__node--${node.tone}`
                     )}
+                    data-tone={node.tone}
+                    {...itemKeyAttrs("node", String(node.value))}
+                    {...(itemAttributes?.(node, depth) ?? {})}
                     style={{ paddingInlineStart: `${8 + depth * 16}px` }}
                     onClick={(e) => {
                       e.stopPropagation();

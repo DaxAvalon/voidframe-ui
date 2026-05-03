@@ -45,6 +45,37 @@
   cursor: pointer;
 }
 
+/* Size variants — voidframe-native dimension scale, independent of the
+   native HTMLSelectElement `size` attribute (exposed as `listSize`). */
+.vf-select--sm {
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-select--md {
+  padding: var(--vf-sp-3) var(--vf-sp-5);
+  font-size: var(--vf-font-sm);
+}
+.vf-select--lg {
+  padding: var(--vf-sp-4) var(--vf-sp-7);
+  font-size: var(--vf-font-md);
+}
+
+/* Input/Textarea size variants — mirror Select to keep form controls
+   consistent. `size` is the voidframe-native axis; Input's native
+   visible-character `size` attribute is exposed as `lengthSize`. */
+.vf-input--sm, .vf-textarea--sm {
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-input--md, .vf-textarea--md {
+  padding: var(--vf-sp-3) var(--vf-sp-5);
+  font-size: var(--vf-font-sm);
+}
+.vf-input--lg, .vf-textarea--lg {
+  padding: var(--vf-sp-4) var(--vf-sp-7);
+  font-size: var(--vf-font-md);
+}
+
 /* Toggle */
 .vf-toggle {
   display: flex;

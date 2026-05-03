@@ -85,3 +85,15 @@
   padding: var(--vf-sp-2) var(--vf-sp-3);
   border-top: 1px solid var(--vf-border-0);
 }
+
+/* Monospace variant — for log output, prompt dumps, code snippets, etc.
+   Shared across Card / Dialog.Content / DrawerV2.Content / AlertV2 so
+   log-body surfaces render consistently regardless of the container. */
+.vf-card--monospace,
+.vf-dialog__panel--monospace,
+.vf-drawer-v2__panel--monospace,
+.vf-alert-v2--monospace {
+  font-family: var(--vf-font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: var(--vf-font-xs);
+  line-height: 1.55;
+}

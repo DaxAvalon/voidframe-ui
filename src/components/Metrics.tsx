@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { Label } from "./Text";
 import { Stat, type StatTone } from "./Data";
 
@@ -18,21 +19,42 @@ import { Stat, type StatTone } from "./Data";
 export interface StatGroupProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
   divided?: boolean;
+  /**
+   * Render children in a CSS grid with `N` equal columns rather than the
+   * default horizontal flex row. Useful for 3-up / 4-up stat dashboards
+   * that previously forced consumers to wrap in their own grid. Omit or
+   * set to 0 to keep the default row behavior.
+   */
+  columns?: number;
 }
 
 /**
  * Row or grid of `Stat`s with consistent spacing and optional dividers.
+ * Pass `columns` for an N-column grid; omit for the default horizontal row.
  */
 export const StatGroup = forwardRef<HTMLDivElement, StatGroupProps>(
-  function StatGroup({ divided = true, className, children, ...props }, ref) {
+  function StatGroup(
+    { divided = true, columns, className, children, style, ...props },
+    ref
+  ) {
+    const gridStyle: React.CSSProperties | undefined =
+      columns && columns > 0
+        ? {
+            display: "grid",
+            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+            ...style,
+          }
+        : style;
     return (
       <div
         ref={ref}
         className={cx(
           "vf-stat-group",
           divided && "vf-stat-group--divided",
+          columns && "vf-stat-group--grid",
           className
         )}
+        style={gridStyle}
         {...props}
       >
         {children}
@@ -74,10 +96,12 @@ export const MetricCard = forwardRef<HTMLDivElement, MetricCardProps>(
     },
     ref
   ) {
+    const ta = toneAttrs("vf-metric-card", { tone });
     return (
       <div
         ref={ref}
-        className={cx("vf-metric-card", `vf-metric-card--${tone}`, className)}
+        className={cx(ta.className, className)}
+        {...ta.attrs}
         {...props}
       >
         <div className="vf-metric-card__head">

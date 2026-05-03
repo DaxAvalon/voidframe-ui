@@ -3,7 +3,7 @@
 // Drop into <head> (inline or as a separate <script>) so the chosen
 // theme is applied before React hydrates — no flash.
 //
-//   <script src="/node_modules/voidframe/theme-script.js"></script>
+//   <script src="/node_modules/voidframe-ui/theme-script.js"></script>
 //
 // or inline via Next.js / Remix patterns — see README.
 //

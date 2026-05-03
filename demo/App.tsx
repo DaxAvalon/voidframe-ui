@@ -901,7 +901,13 @@ function FormsExtendedSection() {
         />
       </Block>
       <Block label="Number / Slider / Search">
-        <NumberInput label="Quantity" value={n} onValueChange={setN} min={0} max={100} />
+        <NumberInput
+          label="Quantity"
+          value={n}
+          onValueChange={(v) => setN(typeof v === "number" ? v : 0)}
+          min={0}
+          max={100}
+        />
         <Slider label="Volume" value={s} onValueChange={setS} max={100} />
         <SearchInputDemo />
       </Block>

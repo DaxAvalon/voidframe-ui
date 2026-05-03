@@ -1,0 +1,38 @@
+/* Link — text-link primitive. Inherits voidframe accent + focus treatment. */
+
+.vf-link {
+  color: var(--vf-accent, var(--vf-text-0));
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: color var(--vf-duration-base) ease,
+              text-decoration-color var(--vf-duration-base) ease;
+}
+
+.vf-link:hover {
+  color: color-mix(in srgb, var(--vf-accent, var(--vf-text-0)) 85%, white 15%);
+}
+
+.vf-link:focus-visible {
+  outline: 2px solid var(--vf-accent, var(--vf-text-0));
+  outline-offset: 2px;
+}
+
+.vf-link--standalone {
+  text-decoration: none;
+}
+
+.vf-link--standalone:hover {
+  text-decoration: underline;
+}
+
+.vf-link--muted {
+  color: var(--vf-text-4);
+  text-decoration-color: var(--vf-border-1);
+}
+
+.vf-link--muted:hover {
+  color: var(--vf-text-2);
+  text-decoration-color: var(--vf-border-3);
+}

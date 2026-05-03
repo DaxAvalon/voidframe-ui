@@ -29,6 +29,7 @@ import { useControllableState } from "../hooks/useControllableState";
 import { useId } from "../hooks/useId";
 import { useMergedRefs } from "../hooks/useMergedRefs";
 import { cx } from "../utils/cx";
+import { warnOnce } from "../utils/warn";
 import { Label } from "./Text";
 
 // ── mask engine ───────────────────────────────────────────────
@@ -98,10 +99,23 @@ export interface MaskedInputProps extends InputBase {
   /** Emits the formatted string. */
   value?: string;
   defaultValue?: string;
+  /**
+   * @deprecated Use `onValueChange` instead. `onChange` will be removed in
+   * v1.3. `onValueChange` emits both the formatted and raw strings via
+   * `{ value, raw }` and matches every other voidframe form-control's
+   * callback shape.
+   */
   onChange?: (value: string) => void;
-  /** Also emit the raw (unmasked) string alongside the formatted one. */
+  /**
+   * Fires on every keystroke. Receives `{ value: formatted, raw: unmasked }`
+   * — preferred over `onChange` (which only emits the formatted string).
+   */
   onValueChange?: (info: { value: string; raw: string }) => void;
   label?: string;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: React.HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -122,10 +136,22 @@ export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
       style,
       id,
       placeholder,
+      size = "md",
+      wrapperProps,
       ...props
     },
     ref
   ) {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      onChange !== undefined &&
+      onValueChange === undefined
+    ) {
+      warnOnce(
+        "MaskedInput:onChange-deprecated",
+        "<MaskedInput> `onChange` is deprecated and will be removed in v1.3. Use `onValueChange` instead — it emits both the formatted value and the raw unmasked string via `{ value, raw }`."
+      );
+    }
     const [current, setCurrent] = useControllableState<string>({
       value,
       defaultValue: defaultValue ?? "",
@@ -149,7 +175,12 @@ export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
     );
 
     return (
-      <div className={cx("vf-masked-input", className)} style={style}>
+      <div
+        className={cx("vf-masked-input", `vf-masked-input--${size}`, className)}
+        data-size={size}
+        style={style}
+        {...wrapperProps}
+      >
         {label && (
           <Label as="label" htmlFor={inputId}>
             {label}

@@ -10,6 +10,8 @@ import {
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
+import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
+import { toneAttrs } from "../utils/toneAttrs";
 
 export interface ToggleGroupItem {
   key: string;
@@ -24,8 +26,18 @@ export interface ToggleGroupProps
   value?: string[];
   defaultValue?: string[];
   onValueChange?: (keys: string[]) => void;
-  variant?: "solid" | "outline" | "ghost" | "subtle";
+  /**
+   * Visual style. `"destructive"` is a parity alias for shadcn migrations —
+   * it cascades to `tone="danger"` so a single prop expresses intent.
+   */
+  variant?: "solid" | "outline" | "ghost" | "subtle" | "destructive";
   size?: "sm" | "md" | "lg";
+  /**
+   * Semantic tone. Mirrors Button/Badge/Menu.Item. Emits `data-tone` on
+   * the group root + cascades to `vf-toggle-group--${tone}` BEM class for
+   * CSS targeting.
+   */
+  tone?: "neutral" | "info" | "success" | "danger" | "warning";
   orientation?: "horizontal" | "vertical";
   disabled?: boolean;
   /** When false, prevents deselecting the last active toggle. Default: true. */
@@ -41,6 +53,7 @@ const ToggleGroupImpl = forwardRef<HTMLDivElement, ToggleGroupProps>(
       onValueChange,
       variant = "outline",
       size = "md",
+      tone,
       orientation = "horizontal",
       disabled = false,
       allowEmpty = true,
@@ -112,20 +125,25 @@ const ToggleGroupImpl = forwardRef<HTMLDivElement, ToggleGroupProps>(
       }
     };
 
+    const resolvedTone = tone ?? (variant === "destructive" ? "danger" : undefined);
+    const ta = toneAttrs("vf-toggle-group", {
+      tone: resolvedTone,
+      variant,
+      size,
+    });
     return (
       <div
         ref={ref}
         role="group"
         className={cx(
-          "vf-toggle-group",
-          `vf-toggle-group--${variant}`,
-          `vf-toggle-group--${size}`,
+          ta.className,
           orientation === "vertical" && "vf-toggle-group--vertical",
           className
         )}
         style={style}
         onKeyDown={handleKeyDown}
         data-disabled={disabled ? "true" : undefined}
+        {...ta.attrs}
         {...props}
       >
         {items.map((item, i) => {
@@ -144,7 +162,7 @@ const ToggleGroupImpl = forwardRef<HTMLDivElement, ToggleGroupProps>(
               )}
               aria-pressed={isActive}
               aria-label={item.label}
-              disabled={isDisabled}
+              {...buttonDisabledAttrs(isDisabled)}
               tabIndex={i === 0 ? 0 : -1}
               onClick={() => {
                 if (!isDisabled) toggle(item.key);

@@ -12,12 +12,22 @@ import { useResponsive, type Responsive } from "../responsive";
 
 type FlexDirection = CSSProperties["flexDirection"];
 
+/**
+ * `Flex.wrap` accepts either:
+ * - `boolean` (or `Responsive<boolean>`) — voidframe convention
+ * - the raw CSS values `"wrap"` / `"nowrap"` / `"wrap-reverse"` — matches
+ *   `flex-wrap` muscle memory for migrators from raw CSS / shadcn /
+ *   Chakra. Internally normalized to a boolean (any non-`"nowrap"` value
+ *   resolves truthy and emits the `vf-flex--wrap` class).
+ */
+export type FlexWrap = boolean | "wrap" | "nowrap" | "wrap-reverse";
+
 export interface FlexProps extends HTMLAttributes<HTMLElement> {
   children?: ReactNode;
   direction?: Responsive<FlexDirection>;
   align?: Responsive<CSSProperties["alignItems"]>;
   justify?: Responsive<CSSProperties["justifyContent"]>;
-  wrap?: Responsive<boolean>;
+  wrap?: Responsive<FlexWrap>;
   gap?: Responsive<number | string>;
   as?: ElementType;
   style?: CSSProperties;
@@ -42,17 +52,22 @@ export const Flex = forwardRef<HTMLElement, FlexProps>(function Flex(
   const a = useResponsive(align);
   const j = useResponsive(justify);
   const w = useResponsive(wrap);
+  const wrapResolved =
+    typeof w === "string" ? w !== "nowrap" : Boolean(w);
   const g = useResponsive(gap);
   const inline: CSSProperties = {
     ...(a !== undefined ? { alignItems: a } : {}),
     ...(j !== undefined ? { justifyContent: j } : {}),
     ...(g !== undefined ? { gap: typeof g === "number" ? `${g}px` : g } : {}),
+    ...(typeof w === "string" && w === "wrap-reverse"
+      ? { flexWrap: "wrap-reverse" as const }
+      : {}),
     ...style,
   };
   return (
     <Tag
       ref={ref as never}
-      className={cx("vf-flex", directionClass(d), w && "vf-flex--wrap", className)}
+      className={cx("vf-flex", directionClass(d), wrapResolved && "vf-flex--wrap", className)}
       style={inline}
       {...props}
     >

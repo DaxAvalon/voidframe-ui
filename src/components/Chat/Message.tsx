@@ -191,8 +191,19 @@ Message.displayName = "Message";
 // ── MessageContent ──────────────────────────────────────────
 
 export interface MessageContentProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, "content"> {
-  content: string | MessagePart[];
+  extends Omit<HTMLAttributes<HTMLDivElement>, "content" | "children"> {
+  /**
+   * Renderable message data — a plain string (with optional `markdown`), or
+   * a structured `MessagePart[]` that renders markdown/code/attachments/
+   * citations. Optional when `children` is supplied.
+   */
+  content?: string | MessagePart[];
+  /**
+   * Alternative to `content`: render arbitrary React children directly. Use
+   * this slot when composing streaming text, tool-call blocks, and other
+   * custom UI inside a `<Message>`. If both are provided, `children` wins.
+   */
+  children?: ReactNode;
   markdown?: boolean;
   streaming?: boolean;
   cursor?: boolean;
@@ -201,11 +212,13 @@ export interface MessageContentProps
 
 /**
  * Body slot of a chat `Message` — renders markdown, attachments, code
- * blocks, and citations.
+ * blocks, and citations. Also accepts arbitrary `children` for streaming +
+ * tool-call composition. `MessageMarkdown` is a named alias for consumers
+ * who prefer explicit naming for the content-rendering role.
  */
 export const MessageContent = forwardRef<HTMLDivElement, MessageContentProps>(
   function MessageContent(
-    { content, markdown, streaming, cursor, citations, className, ...props },
+    { content, children, markdown, streaming, cursor, citations, className, ...props },
     ref
   ) {
     return (
@@ -218,17 +231,19 @@ export const MessageContent = forwardRef<HTMLDivElement, MessageContentProps>(
         )}
         {...props}
       >
-        {typeof content === "string" ? (
+        {children !== undefined ? (
+          children
+        ) : typeof content === "string" ? (
           markdown ? (
             <MarkdownRenderer content={content} />
           ) : (
             <span className="vf-message-content__text">{content}</span>
           )
-        ) : (
+        ) : content !== undefined ? (
           content.map((part, i) => (
             <MessagePartRenderer key={i} part={part} markdown={markdown} />
           ))
-        )}
+        ) : null}
         {streaming && cursor !== false && (
           <span className="vf-message-content__cursor" aria-hidden="true">
             ▋
@@ -242,6 +257,13 @@ export const MessageContent = forwardRef<HTMLDivElement, MessageContentProps>(
   }
 );
 MessageContent.displayName = "MessageContent";
+
+/**
+ * Named alias for `MessageContent`. Consumers who want explicit naming for
+ * the markdown/content-rendering role can import `MessageMarkdown` to make
+ * the intent clearer at call sites. Same component, two names.
+ */
+export const MessageMarkdown = MessageContent;
 
 function MessagePartRenderer({
   part,

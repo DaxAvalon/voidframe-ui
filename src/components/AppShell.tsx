@@ -8,6 +8,9 @@
 
 import {
   forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
   useState,
   type CSSProperties,
   type HTMLAttributes,
@@ -32,6 +35,18 @@ export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
   /** Controlled sidebar collapsed state. */
   sidebarCollapsed?: boolean;
   onSidebarCollapsedChange?: (collapsed: boolean) => void;
+  /**
+   * When true, adds a drag handle on the sidebar's trailing edge so users
+   * can resize it. The width is reported via `onSidebarWidthChange` and
+   * stays within `sidebarMinWidth`/`sidebarMaxWidth`.
+   */
+  sidebarResizable?: boolean;
+  /** Minimum width when resizing (px). Default 180. */
+  sidebarMinWidth?: number;
+  /** Maximum width when resizing (px). Default 480. */
+  sidebarMaxWidth?: number;
+  /** Fires on each resize with the new width (px). */
+  onSidebarWidthChange?: (width: number) => void;
   /** Height of the header in pixels/CSS value. Default "auto". */
   headerHeight?: number | string;
   /** Viewport width at which the sidebar becomes a mobile overlay drawer. Default 768. */
@@ -61,6 +76,10 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
       sidebarDefaultCollapsed,
       sidebarCollapsed,
       onSidebarCollapsedChange,
+      sidebarResizable,
+      sidebarMinWidth = 180,
+      sidebarMaxWidth = 480,
+      onSidebarWidthChange,
       headerHeight,
       mobileBreakpoint = 768,
       children,
@@ -76,13 +95,56 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
     );
     const collapsed = sidebarCollapsed ?? internalCollapsed;
 
+    // Live-resize state. Seeded from `sidebarWidth` prop, updated on drag.
+    const initialWidth =
+      typeof sidebarWidth === "number" ? sidebarWidth : 240;
+    const [liveWidth, setLiveWidth] = useState<number | null>(
+      sidebarResizable ? initialWidth : null
+    );
+    const draggingRef = useRef(false);
+
+    const onResizerMouseDown = useCallback(
+      (startEvent: React.MouseEvent<HTMLDivElement>) => {
+        if (!sidebarResizable) return;
+        startEvent.preventDefault();
+        draggingRef.current = true;
+        const startX = startEvent.clientX;
+        const startWidth = liveWidth ?? initialWidth;
+        const onMove = (e: MouseEvent) => {
+          if (!draggingRef.current) return;
+          const next = Math.max(
+            sidebarMinWidth,
+            Math.min(sidebarMaxWidth, startWidth + (e.clientX - startX))
+          );
+          setLiveWidth(next);
+          onSidebarWidthChange?.(next);
+        };
+        const onUp = () => {
+          draggingRef.current = false;
+          window.removeEventListener("mousemove", onMove);
+          window.removeEventListener("mouseup", onUp);
+        };
+        window.addEventListener("mousemove", onMove);
+        window.addEventListener("mouseup", onUp);
+      },
+      [sidebarResizable, liveWidth, initialWidth, sidebarMinWidth, sidebarMaxWidth, onSidebarWidthChange]
+    );
+    // Clean up any lingering listeners on unmount during an active drag.
+    useEffect(() => {
+      return () => {
+        draggingRef.current = false;
+      };
+    }, []);
+
     const toggle = () => {
       const next = !collapsed;
       if (sidebarCollapsed === undefined) setInternalCollapsed(next);
       onSidebarCollapsedChange?.(next);
     };
 
-    const sbW = isMobile || collapsed ? "0px" : sizeToCss(sidebarWidth);
+    const effectiveSidebarWidth =
+      sidebarResizable && liveWidth !== null ? liveWidth : sidebarWidth;
+    const sbW = isMobile || collapsed ? "0px" : sizeToCss(effectiveSidebarWidth);
     const rpW = rightPanel ? sizeToCss(rightPanelWidth) : "0px";
     const hH = headerHeight !== undefined ? sizeToCss(headerHeight) : "auto";
 
@@ -128,9 +190,27 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         {sidebar && !collapsed && !isMobile && (
           <aside
             className="vf-appshell__sidebar"
-            style={{ gridArea: "sidebar" }}
+            style={{ gridArea: "sidebar", position: "relative" }}
           >
             {sidebar}
+            {sidebarResizable && (
+              <div
+                className="vf-appshell__sidebar-resizer"
+                role="separator"
+                aria-orientation="vertical"
+                aria-label="Resize sidebar"
+                onMouseDown={onResizerMouseDown}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  width: 4,
+                  cursor: "ew-resize",
+                  userSelect: "none",
+                }}
+              />
+            )}
           </aside>
         )}
         {sidebar && isMobile && !collapsed && (

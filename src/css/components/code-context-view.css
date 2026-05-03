@@ -1,0 +1,66 @@
+/* CodeContextView — "error at line N with surrounding context" panel. */
+
+.vf-code-context {
+  border: 1px solid var(--vf-border-1);
+  background: var(--vf-bg-3);
+  font-family: var(--vf-font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: var(--vf-font-xs);
+  line-height: 1.55;
+  border-left: 3px solid var(--vf-accent, var(--vf-danger));
+}
+
+.vf-code-context--compact {
+  display: inline-flex;
+  gap: var(--vf-sp-3);
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  border-left-width: 2px;
+}
+
+.vf-code-context__header {
+  display: flex;
+  gap: var(--vf-sp-3);
+  padding: var(--vf-sp-2) var(--vf-sp-4);
+  border-bottom: 1px solid var(--vf-border-0);
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-4);
+}
+
+.vf-code-context__source {
+  color: var(--vf-text-2);
+  font-weight: bold;
+}
+
+.vf-code-context__line {
+  color: var(--vf-text-4);
+}
+
+.vf-code-context__pre {
+  margin: 0;
+  padding: var(--vf-sp-3) var(--vf-sp-4);
+  overflow-x: auto;
+}
+
+.vf-code-context__before,
+.vf-code-context__after {
+  color: var(--vf-text-4);
+  opacity: 0.7;
+}
+
+.vf-code-context__error-line {
+  color: var(--vf-text-0);
+  background: color-mix(in srgb, var(--vf-accent, var(--vf-danger)) 12%, transparent);
+  padding: var(--vf-sp-1) 0;
+  font-weight: bold;
+}
+
+.vf-code-context__context-line {
+  white-space: pre;
+}
+
+.vf-code-context__message {
+  padding: var(--vf-sp-3) var(--vf-sp-4);
+  border-top: 1px solid var(--vf-border-0);
+  color: var(--vf-text-1);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+}

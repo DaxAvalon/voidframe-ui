@@ -4,6 +4,7 @@ import { Children, cloneElement, forwardRef, isValidElement, memo } from "react"
 import type { CSSProperties, HTMLAttributes, ReactElement, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { warn } from "../utils/warn";
 
 export type BadgeVariant = "solid" | "outline" | "ghost" | "subtle";
@@ -57,11 +58,9 @@ const BadgeImpl = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
     ...style,
   };
   const Component = asChild ? Slot : "span";
+  const ta = toneAttrs("vf-badge", { tone, variant, size });
   const badgeClass = cx(
-    "vf-badge",
-    `vf-badge--${variant}`,
-    `vf-badge--${tone}`,
-    `vf-badge--${size}`,
+    ta.className,
     dot && "vf-badge--with-dot",
     className
   );
@@ -133,6 +132,7 @@ const BadgeImpl = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
         ref={ref as never}
         className={badgeClass}
         style={composedStyle}
+        {...ta.attrs}
         {...props}
       >
         {slotChildren}
@@ -144,6 +144,7 @@ const BadgeImpl = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
       ref={ref}
       className={badgeClass}
       style={composedStyle}
+      {...ta.attrs}
       {...props}
     >
       {decorated}

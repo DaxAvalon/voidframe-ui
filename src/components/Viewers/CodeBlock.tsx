@@ -61,6 +61,15 @@ export interface CodeBlockProps extends HTMLAttributes<HTMLDivElement> {
   downloadable?: boolean;
   /** Filename for download. Defaults to "code.txt". */
   downloadFilename?: string;
+  /**
+   * Inline annotations attached to specific lines. Each entry pins a
+   * `ReactNode` (typically an error message, lint note, or doc snippet)
+   * directly below the matched 1-based line number. When `highlight` /
+   * pre-rendered HTML is in use the annotations render after the matched
+   * line by adding a sibling annotation block with the line-specific
+   * content.
+   */
+  lineAnnotations?: Record<number, ReactNode>;
 }
 
 function escapeHTML(s: string): string {
@@ -91,6 +100,7 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
       searchable = false,
       downloadable = false,
       downloadFilename = "code.txt",
+      lineAnnotations,
       className,
       style,
       ...props
@@ -216,22 +226,38 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
             <code>{highlighted}</code>
           ) : (
             <code>
-              {lines.map((line, i) => (
-                <div
-                  key={i}
-                  className={cx(
-                    "vf-codeblock__line",
-                    highlightSet.has(i + 1) && "vf-codeblock__line--highlight"
-                  )}
-                >
-                  {lineNumbers && (
-                    <span className="vf-codeblock__linenum" aria-hidden="true">
-                      {i + 1}
-                    </span>
-                  )}
-                  <span className="vf-codeblock__linecontent">{renderLineContent(line)}</span>
-                </div>
-              ))}
+              {lines.flatMap((line, i) => {
+                const lineNo = i + 1;
+                const annotation = lineAnnotations?.[lineNo];
+                const lineEl = (
+                  <div
+                    key={`line-${i}`}
+                    data-line-number={lineNo}
+                    className={cx(
+                      "vf-codeblock__line",
+                      highlightSet.has(lineNo) && "vf-codeblock__line--highlight"
+                    )}
+                  >
+                    {lineNumbers && (
+                      <span className="vf-codeblock__linenum" aria-hidden="true">
+                        {lineNo}
+                      </span>
+                    )}
+                    <span className="vf-codeblock__linecontent">{renderLineContent(line)}</span>
+                  </div>
+                );
+                if (annotation === undefined) return [lineEl];
+                return [
+                  lineEl,
+                  <div
+                    key={`anno-${i}`}
+                    data-line-annotation={lineNo}
+                    className="vf-codeblock__annotation"
+                  >
+                    {annotation}
+                  </div>,
+                ];
+              })}
             </code>
           )}
         </pre>

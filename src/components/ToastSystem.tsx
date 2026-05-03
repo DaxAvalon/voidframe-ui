@@ -21,6 +21,7 @@ import {
 } from "react";
 import { Portal } from "../primitives/Portal";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 
 export type ToastTone = "neutral" | "info" | "success" | "warning" | "danger";
 export type ToasterPosition =
@@ -31,6 +32,16 @@ export type ToasterPosition =
   | "bottom-center"
   | "bottom-right";
 
+/**
+ * Sonner-style action object — `{ label, onClick }` renders as a button
+ * inside the toast. Alternatively consumers can pass any ReactNode directly
+ * for custom action UI.
+ */
+export interface ToastActionObject {
+  label: ReactNode;
+  onClick: () => void;
+}
+
 export interface ToastV2Options {
   id?: string;
   title?: ReactNode;
@@ -38,7 +49,11 @@ export interface ToastV2Options {
   tone?: ToastTone;
   /** Auto-dismiss after this many ms. 0 disables. Default 4000. */
   duration?: number;
-  action?: ReactNode;
+  /**
+   * Action slot. Accepts either a pre-rendered `ReactNode` or a sonner-shaped
+   * `{ label, onClick }` object (which voidframe auto-renders as a button).
+   */
+  action?: ReactNode | ToastActionObject;
   /** Render arbitrary content; if set, takes precedence over title/description. */
   render?: (api: { dismiss: () => void }) => ReactNode;
 }
@@ -93,11 +108,33 @@ function nextId(): string {
 // ── Public API ──────────────────────────────────────────────
 
 export interface ToastApi {
-  (opts: ToastV2Options | string): string;
-  success: (opts: Omit<ToastV2Options, "tone"> | string) => string;
-  info: (opts: Omit<ToastV2Options, "tone"> | string) => string;
-  warning: (opts: Omit<ToastV2Options, "tone"> | string) => string;
-  danger: (opts: Omit<ToastV2Options, "tone"> | string) => string;
+  /**
+   * Primary signature: single options-or-string argument. A second
+   * `ToastV2Options` argument is accepted for sonner compatibility — when the
+   * first arg is a string, the options merge as `{ title: message, ...opts }`.
+   */
+  (opts: ToastV2Options | string, options?: Omit<ToastV2Options, "title">): string;
+  success: (
+    opts: Omit<ToastV2Options, "tone"> | string,
+    options?: Omit<ToastV2Options, "title" | "tone">
+  ) => string;
+  info: (
+    opts: Omit<ToastV2Options, "tone"> | string,
+    options?: Omit<ToastV2Options, "title" | "tone">
+  ) => string;
+  warning: (
+    opts: Omit<ToastV2Options, "tone"> | string,
+    options?: Omit<ToastV2Options, "title" | "tone">
+  ) => string;
+  danger: (
+    opts: Omit<ToastV2Options, "tone"> | string,
+    options?: Omit<ToastV2Options, "title" | "tone">
+  ) => string;
+  /** Alias of `danger` — matches sonner/react-hot-toast/react-toastify vocabulary. */
+  error: (
+    opts: Omit<ToastV2Options, "tone"> | string,
+    options?: Omit<ToastV2Options, "title" | "tone">
+  ) => string;
   dismiss: (id: string) => void;
   promise: <T>(
     promise: Promise<T>,
@@ -109,9 +146,35 @@ export interface ToastApi {
   ) => Promise<T>;
 }
 
-function normalize(opts: ToastV2Options | string, tone?: ToastTone): ToastV2Options {
-  if (typeof opts === "string") return { title: opts, tone };
-  return tone ? { ...opts, tone } : opts;
+function isToastActionObject(
+  action: ReactNode | ToastActionObject | undefined
+): action is ToastActionObject {
+  return (
+    typeof action === "object" &&
+    action !== null &&
+    "label" in action &&
+    "onClick" in action &&
+    typeof (action as ToastActionObject).onClick === "function"
+  );
+}
+
+function normalize(
+  opts: ToastV2Options | string,
+  tone?: ToastTone,
+  extra?: Omit<ToastV2Options, "title">
+): ToastV2Options {
+  if (typeof opts === "string") {
+    return {
+      title: opts,
+      ...(extra ?? {}),
+      ...(tone ? { tone } : {}),
+    };
+  }
+  return {
+    ...opts,
+    ...(extra ?? {}),
+    ...(tone ? { tone } : {}),
+  };
 }
 
 function pushToast(opts: ToastV2Options): string {
@@ -135,11 +198,13 @@ function dismissToast(id: string): void {
   dispatch({ type: "remove", id });
 }
 
-const toastFn = ((opts: ToastV2Options | string) => pushToast(normalize(opts))) as ToastApi;
-toastFn.success = (opts) => pushToast(normalize(opts, "success"));
-toastFn.info = (opts) => pushToast(normalize(opts, "info"));
-toastFn.warning = (opts) => pushToast(normalize(opts, "warning"));
-toastFn.danger = (opts) => pushToast(normalize(opts, "danger"));
+const toastFn = ((opts: ToastV2Options | string, options?: Omit<ToastV2Options, "title">) =>
+  pushToast(normalize(opts, undefined, options))) as ToastApi;
+toastFn.success = (opts, options) => pushToast(normalize(opts, "success", options));
+toastFn.info = (opts, options) => pushToast(normalize(opts, "info", options));
+toastFn.warning = (opts, options) => pushToast(normalize(opts, "warning", options));
+toastFn.danger = (opts, options) => pushToast(normalize(opts, "danger", options));
+toastFn.error = (opts, options) => pushToast(normalize(opts, "danger", options));
 toastFn.dismiss = dismissToast;
 toastFn.promise = async function promiseToast<T>(
   promise: Promise<T>,
@@ -321,10 +386,12 @@ function ToastBubble({
 }) {
   const role =
     entry.tone === "danger" || entry.tone === "warning" ? "alert" : "status";
+  const ta = toneAttrs("vf-toast-v2", { tone: entry.tone ?? "neutral" });
   return (
     <div
       role={role}
-      className={cx("vf-toast-v2", `vf-toast-v2--${entry.tone ?? "neutral"}`)}
+      className={ta.className}
+      {...ta.attrs}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -338,7 +405,25 @@ function ToastBubble({
               <div className="vf-toast-v2__desc">{entry.description}</div>
             )}
           </div>
-          {entry.action && <div className="vf-toast-v2__action">{entry.action}</div>}
+          {entry.action && (
+            <div className="vf-toast-v2__action">
+              {isToastActionObject(entry.action) ? (
+                <button
+                  type="button"
+                  className="vf-toast-v2__action-button"
+                  onClick={() => {
+                    entry.action &&
+                      (entry.action as ToastActionObject).onClick();
+                    dismiss();
+                  }}
+                >
+                  {(entry.action as ToastActionObject).label}
+                </button>
+              ) : (
+                (entry.action as ReactNode)
+              )}
+            </div>
+          )}
           <button
             type="button"
             className="vf-toast-v2__dismiss"

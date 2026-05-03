@@ -21,6 +21,16 @@
 .vf-button--sm { padding: var(--vf-sp-1) var(--vf-sp-4); font-size: var(--vf-font-xs); }
 .vf-button--md { padding: var(--vf-sp-3) var(--vf-sp-7); font-size: var(--vf-font-sm); }
 .vf-button--lg { padding: var(--vf-sp-4) var(--vf-sp-9); font-size: var(--vf-font-md); }
+/* Icon-only square button. Use when the child is a single icon and aria-label
+   is provided on the Button; equivalent to IconButton without a separate
+   component. Matches the common shadcn `size="icon"` convention. */
+.vf-button--icon {
+  padding: 0;
+  aspect-ratio: 1 / 1;
+  min-width: var(--vf-sp-9);
+  min-height: var(--vf-sp-9);
+  font-size: var(--vf-font-sm);
+}
 
 /* variants — canonical set: solid | outline | ghost | subtle */
 

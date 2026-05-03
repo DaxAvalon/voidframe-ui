@@ -10,6 +10,11 @@
 //   - Every sanitize call goes through one audited config.
 //   - Running in an SSR context (no `window`) is a no-op that returns
 //     the empty string instead of crashing.
+//
+// `dompurify` is declared `external` in vite.config.ts and an optional
+// peer dep. Consumers who don't use markdown / rich-text / mermaid can
+// rely on tree-shaking to drop this module entirely; consumers who do
+// install dompurify alongside voidframe-ui.
 
 import DOMPurify from "dompurify";
 

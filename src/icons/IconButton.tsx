@@ -15,15 +15,29 @@ import {
 } from "react";
 import { cx } from "../utils/cx";
 import { warnOnce } from "../utils/warn";
+import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
+import { toneAttrs } from "../utils/toneAttrs";
 
-export type IconButtonVariant = "solid" | "outline" | "ghost" | "subtle";
+export type IconButtonVariant = "solid" | "outline" | "ghost" | "subtle" | "destructive";
 export type IconButtonSize = "xs" | "sm" | "md" | "lg";
+export type IconButtonTone =
+  | "neutral"
+  | "info"
+  | "success"
+  | "danger"
+  | "warning";
 
 export interface IconButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
   variant?: IconButtonVariant;
   size?: IconButtonSize;
   accent?: string;
+  /**
+   * Semantic tone. Mirrors Button/Badge/AlertV2. Sets `data-tone` + a
+   * `vf-icon-button--tone-…` modifier, and primes `--vf-accent` to the
+   * matching token when no explicit `accent` is passed.
+   */
+  tone?: IconButtonTone;
   /** Accessible name — required for screen readers. */
   "aria-label"?: string;
   /** Short text shown on hover / focus above the button. */
@@ -43,8 +57,10 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       variant = "outline",
       size = "md",
       accent,
+      tone,
       tooltip,
       active,
+      disabled,
       className,
       style,
       "aria-label": ariaLabel,
@@ -63,25 +79,33 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       }
     }, [ariaLabel, props]);
 
+    const resolvedTone: IconButtonTone | undefined =
+      variant === "destructive" ? "danger" : tone;
+    const resolvedVariant: IconButtonVariant =
+      variant === "destructive" ? "solid" : variant;
     const composedStyle = {
       ...(accent ? ({ "--vf-accent": accent } as React.CSSProperties) : {}),
+      ...(!accent && resolvedTone && resolvedTone !== "neutral"
+        ? ({ "--vf-accent": `var(--vf-${resolvedTone})` } as React.CSSProperties)
+        : {}),
       ...style,
     };
 
+    const ta = toneAttrs("vf-icon-button", {
+      variant: resolvedVariant,
+      size,
+      tone: resolvedTone,
+    });
     const button = (
       <button
         ref={ref}
         type={type}
-        className={cx(
-          "vf-icon-button",
-          `vf-icon-button--${variant}`,
-          `vf-icon-button--${size}`,
-          active && "vf-icon-button--active",
-          className
-        )}
+        className={cx(ta.className, active && "vf-icon-button--active", className)}
         aria-label={ariaLabel}
         aria-pressed={active ? "true" : undefined}
+        {...buttonDisabledAttrs(disabled)}
         style={composedStyle}
+        {...ta.attrs}
         {...props}
       >
         {children}

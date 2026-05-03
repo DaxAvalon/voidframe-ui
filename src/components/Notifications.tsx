@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { Label } from "./Text";
 import { useClickOutside } from "../hooks";
 import { useMergedRefs } from "../hooks/useMergedRefs";
@@ -193,6 +194,7 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
                   {onDismiss && (
                     <button
                       type="button"
+                      data-testid={`vf-notification-dismiss-button-${n.id}`}
                       className="vf-notif-center__dismiss"
                       aria-label={`Dismiss notification`}
                       onClick={(e) => {
@@ -247,11 +249,13 @@ export const BannerAlert = forwardRef<HTMLDivElement, BannerAlertProps>(
     const [hidden, setHidden] = useState(false);
     if (hidden) return null;
     const role = tone === "danger" || tone === "warning" ? "alert" : "status";
+    const ta = toneAttrs("vf-banner-alert", { tone });
     return (
       <div
         ref={ref}
         role={role}
-        className={cx("vf-banner-alert", `vf-banner-alert--${tone}`, className)}
+        className={cx(ta.className, className)}
+        {...ta.attrs}
         {...props}
       >
         {icon && <span className="vf-banner-alert__icon">{icon}</span>}
@@ -260,6 +264,7 @@ export const BannerAlert = forwardRef<HTMLDivElement, BannerAlertProps>(
         {dismissible && (
           <button
             type="button"
+            data-testid="vf-banner-alert-dismiss-button"
             className="vf-banner-alert__dismiss"
             aria-label="Dismiss"
             onClick={() => {
@@ -293,10 +298,12 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(function Callout
   { icon, title, tone = "info", className, children, ...props },
   ref
 ) {
+  const ta = toneAttrs("vf-callout", { tone });
   return (
     <div
       ref={ref}
-      className={cx("vf-callout", `vf-callout--${tone}`, className)}
+      className={cx(ta.className, className)}
+      {...ta.attrs}
       {...props}
     >
       {icon && <span className="vf-callout__icon" aria-hidden="true">{icon}</span>}
@@ -356,6 +363,12 @@ export interface AlertV2Props extends Omit<HTMLAttributes<HTMLDivElement>, "titl
   dismissible?: boolean;
   onDismiss?: () => void;
   action?: ReactNode;
+  /**
+   * When true, renders the alert body in a monospace font — suitable for CI
+   * failure output, stack traces, or JSON payloads pasted into an alert.
+   * Mirrors `Card.monospace` / `Dialog.Content.monospace`.
+   */
+  monospace?: boolean;
   children?: ReactNode;
 }
 
@@ -371,6 +384,7 @@ export const AlertV2 = forwardRef<HTMLDivElement, AlertV2Props>(function AlertV2
     dismissible,
     onDismiss,
     action,
+    monospace,
     className,
     children,
     ...props
@@ -380,11 +394,13 @@ export const AlertV2 = forwardRef<HTMLDivElement, AlertV2Props>(function AlertV2
   const [hidden, setHidden] = useState(false);
   if (hidden) return null;
   const role = tone === "danger" ? "alert" : "status";
+  const ta = toneAttrs("vf-alert-v2", { tone });
   return (
     <div
       ref={ref}
       role={role}
-      className={cx("vf-alert-v2", `vf-alert-v2--${tone}`, className)}
+      className={cx(ta.className, monospace && "vf-alert-v2--monospace", className)}
+      {...ta.attrs}
       {...props}
     >
       {icon && <span className="vf-alert-v2__icon" aria-hidden="true">{icon}</span>}
@@ -396,6 +412,7 @@ export const AlertV2 = forwardRef<HTMLDivElement, AlertV2Props>(function AlertV2
       {dismissible && (
         <button
           type="button"
+          data-testid="vf-alert-v2-dismiss-button"
           className="vf-alert-v2__dismiss"
           aria-label="Dismiss"
           onClick={() => {

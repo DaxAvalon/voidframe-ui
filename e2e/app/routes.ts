@@ -30,6 +30,7 @@ export const routes: Record<string, LazyExoticComponent<ComponentType>> = {
   DateRangePicker: lazy(() => import("./routes/DateRangePicker")),
   RadioGroup: lazy(() => import("./routes/RadioGroup")),
   DataGrid: lazy(() => import("./routes/DataGrid")),
+  DataGridLarge: lazy(() => import("./routes/DataGridLarge")),
   TreeView: lazy(() => import("./routes/TreeView")),
   Sortable: lazy(() => import("./routes/Sortable")),
   Pagination: lazy(() => import("./routes/Pagination")),

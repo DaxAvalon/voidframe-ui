@@ -167,3 +167,40 @@
 @media print {
   .vf-print-only { display: block !important; }
 }
+
+/* ── Text decoration ───────────────────────────────────────── */
+.vf-line-through { text-decoration: line-through; }
+.vf-underline { text-decoration: underline; }
+.vf-no-underline { text-decoration: none; }
+
+/* ── Transitions (accent / colors) ─────────────────────────── */
+.vf-transition-colors {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: var(--vf-duration-base);
+  transition-timing-function: var(--vf-easing-standard);
+}
+
+/* ── Pulse / shimmer animation (for placeholders, live dots) */
+.vf-pulse {
+  animation: vf-pulse-anim 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes vf-pulse-anim {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vf-pulse { animation: none; }
+  .vf-transition-colors { transition: none; }
+}
+
+/* ── Pseudo-state colors (commonly hand-rolled by consumers) */
+.vf-hover-accent-bg:hover {
+  background: color-mix(in srgb, var(--vf-accent) 12%, transparent);
+}
+.vf-hover-accent-fg:hover { color: var(--vf-accent); }
+.vf-hover-accent-border:hover { border-color: var(--vf-accent); }
+.vf-hover-fg:hover { color: var(--vf-text-0); }
+.vf-focus-ring:focus-visible {
+  outline: var(--vf-focus-ring);
+  outline-offset: var(--vf-focus-offset);
+}

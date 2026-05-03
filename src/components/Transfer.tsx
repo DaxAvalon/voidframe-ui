@@ -8,6 +8,7 @@ import {
   type CSSProperties,
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
+import { itemKeyAttrs } from "../hooks/useItemKey";
 import { cx } from "../utils/cx";
 
 // ── Types ───────────────────────────────────────────────────────
@@ -33,6 +34,11 @@ export interface TransferProps
   /** Disable the entire component. */
   disabled?: boolean;
   size?: "sm" | "md" | "lg";
+  /**
+   * Return arbitrary HTML attributes for each rendered item across both
+   * panels. Mirrors `Table.rowAttributes` — attach `data-testid` per item.
+   */
+  itemAttributes?: (item: TransferItem, panel: "left" | "right") => HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -49,6 +55,7 @@ const TransferImpl = forwardRef<HTMLDivElement, TransferProps>(
       searchable = false,
       disabled = false,
       size = "md",
+      itemAttributes,
       className,
       style,
       ...props
@@ -165,7 +172,8 @@ const TransferImpl = forwardRef<HTMLDivElement, TransferProps>(
       setChecked: React.Dispatch<React.SetStateAction<Set<string>>>,
       search: string,
       setSearch: React.Dispatch<React.SetStateAction<string>>,
-      onDoubleClick: (key: string) => void
+      onDoubleClick: (key: string) => void,
+      side: "left" | "right"
     ) => (
       <div className="vf-transfer__panel">
         <div className="vf-transfer__panel-header">
@@ -195,11 +203,13 @@ const TransferImpl = forwardRef<HTMLDivElement, TransferProps>(
                   role="option"
                   aria-selected={isChecked}
                   aria-disabled={isDisabled}
+                  {...itemKeyAttrs("item", String(item.key))}
                   className={cx(
                     "vf-transfer__item",
                     isChecked && "vf-transfer__item--selected",
                     isDisabled && "vf-transfer__item--disabled"
                   )}
+                  {...(itemAttributes?.(item, side) ?? {})}
                   onClick={() => {
                     if (!isDisabled) toggleCheck(item.key, checked, setChecked);
                   }}
@@ -243,7 +253,8 @@ const TransferImpl = forwardRef<HTMLDivElement, TransferProps>(
           setLeftChecked,
           leftSearch,
           setLeftSearch,
-          moveItemRight
+          moveItemRight,
+          "left"
         )}
 
         <div className="vf-transfer__actions">
@@ -293,7 +304,8 @@ const TransferImpl = forwardRef<HTMLDivElement, TransferProps>(
           setRightChecked,
           rightSearch,
           setRightSearch,
-          moveItemLeft
+          moveItemLeft,
+          "right"
         )}
       </div>
     );
@@ -306,3 +318,4 @@ TransferImpl.displayName = "Transfer";
  * `target` with keyboard / button controls.
  */
 export const Transfer = memo(TransferImpl);
+(Transfer as unknown as { displayName: string }).displayName = "Transfer";

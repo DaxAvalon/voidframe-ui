@@ -25,7 +25,9 @@ import {
   type Ref,
 } from "react";
 import { cx } from "../utils/cx";
+import { itemKeyAttrs } from "../hooks/useItemKey";
 import { formatNumber } from "../utils/formatters";
+import { genericMemo } from "../utils/genericMemo";
 import { warnOnce } from "../utils/warn";
 import type { SortDirection, TableColumn } from "./Data";
 import { VirtualList } from "./Virtualization";
@@ -114,6 +116,12 @@ export interface DataGridProps<T = Record<string, unknown>>
   onColumnResize?: (key: string, width: number) => void;
   /** When set, column widths / visibility / order persist to localStorage under this key. */
   persistKey?: string;
+  /**
+   * Return arbitrary HTML attributes to apply to each rendered row. Use for
+   * `data-testid`, `aria-*`, per-row event listeners, etc. — tests can then
+   * query rows by attribute instead of content or injected marker spans.
+   */
+  rowAttributes?: (row: T, index: number) => HTMLAttributes<HTMLDivElement>;
   children?: ReactNode;
   style?: CSSProperties;
 }
@@ -182,6 +190,7 @@ interface DataGridContextValue<T = Record<string, unknown>> {
   virtualHeight?: number;
   pagination?: DataGridPaginationConfig;
   totalCount?: number;
+  rowAttributes?: (row: T, index: number) => HTMLAttributes<HTMLDivElement>;
 }
 
 const DataGridContext = createContext<DataGridContextValue | null>(null);
@@ -222,6 +231,7 @@ function DataGridRoot<T = Record<string, unknown>>({
   onColumnReorder,
   onColumnResize,
   persistKey,
+  rowAttributes,
   className,
   style,
   children,
@@ -514,6 +524,7 @@ function DataGridRoot<T = Record<string, unknown>>({
     virtualHeight,
     pagination,
     totalCount,
+    rowAttributes,
   };
 
   return (
@@ -714,16 +725,19 @@ function DataGridBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   const renderRowCells = (row: unknown, ri: number, key: string) => {
     const isSelected = ctx.selected.has(key);
     const isExpanded = ctx.expandedKeys.has(key);
+    const extraAttrs = ctx.rowAttributes?.(row as never, ri) ?? {};
     return (
       <div
         key={key}
         role="row"
         aria-selected={isSelected}
+        {...itemKeyAttrs("row", String(key))}
         className={cx(
           "vf-datagrid__row",
           isSelected && "vf-datagrid__row--selected"
         )}
         style={{ display: "contents" }}
+        {...(extraAttrs as HTMLAttributes<HTMLDivElement>)}
         draggable={ctx.rowReorder}
         onDragStart={
           ctx.rowReorder
@@ -1025,7 +1039,13 @@ function DataGridBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
       >
         {headerContent}
         <div role="rowgroup" className="vf-datagrid__body">
-          {statusRow(ctx.emptyState ?? "No rows")}
+          {statusRow(
+            ctx.emptyState ?? (
+              <div className="vf-empty-state vf-empty-state--plain" data-variant="plain">
+                <div className="vf-empty-state__title">No rows</div>
+              </div>
+            )
+          )}
         </div>
       </div>
     );
@@ -1343,7 +1363,16 @@ function DataGridBulkActions({
  * A high-density data table with built-in sorting, filtering, pagination, and column management.
  * Exposes compound subcomponents (Toolbar, Search, Filters, Pagination, Export) for flexible layouts.
  */
-export const DataGrid = Object.assign(DataGridRoot, {
+/**
+ * DataGrid root memoized via `genericMemo` so the row-type generic
+ * survives. Parent re-renders with stable `data` / `columns` skip the
+ * full grid render walk; consumers should pair this with stable
+ * callbacks (`useCallback`) on `onSortChange`, `onSelectionChange`,
+ * etc. for the optimization to fire.
+ */
+const MemoDataGridRoot = genericMemo(DataGridRoot);
+
+export const DataGrid = Object.assign(MemoDataGridRoot, {
   Body: DataGridBody,
   Toolbar: DataGridToolbar,
   Search: DataGridSearch,

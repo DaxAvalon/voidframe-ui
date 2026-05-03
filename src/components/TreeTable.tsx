@@ -14,6 +14,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { itemKeyAttrs } from "../hooks/useItemKey";
 import type { TableColumn } from "./Data";
 import { genericForwardRef } from "../utils/forwardRef";
 
@@ -25,6 +26,11 @@ export interface TreeTableProps<T = Record<string, unknown>>
   rowKey: (row: T) => string;
   defaultExpanded?: string[];
   onRowClick?: (row: T) => void;
+  /**
+   * Return arbitrary HTML attributes for each rendered row. Mirrors
+   * `Table.rowAttributes` / `DataGrid.rowAttributes`.
+   */
+  rowAttributes?: (row: T, depth: number) => HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -42,6 +48,7 @@ export const TreeTable = genericForwardRef(function TreeTable<
     rowKey,
     defaultExpanded = [],
     onRowClick,
+    rowAttributes,
     className,
     style,
     ...props
@@ -111,8 +118,10 @@ export const TreeTable = genericForwardRef(function TreeTable<
               aria-level={depth + 1}
               aria-expanded={hasChildren ? isExpanded : undefined}
               className="vf-tree-table__row"
+              {...itemKeyAttrs("row", String(key))}
               style={{ display: "contents" }}
               onClick={onRowClick ? () => onRowClick(row) : undefined}
+              {...(rowAttributes?.(row, depth) ?? {})}
             >
               <div role="cell" className="vf-table__cell vf-tree-table__caret">
                 {hasChildren ? (

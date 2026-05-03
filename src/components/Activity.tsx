@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 
 function formatRelative(time: Date | string): string {
   const d = typeof time === "string" ? new Date(time) : time;
@@ -64,6 +65,14 @@ export interface ActivityItemProps extends HTMLAttributes<HTMLDivElement> {
   /** Show absolute time instead of relative. */
   absoluteTime?: boolean;
   tone?: "neutral" | "success" | "warning" | "danger" | "info";
+  /**
+   * Optional rich expansion content rendered below the fixed-shape row.
+   * Use when an activity item should disclose more detail than fits in
+   * `preview` — nested lists, inline diffs, evaluator breakdowns, etc.
+   * Voidframe doesn't manage the expand/collapse state itself; consumers
+   * conditionally pass `children` based on their own toggle state.
+   */
+  children?: ReactNode;
 }
 
 const ActivityItem = forwardRef<HTMLDivElement, ActivityItemProps>(
@@ -77,15 +86,18 @@ const ActivityItem = forwardRef<HTMLDivElement, ActivityItemProps>(
       time,
       absoluteTime,
       tone = "neutral",
+      children,
       className,
       ...props
     },
     ref
   ) {
+    const ta = toneAttrs("vf-activity__item", { tone });
     return (
       <article
         ref={ref}
-        className={cx("vf-activity__item", `vf-activity__item--${tone}`, className)}
+        className={cx(ta.className, className)}
+        {...ta.attrs}
         {...props}
       >
         {avatar && <div className="vf-activity__avatar">{avatar}</div>}
@@ -108,6 +120,7 @@ const ActivityItem = forwardRef<HTMLDivElement, ActivityItemProps>(
             )}
           </div>
           {preview && <div className="vf-activity__preview">{preview}</div>}
+          {children && <div className="vf-activity__expanded">{children}</div>}
         </div>
       </article>
     );

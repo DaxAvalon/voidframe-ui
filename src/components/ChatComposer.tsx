@@ -23,6 +23,13 @@ import { safeHref } from "../utils/safeHref";
 
 // ── Context ─────────────────────────────────────────────────
 
+/**
+ * `Composer.status` controls visual state — submit-button label, streaming
+ * indicators, etc. By default voidframe ALSO disables the input when
+ * `status="streaming"` (since most chat UIs block typing during generation).
+ * To allow interruption-via-typing during streaming, pass `disabled={false}`
+ * explicitly; the explicit prop wins over the status-derived default.
+ */
 type ComposerStatus = "idle" | "streaming";
 
 interface ComposerContextValue {
@@ -57,6 +64,14 @@ export interface ComposerProps
   onSubmit?: (value: string) => void;
   onStop?: () => void;
   onSlashCommand?: (command: string) => void;
+  /**
+   * Visual + behavior status. `"streaming"` indicates the assistant is
+   * generating a response. By default voidframe now disables the composer
+   * input while `status="streaming"` (matching the common chat-UI
+   * expectation: no typing during generation, use `onStop`). Pass explicit
+   * `disabled={false}` to override when you deliberately want interruption
+   * via typing.
+   */
   status?: ComposerStatus;
   disabled?: boolean;
   submitOnEnter?: boolean;
@@ -75,7 +90,7 @@ function ComposerRoot(
     onStop,
     onSlashCommand,
     status = "idle",
-    disabled = false,
+    disabled,
     submitOnEnter = true,
     shiftEnterNewline = true,
     maxLength,
@@ -85,6 +100,9 @@ function ComposerRoot(
     ...props
   }: ComposerProps
 ) {
+  // Streaming status implies disabled input by default, unless the consumer
+  // explicitly set disabled={false}. Explicit override wins.
+  const effectiveDisabled = disabled ?? (status === "streaming");
   const [internal, setInternal] = useState(defaultValue);
   const current = value ?? internal;
   const setValue = useCallback(
@@ -96,10 +114,10 @@ function ComposerRoot(
   );
 
   const submit = useCallback(() => {
-    if (disabled || status === "streaming") return;
+    if (effectiveDisabled || status === "streaming") return;
     if (!current.trim()) return;
     onSubmit?.(current);
-  }, [current, disabled, status, onSubmit]);
+  }, [current, effectiveDisabled, status, onSubmit]);
 
   const baseId = useId();
   const textareaId = `${baseId}-textarea`;
@@ -110,7 +128,7 @@ function ComposerRoot(
       setValue,
       submit,
       stop: onStop,
-      disabled,
+      disabled: effectiveDisabled,
       status,
       submitOnEnter,
       shiftEnterNewline,
@@ -124,7 +142,7 @@ function ComposerRoot(
       setValue,
       submit,
       onStop,
-      disabled,
+      effectiveDisabled,
       status,
       submitOnEnter,
       shiftEnterNewline,
@@ -141,7 +159,7 @@ function ComposerRoot(
         className={cx(
           "vf-composer",
           status === "streaming" && "vf-composer--streaming",
-          disabled && "vf-composer--disabled",
+          effectiveDisabled && "vf-composer--disabled",
           className
         )}
         data-status={status}
@@ -806,6 +824,11 @@ export const PromptTemplateEditor = forwardRef<
   const [title, setTitle] = useState(template?.title ?? "");
   const [body, setBody] = useState(template?.body ?? "");
   const [description, setDescription] = useState(template?.description ?? "");
+  // Stable ID generator: useId() per instance + counter ref. Avoids
+  // Date.now() / Math.random() so SSR-rendered editor state survives
+  // hydration when later mutated client-side.
+  const editorRootId = useId();
+  const saveCounter = useRef(0);
 
   return (
     <form
@@ -813,8 +836,9 @@ export const PromptTemplateEditor = forwardRef<
       className={cx("vf-prompt-template-editor", className)}
       onSubmit={(e) => {
         e.preventDefault();
+        saveCounter.current += 1;
         onSave?.({
-          id: template?.id ?? `t-${Date.now().toString(36)}`,
+          id: template?.id ?? `t-${editorRootId}-${saveCounter.current}`,
           title,
           body,
           description: description || undefined,

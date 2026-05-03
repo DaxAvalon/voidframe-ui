@@ -8,6 +8,7 @@
 
 import {
   forwardRef,
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -18,6 +19,7 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
+import { itemKeyAttrs } from "../hooks/useItemKey";
 import { cx } from "../utils/cx";
 
 export interface TreeNode {
@@ -25,6 +27,8 @@ export interface TreeNode {
   label: ReactNode;
   icon?: ReactNode;
   disabled?: boolean;
+  /** Semantic tone emitted as `data-tone` + BEM class on the rendered node. */
+  tone?: "neutral" | "danger" | "warning" | "success";
   children?: TreeNode[];
   /** Hint to the view that children should be loaded via `loadChildren`. */
   hasChildren?: boolean;
@@ -52,6 +56,12 @@ export interface TreeViewProps
   onCheckedChange?: (next: string[]) => void;
   renderItem?: (item: TreeNode, state: TreeViewRenderState) => ReactNode;
   loadChildren?: (node: TreeNode) => Promise<TreeNode[]>;
+  /**
+   * Return arbitrary HTML attributes for each rendered tree node. Mirrors
+   * `Table.rowAttributes` — tests can attach `data-testid` per node without
+   * injecting marker spans inside `renderItem`.
+   */
+  itemAttributes?: (node: TreeNode, depth: number) => HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -74,7 +84,7 @@ function flatten(
  * A hierarchical tree for displaying and navigating nested data structures.
  * Supports expand/collapse, keyboard traversal, and optional selection.
  */
-export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(function TreeView(
+const TreeViewImpl = forwardRef<HTMLDivElement, TreeViewProps>(function TreeView(
   {
     items,
     defaultExpanded = [],
@@ -88,6 +98,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(function TreeV
     onCheckedChange,
     renderItem,
     loadChildren,
+    itemAttributes,
     className,
     style,
     ...props
@@ -312,9 +323,13 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(function TreeV
         className={cx(
           "vf-treeview__item",
           isSelected && "vf-treeview__item--selected",
-          node.disabled && "vf-treeview__item--disabled"
+          node.disabled && "vf-treeview__item--disabled",
+          node.tone && `vf-treeview__item--${node.tone}`
         )}
+        data-tone={node.tone}
+        {...itemKeyAttrs("node", String(node.id))}
         style={{ paddingInlineStart: `${8 + depth * 16}px` }}
+        {...(itemAttributes?.(node, depth) ?? {})}
         onClick={() => {
           setFocusId(node.id);
           if (!node.disabled) select(node.id);
@@ -369,4 +384,11 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(function TreeV
     </div>
   );
 });
-TreeView.displayName = "TreeView";
+TreeViewImpl.displayName = "TreeView";
+
+/**
+ * Tree view. Memoized at the export site so parent re-renders with
+ * referentially-stable `nodes` / `expanded` skip the recursive walk.
+ */
+export const TreeView = memo(TreeViewImpl);
+(TreeView as unknown as { displayName: string }).displayName = "TreeView";

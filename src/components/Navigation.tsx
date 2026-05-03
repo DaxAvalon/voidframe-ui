@@ -15,6 +15,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { safeHref } from "../utils/safeHref";
 import { Label } from "./Text";
 
@@ -589,6 +590,8 @@ export interface NavItemProps extends HTMLAttributes<HTMLDivElement> {
   indent?: number;
   /** Render as a polymorphic element via children (Radix-style asChild). */
   asChild?: boolean;
+  /** Semantic tone — destructive nav entries, warnings, etc. */
+  tone?: "neutral" | "danger" | "warning" | "success";
   style?: CSSProperties;
 }
 
@@ -606,6 +609,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
     onClick,
     indent = 0,
     asChild,
+    tone,
     className,
     style,
     ...props
@@ -623,11 +627,13 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
       {badge && <span className="vf-nav-item__badge">{badge}</span>}
     </>
   );
+  const ta = toneAttrs("vf-nav-item", { tone });
   const commonProps = {
-    className: cx("vf-nav-item", className),
+    className: cx(ta.className, className),
     style: inline,
     "data-active": active ? "true" : undefined,
     "aria-current": active ? ("page" as const) : undefined,
+    ...ta.attrs,
   };
   if (asChild && isValidElement(children)) {
     // Let the caller provide the outer element (e.g. router <Link>).

@@ -35,6 +35,14 @@ export interface ColorPickerProps
   allowAlpha?: boolean;
   disabled?: boolean;
   id?: string;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /**
+   * Props forwarded to the outer wrapper `<div>`. Use for `data-testid` /
+   * `data-*` / `aria-*` attrs on the canonical "ColorPicker" surface.
+   * Rest props (`{...props}`) also land on the wrapper for backward compat.
+   */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -176,6 +184,8 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
       allowAlpha,
       disabled,
       id,
+      size = "md",
+      wrapperProps,
       className,
       style,
       ...props
@@ -237,8 +247,10 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
     return (
       <div
         ref={ref}
-        className={cx("vf-color-picker", className)}
+        className={cx("vf-color-picker", `vf-color-picker--${size}`, className)}
+        data-size={size}
         style={style}
+        {...wrapperProps}
         {...props}
       >
         {label && <Label>{label}</Label>}

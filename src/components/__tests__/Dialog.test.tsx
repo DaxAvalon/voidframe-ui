@@ -458,15 +458,24 @@ describe("useConfirm + ConfirmProvider", () => {
     expect(result).toHaveBeenCalledWith(false);
   });
 
-  it("throws when used outside ConfirmProvider", () => {
-    function BadProbe() {
-      useConfirm();
-      return <div>nope</div>;
+  it("warns and falls back to window.confirm() when used outside ConfirmProvider (dev mode)", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const confirmSpy = vi.spyOn(window, "confirm").mockImplementation(() => true);
+    let confirmFn:
+      | ReturnType<typeof useConfirm>
+      | null = null;
+    function Probe() {
+      confirmFn = useConfirm();
+      return <div>probe</div>;
     }
-    // Suppress React's error logging from the thrown render error.
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => renderWithTheme(<BadProbe />)).toThrow();
-    spy.mockRestore();
+    renderWithTheme(<Probe />);
+    expect(confirmFn).not.toBeNull();
+    const result = await confirmFn!({ title: "Delete?" });
+    expect(result).toBe(true);
+    expect(confirmSpy).toHaveBeenCalledWith(expect.stringContaining("Delete?"));
+    expect(warnSpy).toHaveBeenCalled();
+    confirmSpy.mockRestore();
+    warnSpy.mockRestore();
   });
 });
 

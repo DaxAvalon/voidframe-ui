@@ -25,6 +25,14 @@ export interface LogEntry {
   level?: LogLevel;
   message: string;
   source?: string;
+  /**
+   * Surrounding context lines for error/warning rows. Rendered dimmed
+   * above/below `message` so error-with-context patterns (CI logs, stack
+   * traces with surrounding frames) don't have to flatten into `message`.
+   * Both arrays are optional; empty / undefined behave identically to "no
+   * context."
+   */
+  context?: { before?: string[]; after?: string[] };
 }
 
 export interface LogViewerProps extends HTMLAttributes<HTMLDivElement> {
@@ -39,6 +47,11 @@ export interface LogViewerProps extends HTMLAttributes<HTMLDivElement> {
   pausable?: boolean;
   /** Show regex filter input. Default true. */
   filterable?: boolean;
+  /**
+   * Return arbitrary HTML attributes for each rendered log entry. Mirrors
+   * `Table.rowAttributes` — tests can attach `data-testid` per entry.
+   */
+  entryAttributes?: (entry: LogEntry, index: number) => HTMLAttributes<HTMLDivElement>;
 }
 
 const levelWeight: Record<LogLevel, number> = {
@@ -64,6 +77,7 @@ export const LogViewer = forwardRef<HTMLDivElement, LogViewerProps>(
       height = 280,
       pausable = true,
       filterable = true,
+      entryAttributes,
       className,
       style,
       ...props
@@ -206,7 +220,10 @@ export const LogViewer = forwardRef<HTMLDivElement, LogViewerProps>(
               "vf-log-viewer__entry",
               entry.level && `vf-log-viewer__entry--${entry.level}`
             )}
+            data-log-index={i}
+            data-log-level={entry.level}
             onClick={onEntryClick ? () => onEntryClick(entry, i) : undefined}
+            {...(entryAttributes?.(entry, i) ?? {})}
           >
             {entry.timestamp && (
               <span className="vf-log-viewer__time">
@@ -223,7 +240,25 @@ export const LogViewer = forwardRef<HTMLDivElement, LogViewerProps>(
             {entry.source && (
               <span className="vf-log-viewer__source">[{entry.source}]</span>
             )}
+            {entry.context?.before?.length ? (
+              <span className="vf-log-viewer__context vf-log-viewer__context--before">
+                {entry.context.before.map((line, ci) => (
+                  <span key={`b${ci}`} className="vf-log-viewer__context-line">
+                    {line}
+                  </span>
+                ))}
+              </span>
+            ) : null}
             <span className="vf-log-viewer__message">{renderMessage(entry.message)}</span>
+            {entry.context?.after?.length ? (
+              <span className="vf-log-viewer__context vf-log-viewer__context--after">
+                {entry.context.after.map((line, ci) => (
+                  <span key={`a${ci}`} className="vf-log-viewer__context-line">
+                    {line}
+                  </span>
+                ))}
+              </span>
+            ) : null}
           </div>
         ))}
         </div>

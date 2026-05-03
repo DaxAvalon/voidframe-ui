@@ -3,6 +3,8 @@
 import { forwardRef, memo, useCallback, useEffect, useRef, useState } from "react";
 import type { HTMLAttributes } from "react";
 import { cx } from "../utils/cx";
+import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
+import { toneAttrs } from "../utils/toneAttrs";
 
 export interface CopyButtonProps
   extends Omit<HTMLAttributes<HTMLButtonElement>, "onClick" | "onCopy" | "onError"> {
@@ -14,8 +16,13 @@ export interface CopyButtonProps
   copiedLabel?: string;
   /** Duration in ms the "copied" state is shown. Defaults to 2000. */
   copiedDuration?: number;
-  variant?: "solid" | "outline" | "ghost" | "subtle";
-  size?: "sm" | "md" | "lg";
+  variant?: "solid" | "outline" | "ghost" | "subtle" | "destructive";
+  size?: "sm" | "md" | "lg" | "icon";
+  /**
+   * Semantic tone. Mirrors Button/IconButton tone vocabulary — emits
+   * `data-tone` and primes `--vf-accent` when no explicit accent is supplied.
+   */
+  tone?: "neutral" | "info" | "success" | "danger" | "warning";
   disabled?: boolean;
   /** Fires after a successful clipboard write with the copied text. */
   onCopy?: (text: string) => void;
@@ -32,6 +39,7 @@ const CopyButtonImpl = forwardRef<HTMLButtonElement, CopyButtonProps>(
       copiedDuration = 2000,
       variant = "outline",
       size = "md",
+      tone,
       disabled,
       onCopy,
       onError,
@@ -73,6 +81,13 @@ const CopyButtonImpl = forwardRef<HTMLButtonElement, CopyButtonProps>(
       }
     }, [text, disabled, copiedDuration, onCopy, onError]);
 
+    const resolvedTone = variant === "destructive" ? "danger" : tone;
+    const resolvedVariant = variant === "destructive" ? "solid" : variant;
+    const ta = toneAttrs("vf-copy-button", {
+      variant: resolvedVariant,
+      size,
+      tone: resolvedTone,
+    });
     return (
       <button
         ref={ref}
@@ -80,14 +95,9 @@ const CopyButtonImpl = forwardRef<HTMLButtonElement, CopyButtonProps>(
         aria-label={copied ? copiedLabel : label}
         {...props}
         onClick={handleClick}
-        aria-disabled={disabled || undefined}
-        className={cx(
-          "vf-copy-button",
-          `vf-copy-button--${variant}`,
-          `vf-copy-button--${size}`,
-          copied && "vf-copy-button--copied",
-          className
-        )}
+        {...buttonDisabledAttrs(disabled)}
+        className={cx(ta.className, copied && "vf-copy-button--copied", className)}
+        {...ta.attrs}
         data-disabled={disabled ? "true" : undefined}
       >
         <span className="vf-copy-button__icon" aria-hidden="true">

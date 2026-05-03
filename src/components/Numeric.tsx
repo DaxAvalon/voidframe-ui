@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 
 // ── NumberDisplay ───────────────────────────────────────────
 
@@ -58,10 +59,12 @@ export const NumberDisplay = forwardRef<HTMLSpanElement, NumberDisplayProps>(
       if (signed) options.signDisplay = "exceptZero";
       return new Intl.NumberFormat(locale, options).format(value);
     }, [value, locale, decimals, compact, signed]);
+    const ta = toneAttrs("vf-num", { tone });
     return (
       <span
         ref={ref}
-        className={cx("vf-num", tone && `vf-num--${tone}`, className)}
+        className={cx(ta.className, className)}
+        {...ta.attrs}
         {...props}
       >
         {prefix}
@@ -135,15 +138,13 @@ export const CurrencyDisplay = forwardRef<
         : "danger"
       : undefined;
 
+  const ta = toneAttrs("vf-currency", { tone });
   return (
     <span
       ref={ref}
       data-value={value}
-      className={cx(
-        "vf-currency",
-        tone && `vf-currency--${tone}`,
-        className
-      )}
+      className={cx(ta.className, className)}
+      {...ta.attrs}
       {...props}
     >
       {text}
@@ -208,14 +209,12 @@ export const PercentDisplay = forwardRef<
         ? "success"
         : "danger"
       : undefined;
+  const ta = toneAttrs("vf-percent", { tone });
   return (
     <span
       ref={ref}
-      className={cx(
-        "vf-percent",
-        tone && `vf-percent--${tone}`,
-        className
-      )}
+      className={cx(ta.className, className)}
+      {...ta.attrs}
       {...props}
     >
       {text}
@@ -258,15 +257,12 @@ export const BigNumber = forwardRef<HTMLDivElement, BigNumberProps>(
     },
     ref
   ) {
+    const ta = toneAttrs("vf-big-number", { size, variant: align });
     return (
       <div
         ref={ref}
-        className={cx(
-          "vf-big-number",
-          `vf-big-number--${size}`,
-          `vf-big-number--${align}`,
-          className
-        )}
+        className={cx(ta.className, className)}
+        {...ta.attrs}
         {...props}
       >
         {label && <div className="vf-big-number__label">{label}</div>}

@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 
 // ── ModelSelector ──────────────────────────────────────────
 
@@ -279,6 +280,13 @@ export interface ContextWindowProps extends HTMLAttributes<HTMLDivElement> {
   used: number;
   max: number;
   label?: ReactNode;
+  /**
+   * Layout variant. `"default"` renders the full header (label + counts) and
+   * progress bar. `"compact"` renders a count-only pill matching
+   * `ChatTokenCounter`'s compact form — suited for `ConversationHeader`
+   * action slots where a progress bar would feel heavy.
+   */
+  kind?: "default" | "compact";
 }
 
 /**
@@ -286,17 +294,36 @@ export interface ContextWindowProps extends HTMLAttributes<HTMLDivElement> {
  * breakdown by section.
  */
 export const ContextWindow = forwardRef<HTMLDivElement, ContextWindowProps>(
-  function ContextWindow({ used, max, label = "Context", className, ...props }, ref) {
+  function ContextWindow({ used, max, label = "Context", kind = "default", className, ...props }, ref) {
     const pct = Math.min(100, Math.max(0, (used / max) * 100));
+    const tone = pct > 98 ? "danger" : pct > 90 ? "warning" : "neutral";
+    const ta = toneAttrs("vf-context-window", { variant: kind, tone });
+    if (kind === "compact") {
+      return (
+        <div
+          ref={ref}
+          className={cx(ta.className, className)}
+          role="status"
+          aria-label={typeof label === "string" ? label : undefined}
+          {...ta.attrs}
+          {...props}
+        >
+          <span className="vf-context-window__values">
+            {formatNumber(used)} / {formatNumber(max)}
+          </span>
+        </div>
+      );
+    }
     return (
       <div
         ref={ref}
-        className={cx("vf-context-window", className)}
+        className={cx(ta.className, className)}
         role="progressbar"
         aria-label={typeof label === "string" ? label : undefined}
         aria-valuenow={used}
         aria-valuemin={0}
         aria-valuemax={max}
+        {...ta.attrs}
         {...props}
       >
         <div className="vf-context-window__header">
@@ -352,16 +379,14 @@ export const CostDisplay = forwardRef<HTMLDivElement, CostDisplayProps>(
     ref
   ) {
     const sum = total ?? (input ?? 0) + (output ?? 0);
+    const ta = toneAttrs("vf-cost-display", { variant: kind });
     return (
       <div
         ref={ref}
         role="status"
         aria-label="Cost"
-        className={cx(
-          "vf-cost-display",
-          `vf-cost-display--${kind}`,
-          className
-        )}
+        className={cx(ta.className, className)}
+        {...ta.attrs}
         {...props}
       >
         {kind === "detailed" && (
@@ -396,6 +421,12 @@ export interface LatencyIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
   /** Latency in ms. */
   value: number;
   label?: ReactNode;
+  /**
+   * Layout variant. `"default"` renders label + value; `"compact"` shows
+   * only the value pill — matches the compact vocabulary of the other chat
+   * telemetry widgets (`ContextWindow`, `ChatTokenCounter`, `CostDisplay`).
+   */
+  kind?: "default" | "compact";
 }
 
 /**
@@ -405,21 +436,19 @@ export interface LatencyIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
 export const LatencyIndicator = forwardRef<
   HTMLSpanElement,
   LatencyIndicatorProps
->(function LatencyIndicator({ value, label, className, ...props }, ref) {
+>(function LatencyIndicator({ value, label, kind = "default", className, ...props }, ref) {
   const tone =
     value < 500 ? "good" : value < 2000 ? "warn" : value < 5000 ? "slow" : "bad";
+  const ta = toneAttrs("vf-latency", { tone, variant: kind });
   return (
     <span
       ref={ref}
-      className={cx(
-        "vf-latency",
-        `vf-latency--${tone}`,
-        className
-      )}
+      className={cx(ta.className, className)}
       title={`${value}ms`}
+      {...ta.attrs}
       {...props}
     >
-      {label && <span className="vf-latency__label">{label}</span>}
+      {kind !== "compact" && label && <span className="vf-latency__label">{label}</span>}
       <span className="vf-latency__value">{formatMs(value)}</span>
     </span>
   );
@@ -535,8 +564,19 @@ export interface TraceViewerProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Developer trace viewer for agent runs — flamegraph-style timeline of steps
- * and tool calls.
+ * Developer trace viewer for agent runs — flamegraph-style timeline of
+ * parent/child spans positioned by start time and duration.
+ *
+ * @remarks
+ * **Span-hierarchy required.** TraceViewer expects each span to carry
+ * `startMs` + `durationMs` and renders them as offset/width on a shared
+ * timeline. It does NOT render flat event streams (request/response pairs
+ * with `timestamp`-only metadata): without span widths the rows collapse
+ * to zero-width markers. For event feeds use `Activity` or a custom
+ * `Card`-per-row feed; for log streams use `LogViewer`.
+ *
+ * Future-proofing: a dedicated `EventStreamViewer` may replace event-feed
+ * usage of TraceViewer; the API change would be additive.
  */
 export const TraceViewer = forwardRef<HTMLDivElement, TraceViewerProps>(
   function TraceViewer({ spans, totalMs, className, ...props }, ref) {
@@ -737,6 +777,43 @@ export interface ModelPickerOption {
   name: string;
   description?: string;
   disabled?: boolean;
+}
+
+/**
+ * Minimal shape of an LLM-backend record most applications track in DB.
+ * `toModelPickerOptions` accepts this shape and returns a
+ * `ModelPickerOption[]` sorted by backend then model name. Backend name
+ * is used as the option description so the picker surfaces the backend
+ * without bespoke marshalling per consumer.
+ */
+export interface ModelPickerBackendInput {
+  name?: string;
+  available_models?: string[];
+  model_capabilities?: Record<string, unknown>;
+}
+
+/**
+ * Adapter helper: marshal voidframe-consumer backend records (as stored in
+ * `llm_backends` tables with `available_models: string[]` + `model_capabilities`
+ * blob) into the shape `ModelPicker` expects. Optional — consumers who already
+ * have `ModelPickerOption[]` should pass them directly.
+ */
+export function toModelPickerOptions(
+  backends: readonly ModelPickerBackendInput[]
+): ModelPickerOption[] {
+  const out: ModelPickerOption[] = [];
+  for (const b of backends) {
+    const backendName = b.name ?? "unknown";
+    const models = b.available_models ?? [];
+    for (const modelId of models) {
+      out.push({
+        id: `${backendName}:${modelId}`,
+        name: modelId,
+        description: backendName,
+      });
+    }
+  }
+  return out;
 }
 
 export interface ModelPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {

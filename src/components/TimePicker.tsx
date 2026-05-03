@@ -35,6 +35,10 @@ export interface TimePickerProps
   showSeconds?: boolean;
   disabled?: boolean;
   id?: string;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -100,6 +104,8 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
       showSeconds = false,
       disabled,
       id,
+      size = "md",
+      wrapperProps,
       className,
       style,
       ...props
@@ -170,10 +176,12 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
     return (
       <div
         ref={ref}
-        className={cx("vf-time-picker", className)}
+        className={cx("vf-time-picker", `vf-time-picker--${size}`, className)}
+        data-size={size}
         style={style}
         role="group"
         aria-label={label ?? "Time picker"}
+        {...wrapperProps}
         {...props}
       >
         {label && <Label>{label}</Label>}

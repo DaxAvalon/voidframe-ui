@@ -171,6 +171,61 @@ function App() {
 
 ---
 
+## Migrating from shadcn / Radix
+
+If you're moving an existing shadcn/ui (or Radix Primitives) project to voidframe-ui, the `voidframe-ui/compat-shadcn` subpath provides shadcn-shaped flat exports backed by voidframe internals. Most call sites can keep their existing imports verbatim; only the import path changes.
+
+```diff
+- import { Button } from "@/components/ui/button";
+- import {
+-   Dialog,
+-   DialogTrigger,
+-   DialogContent,
+-   DialogHeader,
+-   DialogTitle,
+-   DialogFooter,
+- } from "@/components/ui/dialog";
++ import {
++   Button,
++   Dialog,
++   DialogTrigger,
++   DialogContent,
++   DialogHeader,
++   DialogTitle,
++   DialogFooter,
++ } from "voidframe-ui/compat-shadcn";
+```
+
+The compat layer is purely static re-exports — zero runtime translation cost. Behavior, a11y semantics, focus management, and DOM shape come from the underlying voidframe components.
+
+### Parity table
+
+| shadcn import | `voidframe-ui/compat-shadcn` export | voidframe equivalent |
+| --- | --- | --- |
+| `Button`, `buttonVariants` | `Button` | `Button` (variant `default→solid`, `secondary→subtle`, `link→Link primitive`) |
+| `Card` (+ `Header`/`Title`/`Description`/`Content`/`Footer`) | `Card` + same | `Card` (with composed slot wrappers) |
+| `Dialog` (+ all subcomponents) | `Dialog`, `DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogTitle`, `DialogDescription`, `DialogBody`, `DialogFooter`, `DialogClose` | `Dialog.*` |
+| `AlertDialog` (+ subcomponents) | `AlertDialog`, `AlertDialogTrigger`, `AlertDialogContent`, `AlertDialogHeader`, `AlertDialogTitle`, `AlertDialogDescription`, `AlertDialogFooter`, `AlertDialogAction`, `AlertDialogCancel` | `AlertDialog` + `Dialog.*` slots |
+| `Sheet` (+ subcomponents) | `Sheet`, `SheetTrigger`, `SheetContent`, `SheetHeader`, `SheetTitle`, `SheetDescription`, `SheetFooter`, `SheetClose` | `DrawerV2.*` (description aliases body) |
+| `Popover` (+ subcomponents) | `Popover`, `PopoverTrigger`, `PopoverContent` | `PopoverV2.*` |
+| `Tooltip` (+ `TooltipProvider`) | `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipProvider` | `TooltipRoot.*` (provider is a no-op pass-through for source-compat) |
+| `DropdownMenu` (+ Item / CheckboxItem / RadioGroup / RadioItem / Separator / Label / Sub*) | Same names with `DropdownMenu` prefix | `Menu.*` |
+| `Select` (+ Trigger / Value / Content / Item) | Same | `Select.Root` / `.Trigger` / `.Value` / `.Content` / `.Item` |
+| `Tabs` (+ List / Trigger / Content) | Same | `Tabs.List` / `.Trigger` / `.Panel` (aliased as `.Content`) |
+| `Toast` / `Toaster` / `useToast` | Same | `Toaster` + `toast()` (sonner-shaped `toast.error`, `.success`, `.warning`, `.info` also work) |
+| `Input`, `Textarea`, `Label`, `Badge`, `Checkbox`, `Switch`, `Avatar`, `Separator`, `ScrollArea`, `Skeleton`, `Progress`, `Slider`, `Toggle`, `ToggleGroup`, `RadioGroup`, `RadioGroupItem` | Trivial passthroughs | direct voidframe exports |
+
+### Migration tips
+
+- **`Button`'s `variant="link"`** renders the voidframe `Link` primitive (an `<a>`-based element with accent + focus ring). If you were using `Button` `variant="link"` for a programmatic action (no `href`), switch to `variant="ghost"` + `tone="info"` instead.
+- **Sonner-style toast** — `toast.error("message")` works directly. The 2-arg signature `toast(message, options)` is supported alongside the existing single-options form.
+- **Radix `<Tooltip.Provider>`** is required-by-design in Radix; voidframe doesn't need one. The compat-layer `TooltipProvider` is a no-op `<>{children}</>` so existing `<TooltipProvider delayDuration={...}>` wrappers stay valid (the `delayDuration` prop is silently ignored — voidframe Tooltip handles its own timing).
+- **Class-variance-authority** (`cva`) is not bundled. If your shadcn project used `cva` for variant CSS, you can keep importing it from your own deps (it's tiny) or migrate to voidframe's `tone`/`variant`/`size` props which auto-emit `data-tone`/`data-variant`/`data-size` plus BEM classes.
+
+The compat layer is intentionally thin (~5 KB gzipped) — it's a migration aid, not a parallel implementation. Once your migration is done, you can switch each consumer over to native voidframe imports at your own pace.
+
+---
+
 ## Theming
 
 ### Provider
@@ -349,11 +404,34 @@ Everything below ships from the top-level `voidframe-ui` import. Compound compon
 |-----------|---------|
 | `Button`, `ButtonGroup` | Primary button + segmented group |
 | `IconButton` | Icon-only button |
+| `Link` | Text-link primitive — voidframe accent + focus ring; pass `as` for react-router / next/link integration |
 | `Badge`, `Tag`, `TagInput` | Small labels / chip collections |
 | `Shortcut`, `Kbd`, `ShortcutGuide` | Keyboard hints + `?` registry overlay |
 | `StatusIndicator`, `Dots` | Presence dots and multi-dot stacks |
 | `Spinner`, `SpinnerV2`, `Shimmer`, `Skeleton`, `Dots`, `Progress`, `CircularProgress`, `Gauge`, `Sparkline` | Loading / progress primitives |
 | `LoadingOverlay`, `Backdrop` | Full-surface loading / dim layers |
+
+#### `Link` — text-link primitive
+
+```jsx
+import { Link } from "voidframe-ui";
+import NextLink from "next/link";
+
+// Default — wraps native <a>, picks up voidframe accent + focus ring.
+<Link href="/docs">Read the docs</Link>
+
+// External target — adds rel="noopener noreferrer" + target="_blank".
+<Link href="https://example.com" external>Example</Link>
+
+// Polymorphic — render as a router-aware Link without losing styling.
+<Link as={NextLink} href="/dashboard">Dashboard</Link>
+```
+
+Use `Link` whenever you would have reached for `<a className="…">` and
+hand-rolled accent/focus styling — the primitive keeps focus rings,
+hover tones, and visited-link semantics consistent across the app.
+For programmatic actions (no destination URL), use `Button` with
+`variant="ghost"` instead — links should always navigate.
 
 ### Form controls
 
@@ -368,6 +446,47 @@ Editors: `RichTextEditor`, `MarkdownEditor`, `CodeEditor`, `MarkdownRenderer`.
 Capture: `SignaturePad`, `ImageCropper`, `FileUpload`, `Clipboard`.
 
 Forms hook: `useForm()` for controlled-or-uncontrolled form state with validation.
+
+#### Labeling form controls (accessibility)
+
+Every form control needs an accessible name. Voidframe surfaces a runtime
+warning at mount when `Input` / `Textarea` / `Toggle` / `Select` are
+rendered without one — keep the warnings clean and the components are
+instantly screen-reader-correct.
+
+Three accepted ways to name a control:
+
+```jsx
+// 1. Built-in `label` prop (recommended) — voidframe wires htmlFor + id.
+<Input label="Email" value={email} onValueChange={setEmail} />
+
+// 2. <Field> compound — when a control has helpText / errorMessage / a
+//    custom label slot, wrap in Field for one-stop association.
+<Field label="Email" helpText="We'll never share your email." error={errors.email}>
+  <Input value={email} onValueChange={setEmail} />
+</Field>
+
+// 3. aria-label — for inline / matrix / data-dense UIs where a visible
+//    label would be redundant. Voidframe accepts `asAriaLabel` as an
+//    explicit escape hatch + suppresses the missing-name warning.
+<Select asAriaLabel="Tier backend" options={…} value={…} onValueChange={…} />
+```
+
+**When to use `Field`**: any time you need a label *and* helper / error /
+description text. Single-purpose cases (just a label, no error UI) read
+cleaner with the built-in `label` prop. The compound `Field` exists to
+bundle the auxiliary slots into one consistent layout.
+
+**Switch vs Checkbox** — both controllable, both keyboard-navigable,
+near-identical APIs. Pick by intent:
+
+| Use | When |
+|---|---|
+| `<Switch>` | Persistent app/system state — "Dark mode", "Refinement enabled", "Notifications on". The switch *is* the setting. |
+| `<Checkbox>` | Selection from a list, agreement to terms, multi-select rows — the choice is one of many. |
+
+Mixed lists (e.g. settings panes that have both kinds) are fine; the visual
+distinction is part of why the two components exist.
 
 ### Navigation
 
@@ -577,25 +696,32 @@ import {
 
 Tree-shaking still applies — `import { Button } from "voidframe-ui"` costs roughly **4–5 KB** gzipped, `import { SearchIcon }` about **2 KB**. Those per-import figures are measured ad-hoc, not enforced in CI; open a PR before relying on them for a strict budget.
 
+**Per-subpath sizes.** A measured bytes-per-subpath table is generated from the current `dist/` output by `node scripts/bundle-sizes.mjs` (run after `npm run build`) and committed to [`docs/bundle-sizes.md`](docs/bundle-sizes.md). Refer to it when picking the smallest subpath for a given import.
+
 **Production DCE.** All dev-only `warn()` and `warnOnce()` calls are guarded by `process.env.NODE_ENV !== "production"` — bundlers strip them from production builds entirely, so warning message strings never ship.
 
 ### Testing your app against Voidframe
 
 Voidframe ships a `voidframe-ui/testing` subpath with the same helpers used internally — so consuming apps can write tests against our components with the provider, a11y checks, and viewport mocks pre-wired.
 
+Two render helpers are exposed:
+
+- **`renderWithTheme`** — wraps in `VoidframeProvider` only. Smallest possible setup.
+- **`renderWithVoidframe`** — wraps in `VoidframeProvider` + `ConfirmProvider` (and optionally a nested `ThemeScope`). Use when the component under test calls `useConfirm()` or other voidframe imperative hooks. Re-exports `screen` / `waitFor` / `fireEvent` / `within` / `cleanup` / `act` from testing-library so consumers don't need to dual-import.
+
 ```jsx
 import { describe, expect, it } from "vitest";
-import { screen } from "@testing-library/react";
 import {
-  renderWithTheme,
+  renderWithVoidframe,
   expectNoA11yViolations,
   installMatchMedia,
   createMockStorage,
+  screen,
 } from "voidframe-ui/testing";
 import { MyFeature } from "./MyFeature";
 
 it("renders inside the provider + passes axe", async () => {
-  const { container } = renderWithTheme(<MyFeature />, {
+  const { container } = renderWithVoidframe(<MyFeature />, {
     themeName: "light",
     density: "compact",
     direction: "rtl",
@@ -606,7 +732,7 @@ it("renders inside the provider + passes axe", async () => {
 
 it("reacts to a viewport resize", () => {
   const ctl = installMatchMedia(320);
-  renderWithTheme(<MyFeature />);
+  renderWithVoidframe(<MyFeature />);
   ctl.setWidth(1100);            // flips min-width matches + fires listeners
   ctl.restore();
 });
@@ -620,7 +746,7 @@ it("persists theme through storage", () => {
 **Scripts** (the framework's own CI matrix, mirrored in `package.json`):
 
 ```bash
-npm run test              # full vitest suite (5,106 tests as of 2026-04-19)
+npm run test              # full vitest suite (5,157 tests as of 2026-04-28)
 npm run test:watch        # interactive
 npm run test:coverage     # v8 coverage + enforced floor thresholds
 npm run test:ssr          # renderToString smoke test per phase
@@ -951,7 +1077,7 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 ```bash
 npm install
 npm run build     # outputs dist/voidframe.es.js, dist/voidframe.cjs.js, dist/voidframe.css
-npm run test      # full vitest suite (5,106 tests as of 2026-04-19)
+npm run test      # full vitest suite (5,157 tests as of 2026-04-28)
 npm run typecheck # tsc --noEmit
 ```
 

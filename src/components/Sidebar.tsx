@@ -10,10 +10,12 @@ import {
   createContext,
   forwardRef,
   useContext,
+  useId as useReactId,
   type HTMLAttributes,
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { useDisclosure } from "../hooks/useDisclosure";
 import { Label } from "./Text";
 
 interface SidebarContextValue {
@@ -73,16 +75,98 @@ function SidebarBrand({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
 
 export interface SidebarSectionProps extends HTMLAttributes<HTMLDivElement> {
   label?: ReactNode;
+  /**
+   * When true, the section becomes an expand/collapse group with a
+   * disclosure triangle on its header. Clicking the label toggles the
+   * children visibility. Useful for list-heavy sidebars (conversations,
+   * agents, saved searches, etc.).
+   */
+  collapsible?: boolean;
+  /** Initial open state when `collapsible`. Defaults to open. */
+  defaultOpen?: boolean;
+  /** Controlled open state. When set, overrides `defaultOpen`. */
+  open?: boolean;
+  /** Fires whenever the open state changes (controlled or uncontrolled). */
+  onOpenChange?: (open: boolean) => void;
+  /**
+   * Optional action slot rendered next to the section label (e.g. a `+`
+   * button for "add new conversation"). Positioned on the opposite end of
+   * the header; click propagation stops at the action so the toggle isn't
+   * triggered alongside the action.
+   */
+  action?: ReactNode;
 }
 
-function SidebarSection({ label, className, children, ...props }: SidebarSectionProps) {
+function SidebarSection({
+  label,
+  className,
+  children,
+  collapsible,
+  defaultOpen = true,
+  open,
+  onOpenChange,
+  action,
+  ...props
+}: SidebarSectionProps) {
   const { collapsed } = useContext(SidebarContext);
+  const disclosure = useDisclosure({ open, defaultOpen, onOpenChange });
+  const showHeader = label !== undefined && !collapsed;
+  const showChildren = !collapsible || disclosure.open;
+  const reactId = useReactId();
+  const contentId = `vf-sidebar-section-${reactId}-content`;
+  const labelId = `vf-sidebar-section-${reactId}-label`;
+
   return (
-    <div className={cx("vf-sidebar__section", className)} {...props}>
-      {label && !collapsed && (
-        <Label className="vf-sidebar__section-label">{label}</Label>
+    <div
+      className={cx(
+        "vf-sidebar__section",
+        collapsible && "vf-sidebar__section--collapsible",
+        className
       )}
-      {children}
+      data-open={collapsible ? disclosure.open : undefined}
+      {...props}
+    >
+      {showHeader && (
+        <div className="vf-sidebar__section-header">
+          {collapsible ? (
+            <button
+              type="button"
+              className="vf-sidebar__section-toggle"
+              aria-expanded={disclosure.open}
+              aria-controls={contentId}
+              onClick={disclosure.toggle}
+            >
+              <span className="vf-sidebar__section-caret" aria-hidden="true">
+                {disclosure.open ? "▾" : "▸"}
+              </span>
+              <Label id={labelId} className="vf-sidebar__section-label">
+                {label}
+              </Label>
+            </button>
+          ) : (
+            <Label id={labelId} className="vf-sidebar__section-label">
+              {label}
+            </Label>
+          )}
+          {action && (
+            <span
+              className="vf-sidebar__section-action"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {action}
+            </span>
+          )}
+        </div>
+      )}
+      {showChildren && (
+        <div
+          id={contentId}
+          role={collapsible && label !== undefined ? "region" : undefined}
+          aria-labelledby={collapsible && label !== undefined ? labelId : undefined}
+        >
+          {children}
+        </div>
+      )}
     </div>
   );
 }

@@ -136,7 +136,7 @@ git config core.hooksPath .githooks
 
 Three layers, each with a specific job:
 
-1. **Unit tests** (`vitest` + `happy-dom`, 5,100+ tests): API contracts,
+1. **Unit tests** (`vitest` + `happy-dom`, 5,150+ tests): API contracts,
    prop wiring, state transitions, hook behavior. Runs in
    milliseconds; the first line of defence.
 2. **Visual regression** (`Playwright`, `test/visual/`): screenshot the

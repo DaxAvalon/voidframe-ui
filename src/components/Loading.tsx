@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 
 // ── LoadingOverlay ──────────────────────────────────────────
 
@@ -86,13 +87,15 @@ export const SpinnerV2 = forwardRef<HTMLDivElement, SpinnerV2Props>(function Spi
     ...(color ? ({ "--vf-spinner-color": color } as CSSProperties) : {}),
     ...style,
   };
+  const ta = toneAttrs("vf-spinner-v2", { variant });
   return (
     <div
       ref={ref}
       role="status"
       aria-label={label}
-      className={cx("vf-spinner-v2", `vf-spinner-v2--${variant}`, className)}
+      className={cx(ta.className, className)}
       style={merged}
+      {...ta.attrs}
       {...props}
     >
       {variant === "dots" && (

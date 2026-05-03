@@ -13,6 +13,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
+import { useDisclosure } from "../hooks/useDisclosure";
 import { cx } from "../utils/cx";
 
 // ── FormActions ───────────────────────────────────────────────
@@ -138,20 +139,72 @@ export const InputGroup = InputGroupRoot as InputGroupCompound;
 export interface FieldSetProps extends FieldsetHTMLAttributes<HTMLFieldSetElement> {
   children?: ReactNode;
   style?: CSSProperties;
+  /**
+   * Renders the fieldset as a collapsible section. Legend stays visible;
+   * non-legend children are hidden when closed. Controlled via `open` +
+   * `onOpenChange`; uncontrolled via `defaultOpen` (default `true`). Shares
+   * the `useDisclosure` hook with `Card` and `Sidebar.Section` so the
+   * collapsible-section pattern is uniform across the library.
+   */
+  collapsible?: boolean;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 /** Native `<fieldset>` with Voidframe styling. Use with `<Legend>` inside. */
 export const FieldSet = forwardRef<HTMLFieldSetElement, FieldSetProps>(
-  function FieldSet({ children, className, style, disabled, ...props }, ref) {
+  function FieldSet(
+    {
+      children,
+      className,
+      style,
+      disabled,
+      collapsible = false,
+      open,
+      defaultOpen = true,
+      onOpenChange,
+      ...props
+    },
+    ref
+  ) {
+    const disclosure = useDisclosure({
+      open: collapsible ? open : undefined,
+      defaultOpen: collapsible ? defaultOpen : true,
+      onOpenChange: collapsible ? onOpenChange : undefined,
+    });
+    const isOpen = collapsible ? disclosure.open : true;
     return (
       <fieldset
         ref={ref}
-        className={cx("vf-fieldset", className)}
+        className={cx(
+          "vf-fieldset",
+          collapsible && "vf-fieldset--collapsible",
+          collapsible && (isOpen ? "vf-fieldset--open" : "vf-fieldset--closed"),
+          className
+        )}
         style={style}
         disabled={disabled}
+        data-state={collapsible ? (isOpen ? "open" : "closed") : undefined}
         {...props}
       >
-        {children}
+        {collapsible
+          ? Children.map(children, (child) => {
+              const isLegend =
+                isValidElement(child) &&
+                (child.type as { displayName?: string })?.displayName ===
+                  "Legend";
+              if (isLegend) {
+                return cloneElement(child as ReactElement<LegendProps>, {
+                  onClick: disclosure.toggle,
+                  role: "button",
+                  "aria-expanded": isOpen,
+                  tabIndex: 0,
+                } as Partial<LegendProps>);
+              }
+              return isOpen ? child : null;
+            })
+          : children}
       </fieldset>
     );
   }

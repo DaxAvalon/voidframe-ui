@@ -15,6 +15,8 @@ import type {
   ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
+import { toneAttrs } from "../utils/toneAttrs";
 
 export interface SplitButtonAction {
   key: string;
@@ -30,8 +32,14 @@ export interface SplitButtonProps
   onClick: () => void;
   actions: SplitButtonAction[];
   onAction: (key: string) => void;
-  variant?: "solid" | "outline" | "ghost" | "subtle";
+  variant?: "solid" | "outline" | "ghost" | "subtle" | "destructive";
   size?: "sm" | "md" | "lg";
+  /**
+   * Semantic tone — mirrors Button/IconButton/CopyButton vocabulary. Emits
+   * `data-tone` + primes `--vf-accent`. `variant="destructive"` is an alias
+   * for `tone="danger"` + solid visual.
+   */
+  tone?: "neutral" | "info" | "success" | "danger" | "warning";
   disabled?: boolean;
   loading?: boolean;
   icon?: ReactNode;
@@ -46,6 +54,7 @@ const SplitButtonImpl = forwardRef<HTMLDivElement, SplitButtonProps>(
       onAction,
       variant = "outline",
       size = "md",
+      tone,
       disabled,
       loading,
       icon,
@@ -55,6 +64,19 @@ const SplitButtonImpl = forwardRef<HTMLDivElement, SplitButtonProps>(
     },
     ref
   ) {
+    const resolvedTone = variant === "destructive" ? "danger" : tone;
+    const resolvedVariant = variant === "destructive" ? "solid" : variant;
+    const ta = toneAttrs("vf-split-button", {
+      variant: resolvedVariant,
+      size,
+      tone: resolvedTone,
+    });
+    const composedOuterStyle: React.CSSProperties = {
+      ...(!style && resolvedTone && resolvedTone !== "neutral"
+        ? ({ "--vf-accent": `var(--vf-${resolvedTone})` } as React.CSSProperties)
+        : {}),
+      ...(style ?? {}),
+    };
     const [open, setOpen] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState(-1);
     const rootRef = useRef<HTMLDivElement>(null);
@@ -146,12 +168,7 @@ const SplitButtonImpl = forwardRef<HTMLDivElement, SplitButtonProps>(
       items[focusedIndex]?.focus();
     }, [focusedIndex, open]);
 
-    const composedClass = cx(
-      "vf-split-button",
-      `vf-split-button--${variant}`,
-      `vf-split-button--${size}`,
-      className
-    );
+    const composedClass = cx(ta.className, className);
 
     return (
       <div
@@ -161,14 +178,15 @@ const SplitButtonImpl = forwardRef<HTMLDivElement, SplitButtonProps>(
           else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }}
         className={composedClass}
-        style={style}
+        style={composedOuterStyle}
+        {...ta.attrs}
         {...props}
       >
         <button
           type="button"
           className="vf-split-button__primary"
           onClick={isDisabled ? undefined : onClick}
-          aria-disabled={isDisabled || undefined}
+          {...buttonDisabledAttrs(isDisabled)}
           data-disabled={isDisabled ? "true" : undefined}
         >
           {loading ? (
@@ -186,7 +204,7 @@ const SplitButtonImpl = forwardRef<HTMLDivElement, SplitButtonProps>(
           type="button"
           className="vf-split-button__caret"
           onClick={handleCaretClick}
-          aria-disabled={isDisabled || undefined}
+          {...buttonDisabledAttrs(isDisabled)}
           aria-haspopup="menu"
           aria-expanded={open}
           aria-label="More actions"

@@ -30,6 +30,10 @@ export interface DateTimePickerProps
   timeStep?: number;
   showSeconds?: boolean;
   disabled?: boolean;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -60,6 +64,8 @@ export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
       timeStep = 1,
       showSeconds = false,
       disabled,
+      size = "md",
+      wrapperProps,
       className,
       style,
       ...props
@@ -101,10 +107,12 @@ export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
     return (
       <div
         ref={ref}
-        className={cx("vf-datetime-picker", className)}
+        className={cx("vf-datetime-picker", `vf-datetime-picker--${size}`, className)}
+        data-size={size}
         style={style}
         role="group"
         aria-label={label ?? "Date and time"}
+        {...wrapperProps}
         {...props}
       >
         {label && <Label>{label}</Label>}

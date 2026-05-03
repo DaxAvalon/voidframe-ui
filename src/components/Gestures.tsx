@@ -15,6 +15,7 @@ import {
   type WheelEvent,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 
 // ── Swipeable ───────────────────────────────────────────────
 
@@ -171,15 +172,13 @@ export interface SwipeActionProps extends HTMLAttributes<HTMLButtonElement> {
 
 const SwipeAction = forwardRef<HTMLButtonElement, SwipeActionProps>(
   function SwipeAction({ tone = "neutral", className, children, ...props }, ref) {
+    const ta = toneAttrs("vf-swipe-actions__action", { tone });
     return (
       <button
         ref={ref}
         type="button"
-        className={cx(
-          "vf-swipe-actions__action",
-          `vf-swipe-actions__action--${tone}`,
-          className
-        )}
+        className={cx(ta.className, className)}
+        {...ta.attrs}
         {...props}
       >
         {children}

@@ -3,6 +3,7 @@
 import { forwardRef, memo } from "react";
 import type { CSSProperties, HTMLAttributes } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 
 export interface MultiProgressItem {
   key: string;
@@ -12,6 +13,11 @@ export interface MultiProgressItem {
   status?: "active" | "success" | "error" | "paused" | "pending";
   description?: string;
   tone?: "default" | "success" | "danger" | "warning" | "info";
+  /**
+   * When true, this item renders as indeterminate (animated stripes with
+   * no specific fill). Overrides `value` for the visual state.
+   */
+  indeterminate?: boolean;
 }
 
 export interface MultiProgressProps extends HTMLAttributes<HTMLDivElement> {
@@ -47,17 +53,18 @@ const MultiProgressImpl = forwardRef<HTMLDivElement, MultiProgressProps>(
     },
     ref
   ) {
+    const ta = toneAttrs("vf-multi-progress", { size });
     return (
       <div
         ref={ref}
         className={cx(
-          "vf-multi-progress",
-          `vf-multi-progress--${size}`,
+          ta.className,
           compact && "vf-multi-progress--compact",
           !animated && "vf-multi-progress--static",
           className
         )}
         style={style}
+        {...ta.attrs}
         {...props}
       >
         {items.map((item) => {
@@ -108,19 +115,21 @@ const MultiProgressImpl = forwardRef<HTMLDivElement, MultiProgressProps>(
               <div
                 className="vf-multi-progress__bar"
                 role="progressbar"
-                aria-valuenow={clamped}
+                aria-valuenow={item.indeterminate ? undefined : clamped}
                 aria-valuemin={0}
                 aria-valuemax={max}
                 aria-label={item.label}
+                data-indeterminate={item.indeterminate ? "true" : undefined}
               >
                 <div
                   className={cx(
                     "vf-multi-progress__fill",
+                    item.indeterminate && "vf-multi-progress__fill--indeterminate",
                     striped &&
                       status === "active" &&
                       "vf-multi-progress__fill--striped"
                   )}
-                  style={{ width: `${pct}%` }}
+                  style={item.indeterminate ? undefined : { width: `${pct}%` }}
                 />
               </div>
               {item.description && (

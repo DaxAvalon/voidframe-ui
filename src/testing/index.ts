@@ -10,6 +10,19 @@ export {
   type RenderWithThemeResult,
 } from "./renderWithTheme";
 
+export {
+  renderWithVoidframe,
+  type RenderWithVoidframeOptions,
+  type RenderWithVoidframeResult,
+  render,
+  screen,
+  waitFor,
+  fireEvent,
+  within,
+  cleanup,
+  act,
+} from "./renderWithVoidframe";
+
 export { expectNoA11yViolations } from "./axe";
 
 export {

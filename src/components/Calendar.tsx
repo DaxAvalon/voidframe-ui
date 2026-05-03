@@ -11,6 +11,7 @@
 
 import {
   forwardRef,
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -21,6 +22,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import {
   addDays,
   addMonths,
@@ -63,6 +65,20 @@ export interface CalendarProps extends HTMLAttributes<HTMLDivElement> {
   onDayClick?: (date: Date) => void;
   onEventClick?: (event: CalendarEvent) => void;
   onRangeChange?: (range: CalendarRange) => void;
+  /**
+   * Optional renderer for the body of each month-view day cell. Receives the
+   * day's `Date` and the events that fall on it; returns the inner content
+   * to render under the day-number header. Use to display rich event
+   * detail (e.g. nested ranges, agent activity, custom badges) without
+   * forking the whole component.
+   */
+  renderDay?: (date: Date, events: CalendarEvent[]) => ReactNode;
+  /**
+   * Optional content rendered as an expanded panel below the month/week/day
+   * grid for the currently-selected day. Use for "click a day, show its
+   * detail beneath" patterns without composing a separate Drawer/Sheet.
+   */
+  expandedDay?: { date: Date; content: ReactNode };
   style?: CSSProperties;
 }
 
@@ -90,7 +106,7 @@ function startOfWeek(d: Date, firstDay: 0 | 1): Date {
  * A date-grid calendar for navigating months and selecting dates.
  * Supports month, week, and day views, optional event rendering, and single or range selection.
  */
-export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calendar(
+const CalendarImpl = forwardRef<HTMLDivElement, CalendarProps>(function Calendar(
   {
     value,
     defaultDisplayMonth,
@@ -105,6 +121,8 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calen
     onDayClick,
     onEventClick,
     onRangeChange,
+    renderDay,
+    expandedDay,
     className,
     style,
     ...props
@@ -204,31 +222,35 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calen
           isOutside && "vf-calendar-view__day--outside",
           isHighlighted && "vf-calendar-view__day--highlighted"
         )}
+        data-date={day.toISOString().slice(0, 10)}
         aria-current={isToday ? "date" : undefined}
         onClick={() => onDayClick?.(day)}
       >
         <span className="vf-calendar-view__daynum">{day.getDate()}</span>
-        {dayEvents.length > 0 && (
-          <ul className="vf-calendar-view__events">
-            {dayEvents.map((ev, i) => (
-              <li
-                key={i}
-                className={cx(
-                  "vf-calendar-view__event",
-                  ev.tone && `vf-calendar-view__event--${ev.tone}`
-                )}
-                onClick={(e) => {
-                  if (onEventClick) {
-                    e.stopPropagation();
-                    onEventClick(ev);
-                  }
-                }}
-              >
-                {ev.label}
-              </li>
-            ))}
-          </ul>
-        )}
+        {renderDay
+          ? renderDay(day, dayEvents)
+          : dayEvents.length > 0 && (
+              <ul className="vf-calendar-view__events">
+                {dayEvents.map((ev, i) => {
+                  const eventTa = toneAttrs("vf-calendar-view__event", { tone: ev.tone });
+                  return (
+                    <li
+                      key={i}
+                      className={eventTa.className}
+                      {...eventTa.attrs}
+                      onClick={(e) => {
+                        if (onEventClick) {
+                          e.stopPropagation();
+                          onEventClick(ev);
+                        }
+                      }}
+                    >
+                      {ev.label}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
       </button>
     );
   };
@@ -462,7 +484,23 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(function Calen
       ) : (
         renderHourGrid()
       )}
+      {expandedDay && (
+        <div
+          className="vf-calendar-view__expanded"
+          data-date={expandedDay.date.toISOString().slice(0, 10)}
+        >
+          {expandedDay.content}
+        </div>
+      )}
     </div>
   );
 });
-Calendar.displayName = "Calendar";
+CalendarImpl.displayName = "Calendar";
+
+/**
+ * Month-grid calendar with optional events / event-renderer.
+ * Memoized at the export site so parent re-renders with referentially-
+ * stable `value` / `onChange` / `events` skip the 42-cell tree walk.
+ */
+export const Calendar = memo(CalendarImpl);
+(Calendar as unknown as { displayName: string }).displayName = "Calendar";

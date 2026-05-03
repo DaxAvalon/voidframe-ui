@@ -77,8 +77,12 @@ Checkbox.displayName = "Checkbox";
 // ── Radio ─────────────────────────────────────────────────────
 
 export interface RadioProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
-  checked: boolean;
-  onValueChange: () => void;
+  /** Controlled checked state. When provided, `defaultChecked` is ignored. */
+  checked?: boolean;
+  /** Uncontrolled initial checked state. Defaults to `false`. */
+  defaultChecked?: boolean;
+  /** Fires whenever the checked state changes (controlled or uncontrolled). */
+  onValueChange?: (checked: boolean) => void;
   label?: string;
   accent?: string;
   disabled?: boolean;
@@ -86,16 +90,38 @@ export interface RadioProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChan
 }
 
 /**
- * Single radio input with label. For groups use `RadioGroup`.
+ * Single radio input with label. Supports both controlled (`checked` +
+ * `onValueChange`) and uncontrolled (`defaultChecked`) usage. For groups
+ * use `RadioGroup`.
  */
 export const Radio = forwardRef<HTMLDivElement, RadioProps>(function Radio(
-  { checked, onValueChange, label, accent, disabled, className, style, ...props },
+  {
+    checked,
+    defaultChecked,
+    onValueChange,
+    label,
+    accent,
+    disabled,
+    className,
+    style,
+    ...props
+  },
   ref
 ) {
+  const [value, setValue] = useControllableState<boolean>({
+    value: checked,
+    defaultValue: defaultChecked ?? false,
+    onChange: onValueChange,
+    componentName: "Radio",
+  });
+  const toggle = () => {
+    if (disabled) return;
+    setValue(!value);
+  };
   const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!disabled && (e.key === " " || e.key === "Enter")) {
       e.preventDefault();
-      onValueChange();
+      toggle();
     }
   };
   const composedStyle: CSSProperties = accent
@@ -108,14 +134,14 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(function Radio(
       style={composedStyle}
       data-disabled={disabled ? "true" : undefined}
       aria-disabled={disabled || undefined}
-      onClick={() => !disabled && onValueChange()}
+      onClick={toggle}
       role="radio"
-      aria-checked={checked}
+      aria-checked={value}
       tabIndex={disabled ? -1 : 0}
       onKeyDown={handleKey}
       {...props}
     >
-      <div className="vf-radio__box">{checked && <div className="vf-radio__pip" />}</div>
+      <div className="vf-radio__box">{value && <div className="vf-radio__pip" />}</div>
       {label && <Label>{label}</Label>}
     </div>
   );
@@ -208,7 +234,8 @@ RadioGroup.displayName = "RadioGroup";
 
 // ── Slider ────────────────────────────────────────────────────
 
-export interface SliderProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
+export interface SliderProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "defaultValue" | "value"> {
   value?: number;
   defaultValue?: number;
   onValueChange?: (value: number) => void;
@@ -219,14 +246,25 @@ export interface SliderProps extends Omit<HTMLAttributes<HTMLDivElement>, "onCha
   accent?: string;
   showValue?: boolean;
   style?: CSSProperties;
+  /**
+   * Attributes for the outer wrapper `<div>`. Use for container-level
+   * `data-*` hooks. Rest-spread (`{...props}`) lands on the inner native
+   * `<input type="range">` so `data-testid`/`aria-*` forward to the control.
+   */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
 }
 
 /**
  * Range slider for numeric values. Controllable via `value` /
  * `onValueChange`; supports one or two thumbs.
+ *
+ * Accessibility / test ergonomics: rest-spread props (including `data-testid`
+ * and `aria-*`) are forwarded to the inner native `<input type="range">` so
+ * `getByTestId(id)` returns the actual control and `.value` reads work. Use
+ * `wrapperProps` for attributes that genuinely belong on the outer div.
  */
-export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
-  { value, defaultValue, onValueChange, min = 0, max = 100, step = 1, label, accent, showValue, className, style, ...props },
+export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
+  { value, defaultValue, onValueChange, min = 0, max = 100, step = 1, label, accent, showValue, className, style, wrapperProps, ...inputProps },
   ref
 ) {
   const [current, setCurrent] = useControllableState<number>({
@@ -240,7 +278,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
     ? ({ "--vf-accent": accent, ...style } as CSSProperties)
     : (style ?? {});
   return (
-    <div ref={ref} className={cx("vf-slider", className)} style={composedStyle} {...props}>
+    <div className={cx("vf-slider", className)} style={composedStyle} {...wrapperProps}>
       {(label || showValue) && (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {label && <Label>{label}</Label>}
@@ -252,6 +290,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
           <div className="vf-slider__fill" style={{ width: `${pct}%` }} />
         </div>
         <input
+          ref={ref}
           className="vf-slider__input"
           type="range"
           aria-label={label}
@@ -260,6 +299,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
           step={step}
           value={current}
           onChange={(e) => setCurrent(Number(e.target.value))}
+          {...inputProps}
         />
         <div className="vf-slider__thumb" style={{ left: `calc(${pct}% - 6px)` }} />
       </div>
@@ -270,30 +310,77 @@ Slider.displayName = "Slider";
 
 // ── NumberInput ───────────────────────────────────────────────
 
+/**
+ * `NumberInput.value` union. Previously `number | undefined` — forms commonly
+ * need a representable "empty, user hasn't entered anything yet" state
+ * distinct from `0`. Empty string and `null` now flow through cleanly.
+ */
+export type NumberInputValue = number | "" | null;
+
 export interface NumberInputProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
-  value?: number;
-  defaultValue?: number;
-  onValueChange?: (value: number) => void;
+  value?: NumberInputValue;
+  defaultValue?: NumberInputValue;
+  onValueChange?: (value: NumberInputValue) => void;
   min?: number;
   max?: number;
   step?: number;
   label?: string;
   width?: number | string;
   style?: CSSProperties;
+  /**
+   * Voidframe-native size variant. Mirrors Input/Textarea/Select so forms
+   * read consistently at any density. Applied to the inner `<input>` via the
+   * `.vf-input--{size}` class pattern.
+   */
+  size?: "sm" | "md" | "lg";
+  /**
+   * When true, the uncontrolled default is `""` (empty) instead of `min ?? 0`.
+   * Use for forms where "no entry yet" should remain distinguishable from
+   * `0` until the user types.
+   */
+  defaultBlank?: boolean;
+  /**
+   * Props to apply to the outer wrapper `<div>`. Use this when a consumer
+   * needs to attach a `data-*` attribute or ref to the container rather
+   * than the inner numeric `<input>`. Rest-spread (`{...props}`) lands on
+   * the native `<input>` element so `data-testid`, `aria-*`, and any other
+   * HTMLAttributes are forwarded to the control as consumers expect.
+   */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
 }
 
 /**
  * Numeric text input with min/max/step, keyboard increment/decrement, and
  * locale parsing.
+ *
+ * Accessibility / test ergonomics: rest-spread props (including `data-testid`
+ * and `aria-*`) are forwarded to the inner native `<input type="number">` so
+ * `getByTestId(id)` returns the actual control and `.value` reads work. Use
+ * `wrapperProps` for attributes that genuinely belong on the outer div.
  */
-export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
+export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
   function NumberInput(
-    { value, defaultValue, onValueChange, min, max, step = 1, label, width, className, style, ...props },
+    {
+      value,
+      defaultValue,
+      onValueChange,
+      min,
+      max,
+      step = 1,
+      label,
+      width,
+      className,
+      style,
+      size = "md",
+      defaultBlank,
+      wrapperProps,
+      ...inputProps
+    },
     ref
   ) {
-    const [current, setCurrent] = useControllableState<number>({
+    const [current, setCurrent] = useControllableState<NumberInputValue>({
       value,
-      defaultValue: defaultValue ?? min ?? 0,
+      defaultValue: defaultValue ?? (defaultBlank ? "" : (min ?? 0)),
       onChange: onValueChange,
       componentName: "NumberInput",
     });
@@ -304,12 +391,13 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
       if (max !== undefined) n = Math.min(max, n);
       return n;
     };
+    const isEmpty = current === "" || current === null;
+    const numeric = isEmpty ? (min ?? 0) : (current as number);
     return (
       <div
-        ref={ref}
         className={cx("vf-number-input", className)}
         style={style}
-        {...props}
+        {...wrapperProps}
       >
         {label && <Label>{label}</Label>}
         <div
@@ -320,22 +408,33 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
             type="button"
             aria-label="Decrement"
             className="vf-number-input__btn vf-number-input__btn--minus"
-            onClick={() => setCurrent(clamp(current - step))}
+            onClick={() => setCurrent(clamp(numeric - step))}
           >
             −
           </button>
           <input
-            className="vf-number-input__field"
+            ref={ref}
+            className={cx(
+              "vf-number-input__field",
+              "vf-input",
+              `vf-input--${size}`
+            )}
+            data-size={size}
             type="number"
             aria-label={label}
-            value={current}
-            onChange={(e) => setCurrent(clamp(e.target.value))}
+            value={isEmpty ? "" : numeric}
+            onChange={(e) => {
+              // Empty field → emit "" so consumers can distinguish from 0.
+              if (e.target.value === "") setCurrent("");
+              else setCurrent(clamp(e.target.value));
+            }}
+            {...inputProps}
           />
           <button
             type="button"
             aria-label="Increment"
             className="vf-number-input__btn vf-number-input__btn--plus"
-            onClick={() => setCurrent(clamp(current + step))}
+            onClick={() => setCurrent(clamp(numeric + step))}
           >
             +
           </button>
@@ -348,7 +447,8 @@ NumberInput.displayName = "NumberInput";
 
 // ── SearchInput ───────────────────────────────────────────────
 
-export interface SearchInputProps {
+export interface SearchInputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "defaultValue"> {
   value?: string;
   defaultValue?: string;
   /** Raw event handler — kept for backward compatibility. Prefer `onValueChange`. */
@@ -361,15 +461,35 @@ export interface SearchInputProps {
   width?: string | number;
   className?: string;
   style?: CSSProperties;
+  /**
+   * Attributes for the outer wrapper `<div>`. Rest-spread (`{...props}`)
+   * lands on the inner native `<input>` so `data-testid`/`aria-*` forward
+   * to the control as consumers expect.
+   */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
 }
 
 /**
  * Input tuned for search: leading search icon, clear-on-escape, debounce via
- * `debounce` prop.
+ * `debounce` prop. Rest-spread props land on the inner native `<input>` so
+ * `data-testid`/`aria-*` forward to the control.
  */
-export const SearchInput = forwardRef<HTMLDivElement, SearchInputProps>(
+export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   function SearchInput(
-    { value, defaultValue, onChange, onValueChange, placeholder = "Search...", onClear, readOnly, width, className, style },
+    {
+      value,
+      defaultValue,
+      onChange,
+      onValueChange,
+      placeholder = "Search...",
+      onClear,
+      readOnly,
+      width,
+      className,
+      style,
+      wrapperProps,
+      ...inputProps
+    },
     ref
   ) {
     const [current, setCurrent] = useControllableState<string>({
@@ -387,9 +507,10 @@ export const SearchInput = forwardRef<HTMLDivElement, SearchInputProps>(
     };
     const inline: CSSProperties = width !== undefined ? { width, ...style } : (style ?? {});
     return (
-      <div ref={ref} className={cx("vf-search-input", className)} style={inline}>
+      <div className={cx("vf-search-input", className)} style={inline} {...wrapperProps}>
         <span className="vf-search-input__icon">⌕</span>
         <input
+          ref={ref}
           className="vf-search-input__field"
           type="text"
           value={current}
@@ -399,6 +520,7 @@ export const SearchInput = forwardRef<HTMLDivElement, SearchInputProps>(
             setCurrent(e.target.value);
           }}
           placeholder={placeholder}
+          {...inputProps}
         />
         {current && (
           <button

@@ -19,6 +19,7 @@ import { useId } from "../hooks/useId";
 import { useMergedRefs } from "../hooks/useMergedRefs";
 import { cx } from "../utils/cx";
 import { warnOnce } from "../utils/warn";
+import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
 import { Checkbox } from "./FormExtended";
 import { Toggle, type ToggleProps } from "./Form";
 import { Label } from "./Text";
@@ -220,7 +221,7 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
               aria-checked={selected}
               aria-label={o.label}
               tabIndex={selected ? 0 : -1}
-              disabled={o.disabled}
+              {...buttonDisabledAttrs(o.disabled)}
               className={cx("vf-segmented__item")}
               data-active={selected ? "true" : undefined}
               onClick={() => !o.disabled && setCurrent(o.value)}
@@ -243,7 +244,10 @@ SegmentedControl.displayName = "SegmentedControl";
 // ── PasswordInput — visibility toggle ────────────────────────
 
 export interface PasswordInputProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    "onChange" | "defaultValue" | "value" | "type"
+  > {
   value?: string;
   defaultValue?: string;
   /** Raw event handler — kept for backward compatibility. Prefer `onValueChange`. */
@@ -263,6 +267,13 @@ export interface PasswordInputProps
   /** Start with password revealed. */
   defaultVisible?: boolean;
   style?: CSSProperties;
+  /**
+   * Attributes for the outer wrapper `<div>` (container that holds the
+   * input plus the visibility toggle button). Rest-spread (`{...props}`)
+   * lands on the inner native `<input>` so `data-testid`/`aria-*` forward
+   * to the control as consumers expect.
+   */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
 }
 
 /**
@@ -287,7 +298,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       defaultVisible = false,
       className,
       style,
-      ...props
+      wrapperProps,
+      ...inputProps
     },
     ref
   ) {
@@ -309,7 +321,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
         <div
           className={cx("vf-password-input", className)}
           style={style}
-          {...props}
+          {...wrapperProps}
         >
           <input
             ref={ref}
@@ -328,6 +340,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             name={name}
             aria-label={label}
             className="vf-input vf-password-input__field"
+            {...inputProps}
           />
           {visibilityToggle && (
             <button
@@ -529,6 +542,12 @@ export interface TagInputProps
   /** Return `true` to accept, `false` (or a string) to reject. Strings surface as dev warnings. */
   validate?: (tag: string) => boolean | string;
   style?: CSSProperties;
+  /**
+   * Props forwarded to the inner text `<input>` that drafts new tags. Use for
+   * `data-testid`, `aria-*`, or other attributes consumers want on the
+   * actual text entry field.
+   */
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 /**
@@ -550,6 +569,7 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
       validate,
       className,
       style,
+      inputProps,
       ...props
     },
     ref
@@ -675,6 +695,7 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
             placeholder={tags.length === 0 ? placeholder : undefined}
             disabled={disabled}
             aria-label={label ?? "Tag entry"}
+            {...inputProps}
           />
         </div>
       </div>

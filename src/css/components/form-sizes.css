@@ -1,0 +1,123 @@
+/* ─────────────────────────────────────────────────────────────────
+ * voidframe-ui — form-sizes.css
+ *
+ * Size variants (`sm` / `md` / `lg`) for the 12 advanced compound form
+ * controls that gained `size?: "sm" | "md" | "lg"` in v1.2 alongside
+ * the simple primitives in `form.css`. Values mirror the simple
+ * primitives' sm/md/lg padding + font scale so the entire form tier
+ * sizes consistently.
+ *
+ * sm: padding `var(--vf-sp-1) var(--vf-sp-4)`, font `var(--vf-font-xs)`
+ * md: padding `var(--vf-sp-3) var(--vf-sp-5)`, font `var(--vf-font-sm)`
+ * lg: padding `var(--vf-sp-4) var(--vf-sp-7)`, font `var(--vf-font-md)`
+ *
+ * Each component scales the inner control via descendant selectors so
+ * the wrapper itself stays unaffected by padding (which would distort
+ * popover anchoring).
+ * ───────────────────────────────────────────────────────────────── */
+
+/* ── ColorPicker ────────────────────────────────────────────── */
+.vf-color-picker--sm .vf-input,
+.vf-color-picker--sm .vf-color-picker__hex {
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-color-picker--lg .vf-input,
+.vf-color-picker--lg .vf-color-picker__hex {
+  padding: var(--vf-sp-4) var(--vf-sp-7);
+  font-size: var(--vf-font-md);
+}
+
+/* ── MaskedInput / CurrencyInput ────────────────────────────── */
+.vf-masked-input--sm .vf-input,
+.vf-currency-input--sm .vf-input {
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-masked-input--lg .vf-input,
+.vf-currency-input--lg .vf-input {
+  padding: var(--vf-sp-4) var(--vf-sp-7);
+  font-size: var(--vf-font-md);
+}
+
+/* ── RatingInput ────────────────────────────────────────────── */
+.vf-rating-input--sm {
+  font-size: var(--vf-font-md);
+}
+.vf-rating-input--md {
+  font-size: var(--vf-font-lg);
+}
+.vf-rating-input--lg {
+  font-size: calc(var(--vf-font-lg) * 1.25);
+}
+
+/* ── DatePicker / DateTimePicker / TimePicker ───────────────── */
+.vf-date-picker--sm .vf-input,
+.vf-datetime-picker--sm .vf-input,
+.vf-time-picker--sm select.vf-time-picker__select {
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-date-picker--lg .vf-input,
+.vf-datetime-picker--lg .vf-input,
+.vf-time-picker--lg select.vf-time-picker__select {
+  padding: var(--vf-sp-4) var(--vf-sp-7);
+  font-size: var(--vf-font-md);
+}
+
+/* ── Combobox / MultiSelect / TreeSelect ────────────────────── */
+.vf-combobox--sm .vf-input,
+.vf-tree-select--sm .vf-input,
+.vf-tree-select--sm .vf-tree-select__trigger {
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-combobox--lg .vf-input,
+.vf-tree-select--lg .vf-input,
+.vf-tree-select--lg .vf-tree-select__trigger {
+  padding: var(--vf-sp-4) var(--vf-sp-7);
+  font-size: var(--vf-font-md);
+}
+
+/* ── CommandInput ───────────────────────────────────────────── */
+.vf-command-input--sm {
+  font-size: var(--vf-font-xs);
+}
+.vf-command-input--md {
+  font-size: var(--vf-font-sm);
+}
+.vf-command-input--lg {
+  font-size: var(--vf-font-md);
+}
+
+/* ── Cascader (already had partial size support) ───────────── */
+.vf-cascader--sm .vf-cascader__trigger,
+.vf-cascader--sm .vf-cascader__option {
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-cascader--lg .vf-cascader__trigger,
+.vf-cascader--lg .vf-cascader__option {
+  padding: var(--vf-sp-4) var(--vf-sp-7);
+  font-size: var(--vf-font-md);
+}
+
+/* ── FileUpload ─────────────────────────────────────────────── */
+.vf-file-upload--sm .vf-file-upload__dropzone {
+  padding: var(--vf-sp-3) var(--vf-sp-5);
+  font-size: var(--vf-font-xs);
+}
+.vf-file-upload--lg .vf-file-upload__dropzone {
+  padding: var(--vf-sp-7) var(--vf-sp-9);
+  font-size: var(--vf-font-md);
+}
+
+/* ── MentionInput ───────────────────────────────────────────── */
+.vf-mention--sm textarea.vf-textarea {
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  font-size: var(--vf-font-xs);
+}
+.vf-mention--lg textarea.vf-textarea {
+  padding: var(--vf-sp-4) var(--vf-sp-7);
+  font-size: var(--vf-font-md);
+}

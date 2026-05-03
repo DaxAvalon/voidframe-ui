@@ -304,7 +304,16 @@ export const Tabs = Object.assign(TabsRoot, {
   List: TabsList,
   Trigger: TabsTrigger,
   Panel: TabsPanel,
+  /**
+   * Alias of `Tabs.Panel` for Radix/shadcn-ecosystem parity. Same component,
+   * two names — lets codebases migrated from `@radix-ui/react-tabs` or
+   * `@shadcn/ui` keep their `<Tabs.Content>` call sites unchanged.
+   */
+  Content: TabsPanel,
 });
+
+// Named re-exports for downstream subpath consumers (compat-shadcn).
+export { TabsList, TabsTrigger, TabsPanel };
 
 // ── Collapsible ───────────────────────────────────────────────
 
@@ -498,13 +507,13 @@ export interface ToastProps extends HTMLAttributes<HTMLDivElement> {
  * `toast.danger`, `toast.promise`) with a `Toaster` mounted near the app
  * root.
  *
- * @deprecated Use `Toaster` + `toast()` from `voidframe` instead.
+ * @deprecated Use `Toaster` + `toast()` from `voidframe-ui` instead.
  */
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
   { message, type = "info", visible = true, onDismiss, className, style, ...props },
   ref
 ) {
-  deprecatedComponent("Toast", "Toaster", "v1.1");
+  deprecatedComponent("Toast", "Toaster", "v1.2");
   if (!visible) return null;
   const composedStyle: CSSProperties = {
     ["--vf-toast-color" as never]: TOAST_VAR[type],

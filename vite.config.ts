@@ -129,6 +129,8 @@ export default defineConfig({
         chat: resolve(__dirname, "src/subpaths/chat.ts"),
         specialty: resolve(__dirname, "src/subpaths/specialty.ts"),
         interactive: resolve(__dirname, "src/subpaths/interactive.ts"),
+        reactflow: resolve(__dirname, "src/subpaths/reactflow.ts"),
+        "compat-shadcn": resolve(__dirname, "src/subpaths/compat-shadcn.ts"),
       },
       name: "Voidframe",
       formats: ["es", "cjs"],
@@ -166,6 +168,35 @@ export default defineConfig({
           asset.name && asset.name.endsWith(".css")
             ? "voidframe.css"
             : "[name][extname]",
+        // Rollup's default chunk-naming picks the largest module in a
+        // chunk as the file name, which produced opaque pairings like
+        // `FloatingActionButton-*.js` for the chunk that actually
+        // contains ContextMenu + Menu + Popovers + several helpers.
+        // Manual chunks here group structurally-related modules under
+        // predictable names so consumers analysing their own bundles
+        // see what's in them at a glance. Anything not matched falls
+        // back to rollup's default.
+        manualChunks(id: string): string | undefined {
+          if (!id.includes("/src/")) return undefined;
+          if (
+            /\/src\/components\/(Menu|MegaMenu|Popovers|Popconfirm|FloatingActionButton|Lightbox|Spotlight|ToastSystem|Overlay)\.tsx$/.test(
+              id
+            )
+          ) {
+            return "overlays";
+          }
+          if (/\/src\/charts\/math\//.test(id)) {
+            return "charts-math";
+          }
+          if (
+            /\/src\/components\/(TreeView|TreeSelect|TreeTable|Cascader|Transfer)\.tsx$/.test(
+              id
+            )
+          ) {
+            return "tree";
+          }
+          return undefined;
+        },
       },
     },
   },

@@ -33,8 +33,16 @@ export interface CommandInputProps
   prompt?: string | ReactNode;
   disabled?: boolean;
   size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   autoFocus?: boolean;
   style?: CSSProperties;
+  /**
+   * Props forwarded to the inner native `<input>` element. Use for
+   * `data-testid`, `aria-*`, or other attributes consumers want on the
+   * actual control.
+   */
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 const CommandInputImpl = forwardRef<HTMLDivElement, CommandInputProps>(
@@ -51,9 +59,11 @@ const CommandInputImpl = forwardRef<HTMLDivElement, CommandInputProps>(
       prompt = "$",
       disabled,
       size = "md",
+      wrapperProps,
       autoFocus,
       className,
       style,
+      inputProps,
       ...props
     },
     ref
@@ -201,7 +211,9 @@ const CommandInputImpl = forwardRef<HTMLDivElement, CommandInputProps>(
           disabled && "vf-command-input--disabled",
           className
         )}
+        data-size={size}
         style={style}
+        {...wrapperProps}
         {...props}
       >
         <span className="vf-command-input__prompt" aria-hidden="true">
@@ -222,6 +234,7 @@ const CommandInputImpl = forwardRef<HTMLDivElement, CommandInputProps>(
             aria-expanded={completionsOpen ? true : undefined}
             aria-autocomplete={completionsOpen ? "list" : undefined}
             aria-label="Command input"
+            {...inputProps}
           />
           {ghostText && (
             <span className="vf-command-input__suggestion" aria-hidden="true">

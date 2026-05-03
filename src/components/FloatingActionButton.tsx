@@ -9,13 +9,17 @@ import {
   useState,
 } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 
 export interface FABAction {
   key: string;
   label: string;
   icon: ReactNode;
   onClick: () => void;
+  /** Renders the speed-dial item with native + aria disabled and inert click. */
+  disabled?: boolean;
 }
 
 export interface FloatingActionButtonProps
@@ -26,8 +30,23 @@ export interface FloatingActionButtonProps
   actions?: FABAction[];
   position?: "bottom-right" | "bottom-left" | "bottom-center";
   size?: "sm" | "md" | "lg";
-  variant?: "solid" | "outline";
+  /**
+   * Visual style. `"destructive"` is a parity alias for shadcn migrations —
+   * cascades to `tone="danger"`.
+   */
+  variant?: "solid" | "outline" | "destructive";
+  /**
+   * Semantic tone. Mirrors Button/Badge. Emits `data-tone` + cascades to
+   * `vf-fab--${tone}` BEM class.
+   */
+  tone?: "neutral" | "info" | "success" | "danger" | "warning";
   offset?: { bottom?: number; right?: number; left?: number };
+  /**
+   * Disables the FAB trigger (and any speed-dial actions cascade via their
+   * own `FABAction.disabled`). Emits both native `disabled` and
+   * `aria-disabled="true"` via the shared `buttonDisabledAttrs` helper.
+   */
+  disabled?: boolean;
   style?: CSSProperties;
 }
 
@@ -43,7 +62,9 @@ const FloatingActionButtonImpl = forwardRef<
     position = "bottom-right",
     size = "md",
     variant = "outline",
+    tone,
     offset,
+    disabled = false,
     className,
     style,
     ...props
@@ -54,15 +75,17 @@ const FloatingActionButtonImpl = forwardRef<
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleButtonClick = useCallback(() => {
+    if (disabled) return;
     if (actions && actions.length > 0) {
       setOpen((prev) => !prev);
     } else {
       onClick?.();
     }
-  }, [actions, onClick]);
+  }, [actions, onClick, disabled]);
 
   const handleActionClick = useCallback(
     (action: FABAction) => {
+      if (action.disabled) return;
       action.onClick();
       setOpen(false);
     },
@@ -100,6 +123,8 @@ const FloatingActionButtonImpl = forwardRef<
   const allowLeft = position === "bottom-left";
   const allowRight = position === "bottom-right";
   const allowBottom = true; // all supported positions anchor to bottom
+  const resolvedTone = tone ?? (variant === "destructive" ? "danger" : undefined);
+  const ta = toneAttrs("vf-fab", { tone: resolvedTone, variant, size });
   const composedStyle: CSSProperties = {
     ...(allowBottom && offset?.bottom !== undefined
       ? { "--vf-fab-bottom": `${offset.bottom}px` }
@@ -122,13 +147,12 @@ const FloatingActionButtonImpl = forwardRef<
         else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
       }}
       className={cx(
-        "vf-fab",
+        ta.className,
         `vf-fab--${position}`,
-        `vf-fab--${size}`,
-        `vf-fab--${variant}`,
         className
       )}
       style={composedStyle}
+      {...ta.attrs}
       {...props}
     >
       {open && actions && actions.length > 0 && (
@@ -141,7 +165,10 @@ const FloatingActionButtonImpl = forwardRef<
                 className="vf-fab__action-button"
                 aria-label={action.label}
                 role="menuitem"
-                onClick={() => handleActionClick(action)}
+                onClick={
+                  action.disabled ? undefined : () => handleActionClick(action)
+                }
+                {...buttonDisabledAttrs(action.disabled)}
               >
                 {action.icon}
               </button>
@@ -155,7 +182,8 @@ const FloatingActionButtonImpl = forwardRef<
         aria-label={label ?? "Floating action"}
         aria-expanded={actions && actions.length > 0 ? open : undefined}
         aria-haspopup={actions && actions.length > 0 ? "menu" : undefined}
-        onClick={handleButtonClick}
+        onClick={disabled ? undefined : handleButtonClick}
+        {...buttonDisabledAttrs(disabled)}
       >
         <span className="vf-fab__icon" aria-hidden="true">
           {icon}

@@ -317,6 +317,10 @@ export interface DatePickerProps
   disabled?: boolean;
   required?: boolean;
   id?: string;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -344,6 +348,8 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       disabled,
       required,
       id,
+      size = "md",
+      wrapperProps,
       className,
       style,
       ...props
@@ -448,8 +454,15 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       return (
         <div
           ref={mergedRef}
-          className={cx("vf-date-picker", "vf-date-picker--inline", className)}
+          className={cx(
+            "vf-date-picker",
+            "vf-date-picker--inline",
+            `vf-date-picker--${size}`,
+            className
+          )}
+          data-size={size}
           style={style}
+          {...wrapperProps}
           {...props}
         >
           {label && <Label>{label}</Label>}
@@ -461,8 +474,10 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     return (
       <div
         ref={mergedRef}
-        className={cx("vf-date-picker", className)}
+        className={cx("vf-date-picker", `vf-date-picker--${size}`, className)}
+        data-size={size}
         style={style}
+        {...wrapperProps}
         {...props}
       >
         {label && (

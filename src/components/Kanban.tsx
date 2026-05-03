@@ -8,6 +8,7 @@
 
 import {
   forwardRef,
+  memo,
   useMemo,
   useRef,
   useState,
@@ -62,7 +63,7 @@ export interface KanbanProps extends HTMLAttributes<HTMLDivElement> {
  * A column-based task board that supports dragging items between columns.
  * Emits move events so callers can persist reordering and cross-column transitions.
  */
-export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
+const KanbanImpl = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
   {
     columns,
     items,
@@ -270,4 +271,13 @@ export const Kanban = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
     </div>
   );
 });
-Kanban.displayName = "Kanban";
+KanbanImpl.displayName = "Kanban";
+
+/**
+ * Kanban board with column-bounded drag/drop. Memoized at the export
+ * site so re-rendering a parent with unrelated state doesn't re-render
+ * the full board grid; consumers can rely on referentially-stable
+ * `items` / `onMove` callbacks for the optimization to actually fire.
+ */
+export const Kanban = memo(KanbanImpl);
+(Kanban as unknown as { displayName: string }).displayName = "Kanban";

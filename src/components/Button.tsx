@@ -1,20 +1,35 @@
 "use client";
 
 import { cloneElement, forwardRef, isValidElement, memo } from "react";
-import type { ReactElement } from "react";
+import type { MouseEvent, ReactElement } from "react";
 import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";
 import { cx } from "../utils/cx";
 import { warn } from "../utils/warn";
+import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
+import { toneAttrs } from "../utils/toneAttrs";
 
-export type ButtonVariant = "solid" | "outline" | "ghost" | "subtle";
-export type ButtonSize = "sm" | "md" | "lg";
+export type ButtonVariant = "solid" | "outline" | "ghost" | "subtle" | "destructive";
+export type ButtonSize = "sm" | "md" | "lg" | "icon";
+export type ButtonTone =
+  | "neutral"
+  | "info"
+  | "success"
+  | "danger"
+  | "warning";
 
 export interface ButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   variant?: ButtonVariant;
   /** Accent color for `solid` and `subtle` variants. Sets `--vf-accent`. */
   accent?: string;
+  /**
+   * Semantic tone. Adds `data-tone="…"` + `vf-button--tone-…` class and, for
+   * `danger`/`warning`/`success`, primes `--vf-accent` to the matching token
+   * so solid/subtle variants render in-tone without manual `accent=`.
+   * Mirrors the Badge/AlertV2/Card tone vocabulary.
+   */
+  tone?: ButtonTone;
   size?: ButtonSize;
   active?: boolean;
   disabled?: boolean;
@@ -24,7 +39,13 @@ export interface ButtonProps
   iconLeft?: ReactNode;
   /** Icon rendered after children. */
   iconRight?: ReactNode;
-  onClick?: () => void;
+  /**
+   * Click handler. Receives the native `MouseEvent` so consumers can call
+   * `stopPropagation()` / `preventDefault()` when the button is nested inside
+   * a clickable row or card. (Prior to 1.1.0 the signature was `() => void`;
+   * the event param is additive — existing zero-arg handlers keep working.)
+   */
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   /** Render through `<Slot>` and merge styles onto a single child element. */
   asChild?: boolean;
   children?: ReactNode;
@@ -36,6 +57,7 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     children,
     variant = "outline",
     accent,
+    tone,
     size = "md",
     active,
     disabled,
@@ -50,18 +72,30 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   },
   ref
 ) {
+  // `variant="destructive"` is an alias for `tone="danger"` + solid visual —
+  // matches the shadcn/Radix migration vocabulary without forking.
+  const resolvedTone: ButtonTone | undefined =
+    variant === "destructive" ? "danger" : tone;
+  const resolvedVariant: ButtonVariant =
+    variant === "destructive" ? "solid" : variant;
   const composedStyle: CSSProperties = {
     ...(accent ? ({ "--vf-accent": accent } as CSSProperties) : {}),
+    // Tone primes --vf-accent when no explicit accent is supplied, so solid
+    // and subtle variants pick up the semantic color automatically.
+    ...(!accent && resolvedTone && resolvedTone !== "neutral"
+      ? ({ "--vf-accent": `var(--vf-${resolvedTone})` } as CSSProperties)
+      : {}),
     ...style,
   };
-  const composedClass = cx(
-    "vf-button",
-    `vf-button--${variant}`,
-    `vf-button--${size}`,
-    className
-  );
+  const ta = toneAttrs("vf-button", {
+    variant: resolvedVariant,
+    size,
+    tone: resolvedTone,
+  });
+  const composedClass = cx(ta.className, className);
   const isDisabled = disabled || loading;
   const dataAttrs = {
+    ...ta.attrs,
     "data-active": active ? "true" : undefined,
     "data-disabled": isDisabled ? "true" : undefined,
   };
@@ -112,7 +146,7 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
       ref={ref}
       type={typeProp ?? "button"}
       onClick={isDisabled ? undefined : onClick}
-      aria-disabled={isDisabled || undefined}
+      {...buttonDisabledAttrs(isDisabled)}
       className={composedClass}
       style={composedStyle}
       {...dataAttrs}
@@ -130,10 +164,30 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
 });
 ButtonImpl.displayName = "Button";
 /**
- * Primary interactive button. Four canonical variants (`solid`, `outline`,
- * `ghost`, `subtle`), three sizes, optional `iconLeft` / `iconRight`, loading
+ * Primary interactive button. Five variants (`solid`, `outline`, `ghost`,
+ * `subtle`, `destructive`), four sizes including `icon` (square 1:1 aspect),
+ * tone vocabulary (`neutral` / `info` / `success` / `danger` / `warning`)
+ * mirroring Badge/AlertV2/Card, optional `iconLeft` / `iconRight`, loading
  * spinner, and polymorphic `asChild` for slot-style composition. Memoized so
  * re-renders are skipped when props are referentially stable.
+ *
+ * @remarks
+ * **Disabled behavior** — when `disabled` (or `loading`) is true, voidframe
+ * emits BOTH the native `disabled` attribute AND `aria-disabled="true"`,
+ * and strips the `onClick` handler. Native `disabled` makes
+ * `button:disabled` CSS, `<form>` submission suppression, and
+ * `expect(btn).toHaveAttribute("disabled")` test assertions all work as
+ * native HTML expects. This dual-emit pattern is shared with `IconButton`,
+ * `CopyButton`, `SplitButton`, `ToggleGroup`, `Toolbar`, and
+ * `SegmentedControl` via the `buttonDisabledAttrs` shared helper.
+ *
+ * **`onClick` event arg** — receives the native `MouseEvent` so handlers
+ * can call `stopPropagation()` / `preventDefault()` without wrapping the
+ * Button in a span (common when nested inside a clickable card / row).
+ *
+ * **`variant="destructive"`** is an alias that maps to `tone="danger"` +
+ * solid visual — provides drop-in compatibility with shadcn/Radix call
+ * sites that use that variant name.
  */
 export const Button = memo(ButtonImpl);
 (Button as unknown as { displayName: string }).displayName = "Button";

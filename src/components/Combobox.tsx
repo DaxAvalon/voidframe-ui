@@ -28,6 +28,7 @@ import {
 import { useClickOutside, useId, useMergedRefs } from "../hooks";
 import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { warnOnce } from "../utils/warn";
 import { Label } from "./Text";
 
@@ -39,6 +40,8 @@ export interface ComboboxOption {
   disabled?: boolean;
   /** Optional group label; adjacent options with the same group are rendered together. */
   group?: string;
+  /** Semantic tone — "delete branch", "unsafe action", etc. */
+  tone?: "neutral" | "danger" | "warning" | "success";
 }
 
 function defaultFilter(query: string, option: ComboboxOption): boolean {
@@ -65,7 +68,18 @@ export interface ComboboxProps
   emptyMessage?: ReactNode;
   disabled?: boolean;
   id?: string;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
+  /**
+   * Props forwarded to the inner native `<input>` element. Use for
+   * `data-testid`, `aria-*`, or other attributes consumers expect on the
+   * actual control (e.g. `fireEvent.change(getByTestId(id), ...)`).
+   * Container-level props stay on the outer `<div>` via `{...props}`.
+   */
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 /**
@@ -87,8 +101,11 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       emptyMessage = "No results",
       disabled,
       id,
+      size = "md",
+      wrapperProps,
       className,
       style,
+      inputProps,
       ...props
     },
     ref
@@ -228,8 +245,10 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     return (
       <div
         ref={mergedRef}
-        className={cx("vf-combobox", className)}
+        className={cx("vf-combobox", `vf-combobox--${size}`, className)}
+        data-size={size}
         style={style}
+        {...wrapperProps}
         {...props}
       >
         {label && (
@@ -262,6 +281,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
               ? `${listboxId}-${filtered[highlighted]!.value}`
               : undefined
           }
+          {...inputProps}
         />
         {open && (
           <ul
@@ -272,7 +292,13 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           >
             {filtered.length === 0 && (
               <li className="vf-combobox__empty" aria-disabled="true">
-                {emptyMessage}
+                {typeof emptyMessage === "string" ? (
+                  <div className="vf-empty-state vf-empty-state--plain" data-variant="plain">
+                    <div className="vf-empty-state__title">{emptyMessage}</div>
+                  </div>
+                ) : (
+                  emptyMessage
+                )}
               </li>
             )}
             {filtered.map((opt, idx) => {
@@ -299,10 +325,12 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                     aria-disabled={opt.disabled || undefined}
                     className={cx(
                       "vf-combobox__option",
+                      opt.tone && `vf-combobox__option--${opt.tone}`,
                       isHighlighted && "vf-combobox__option--highlighted",
                       isSelected && "vf-combobox__option--selected",
                       opt.disabled && "vf-combobox__option--disabled"
                     )}
+                    data-tone={opt.tone}
                     onMouseDown={(e) => {
                       // Prevent blur-close before the click commits.
                       e.preventDefault();
@@ -344,6 +372,10 @@ export interface MultiSelectProps
   maxSelected?: number;
   disabled?: boolean;
   id?: string;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -365,6 +397,8 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       maxSelected,
       disabled,
       id,
+      size = "md",
+      wrapperProps,
       className,
       style,
       ...props
@@ -459,8 +493,15 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
     return (
       <div
         ref={mergedRef}
-        className={cx("vf-combobox", "vf-multi-select", className)}
+        className={cx(
+          "vf-combobox",
+          "vf-multi-select",
+          `vf-combobox--${size}`,
+          className
+        )}
+        data-size={size}
         style={style}
+        {...wrapperProps}
         {...props}
       >
         {label && (
@@ -524,7 +565,13 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
           >
             {filtered.length === 0 && (
               <li className="vf-combobox__empty" aria-disabled="true">
-                {emptyMessage}
+                {typeof emptyMessage === "string" ? (
+                  <div className="vf-empty-state vf-empty-state--plain" data-variant="plain">
+                    <div className="vf-empty-state__title">{emptyMessage}</div>
+                  </div>
+                ) : (
+                  emptyMessage
+                )}
               </li>
             )}
             {filtered.map((opt, idx) => {

@@ -62,6 +62,16 @@ export interface FileUploadProps
   disableThumbnails?: boolean;
   disabled?: boolean;
   id?: string;
+  /**
+   * Props forwarded to the inner native `<input type="file">` element. Use for
+   * `data-testid`, `aria-*`, or other attributes consumers want on the
+   * actual control.
+   */
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -119,8 +129,11 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
       disableThumbnails,
       disabled,
       id,
+      size = "md",
+      wrapperProps,
       className,
       style,
+      inputProps,
       ...props
     },
     ref
@@ -275,8 +288,10 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
     return (
       <div
         ref={ref}
-        className={cx("vf-file-upload", className)}
+        className={cx("vf-file-upload", `vf-file-upload--${size}`, className)}
+        data-size={size}
         style={style}
+        {...wrapperProps}
         {...props}
       >
         {label && <Label as="label" htmlFor={rootId}>{label}</Label>}
@@ -338,6 +353,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
             if (e.target.files?.length) addFiles(e.target.files);
             e.target.value = "";
           }}
+          {...inputProps}
         />
         {items.length > 0 && (
           <ul className="vf-file-upload__list" aria-label="Selected files">

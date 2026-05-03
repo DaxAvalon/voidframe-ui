@@ -14,6 +14,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 
 export interface DataListItem {
   label: ReactNode;
@@ -24,11 +25,19 @@ export interface DataListProps extends HTMLAttributes<HTMLDivElement> {
   items?: DataListItem[];
   /** Orientation. Default "horizontal" (2-col). */
   orientation?: "horizontal" | "vertical";
+  /**
+   * Return arbitrary HTML attributes to apply to each rendered row when the
+   * array-API (`items`) is used. Tests / instrumentation can attach
+   * `data-testid` / `aria-*` per row without falling back to content-based
+   * queries. The compound API (`<DataList.Item>`) already accepts spread
+   * props directly.
+   */
+  itemAttributes?: (item: DataListItem, index: number) => HTMLAttributes<HTMLDivElement>;
   children?: ReactNode;
 }
 
 const DataListBase = forwardRef<HTMLDivElement, DataListProps>(function DataList(
-  { items, orientation = "horizontal", className, children, ...props },
+  { items, orientation = "horizontal", itemAttributes, className, children, ...props },
   ref
 ) {
   return (
@@ -37,12 +46,15 @@ const DataListBase = forwardRef<HTMLDivElement, DataListProps>(function DataList
       className={cx("vf-datalist", `vf-datalist--${orientation}`, className)}
       {...props}
     >
-      {items?.map((it, i) => (
-        <div key={i} className="vf-datalist__row">
-          <div className="vf-datalist__label">{it.label}</div>
-          <div className="vf-datalist__value">{it.value}</div>
-        </div>
-      ))}
+      {items?.map((it, i) => {
+        const extra = itemAttributes?.(it, i) ?? {};
+        return (
+          <div key={i} className="vf-datalist__row" data-item-index={i} {...extra}>
+            <div className="vf-datalist__label">{it.label}</div>
+            <div className="vf-datalist__value">{it.value}</div>
+          </div>
+        );
+      })}
       {children}
     </div>
   );
@@ -52,14 +64,36 @@ DataListBase.displayName = "DataList";
 export interface DataListItemProps extends HTMLAttributes<HTMLDivElement> {
   label: ReactNode;
   value: ReactNode;
+  /** Semantic tone — highlight rows as success/warning/danger/info. */
+  tone?: "neutral" | "info" | "success" | "warning" | "danger";
+  /**
+   * Optional rich expansion content rendered below the label/value row.
+   * Use for "click to expand" patterns where the simple value isn't
+   * sufficient — nested key/value pairs, code snippets, charts, etc.
+   * Voidframe doesn't manage the expand/collapse state; consumers pass
+   * `expandedContent` conditionally.
+   */
+  expandedContent?: ReactNode;
 }
 
 const DataListItemComponent = forwardRef<HTMLDivElement, DataListItemProps>(
-  function DataListItem({ label, value, className, ...props }, ref) {
+  function DataListItem(
+    { label, value, tone, expandedContent, className, ...props },
+    ref
+  ) {
+    const ta = toneAttrs("vf-datalist__row", { tone });
     return (
-      <div ref={ref} className={cx("vf-datalist__row", className)} {...props}>
+      <div
+        ref={ref}
+        className={cx(ta.className, className)}
+        {...ta.attrs}
+        {...props}
+      >
         <div className="vf-datalist__label">{label}</div>
         <div className="vf-datalist__value">{value}</div>
+        {expandedContent && (
+          <div className="vf-datalist__expanded">{expandedContent}</div>
+        )}
       </div>
     );
   }

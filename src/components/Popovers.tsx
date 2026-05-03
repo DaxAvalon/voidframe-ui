@@ -219,6 +219,9 @@ export const PopoverV2 = Object.assign(PopoverRoot, {
   Content: PopoverContent,
 });
 
+// Named re-exports for downstream subpath consumers (compat-shadcn).
+export { PopoverRoot, PopoverTrigger, PopoverContent };
+
 // ── Tooltip ──────────────────────────────────────────────────
 
 interface TooltipProviderValue {
@@ -402,6 +405,110 @@ export function Tooltip({
     </>
   );
 }
+
+// ── Tooltip compound (Radix-shape parity) ────────────────────
+//
+// Additive layer over the existing prop-based `<Tooltip content={…}>` API.
+// Lets shadcn/Radix migrators write:
+//
+//   <Tooltip.Root>
+//     <Tooltip.Trigger>hover me</Tooltip.Trigger>
+//     <Tooltip.Content>tooltip body</Tooltip.Content>
+//   </Tooltip.Root>
+//
+// Under the hood it translates to a single `<Tooltip content={…}>{trigger}</Tooltip>`
+// instance. The compound API and the prop API are fully interchangeable.
+
+interface TooltipCompoundContextValue {
+  trigger: ReactNode | null;
+  setTrigger: (node: ReactNode) => void;
+  content: ReactNode | null;
+  setContent: (node: ReactNode) => void;
+}
+
+const TooltipCompoundContext = createContext<TooltipCompoundContextValue | null>(null);
+
+export interface TooltipRootProps {
+  placement?: Placement;
+  offset?: number;
+  openDelay?: number;
+  closeDelay?: number;
+  asAriaLabel?: boolean;
+  children?: ReactNode;
+}
+
+function TooltipRoot({
+  placement,
+  offset,
+  openDelay,
+  closeDelay,
+  asAriaLabel,
+  children,
+}: TooltipRootProps) {
+  // Trigger and content slot collection; passed to underlying Tooltip render
+  // via this provider. Children render order: Trigger first, then Content;
+  // either may be omitted (no-op render).
+  const [trigger, setTrigger] = useState<ReactNode | null>(null);
+  const [content, setContent] = useState<ReactNode | null>(null);
+  const ctx = useMemo<TooltipCompoundContextValue>(
+    () => ({ trigger, setTrigger, content, setContent }),
+    [trigger, content]
+  );
+  return (
+    <TooltipCompoundContext.Provider value={ctx}>
+      {children}
+      {trigger !== null && content !== null ? (
+        <Tooltip
+          content={content}
+          placement={placement}
+          offset={offset}
+          openDelay={openDelay}
+          closeDelay={closeDelay}
+          asAriaLabel={asAriaLabel}
+        >
+          {trigger}
+        </Tooltip>
+      ) : null}
+    </TooltipCompoundContext.Provider>
+  );
+}
+
+export interface TooltipTriggerProps {
+  children: ReactNode;
+}
+
+function TooltipTrigger({ children }: TooltipTriggerProps) {
+  const ctx = useContext(TooltipCompoundContext);
+  // Stage children into the root's trigger slot. Actual rendering happens
+  // inside `TooltipRoot`'s underlying Tooltip; this component only signals.
+  useEffect(() => {
+    ctx?.setTrigger(children);
+    return () => ctx?.setTrigger(null);
+  }, [ctx, children]);
+  return null;
+}
+
+export interface TooltipContentProps {
+  children: ReactNode;
+}
+
+function TooltipContent({ children }: TooltipContentProps) {
+  const ctx = useContext(TooltipCompoundContext);
+  useEffect(() => {
+    ctx?.setContent(children);
+    return () => ctx?.setContent(null);
+  }, [ctx, children]);
+  return null;
+}
+
+// Attach compound to the Tooltip function so consumers can write
+// `Tooltip.Root` / `Tooltip.Trigger` / `Tooltip.Content`. The prop-based
+// `<Tooltip content={…}>{child}</Tooltip>` callable form stays the default.
+(Tooltip as unknown as Record<string, unknown>).Root = TooltipRoot;
+(Tooltip as unknown as Record<string, unknown>).Trigger = TooltipTrigger;
+(Tooltip as unknown as Record<string, unknown>).Content = TooltipContent;
+
+export { TooltipRoot, TooltipTrigger, TooltipContent };
 
 // ── HoverCard ────────────────────────────────────────────────
 

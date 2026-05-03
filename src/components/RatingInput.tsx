@@ -26,11 +26,21 @@ import { useId } from "../hooks/useId";
 import { cx } from "../utils/cx";
 import { Label } from "./Text";
 
+export type RatingValue = number | null;
+
 export interface RatingInputProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
-  value?: number;
-  defaultValue?: number;
-  onValueChange?: (value: number) => void;
+  /**
+   * Controlled value. `null` represents "not yet rated" — distinguishable
+   * from `0` ("zero-star rating explicitly selected"). The widened union
+   * replaces the prior `number`-only type; existing call sites that only
+   * pass `number` still work.
+   */
+  value?: RatingValue;
+  defaultValue?: RatingValue;
+  onValueChange?: (value: RatingValue) => void;
+  /** When true, the uncontrolled default is `null` instead of `0`. */
+  defaultBlank?: boolean;
   label?: string;
   /** Number of steps (stars). Default 5. */
   count?: number;
@@ -42,6 +52,10 @@ export interface RatingInputProps
   /** Custom icon. Default is a filled/empty star glyph. */
   renderIcon?: (state: { filled: number; index: number }) => ReactNode;
   id?: string;
+  /** Visual size variant — `"sm" | "md" | "lg"`. Default `"md"`. */
+  size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   style?: CSSProperties;
 }
 
@@ -58,6 +72,7 @@ export const RatingInput = forwardRef<HTMLDivElement, RatingInputProps>(
       value,
       defaultValue,
       onValueChange,
+      defaultBlank,
       label,
       count = 5,
       allowHalf,
@@ -65,15 +80,17 @@ export const RatingInput = forwardRef<HTMLDivElement, RatingInputProps>(
       disabled,
       renderIcon,
       id,
+      size = "md",
+      wrapperProps,
       className,
       style,
       ...props
     },
     ref
   ) {
-    const [current, setCurrent] = useControllableState<number>({
+    const [current, setCurrent] = useControllableState<RatingValue>({
       value,
-      defaultValue: defaultValue ?? 0,
+      defaultValue: defaultValue ?? (defaultBlank ? null : 0),
       onChange: onValueChange,
       componentName: "RatingInput",
     });
@@ -93,14 +110,15 @@ export const RatingInput = forwardRef<HTMLDivElement, RatingInputProps>(
       [count, step, setCurrent]
     );
 
+    const numericCurrent = current ?? 0;
     const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
       if (!interactive) return;
       if (e.key === "ArrowRight" || e.key === "ArrowUp") {
         e.preventDefault();
-        setValueClamped(current + step);
+        setValueClamped(numericCurrent + step);
       } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
         e.preventDefault();
-        setValueClamped(current - step);
+        setValueClamped(numericCurrent - step);
       } else if (e.key === "Home") {
         e.preventDefault();
         setValueClamped(0);
@@ -121,14 +139,21 @@ export const RatingInput = forwardRef<HTMLDivElement, RatingInputProps>(
       }
     };
 
-    const displayValue = hover ?? current;
+    const displayValue = hover ?? numericCurrent;
 
     return (
       <div
         ref={ref}
         id={controlId}
-        className={cx("vf-rating-input", disabled && "vf-rating-input--disabled", className)}
+        className={cx(
+          "vf-rating-input",
+          `vf-rating-input--${size}`,
+          disabled && "vf-rating-input--disabled",
+          className
+        )}
+        data-size={size}
         style={style}
+        {...wrapperProps}
         {...props}
       >
         {label && (
@@ -141,8 +166,8 @@ export const RatingInput = forwardRef<HTMLDivElement, RatingInputProps>(
           tabIndex={disabled ? -1 : 0}
           aria-valuemin={0}
           aria-valuemax={count}
-          aria-valuenow={current}
-          aria-valuetext={`${current} out of ${count}`}
+          aria-valuenow={current ?? undefined}
+          aria-valuetext={`${current ?? "unrated"} out of ${count}`}
           aria-readonly={readOnly || undefined}
           aria-disabled={disabled || undefined}
           aria-labelledby={label ? labelId : undefined}

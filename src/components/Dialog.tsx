@@ -31,6 +31,7 @@ import { Portal } from "../primitives/Portal";
 import { Presence } from "../primitives/Presence";
 import { ScrollLock } from "../primitives/ScrollLock";
 import { cx } from "../utils/cx";
+import { warnOnce } from "../utils/warn";
 
 export type DialogSize = "sm" | "md" | "lg" | "xl" | "full";
 
@@ -178,6 +179,12 @@ export interface DialogContentProps extends HTMLAttributes<HTMLDivElement> {
   initialFocus?: React.RefObject<HTMLElement>;
   /** Focus this element when the dialog closes instead of the previously-focused element. */
   finalFocus?: React.RefObject<HTMLElement>;
+  /**
+   * When true, renders the dialog body in a monospace font. Mirrors
+   * `Card.monospace` / `DrawerV2.Content.monospace` for log/prompt/code-
+   * content dialogs.
+   */
+  monospace?: boolean;
   children?: ReactNode;
   style?: CSSProperties;
 }
@@ -193,6 +200,7 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
       modal = true,
       initialFocus,
       finalFocus,
+      monospace,
       className,
       style,
       children,
@@ -247,7 +255,13 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
             aria-modal={modal || undefined}
             aria-labelledby={ctx.hasTitle ? ctx.titleId : undefined}
             aria-describedby={ctx.hasDescription ? ctx.descriptionId : undefined}
-            className={cx("vf-dialog__panel", `vf-dialog__panel--${size}`, className)}
+            className={cx(
+              "vf-dialog__panel",
+              `vf-dialog__panel--${size}`,
+              monospace && "vf-dialog__panel--monospace",
+              className
+            )}
+            data-size={size}
             style={style}
             {...(props as HTMLAttributes<HTMLDivElement>)}
           >
@@ -267,6 +281,7 @@ DialogContent.displayName = "DialogContent";
 function DialogHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-dialog__header", className)} {...props} />;
 }
+DialogHeader.displayName = "Dialog.Header";
 
 const DialogTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement>>(
   function DialogTitle({ className, id, ...props }, ref) {
@@ -316,10 +331,12 @@ DialogDescription.displayName = "DialogDescription";
 function DialogBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-dialog__body", className)} {...props} />;
 }
+DialogBody.displayName = "Dialog.Body";
 
 function DialogFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-dialog__footer", className)} {...props} />;
 }
+DialogFooter.displayName = "Dialog.Footer";
 
 export interface DialogCloseProps extends HTMLAttributes<HTMLElement> {
   asChild?: boolean;
@@ -347,6 +364,7 @@ function DialogClose({
     <button
       type="button"
       aria-label="Close"
+      data-testid="vf-dialog-close-button"
       className="vf-dialog__close"
       onClick={handle}
       {...props}
@@ -355,8 +373,9 @@ function DialogClose({
     </button>
   );
 }
+DialogClose.displayName = "Dialog.Close";
 
-interface DialogCancelProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface DialogCancelProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Render through a single consumer-provided element. Avoids nesting
    * a `<button>` inside a `<button>` (which axe flags as
    * nested-interactive). */
@@ -390,6 +409,7 @@ const DialogCancel = forwardRef<HTMLButtonElement, DialogCancelProps>(
       <button
         ref={ref}
         type="button"
+        data-testid="vf-dialog-cancel-button"
         className={cx("vf-button", "vf-button--ghost", className)}
         onClick={handle}
         {...props}
@@ -401,7 +421,7 @@ const DialogCancel = forwardRef<HTMLButtonElement, DialogCancelProps>(
 );
 DialogCancel.displayName = "DialogCancel";
 
-interface DialogActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface DialogActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   autoClose?: boolean;
   /** Render through a single consumer-provided element. See DialogCancel. */
   asChild?: boolean;
@@ -437,6 +457,7 @@ const DialogAction = forwardRef<HTMLButtonElement, DialogActionProps>(
       <button
         ref={ref}
         type="button"
+        data-testid="vf-dialog-action-button"
         className={cx("vf-button", className)}
         onClick={handle}
         {...props}
@@ -472,6 +493,23 @@ export const Dialog = Object.assign(DialogRoot, {
   Action: DialogAction,
 });
 
+// Named re-exports for compat layers (voidframe-ui/compat-shadcn) and for
+// tsc declaration emission. Without these, vite-plugin-dts can't name
+// the compound members when re-exporting `Dialog.Header` from a downstream
+// module — internal types stay non-portable.
+export {
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogBody,
+  DialogFooter,
+  DialogClose,
+  DialogCancel,
+  DialogAction,
+};
+
 // ── AlertDialog ───────────────────────────────────────────────
 
 export interface AlertDialogProps extends Omit<DialogProps, "kind"> {}
@@ -499,6 +537,18 @@ export interface ConfirmDialogPropsV2 {
   destructive?: boolean;
   onConfirm?: () => void | Promise<void>;
   onCancel?: () => void;
+  /**
+   * Attributes applied to the built-in Confirm button. Use for custom
+   * `data-testid` / `aria-*` without replacing the button entirely.
+   * Defaults: `data-testid="vf-confirm-confirm-button"` — override to
+   * disambiguate multiple concurrent confirmations in tests.
+   */
+  confirmButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  /**
+   * Attributes applied to the built-in Cancel button. Defaults:
+   * `data-testid="vf-confirm-cancel-button"`.
+   */
+  cancelButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
 }
 
 /**
@@ -517,6 +567,8 @@ export function ConfirmDialogV2({
   destructive,
   onConfirm,
   onCancel,
+  confirmButtonProps,
+  cancelButtonProps,
 }: ConfirmDialogPropsV2) {
   return (
     <AlertDialog
@@ -530,10 +582,24 @@ export function ConfirmDialogV2({
           {description && <Dialog.Description>{description}</Dialog.Description>}
         </Dialog.Header>
         <Dialog.Footer>
-          <Dialog.Cancel onClick={() => onCancel?.()}>{cancelLabel}</Dialog.Cancel>
+          <Dialog.Cancel
+            data-testid="vf-confirm-cancel-button"
+            {...cancelButtonProps}
+            onClick={(e) => {
+              cancelButtonProps?.onClick?.(e);
+              onCancel?.();
+            }}
+          >
+            {cancelLabel}
+          </Dialog.Cancel>
           <Dialog.Action
+            data-testid="vf-confirm-confirm-button"
             data-tone={confirmTone ?? (destructive ? "danger" : undefined)}
-            onClick={() => onConfirm?.()}
+            {...confirmButtonProps}
+            onClick={(e) => {
+              confirmButtonProps?.onClick?.(e);
+              onConfirm?.();
+            }}
           >
             {confirmLabel}
           </Dialog.Action>
@@ -604,11 +670,37 @@ export function ConfirmProvider({ children }: ConfirmProviderProps) {
   );
 }
 
+/**
+ * Imperative confirm-dialog hook.
+ *
+ * In development, if `useConfirm()` is called without a `<ConfirmProvider>`
+ * in the tree, it logs a one-time warning and returns a no-op shim backed by
+ * `window.confirm()` so simple test setups and ad-hoc consumers aren't forced
+ * to mount a provider. In production the hook throws — the absence of a
+ * provider in a shipped app is a misconfiguration worth surfacing loudly.
+ */
 export function useConfirm(): (opts?: Omit<ConfirmDialogPropsV2, "open" | "onConfirm" | "onCancel">) => Promise<boolean> {
   const ctx = useContext(ConfirmContext);
-  if (!ctx)
+  if (ctx) return ctx.confirm;
+  if (process.env.NODE_ENV === "production") {
     throw new Error("useConfirm() requires <ConfirmProvider> in the tree.");
-  return ctx.confirm;
+  }
+  warnOnce(
+    "useConfirm-no-provider",
+    "useConfirm() was called without a <ConfirmProvider> in the tree. " +
+      "Falling back to window.confirm() for this dev build. Wrap your app in " +
+      "<ConfirmProvider> for a styled dialog, or use `renderWithVoidframe` " +
+      "(coming from voidframe-ui/testing) in tests."
+  );
+  return (opts) =>
+    Promise.resolve(
+      typeof window !== "undefined" && typeof window.confirm === "function"
+        ? window.confirm(
+            [opts?.title, opts?.description].filter(Boolean).join("\n\n") ||
+              "Are you sure?"
+          )
+        : false
+    );
 }
 
 // Helper to count children of a specific type inside Content.

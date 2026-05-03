@@ -84,18 +84,25 @@ describe("Components — forwardRef + displayName invariants", () => {
       },
       HTMLDivElement,
     ],
-    ["Slider", Components.Slider, { value: 0, onChange: () => {} }, HTMLDivElement],
+    // Slider forwards ref to the inner native <input type="range"> (1.1.0
+    // testid-forwarding standardization) so tests can read .value directly.
+    ["Slider", Components.Slider, { value: 0, onChange: () => {} }, HTMLInputElement],
     [
+      // NumberInput forwards ref to the inner native <input> (standardized
+      // in 1.1.0 alongside data-testid forwarding) so consumer tests that
+      // cast the ref as HTMLInputElement to read `.value` work.
       "NumberInput",
       Components.NumberInput,
       { value: 0, onChange: () => {} },
-      HTMLDivElement,
+      HTMLInputElement,
     ],
     [
+      // SearchInput forwards ref to the inner native <input> (1.1.0
+      // testid-forwarding standardization).
       "SearchInput",
       Components.SearchInput,
       { value: "", onChange: () => {} },
-      HTMLDivElement,
+      HTMLInputElement,
     ],
     ["FormField", Components.FormField, { children: "x" }, HTMLDivElement],
     ["DropZone", Components.DropZone, {}, HTMLDivElement],

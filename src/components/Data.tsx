@@ -10,8 +10,11 @@ import {
   type HTMLAttributes,
   type ReactNode,
 } from "react";
+import { itemKeyAttrs } from "../hooks/useItemKey";
 import { genericForwardRef } from "../utils/forwardRef";
+import { genericMemo } from "../utils/genericMemo";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { Label } from "./Text";
 
 // ── Table ─────────────────────────────────────────────────────
@@ -54,6 +57,12 @@ export interface TableProps<T = Record<string, unknown>>
   emptyState?: ReactNode;
   onRowClick?: (row: T, index: number) => void;
   rowKey?: (row: T, index: number) => string | number;
+  /**
+   * Return arbitrary HTML attributes to apply to each `<tr>`. Use for
+   * `data-testid`, `aria-*`, per-row event listeners, etc. — tests can then
+   * query rows by attribute instead of by content or injected marker spans.
+   */
+  rowAttributes?: (row: T, index: number) => HTMLAttributes<HTMLTableRowElement>;
   /** Initial sort state (uncontrolled). */
   defaultSort?: { key: string; direction: SortDirection };
   /** Controlled sort state. */
@@ -62,13 +71,28 @@ export interface TableProps<T = Record<string, unknown>>
   style?: CSSProperties;
 }
 
+/**
+ * Identity helper that anchors `T` at the column-declaration site, avoiding
+ * TypeScript inference collapsing to a looser type when columns are defined
+ * inline alongside the data. Usage:
+ *
+ *     type Row = { id: string; name: string; count: number };
+ *     const columns = defineColumns<Row>([
+ *       { key: "name", header: "Name" },
+ *       { key: "count", header: "Count", render: (r) => r.count.toFixed(0) },
+ *     ]);
+ */
+export function defineColumns<T>(columns: TableColumn<T>[]): TableColumn<T>[] {
+  return columns;
+}
+
 type TableRowLookup = Record<string, unknown>;
 
 /**
  * Semantic `<table>` wrapper with voidframe styling. For sortable /
  * virtualised tables use `DataGrid`.
  */
-export const Table = genericForwardRef(function Table<T = Record<string, unknown>>(
+const TableImpl = genericForwardRef(function Table<T = Record<string, unknown>>(
   {
     columns,
     data,
@@ -81,6 +105,7 @@ export const Table = genericForwardRef(function Table<T = Record<string, unknown
     emptyState,
     onRowClick,
     rowKey,
+    rowAttributes,
     defaultSort,
     sort,
     onSortChange,
@@ -199,12 +224,17 @@ export const Table = genericForwardRef(function Table<T = Record<string, unknown
           ) : sortedData.length === 0 ? (
             <div role="row" className="vf-table__empty">
               <div role="cell" style={{ gridColumn: `1 / span ${columns.length}` }}>
-                {emptyState ?? "No rows"}
+                {emptyState ?? (
+                  <div className="vf-empty-state vf-empty-state--plain" data-variant="plain">
+                    <div className="vf-empty-state__title">No rows</div>
+                  </div>
+                )}
               </div>
             </div>
           ) : (
             sortedData.map((row, ri) => {
               const key = rowKey ? rowKey(row, ri) : ri;
+              const extraRowAttrs = rowAttributes?.(row, ri) ?? {};
               return (
                 <div
                   key={key}
@@ -214,8 +244,10 @@ export const Table = genericForwardRef(function Table<T = Record<string, unknown
                     onRowClick && "vf-table__row--clickable",
                     striped && ri % 2 === 1 && "vf-table__row--alt"
                   )}
+                  {...itemKeyAttrs("row", String(key))}
                   onClick={onRowClick ? () => onRowClick(row, ri) : undefined}
                   style={{ display: "contents" }}
+                  {...(extraRowAttrs as unknown as HTMLAttributes<HTMLDivElement>)}
                 >
                   {columns.map((c) => {
                     const inline: CSSProperties = {
@@ -265,7 +297,15 @@ export const Table = genericForwardRef(function Table<T = Record<string, unknown
     </div>
   );
 });
-(Table as { displayName?: string }).displayName = "Table";
+(TableImpl as { displayName?: string }).displayName = "Table";
+
+/**
+ * Data table. Memoized at the export site (via `genericMemo` so the
+ * `<T>` row-type generic is preserved). Parent re-renders with stable
+ * `data` / `columns` skip the row + cell render walk.
+ */
+export const Table = genericMemo(TableImpl);
+(Table as unknown as { displayName: string }).displayName = "Table";
 
 // ── Stat ──────────────────────────────────────────────────────
 
@@ -318,11 +358,13 @@ export const Stat = forwardRef<HTMLDivElement, StatProps>(function Stat(
         ? "success"
         : "danger"
       : "neutral");
+  const ta = toneAttrs("vf-stat", { tone: derivedTone });
   return (
     <div
       ref={ref}
-      className={cx("vf-stat", `vf-stat--${derivedTone}`, className)}
+      className={cx(ta.className, className)}
       style={style}
+      {...ta.attrs}
       {...props}
     >
       <div className="vf-stat__head">
@@ -380,6 +422,14 @@ export interface ProgressProps extends HTMLAttributes<HTMLDivElement> {
   variant?: ProgressVariant;
   tone?: ProgressTone;
   size?: "sm" | "md" | "lg";
+  /**
+   * When true, forces the indeterminate (no-value, continuously-animating)
+   * state regardless of `value` / `variant`. Explicit form of the older
+   * `variant="indeterminate"`; the variant prop still works for backward
+   * compat, but `indeterminate` is clearer when the state is driven by a
+   * boolean condition ("loading" / "pending").
+   */
+  indeterminate?: boolean;
   style?: CSSProperties;
 }
 
@@ -395,15 +445,18 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
     label,
     showValue,
     height,
-    variant = "determinate",
+    variant: variantProp = "determinate",
     tone = "neutral",
     size = "md",
+    indeterminate,
     className,
     style,
     ...props
   },
   ref
 ) {
+  // `indeterminate=true` overrides variant, matching the intuitive meaning.
+  const variant: ProgressVariant = indeterminate ? "indeterminate" : variantProp;
   const pct =
     variant === "indeterminate" ? 0 : Math.min((value / max) * 100, 100);
   const composedStyle: CSSProperties = {
@@ -413,22 +466,18 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
       : {}),
     ...style,
   };
+  const ta = toneAttrs("vf-progress", { tone, variant, size });
   return (
     <div
       ref={ref}
-      className={cx(
-        "vf-progress",
-        `vf-progress--${size}`,
-        `vf-progress--${tone}`,
-        `vf-progress--${variant}`,
-        className
-      )}
+      className={cx(ta.className, className)}
       style={composedStyle}
       role="progressbar"
       aria-valuenow={variant === "indeterminate" ? undefined : value}
       aria-valuemin={0}
       aria-valuemax={max}
       aria-label={typeof label === "string" ? label : undefined}
+      {...ta.attrs}
       {...props}
     >
       {(label || showValue) && variant === "determinate" && (

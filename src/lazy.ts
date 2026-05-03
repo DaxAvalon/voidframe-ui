@@ -107,17 +107,20 @@ export const LazyCalendar: L<
 );
 
 // Charts / heavy visualizations — Phase 22 charts live in src/charts/.
-export const LazySparkline: L<
-  import("./charts/Sparkline").SparklineProps
-> = lazy(() =>
-  import("./charts/Sparkline").then((m) => ({ default: m.Sparkline }))
-);
-
-export const LazyHeatmap: L<
-  import("./charts/Heatmap").HeatmapProps
-> = lazy(() =>
-  import("./charts/Heatmap").then((m) => ({ default: m.Heatmap }))
-);
+//
+// NOTE (Phase D / report row 1): the chart-component lazy wrappers used to
+// live here, which made their `d3-*` peer deps part of the main-entry
+// chunk graph. Build tools then surfaced "Cannot resolve d3-shape" when
+// consumers used `voidframe-ui` without installing every d3 peer.
+//
+// Sparkline / Heatmap and other charts now ship via `voidframe-ui/charts`
+// only. Consumers who want them lazy-loaded in their app should write a
+// local `lazy()` wrapper:
+//
+//   const Sparkline = lazy(() => import("voidframe-ui/charts").then((m) => ({ default: m.Sparkline })));
+//
+// — same shape, but the import lives on the consumer side so their
+// bundler tracks the d3 dep against the chart code instead of the root.
 
 // Capture / media-heavy
 export const LazySignaturePad: L<

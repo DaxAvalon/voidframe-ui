@@ -7,6 +7,362 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 _Nothing yet._
 
+## [1.2.0] - 2026-04-28
+
+Tier-1 completion release. Closes the deferred items from the v1.1.0
+post-mortem: SSR-unsafe ID generation, advanced form-control size
+parity, performance memoization on flagship collections, plus three
+new opt-in subpaths (`/compat-shadcn`, `/reactflow`) and a published
+`create-voidframe-app` starter. Non-breaking, additive — every change
+preserves existing call-site behavior.
+
+### Behavior changes
+
+- **`MaskedInput.onChange` is deprecated.** Use `onValueChange` —
+  emits both the formatted and raw strings via `{ value, raw }`.
+  `onChange` will be removed in v1.3. Dev-mode warning fires once
+  per call site when only `onChange` is supplied.
+
+### Added
+
+- **`size?: "sm" | "md" | "lg"` + `wrapperProps?: HTMLAttributes<HTMLDivElement>`**
+  on every advanced compound form control that lacked them in v1.1:
+  `ColorPicker`, `MaskedInput`, `RatingInput`, `DatePicker`,
+  `DateTimePicker`, `TimePicker`, `Combobox`, `MultiSelect`,
+  `CommandInput`, `TreeSelect`, `Cascader`, `FileUpload`,
+  `MentionInput`. CSS scaling rules ship in `src/css/components/form-sizes.css`
+  (consumed via `voidframe-ui/styles.css`).
+- **`voidframe-ui/compat-shadcn` subpath.** Static compat layer for
+  shadcn/Radix migrations. Flat named exports backed by voidframe
+  internals: `Button`, `Card` (+ `CardHeader`/`Title`/`Description`/
+  `Content`/`Footer`), `Dialog` (+ all subcomponents), `AlertDialog`
+  (+ subcomponents), `Sheet` (DrawerV2 underneath), `Popover`,
+  `Tooltip` (+ `TooltipProvider` no-op for source-compat),
+  `DropdownMenu` (+ `Item`/`CheckboxItem`/`RadioItem`/`Separator`/
+  `Sub*`), `Select` (+ Trigger/Value/Content/Item), `Tabs` (+ List/
+  Trigger/Content), `Toast` (+ `useToast`, `Toaster`), and trivial
+  passthroughs for `Input` / `Textarea` / `Label` / `Badge` /
+  `Checkbox` / `Switch` / `Avatar` / `Separator` / `ScrollArea` /
+  `Skeleton` / `Progress` / `Slider` / `Toggle` / `ToggleGroup` /
+  `RadioGroup` / `RadioGroupItem`. ~25 KB gzipped budget; pure
+  re-exports, zero runtime translation cost.
+- **`voidframe-ui/reactflow` subpath.** `<VoidframeReactFlowTheme>`
+  wrapper + `useVoidframeReactFlowStyles()` hook that scope voidframe
+  CSS variables onto `@xyflow/react`'s `Controls` / `MiniMap` / edges
+  / nodes / handles. No `!important` overrides. `@xyflow/react`
+  declared as optional peer.
+- **`create-voidframe-app` starter package.** Published separately as
+  `npm create voidframe-app@latest my-app` (or `npx create-voidframe-app`).
+  Wraps the existing `voidframe init` CLI logic so consumers don't
+  need to install the full `voidframe-ui` CLI just to scaffold.
+- **`Radio` accepts `defaultChecked` for uncontrolled use.** Closes
+  the v1.1 audit gap where `Radio` was forced controlled-only despite
+  the CHANGELOG claim.
+
+### Fixed
+
+- **SSR-unsafe ID generation eliminated** at three escape sites:
+  - `KeyValueEditor` (DevTools.tsx) — was `kv-${Date.now().toString(36)}`,
+    now uses `useId()` + per-instance counter ref.
+  - `QueryBuilder` (DevTools.tsx) — was `${Date.now()}-${Math.random()}`,
+    now uses `useIdGenerator()` helper.
+  - `PromptTemplateEditor` (ChatComposer.tsx) — was
+    `t-${Date.now().toString(36)}`, now uses `useId()` + counter ref.
+- **`utils/formatters.ts:uid()` JSDoc** updated to flag the helper
+  as internal-only (Math.random()-based, NOT SSR-safe). Public
+  consumers should use React's `useId()` instead.
+- **`Popconfirm` SSR break** — was using direct `useLayoutEffect`
+  (throws on server-render); switched to `useIsomorphicLayoutEffect`.
+  Audit found this immediately after v1.1.0 ship; fixed pre-1.2.
+
+### Performance
+
+- **`Kanban`, `Calendar`, `Gantt`, `TreeView`** export sites now
+  wrapped in `React.memo`. Parent re-renders with referentially-stable
+  props skip the per-cell / per-row / per-task render walk. For best
+  effect, consumers should pass stable callbacks (e.g. via
+  `useCallback`).
+- **`CommandPalette.Item` and `CommandPalette.Group`** memoized at
+  the export site. Large palette lists no longer re-render every item
+  on `value` / `onValueChange` parent changes.
+- **`DataGrid` and `Table`** retain their generic `<T>` signature and
+  are not export-level memoized in this release; per-row component
+  extraction is tracked for v1.3 when generic-preserving memo wrappers
+  land.
+
+### Build / packaging
+
+- **`size-limit` ceilings** added for the two new subpaths:
+  `compat-shadcn ESM` ≤ 25 KB gzipped, `reactflow ESM` ≤ 5 KB gzipped.
+- **`peerDependenciesMeta.@xyflow/react.optional: true`** declared so
+  consumers who don't use ReactFlow don't need to install it.
+
+### Docs
+
+- **CHANGELOG flags MaskedInput `onChange` deprecation** prominently
+  under Behavior changes for v1.3 removal.
+- **Component-level JSDoc** updated on Kanban / Calendar / Gantt /
+  TreeView / CommandPalette describing the memoization pattern and
+  the consumer-side stability requirement.
+
+## [1.1.0] - 2026-04-28
+
+Standardization release driven by the DevTeam integration report
+against 1.0.0. Every fixable correctness-matrix row and improvement
+suggestion was applied at the source level and fanned out across
+related components — the goal was to fix once and have every similar
+surface inherit the fix.
+
+### Behavior changes
+
+These three are intentional but observable from the outside; pin to
+1.0.x if you can't take them this cycle.
+
+- **`Button` now emits the native `disabled` attribute** alongside
+  `aria-disabled="true"` when `disabled` is set. The 1.0.x build
+  emitted `aria-disabled` only, which let `<form>` submission still
+  fire from a disabled submit button. The same dual-emission rule is
+  applied uniformly to every button-like component (`IconButton`,
+  `CopyButton`, `FloatingActionButton`, `SplitButton`'s primary +
+  menu halves, `ToggleGroup` items, `Toolbar` buttons, and
+  `SegmentedControl` segments) via the new shared
+  `buttonDisabledAttrs(disabled)` helper.
+- **`Label` auto-upgrades to `<label>` when `htmlFor` is supplied.**
+  The default rendered element is still `<span>` (so nesting a
+  decorative `<Label>` inside another `<label>` stays valid HTML),
+  but a `<Label htmlFor="id" />` now renders an actual `<label
+  for="id">`. This fixes `getByLabelText` resolution against
+  externally-positioned labels — the previous span-with-`for`
+  combination was inert.
+- **`Composer` defaults `disabled` from `status="streaming"`.** When
+  `status="streaming"` and `disabled` is not explicitly set, the
+  composer is now disabled. Consumers who want to allow interruption
+  during streaming pass `disabled={false}` explicitly. The status
+  prop is documented as the visual indicator; the new default keeps
+  the visual and the blocking behavior in sync.
+
+### Added
+
+- **Theme attributes are written to `document.documentElement`** in
+  addition to the provider's own subtree (`VoidframeProvider`,
+  `ThemeScope`). Portaled overlays — `Dialog`, `AlertDialog`,
+  `ConfirmDialogV2`, `DrawerV2`, `Popconfirm`, `TooltipV2`,
+  `Popover`/`PopoverV2`, `HoverCard`, `Menu`, `ContextMenu`,
+  `Lightbox`, `Overlay`, `Spotlight`, `Toaster`, `CommandPalette` —
+  now inherit the active theme regardless of where the portal mounts
+  in the DOM tree. Opt out of the global write with
+  `<VoidframeProvider scope="root">` for apps that need
+  subtree-only theming.
+- **`data-tone` / `data-variant` / `data-size` attributes** are now
+  emitted alongside the existing `vf-*--*` BEM modifier classes on
+  every tone-capable component (`Badge`, `AlertV2`, `Callout`,
+  `Stat`, `Progress`, `Table`, `Message`, `MetricCard`,
+  `StatGroup`, `BigNumber`, `MultiProgress`, `Activity` +
+  `Activity.Item`, `Anchor`, `Calendar`, `ContextWindow`,
+  `ChatTokenCounter`, `CostDisplay`, `EmptyState`, `ListItem`,
+  `Toast`, …). Tests and consumer CSS can target either; no visual
+  change. Routed through a shared `toneAttrs({ tone, variant, size })`
+  helper.
+- **`data-testid` and other rest props now land on the native form
+  control** for every form primitive that previously dropped them on
+  the wrapper (`NumberInput`, `Checkbox`, `Slider`, `SearchInput`,
+  `Switch`, `PasswordInput`, `PinInput`, `TagInput`,
+  `SegmentedControl`, `RadioGroup` items, `ColorPicker`,
+  `MaskedInput`, `RatingInput`, `DatePicker`, `DateTimePicker`,
+  `TimePicker`, `Combobox`, `CommandInput`, `TreeSelect`,
+  `Cascader`, `FileUpload`, `MentionInput`). A new optional
+  `wrapperProps?: React.HTMLAttributes<HTMLDivElement>` escape
+  hatch is available on the same components for consumers who
+  genuinely need to hook the wrapper.
+- **Compound API aliases** for Radix-shape parity: `Tabs.Content`
+  alongside `Tabs.Panel`; `Tooltip.Root` / `Tooltip.Trigger` /
+  `Tooltip.Content` alongside the prop-based `Tooltip`; `Select.Root`
+  / `Select.Trigger` / `Select.Value` / `Select.Content` /
+  `Select.Item` alongside the prop-based `Select`; `ContextMenu.Item`
+  / `ContextMenu.CheckboxItem` / `ContextMenu.RadioGroup` /
+  `ContextMenu.RadioItem` / `ContextMenu.Separator` /
+  `ContextMenu.Label` / `ContextMenu.Sub` / `ContextMenu.SubTrigger`
+  / `ContextMenu.SubContent` exposed as direct subkeys.
+- **`tone` prop on `Button` and every button-like component**
+  (`neutral` | `info` | `success` | `danger` | `warning`), plus
+  `size="icon"` and `variant="destructive"` (alias for
+  `tone="danger"`) for shadcn/Radix migration parity. `Menu.Item`,
+  `Menu.CheckboxItem`, `Menu.RadioItem`, `MegaMenu` items,
+  `NavItem`, `ListItem`, `Combobox` options, tree nodes
+  (`TreeView`, `TreeSelect`, `Cascader`), `CommandPalette.Item`, and
+  `Sidebar` items also gained `tone`.
+- **Default `data-testid` on every built-in dialog action button**:
+  `vf-confirm-confirm-button` / `vf-confirm-cancel-button` on
+  `ConfirmDialogV2`; `vf-alert-confirm-button` /
+  `vf-alert-cancel-button` on `AlertDialog`;
+  `vf-popconfirm-confirm-button` / `vf-popconfirm-cancel-button` on
+  `Popconfirm`; `vf-drawer-close-button` on `DrawerV2`'s built-in
+  close X; `vf-dialog-close-button` on `Dialog`'s close X. Each
+  component also accepts `confirmButtonProps` / `cancelButtonProps`
+  / `closeButtonProps` pass-throughs.
+- **`useConfirm()` falls back to `window.confirm()` in development**
+  when no `ConfirmProvider` is in scope (with a one-time warn),
+  instead of throwing on first call.
+- **`ContextMenu` wraps its `content` slot in a `Menu` provider** so
+  `Menu.Item`, `Menu.CheckboxItem`, `Menu.Separator` work inside
+  context-menu content. `useMenu()` outside a provider now soft-warns
+  and returns an inert context (instead of throwing), preventing
+  whole-subtree crashes during refactors.
+- **`Sortable.dragHandleProps` widened** to
+  `React.HTMLAttributes<any>` so consumers who attach the handle to
+  a `<button>` / `<span>` / SVG don't need to cast.
+- **`size` variant + `asAriaLabel` escape hatch** added uniformly to
+  `Input`, `Textarea`, `Select`, `Toggle`, `Combobox`, `NumberInput`,
+  `Checkbox`, `Radio` so every form control accepts
+  `size="sm" | "md" | "lg"` plus the per-control a11y-label
+  override. The `requires label / aria-label / aria-labelledby`
+  warning is automatically suppressed when the control's nearest
+  ancestor has `role="grid"` / `role="row"` / `role="gridcell"` /
+  `role="table"` (via the new `hasAccessibleGridAncestor` helper),
+  so DataGrid-cell controls don't false-positive.
+- **`NumberInput.value` widened to `number | "" | null`** with a
+  matching `onValueChange`, plus a `defaultBlank` prop covering the
+  common "empty = unset" form pattern. `DatePicker`,
+  `DateTimePicker`, `TimePicker`, `RatingInput`, `ColorPicker`,
+  `Combobox`, `TreeSelect`, and `Cascader` got the same
+  empty-vs-zero-vs-null cleanup.
+- **`Progress.indeterminate` prop** (explicit) alongside the
+  existing `value === undefined ⇒ indeterminate` shortcut. Same
+  prop added to `MultiProgress` and audited across `Loading`,
+  `Gantt`, and `Metrics` progress-like surfaces.
+- **Per-row / per-item attribute forwarding** on every collection
+  component. `Table`, `DataGrid`, `DataList`, `List`, `TreeView`,
+  `TreeTable`, `TreeSelect`, `Cascader`, `Virtualization`,
+  `Sortable`, `Transfer`, `Activity`, `LogViewer`, `CodeBlock`,
+  `Gantt`, `Calendar` all emit `data-row-key` / `data-item-key` /
+  `data-node-key` / `data-line-number` / `data-date` and accept a
+  `rowAttributes(row)` / `itemAttributes(item)` callback for
+  arbitrary per-row attrs. New `defineColumns<T>(cols)` identity
+  helper for explicit T-anchoring.
+- **`kind?: "default" | "compact"`** shared across chat-telemetry
+  widgets (`ContextWindow`, `ChatTokenCounter`, `CostDisplay`,
+  `LatencyIndicator`, `ModelPicker` trigger) for consistent
+  compact-rendering in chat headers.
+- **`toast` two-arg signature**: `toast(message, options?)` overload
+  alongside the existing single-options form. `action` accepts
+  `{ label, onClick }` objects in addition to ReactNode. `toast.error`
+  added as an alias for `toast.danger` (sonner parity).
+- **Default empty-state visuals** (subtle icon + background tile)
+  applied uniformly to `EmptyState`, `Table`'s no-rows render,
+  `DataGrid` empty render, `DataList` empty render, `CommandPalette`
+  no-results, `Combobox` / `TreeSelect` / `Cascader` empty options,
+  `ConversationEmptyState`, and `Sidebar` empty-list state.
+  `EmptyState.variant="decorated" | "plain"` for explicit control.
+- **`MessageContent` accepts `children`** as an alternative to
+  `content` (children wins when both are set). `MessageMarkdown`
+  exported as a named alias for the content-rendering role.
+- **`monospace?: boolean` prop** on every content-container
+  component that can host code/log output: `Card`, `DrawerV2.Content`,
+  `Dialog.Content`, `Interactive` modal body, `Overlay`, `AlertV2`,
+  `CodeBlock` (verified consistency), `HexDump` (verified
+  consistency), `CSVViewer`.
+- **`Link` primitive** at `voidframe-ui` root: `<Link href onClick
+  variant tone external as />` wrapping native `<a>` by default,
+  with `as` for react-router / Next.js Link integration. Inherits
+  voidframe accent-color hover/focus.
+- **`collapsible` + `action` slots on section-header layout
+  components**: `Sidebar.Section`, `Card`, `FormStructure` field
+  groups. All share the new `useDisclosure` hook for
+  controlled/uncontrolled parity with `Accordion`.
+- **`AppShell.sidebarResizable`** with `sidebarMinWidth` /
+  `sidebarMaxWidth` / `onSidebarWidthChange`. Internal use of the
+  existing resize primitives.
+- **`toModelPickerOptions(backends)`** adapter helper exported from
+  `ChatModel.tsx` for the common
+  `{name, available_models, model_capabilities}` → `ModelPickerOption[]`
+  shape.
+- **`StatGroup.columns`** prop (`number | Responsive<number>`).
+  Maps to `display: grid; grid-template-columns: repeat(N, 1fr)`.
+- **`DrawerV2.Content` accepts `side`**: content-level value wins;
+  falls back to the root `DrawerV2.side`.
+- **Compound logging / context surfaces**:
+  - `LogEntry.context: { before?: string[]; after?: string[] }` —
+    LogViewer renders surrounding context lines dimmed with line
+    numbers around the matched message.
+  - `Activity.Item` accepts `children?: ReactNode` as an
+    expanded-detail slot.
+  - `CodeBlock.lineAnnotations: Record<number, ReactNode>` for
+    inline error/annotation rendering attached to specific lines.
+  - `Calendar.renderDay` + `Calendar.expandedDay` for rich
+    day-cell expansion.
+  - New `<CodeContextView>` primitive at
+    `voidframe-ui/specialty` — error-with-context rendering without
+    the full LogViewer chrome (default + compact variants).
+- **`CommandPalette.Input` controlled mode**: `value` +
+  `onValueChange` props; when controlled, internal filtering is
+  skipped. New `filter?: (query, items) => items` hook for
+  consumers that want custom filtering while keeping internal
+  state.
+- **`<Field>` compound** documented and audited as the canonical
+  form-grouping primitive: `<Field>`, `<Field.Label>`,
+  `<Field.Control>`, `<Field.Help>`, `<Field.Error>`. The built-in
+  `label` prop on individual controls remains first-class for
+  single-purpose cases; the compound covers help text, error
+  messages, and custom label slots.
+- **`voidframe-ui/testing` subpath gains `renderWithVoidframe`** —
+  wraps the rendered tree in `VoidframeProvider` + `ConfirmProvider`
+  (and optionally `ThemeScope`), and re-exports
+  `@testing-library/react`'s `render` / `screen` / `waitFor` /
+  `fireEvent` / `within` / `cleanup` / `act` for consumer test
+  ergonomics.
+
+### Build / packaging
+
+- **Main entry no longer pulls `d3-*` / `dompurify` /
+  `topojson-client` into the root chunk.** `LazySparkline` and
+  `LazyHeatmap` were removed from `src/lazy.ts` (chart-bundle
+  consumers should import from `voidframe-ui/charts` instead);
+  `dompurify` is consumed via static import but tree-shaken via
+  `sideEffects: ["*.css"]`. The peer dependencies remain marked
+  `optional: true` in `peerDependenciesMeta` and are now genuinely
+  optional for non-chart / non-markdown consumers.
+- **Predictable chunk names**: `vite.config.ts` `manualChunks`
+  groups overlay components into a stable `overlays.es.js` chunk
+  (was `FloatingActionButton-*.js`), tree components into
+  `tree.es.js`, and chart math helpers into `charts-math.es.js`.
+- **`theme-script.js` inline comment** corrected from `voidframe`
+  to `voidframe-ui`.
+
+### Deprecated
+
+- **`Drawer` (legacy V1) and `Popover` (legacy V1) removal milestone
+  slipped from v1.1 → v1.2.** The 1.0.0 changelog flagged these for
+  removal in v1.1, but this release is intentionally additive — no
+  breaking removals — to give consumers a clean upgrade path through
+  the standardization changes. The `@deprecated` JSDoc on each
+  component has been updated to reflect the new milestone. The same
+  slip applies to `Dropdown`, `Alert`, `ConfirmDialog`, `Spinner`
+  (in `DataExtended`), and `Toast` (in `Interactive`) which were
+  already on the v1.2 milestone.
+
+### Fixed
+
+- **Stale `@deprecated` replacement-text references** to
+  `voidframe` (the pre-publish package name) updated to
+  `voidframe-ui` in `Interactive.tsx`, `DataExtended.tsx`, and
+  `Overlay.tsx`. Removal milestones bumped from v1.1 → v1.2 since
+  the v1.1 release lands without the breaking removals.
+
+### Docs
+
+- **README** gained dedicated sections for: Persistent theming
+  (`useThemePersistence` + `VoidframeProvider`), Accessibility:
+  labeling form controls, Switch vs Checkbox guidance, When to use
+  `<Field>` vs the built-in `label` prop, Link primitive, and
+  Testing (referencing the new `renderWithVoidframe` helper).
+- **JSDoc updates** on every component touched in this release —
+  `Button` (native disabled + MouseEvent onClick), `Label`
+  (auto-upgrade behavior), `MessageContent` (content vs children
+  vs `MessageMarkdown` alias), `Composer` (status visual vs
+  disabled blocking), `TraceViewer` (`@remarks` block clarifying
+  span-hierarchy requirement), `Field` (compound vs `label` prop
+  guidance).
+
 ## [1.0.1] - 2026-04-22
 
 First patch release. Fixes four user-reported bugs from the first day

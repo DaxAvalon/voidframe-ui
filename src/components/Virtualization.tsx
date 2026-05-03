@@ -18,6 +18,7 @@ import {
 } from "react";
 import { cx } from "../utils/cx";
 import { genericForwardRef } from "../utils/forwardRef";
+import { genericMemo } from "../utils/genericMemo";
 
 // ── VirtualList ──────────────────────────────────────────────
 
@@ -48,7 +49,7 @@ export interface VirtualListProps<T>
  * Virtualised 1D list. Renders only the visible rows; supports variable
  * height via measurement.
  */
-export const VirtualList = genericForwardRef(function VirtualList<T>(
+const VirtualListImpl = genericForwardRef(function VirtualList<T>(
   {
     items,
     itemHeight,
@@ -200,7 +201,7 @@ export const VirtualList = genericForwardRef(function VirtualList<T>(
         ? { height: "100%" }
         : { width: "100%" };
       slice.push(
-        <div key={i} ref={observeRow(i)} style={slotStyle}>
+        <div key={i} ref={observeRow(i)} style={slotStyle} data-item-index={i}>
           {renderItem(item, i, inner)}
         </div>
       );
@@ -233,7 +234,15 @@ export const VirtualList = genericForwardRef(function VirtualList<T>(
     </div>
   );
 });
-(VirtualList as { displayName?: string }).displayName = "VirtualList";
+(VirtualListImpl as { displayName?: string }).displayName = "VirtualList";
+
+/**
+ * Virtualized list. Memoized via `genericMemo` so the per-item-type
+ * generic survives. Parent re-renders with stable `items` / `renderItem`
+ * skip the slice computation + visible-window render.
+ */
+export const VirtualList = genericMemo(VirtualListImpl);
+(VirtualList as unknown as { displayName: string }).displayName = "VirtualList";
 
 // ── VirtualGrid ──────────────────────────────────────────────
 
@@ -252,7 +261,7 @@ export interface VirtualGridProps<T>
  * Virtualised 2D grid. Renders only the visible cells; suitable for
  * thousands of items.
  */
-export const VirtualGrid = genericForwardRef(function VirtualGrid<T>(
+const VirtualGridImpl = genericForwardRef(function VirtualGrid<T>(
   {
     items,
     columnCount,
@@ -335,7 +344,11 @@ export const VirtualGrid = genericForwardRef(function VirtualGrid<T>(
     </div>
   );
 });
-(VirtualGrid as { displayName?: string }).displayName = "VirtualGrid";
+(VirtualGridImpl as { displayName?: string }).displayName = "VirtualGrid";
+
+/** Virtualized 2D grid. Memoized at the export site (generic-preserving). */
+export const VirtualGrid = genericMemo(VirtualGridImpl);
+(VirtualGrid as unknown as { displayName: string }).displayName = "VirtualGrid";
 
 // ── InfiniteScroll ───────────────────────────────────────────
 

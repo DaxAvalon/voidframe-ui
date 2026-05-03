@@ -5,6 +5,7 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";
 import type { Size } from "../types";
 import { cx } from "../utils/cx";
+import { warnOnce } from "../utils/warn";
 import { useResponsive, type Responsive } from "../responsive";
 
 type AsElement = "span" | "div" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -121,11 +122,30 @@ export interface LabelProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
   style?: CSSProperties;
 }
 
-/** Uppercase chrome label. Render as `<label>` + `htmlFor` to associate with a form input. */
+/**
+ * Uppercase chrome label.
+ *
+ * When `htmlFor` is supplied, the component auto-renders a native `<label>`
+ * element so the label-input association is preserved (fixes silent a11y
+ * regression when consumers migrate from `<label htmlFor={id}>` in other
+ * libraries). Purely-decorative usage with no `htmlFor` stays as `<span>` by
+ * default, which avoids invalid nested-`<label>` HTML when a Label renders
+ * inside a Checkbox/Switch that is itself wrapped in a consumer `<label>`.
+ *
+ * Pass `as` explicitly to override the inferred element.
+ */
 const LabelImpl = forwardRef<HTMLElement, LabelProps>(function Label(
-  { children, color, className, style, as: Tag = "span", htmlFor, ...props },
+  { children, color, className, style, as, htmlFor, ...props },
   ref
 ) {
+  const Tag: LabelAsElement = as ?? (htmlFor ? "label" : "span");
+  if (process.env.NODE_ENV !== "production" && htmlFor && Tag !== "label") {
+    warnOnce(
+      `label-htmlFor-wrong-element:${Tag}`,
+      `<Label htmlFor="${htmlFor}" as="${Tag}"> — htmlFor only works on <label> elements. ` +
+        `Drop the explicit as="${Tag}" so Label auto-upgrades to a native <label>.`
+    );
+  }
   const labelExtras = Tag === "label" && htmlFor ? ({ htmlFor } as { htmlFor: string }) : {};
   const inline: CSSProperties = color !== undefined ? { color, ...style } : (style ?? {});
   return (

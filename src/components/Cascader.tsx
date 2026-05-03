@@ -13,6 +13,7 @@ import {
   type ReactNode,
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
+import { itemKeyAttrs } from "../hooks/useItemKey";
 import { cx } from "../utils/cx";
 
 export interface CascaderOption {
@@ -20,6 +21,8 @@ export interface CascaderOption {
   label: string;
   children?: CascaderOption[];
   disabled?: boolean;
+  /** Semantic tone — emitted as `data-tone` + BEM class on the option row. */
+  tone?: "neutral" | "danger" | "warning" | "success";
 }
 
 export interface CascaderProps
@@ -31,9 +34,17 @@ export interface CascaderProps
   placeholder?: string;
   expandTrigger?: "click" | "hover";
   size?: "sm" | "md" | "lg";
+  /** Props forwarded to the outer wrapper `<div>`. */
+  wrapperProps?: HTMLAttributes<HTMLDivElement>;
   disabled?: boolean;
   label?: string;
   allowClear?: boolean;
+  /**
+   * Return arbitrary HTML attributes for each rendered option row across all
+   * panels. Mirrors `Table.rowAttributes` for the cascader's flattened
+   * option lists.
+   */
+  optionAttributes?: (option: CascaderOption, panelIndex: number) => HTMLAttributes<HTMLDivElement>;
 }
 
 function findOptionsByPath(
@@ -76,9 +87,11 @@ const CascaderImpl = forwardRef<HTMLDivElement, CascaderProps>(
       placeholder = "Select...",
       expandTrigger = "click",
       size = "md",
+      wrapperProps,
       disabled = false,
       label,
       allowClear = false,
+      optionAttributes,
       className,
       style,
       ...props
@@ -241,8 +254,10 @@ const CascaderImpl = forwardRef<HTMLDivElement, CascaderProps>(
       <div
         ref={ref}
         className={cx("vf-cascader", `vf-cascader--${size}`, className)}
+        data-size={size}
         style={style}
         onKeyDown={handleKeyDown}
+        {...wrapperProps}
         {...props}
       >
         {label && (
@@ -291,10 +306,14 @@ const CascaderImpl = forwardRef<HTMLDivElement, CascaderProps>(
                           "vf-cascader__option",
                           isActive && "vf-cascader__option--active",
                           option.disabled && "vf-cascader__option--disabled",
-                          isFocused && "vf-cascader__option--focused"
+                          isFocused && "vf-cascader__option--focused",
+                          option.tone && `vf-cascader__option--${option.tone}`
                         )}
+                        data-tone={option.tone}
+                        {...itemKeyAttrs("node", String(option.value))}
                         role="option"
                         aria-selected={isActive}
+                        {...(optionAttributes?.(option, panelIndex) ?? {})}
                         aria-disabled={option.disabled}
                         onClick={() =>
                           handleOptionClick(panelIndex, option)

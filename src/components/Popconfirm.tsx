@@ -7,7 +7,6 @@ import {
   memo,
   useCallback,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
   type CSSProperties,
@@ -16,6 +15,7 @@ import {
   type ReactNode,
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
+import { useIsomorphicLayoutEffect } from "../hooks/useIsomorphicLayoutEffect";
 import { DismissableLayer } from "../primitives/DismissableLayer";
 import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
@@ -40,6 +40,18 @@ export interface PopconfirmProps
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   disabled?: boolean;
+  /**
+   * Attributes applied to the built-in Confirm button. Defaults:
+   * `data-testid="vf-popconfirm-confirm-button"` — override to disambiguate
+   * multiple concurrent popconfirms in tests, or to attach an extra
+   * `aria-*` hook.
+   */
+  confirmButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  /**
+   * Attributes applied to the built-in Cancel button. Defaults:
+   * `data-testid="vf-popconfirm-cancel-button"`.
+   */
+  cancelButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   children: ReactElement;
 }
 
@@ -59,6 +71,8 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
       defaultOpen,
       onOpenChange,
       disabled,
+      confirmButtonProps,
+      cancelButtonProps,
       children,
       className,
       style,
@@ -111,7 +125,7 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
     // Position the portaled overlay relative to the trigger's bounding rect.
     // CSS-only placement (`top: 100%`, etc.) doesn't work across Portal because
     // the overlay's containing block is document.body, not the trigger.
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       if (!isOpen) {
         setPos(null);
         return;
@@ -242,23 +256,37 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
               <div className="vf-popconfirm__actions">
                 <button
                   type="button"
-                  className="vf-button vf-button--sm vf-button--outline"
-                  onClick={handleCancel}
+                  data-testid="vf-popconfirm-cancel-button"
+                  {...cancelButtonProps}
+                  className={cx(
+                    "vf-button vf-button--sm vf-button--outline",
+                    cancelButtonProps?.className
+                  )}
+                  onClick={(e) => {
+                    cancelButtonProps?.onClick?.(e);
+                    handleCancel();
+                  }}
                 >
                   {cancelLabel}
                 </button>
                 <button
                   ref={confirmRef}
                   type="button"
+                  data-testid="vf-popconfirm-confirm-button"
+                  {...confirmButtonProps}
                   className={cx(
                     "vf-button vf-button--sm",
                     confirmVariant === "danger"
                       ? "vf-button--danger"
                       : confirmVariant === "accent"
                         ? "vf-button--subtle"
-                        : "vf-button--outline"
+                        : "vf-button--outline",
+                    confirmButtonProps?.className
                   )}
-                  onClick={handleConfirm}
+                  onClick={(e) => {
+                    confirmButtonProps?.onClick?.(e);
+                    handleConfirm();
+                  }}
                 >
                   {confirmLabel}
                 </button>

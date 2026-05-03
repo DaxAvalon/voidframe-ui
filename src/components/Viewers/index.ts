@@ -6,6 +6,9 @@
 export { CodeBlock, escapeCodeHTML } from "./CodeBlock";
 export type { CodeBlockProps } from "./CodeBlock";
 
+export { CodeContextView } from "./CodeContextView";
+export type { CodeContextViewProps } from "./CodeContextView";
+
 export { JSONViewer } from "./JSONViewer";
 export type { JSONViewerProps } from "./JSONViewer";
 
