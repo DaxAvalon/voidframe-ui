@@ -24,6 +24,8 @@ export const he: LocalePack = {
     fileUpload: {
       dropOrBrowse: "גרור לכאן קבצים או לחץ לעיון",
       remove: "הסר",
+      tooLarge: ({ maxBytes }) => `הקובץ חורג ממגבלת ${(maxBytes / 1024 / 1024).toFixed(1)} MB.`,
+      tooMany: ({ max }) => `ניתן להעלות לכל היותר ${max} קבצים.`,
     },
     form: { required: "חובה", optional: "אופציונלי", invalid: "ערך לא חוקי" },
     datePicker: {
