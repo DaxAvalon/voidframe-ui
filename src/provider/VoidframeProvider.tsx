@@ -221,10 +221,13 @@ export function VoidframeProvider({
     [tokens, resolvedThemeName, density, contrast, resolvedDirection, reducedMotion]
   );
 
-  const mergedStyle: CSSProperties | undefined =
-    Object.keys(overrideStyle).length > 0 || style
-      ? { ...overrideStyle, ...style }
-      : undefined;
+  const mergedStyle = useMemo<CSSProperties | undefined>(
+    () =>
+      Object.keys(overrideStyle).length > 0 || style
+        ? { ...overrideStyle, ...style }
+        : undefined,
+    [overrideStyle, style]
+  );
 
   // Mirror theme attributes to <html> so portaled overlays (Dialog, DrawerV2,
   // Menu, ContextMenu, Toaster, Tooltip, Popover, Popconfirm, HoverCard,
