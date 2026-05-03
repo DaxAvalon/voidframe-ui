@@ -39,6 +39,30 @@ const themes = {
     sp1: 2, sp2: 4, sp3: 6, sp4: 8, sp5: 10, sp6: 12, sp7: 14, sp8: 16, sp9: 20, sp10: 24, sp11: 32, sp12: 48,
     radius: 0, transition: "all 0.15s ease",
   },
+  midnight: {
+    bg0: "#000000", bg1: "#040407", bg2: "#07070d", bg3: "#0b0b14", bg4: "#11111c", bg5: "#161624",
+    border0: "#0b0b14", border1: "#14141f", border2: "#1b1b2a", border3: "#2a2a3f", border4: "#3a3a55",
+    text0: "#e8e8f5", text1: "#bbbbd0", text2: "#7d7d94", text3: "#4f4f66", text4: "#2e2e44", text5: "#161624",
+    green: "#6ee7a8", red: "#f47a7a", amber: "#e2c256", blue: "#7db0ee", purple: "#b983ff", cyan: "#7fe8f3", rose: "#ff95b6",
+    success: "#6ee7a8", danger: "#f47a7a", warning: "#e2c256", info: "#7db0ee",
+    fontFamily: "'Courier New', 'Courier', 'Liberation Mono', monospace",
+    fontXxs: 8, fontXs: 9, fontSm: 10, fontMd: 12, fontLg: 14, fontXl: 18, fontXxl: 24, font3xl: 32,
+    lineHeight: 1.6, letterSpacing: 1.5, labelSpacing: 2,
+    sp1: 2, sp2: 4, sp3: 6, sp4: 8, sp5: 10, sp6: 12, sp7: 14, sp8: 16, sp9: 20, sp10: 24, sp11: 32, sp12: 48,
+    radius: 0, transition: "all 0.15s ease",
+  },
+  grey: {
+    bg0: "#2a2a2a", bg1: "#2f2f2f", bg2: "#353535", bg3: "#3b3b3b", bg4: "#424242", bg5: "#4a4a4a",
+    border0: "#3b3b3b", border1: "#484848", border2: "#5a5a5a", border3: "#6e6e6e", border4: "#8a8a8a",
+    text0: "#f5f5f5", text1: "#dcdcdc", text2: "#b0b0b0", text3: "#8a8a8a", text4: "#6a6a6a", text5: "#4a4a4a",
+    green: "#6ee7a8", red: "#fb7185", amber: "#f1c96b", blue: "#8fb8f0", purple: "#c4a3ff", cyan: "#7fe8f3", rose: "#ff95b6",
+    success: "#6ee7a8", danger: "#fb7185", warning: "#f1c96b", info: "#8fb8f0",
+    fontFamily: "'Courier New', 'Courier', 'Liberation Mono', monospace",
+    fontXxs: 8, fontXs: 9, fontSm: 10, fontMd: 12, fontLg: 14, fontXl: 18, fontXxl: 24, font3xl: 32,
+    lineHeight: 1.6, letterSpacing: 1.5, labelSpacing: 2,
+    sp1: 2, sp2: 4, sp3: 6, sp4: 8, sp5: 10, sp6: 12, sp7: 14, sp8: 16, sp9: 20, sp10: 24, sp11: 32, sp12: 48,
+    radius: 0, transition: "all 0.15s ease",
+  },
 };
 
 // Classify token type

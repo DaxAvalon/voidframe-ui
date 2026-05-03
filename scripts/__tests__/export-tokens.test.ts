@@ -48,13 +48,15 @@ describe("export-tokens", () => {
     expect(css).toContain("--vf-bg-0:");
     expect(css).toContain('[data-vf-theme="dark"]');
     expect(css).toContain('[data-vf-theme="light"]');
+    expect(css).toContain('[data-vf-theme="midnight"]');
+    expect(css).toContain('[data-vf-theme="grey"]');
   });
 
   it("generates Figma variables with all themes", () => {
     execFileSync("node", [script, "--format", "figma"]);
     const figma = JSON.parse(readFileSync(resolve(outDir, "figma-variables.json"), "utf-8"));
     expect(figma.variableCollections).toHaveLength(1);
-    expect(figma.variableCollections[0].modes).toHaveLength(2); // dark + light
+    expect(figma.variableCollections[0].modes).toHaveLength(4); // dark + light + midnight + grey
     expect(figma.variableCollections[0].variables.length).toBeGreaterThan(0);
   });
 
