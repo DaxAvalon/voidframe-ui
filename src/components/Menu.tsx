@@ -741,7 +741,7 @@ export function ContextMenu({
             className="vf-menu__content vf-context-menu__content"
             style={{
               position: "fixed",
-              left: position.x,
+              insetInlineStart: position.x,
               top: position.y,
               zIndex: 1000,
             }}

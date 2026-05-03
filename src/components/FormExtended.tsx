@@ -293,7 +293,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
           ref={ref}
           className="vf-slider__input"
           type="range"
-          aria-label={label}
+          aria-label={label ?? "Slider"}
           min={min}
           max={max}
           step={step}
@@ -556,6 +556,10 @@ export interface FormFieldProps extends HTMLAttributes<HTMLDivElement> {
  */
 export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
   function FormField({ label, error, help, required, children, className, style, ...props }, ref) {
+    const fieldId = useId();
+    const errorId = error ? `${fieldId}-error` : undefined;
+    const helpId = !error && help ? `${fieldId}-help` : undefined;
+    const describedBy = errorId ?? helpId;
     if (required && !label) {
       warnOnce(
         "FormField:required-without-label",
@@ -569,7 +573,7 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
       );
     }
     return (
-      <div ref={ref} className={cx("vf-field", className)} style={style} {...props}>
+      <div ref={ref} className={cx("vf-field", className)} style={style} data-describedby={describedBy} {...props}>
         {label && (
           <Label>
             {label}
@@ -577,8 +581,8 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
           </Label>
         )}
         {children}
-        {error && <span className="vf-form-field__error">{error}</span>}
-        {!error && help && <span className="vf-form-field__help">{help}</span>}
+        {error && <span id={errorId} className="vf-form-field__error" role="alert">{error}</span>}
+        {!error && help && <span id={helpId} className="vf-form-field__help">{help}</span>}
       </div>
     );
   }

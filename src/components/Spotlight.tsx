@@ -115,6 +115,18 @@ export const Spotlight = forwardRef<HTMLDivElement, SpotlightProps>(function Spo
     return;
   }, [isOpen, stepObj]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleEscape = (e: globalThis.KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen]);
+
   if (!isOpen || !stepObj) return null;
   const padding = stepObj.padding ?? 6;
 

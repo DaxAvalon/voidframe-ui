@@ -617,7 +617,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
   ref
 ) {
   const inline: CSSProperties = {
-    ...(indent ? { paddingLeft: `calc(var(--vf-sp-5) + ${indent * 14}px)` } : {}),
+    ...(indent ? { paddingInlineStart: `calc(var(--vf-sp-5) + ${indent * 14}px)` } : {}),
     ...style,
   };
   const inner = (
