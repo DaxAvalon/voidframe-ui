@@ -76,8 +76,8 @@
 
 .vf-hex-dump__ascii {
   display: inline-flex;
-  border-left: 1px solid var(--vf-border);
-  padding-left: var(--vf-sp-3);
+  border-inline-start: 1px solid var(--vf-border);
+  padding-inline-start: var(--vf-sp-3);
   white-space: pre;
 }
 

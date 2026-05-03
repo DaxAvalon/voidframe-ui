@@ -69,14 +69,14 @@
 
 .vf-tabs--vertical .vf-tabs__trigger {
   border-bottom: none;
-  border-right: 2px solid transparent;
+  border-inline-end: 2px solid transparent;
   margin-bottom: 0;
-  margin-right: -1px;
-  text-align: left;
+  margin-inline-end: -1px;
+  text-align: start;
   padding: var(--vf-sp-5) var(--vf-sp-7);
 }
 .vf-tabs--vertical .vf-tabs__trigger--active {
-  border-right-color: var(--vf-accent, var(--vf-green));
+  border-inline-end-color: var(--vf-accent, var(--vf-green));
 }
 
 .vf-tabs__panel {

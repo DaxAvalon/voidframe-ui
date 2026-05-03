@@ -192,7 +192,7 @@
     align-items: baseline;
     padding: var(--vf-sp-1) 0;
     border-bottom: 1px solid var(--vf-border-0);
-    text-align: left !important;
+    text-align: start !important;
   }
   .vf-table--adaptive .vf-table__cell:last-child {
     border-bottom: none;

@@ -97,7 +97,7 @@
 .vf-command-input__completion-desc {
   color: var(--vf-text-3);
   font-size: var(--vf-font-xs);
-  margin-left: var(--vf-sp-3);
+  margin-inline-start: var(--vf-sp-3);
 }
 
 /* ── Size modifiers ──────────────────────────────────────────── */
