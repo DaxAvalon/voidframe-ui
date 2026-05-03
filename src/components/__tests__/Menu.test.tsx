@@ -234,3 +234,53 @@ describe("MenuBar", () => {
     expect(screen.queryByRole("menuitem", { name: "New" })).not.toBeInTheDocument();
   });
 });
+
+import { createRef } from "react";
+
+describe("Menu.Trigger ref forwarding", () => {
+  it("forwards ref with asChild", () => {
+    const ref = createRef<HTMLElement>();
+    renderWithTheme(
+      <Menu>
+        <Menu.Trigger asChild ref={ref}>
+          <button>Actions</button>
+        </Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item>Copy</Menu.Item>
+        </Menu.Content>
+      </Menu>
+    );
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    expect(ref.current!.textContent).toBe("Actions");
+  });
+
+  it("forwards ref without asChild", () => {
+    const ref = createRef<HTMLElement>();
+    renderWithTheme(
+      <Menu>
+        <Menu.Trigger ref={ref}>Actions</Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item>Copy</Menu.Item>
+        </Menu.Content>
+      </Menu>
+    );
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+  });
+
+  it("child onClick fires alongside menu toggle when asChild", async () => {
+    const childClick = vi.fn();
+    renderWithTheme(
+      <Menu>
+        <Menu.Trigger asChild>
+          <button onClick={childClick}>Actions</button>
+        </Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item>Copy</Menu.Item>
+        </Menu.Content>
+      </Menu>
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Actions" }));
+    expect(childClick).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole("menu")).toBeInTheDocument();
+  });
+});

@@ -502,3 +502,53 @@ describe("countDialogChildren helper", () => {
 // Touch state imports so they aren't tree-shaken if the test file is later
 // extended; not asserting anything new.
 void useState;
+
+import { createRef } from "react";
+
+describe("Dialog.Trigger ref forwarding", () => {
+  it("forwards ref with asChild", () => {
+    const ref = createRef<HTMLElement>();
+    renderWithTheme(
+      <Dialog>
+        <Dialog.Trigger asChild ref={ref}>
+          <button>Open</button>
+        </Dialog.Trigger>
+        <Dialog.Content>
+          <Dialog.Title>Title</Dialog.Title>
+        </Dialog.Content>
+      </Dialog>
+    );
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    expect(ref.current!.textContent).toBe("Open");
+  });
+
+  it("forwards ref without asChild", () => {
+    const ref = createRef<HTMLElement>();
+    renderWithTheme(
+      <Dialog>
+        <Dialog.Trigger ref={ref}>Open</Dialog.Trigger>
+        <Dialog.Content>
+          <Dialog.Title>Title</Dialog.Title>
+        </Dialog.Content>
+      </Dialog>
+    );
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+  });
+
+  it("child onClick fires alongside dialog open when asChild", async () => {
+    const childClick = vi.fn();
+    renderWithTheme(
+      <Dialog>
+        <Dialog.Trigger asChild>
+          <button onClick={childClick}>Open</button>
+        </Dialog.Trigger>
+        <Dialog.Content>
+          <Dialog.Title>Title</Dialog.Title>
+        </Dialog.Content>
+      </Dialog>
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Open" }));
+    expect(childClick).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+});
