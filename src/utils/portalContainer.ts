@@ -18,6 +18,13 @@ const containers = new Map<
  * Each call increments the internal ref count.
  */
 export function getPortalContainer(name?: string): HTMLElement {
+  if (typeof document === "undefined") {
+    throw new Error(
+      "getPortalContainer requires a browser environment. " +
+      "Ensure portal components are only rendered on the client."
+    );
+  }
+
   const id = name ?? DEFAULT_PORTAL_ID;
   const entry = containers.get(id);
 
