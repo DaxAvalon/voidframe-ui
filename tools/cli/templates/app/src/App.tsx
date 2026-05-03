@@ -19,7 +19,7 @@ export default function App() {
             Your app is running. Edit src/App.tsx to begin.
           </Text>
           <div style={{ marginTop: 16 }}>
-            <Button variant="primary">Get started</Button>
+            <Button variant="solid">Get started</Button>
           </div>
         </Card>
       </main>

@@ -21,7 +21,10 @@ const rule = {
         const hasAriaLabel = node.attributes?.some(
           (attr: any) =>
             attr.type === "JSXAttribute" &&
-            (attr.name?.name === "aria-label" || attr.name?.name === "ariaLabel")
+            (attr.name?.name === "aria-label" ||
+              attr.name?.name === "ariaLabel" ||
+              attr.name?.name === "aria-labelledby" ||
+              attr.name?.name === "ariaLabelledBy")
         );
         if (!hasAriaLabel) {
           context.report({ node, messageId: "missingLabel" });
