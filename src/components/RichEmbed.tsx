@@ -64,6 +64,8 @@ export interface MermaidProps extends HTMLAttributes<HTMLDivElement> {
   securityLevel?: "strict" | "loose" | "antiscript" | "sandbox";
   /** Override loader. Useful for tests + SSR. */
   loader?: () => Promise<MermaidApi>;
+  /** Text shown while the diagram is loading. */
+  loadingMessage?: string;
 }
 
 interface MermaidApi {
@@ -85,6 +87,7 @@ export const Mermaid = forwardRef<HTMLDivElement, MermaidProps>(
       theme = "dark",
       securityLevel = "strict",
       loader,
+      loadingMessage = "Loading diagram\u2026",
       className,
       ...props
     },
@@ -160,7 +163,7 @@ export const Mermaid = forwardRef<HTMLDivElement, MermaidProps>(
         {...props}
       >
         {"loading" in state && (
-          <div className="vf-mermaid__fallback">Loading diagram…</div>
+          <div className="vf-mermaid__fallback">{loadingMessage}</div>
         )}
         {"error" in state && (
           <div className="vf-mermaid__fallback vf-mermaid__fallback--error">
