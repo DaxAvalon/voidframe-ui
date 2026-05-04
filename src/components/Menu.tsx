@@ -128,38 +128,50 @@ export interface MenuTriggerProps extends HTMLAttributes<HTMLElement> {
 /**
  * Element that opens the menu. Typically wraps a `Button` or `IconButton`.
  */
-function MenuTrigger({ asChild, children, onClick, ...props }: MenuTriggerProps) {
-  const ctx = useMenu();
-  const handle = (e: MouseEvent) => {
-    ctx.setOpen(!ctx.open);
-    onClick?.(e as MouseEvent<HTMLElement>);
-  };
-  if (asChild && isValidElement(children)) {
-    const child = children as ReactElement<Record<string, unknown>>;
-    return cloneElement(child, {
-      id: ctx.triggerId,
-      "aria-haspopup": "menu",
-      "aria-expanded": ctx.open,
-      "aria-controls": ctx.contentId,
-      onClick: handle,
-      ...props,
-    });
-  }
-  return (
-    <button
-      type="button"
-      id={ctx.triggerId}
-      aria-haspopup="menu"
-      aria-expanded={ctx.open}
-      aria-controls={ctx.contentId}
-      className="vf-menu__trigger"
-      onClick={handle}
-      {...props}
-    >
-      {children}
+const MenuTrigger = forwardRef<HTMLElement, MenuTriggerProps>(
+  function MenuTrigger({ asChild, children, onClick, ...props }, ref) {
+    const ctx = useMenu();
+    const handle = (e: MouseEvent) => {
+      ctx.setOpen(!ctx.open);
+      onClick?.(e as MouseEvent<HTMLElement>);
+    };
+    const captureRef = (node: HTMLElement | null) => {
+      if (typeof ref === "function") ref(node);
+      else if (ref) (ref as { current: HTMLElement | null }).current = node;
+    };
+    if (asChild && isValidElement(children)) {
+      const child = children as ReactElement<Record<string, unknown>>;
+      const childProps = child.props as Record<string, unknown>;
+      return cloneElement(child, {
+        ref: captureRef,
+        id: ctx.triggerId,
+        "aria-haspopup": "menu",
+        "aria-expanded": ctx.open,
+        "aria-controls": ctx.contentId,
+        ...props,
+        onClick: (e: MouseEvent<HTMLElement>) => {
+          (childProps.onClick as ((e: MouseEvent<HTMLElement>) => void) | undefined)?.(e);
+          handle(e as MouseEvent);
+        },
+      });
+    }
+    return (
+      <button
+        ref={captureRef as never}
+        type="button"
+        id={ctx.triggerId}
+        aria-haspopup="menu"
+        aria-expanded={ctx.open}
+        aria-controls={ctx.contentId}
+        className="vf-menu__trigger"
+        onClick={handle}
+        {...props}
+      >
+        {children}
     </button>
   );
-}
+  }
+);
 
 // ── Menu.Content ──────────────────────────────────────────────
 

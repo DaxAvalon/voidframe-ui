@@ -130,10 +130,15 @@ const DialogTrigger = forwardRef<HTMLElement, DialogTriggerProps>(
       ctx.setOpen(true);
       onClick?.(e);
     };
+    const captureRef = (node: HTMLElement | null) => {
+      if (typeof ref === "function") ref(node);
+      else if (ref) (ref as { current: HTMLElement | null }).current = node;
+    };
     if (asChild && isValidElement(children)) {
       const child = children as ReactElement<Record<string, unknown>>;
       const childProps = child.props as Record<string, unknown>;
       return cloneElement(child, {
+        ref: captureRef,
         id: ctx.triggerId,
         "aria-haspopup": "dialog",
         "aria-expanded": ctx.open,
@@ -147,7 +152,7 @@ const DialogTrigger = forwardRef<HTMLElement, DialogTriggerProps>(
     }
     return (
       <button
-        ref={ref as never}
+        ref={captureRef as never}
         type="button"
         id={ctx.triggerId}
         aria-haspopup="dialog"
