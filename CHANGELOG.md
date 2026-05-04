@@ -7,6 +7,165 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 _Nothing yet._
 
+## [1.2.1] - 2026-05-03
+
+Comprehensive audit remediation release. A 12-area code audit
+identified 50+ findings across security, accessibility, performance,
+build, i18n, RTL, and developer experience. This release resolves all
+of them. Every change is backwards-compatible except for the two
+items listed under Behavior changes below.
+
+### Behavior changes
+
+These two changes are intentional but observable from the outside.
+
+- **`AppShell` now constrains its height to `100vh` (was `minHeight:
+  100vh`).** Sidebar, main content, and right panel each scroll
+  independently within their viewport slice. Previously the entire
+  shell grew with content, so the sidebar scrolled with the page.
+  Consumers who embedded an `AppShell` inside a taller parent (not
+  full-page) should pass `style={{ height: "auto" }}` to restore
+  the old behavior.
+- **Type declaration paths changed.** `rollupTypes` was disabled to
+  fix a build crash (see Build below). The `exports` map in
+  `package.json` has been updated so resolution via `moduleResolution:
+  "bundler"` or `"node16"` is unaffected. Consumers using the legacy
+  `moduleResolution: "node"` who import `dist/types/voidframe.d.ts`
+  directly (not via the package name) will need to update to
+  `dist/types/index.d.ts`.
+
+### Security
+
+- **`CarouselImageGallery` `img.src` sanitized.** Image sources now
+  pass through `safeHref()`, blocking `javascript:`, `data:`, and
+  other dangerous URI schemes. Safe URLs (https, relative paths)
+  are unaffected.
+- **`Print` iframe hardened.** A `Content-Security-Policy` meta tag
+  with `script-src 'none'` is injected into the print iframe,
+  preventing script execution. Stylesheet `<link>` elements are
+  cloned by extracting `href`/`rel` through `escapeHTML()` instead
+  of writing raw `outerHTML`. `<style>` elements use `textContent`
+  instead of `outerHTML`.
+
+### Accessibility
+
+- **`Dialog.Trigger` and `Menu.Trigger` forward refs with `asChild`.**
+  Both used `cloneElement` without passing the `ref`, breaking ref
+  access for consumers using the `asChild` pattern. Fixed with
+  `captureRef` (matching the existing `PopoverTrigger` pattern).
+  `MenuTrigger` is now also wrapped in `forwardRef` and merges the
+  child's `onClick` instead of overwriting it.
+- **`Slider` `aria-label` fallback.** Falls back to `"Slider"` when
+  the `label` prop is omitted, preventing an unlabeled range input.
+- **`FormField` error/help IDs.** Error and help spans now have
+  auto-generated `id` attributes (via `useId`). Error spans have
+  `role="alert"`. A `data-describedby` attribute on the wrapper
+  exposes the active ID for consumers wiring `aria-describedby`.
+- **`Combobox` and `MultiSelect` close on Tab.** Pressing Tab while
+  the dropdown is open now closes it cleanly and moves focus to the
+  next element, matching WAI-ARIA combobox expectations.
+- **`Spotlight` dismissable via Escape.** A `keydown` listener on
+  `document` closes the tour overlay when Escape is pressed.
+- **`ContextMenu` RTL positioning.** Changed `left` to
+  `insetInlineStart` so the context menu appears on the correct side
+  in RTL layouts.
+- **`NavItem` RTL indentation.** Changed `paddingLeft` to
+  `paddingInlineStart` so nested nav items indent on the correct
+  side in RTL.
+
+### Performance
+
+- **`DataGrid` `handleColumnResize` memoized** with `useCallback` to
+  prevent re-creating the closure on every render.
+- **`ThemeScope` composed style memoized** with `useMemo` to prevent
+  all consumers re-rendering when `cssVars`/`style` haven't changed.
+- **`VoidframeProvider` `mergedStyle` memoized** with `useMemo` to
+  stabilize the style object identity across renders.
+
+### Fixed
+
+- **Build: all 21 subpath bundles now generate.** `vite-plugin-dts`
+  with `rollupTypes: true` caused a stack overflow in
+  `@microsoft/api-extractor` when processing 21 entry points,
+  producing only 3 of 21 bundles (voidframe, charts, dev). Set
+  `rollupTypes: false` — `tsc` already emits correct per-file
+  `.d.ts` declarations. All 21 ES + CJS bundles and type
+  declarations now build successfully.
+- **`useCopyToClipboard` timer leak.** The `setTimeout` handle was
+  not stored or cleaned up. Now uses `useRef` + `useEffect` cleanup
+  to prevent `setState` on unmounted components.
+- **`portalContainer` SSR guard.** `getPortalContainer()` now throws
+  a descriptive error when called during SSR (`typeof document ===
+  "undefined"`) instead of crashing with `ReferenceError`.
+- **`Mermaid` stable diagram ID.** Replaced `Math.random()` with
+  React `useId()` (colon-stripped) for deterministic, SSR-safe
+  element IDs.
+- **Deprecated API removal targets updated.** `Drawer`, `Popover`,
+  `Alert`, `ConfirmDialog`, `Dropdown`, `Spinner` removal targets
+  bumped from v1.2 (current) to v2.0.
+
+### RTL
+
+- **30+ CSS physical properties converted to logical equivalents**
+  across 18 component stylesheets: `padding-left` →
+  `padding-inline-start`, `margin-left` → `margin-inline-start`,
+  `border-left` → `border-inline-start`, `text-align: left` →
+  `text-align: start`, etc. Components affected: comment, command
+  input, CSV viewer, interactive (tabs, collapsible), navigation
+  (nav item active border), hex dump, date/time, responsive table,
+  complex form (tree select), cascader, code context view, split
+  button, token visualizer, feedback overlays (popover arrow
+  centering), popconfirm overlay positioning.
+- **Slider thumb** uses `insetInlineStart` in both CSS transition
+  and JS inline style.
+- **Regression test** (`test/css-logical.test.ts`) scans all CSS
+  files for physical left/right properties and fails on new
+  violations. Allowlists popover arrow triangle and timeline arrow
+  (intentionally physical shapes).
+
+### i18n
+
+- **`fileUpload.tooLarge` and `fileUpload.tooMany` translations**
+  added to all 7 non-English locales (ar, de, es, fr, he, ja,
+  zh-CN).
+- **`ChatComposer.SlashCommandPicker`** gains `emptyMessage` prop
+  (default `"No commands"`) so consumers can localize the empty
+  state.
+- **`Mermaid`** gains `loadingMessage` prop (default `"Loading
+  diagram…"`) so consumers can localize the loading fallback.
+- **Locale completeness test** verifies every key in `enMessages`
+  exists in all non-English locale packs. Template function test
+  args updated to include `max`/`maxBytes`.
+
+### Developer experience
+
+- **Token export script** (`scripts/export-tokens.mjs`) now exports
+  all 4 themes (dark, light, midnight, grey) to CSS, SCSS, JSON,
+  and Figma variable formats. Previously only dark and light.
+- **VS Code extension `props.json` regenerated** from current
+  component source. Previously stale (showed old Button variants).
+- **CLI `init` template** changed `variant="primary"` (deprecated)
+  to `variant="solid"`.
+- **ESLint `require-a11y-label` rule** now accepts `aria-labelledby`
+  as a valid label attribute (message already mentioned it,
+  implementation now matches).
+- **`InlineEdit` ref cast** changed from `as any` to a proper
+  intersection type.
+
+### Build / CI
+
+- **CI dist verification expanded.** Both GitHub Actions and Forgejo
+  CI now check all 21 entry bundles (ES + CJS), type declarations,
+  and CSS — not just the 3 main bundles.
+- **GitHub Actions pinned to SHA hashes** (`checkout@v4.3.1`,
+  `setup-node@v4.4.0`, `configure-pages@v5.0.0`,
+  `upload-pages-artifact@v3.0.1`, `deploy-pages@v4.0.5`) to
+  prevent supply-chain attacks via mutable tag force-pushes.
+- **Subpath export test** (`test/build/subpath-exports.test.ts`)
+  verifies all 21 barrel files export at least one symbol.
+- **Export-tokens test** updated to expect 4 theme modes and assert
+  midnight/grey CSS selectors.
+
 ## [1.2.0] - 2026-04-28
 
 Tier-1 completion release. Closes the deferred items from the v1.1.0
