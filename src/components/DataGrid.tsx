@@ -692,35 +692,38 @@ function DataGridBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
 
   const totalColumns = cols.length + extraCols;
 
-  const handleColumnResize = (key: string) => (e: ReactPointerEvent<HTMLSpanElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
-    const startX = e.clientX;
-    const startWidth =
-      ctx.columnWidths[key] ??
-      (e.currentTarget.parentElement?.getBoundingClientRect().width ?? 100);
-    const target = e.currentTarget as HTMLElement;
-    try {
-      target.setPointerCapture?.(e.pointerId);
-    } catch {
-      /* unsupported in some environments */
-    }
-    const onMove = (ev: PointerEvent) => {
-      const next = Math.max(40, startWidth + (ev.clientX - startX));
-      ctx.setColumnWidth(key, next);
-    };
-    const onUp = (ev: PointerEvent) => {
+  const handleColumnResize = useCallback(
+    (key: string) => (e: ReactPointerEvent<HTMLSpanElement>) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const startX = e.clientX;
+      const startWidth =
+        ctx.columnWidths[key] ??
+        (e.currentTarget.parentElement?.getBoundingClientRect().width ?? 100);
+      const target = e.currentTarget as HTMLElement;
       try {
-        target.releasePointerCapture?.(ev.pointerId);
+        target.setPointerCapture?.(e.pointerId);
       } catch {
-        /* noop */
+        /* unsupported in some environments */
       }
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerup", onUp);
-    };
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerup", onUp);
-  };
+      const onMove = (ev: PointerEvent) => {
+        const next = Math.max(40, startWidth + (ev.clientX - startX));
+        ctx.setColumnWidth(key, next);
+      };
+      const onUp = (ev: PointerEvent) => {
+        try {
+          target.releasePointerCapture?.(ev.pointerId);
+        } catch {
+          /* noop */
+        }
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("pointerup", onUp);
+      };
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", onUp);
+    },
+    [ctx.columnWidths, ctx.setColumnWidth]
+  );
 
   const renderRowCells = (row: unknown, ri: number, key: string) => {
     const isSelected = ctx.selected.has(key);
@@ -797,14 +800,11 @@ function DataGridBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
         )}
         {cols.map((c) => {
           const inline: CSSProperties = {
-            ...(c.color
-              ? {
-                  color:
-                    typeof c.color === "function"
-                      ? c.color(row as never)
-                      : c.color,
-                }
-              : {}),
+            ...(typeof c.color === "function"
+              ? { color: c.color(row as never) }
+              : c.color
+                ? { color: c.color }
+                : {}),
             ...(c.align ? { textAlign: c.align } : {}),
           };
           const cellContent = c.render

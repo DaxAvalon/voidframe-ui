@@ -100,10 +100,10 @@ export const ThemeScope = forwardRef<HTMLDivElement, ThemeScopeProps>(
       [tokens]
     );
 
-    const composed: CSSProperties = {
-      ...cssVars,
-      ...style,
-    };
+    const composed = useMemo<CSSProperties>(
+      () => ({ ...cssVars, ...style }),
+      [cssVars, style]
+    );
 
     const Tag = inline ? "span" : "div";
 
