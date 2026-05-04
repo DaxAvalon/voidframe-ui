@@ -4975,7 +4975,7 @@ function App() {
                   aria-label="Locale"
                 />
                 <Text size="xs" color="var(--vf-text-3)">
-                  {SECTIONS.length} sections · 260+ components
+                  {SECTIONS.length} sections · 500+ components
                 </Text>
               </Flex>
             }

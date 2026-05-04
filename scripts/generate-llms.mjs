@@ -31,6 +31,33 @@ const components = JSON.parse(readFileSync(join(dataDir, "props.json"), "utf8"))
 const hooks = JSON.parse(readFileSync(join(dataDir, "hooks.json"), "utf8"));
 const utils = JSON.parse(readFileSync(join(dataDir, "utils.json"), "utf8"));
 
+// ── Count top-level components (excluding compound sub-components) ────
+// Sub-components like DialogTrigger, CardHeader are accessed via dot
+// notation (Dialog.Trigger) and shouldn't inflate the headline count.
+const COMPOUND_PARENTS = [
+  "Dialog", "DrawerV2", "Sheet", "Popover", "PopoverV2", "Tooltip",
+  "Tabs", "AlertDialog", "Card", "DropdownMenu", "Menu", "Select",
+  "Accordion", "Field", "Sidebar", "ContextMenu",
+];
+const SUB_SUFFIXES = [
+  "Trigger", "Content", "Title", "Header", "Body", "Footer", "Close",
+  "Cancel", "Action", "Description", "Item", "Label", "Separator",
+  "Root", "Value", "Handle", "Panel", "List", "Brand", "Section",
+  "Group", "Sub", "SubContent", "SubTrigger", "CheckboxItem",
+  "RadioItem", "RadioGroup",
+];
+function isSubComponent(name) {
+  for (const parent of COMPOUND_PARENTS) {
+    if (name === parent) continue;
+    if (name.startsWith(parent)) {
+      const suffix = name.slice(parent.length);
+      if (SUB_SUFFIXES.some((s) => suffix === s || suffix.startsWith(s))) return true;
+    }
+  }
+  return false;
+}
+const topLevelCount = components.filter((c) => !isSubComponent(c.name)).length;
+
 // ── Parse taxonomy from docs/taxonomy.ts ─────────────────────────────
 
 const taxonomySrc = readFileSync(join(repoRoot, "docs", "taxonomy.ts"), "utf8");
@@ -106,7 +133,7 @@ function generateLlmsTxt() {
   lines.push("> Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-radius. Monospace-first.");
   lines.push("");
   lines.push("## Key Facts");
-  lines.push("- " + components.length + " components, " + hooks.length + " hooks, " + utils.length + " utilities");
+  lines.push("- " + "500+ components, " + hooks.length + " hooks, " + utils.length + " utilities");
   lines.push("- React 18+ peer dependency");
   lines.push("- TypeScript strict mode, full .d.ts declarations");
   lines.push("- 4 built-in themes: dark, light, midnight, grey");
@@ -168,7 +195,7 @@ function generateLlmsFullTxt() {
   lines.push("");
   lines.push("> Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-radius. Monospace-first.");
   lines.push("");
-  lines.push("> " + components.length + " components, " + hooks.length + " hooks, " + utils.length + " utilities");
+  lines.push("> " + "500+ components, " + hooks.length + " hooks, " + utils.length + " utilities");
   lines.push("");
   lines.push("Generated: " + today);
   lines.push("");
