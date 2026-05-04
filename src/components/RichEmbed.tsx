@@ -5,6 +5,7 @@
 import {
   forwardRef,
   useEffect,
+  useId,
   useRef,
   useState,
   type HTMLAttributes,
@@ -95,6 +96,7 @@ export const Mermaid = forwardRef<HTMLDivElement, MermaidProps>(
     >({ loading: true });
     const elRef = useRef<HTMLDivElement | null>(null);
     const svgRef = useRef<HTMLDivElement | null>(null);
+    const mermaidId = useId();
 
     useEffect(() => {
       let cancelled = false;
@@ -114,7 +116,7 @@ export const Mermaid = forwardRef<HTMLDivElement, MermaidProps>(
             return;
           }
           api.initialize({ theme, securityLevel });
-          const id = `vf-mermaid-${Math.random().toString(36).slice(2)}`;
+          const id = `vf-mermaid-${mermaidId.replace(/:/g, "")}`;
           const { svg, bindFunctions } = await api.render(id, chart);
           if (cancelled) return;
           setState({ svg });
@@ -132,7 +134,7 @@ export const Mermaid = forwardRef<HTMLDivElement, MermaidProps>(
       return () => {
         cancelled = true;
       };
-    }, [chart, theme, securityLevel, loader]);
+    }, [chart, theme, securityLevel, loader, mermaidId]);
 
     // Write mermaid SVG imperatively. Even under `securityLevel: "strict"`
     // we run it through our SVG sanitizer as defense-in-depth — a mermaid
