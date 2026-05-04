@@ -21,16 +21,16 @@
   display: inline;
   padding: 1px 0;
   cursor: default;
-  border-right: 1px solid var(--vf-border-1);
+  border-inline-end: 1px solid var(--vf-border-1);
   white-space: pre;
 }
 
 .vf-token-viz--no-boundaries .vf-token-viz__token {
-  border-right: none;
+  border-inline-end: none;
 }
 
 .vf-token-viz__token:last-of-type {
-  border-right: none;
+  border-inline-end: none;
 }
 
 .vf-token-viz__token--even {
@@ -71,7 +71,7 @@
 .vf-token-viz__token-logprob {
   font-size: 0.7em;
   color: var(--vf-text-3);
-  margin-left: 1px;
+  margin-inline-start: 1px;
 }
 
 .vf-token-viz__summary {

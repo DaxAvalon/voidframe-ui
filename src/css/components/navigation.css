@@ -241,7 +241,7 @@
 .vf-nav-item {
   padding: var(--vf-sp-3) var(--vf-sp-5);
   background: transparent;
-  border-left: 2px solid transparent;
+  border-inline-start: 2px solid transparent;
   color: var(--vf-text-3);
   cursor: pointer;
   transition: var(--vf-transition);
@@ -268,7 +268,7 @@
 }
 .vf-nav-item[data-active="true"] {
   background: var(--vf-bg-5);
-  border-left-color: var(--vf-amber);
+  border-inline-start-color: var(--vf-amber);
   color: var(--vf-text-0);
 }
 .vf-nav-item__icon {

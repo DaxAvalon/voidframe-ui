@@ -136,7 +136,7 @@
 
 /* ── DateRangePicker ─────────────────────────────────────────── */
 .vf-date-range-picker__trigger {
-  text-align: left;
+  text-align: start;
   cursor: pointer;
 }
 .vf-date-range-picker__popover {
@@ -164,7 +164,7 @@
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: var(--vf-letter-spacing);
   cursor: pointer;
-  text-align: left;
+  text-align: start;
   transition: var(--vf-transition);
 }
 .vf-date-range-picker__preset:hover {

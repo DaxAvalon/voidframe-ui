@@ -37,7 +37,7 @@
 
 .vf-csv-viewer__header-cell {
   padding: var(--vf-sp-2) var(--vf-sp-3);
-  text-align: left;
+  text-align: start;
   font-weight: 600;
   color: var(--vf-text-2);
   border-bottom: 2px solid var(--vf-border);
@@ -50,9 +50,9 @@
   padding: var(--vf-sp-2) var(--vf-sp-3);
   color: var(--vf-text-4);
   font-family: var(--vf-font-mono, monospace);
-  text-align: right;
+  text-align: end;
   min-width: 4ch;
-  border-right: 1px solid var(--vf-border);
+  border-inline-end: 1px solid var(--vf-border);
   user-select: none;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .vf-csv-viewer__cell--number {
-  text-align: right;
+  text-align: end;
   font-family: var(--vf-font-mono, monospace);
 }
 

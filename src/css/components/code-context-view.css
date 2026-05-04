@@ -6,7 +6,7 @@
   font-family: var(--vf-font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
   font-size: var(--vf-font-xs);
   line-height: 1.55;
-  border-left: 3px solid var(--vf-accent, var(--vf-danger));
+  border-inline-start: 3px solid var(--vf-accent, var(--vf-danger));
 }
 
 .vf-code-context--compact {
