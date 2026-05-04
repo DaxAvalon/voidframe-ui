@@ -24,6 +24,8 @@ export const ar: LocalePack = {
     fileUpload: {
       dropOrBrowse: "أفلت الملفات هنا أو انقر للتصفح",
       remove: "إزالة",
+      tooLarge: ({ maxBytes }) => `الملف يتجاوز الحد المسموح ${(maxBytes / 1024 / 1024).toFixed(1)} ميغابايت.`,
+      tooMany: ({ max }) => `يمكنك رفع ${max} ملفات كحد أقصى.`,
     },
     form: { required: "مطلوب", optional: "اختياري", invalid: "قيمة غير صالحة" },
     datePicker: {

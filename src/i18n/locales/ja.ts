@@ -24,6 +24,8 @@ export const ja: LocalePack = {
     fileUpload: {
       dropOrBrowse: "ファイルをここにドロップするか、クリックして選択",
       remove: "削除",
+      tooLarge: ({ maxBytes }) => `ファイルが ${(maxBytes / 1024 / 1024).toFixed(1)} MB の制限を超えています。`,
+      tooMany: ({ max }) => `アップロードできるのは最大 ${max} ファイルです。`,
     },
     form: { required: "必須", optional: "任意", invalid: "無効な値" },
     datePicker: {

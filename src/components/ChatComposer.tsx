@@ -921,6 +921,8 @@ export interface SlashCommandPickerProps
   filter?: string;
   activeIndex?: number;
   onActiveIndexChange?: (next: number) => void;
+  /** Text shown when no commands match the filter. */
+  emptyMessage?: string;
 }
 
 /**
@@ -937,6 +939,7 @@ export const SlashCommandPicker = forwardRef<
     filter = "",
     activeIndex,
     onActiveIndexChange,
+    emptyMessage = "No commands",
     className,
     ...props
   },
@@ -969,7 +972,7 @@ export const SlashCommandPicker = forwardRef<
       {...props}
     >
       {filtered.length === 0 ? (
-        <div className="vf-slash-picker__empty">No commands</div>
+        <div className="vf-slash-picker__empty">{emptyMessage}</div>
       ) : (
         filtered.map((cmd, i) => (
           <button

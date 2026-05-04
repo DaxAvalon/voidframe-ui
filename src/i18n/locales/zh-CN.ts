@@ -24,6 +24,8 @@ export const zhCN: LocalePack = {
     fileUpload: {
       dropOrBrowse: "拖放文件到这里或点击浏览",
       remove: "移除",
+      tooLarge: ({ maxBytes }) => `文件超过 ${(maxBytes / 1024 / 1024).toFixed(1)} MB 限制。`,
+      tooMany: ({ max }) => `最多上传 ${max} 个文件。`,
     },
     form: { required: "必填", optional: "可选", invalid: "无效值" },
     datePicker: {

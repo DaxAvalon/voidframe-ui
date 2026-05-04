@@ -24,6 +24,8 @@ export const fr: LocalePack = {
     fileUpload: {
       dropOrBrowse: "Déposez les fichiers ici ou cliquez pour parcourir",
       remove: "Retirer",
+      tooLarge: ({ maxBytes }) => `Le fichier dépasse la limite de ${(maxBytes / 1024 / 1024).toFixed(1)} Mo.`,
+      tooMany: ({ max }) => `Vous pouvez téléverser au maximum ${max} fichiers.`,
     },
     form: {
       required: "Obligatoire",
