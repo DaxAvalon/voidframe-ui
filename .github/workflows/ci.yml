@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ["v*"]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -94,7 +95,43 @@ jobs:
       - name: Dry-run pack
         run: npm pack --dry-run
 
-      # Intentionally no artifact uploads, no release / publish job, no
-      # e2e matrix. Those are Phase 2 additions — this file is the
-      # minimum gate that mirrors the Forgejo workflow. npm publish
-      # happens from a maintainer workstation, not from CI.
+  publish:
+    name: Publish to npm
+    needs: ci
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "20"
+          cache: npm
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci --no-fund
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify dist
+        run: |
+          ENTRIES="voidframe charts dev tokens testing primitives core layout navigation forms data activity overlays media animation icons chat specialty interactive reactflow compat-shadcn"
+          for name in $ENTRIES; do
+            test -f "dist/${name}.es.js" || { echo "MISSING dist/${name}.es.js"; exit 1; }
+            test -f "dist/${name}.cjs.js" || { echo "MISSING dist/${name}.cjs.js"; exit 1; }
+          done
+          test -f dist/voidframe.css || { echo "MISSING dist/voidframe.css"; exit 1; }
+          echo "All dist files present."
+
+      - name: Publish
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
