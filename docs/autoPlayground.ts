@@ -515,6 +515,81 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   TokenCounter: '<HStack gap={12} style={{ padding: 8, background: "var(--vf-bg-2)", border: "1px solid var(--vf-border-1)" }}>\n  <VStack gap={0}><Text size="xs" color="var(--vf-text-3)">Input</Text><Text size="sm" style={{ fontWeight: 600 }}>1,234</Text></VStack>\n  <VStack gap={0}><Text size="xs" color="var(--vf-text-3)">Output</Text><Text size="sm" style={{ fontWeight: 600 }}>567</Text></VStack>\n  <VStack gap={0}><Text size="xs" color="var(--vf-text-3)">Total</Text><Text size="sm" style={{ fontWeight: 600 }}>1,801</Text></VStack>\n</HStack>',
   RESPONSIVE_SIZE_PRESETS: '<Text size="sm" color="var(--vf-text-3)">RESPONSIVE_SIZE_PRESETS is a configuration constant, not a component.</Text>',
   ReactNode: '<Text size="sm" color="var(--vf-text-3)">ReactNode is a TypeScript type, not a component.</Text>',
+
+  // ── Dialog compound sub-components ─────────────────────────────────
+  DialogTrigger: '<Dialog>\n  <Dialog.Trigger><Button>Open</Button></Dialog.Trigger>\n  <Dialog.Content>\n    <Dialog.Header><Dialog.Title>Title</Dialog.Title></Dialog.Header>\n    <Dialog.Body><Text>Dialog body content.</Text></Dialog.Body>\n    <Dialog.Footer>\n      <Dialog.Cancel>Cancel</Dialog.Cancel>\n      <Dialog.Action>Confirm</Dialog.Action>\n    </Dialog.Footer>\n  </Dialog.Content>\n</Dialog>',
+  DialogContent: '<Text size="sm" color="var(--vf-text-3)">DialogContent is used inside a Dialog compound. See the Dialog page for usage.</Text>',
+  DialogTitle: '<Text size="sm" color="var(--vf-text-3)">DialogTitle is used inside Dialog.Header. See the Dialog page for usage.</Text>',
+  DialogClose: '<Text size="sm" color="var(--vf-text-3)">DialogClose is a dismiss button inside Dialog.Content. See the Dialog page.</Text>',
+  DialogAction: '<Text size="sm" color="var(--vf-text-3)">DialogAction is the confirm button inside Dialog.Footer. See the Dialog page.</Text>',
+  DialogCancel: '<Text size="sm" color="var(--vf-text-3)">DialogCancel is the cancel button inside Dialog.Footer. See the Dialog page.</Text>',
+  DialogDescription: '<Text size="sm" color="var(--vf-text-3)">DialogDescription provides an accessible description. See the Dialog page.</Text>',
+
+  // ── DrawerV2 compound sub-components ───────────────────────────────
+  DrawerRoot: '<Text size="sm" color="var(--vf-text-3)">DrawerRoot is the root provider for DrawerV2. See the DrawerV2 page for usage.</Text>',
+  DrawerV2Content: '<Text size="sm" color="var(--vf-text-3)">DrawerV2Content wraps drawer body inside DrawerV2. See the DrawerV2 page.</Text>',
+  DrawerV2Title: '<Text size="sm" color="var(--vf-text-3)">DrawerV2Title provides the drawer heading. See the DrawerV2 page.</Text>',
+  DrawerV2Trigger: '<Text size="sm" color="var(--vf-text-3)">DrawerV2Trigger opens the drawer. See the DrawerV2 page.</Text>',
+  DrawerBody: '<Text size="sm" color="var(--vf-text-3)">DrawerBody wraps content inside DrawerV2.Content. See the DrawerV2 page.</Text>',
+  DrawerClose: '<Text size="sm" color="var(--vf-text-3)">DrawerClose dismisses the drawer. See the DrawerV2 page.</Text>',
+  DrawerFooter: '<Text size="sm" color="var(--vf-text-3)">DrawerFooter wraps actions inside DrawerV2.Content. See the DrawerV2 page.</Text>',
+  DrawerHeader: '<Text size="sm" color="var(--vf-text-3)">DrawerHeader wraps the title inside DrawerV2.Content. See the DrawerV2 page.</Text>',
+
+  // ── Popover compound sub-components ────────────────────────────────
+  PopoverRoot: '<Text size="sm" color="var(--vf-text-3)">PopoverRoot is the root provider. See the PopoverV2 page for compound usage.</Text>',
+  PopoverTrigger: '<Text size="sm" color="var(--vf-text-3)">PopoverTrigger opens the popover. See the PopoverV2 page for usage.</Text>',
+  PopoverContent: '<Text size="sm" color="var(--vf-text-3)">PopoverContent wraps the popover body. See the PopoverV2 page for usage.</Text>',
+
+  // ── Select compound sub-components ─────────────────────────────────
+  SelectRoot: '<Text size="sm" color="var(--vf-text-3)">SelectRoot is the root provider. See the Select page for compound usage.</Text>',
+
+  // ── Tooltip compound sub-components ────────────────────────────────
+  TooltipRoot: '<Text size="sm" color="var(--vf-text-3)">TooltipRoot is the root provider. See the Tooltip page for compound usage.</Text>',
+  TooltipTrigger: '<Text size="sm" color="var(--vf-text-3)">TooltipTrigger wraps the element that triggers the tooltip. See the Tooltip page.</Text>',
+  TooltipContent: '<Text size="sm" color="var(--vf-text-3)">TooltipContent wraps the tooltip body. See the Tooltip page for usage.</Text>',
+
+  // Tabs sub-components (TabsList, TabsTrigger, TabsContent already defined above)
+
+  // ── AlertDialog compound sub-components ────────────────────────────
+  AlertDialogAction: '<Text size="sm" color="var(--vf-text-3)">AlertDialogAction is the confirm button. See the AlertDialog page.</Text>',
+  AlertDialogCancel: '<Text size="sm" color="var(--vf-text-3)">AlertDialogCancel is the cancel button. See the AlertDialog page.</Text>',
+  AlertDialogContent: '<Text size="sm" color="var(--vf-text-3)">AlertDialogContent wraps the dialog body. See the AlertDialog page.</Text>',
+  AlertDialogDescription: '<Text size="sm" color="var(--vf-text-3)">AlertDialogDescription provides accessible description. See AlertDialog.</Text>',
+  AlertDialogFooter: '<Text size="sm" color="var(--vf-text-3)">AlertDialogFooter wraps action buttons. See the AlertDialog page.</Text>',
+  AlertDialogHeader: '<Text size="sm" color="var(--vf-text-3)">AlertDialogHeader wraps the title. See the AlertDialog page.</Text>',
+  AlertDialogTitle: '<Text size="sm" color="var(--vf-text-3)">AlertDialogTitle provides the dialog heading. See the AlertDialog page.</Text>',
+  AlertDialogTrigger: '<Text size="sm" color="var(--vf-text-3)">AlertDialogTrigger opens the alert dialog. See the AlertDialog page.</Text>',
+
+  // ── Card compound sub-components ───────────────────────────────────
+  CardContent: '<Text size="sm" color="var(--vf-text-3)">CardContent wraps the card body. See the Card page for usage.</Text>',
+  CardDescription: '<Text size="sm" color="var(--vf-text-3)">CardDescription provides a subtitle. See the Card page for usage.</Text>',
+  CardTitle: '<Text size="sm" color="var(--vf-text-3)">CardTitle provides the card heading. See the Card page for usage.</Text>',
+
+  // ── DropdownMenu compound sub-components ───────────────────────────
+  DropdownMenuContent: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuContent wraps menu items. See the DropdownMenu page.</Text>',
+  DropdownMenuItem: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuItem is a menu action. See the DropdownMenu page.</Text>',
+  DropdownMenuTrigger: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuTrigger opens the menu. See the DropdownMenu page.</Text>',
+  DropdownMenuLabel: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuLabel is a non-interactive label. See the DropdownMenu page.</Text>',
+  DropdownMenuSeparator: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuSeparator divides menu sections. See the DropdownMenu page.</Text>',
+  DropdownMenuCheckboxItem: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuCheckboxItem is a toggleable item. See the DropdownMenu page.</Text>',
+  DropdownMenuRadioGroup: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuRadioGroup groups radio items. See the DropdownMenu page.</Text>',
+  DropdownMenuRadioItem: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuRadioItem is a radio option. See the DropdownMenu page.</Text>',
+  DropdownMenuSub: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuSub is a submenu container. See the DropdownMenu page.</Text>',
+  DropdownMenuSubContent: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuSubContent wraps submenu items. See the DropdownMenu page.</Text>',
+  DropdownMenuSubTrigger: '<Text size="sm" color="var(--vf-text-3)">DropdownMenuSubTrigger opens a submenu. See the DropdownMenu page.</Text>',
+
+  // ── Sheet compound sub-components ──────────────────────────────────
+  SheetBody: '<Text size="sm" color="var(--vf-text-3)">SheetBody wraps content inside Sheet.Content. See the Sheet page.</Text>',
+  SheetClose: '<Text size="sm" color="var(--vf-text-3)">SheetClose dismisses the sheet. See the Sheet page for usage.</Text>',
+  SheetContent: '<Text size="sm" color="var(--vf-text-3)">SheetContent wraps the sheet body. See the Sheet page for usage.</Text>',
+  SheetDescription: '<Text size="sm" color="var(--vf-text-3)">SheetDescription provides accessible description. See the Sheet page.</Text>',
+  SheetFooter: '<Text size="sm" color="var(--vf-text-3)">SheetFooter wraps action buttons. See the Sheet page for usage.</Text>',
+  SheetHeader: '<Text size="sm" color="var(--vf-text-3)">SheetHeader wraps the title. See the Sheet page for usage.</Text>',
+  SheetTitle: '<Text size="sm" color="var(--vf-text-3)">SheetTitle provides the sheet heading. See the Sheet page for usage.</Text>',
+  SheetTrigger: '<Text size="sm" color="var(--vf-text-3)">SheetTrigger opens the sheet. See the Sheet page for usage.</Text>',
+
+  // Other sub-components (Link, ChartScales, MessageMarkdown already defined above)
+  CodeContextView: '<CodeContextView\n  file="src/App.tsx"\n  line={42}\n  context="const result = await fetchData();"\n/>',
 };
 
 /**
