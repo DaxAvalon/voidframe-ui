@@ -138,7 +138,7 @@ const InlineEditImpl = forwardRef<HTMLDivElement, InlineEditProps>(
     );
 
     const inputProps = {
-      ref: inputRef as any,
+      ref: inputRef as React.RefObject<HTMLInputElement> & React.RefObject<HTMLTextAreaElement>,
       className: "vf-inline-edit__input",
       value: draft,
       onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
