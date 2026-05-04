@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { Anchor, type AnchorItem } from "../Anchor";
@@ -176,13 +176,15 @@ describe("Anchor", () => {
         (el) => (el as HTMLElement).id === "install",
       );
       expect(target).toBeTruthy();
-      capturedCallback!([
-        {
-          target: target!,
-          isIntersecting: true,
-          intersectionRatio: 1,
-        } as Partial<IntersectionObserverEntry>,
-      ]);
+      act(() => {
+        capturedCallback!([
+          {
+            target: target!,
+            isIntersecting: true,
+            intersectionRatio: 1,
+          } as Partial<IntersectionObserverEntry>,
+        ]);
+      });
       expect(onActiveChange).toHaveBeenCalledWith("install");
     } finally {
       globalThis.IntersectionObserver = originalIO;

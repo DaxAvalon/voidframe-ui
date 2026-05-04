@@ -64,7 +64,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
   },
   ref
 ) {
-  deprecatedComponent("Drawer", "DrawerV2", "v1.2");
+  deprecatedComponent("Drawer", "DrawerV2", "v2.0");
   warn(
     Boolean(
       title ||
@@ -169,7 +169,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(function Dropd
   { trigger, items, align = "left", className, style, ...props },
   ref
 ) {
-  deprecatedComponent("Dropdown", "Menu", "v1.2");
+  deprecatedComponent("Dropdown", "Menu", "v2.0");
   const [open, setOpen] = useState(false);
   const clickOutsideRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
   const mergedRef = useMergedRefs(ref, clickOutsideRef);
@@ -249,7 +249,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
   { trigger, children, on = "click", position = "bottom", width = "240px", className, style, ...props },
   ref
 ) {
-  deprecatedComponent("Popover", "PopoverV2", "v1.2");
+  deprecatedComponent("Popover", "PopoverV2", "v2.0");
   const [show, setShow] = useState(false);
   const clickOutsideRef = useClickOutside<HTMLDivElement>(() => {
     if (on === "click") setShow(false);
@@ -302,7 +302,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   { type = "info", title, children, onDismiss, className, style, ...props },
   ref
 ) {
-  deprecatedComponent("Alert", "AlertV2", "v1.2");
+  deprecatedComponent("Alert", "AlertV2", "v2.0");
   const composedStyle: CSSProperties = {
     ["--vf-alert-color" as never]: ALERT_VAR[type],
     ...style,
@@ -384,7 +384,7 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
     },
     ref
   ) {
-    deprecatedComponent("ConfirmDialog", "ConfirmDialogV2", "v1.2");
+    deprecatedComponent("ConfirmDialog", "ConfirmDialogV2", "v2.0");
     const inner = (
       <DismissableLayer onDismiss={onCancel} className="vf-modal__backdrop">
         <FocusScope

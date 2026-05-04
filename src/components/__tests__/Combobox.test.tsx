@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { act, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -201,7 +201,9 @@ describe("MultiSelect", () => {
       />
     );
     const input = screen.getByRole("combobox");
-    input.focus();
+    act(() => {
+      input.focus();
+    });
     await userEvent.keyboard("{Backspace}");
     expect(onChange).toHaveBeenCalledWith(["apple"]);
   });

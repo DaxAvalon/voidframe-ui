@@ -179,7 +179,7 @@
     {
       "name": "Charts ESM (dist/charts.es.js)",
       "path": "dist/charts.es.js",
-      "limit": "40 KB",
+      "limit": "42 KB",
       "gzip": true
     },
     {

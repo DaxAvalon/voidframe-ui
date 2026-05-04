@@ -613,7 +613,7 @@ const SpinnerImpl = forwardRef<HTMLDivElement, SpinnerProps>(function Spinner(
   { size = 16, color, className, style, ...props },
   ref
 ) {
-  deprecatedComponent("Spinner", "SpinnerV2", "v1.2");
+  deprecatedComponent("Spinner", "SpinnerV2", "v2.0");
   const composed: CSSProperties = {
     width: size,
     height: size,

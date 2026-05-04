@@ -70,12 +70,20 @@ describe("Typewriter", () => {
 
 describe("Typewriter — completed state", () => {
   it("calls onComplete when all text is typed", async () => {
-    const onComplete = vi.fn();
-    renderWithTheme(
-      <Typewriter text="Hi" speed={500} onComplete={onComplete} />
-    );
-    // Wait for the typing to complete (short text + fast speed)
-    await vi.waitFor(() => expect(onComplete).toHaveBeenCalled(), { timeout: 3000 });
+    vi.useFakeTimers();
+    try {
+      const onComplete = vi.fn();
+      renderWithTheme(
+        <Typewriter text="Hi" speed={500} onComplete={onComplete} />
+      );
+      // Advance timers enough for all characters to type + onComplete to fire
+      await act(async () => {
+        vi.advanceTimersByTime(3000);
+      });
+      expect(onComplete).toHaveBeenCalled();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("renders full text immediately when reduced motion is preferred", () => {

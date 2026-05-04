@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -23,7 +23,9 @@ describe("Switch", () => {
     renderWithTheme(
       <Switch aria-label="X" defaultChecked={false} onValueChange={onChange} />
     );
-    screen.getByRole("switch").click();
+    act(() => {
+      screen.getByRole("switch").click();
+    });
     expect(onChange).toHaveBeenCalledWith(true);
   });
 });

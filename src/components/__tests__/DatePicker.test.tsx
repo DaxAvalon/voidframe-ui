@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -83,7 +83,9 @@ describe("DatePicker", () => {
   it("ArrowDown in the input opens the calendar", async () => {
     renderWithTheme(<DatePicker label="Date" defaultValue={new Date(2026, 2, 7)} />);
     const input = screen.getByLabelText("Date");
-    input.focus();
+    act(() => {
+      input.focus();
+    });
     // Focus opens it already; close to test re-open via ArrowDown.
     await userEvent.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

@@ -1,5 +1,5 @@
 import { createRef } from "react";
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { fireEvent } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
@@ -26,10 +26,16 @@ describe("SignaturePad", () => {
       <SignaturePad label="Sign" ref={ref} onStrokeEnd={onStrokeEnd} />
     );
     const canvas = screen.getByRole("img", { name: "Sign" });
-    fireEvent.pointerDown(canvas, { pointerId: 1, clientX: 10, clientY: 10, pressure: 0.5 });
-    fireEvent.pointerMove(canvas, { pointerId: 1, clientX: 20, clientY: 20, pressure: 0.5 });
-    fireEvent.pointerMove(canvas, { pointerId: 1, clientX: 30, clientY: 30, pressure: 0.5 });
-    fireEvent.pointerUp(canvas, { pointerId: 1, clientX: 30, clientY: 30, pressure: 0.5 });
+    act(() => {
+      fireEvent.pointerDown(canvas, { pointerId: 1, clientX: 10, clientY: 10, pressure: 0.5 });
+    });
+    act(() => {
+      fireEvent.pointerMove(canvas, { pointerId: 1, clientX: 20, clientY: 20, pressure: 0.5 });
+      fireEvent.pointerMove(canvas, { pointerId: 1, clientX: 30, clientY: 30, pressure: 0.5 });
+    });
+    act(() => {
+      fireEvent.pointerUp(canvas, { pointerId: 1, clientX: 30, clientY: 30, pressure: 0.5 });
+    });
     expect(onStrokeEnd).toHaveBeenCalled();
     expect(ref.current?.getStrokes().length).toBe(1);
   });
@@ -38,9 +44,15 @@ describe("SignaturePad", () => {
     const ref = createRef<SignaturePadHandle>();
     renderWithTheme(<SignaturePad label="Sign" ref={ref} />);
     const canvas = screen.getByRole("img", { name: "Sign" });
-    fireEvent.pointerDown(canvas, { pointerId: 1, clientX: 10, clientY: 10 });
-    fireEvent.pointerMove(canvas, { pointerId: 1, clientX: 20, clientY: 20 });
-    fireEvent.pointerUp(canvas, { pointerId: 1, clientX: 20, clientY: 20 });
+    act(() => {
+      fireEvent.pointerDown(canvas, { pointerId: 1, clientX: 10, clientY: 10 });
+    });
+    act(() => {
+      fireEvent.pointerMove(canvas, { pointerId: 1, clientX: 20, clientY: 20 });
+    });
+    act(() => {
+      fireEvent.pointerUp(canvas, { pointerId: 1, clientX: 20, clientY: 20 });
+    });
     await userEvent.click(screen.getByRole("button", { name: "Clear" }));
     expect(ref.current?.isEmpty()).toBe(true);
   });
@@ -60,12 +72,14 @@ describe("SignaturePad", () => {
   it("setStrokes programmatic import works via ref", () => {
     const ref = createRef<SignaturePadHandle>();
     renderWithTheme(<SignaturePad label="Sign" ref={ref} />);
-    ref.current!.setStrokes([
-      [
-        { x: 0, y: 0, pressure: 1 },
-        { x: 10, y: 10, pressure: 1 },
-      ],
-    ]);
+    act(() => {
+      ref.current!.setStrokes([
+        [
+          { x: 0, y: 0, pressure: 1 },
+          { x: 10, y: 10, pressure: 1 },
+        ],
+      ]);
+    });
     expect(ref.current?.isEmpty()).toBe(false);
   });
 
@@ -79,14 +93,18 @@ describe("SignaturePad", () => {
   it("clear resets isEmpty to true after drawing", () => {
     const ref = createRef<SignaturePadHandle>();
     renderWithTheme(<SignaturePad label="Sign" ref={ref} />);
-    ref.current!.setStrokes([
-      [
-        { x: 0, y: 0, pressure: 1 },
-        { x: 10, y: 10, pressure: 1 },
-      ],
-    ]);
+    act(() => {
+      ref.current!.setStrokes([
+        [
+          { x: 0, y: 0, pressure: 1 },
+          { x: 10, y: 10, pressure: 1 },
+        ],
+      ]);
+    });
     expect(ref.current?.isEmpty()).toBe(false);
-    ref.current!.clear();
+    act(() => {
+      ref.current!.clear();
+    });
     expect(ref.current?.isEmpty()).toBe(true);
   });
 
@@ -103,12 +121,14 @@ describe("SignaturePad", () => {
   it("hides placeholder after drawing", () => {
     const ref = createRef<SignaturePadHandle>();
     renderWithTheme(<SignaturePad label="Sign" ref={ref} />);
-    ref.current!.setStrokes([
-      [
-        { x: 0, y: 0, pressure: 1 },
-        { x: 10, y: 10, pressure: 1 },
-      ],
-    ]);
+    act(() => {
+      ref.current!.setStrokes([
+        [
+          { x: 0, y: 0, pressure: 1 },
+          { x: 10, y: 10, pressure: 1 },
+        ],
+      ]);
+    });
     // After re-render, placeholder should be hidden
     // Note: setStrokes triggers setHasInk(true) synchronously
     expect(ref.current?.isEmpty()).toBe(false);
@@ -118,7 +138,9 @@ describe("SignaturePad", () => {
     const onStrokeStart = vi.fn();
     renderWithTheme(<SignaturePad label="Sign" onStrokeStart={onStrokeStart} />);
     const canvas = screen.getByRole("img", { name: "Sign" });
-    fireEvent.pointerDown(canvas, { pointerId: 1, clientX: 10, clientY: 10 });
+    act(() => {
+      fireEvent.pointerDown(canvas, { pointerId: 1, clientX: 10, clientY: 10 });
+    });
     expect(onStrokeStart).toHaveBeenCalled();
   });
 

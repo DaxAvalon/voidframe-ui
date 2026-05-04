@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 import {
@@ -67,7 +67,9 @@ describe("RelativeTime", () => {
       <RelativeTime date={now} updateInterval={1000} />
     );
     // Component should re-render on interval
-    vi.advanceTimersByTime(2000);
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
     expect(document.querySelector(".vf-relative-time")).toBeInTheDocument();
     vi.useRealTimers();
   });

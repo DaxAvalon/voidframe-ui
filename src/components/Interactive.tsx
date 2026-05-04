@@ -513,7 +513,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
   { message, type = "info", visible = true, onDismiss, className, style, ...props },
   ref
 ) {
-  deprecatedComponent("Toast", "Toaster", "v1.2");
+  deprecatedComponent("Toast", "Toaster", "v2.0");
   if (!visible) return null;
   const composedStyle: CSSProperties = {
     ["--vf-toast-color" as never]: TOAST_VAR[type],

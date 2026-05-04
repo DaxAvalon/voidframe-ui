@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { renderWithTheme } from "../../../test/renderWithTheme";
@@ -29,9 +29,11 @@ describe("Carousel", () => {
         />
       );
       // Wait for two animation frames so the rAF-scheduled scroll runs.
-      await new Promise<void>((r) =>
-        requestAnimationFrame(() => requestAnimationFrame(() => r()))
-      );
+      await act(async () => {
+        await new Promise<void>((r) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => r()))
+        );
+      });
       expect(scrollSpy).toHaveBeenCalled();
     } finally {
       scrollSpy.mockRestore();
@@ -47,7 +49,7 @@ describe("Carousel", () => {
       />
     );
     const viewport = document.querySelector(".vf-carousel__viewport") as HTMLElement;
-    viewport.focus();
+    act(() => { viewport.focus(); });
     await userEvent.keyboard("{ArrowRight}");
     expect(onSlideChange).toHaveBeenCalledWith(1);
   });
@@ -62,7 +64,7 @@ describe("Carousel", () => {
       />
     );
     const viewport = document.querySelector(".vf-carousel__viewport") as HTMLElement;
-    viewport.focus();
+    act(() => { viewport.focus(); });
     await userEvent.keyboard("{ArrowLeft}");
     expect(onSlideChange).toHaveBeenCalledWith(0);
   });
@@ -77,7 +79,7 @@ describe("Carousel", () => {
       />
     );
     const viewport = document.querySelector(".vf-carousel__viewport") as HTMLElement;
-    viewport.focus();
+    act(() => { viewport.focus(); });
     await userEvent.keyboard("{Home}");
     expect(onSlideChange).toHaveBeenCalledWith(0);
   });
@@ -91,7 +93,7 @@ describe("Carousel", () => {
       />
     );
     const viewport = document.querySelector(".vf-carousel__viewport") as HTMLElement;
-    viewport.focus();
+    act(() => { viewport.focus(); });
     await userEvent.keyboard("{End}");
     expect(onSlideChange).toHaveBeenCalledWith(2);
   });
@@ -107,7 +109,9 @@ describe("Carousel", () => {
         onSlideChange={onSlideChange}
       />
     );
-    vi.advanceTimersByTime(250);
+    act(() => {
+      vi.advanceTimersByTime(250);
+    });
     expect(onSlideChange).toHaveBeenCalled();
     vi.useRealTimers();
   });

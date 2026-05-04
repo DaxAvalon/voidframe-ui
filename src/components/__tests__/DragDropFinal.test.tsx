@@ -10,7 +10,7 @@
 // Droppable/Draggable wire native event listeners via ref callbacks.
 // These are exercised by dispatching native DOM events on the ref'd elements.
 
-import { screen, fireEvent } from "@testing-library/react";
+import { act, screen, fireEvent } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 import {
@@ -53,11 +53,15 @@ describe("Droppable native event handlers", () => {
     Object.defineProperty(dragOverEvent, "dataTransfer", {
       value: { dropEffect: "" },
     });
-    zone.dispatchEvent(dragOverEvent);
+    act(() => {
+      zone.dispatchEvent(dragOverEvent);
+    });
 
     // Simulate native drop
     const dropEvent = new Event("drop", { bubbles: true });
-    zone.dispatchEvent(dropEvent);
+    act(() => {
+      zone.dispatchEvent(dropEvent);
+    });
 
     expect(onDragEnd).toHaveBeenCalled();
   });
@@ -82,14 +86,18 @@ describe("Droppable native event handlers", () => {
     Object.defineProperty(dragOverEvent, "dataTransfer", {
       value: { dropEffect: "" },
     });
-    zone.dispatchEvent(dragOverEvent);
+    act(() => {
+      zone.dispatchEvent(dragOverEvent);
+    });
 
     // Dragleave clears it (relatedTarget outside)
     const dragLeaveEvent = new Event("dragleave", { bubbles: true });
     Object.defineProperty(dragLeaveEvent, "relatedTarget", {
       value: document.body,
     });
-    zone.dispatchEvent(dragLeaveEvent);
+    act(() => {
+      zone.dispatchEvent(dragLeaveEvent);
+    });
   });
 });
 

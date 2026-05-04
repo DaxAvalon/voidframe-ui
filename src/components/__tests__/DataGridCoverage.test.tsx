@@ -18,7 +18,7 @@
 //   1202-1203: DataGrid.Export default fileName
 //   1230-1305: DataGrid.Pagination
 
-import { screen, fireEvent, within } from "@testing-library/react";
+import { act, screen, fireEvent, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { renderWithTheme } from "../../../test/renderWithTheme";
@@ -363,13 +363,19 @@ describe("DataGrid column resize interaction", () => {
     const handle = screen.getByRole("separator", { name: "Resize name" });
 
     // Simulate pointer drag
-    fireEvent.pointerDown(handle, { clientX: 100, pointerId: 1 });
+    act(() => {
+      fireEvent.pointerDown(handle, { clientX: 100, pointerId: 1 });
+    });
 
     // Simulate pointer move (window level)
-    window.dispatchEvent(new PointerEvent("pointermove", { clientX: 150 }));
+    act(() => {
+      window.dispatchEvent(new PointerEvent("pointermove", { clientX: 150 }));
+    });
 
     // Simulate pointer up
-    window.dispatchEvent(new PointerEvent("pointerup", { pointerId: 1 }));
+    act(() => {
+      window.dispatchEvent(new PointerEvent("pointerup", { pointerId: 1 }));
+    });
 
     expect(onColumnResize).toHaveBeenCalled();
   });

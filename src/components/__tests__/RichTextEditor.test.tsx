@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { RichTextEditor } from "../RichTextEditor";
@@ -33,7 +33,9 @@ describe("RichTextEditor", () => {
     renderWithTheme(<RichTextEditor label="Body" onValueChange={onChange} />);
     const content = screen.getByRole("textbox", { name: "Body" }) as HTMLDivElement;
     setHTML(content, "<p>hello</p>");
-    content.dispatchEvent(new Event("input", { bubbles: true }));
+    act(() => {
+      content.dispatchEvent(new Event("input", { bubbles: true }));
+    });
     expect(onChange).toHaveBeenCalledWith("<p>hello</p>");
   });
 
@@ -42,7 +44,9 @@ describe("RichTextEditor", () => {
     renderWithTheme(<RichTextEditor label="Body" onValueChange={onChange} />);
     const content = screen.getByRole("textbox", { name: "Body" }) as HTMLDivElement;
     setHTML(content, "<p>safe<script>alert(1)</script></p>");
-    content.dispatchEvent(new Event("input", { bubbles: true }));
+    act(() => {
+      content.dispatchEvent(new Event("input", { bubbles: true }));
+    });
     const received = String(onChange.mock.calls.at(-1)?.[0] ?? "");
     expect(received.toLowerCase()).not.toContain("<script");
   });

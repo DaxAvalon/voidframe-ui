@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 import { Gantt, type GanttTask } from "../Gantt";
@@ -160,21 +160,27 @@ describe("Gantt", () => {
       clientX: 0,
       pointerId: 1,
     });
-    bar.dispatchEvent(pdown);
+    act(() => {
+      bar.dispatchEvent(pdown);
+    });
 
     const pmove = new PointerEvent("pointermove", {
       bubbles: true,
       clientX: 48,
       pointerId: 1,
     });
-    window.dispatchEvent(pmove);
+    act(() => {
+      window.dispatchEvent(pmove);
+    });
 
     const pup = new PointerEvent("pointerup", {
       bubbles: true,
       clientX: 48,
       pointerId: 1,
     });
-    window.dispatchEvent(pup);
+    act(() => {
+      window.dispatchEvent(pup);
+    });
 
     expect(onTaskUpdate).toHaveBeenCalledTimes(1);
     const payload = onTaskUpdate.mock.calls[0]![0] as {

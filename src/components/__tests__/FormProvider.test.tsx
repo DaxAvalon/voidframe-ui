@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { fireEvent } from "@testing-library/react";
+import { act, fireEvent } from "@testing-library/react";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 import { useForm } from "../../hooks/useForm";
 import { Form, FormErrorSummary, focusFirstInvalid, useFormContext } from "../FormProvider";
@@ -57,9 +57,10 @@ describe("Form + FormProvider", () => {
       <SimpleForm onSubmit={onSubmit} />
     );
     const form = container.querySelector("form")!;
-    fireEvent.submit(form);
-    // Wait for async handleSubmit.
-    await vi.waitFor(() => expect(onSubmit).toHaveBeenCalledOnce());
+    await act(async () => {
+      fireEvent.submit(form);
+    });
+    expect(onSubmit).toHaveBeenCalledOnce();
   });
 
   it("FormErrorSummary renders nothing when no errors", () => {
@@ -72,12 +73,12 @@ describe("Form + FormProvider", () => {
   it("FormErrorSummary renders after failed validation", async () => {
     const { container } = renderWithTheme(<FormWithErrors />);
     const form = container.querySelector("form")!;
-    fireEvent.submit(form);
-    await vi.waitFor(() =>
-      expect(
-        container.querySelector(".vf-form-error-summary")
-      ).toBeTruthy()
-    );
+    await act(async () => {
+      fireEvent.submit(form);
+    });
+    expect(
+      container.querySelector(".vf-form-error-summary")
+    ).toBeTruthy();
     expect(container.textContent).toContain("Required");
   });
 
@@ -148,12 +149,12 @@ describe("FormErrorSummary — link click focuses field", () => {
     }
     const { container } = renderWithTheme(<FocusForm />);
     const form = container.querySelector("form")!;
-    fireEvent.submit(form);
-    await vi.waitFor(() =>
-      expect(
-        container.querySelector(".vf-form-error-summary")
-      ).toBeTruthy()
-    );
+    await act(async () => {
+      fireEvent.submit(form);
+    });
+    expect(
+      container.querySelector(".vf-form-error-summary")
+    ).toBeTruthy();
     const link = container.querySelector(".vf-form-error-summary__link");
     expect(link).toBeTruthy();
     fireEvent.click(link!);
