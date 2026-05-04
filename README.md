@@ -1,5 +1,15 @@
 # VOIDFRAME
 
+[![CI](https://github.com/DaxAvalon/voidframe-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/DaxAvalon/voidframe-ui/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/voidframe-ui)](https://www.npmjs.com/package/voidframe-ui)
+[![downloads](https://img.shields.io/npm/dm/voidframe-ui)](https://www.npmjs.com/package/voidframe-ui)
+[![license](https://img.shields.io/npm/l/voidframe-ui)](https://github.com/DaxAvalon/voidframe-ui/blob/main/LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)](https://www.typescriptlang.org/)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/voidframe-ui)](https://bundlephobia.com/package/voidframe-ui)
+[![React](https://img.shields.io/badge/React-%3E%3D18-61dafb)](https://react.dev/)
+[![coverage](https://img.shields.io/badge/coverage-%E2%89%A575%25-brightgreen)](https://github.com/DaxAvalon/voidframe-ui)
+[![docs](https://img.shields.io/badge/docs-live-green)](https://daxavalon.github.io/voidframe-ui)
+
 Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-radius. Monospace-first.
 
 Built for dashboards, dev tools, data interfaces, internal consoles, AI chat products, and anything that needs to feel like it was forged from the void.
