@@ -46,7 +46,7 @@ export interface DrawerProps extends HTMLAttributes<HTMLDivElement> {
  * Controlled via `open` / `onDismiss` and anchored to `left` or `right`.
  *
  * @deprecated Use `DrawerV2` instead for compound API, all four sides,
- * and scroll-lock. Will be removed in v1.2.
+ * and scroll-lock. Will be removed in v2.0.
  */
 export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(function Drawer(
   {
@@ -163,7 +163,7 @@ export interface DropdownProps extends HTMLAttributes<HTMLDivElement> {
  * Simple trigger + menu dropdown. For richer composition (submenus,
  * checkbox items, radio groups) use `Menu`.
  *
- * @deprecated Use `Menu` from `voidframe-ui` instead. Will be removed in v1.2.
+ * @deprecated Use `Menu` from `voidframe-ui` instead. Will be removed in v2.0.
  */
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(function Dropdown(
   { trigger, items, align = "left", className, style, ...props },
@@ -243,7 +243,7 @@ export interface PopoverProps extends HTMLAttributes<HTMLDivElement> {
  * a fixed `position` (top/right/bottom/left).
  *
  * @deprecated Use `PopoverV2` instead for compound API, viewport-flip
- * positioning, and portaled content. Will be removed in v1.2.
+ * positioning, and portaled content. Will be removed in v2.0.
  */
 export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover(
   { trigger, children, on = "click", position = "bottom", width = "240px", className, style, ...props },
@@ -296,7 +296,7 @@ export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
  * `danger`), optional `title`, icon, and dismiss affordance. For transient
  * popups use `Toast`; for blocking confirmation use `Dialog` / `AlertDialog`.
  *
- * @deprecated Use `AlertV2` from `voidframe-ui` instead. Will be removed in v1.2.
+ * @deprecated Use `AlertV2` from `voidframe-ui` instead. Will be removed in v2.0.
  */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   { type = "info", title, children, onDismiss, className, style, ...props },
@@ -364,7 +364,7 @@ export interface ConfirmDialogProps extends HTMLAttributes<HTMLDivElement> {
  * flow.
  *
  * @deprecated Use `ConfirmDialogV2` from `voidframe-ui` instead. Will be
- * removed in v1.2.
+ * removed in v2.0.
  */
 export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
   function ConfirmDialog(

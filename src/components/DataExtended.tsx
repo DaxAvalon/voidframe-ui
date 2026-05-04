@@ -608,7 +608,7 @@ export interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
-/** @deprecated Use `SpinnerV2` from `voidframe-ui` instead. Will be removed in v1.2. */
+/** @deprecated Use `SpinnerV2` from `voidframe-ui` instead. Will be removed in v2.0. */
 const SpinnerImpl = forwardRef<HTMLDivElement, SpinnerProps>(function Spinner(
   { size = 16, color, className, style, ...props },
   ref
