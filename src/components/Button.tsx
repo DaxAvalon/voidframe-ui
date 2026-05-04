@@ -9,6 +9,10 @@ import { warn } from "../utils/warn";
 import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
 import { toneAttrs } from "../utils/toneAttrs";
 
+/**
+ * Button visual variant. `"destructive"` is a shadcn-compat shorthand
+ * for `variant="solid" tone="danger"` — not an independent variant.
+ */
 export type ButtonVariant = "solid" | "outline" | "ghost" | "subtle" | "destructive";
 export type ButtonSize = "sm" | "md" | "lg" | "icon";
 export type ButtonTone =
@@ -194,7 +198,11 @@ export const Button = memo(ButtonImpl);
 
 export interface ButtonGroupOption {
   key: string;
-  label: string;
+  label: ReactNode;
+  /** Optional leading icon rendered before the label. */
+  icon?: ReactNode;
+  /** Disable this individual option. */
+  disabled?: boolean;
 }
 
 export interface ButtonGroupProps {
@@ -219,11 +227,13 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
           <Button
             key={o.key}
             active={value === o.key}
-            onClick={() => onValueChange(o.key)}
+            onClick={() => { if (!o.disabled) onValueChange(o.key); }}
             accent={accent}
             size={size}
             variant={accent ? "subtle" : "outline"}
+            disabled={o.disabled}
           >
+            {o.icon && <span className="vf-button__icon">{o.icon}</span>}
             {o.label}
           </Button>
         ))}

@@ -72,7 +72,11 @@ export interface InputProps extends InputBaseProps {
    * data-dense UIs where a visible label would be redundant.
    */
   asAriaLabel?: string;
-  /** Internal escape hatch for voidframe-composed parents. */
+  /**
+   * @internal Used by compound parents (DataGrid, TreeTable) to suppress
+   * the accessible-name warning when the label is provided by table headers.
+   * Not intended for direct consumer use.
+   */
   suppressA11yWarning?: boolean;
 }
 
@@ -163,7 +167,11 @@ export interface TextareaProps extends TextareaBaseProps {
   size?: InputSize;
   /** Accessible-name escape hatch. */
   asAriaLabel?: string;
-  /** Internal escape hatch for voidframe-composed parents. */
+  /**
+   * @internal Used by compound parents (DataGrid, TreeTable) to suppress
+   * the accessible-name warning when the label is provided by table headers.
+   * Not intended for direct consumer use.
+   */
   suppressA11yWarning?: boolean;
   style?: CSSProperties;
 }
@@ -246,7 +254,11 @@ export interface ToggleProps extends Omit<HTMLAttributes<HTMLDivElement>, "onCha
   readOnly?: boolean;
   /** Accessible-name escape hatch — mirrors Input/Textarea. */
   asAriaLabel?: string;
-  /** Internal escape hatch for voidframe-composed parents. */
+  /**
+   * @internal Used by compound parents (DataGrid, TreeTable) to suppress
+   * the accessible-name warning when the label is provided by table headers.
+   * Not intended for direct consumer use.
+   */
   suppressA11yWarning?: boolean;
   style?: CSSProperties;
 }

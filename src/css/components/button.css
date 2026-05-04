@@ -13,8 +13,8 @@
   transition: var(--vf-transition);
   user-select: none;
   background: transparent;
-  border: 1px solid var(--vf-border-1);
-  color: var(--vf-text-3);
+  border: 1px solid var(--vf-border-3);
+  color: var(--vf-text-1);
 }
 
 /* sizes */

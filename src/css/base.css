@@ -6,7 +6,6 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-md);
   line-height: var(--vf-line-height);
-  min-height: 100vh;
   box-sizing: border-box;
 }
 

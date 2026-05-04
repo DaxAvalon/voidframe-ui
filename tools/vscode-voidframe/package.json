@@ -4,7 +4,7 @@
   "description": "Snippets, hover docs, and quick actions for the Voidframe React UI framework.",
   "version": "1.0.0",
   "publisher": "voidframe",
-  "private": true,
+  "license": "MIT",
   "engines": {
     "vscode": "^1.84.0"
   },

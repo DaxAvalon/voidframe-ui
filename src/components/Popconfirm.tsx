@@ -280,7 +280,7 @@ const PopconfirmImpl = forwardRef<HTMLDivElement, PopconfirmProps>(
                       ? "vf-button--danger"
                       : confirmVariant === "accent"
                         ? "vf-button--subtle"
-                        : "vf-button--outline",
+                        : "vf-button--solid",
                     confirmButtonProps?.className
                   )}
                   onClick={(e) => {

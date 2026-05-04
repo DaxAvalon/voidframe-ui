@@ -58,6 +58,7 @@ export interface DrawerV2Props {
   children?: ReactNode;
 }
 
+/** Root provider that manages open state and side for `DrawerV2` sub-components. */
 function DrawerRoot({
   open,
   defaultOpen,
@@ -86,6 +87,7 @@ function DrawerRoot({
   return <DrawerContext.Provider value={value}>{children}</DrawerContext.Provider>;
 }
 
+/** Element that opens the drawer. Wraps a button or merges via `asChild`. */
 const DrawerTrigger = forwardRef<HTMLElement, { asChild?: boolean } & HTMLAttributes<HTMLElement>>(
   function DrawerTrigger({ asChild, onClick, children, ...props }, ref) {
     const ctx = useDrawerCtx();
@@ -153,6 +155,7 @@ export interface DrawerV2ContentProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/** Focus-trapped sliding panel that holds the drawer body. Portaled when modal. */
 const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
   function DrawerContent(
     {
@@ -249,10 +252,12 @@ const DrawerContent = forwardRef<HTMLDivElement, DrawerV2ContentProps>(
 );
 DrawerContent.displayName = "DrawerV2Content";
 
+/** Top section of the drawer, typically containing the title and close button. */
 function DrawerHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-drawer-v2__header", className)} {...props} />;
 }
 
+/** Accessible heading for the drawer. Renders an `<h2>` and wires `aria-labelledby`. */
 const DrawerTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement>>(
   function DrawerTitle({ id, className, ...props }, ref) {
     const ctx = useDrawerCtx();
@@ -268,14 +273,17 @@ const DrawerTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEle
 );
 DrawerTitle.displayName = "DrawerV2Title";
 
+/** Scrollable main content area of the drawer. */
 function DrawerBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-drawer-v2__body", className)} {...props} />;
 }
 
+/** Bottom slot for action buttons within the drawer. */
 function DrawerFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-drawer-v2__footer", className)} {...props} />;
 }
 
+/** Dismisses the drawer when activated. Renders a close button or merges via `asChild`. */
 function DrawerClose({
   asChild,
   onClick,
@@ -367,6 +375,7 @@ export interface SheetProps {
   children?: ReactNode;
 }
 
+/** Root provider managing open state, snap points, and drag tracking for Sheet sub-components. */
 function SheetRoot({
   open,
   defaultOpen,
@@ -411,6 +420,7 @@ function SheetRoot({
   return <SheetContext.Provider value={value}>{children}</SheetContext.Provider>;
 }
 
+/** Element that opens the sheet. Wraps a button or merges via `asChild`. */
 function SheetTrigger({ asChild, onClick, children, ...props }: { asChild?: boolean } & HTMLAttributes<HTMLElement>) {
   const ctx = useSheet();
   const handle = (e: React.MouseEvent<HTMLElement>) => {
@@ -432,6 +442,7 @@ function SheetTrigger({ asChild, onClick, children, ...props }: { asChild?: bool
   );
 }
 
+/** Bottom-anchored panel that resizes via snap points and pointer drag. */
 function SheetContent({
   className,
   style,
@@ -484,6 +495,7 @@ function SheetContent({
   );
 }
 
+/** Draggable grip that lets users resize or dismiss the sheet by swiping. */
 function SheetHandle(props: HTMLAttributes<HTMLDivElement>) {
   const ctx = useSheet();
   const startY = useRef<number | null>(null);
@@ -545,14 +557,17 @@ function SheetHandle(props: HTMLAttributes<HTMLDivElement>) {
   );
 }
 
+/** Top section of the sheet, typically containing the title and handle. */
 function SheetHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-sheet__header", className)} {...props} />;
 }
 
+/** Scrollable main content area of the sheet. */
 function SheetBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-sheet__body", className)} {...props} />;
 }
 
+/** Accessible heading for the sheet. Renders an `<h2>` and wires `aria-labelledby`. */
 function SheetTitle({ id, className, ...props }: HTMLAttributes<HTMLHeadingElement>) {
   const ctx = useSheet();
   return (

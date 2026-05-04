@@ -163,6 +163,7 @@ export interface AccordionItemProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/** Wrapper for a single collapsible section within the accordion. */
 function AccordionItem({
   value,
   disabled,
@@ -205,6 +206,7 @@ function AccordionItem({
   );
 }
 
+/** Button that toggles its parent `Accordion.Item` open or closed. */
 const AccordionTrigger = forwardRef<HTMLButtonElement, HTMLAttributes<HTMLButtonElement>>(
   function AccordionTrigger({ className, children, onKeyDown, ...props }, ref) {
     const accordion = useAccordion();
@@ -274,6 +276,7 @@ const AccordionTrigger = forwardRef<HTMLButtonElement, HTMLAttributes<HTMLButton
 );
 AccordionTrigger.displayName = "AccordionTrigger";
 
+/** Collapsible content region revealed when its parent item is open. */
 function AccordionContent({
   className,
   children,

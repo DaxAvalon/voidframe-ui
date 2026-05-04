@@ -18,6 +18,18 @@ Built for dashboards, dev tools, data interfaces, internal consoles, AI chat pro
 
 ---
 
+## Browser Support
+
+VoidFrame targets modern evergreen browsers. The CSS uses `color-mix()` for button variant coloring, which requires:
+
+- Chrome / Edge 111+ (March 2023)
+- Firefox 113+ (May 2023)
+- Safari 16.2+ (December 2022)
+
+All other CSS features (custom properties, logical properties, grid, container queries) have broader support than this baseline.
+
+---
+
 ## Install
 
 ```bash
@@ -74,6 +86,8 @@ the root entry:
 | `voidframe-ui/chat` | Chat surface — `Conversation`, `Message*`, `ChatComposer`, `ChatSession`, `ModelCompare`, `TokenVisualizer`. |
 | `voidframe-ui/specialty` | Niche surface: `ThemeSelector`, `ShortcutGuide`, `Print`, `ColorTools`, `Numeric`, `TimeDisplays`, etc. |
 | `voidframe-ui/interactive` | `Accordion`, `DragDrop`, `Gestures`, `FilterBuilder`, `Interactive` primitives. |
+| `voidframe-ui/compat-shadcn` | Migrating from shadcn/Radix — flat named exports with shadcn-shaped API. |
+| `voidframe-ui/reactflow` | `VoidframeReactFlowTheme` wrapper + `useVoidframeReactFlowStyles()` for `@xyflow/react`. |
 | `voidframe-ui/styles.css` | The single bundled stylesheet. |
 | `voidframe-ui/theme-script.js` | Inline `<head>` snippet that applies the persisted theme pre-hydration (no flash). |
 
@@ -121,11 +135,9 @@ Other CLI commands:
 
 ### VS Code extension
 
-A packaged `.vsix` for VS Code lives at
-[`tools/vscode-voidframe/`](tools/vscode-voidframe/). It ships snippets
-for every public component (trigger with `vf-<name>` or the PascalCase
-name), hover docs, and an "Open Playground" command. Not published to
-the Marketplace — install locally with:
+The [Voidframe for VS Code](https://marketplace.visualstudio.com/items?itemName=voidframe.vscode-voidframe) extension ships snippets for every public component (trigger with `vf-<name>` or the PascalCase name), hover docs with prop tables, and an "Open Playground" command.
+
+Install from the Marketplace, or build locally from [`tools/vscode-voidframe/`](tools/vscode-voidframe/):
 
 ```bash
 code --install-extension tools/vscode-voidframe/vscode-voidframe-1.0.0.vsix
@@ -390,6 +402,8 @@ function MyComponent() {
 
 Everything below ships from the top-level `voidframe-ui` import. Compound components expose their subparts as dot-properties (e.g. `Sidebar.Item`, `Menu.Trigger`, `Dialog.Content`).
 
+> **V2 components are the recommended versions.** `DrawerV2`, `PopoverV2`, `AlertV2`, `ConfirmDialogV2`, `SpinnerV2`, and `Toaster` supersede the legacy `Drawer`, `Popover`, `Alert`, `ConfirmDialog`, `Spinner`, and `Toast`. The legacy versions emit deprecation warnings and will be removed in v2.0.
+
 ### Foundations & layout
 
 | Component | Purpose |
@@ -409,6 +423,18 @@ Everything below ships from the top-level `voidframe-ui` import. Compound compon
 | `Frame`, `BannerAlert`, `Callout`, `OfflineBanner`, `ConnectionStatus` | Framed content + top-of-page callouts |
 
 ### Buttons & indicators
+
+#### Choosing a Button style
+
+| Want | Use |
+|------|-----|
+| Primary action | `variant="solid"` |
+| Secondary action | `variant="outline"` (default) |
+| Destructive action | `tone="danger"` (or `variant="destructive"`) |
+| Subtle/ghost action | `variant="ghost"` or `variant="subtle"` |
+| Custom brand color | `accent="#hex"` on any variant |
+
+`variant="destructive"` is a shadcn-compat shorthand for `variant="solid" tone="danger"`.
 
 | Component | Purpose |
 |-----------|---------|

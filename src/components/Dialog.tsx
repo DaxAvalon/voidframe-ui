@@ -30,6 +30,7 @@ import { FocusScope } from "../primitives/FocusScope";
 import { Portal } from "../primitives/Portal";
 import { Presence } from "../primitives/Presence";
 import { ScrollLock } from "../primitives/ScrollLock";
+import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
 import { cx } from "../utils/cx";
 import { warnOnce } from "../utils/warn";
 
@@ -123,6 +124,7 @@ export interface DialogTriggerProps extends HTMLAttributes<HTMLElement> {
   asChild?: boolean;
 }
 
+/** Element that opens the dialog when activated. Wraps a button or merges via `asChild`. */
 const DialogTrigger = forwardRef<HTMLElement, DialogTriggerProps>(
   function DialogTrigger({ asChild, onClick, children, ...props }, ref) {
     const ctx = useDialog();
@@ -194,6 +196,7 @@ export interface DialogContentProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 
+/** Focus-trapped, portaled panel that renders the dialog surface with backdrop. */
 const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
   function DialogContent(
     {
@@ -283,11 +286,13 @@ DialogContent.displayName = "DialogContent";
 
 // ── Header / Title / Description / Body / Footer / Close / Cancel / Action ─
 
+/** Container for `Dialog.Title` and `Dialog.Description` at the top of the panel. */
 function DialogHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-dialog__header", className)} {...props} />;
 }
 DialogHeader.displayName = "Dialog.Header";
 
+/** Accessible heading for the dialog. Renders an `<h2>` and wires `aria-labelledby`. */
 const DialogTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement>>(
   function DialogTitle({ className, id, ...props }, ref) {
     const ctx = useDialog();
@@ -311,6 +316,7 @@ const DialogTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEle
 );
 DialogTitle.displayName = "DialogTitle";
 
+/** Supplementary description for the dialog. Wires `aria-describedby` on the panel. */
 const DialogDescription = forwardRef<
   HTMLParagraphElement,
   HTMLAttributes<HTMLParagraphElement>
@@ -333,11 +339,13 @@ const DialogDescription = forwardRef<
 });
 DialogDescription.displayName = "DialogDescription";
 
+/** Scrollable main content area between the header and footer. */
 function DialogBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-dialog__body", className)} {...props} />;
 }
 DialogBody.displayName = "Dialog.Body";
 
+/** Bottom slot for action buttons (Cancel, Confirm, etc.). */
 function DialogFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("vf-dialog__footer", className)} {...props} />;
 }
@@ -347,6 +355,7 @@ export interface DialogCloseProps extends HTMLAttributes<HTMLElement> {
   asChild?: boolean;
 }
 
+/** Dismisses the dialog when activated. Renders a close button or merges via `asChild`. */
 function DialogClose({
   asChild,
   onClick,
@@ -387,6 +396,7 @@ export interface DialogCancelProps extends React.ButtonHTMLAttributes<HTMLButton
   asChild?: boolean;
 }
 
+/** Ghost-styled cancel button that closes the dialog on click. */
 const DialogCancel = forwardRef<HTMLButtonElement, DialogCancelProps>(
   function DialogCancel({ asChild, className, onClick, children, ...props }, ref) {
     const ctx = useDialog();
@@ -432,6 +442,7 @@ export interface DialogActionProps extends React.ButtonHTMLAttributes<HTMLButton
   asChild?: boolean;
 }
 
+/** Primary action button that optionally closes the dialog after activation. */
 const DialogAction = forwardRef<HTMLButtonElement, DialogActionProps>(
   function DialogAction(
     { asChild, className, onClick, children, autoClose = true, ...props },
@@ -463,7 +474,8 @@ const DialogAction = forwardRef<HTMLButtonElement, DialogActionProps>(
         ref={ref}
         type="button"
         data-testid="vf-dialog-action-button"
-        className={cx("vf-button", className)}
+        className={cx("vf-button", "vf-button--solid", className)}
+        {...buttonDisabledAttrs(props.disabled)}
         onClick={handle}
         {...props}
       >

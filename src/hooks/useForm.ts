@@ -48,6 +48,8 @@ export interface FieldBindings<V> {
   name: string;
   value: V;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  /** Scalar value callback — works with VoidFrame form controls that prefer onValueChange over onChange. */
+  onValueChange: (value: V) => void;
   onBlur: (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
@@ -197,6 +199,7 @@ export function useForm<T extends Record<string, unknown>>(
         const coerced = coerceEventValue(e) as T[K];
         setValue(name, coerced);
       },
+      onValueChange: (v) => setValue(name, v as T[K]),
       onBlur: () => {
         setTouched(name, true);
         if (validateOn === "blur") void validateField(name);

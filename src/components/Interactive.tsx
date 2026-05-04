@@ -151,6 +151,7 @@ export interface TabsListProps extends HTMLAttributes<HTMLDivElement> {
   "aria-label"?: string;
 }
 
+/** Container with `role="tablist"` that holds tab triggers and handles arrow-key navigation. */
 const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsList(
   { className, onKeyDown, children, ...props },
   ref
@@ -217,6 +218,7 @@ export interface TabsTriggerProps
   children?: ReactNode;
 }
 
+/** Individual tab button that activates its corresponding panel on click. */
 const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
   function TabsTrigger(
     { value, disabled, className, children, ...props },
@@ -268,6 +270,7 @@ export interface TabsPanelProps extends HTMLAttributes<HTMLDivElement> {
   keepMounted?: boolean;
 }
 
+/** Content panel shown when its matching tab trigger is active. */
 const TabsPanel = forwardRef<HTMLDivElement, TabsPanelProps>(function TabsPanel(
   { value, keepMounted, className, children, ...props },
   ref

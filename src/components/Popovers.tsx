@@ -62,6 +62,7 @@ export interface PopoverV2Props {
   children?: ReactNode;
 }
 
+/** Root provider that manages open state and trigger reference for popover sub-components. */
 function PopoverRoot({ open, defaultOpen, onOpenChange, children }: PopoverV2Props) {
   const [internal, setInternal] = useState(defaultOpen ?? false);
   const isOpen = open ?? internal;
@@ -87,6 +88,7 @@ export interface PopoverTriggerProps extends HTMLAttributes<HTMLElement> {
   asChild?: boolean;
 }
 
+/** Element that toggles the popover open/closed on click. */
 const PopoverTrigger = forwardRef<HTMLElement, PopoverTriggerProps>(
   function PopoverTrigger({ asChild, onClick, children, ...props }, ref) {
     const ctx = usePopoverCtx();
@@ -137,6 +139,7 @@ export interface PopoverContentProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/** Portaled panel anchored to the trigger with viewport-aware positioning. */
 const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
   function PopoverContent(
     { placement = "bottom-start", offset = 4, modal, arrow, className, style, children, ...props },
@@ -437,6 +440,7 @@ export interface TooltipRootProps {
   children?: ReactNode;
 }
 
+/** Compound root that collects Trigger and Content slots for a Tooltip instance. */
 function TooltipRoot({
   placement,
   offset,
@@ -477,6 +481,7 @@ export interface TooltipTriggerProps {
   children: ReactNode;
 }
 
+/** Element that shows the tooltip on hover/focus. Registers into `Tooltip.Root`. */
 function TooltipTrigger({ children }: TooltipTriggerProps) {
   const ctx = useContext(TooltipCompoundContext);
   // Stage children into the root's trigger slot. Actual rendering happens
@@ -492,6 +497,7 @@ export interface TooltipContentProps {
   children: ReactNode;
 }
 
+/** Body rendered inside the tooltip popup. Registers into `Tooltip.Root`. */
 function TooltipContent({ children }: TooltipContentProps) {
   const ctx = useContext(TooltipCompoundContext);
   useEffect(() => {
@@ -535,6 +541,7 @@ export interface HoverCardProps {
   children?: ReactNode;
 }
 
+/** Root provider managing open state, delay timers, and trigger reference for HoverCard. */
 function HoverCardRoot({
   openDelay = 400,
   closeDelay = 200,
@@ -590,6 +597,7 @@ function HoverCardRoot({
   return <HoverCardContext.Provider value={value}>{children}</HoverCardContext.Provider>;
 }
 
+/** Element that opens the hover card on mouse-enter or focus. */
 const HoverCardTrigger = forwardRef<HTMLElement, { asChild?: boolean } & HTMLAttributes<HTMLElement>>(
   function HoverCardTrigger({ asChild, children, ...props }, ref) {
     const ctx = useHoverCard();
@@ -633,6 +641,7 @@ export interface HoverCardContentProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/** Portaled card anchored to the trigger, shown on hover with configurable delay. */
 const HoverCardContent = forwardRef<HTMLDivElement, HoverCardContentProps>(
   function HoverCardContent(
     { placement = "bottom", offset = 8, className, style, children, ...props },

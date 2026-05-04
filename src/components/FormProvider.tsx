@@ -25,6 +25,12 @@ const FormContext = createContext<FormContextValue | null>(null);
 
 /**
  * Read the nearest `<Form>` context. Throws if not inside a `<Form>`.
+ *
+ * @remarks The generic type parameter `T` is a convenience cast — TypeScript
+ * cannot verify that `T` matches the form's actual `initialValues` shape at
+ * compile time. This is the same pattern used by react-hook-form's
+ * `useFormContext` and Formik's `useFormikContext`. If `T` doesn't match
+ * the real form shape, you'll get runtime type mismatches, not compile errors.
  */
 export function useFormContext<
   T extends FormValues = FormValues,
