@@ -158,12 +158,17 @@ function printNode(node: HTMLElement, title?: string): void {
   }
   doc.open();
   doc.write(`<!doctype html><html><head>`);
+  doc.write(`<meta http-equiv="Content-Security-Policy" content="script-src 'none'">`);
   if (title) doc.write(`<title>${escapeHTML(title)}</title>`);
   for (const link of Array.from(document.querySelectorAll('link[rel="stylesheet"]'))) {
-    doc.write(link.outerHTML);
+    const href = link.getAttribute("href");
+    const rel = link.getAttribute("rel");
+    if (href && rel) {
+      doc.write(`<link rel="${escapeHTML(rel)}" href="${escapeHTML(href)}">`);
+    }
   }
   for (const style of Array.from(document.querySelectorAll("style"))) {
-    doc.write(style.outerHTML);
+    doc.write(`<style>${style.textContent ?? ""}</style>`);
   }
   doc.write(`</head><body>`);
   doc.write(node.outerHTML);

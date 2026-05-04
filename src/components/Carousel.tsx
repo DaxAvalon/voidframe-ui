@@ -22,6 +22,7 @@ import {
 import { useId } from "../hooks/useId";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 
 export type CarouselAlign = "start" | "center" | "end";
 export type CarouselControls = "arrows" | "dots" | "both" | "none";
@@ -402,7 +403,7 @@ export function CarouselImageGallery({
       slides={images.map((img, i) => (
         <figure key={i} className="vf-carousel__figure">
           <img
-            src={img.src}
+            src={safeHref(img.src)}
             alt={img.alt}
             className={cx(
               "vf-carousel__img",
