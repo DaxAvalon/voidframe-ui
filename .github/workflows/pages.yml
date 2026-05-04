@@ -54,6 +54,8 @@ jobs:
           # docs/vite.config.ts reads this env var to prefix every emitted
           # asset path with the subpath.
           DOCS_BASE_PATH: /voidframe-ui/
+          # generate-llms.mjs reads this for sitemap URLs and canonical links.
+          DOCS_BASE_URL: https://daxavalon.github.io/voidframe-ui/
         run: npm run docs:build
 
       - name: Upload artifact
