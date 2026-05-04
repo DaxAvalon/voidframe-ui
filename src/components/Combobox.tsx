@@ -210,6 +210,11 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           setOpen(false);
           setQuery(selectedOption?.label ?? "");
         }
+      } else if (e.key === "Tab") {
+        if (open) {
+          setOpen(false);
+          setQuery(selectedOption?.label ?? "");
+        }
       } else if (e.key === "Home") {
         if (open) {
           e.preventDefault();
@@ -474,6 +479,10 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       } else if (e.key === "Escape") {
         if (open) {
           e.preventDefault();
+          setOpen(false);
+        }
+      } else if (e.key === "Tab") {
+        if (open) {
           setOpen(false);
         }
       } else if (e.key === "Backspace" && query === "" && current.length > 0) {

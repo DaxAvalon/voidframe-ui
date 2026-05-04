@@ -282,4 +282,31 @@ describe("axe: data display", () => {
     );
     await expectNoA11yViolations(container);
   });
+
+  it("Combobox closed", async () => {
+    const { Combobox } = await import("../Combobox");
+    const { container } = renderWithTheme(
+      <Combobox
+        label="Country"
+        options={[
+          { value: "us", label: "United States" },
+          { value: "uk", label: "United Kingdom" },
+        ]}
+      />
+    );
+    await expectNoA11yViolations(container);
+  });
+
+  it("Accordion", async () => {
+    const { Accordion } = await import("../Accordion");
+    const { container } = renderWithTheme(
+      <Accordion>
+        <Accordion.Item value="a">
+          <Accordion.Trigger>Section A</Accordion.Trigger>
+          <Accordion.Content>Content A</Accordion.Content>
+        </Accordion.Item>
+      </Accordion>
+    );
+    await expectNoA11yViolations(container);
+  });
 });
