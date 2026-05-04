@@ -8,6 +8,7 @@
 [![bundle size](https://img.shields.io/bundlephobia/minzip/voidframe-ui)](https://bundlephobia.com/package/voidframe-ui)
 [![React](https://img.shields.io/badge/React-%3E%3D18-61dafb)](https://react.dev/)
 [![codecov](https://codecov.io/gh/DaxAvalon/voidframe-ui/graph/badge.svg)](https://codecov.io/gh/DaxAvalon/voidframe-ui)
+[![socket](https://badge.socket.dev/npm/package/voidframe-ui/1.0.0#1777875801480)](https://socket.dev/npm/package/voidframe-ui)
 [![docs](https://img.shields.io/badge/docs-live-green)](https://daxavalon.github.io/voidframe-ui)
 
 Dark monochrome React UI framework. Terminal-brutalist. Data-dense. Zero border-radius. Monospace-first.

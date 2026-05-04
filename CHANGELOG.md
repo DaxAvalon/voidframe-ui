@@ -7,6 +7,62 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 _Nothing yet._
 
+## [1.3.0] - 2026-05-04
+
+Developer experience release driven by a comparative audit against
+shadcn/ui, MUI, Chakra, and Radix. Addresses 14 usability findings
+across visual defaults, API ergonomics, documentation, and tooling.
+
+### Behavior changes
+
+- **`.vf-root` no longer sets `min-height: 100vh`.** The provider's
+  wrapper `<div>` previously forced a viewport-height minimum, which
+  broke flex/grid layouts in Next.js App Router and similar setups
+  where the host element already manages height. Consumers who relied
+  on the provider filling the viewport should add `min-height: 100vh`
+  to their own root element or pass it via `style`.
+- **Default Button outline is brighter.** The base `.vf-button` class
+  now uses `border: var(--vf-border-3)` and `color: var(--vf-text-1)`
+  (was `border-1` / `text-3`). Buttons without an explicit `variant`
+  now look intentionally styled rather than broken.
+- **Dialog/Popconfirm action buttons render as solid.** `Dialog.Action`
+  now applies `vf-button--solid` and uses `buttonDisabledAttrs` for
+  accessibility. Popconfirm's confirm button default changed from
+  `outline` to `solid`. Cancel buttons remain `ghost`/`outline`.
+
+### Added
+
+- **`ButtonGroupOption.icon`** — optional leading icon (`ReactNode`).
+- **`ButtonGroupOption.disabled`** — per-option disabled state.
+- **`ButtonGroupOption.label`** widened from `string` to `ReactNode`.
+- **`FieldBindings.onValueChange`** — `form.register("name")` now
+  returns `onValueChange` alongside `onChange`, so spreading onto
+  VoidFrame form controls works without prop ordering issues.
+- **Browser Support section** in README documenting the `color-mix()`
+  CSS baseline (Chrome 111+, Firefox 113+, Safari 16.2+).
+- **Button style guide** in README — table showing which `variant`,
+  `tone`, and `accent` combinations to use for each intent.
+- **`compat-shadcn` and `reactflow`** added to README subpath table.
+- **V2 deprecation note** in README component inventory.
+- **~45 compound sub-component JSDoc descriptions** across Dialog,
+  DrawerV2, Sheet, Popover, Tooltip, HoverCard, Tabs, Accordion,
+  and Card for improved IDE hover documentation.
+- **Socket.dev badge** in README.
+
+### Fixed
+
+- **`suppressA11yWarning` marked `@internal`** in JSDoc on Input,
+  Textarea, Select, and Toggle to discourage direct consumer use.
+- **`variant="destructive"` documented as alias** — JSDoc on
+  `ButtonVariant` clarifies it maps to `variant="solid" tone="danger"`.
+- **`useFormContext` generic limitation documented** — `@remarks`
+  note explains the convenience cast is not a compile-time guarantee.
+
+### Build / tooling
+
+- **VS Code extension ready for Marketplace** — removed `private:
+  true`, added `license: MIT`. Publish with `npx vsce publish`.
+
 ## [1.2.1] - 2026-05-03
 
 Comprehensive audit remediation release. A 12-area code audit
