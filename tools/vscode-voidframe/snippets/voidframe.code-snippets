@@ -87,6 +87,94 @@
     "description": "Modal dialog that confirms a destructive or irreversible action.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "AlertDialogAction": {
+    "prefix": [
+      "vf-alertdialogaction",
+      "AlertDialogAction"
+    ],
+    "body": [
+      "<AlertDialogAction />"
+    ],
+    "description": "Voidframe AlertDialogAction component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "AlertDialogCancel": {
+    "prefix": [
+      "vf-alertdialogcancel",
+      "AlertDialogCancel"
+    ],
+    "body": [
+      "<AlertDialogCancel />"
+    ],
+    "description": "Voidframe AlertDialogCancel component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "AlertDialogContent": {
+    "prefix": [
+      "vf-alertdialogcontent",
+      "AlertDialogContent"
+    ],
+    "body": [
+      "<AlertDialogContent\n  size={${1:/* size: enum */}}\n/>"
+    ],
+    "description": "Voidframe AlertDialogContent component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "AlertDialogDescription": {
+    "prefix": [
+      "vf-alertdialogdescription",
+      "AlertDialogDescription"
+    ],
+    "body": [
+      "<AlertDialogDescription />"
+    ],
+    "description": "Voidframe AlertDialogDescription component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "AlertDialogFooter": {
+    "prefix": [
+      "vf-alertdialogfooter",
+      "AlertDialogFooter"
+    ],
+    "body": [
+      "<AlertDialogFooter />"
+    ],
+    "description": "Voidframe AlertDialogFooter component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "AlertDialogHeader": {
+    "prefix": [
+      "vf-alertdialogheader",
+      "AlertDialogHeader"
+    ],
+    "body": [
+      "<AlertDialogHeader />"
+    ],
+    "description": "Voidframe AlertDialogHeader component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "AlertDialogTitle": {
+    "prefix": [
+      "vf-alertdialogtitle",
+      "AlertDialogTitle"
+    ],
+    "body": [
+      "<AlertDialogTitle />"
+    ],
+    "description": "Voidframe AlertDialogTitle component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "AlertDialogTrigger": {
+    "prefix": [
+      "vf-alertdialogtrigger",
+      "AlertDialogTrigger"
+    ],
+    "body": [
+      "<AlertDialogTrigger />"
+    ],
+    "description": "Voidframe AlertDialogTrigger component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "AlertV2": {
     "prefix": [
       "vf-alertv2",
@@ -370,7 +458,7 @@
     "body": [
       "<Barcode\n  value=\"${1:value}\"\n/>"
     ],
-    "description": "Renders a 1D barcode (CODE128 / EAN) from a value.",
+    "description": "Renders a scannable 1D barcode from a value.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "BellIcon": {
@@ -500,7 +588,7 @@
       "Button"
     ],
     "body": [
-      "<Button\n  variant={${1:/* variant: enum */}}\n  accent=\"${2:accent}\"\n  size={${3:/* size: enum */}}\n/>"
+      "<Button\n  variant={${1:/* variant: enum */}}\n  accent=\"${2:accent}\"\n  tone={${3:/* tone: enum */}}\n  size={${4:/* size: enum */}}\n/>"
     ],
     "description": "Primary interactive button.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -524,7 +612,7 @@
     "body": [
       "<Calendar />"
     ],
-    "description": "A date-grid calendar for navigating months and selecting dates.",
+    "description": "Month-grid calendar with optional events / event-renderer.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CalendarHeatmap": {
@@ -580,6 +668,61 @@
       "<Card />"
     ],
     "description": "Brutalist content container with a bordered surface.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "CardContent": {
+    "prefix": [
+      "vf-cardcontent",
+      "CardContent"
+    ],
+    "body": [
+      "<CardContent />"
+    ],
+    "description": "Voidframe CardContent component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "CardDescription": {
+    "prefix": [
+      "vf-carddescription",
+      "CardDescription"
+    ],
+    "body": [
+      "<CardDescription />"
+    ],
+    "description": "Voidframe CardDescription component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "CardFooter": {
+    "prefix": [
+      "vf-cardfooter",
+      "CardFooter"
+    ],
+    "body": [
+      "<CardFooter />"
+    ],
+    "description": "Voidframe CardFooter component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "CardHeader": {
+    "prefix": [
+      "vf-cardheader",
+      "CardHeader"
+    ],
+    "body": [
+      "<CardHeader />"
+    ],
+    "description": "Voidframe CardHeader component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "CardTitle": {
+    "prefix": [
+      "vf-cardtitle",
+      "CardTitle"
+    ],
+    "body": [
+      "<CardTitle />"
+    ],
+    "description": "Voidframe CardTitle component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CaretIcon": {
@@ -956,6 +1099,17 @@
     "description": "Fenced code block with optional language-aware syntax highlighting, copy button, and line numbers.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "CodeContextView": {
+    "prefix": [
+      "vf-codecontextview",
+      "CodeContextView"
+    ],
+    "body": [
+      "<CodeContextView\n  tone={${1:/* tone: enum */}}\n/>"
+    ],
+    "description": "\"Error at line N\" block with `before`/`after` context.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "CodeEditor": {
     "prefix": [
       "vf-codeeditor",
@@ -1006,7 +1160,7 @@
       "ColorPicker"
     ],
     "body": [
-      "<ColorPicker\n  label=\"${1:label}\"\n/>"
+      "<ColorPicker\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
     "description": "Colour picker with hue/saturation area, alpha slider, hex/rgb/hsl input, and optional preset palette.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -1028,7 +1182,7 @@
       "Combobox"
     ],
     "body": [
-      "<Combobox\n  options={${1:/* options: ComboboxOption[] */}}\n  label=\"${2:label}\"\n/>"
+      "<Combobox\n  options={${1:/* options: ComboboxOption[] */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
     "description": "A searchable single-select that pairs a text input with a filterable listbox.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -1052,7 +1206,7 @@
     "body": [
       "<CommandPalette />"
     ],
-    "description": "A cmd+K search overlay for fuzzy-finding actions, pages, and commands.",
+    "description": "Voidframe CommandPalette component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Comment": {
@@ -1281,7 +1435,7 @@
       "CopyButton"
     ],
     "body": [
-      "<CopyButton\n  text=\"${1:text}\"\n  label=\"${2:label}\"\n  variant={${3:/* variant: enum */}}\n  size={${4:/* size: enum */}}\n/>"
+      "<CopyButton\n  text=\"${1:text}\"\n  label=\"${2:label}\"\n  variant={${3:/* variant: enum */}}\n  size={${4:/* size: enum */}}\n  tone={${5:/* tone: enum */}}\n/>"
     ],
     "description": "Clipboard button that writes `text` on click and flips to a \"Copied\" confirmation state for `copiedDuration` ms.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -1415,7 +1569,7 @@
     "body": [
       "<DataGrid\n  columns={${1:/* columns: DataGridColumn<T>[] */}}\n  data={${2:/* data: T[] */}}\n  rowKey={${3:/* rowKey: (row: T, index: number) => string */}}\n/>"
     ],
-    "description": "A high-density data table with built-in sorting, filtering, pagination, and column management.",
+    "description": "Voidframe DataGrid component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DataList": {
@@ -1435,7 +1589,7 @@
       "DatePicker"
     ],
     "body": [
-      "<DatePicker\n  label=\"${1:label}\"\n/>"
+      "<DatePicker\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
     "description": "A text input paired with a popover calendar; selecting a date fills the input.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -1457,7 +1611,7 @@
       "DateTimePicker"
     ],
     "body": [
-      "<DateTimePicker\n  label=\"${1:label}\"\n/>"
+      "<DateTimePicker\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
     "description": "Combined date + time picker.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -1526,6 +1680,116 @@
       "<Dialog />"
     ],
     "description": "Compound modal overlay.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DialogAction": {
+    "prefix": [
+      "vf-dialogaction",
+      "DialogAction"
+    ],
+    "body": [
+      "<DialogAction />"
+    ],
+    "description": "Voidframe DialogAction component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DialogBody": {
+    "prefix": [
+      "vf-dialogbody",
+      "DialogBody"
+    ],
+    "body": [
+      "<DialogBody />"
+    ],
+    "description": "Voidframe DialogBody component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DialogCancel": {
+    "prefix": [
+      "vf-dialogcancel",
+      "DialogCancel"
+    ],
+    "body": [
+      "<DialogCancel />"
+    ],
+    "description": "Voidframe DialogCancel component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DialogClose": {
+    "prefix": [
+      "vf-dialogclose",
+      "DialogClose"
+    ],
+    "body": [
+      "<DialogClose />"
+    ],
+    "description": "Voidframe DialogClose component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DialogContent": {
+    "prefix": [
+      "vf-dialogcontent",
+      "DialogContent"
+    ],
+    "body": [
+      "<DialogContent\n  size={${1:/* size: enum */}}\n/>"
+    ],
+    "description": "Voidframe DialogContent component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DialogDescription": {
+    "prefix": [
+      "vf-dialogdescription",
+      "DialogDescription"
+    ],
+    "body": [
+      "<DialogDescription />"
+    ],
+    "description": "Voidframe DialogDescription component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DialogFooter": {
+    "prefix": [
+      "vf-dialogfooter",
+      "DialogFooter"
+    ],
+    "body": [
+      "<DialogFooter />"
+    ],
+    "description": "Voidframe DialogFooter component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DialogHeader": {
+    "prefix": [
+      "vf-dialogheader",
+      "DialogHeader"
+    ],
+    "body": [
+      "<DialogHeader />"
+    ],
+    "description": "Voidframe DialogHeader component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DialogTitle": {
+    "prefix": [
+      "vf-dialogtitle",
+      "DialogTitle"
+    ],
+    "body": [
+      "<DialogTitle />"
+    ],
+    "description": "Voidframe DialogTitle component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DialogTrigger": {
+    "prefix": [
+      "vf-dialogtrigger",
+      "DialogTrigger"
+    ],
+    "body": [
+      "<DialogTrigger />"
+    ],
+    "description": "Voidframe DialogTrigger component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DiffViewer": {
@@ -1638,6 +1902,61 @@
     "description": "V1 side-panel overlay with backdrop, focus trap, and Escape dismiss.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "DrawerBody": {
+    "prefix": [
+      "vf-drawerbody",
+      "DrawerBody"
+    ],
+    "body": [
+      "<DrawerBody />"
+    ],
+    "description": "Voidframe DrawerBody component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DrawerClose": {
+    "prefix": [
+      "vf-drawerclose",
+      "DrawerClose"
+    ],
+    "body": [
+      "<DrawerClose />"
+    ],
+    "description": "Voidframe DrawerClose component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DrawerFooter": {
+    "prefix": [
+      "vf-drawerfooter",
+      "DrawerFooter"
+    ],
+    "body": [
+      "<DrawerFooter />"
+    ],
+    "description": "Voidframe DrawerFooter component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DrawerHeader": {
+    "prefix": [
+      "vf-drawerheader",
+      "DrawerHeader"
+    ],
+    "body": [
+      "<DrawerHeader />"
+    ],
+    "description": "Voidframe DrawerHeader component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DrawerRoot": {
+    "prefix": [
+      "vf-drawerroot",
+      "DrawerRoot"
+    ],
+    "body": [
+      "<DrawerRoot />"
+    ],
+    "description": "Voidframe DrawerRoot component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "DrawerV2": {
     "prefix": [
       "vf-drawerv2",
@@ -1649,6 +1968,39 @@
     "description": "Compound side-panel overlay.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "DrawerV2Content": {
+    "prefix": [
+      "vf-drawerv2content",
+      "DrawerV2Content"
+    ],
+    "body": [
+      "<DrawerV2Content\n  size={${1:/* size: string | number */}}\n/>"
+    ],
+    "description": "Voidframe DrawerV2Content component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DrawerV2Title": {
+    "prefix": [
+      "vf-drawerv2title",
+      "DrawerV2Title"
+    ],
+    "body": [
+      "<DrawerV2Title />"
+    ],
+    "description": "Voidframe DrawerV2Title component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DrawerV2Trigger": {
+    "prefix": [
+      "vf-drawerv2trigger",
+      "DrawerV2Trigger"
+    ],
+    "body": [
+      "<DrawerV2Trigger />"
+    ],
+    "description": "Voidframe DrawerV2Trigger component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "Dropdown": {
     "prefix": [
       "vf-dropdown",
@@ -1658,6 +2010,138 @@
       "<Dropdown\n  trigger={${1:/* trigger: ReactNode */}}\n  items={${2:/* items: DropdownMenuItem[] */}}\n/>"
     ],
     "description": "Simple trigger + menu dropdown.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenu": {
+    "prefix": [
+      "vf-dropdownmenu",
+      "DropdownMenu"
+    ],
+    "body": [
+      "<DropdownMenu />"
+    ],
+    "description": "Voidframe DropdownMenu component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuCheckboxItem": {
+    "prefix": [
+      "vf-dropdownmenucheckboxitem",
+      "DropdownMenuCheckboxItem"
+    ],
+    "body": [
+      "<DropdownMenuCheckboxItem\n  tone={${1:/* tone: enum */}}\n/>"
+    ],
+    "description": "Voidframe DropdownMenuCheckboxItem component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuContent": {
+    "prefix": [
+      "vf-dropdownmenucontent",
+      "DropdownMenuContent"
+    ],
+    "body": [
+      "<DropdownMenuContent />"
+    ],
+    "description": "Voidframe DropdownMenuContent component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuItem": {
+    "prefix": [
+      "vf-dropdownmenuitem",
+      "DropdownMenuItem"
+    ],
+    "body": [
+      "<DropdownMenuItem\n  tone={${1:/* tone: enum */}}\n/>"
+    ],
+    "description": "Voidframe DropdownMenuItem component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuLabel": {
+    "prefix": [
+      "vf-dropdownmenulabel",
+      "DropdownMenuLabel"
+    ],
+    "body": [
+      "<DropdownMenuLabel />"
+    ],
+    "description": "Voidframe DropdownMenuLabel component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuRadioGroup": {
+    "prefix": [
+      "vf-dropdownmenuradiogroup",
+      "DropdownMenuRadioGroup"
+    ],
+    "body": [
+      "<DropdownMenuRadioGroup />"
+    ],
+    "description": "Voidframe DropdownMenuRadioGroup component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuRadioItem": {
+    "prefix": [
+      "vf-dropdownmenuradioitem",
+      "DropdownMenuRadioItem"
+    ],
+    "body": [
+      "<DropdownMenuRadioItem\n  value=\"${1:value}\"\n  tone={${2:/* tone: enum */}}\n/>"
+    ],
+    "description": "Voidframe DropdownMenuRadioItem component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuSeparator": {
+    "prefix": [
+      "vf-dropdownmenuseparator",
+      "DropdownMenuSeparator"
+    ],
+    "body": [
+      "<DropdownMenuSeparator />"
+    ],
+    "description": "Voidframe DropdownMenuSeparator component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuSub": {
+    "prefix": [
+      "vf-dropdownmenusub",
+      "DropdownMenuSub"
+    ],
+    "body": [
+      "<DropdownMenuSub />"
+    ],
+    "description": "Voidframe DropdownMenuSub component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuSubContent": {
+    "prefix": [
+      "vf-dropdownmenusubcontent",
+      "DropdownMenuSubContent"
+    ],
+    "body": [
+      "<DropdownMenuSubContent />"
+    ],
+    "description": "Voidframe DropdownMenuSubContent component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuSubTrigger": {
+    "prefix": [
+      "vf-dropdownmenusubtrigger",
+      "DropdownMenuSubTrigger"
+    ],
+    "body": [
+      "<DropdownMenuSubTrigger />"
+    ],
+    "description": "Voidframe DropdownMenuSubTrigger component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "DropdownMenuTrigger": {
+    "prefix": [
+      "vf-dropdownmenutrigger",
+      "DropdownMenuTrigger"
+    ],
+    "body": [
+      "<DropdownMenuTrigger />"
+    ],
+    "description": "Voidframe DropdownMenuTrigger component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Droppable": {
@@ -1721,7 +2205,7 @@
       "EmptyState"
     ],
     "body": [
-      "<EmptyState />"
+      "<EmptyState\n  variant={${1:/* variant: enum */}}\n/>"
     ],
     "description": "Centred illustration + title + description + optional action.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -1908,7 +2392,7 @@
       "FileUpload"
     ],
     "body": [
-      "<FileUpload\n  label=\"${1:label}\"\n/>"
+      "<FileUpload\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
     "description": "File upload control with drag-drop, picker, progress per file, and list management.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -1952,7 +2436,7 @@
       "FloatingActionButton"
     ],
     "body": [
-      "<FloatingActionButton\n  icon={${1:/* icon: ReactNode */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n  variant={${4:/* variant: enum */}}\n/>"
+      "<FloatingActionButton\n  icon={${1:/* icon: ReactNode */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n  variant={${4:/* variant: enum */}}\n  tone={${5:/* tone: enum */}}\n/>"
     ],
     "description": "Fixed-position circular action button (material-style FAB).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -2053,7 +2537,7 @@
     "body": [
       "<Gantt\n  tasks={${1:/* tasks: GanttTask[] */}}\n  start={${2:/* start: Date */}}\n  end={${3:/* end: Date */}}\n/>"
     ],
-    "description": "A horizontal timeline that renders tasks as bars across a day, week, or month axis.",
+    "description": "Gantt timeline.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Gauge": {
@@ -2249,7 +2733,7 @@
       "IconButton"
     ],
     "body": [
-      "<IconButton\n  variant={${1:/* variant: enum */}}\n  size={${2:/* size: enum */}}\n  accent=\"${3:accent}\"\n/>"
+      "<IconButton\n  variant={${1:/* variant: enum */}}\n  size={${2:/* size: enum */}}\n  accent=\"${3:accent}\"\n  tone={${4:/* tone: enum */}}\n/>"
     ],
     "description": "Icon-only button.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -2381,7 +2865,7 @@
       "Input"
     ],
     "body": [
-      "<Input\n  label=\"${1:label}\"\n/>"
+      "<Input\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
     "description": "A single-line text field with optional label and standard HTML input types.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -2427,7 +2911,7 @@
     "body": [
       "<Kanban\n  columns={${1:/* columns: KanbanColumn[] */}}\n  items={${2:/* items: KanbanItem[] */}}\n  renderItem={${3:/* renderItem: (item: KanbanItem) => ReactNode */}}\n/>"
     ],
-    "description": "A column-based task board that supports dragging items between columns.",
+    "description": "Kanban board with column-bounded drag/drop.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Kbd": {
@@ -2538,6 +3022,17 @@
       "<LineChart\n  data={${1:/* data: LineChartDatum[] */}}\n  series={${2:/* series: LineChartSeries[] */}}\n/>"
     ],
     "description": "Line chart over a shared X axis.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "Link": {
+    "prefix": [
+      "vf-link",
+      "Link"
+    ],
+    "body": [
+      "<Link\n  variant={${1:/* variant: enum */}}\n  tone={${2:/* tone: enum */}}\n/>"
+    ],
+    "description": "Text link primitive.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "LinkIcon": {
@@ -2678,7 +3173,7 @@
       "MaskedInput"
     ],
     "body": [
-      "<MaskedInput\n  mask=\"${1:mask}\"\n  label=\"${2:label}\"\n/>"
+      "<MaskedInput\n  mask=\"${1:mask}\"\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
     "description": "Text input with a display mask (e.g.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -2722,7 +3217,7 @@
       "MentionInput"
     ],
     "body": [
-      "<MentionInput\n  options={${1:/* options: MentionOption[] */}}\n  label=\"${2:label}\"\n/>"
+      "<MentionInput\n  options={${1:/* options: MentionOption[] */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
     "description": "Text input with `@`-triggered mention autocomplete.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -2766,7 +3261,7 @@
       "MenuCheckboxItem"
     ],
     "body": [
-      "<MenuCheckboxItem />"
+      "<MenuCheckboxItem\n  tone={${1:/* tone: enum */}}\n/>"
     ],
     "description": "Menu item with a checkbox control.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -2799,7 +3294,7 @@
       "MenuItem"
     ],
     "body": [
-      "<MenuItem />"
+      "<MenuItem\n  tone={${1:/* tone: enum */}}\n/>"
     ],
     "description": "Actionable menu item.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -2832,7 +3327,7 @@
       "MenuRadioItem"
     ],
     "body": [
-      "<MenuRadioItem\n  value=\"${1:value}\"\n/>"
+      "<MenuRadioItem\n  value=\"${1:value}\"\n  tone={${2:/* tone: enum */}}\n/>"
     ],
     "description": "Menu item acting as one option in a `MenuRadioGroup`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -2931,7 +3426,7 @@
       "MessageContent"
     ],
     "body": [
-      "<MessageContent\n  content={${1:/* content: string | MessagePart[] */}}\n/>"
+      "<MessageContent />"
     ],
     "description": "Body slot of a chat `Message` — renders markdown, attachments, code blocks, and citations.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -2989,6 +3484,17 @@
       "<MessageList />"
     ],
     "description": "Virtualised scrollable list of `Message`s.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "MessageMarkdown": {
+    "prefix": [
+      "vf-messagemarkdown",
+      "MessageMarkdown"
+    ],
+    "body": [
+      "<MessageMarkdown />"
+    ],
+    "description": "Named alias for `MessageContent`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "MessagesProvider": {
@@ -3118,7 +3624,7 @@
       "MultiSelect"
     ],
     "body": [
-      "<MultiSelect\n  options={${1:/* options: ComboboxOption[] */}}\n  label=\"${2:label}\"\n/>"
+      "<MultiSelect\n  options={${1:/* options: ComboboxOption[] */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
     "description": "Multi-value select built on `Combobox`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -3151,7 +3657,7 @@
       "NavItem"
     ],
     "body": [
-      "<NavItem />"
+      "<NavItem\n  tone={${1:/* tone: enum */}}\n/>"
     ],
     "description": "Single nav/sidebar item: icon, label, optional badge, active state.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -3217,7 +3723,7 @@
       "NumberInput"
     ],
     "body": [
-      "<NumberInput\n  label=\"${1:label}\"\n/>"
+      "<NumberInput\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
     "description": "Numeric text input with min/max/step, keyboard increment/decrement, and locale parsing.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -3360,7 +3866,7 @@
       "PhoneInput"
     ],
     "body": [
-      "<PhoneInput\n  label=\"${1:label}\"\n/>"
+      "<PhoneInput\n  size={${1:/* size: enum */}}\n  label=\"${2:label}\"\n/>"
     ],
     "description": "Phone number input with country selector, auto-formatting per E.164, and validation.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -3462,6 +3968,39 @@
       "<Popover\n  trigger={${1:/* trigger: ReactNode */}}\n/>"
     ],
     "description": "V1 popover anchored to a `trigger` with click- or hover-activation and a fixed `position` (top/right/bottom/left).",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "PopoverContent": {
+    "prefix": [
+      "vf-popovercontent",
+      "PopoverContent"
+    ],
+    "body": [
+      "<PopoverContent />"
+    ],
+    "description": "Voidframe PopoverContent component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "PopoverRoot": {
+    "prefix": [
+      "vf-popoverroot",
+      "PopoverRoot"
+    ],
+    "body": [
+      "<PopoverRoot />"
+    ],
+    "description": "Voidframe PopoverRoot component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "PopoverTrigger": {
+    "prefix": [
+      "vf-popovertrigger",
+      "PopoverTrigger"
+    ],
+    "body": [
+      "<PopoverTrigger />"
+    ],
+    "description": "Voidframe PopoverTrigger component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PopoverV2": {
@@ -3571,7 +4110,7 @@
     "body": [
       "<QRCode\n  value=\"${1:value}\"\n  size={${2:0}}\n/>"
     ],
-    "description": "Renders a QR code SVG from a string.",
+    "description": "Renders a scannable QR code SVG from a string.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "QueryBuilder": {
@@ -3646,7 +4185,7 @@
       "Radio"
     ],
     "body": [
-      "<Radio\n  checked={${1:true}}\n  onValueChange={${2:/* onValueChange: () => void */}}\n  label=\"${3:label}\"\n  accent=\"${4:accent}\"\n/>"
+      "<Radio\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
     "description": "Single radio input with label.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -3679,7 +4218,7 @@
       "RatingInput"
     ],
     "body": [
-      "<RatingInput\n  label=\"${1:label}\"\n/>"
+      "<RatingInput\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
     "description": "Star rating input (0-N).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -4075,9 +4614,108 @@
       "Select"
     ],
     "body": [
-      "<Select\n  options={${1:/* options: SelectOption[] */}}\n  label=\"${2:label}\"\n/>"
+      "<Select\n  options={${1:/* options: SelectOption[] */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
     "description": "A native dropdown for choosing one value from a fixed list of options.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "Select.Content": {
+    "prefix": [
+      "vf-select.content",
+      "Select.Content"
+    ],
+    "body": [
+      "<Select.Content />"
+    ],
+    "description": "Voidframe Select.Content component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "Select.Item": {
+    "prefix": [
+      "vf-select.item",
+      "Select.Item"
+    ],
+    "body": [
+      "<Select.Item\n  value=\"${1:value}\"\n/>"
+    ],
+    "description": "Voidframe Select.Item component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "Select.Trigger": {
+    "prefix": [
+      "vf-select.trigger",
+      "Select.Trigger"
+    ],
+    "body": [
+      "<Select.Trigger />"
+    ],
+    "description": "Voidframe Select.Trigger component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "Select.Value": {
+    "prefix": [
+      "vf-select.value",
+      "Select.Value"
+    ],
+    "body": [
+      "<Select.Value />"
+    ],
+    "description": "Voidframe Select.Value component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SelectContent": {
+    "prefix": [
+      "vf-selectcontent",
+      "SelectContent"
+    ],
+    "body": [
+      "<SelectContent />"
+    ],
+    "description": "Voidframe SelectContent component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SelectItem": {
+    "prefix": [
+      "vf-selectitem",
+      "SelectItem"
+    ],
+    "body": [
+      "<SelectItem\n  value=\"${1:value}\"\n/>"
+    ],
+    "description": "Voidframe SelectItem component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SelectRoot": {
+    "prefix": [
+      "vf-selectroot",
+      "SelectRoot"
+    ],
+    "body": [
+      "<SelectRoot />"
+    ],
+    "description": "Voidframe SelectRoot component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SelectTrigger": {
+    "prefix": [
+      "vf-selecttrigger",
+      "SelectTrigger"
+    ],
+    "body": [
+      "<SelectTrigger />"
+    ],
+    "description": "Voidframe SelectTrigger component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SelectValue": {
+    "prefix": [
+      "vf-selectvalue",
+      "SelectValue"
+    ],
+    "body": [
+      "<SelectValue />"
+    ],
+    "description": "Voidframe SelectValue component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SendIcon": {
@@ -4166,6 +4804,94 @@
       "<Sheet />"
     ],
     "description": "Mobile-style bottom sheet with drag-to-resize snap points.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SheetBody": {
+    "prefix": [
+      "vf-sheetbody",
+      "SheetBody"
+    ],
+    "body": [
+      "<SheetBody />"
+    ],
+    "description": "Voidframe SheetBody component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SheetClose": {
+    "prefix": [
+      "vf-sheetclose",
+      "SheetClose"
+    ],
+    "body": [
+      "<SheetClose />"
+    ],
+    "description": "Voidframe SheetClose component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SheetContent": {
+    "prefix": [
+      "vf-sheetcontent",
+      "SheetContent"
+    ],
+    "body": [
+      "<SheetContent\n  size={${1:/* size: string | number */}}\n/>"
+    ],
+    "description": "Voidframe SheetContent component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SheetDescription": {
+    "prefix": [
+      "vf-sheetdescription",
+      "SheetDescription"
+    ],
+    "body": [
+      "<SheetDescription />"
+    ],
+    "description": "Voidframe SheetDescription component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SheetFooter": {
+    "prefix": [
+      "vf-sheetfooter",
+      "SheetFooter"
+    ],
+    "body": [
+      "<SheetFooter />"
+    ],
+    "description": "Voidframe SheetFooter component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SheetHeader": {
+    "prefix": [
+      "vf-sheetheader",
+      "SheetHeader"
+    ],
+    "body": [
+      "<SheetHeader />"
+    ],
+    "description": "Voidframe SheetHeader component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SheetTitle": {
+    "prefix": [
+      "vf-sheettitle",
+      "SheetTitle"
+    ],
+    "body": [
+      "<SheetTitle />"
+    ],
+    "description": "Voidframe SheetTitle component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "SheetTrigger": {
+    "prefix": [
+      "vf-sheettrigger",
+      "SheetTrigger"
+    ],
+    "body": [
+      "<SheetTrigger />"
+    ],
+    "description": "Voidframe SheetTrigger component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Shimmer": {
@@ -4361,7 +5087,7 @@
       "SlashCommandInput"
     ],
     "body": [
-      "<SlashCommandInput\n  commands={${1:/* commands: SlashCommandOption[] */}}\n  label=\"${2:label}\"\n/>"
+      "<SlashCommandInput\n  commands={${1:/* commands: SlashCommandOption[] */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
     "description": "Text input with `/`-triggered command autocomplete.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -4526,7 +5252,7 @@
       "SplitButton"
     ],
     "body": [
-      "<SplitButton\n  onClick={${1:/* onClick: () => void */}}\n  label=\"${2:label}\"\n  actions={${3:/* actions: SplitButtonAction[] */}}\n  onAction={${4:/* onAction: (key: string) => void */}}\n  variant={${5:/* variant: enum */}}\n  size={${6:/* size: enum */}}\n/>"
+      "<SplitButton\n  onClick={${1:/* onClick: () => void */}}\n  label=\"${2:label}\"\n  actions={${3:/* actions: SplitButtonAction[] */}}\n  onAction={${4:/* onAction: (key: string) => void */}}\n  variant={${5:/* variant: enum */}}\n  size={${6:/* size: enum */}}\n  tone={${7:/* tone: enum */}}\n/>"
     ],
     "description": "Button with a primary action and an adjacent dropdown of alternate actions.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -4823,9 +5549,9 @@
       "Table"
     ],
     "body": [
-      "<Table\n  columns={${1:/* columns: TableColumn<T>[] */}}\n  data={${2:/* data: T[] */}}\n/>"
+      "<Table />"
     ],
-    "description": "Semantic `<table>` wrapper with voidframe styling.",
+    "description": "Identity helper that anchors `T` at the column-declaration site, avoiding TypeScript inference collapsing to a looser type when columns are defined inline al…",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tabs": {
@@ -4837,6 +5563,72 @@
       "<Tabs\n  accent=\"${1:accent}\"\n/>"
     ],
     "description": "Keyboard-navigable tablist.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "Tabs.List": {
+    "prefix": [
+      "vf-tabs.list",
+      "Tabs.List"
+    ],
+    "body": [
+      "<Tabs.List />"
+    ],
+    "description": "Voidframe Tabs.List component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "Tabs.Panel": {
+    "prefix": [
+      "vf-tabs.panel",
+      "Tabs.Panel"
+    ],
+    "body": [
+      "<Tabs.Panel\n  value=\"${1:value}\"\n/>"
+    ],
+    "description": "Voidframe Tabs.Panel component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "Tabs.Trigger": {
+    "prefix": [
+      "vf-tabs.trigger",
+      "Tabs.Trigger"
+    ],
+    "body": [
+      "<Tabs.Trigger\n  value=\"${1:value}\"\n/>"
+    ],
+    "description": "Voidframe Tabs.Trigger component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "TabsContent": {
+    "prefix": [
+      "vf-tabscontent",
+      "TabsContent"
+    ],
+    "body": [
+      "<TabsContent\n  value=\"${1:value}\"\n/>"
+    ],
+    "description": "Voidframe TabsContent component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "TabsList": {
+    "prefix": [
+      "vf-tabslist",
+      "TabsList"
+    ],
+    "body": [
+      "<TabsList />"
+    ],
+    "description": "Voidframe TabsList component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "TabsTrigger": {
+    "prefix": [
+      "vf-tabstrigger",
+      "TabsTrigger"
+    ],
+    "body": [
+      "<TabsTrigger\n  value=\"${1:value}\"\n/>"
+    ],
+    "description": "Voidframe TabsTrigger component.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tag": {
@@ -4911,7 +5703,7 @@
       "Textarea"
     ],
     "body": [
-      "<Textarea\n  label=\"${1:label}\"\n/>"
+      "<Textarea\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
     "description": "A multi-line text field for longer free-form input, with configurable rows and optional label.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -4988,7 +5780,7 @@
       "TimePicker"
     ],
     "body": [
-      "<TimePicker\n  label=\"${1:label}\"\n/>"
+      "<TimePicker\n  label=\"${1:label}\"\n  size={${2:/* size: enum */}}\n/>"
     ],
     "description": "Time-only picker (hours/minutes/optional seconds).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -5043,7 +5835,7 @@
       "ToggleGroup"
     ],
     "body": [
-      "<ToggleGroup\n  items={${1:/* items: ToggleGroupItem[] */}}\n  variant={${2:/* variant: enum */}}\n  size={${3:/* size: enum */}}\n/>"
+      "<ToggleGroup\n  items={${1:/* items: ToggleGroupItem[] */}}\n  variant={${2:/* variant: enum */}}\n  size={${3:/* size: enum */}}\n  tone={${4:/* tone: enum */}}\n/>"
     ],
     "description": "Group of mutually-exclusive (`type=\"single\"`) or multi-select (`type=\"multiple\"`) toggle buttons.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -5114,6 +5906,17 @@
     "description": "Compact labelling overlay.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "TooltipContent": {
+    "prefix": [
+      "vf-tooltipcontent",
+      "TooltipContent"
+    ],
+    "body": [
+      "<TooltipContent />"
+    ],
+    "description": "Voidframe TooltipContent component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "TooltipProvider": {
     "prefix": [
       "vf-tooltipprovider",
@@ -5125,6 +5928,28 @@
     "description": "Groups `Tooltip` instances to share timing.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "TooltipRoot": {
+    "prefix": [
+      "vf-tooltiproot",
+      "TooltipRoot"
+    ],
+    "body": [
+      "<TooltipRoot />"
+    ],
+    "description": "Voidframe TooltipRoot component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "TooltipTrigger": {
+    "prefix": [
+      "vf-tooltiptrigger",
+      "TooltipTrigger"
+    ],
+    "body": [
+      "<TooltipTrigger />"
+    ],
+    "description": "Voidframe TooltipTrigger component.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "TraceViewer": {
     "prefix": [
       "vf-traceviewer",
@@ -5133,7 +5958,7 @@
     "body": [
       "<TraceViewer\n  spans={${1:/* spans: TraceSpan[] */}}\n/>"
     ],
-    "description": "Developer trace viewer for agent runs — flamegraph-style timeline of steps and tool calls.",
+    "description": "Developer trace viewer for agent runs — flamegraph-style timeline of parent/child spans positioned by start time and duration.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Transfer": {
@@ -5197,7 +6022,7 @@
       "TreeSelect"
     ],
     "body": [
-      "<TreeSelect\n  nodes={${1:/* nodes: TreeNode[] */}}\n  label=\"${2:label}\"\n/>"
+      "<TreeSelect\n  nodes={${1:/* nodes: TreeNode[] */}}\n  label=\"${2:label}\"\n  size={${3:/* size: enum */}}\n/>"
     ],
     "description": "Select dropdown whose options are organised as a tree (cascader-like but single-column).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
@@ -5221,7 +6046,7 @@
     "body": [
       "<TreeView\n  items={${1:/* items: TreeNode[] */}}\n/>"
     ],
-    "description": "A hierarchical tree for displaying and navigating nested data structures.",
+    "description": "Tree view.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TrendIndicator": {
@@ -5364,7 +6189,7 @@
     "body": [
       "<VirtualGrid\n  items={${1:/* items: T[] */}}\n  columnCount={${2:0}}\n  rowHeight={${3:0}}\n  columnWidth={${4:0}}\n  renderCell={${5:/* renderCell: (item: T, index: number, style: CSSProperties) => ReactNode */}}\n/>"
     ],
-    "description": "Virtualised 2D grid.",
+    "description": "Virtualized 2D grid.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VirtualList": {
@@ -5375,7 +6200,7 @@
     "body": [
       "<VirtualList\n  items={${1:/* items: T[] */}}\n  itemHeight={${2:/* itemHeight: number | ((index: number, item: T) => number) */}}\n  renderItem={${3:/* renderItem: (item: T, index: number, style: CSSProperties) => ReactNode */}}\n/>"
     ],
-    "description": "Virtualised 1D list.",
+    "description": "Virtualized list.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VisuallyHidden": {
@@ -5409,6 +6234,17 @@
       "<VoidframeProvider />"
     ],
     "description": "Theme provider.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "VoidframeReactFlowTheme": {
+    "prefix": [
+      "vf-voidframereactflowtheme",
+      "VoidframeReactFlowTheme"
+    ],
+    "body": [
+      "<VoidframeReactFlowTheme />"
+    ],
+    "description": "Scoped voidframe theme wrapper for `@xyflow/react`.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "VStack": {

@@ -246,6 +246,136 @@
     ]
   },
   {
+    "name": "AlertDialogAction",
+    "description": "",
+    "file": "src/compat/shadcn/AlertDialog.tsx",
+    "props": [
+      {
+        "name": "autoClose",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Render through a single consumer-provided element. See DialogCancel.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "AlertDialogCancel",
+    "description": "",
+    "file": "src/compat/shadcn/AlertDialog.tsx",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Render through a single consumer-provided element. Avoids nesting\na `<button>` inside a `<button>` (which axe flags as\nnested-interactive).",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "AlertDialogContent",
+    "description": "",
+    "file": "src/compat/shadcn/AlertDialog.tsx",
+    "props": [
+      {
+        "name": "size",
+        "type": "enum",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "trapFocus",
+        "type": "boolean",
+        "description": "Disable focus trap. Default false.",
+        "required": false
+      },
+      {
+        "name": "restoreFocus",
+        "type": "boolean",
+        "description": "Disable focus restore on close.",
+        "required": false
+      },
+      {
+        "name": "onEscape",
+        "type": "((e: KeyboardEvent) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onInteractOutside",
+        "type": "((e: PointerEvent) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "description": "When false, the dialog renders inline without a Portal.",
+        "required": false
+      },
+      {
+        "name": "initialFocus",
+        "type": "RefObject<HTMLElement>",
+        "description": "Focus this element when the dialog opens instead of the first focusable child.",
+        "required": false
+      },
+      {
+        "name": "finalFocus",
+        "type": "RefObject<HTMLElement>",
+        "description": "Focus this element when the dialog closes instead of the previously-focused element.",
+        "required": false
+      },
+      {
+        "name": "monospace",
+        "type": "boolean",
+        "description": "When true, renders the dialog body in a monospace font. Mirrors\n`Card.monospace` / `DrawerV2.Content.monospace` for log/prompt/code-\ncontent dialogs.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "AlertDialogDescription",
+    "description": "",
+    "file": "src/compat/shadcn/AlertDialog.tsx",
+    "props": []
+  },
+  {
+    "name": "AlertDialogFooter",
+    "description": "",
+    "file": "src/compat/shadcn/AlertDialog.tsx",
+    "props": []
+  },
+  {
+    "name": "AlertDialogHeader",
+    "description": "",
+    "file": "src/compat/shadcn/AlertDialog.tsx",
+    "props": []
+  },
+  {
+    "name": "AlertDialogTitle",
+    "description": "",
+    "file": "src/compat/shadcn/AlertDialog.tsx",
+    "props": []
+  },
+  {
+    "name": "AlertDialogTrigger",
+    "description": "",
+    "file": "src/compat/shadcn/AlertDialog.tsx",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "AlertV2",
     "description": "Next-gen inline alert with richer layout slots (title, description,\nactions, icon). Controllable dismissed state; tone mirrors `Alert`.",
     "file": "src/components/Notifications.tsx",
@@ -285,6 +415,12 @@
         "name": "action",
         "type": "ReactNode",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "monospace",
+        "type": "boolean",
+        "description": "When true, renders the alert body in a monospace font — suitable for CI\nfailure output, stack traces, or JSON payloads pasted into an alert.\nMirrors `Card.monospace` / `Dialog.Content.monospace`.",
         "required": false
       }
     ]
@@ -426,6 +562,32 @@
         "name": "onSidebarCollapsedChange",
         "type": "((collapsed: boolean) => void)",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "sidebarResizable",
+        "type": "boolean",
+        "description": "When true, adds a drag handle on the sidebar's trailing edge so users\ncan resize it. The width is reported via `onSidebarWidthChange` and\nstays within `sidebarMinWidth`/`sidebarMaxWidth`.",
+        "required": false
+      },
+      {
+        "name": "sidebarMinWidth",
+        "type": "number",
+        "defaultValue": "180",
+        "description": "Minimum width when resizing (px). Default 180.",
+        "required": false
+      },
+      {
+        "name": "sidebarMaxWidth",
+        "type": "number",
+        "defaultValue": "480",
+        "description": "Maximum width when resizing (px). Default 480.",
+        "required": false
+      },
+      {
+        "name": "onSidebarWidthChange",
+        "type": "((width: number) => void)",
+        "description": "Fires on each resize with the new width (px).",
         "required": false
       },
       {
@@ -1715,7 +1877,7 @@
   },
   {
     "name": "Barcode",
-    "description": "Renders a 1D barcode (CODE128 / EAN) from a value. Purely visual — use a\ndedicated library for decoding.",
+    "description": "Renders a scannable 1D barcode from a value.\n\nRequires the optional peer dependency `jsbarcode` to produce real\noutput. When the peer is missing OR still loading, the component\nrenders a clearly-labelled placeholder pattern. Bypass both by\npassing a pre-computed `pattern` prop (1 = bar, 0 = gap).",
     "file": "src/components/Encoding.tsx",
     "props": [
       {
@@ -1748,7 +1910,7 @@
       {
         "name": "pattern",
         "type": "number[]",
-        "description": "Pre-computed binary bar pattern (1 = bar, 0 = gap). When omitted, a\ndeterministic placeholder pattern derived from `value` is used.",
+        "description": "Pre-computed binary bar pattern (1 = bar, 0 = gap). Bypasses both\nthe peer-dep encoder and the placeholder. Takes precedence when\nset.",
         "required": false
       },
       {
@@ -2463,13 +2625,13 @@
   },
   {
     "name": "Button",
-    "description": "Primary interactive button. Four canonical variants (`solid`, `outline`,\n`ghost`, `subtle`), three sizes, optional `iconLeft` / `iconRight`, loading\nspinner, and polymorphic `asChild` for slot-style composition. Memoized so\nre-renders are skipped when props are referentially stable.",
+    "description": "Primary interactive button. Five variants (`solid`, `outline`, `ghost`,\n`subtle`, `destructive`), four sizes including `icon` (square 1:1 aspect),\ntone vocabulary (`neutral` / `info` / `success` / `danger` / `warning`)\nmirroring Badge/AlertV2/Card, optional `iconLeft` / `iconRight`, loading\nspinner, and polymorphic `asChild` for slot-style composition. Memoized so\nre-renders are skipped when props are referentially stable.",
     "file": "src/components/Button.tsx",
     "props": [
       {
         "name": "onClick",
-        "type": "(() => void)",
-        "description": "",
+        "type": "((event: MouseEvent<HTMLButtonElement, MouseEvent>) => void)",
+        "description": "Click handler. Receives the native `MouseEvent` so consumers can call\n`stopPropagation()` / `preventDefault()` when the button is nested inside\na clickable row or card. (Prior to 1.1.0 the signature was `() => void`;\nthe event param is additive — existing zero-arg handlers keep working.)",
         "required": false
       },
       {
@@ -2489,6 +2651,12 @@
         "name": "accent",
         "type": "string",
         "description": "Accent color for `solid` and `subtle` variants. Sets `--vf-accent`.",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone. Adds `data-tone=\"…\"` + `vf-button--tone-…` class and, for\n`danger`/`warning`/`success`, primes `--vf-accent` to the matching token\nso solid/subtle variants render in-tone without manual `accent=`.\nMirrors the Badge/AlertV2/Card tone vocabulary.",
         "required": false
       },
       {
@@ -2570,7 +2738,7 @@
   },
   {
     "name": "Calendar",
-    "description": "A date-grid calendar for navigating months and selecting dates.\nSupports month, week, and day views, optional event rendering, and single or range selection.",
+    "description": "Month-grid calendar with optional events / event-renderer.\nMemoized at the export site so parent re-renders with referentially-\nstable `value` / `onChange` / `events` skip the 42-cell tree walk.",
     "file": "src/components/Calendar.tsx",
     "props": [
       {
@@ -2652,6 +2820,18 @@
         "name": "onRangeChange",
         "type": "((range: CalendarRange) => void)",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "renderDay",
+        "type": "((date: Date, events: CalendarEvent[]) => ReactNode)",
+        "description": "Optional renderer for the body of each month-view day cell. Receives the\nday's `Date` and the events that fall on it; returns the inner content\nto render under the day-number header. Use to display rich event\ndetail (e.g. nested ranges, agent activity, custom badges) without\nforking the whole component.",
+        "required": false
+      },
+      {
+        "name": "expandedDay",
+        "type": "{ date: Date; content: ReactNode; }",
+        "description": "Optional content rendered as an expanded panel below the month/week/day\ngrid for the currently-selected day. Use for \"click a day, show its\ndetail beneath\" patterns without composing a separate Drawer/Sheet.",
         "required": false
       }
     ]
@@ -2961,7 +3141,7 @@
   },
   {
     "name": "Card",
-    "description": "Brutalist content container with a bordered surface. Optional `title` /\n`subtitle` / `headerRight` header slot and `actions` footer slot. Use\n`hoverable` for a lift-on-hover effect, or `asChild` to render a custom\nelement (link, button) while keeping card styling.",
+    "description": "Brutalist content container with a bordered surface. Optional `title` /\n`subtitle` / `headerRight` header slot and `actions` footer slot. Use\n`hoverable` for a lift-on-hover effect, `monospace` for log/code content,\nor `asChild` to render a custom element (link, button) while keeping card\nstyling.",
     "file": "src/components/Card.tsx",
     "props": [
       {
@@ -2995,9 +3175,40 @@
         "required": false
       },
       {
+        "name": "monospace",
+        "type": "boolean",
+        "description": "When true, renders the card body in a monospace font stack with a\nslightly reduced size. Intended for CI log output, prompt dumps, raw\nJSON traces, code snippets pasted into a card, etc.",
+        "required": false
+      },
+      {
         "name": "actions",
         "type": "ReactNode",
         "description": "Renders in a footer actions slot after children.",
+        "required": false
+      },
+      {
+        "name": "collapsible",
+        "type": "boolean",
+        "description": "When true, renders the card header as a clickable disclosure toggle so\nthe body collapses in-place. Mirrors `Sidebar.Section` / `Accordion`\ncollapse semantics without reparenting the content. Controllable via\n`open` + `onOpenChange`; uncontrolled via `defaultOpen`.",
+        "required": false
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "Controlled open state (only meaningful when `collapsible`).",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Uncontrolled initial open state (only meaningful when `collapsible`). Default true.",
+        "required": false
+      },
+      {
+        "name": "onOpenChange",
+        "type": "((open: boolean) => void)",
+        "description": "Fires when the open state changes.",
         "required": false
       },
       {
@@ -3007,6 +3218,36 @@
         "required": false
       }
     ]
+  },
+  {
+    "name": "CardContent",
+    "description": "",
+    "file": "src/compat/shadcn/Card.tsx",
+    "props": []
+  },
+  {
+    "name": "CardDescription",
+    "description": "",
+    "file": "src/compat/shadcn/Card.tsx",
+    "props": []
+  },
+  {
+    "name": "CardFooter",
+    "description": "",
+    "file": "src/compat/shadcn/Card.tsx",
+    "props": []
+  },
+  {
+    "name": "CardHeader",
+    "description": "",
+    "file": "src/compat/shadcn/Card.tsx",
+    "props": []
+  },
+  {
+    "name": "CardTitle",
+    "description": "",
+    "file": "src/compat/shadcn/Card.tsx",
+    "props": []
   },
   {
     "name": "CaretIcon",
@@ -3296,6 +3537,12 @@
         "required": false
       },
       {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
+        "required": false
+      },
+      {
         "name": "disabled",
         "type": "boolean",
         "defaultValue": "false",
@@ -3313,6 +3560,12 @@
         "type": "boolean",
         "defaultValue": "false",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "optionAttributes",
+        "type": "((option: CascaderOption, panelIndex: number) => HTMLAttributes<HTMLDivElement>)",
+        "description": "Return arbitrary HTML attributes for each rendered option row across all\npanels. Mirrors `Table.rowAttributes` for the cascader's flattened\noption lists.",
         "required": false
       }
     ]
@@ -4894,6 +5147,68 @@
         "defaultValue": "code.txt",
         "description": "Filename for download. Defaults to \"code.txt\".",
         "required": false
+      },
+      {
+        "name": "lineAnnotations",
+        "type": "Record<number, ReactNode>",
+        "description": "Inline annotations attached to specific lines. Each entry pins a\n`ReactNode` (typically an error message, lint note, or doc snippet)\ndirectly below the matched 1-based line number. When `highlight` /\npre-rendered HTML is in use the annotations render after the matched\nline by adding a sibling annotation block with the line-specific\ncontent.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "CodeContextView",
+    "description": "\"Error at line N\" block with `before`/`after` context. Use when CI failure\nsummaries, linter output, or stack-trace-style errors need to render with\nsurrounding code for orientation. For full streaming logs use `LogViewer`\nwith `LogEntry.context`.",
+    "file": "src/components/Viewers/CodeContextView.tsx",
+    "props": [
+      {
+        "name": "source",
+        "type": "ReactNode",
+        "description": "The file/source identifier shown in the header. Optional — omit when\nthe surrounding UI already says where the error is.",
+        "required": false
+      },
+      {
+        "name": "line",
+        "type": "number",
+        "description": "The 1-based line number being highlighted. Used as the visual anchor\ninside `before`/`after`/`message`.",
+        "required": false
+      },
+      {
+        "name": "before",
+        "type": "string[]",
+        "description": "Lines of code rendered dimmed BEFORE the error line.",
+        "required": false
+      },
+      {
+        "name": "errorLine",
+        "type": "string",
+        "description": "The line that has the error. Rendered un-dimmed with the tone color.",
+        "required": false
+      },
+      {
+        "name": "after",
+        "type": "string[]",
+        "description": "Lines rendered dimmed AFTER the error line.",
+        "required": false
+      },
+      {
+        "name": "message",
+        "type": "ReactNode",
+        "description": "The error / warning message itself.",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "defaultValue": "danger",
+        "description": "Tone — default `\"danger\"`. Mirrors AlertV2/Badge tones.",
+        "required": false
+      },
+      {
+        "name": "compact",
+        "type": "boolean",
+        "description": "When true, renders a compact one-line variant (just message + line ref).",
+        "required": false
       }
     ]
   },
@@ -5216,6 +5531,19 @@
         "type": "string",
         "description": "",
         "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`. Use for `data-testid` /\n`data-*` / `aria-*` attrs on the canonical \"ColorPicker\" surface.\nRest props (`{...props}`) also land on the wrapper for backward compat.",
+        "required": false
       }
     ]
   },
@@ -5348,6 +5676,25 @@
         "type": "string",
         "description": "",
         "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
+        "required": false
+      },
+      {
+        "name": "inputProps",
+        "type": "InputHTMLAttributes<HTMLInputElement>",
+        "description": "Props forwarded to the inner native `<input>` element. Use for\n`data-testid`, `aria-*`, or other attributes consumers expect on the\nactual control (e.g. `fireEvent.change(getByTestId(id), ...)`).\nContainer-level props stay on the outer `<div>` via `{...props}`.",
+        "required": false
       }
     ]
   },
@@ -5431,12 +5778,24 @@
         "defaultValue": "md",
         "description": "",
         "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
+        "required": false
+      },
+      {
+        "name": "inputProps",
+        "type": "InputHTMLAttributes<HTMLInputElement>",
+        "description": "Props forwarded to the inner native `<input>` element. Use for\n`data-testid`, `aria-*`, or other attributes consumers want on the\nactual control.",
+        "required": false
       }
     ]
   },
   {
     "name": "CommandPalette",
-    "description": "A cmd+K search overlay for fuzzy-finding actions, pages, and commands.\nRegister commands with `useCommand` and compose results via the Input, List, Group, and Item subcomponents.",
+    "description": "",
     "file": "src/components/CommandPalette.tsx",
     "props": [
       {
@@ -5467,6 +5826,12 @@
         "name": "dim",
         "type": "boolean",
         "description": "Dim the surrounding page while the palette is open. Default `true`.\nSet to `false` for a frosted-glass-less variant where the palette\nfloats above the existing UI without darkening it.",
+        "required": false
+      },
+      {
+        "name": "filter",
+        "type": "CommandPaletteFilter",
+        "description": "Optional custom item-scoring function. When omitted, voidframe's\ndefault fuzzy scorer is used.",
         "required": false
       },
       {
@@ -5701,7 +6066,7 @@
         "name": "status",
         "type": "enum",
         "defaultValue": "idle",
-        "description": "",
+        "description": "Visual + behavior status. `\"streaming\"` indicates the assistant is\ngenerating a response. By default voidframe now disables the composer\ninput while `status=\"streaming\"` (matching the common chat-UI\nexpectation: no typing during generation, use `onStop`). Pass explicit\n`disabled={false}` to override when you deliberately want interruption\nvia typing.",
         "required": false
       },
       {
@@ -6036,6 +6401,18 @@
         "type": "(() => void)",
         "description": "",
         "required": false
+      },
+      {
+        "name": "confirmButtonProps",
+        "type": "ButtonHTMLAttributes<HTMLButtonElement>",
+        "description": "Attributes applied to the built-in Confirm button. Use for custom\n`data-testid` / `aria-*` without replacing the button entirely.\nDefaults: `data-testid=\"vf-confirm-confirm-button\"` — override to\ndisambiguate multiple concurrent confirmations in tests.",
+        "required": false
+      },
+      {
+        "name": "cancelButtonProps",
+        "type": "ButtonHTMLAttributes<HTMLButtonElement>",
+        "description": "Attributes applied to the built-in Cancel button. Defaults:\n`data-testid=\"vf-confirm-cancel-button\"`.",
+        "required": false
       }
     ]
   },
@@ -6151,7 +6528,7 @@
       {
         "name": "content",
         "type": "ReactNode",
-        "description": "Menu content (Menu.Content children).",
+        "description": "Menu content rendered when the user right-clicks or long-presses the\ntrigger children. ContextMenu wraps this slot in an internal `<Menu>`\nprovider, so the `Menu.*` compound subcomponents (`Menu.Item`,\n`Menu.CheckboxItem`, `Menu.RadioItem`, `Menu.Separator`, `Menu.Label`,\n`Menu.Sub` / `Menu.SubTrigger` / `Menu.SubContent`) all work directly\ninside `content` without needing a manual `<Menu>` wrapper. Plain\nelements (`<div>`, custom buttons, etc.) also work.\n\nEquivalent compound subcomponents are also re-exported as\n`ContextMenu.Item` / `ContextMenu.CheckboxItem` / `ContextMenu.Separator`\netc. for ergonomics — pick whichever shape reads better at the call\nsite.",
         "required": true
       }
     ]
@@ -6179,6 +6556,13 @@
         "type": "ReactNode",
         "defaultValue": "Unread",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "kind",
+        "type": "enum",
+        "defaultValue": "default",
+        "description": "Layout variant. `\"default\"` renders the full header (label + counts) and\nprogress bar. `\"compact\"` renders a count-only pill matching\n`ChatTokenCounter`'s compact form — suited for `ConversationHeader`\naction slots where a progress bar would feel heavy.",
         "required": false
       }
     ]
@@ -6406,6 +6790,12 @@
         "required": false
       },
       {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone. Mirrors Button/IconButton tone vocabulary — emits\n`data-tone` and primes `--vf-accent` when no explicit accent is supplied.",
+        "required": false
+      },
+      {
         "name": "disabled",
         "type": "boolean",
         "description": "",
@@ -6519,7 +6909,7 @@
       {
         "name": "kind",
         "type": "enum",
-        "defaultValue": "compact",
+        "defaultValue": "default",
         "description": "",
         "required": false
       },
@@ -7038,7 +7428,7 @@
   },
   {
     "name": "DataGrid",
-    "description": "A high-density data table with built-in sorting, filtering, pagination, and column management.\nExposes compound subcomponents (Toolbar, Search, Filters, Pagination, Export) for flexible layouts.",
+    "description": "",
     "file": "src/components/DataGrid.tsx",
     "props": [
       {
@@ -7208,6 +7598,12 @@
         "type": "string",
         "description": "When set, column widths / visibility / order persist to localStorage under this key.",
         "required": false
+      },
+      {
+        "name": "rowAttributes",
+        "type": "((row: T, index: number) => HTMLAttributes<HTMLDivElement>)",
+        "description": "Return arbitrary HTML attributes to apply to each rendered row. Use for\n`data-testid`, `aria-*`, per-row event listeners, etc. — tests can then\nquery rows by attribute instead of content or injected marker spans.",
+        "required": false
       }
     ]
   },
@@ -7227,6 +7623,12 @@
         "type": "enum",
         "defaultValue": "horizontal",
         "description": "Orientation. Default \"horizontal\" (2-col).",
+        "required": false
+      },
+      {
+        "name": "itemAttributes",
+        "type": "((item: DataListItem, index: number) => HTMLAttributes<HTMLDivElement>)",
+        "description": "Return arbitrary HTML attributes to apply to each rendered row when the\narray-API (`items`) is used. Tests / instrumentation can attach\n`data-testid` / `aria-*` per row without falling back to content-based\nqueries. The compound API (`<DataList.Item>`) already accepts spread\nprops directly.",
         "required": false
       }
     ]
@@ -7340,6 +7742,19 @@
         "name": "id",
         "type": "string",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
         "required": false
       }
     ]
@@ -7493,6 +7908,19 @@
         "name": "disabled",
         "type": "boolean",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
         "required": false
       }
     ]
@@ -7754,6 +8182,160 @@
         "name": "kind",
         "type": "enum",
         "description": "\"alertdialog\" tweaks role + initial focus for destructive flows.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DialogAction",
+    "description": "",
+    "file": "src/components/Dialog.tsx",
+    "props": [
+      {
+        "name": "autoClose",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Render through a single consumer-provided element. See DialogCancel.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DialogBody",
+    "description": "",
+    "file": "src/components/Dialog.tsx",
+    "props": []
+  },
+  {
+    "name": "DialogCancel",
+    "description": "",
+    "file": "src/components/Dialog.tsx",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Render through a single consumer-provided element. Avoids nesting\na `<button>` inside a `<button>` (which axe flags as\nnested-interactive).",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DialogClose",
+    "description": "",
+    "file": "src/components/Dialog.tsx",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DialogContent",
+    "description": "",
+    "file": "src/components/Dialog.tsx",
+    "props": [
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "trapFocus",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Disable focus trap. Default false.",
+        "required": false
+      },
+      {
+        "name": "restoreFocus",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Disable focus restore on close.",
+        "required": false
+      },
+      {
+        "name": "onEscape",
+        "type": "((e: KeyboardEvent) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onInteractOutside",
+        "type": "((e: PointerEvent) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "When false, the dialog renders inline without a Portal.",
+        "required": false
+      },
+      {
+        "name": "initialFocus",
+        "type": "RefObject<HTMLElement>",
+        "description": "Focus this element when the dialog opens instead of the first focusable child.",
+        "required": false
+      },
+      {
+        "name": "finalFocus",
+        "type": "RefObject<HTMLElement>",
+        "description": "Focus this element when the dialog closes instead of the previously-focused element.",
+        "required": false
+      },
+      {
+        "name": "monospace",
+        "type": "boolean",
+        "description": "When true, renders the dialog body in a monospace font. Mirrors\n`Card.monospace` / `DrawerV2.Content.monospace` for log/prompt/code-\ncontent dialogs.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DialogDescription",
+    "description": "",
+    "file": "src/components/Dialog.tsx",
+    "props": []
+  },
+  {
+    "name": "DialogFooter",
+    "description": "",
+    "file": "src/components/Dialog.tsx",
+    "props": []
+  },
+  {
+    "name": "DialogHeader",
+    "description": "",
+    "file": "src/components/Dialog.tsx",
+    "props": []
+  },
+  {
+    "name": "DialogTitle",
+    "description": "",
+    "file": "src/components/Dialog.tsx",
+    "props": []
+  },
+  {
+    "name": "DialogTrigger",
+    "description": "",
+    "file": "src/components/Dialog.tsx",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
         "required": false
       }
     ]
@@ -8202,6 +8784,76 @@
     ]
   },
   {
+    "name": "DrawerBody",
+    "description": "",
+    "file": "src/components/DrawerCompound.tsx",
+    "props": []
+  },
+  {
+    "name": "DrawerClose",
+    "description": "",
+    "file": "src/components/DrawerCompound.tsx",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DrawerFooter",
+    "description": "",
+    "file": "src/components/DrawerCompound.tsx",
+    "props": []
+  },
+  {
+    "name": "DrawerHeader",
+    "description": "",
+    "file": "src/components/DrawerCompound.tsx",
+    "props": []
+  },
+  {
+    "name": "DrawerRoot",
+    "description": "",
+    "file": "src/components/DrawerCompound.tsx",
+    "props": [
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onOpenChange",
+        "type": "((open: boolean) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "side",
+        "type": "enum",
+        "defaultValue": "right",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "DrawerV2",
     "description": "Compound side-panel overlay. Slides in from any edge (`left`, `right`,\n`top`, `bottom`). Use `DrawerV2.Trigger`, `DrawerV2.Content`, and\n`DrawerV2.Close`; compose with `.Header`, `.Title`, `.Body`, `.Footer`.\nFocus-trapped, scroll-locked when `modal`, and Escape-dismissable.\nControlled via `open` / `onOpenChange`.",
     "file": "src/components/DrawerCompound.tsx",
@@ -8239,6 +8891,96 @@
     ]
   },
   {
+    "name": "DrawerV2Content",
+    "description": "",
+    "file": "src/components/DrawerCompound.tsx",
+    "props": [
+      {
+        "name": "size",
+        "type": "string | number",
+        "defaultValue": "360",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "side",
+        "type": "enum",
+        "description": "Override the `side` set on the `<DrawerV2>` root. Useful when a single\ndrawer instance swaps between sides at runtime (e.g. RTL flip, responsive\nreorient). Defaults to the root's `side` when omitted — no behavior\nchange for existing consumers.",
+        "required": false
+      },
+      {
+        "name": "trapFocus",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "restoreFocus",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "adaptive",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Expand to full-width below the `md` breakpoint. Default true.",
+        "required": false
+      },
+      {
+        "name": "monospace",
+        "type": "boolean",
+        "description": "When true, renders the drawer body in a monospace font — useful for\nlog-output drawers, prompt dumps, and code diffs. Mirrors `Card.monospace`.",
+        "required": false
+      },
+      {
+        "name": "onEscape",
+        "type": "((e: KeyboardEvent) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onInteractOutside",
+        "type": "((e: PointerEvent) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "initialFocus",
+        "type": "RefObject<HTMLElement>",
+        "description": "Focus this element when the drawer opens instead of the first focusable child.",
+        "required": false
+      },
+      {
+        "name": "finalFocus",
+        "type": "RefObject<HTMLElement>",
+        "description": "Focus this element when the drawer closes instead of the previously-focused element.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DrawerV2Title",
+    "description": "",
+    "file": "src/components/DrawerCompound.tsx",
+    "props": []
+  },
+  {
+    "name": "DrawerV2Trigger",
+    "description": "",
+    "file": "src/components/DrawerCompound.tsx",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "Dropdown",
     "description": "Simple trigger + menu dropdown. For richer composition (submenus,\ncheckbox items, radio groups) use `Menu`.",
     "file": "src/components/Overlay.tsx",
@@ -8259,6 +9001,198 @@
         "name": "align",
         "type": "enum",
         "defaultValue": "left",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenu",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": [
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onOpenChange",
+        "type": "((open: boolean) => void)",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuCheckboxItem",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": [
+      {
+        "name": "checked",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "((checked: boolean) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone — mirrors `MenuItem.tone`.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuContent",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": []
+  },
+  {
+    "name": "DropdownMenuItem",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onSelect",
+        "type": "(() => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "shortcut",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone. Emits `data-tone` + `vf-menu__item--${tone}` so destructive\n(\"Delete…\"), warning, or success items style consistently without inline\nstyles. Mirrors Button/Badge/AlertV2 tone vocabulary.",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Render through `<Slot>` and merge menu semantics onto a consumer-provided element (e.g. a router link).",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuLabel",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": []
+  },
+  {
+    "name": "DropdownMenuRadioGroup",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void)",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuRadioItem",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone — mirrors `MenuItem.tone`.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuSeparator",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": []
+  },
+  {
+    "name": "DropdownMenuSub",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": []
+  },
+  {
+    "name": "DropdownMenuSubContent",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": []
+  },
+  {
+    "name": "DropdownMenuSubTrigger",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": []
+  },
+  {
+    "name": "DropdownMenuTrigger",
+    "description": "",
+    "file": "src/compat/shadcn/DropdownMenu.tsx",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
         "description": "",
         "required": false
       }
@@ -8411,7 +9345,7 @@
   },
   {
     "name": "EmptyState",
-    "description": "Centred illustration + title + description + optional action. Use when a\nlist/table/view has no data yet.",
+    "description": "Centred illustration + title + description + optional action. Use when a\nlist/table/view has no data yet.\n\nWhen neither `icon` nor `action` is supplied, the `\"decorated\"` variant\nrenders a default inbox glyph and a bordered tile so the no-props case\ndoesn't feel bare. Opt into `variant=\"plain\"` for pre-styled containers.",
     "file": "src/components/DataExtended.tsx",
     "props": [
       {
@@ -8436,6 +9370,13 @@
         "name": "action",
         "type": "ReactNode",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "defaultValue": "decorated",
+        "description": "Visual variant.\n- `\"decorated\"` (default) — renders a default inbox glyph + framed tile\n  when no explicit icon / action is supplied, so the no-props case still\n  reads as intentional empty-UI instead of centred naked text.\n- `\"plain\"` — skips the default icon + tile; just centres whatever props\n  are passed. Use inside pre-styled containers.",
         "required": false
       }
     ]
@@ -8940,7 +9881,34 @@
     "name": "FieldSet",
     "description": "Native `<fieldset>` with Voidframe styling. Use with `<Legend>` inside.",
     "file": "src/components/FormStructure.tsx",
-    "props": []
+    "props": [
+      {
+        "name": "collapsible",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Renders the fieldset as a collapsible section. Legend stays visible;\nnon-legend children are hidden when closed. Controlled via `open` +\n`onOpenChange`; uncontrolled via `defaultOpen` (default `true`). Shares\nthe `useDisclosure` hook with `Card` and `Sidebar.Section` so the\ncollapsible-section pattern is uniform across the library.",
+        "required": false
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onOpenChange",
+        "type": "((open: boolean) => void)",
+        "description": "",
+        "required": false
+      }
+    ]
   },
   {
     "name": "FileAttachment",
@@ -9214,6 +10182,25 @@
         "type": "string",
         "description": "",
         "required": false
+      },
+      {
+        "name": "inputProps",
+        "type": "InputHTMLAttributes<HTMLInputElement>",
+        "description": "Props forwarded to the inner native `<input type=\"file\">` element. Use for\n`data-testid`, `aria-*`, or other attributes consumers want on the\nactual control.",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
+        "required": false
       }
     ]
   },
@@ -9380,7 +10367,7 @@
       },
       {
         "name": "wrap",
-        "type": "Responsive<boolean>",
+        "type": "Responsive<FlexWrap>",
         "description": "",
         "required": false
       },
@@ -9446,13 +10433,26 @@
         "name": "variant",
         "type": "enum",
         "defaultValue": "outline",
-        "description": "",
+        "description": "Visual style. `\"destructive\"` is a parity alias for shadcn migrations —\ncascades to `tone=\"danger\"`.",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone. Mirrors Button/Badge. Emits `data-tone` + cascades to\n`vf-fab--${tone}` BEM class.",
         "required": false
       },
       {
         "name": "offset",
         "type": "{ bottom?: number; right?: number; left?: number | undefined; } | undefined",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Disables the FAB trigger (and any speed-dial actions cascade via their\nown `FABAction.disabled`). Emits both native `disabled` and\n`aria-disabled=\"true\"` via the shared `buttonDisabledAttrs` helper.",
         "required": false
       }
     ]
@@ -9777,7 +10777,7 @@
   },
   {
     "name": "Gantt",
-    "description": "A horizontal timeline that renders tasks as bars across a day, week, or month axis.\nUseful for schedule overviews, project plans, and resource-allocation views.",
+    "description": "Gantt timeline. Memoized at the export site so parent re-renders\nwith referentially-stable `tasks` / `start` / `end` skip the\nSVG-bar / dependency-line render walk.",
     "file": "src/components/Gantt.tsx",
     "props": [
       {
@@ -10792,6 +11792,12 @@
         "required": false
       },
       {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone. Mirrors Button/Badge/AlertV2. Sets `data-tone` + a\n`vf-icon-button--tone-…` modifier, and primes `--vf-accent` to the\nmatching token when no explicit `accent` is passed.",
+        "required": false
+      },
+      {
         "name": "tooltip",
         "type": "ReactNode",
         "description": "Short text shown on hover / focus above the button.",
@@ -11476,6 +12482,31 @@
         "type": "string | number",
         "description": "",
         "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Voidframe-native size variant. The native `size` attribute (visible-\ncharacter count) is exposed as `lengthSize` so both axes are\nindependently controllable.",
+        "required": false
+      },
+      {
+        "name": "lengthSize",
+        "type": "number",
+        "description": "Native `HTMLInputElement.size` — visible character count.",
+        "required": false
+      },
+      {
+        "name": "asAriaLabel",
+        "type": "string",
+        "description": "Accessible-name escape hatch. When set, emits as `aria-label` and\nsuppresses the missing-name warning. Use for inline controls inside\ndata-dense UIs where a visible label would be redundant.",
+        "required": false
+      },
+      {
+        "name": "suppressA11yWarning",
+        "type": "boolean",
+        "description": "Internal escape hatch for voidframe-composed parents.",
+        "required": false
       }
     ]
   },
@@ -11598,7 +12629,7 @@
   },
   {
     "name": "Kanban",
-    "description": "A column-based task board that supports dragging items between columns.\nEmits move events so callers can persist reordering and cross-column transitions.",
+    "description": "Kanban board with column-bounded drag/drop. Memoized at the export\nsite so re-rendering a parent with unrelated state doesn't re-render\nthe full board grid; consumers can rely on referentially-stable\n`items` / `onMove` callbacks for the optimization to actually fire.",
     "file": "src/components/Kanban.tsx",
     "props": [
       {
@@ -11772,6 +12803,13 @@
         "type": "ReactNode",
         "defaultValue": "Unread",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "kind",
+        "type": "enum",
+        "defaultValue": "default",
+        "description": "Layout variant. `\"default\"` renders label + value; `\"compact\"` shows\nonly the value pill — matches the compact vocabulary of the other chat\ntelemetry widgets (`ContextWindow`, `ChatTokenCounter`, `CostDisplay`).",
         "required": false
       }
     ]
@@ -12026,6 +13064,44 @@
         "type": "boolean",
         "defaultValue": "false",
         "description": "When true, null / undefined values are skipped and surrounding points connect. Default false.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "Link",
+    "description": "Text link primitive. Inherits voidframe accent + focus treatment. Use\n`as` to integrate with router-link components while keeping styling.",
+    "file": "src/components/Link.tsx",
+    "props": [
+      {
+        "name": "href",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "as",
+        "type": "ElementType | ComponentType<Record<string, unknown>>",
+        "description": "Render as a different element or framework-specific link component\n(e.g. react-router's `Link`). The value receives the same props the\ndefault `<a>` would get. Defaults to native `<a>`.",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "defaultValue": "inline",
+        "description": "Visual variant.\n- `\"inline\"` (default) — underlined accent-color link, suitable inside\n  prose.\n- `\"standalone\"` — no underline; block-style link for nav / CTAs.\n- `\"muted\"` — low-emphasis; muted text color, underline on hover.",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone. Mirrors Button/Badge. Emits `data-tone` + primes\n`--vf-accent` when set.",
+        "required": false
+      },
+      {
+        "name": "external",
+        "type": "boolean",
+        "description": "Mark a link as external. Auto-adds `target=\"_blank\"` + secure rel\nvalues (`noopener noreferrer`) if not explicitly set.",
         "required": false
       }
     ]
@@ -12435,6 +13511,12 @@
         "defaultValue": "true",
         "description": "Show regex filter input. Default true.",
         "required": false
+      },
+      {
+        "name": "entryAttributes",
+        "type": "((entry: LogEntry, index: number) => HTMLAttributes<HTMLDivElement>)",
+        "description": "Return arbitrary HTML attributes for each rendered log entry. Mirrors\n`Table.rowAttributes` — tests can attach `data-testid` per entry.",
+        "required": false
       }
     ]
   },
@@ -12693,19 +13775,32 @@
       {
         "name": "onChange",
         "type": "((value: string) => void)",
-        "description": "",
+        "description": "@deprecated Use `onValueChange` instead. `onChange` will be removed in\nv1.3. `onValueChange` emits both the formatted and raw strings via\n`{ value, raw }` and matches every other voidframe form-control's\ncallback shape.",
         "required": false
       },
       {
         "name": "onValueChange",
         "type": "((info: { value: string; raw: string; }) => void)",
-        "description": "Also emit the raw (unmasked) string alongside the formatted one.",
+        "description": "Fires on every keystroke. Receives `{ value: formatted, raw: unmasked }`\n— preferred over `onChange` (which only emits the formatted string).",
         "required": false
       },
       {
         "name": "label",
         "type": "string",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
         "required": false
       }
     ]
@@ -12875,6 +13970,19 @@
         "required": false
       },
       {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
+        "required": false
+      },
+      {
         "name": "textareaProps",
         "type": "TextareaPassthrough",
         "description": "",
@@ -12947,6 +14055,12 @@
         "name": "disabled",
         "type": "boolean",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone — mirrors `MenuItem.tone`.",
         "required": false
       }
     ]
@@ -13054,6 +14168,12 @@
         "required": false
       },
       {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone. Emits `data-tone` + `vf-menu__item--${tone}` so destructive\n(\"Delete…\"), warning, or success items style consistently without inline\nstyles. Mirrors Button/Badge/AlertV2 tone vocabulary.",
+        "required": false
+      },
+      {
         "name": "asChild",
         "type": "boolean",
         "description": "Render through `<Slot>` and merge menu semantics onto a consumer-provided element (e.g. a router link).",
@@ -13107,6 +14227,12 @@
         "name": "disabled",
         "type": "boolean",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone — mirrors `MenuItem.tone`.",
         "required": false
       }
     ]
@@ -13177,6 +14303,13 @@
         "name": "loader",
         "type": "(() => Promise<MermaidApi>)",
         "description": "Override loader. Useful for tests + SSR.",
+        "required": false
+      },
+      {
+        "name": "loadingMessage",
+        "type": "string",
+        "defaultValue": "Loading diagram…",
+        "description": "Text shown while the diagram is loading.",
         "required": false
       }
     ]
@@ -13269,14 +14402,14 @@
   },
   {
     "name": "MessageContent",
-    "description": "Body slot of a chat `Message` — renders markdown, attachments, code\nblocks, and citations.",
+    "description": "Body slot of a chat `Message` — renders markdown, attachments, code\nblocks, and citations. Also accepts arbitrary `children` for streaming +\ntool-call composition. `MessageMarkdown` is a named alias for consumers\nwho prefer explicit naming for the content-rendering role.",
     "file": "src/components/Chat/Message.tsx",
     "props": [
       {
         "name": "content",
         "type": "string | MessagePart[]",
-        "description": "",
-        "required": true
+        "description": "Renderable message data — a plain string (with optional `markdown`), or\na structured `MessagePart[]` that renders markdown/code/attachments/\ncitations. Optional when `children` is supplied.",
+        "required": false
       },
       {
         "name": "markdown",
@@ -13522,6 +14655,44 @@
         "name": "pinThreshold",
         "type": "number",
         "description": "Pixels from bottom that still count as \"pinned\".",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "MessageMarkdown",
+    "description": "Named alias for `MessageContent`. Consumers who want explicit naming for\nthe markdown/content-rendering role can import `MessageMarkdown` to make\nthe intent clearer at call sites. Same component, two names.",
+    "file": "src/components/Chat/Message.tsx",
+    "props": [
+      {
+        "name": "content",
+        "type": "string | MessagePart[]",
+        "description": "Renderable message data — a plain string (with optional `markdown`), or\na structured `MessagePart[]` that renders markdown/code/attachments/\ncitations. Optional when `children` is supplied.",
+        "required": false
+      },
+      {
+        "name": "markdown",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "streaming",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "cursor",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "citations",
+        "type": "ReactNode",
+        "description": "",
         "required": false
       }
     ]
@@ -14234,6 +15405,19 @@
         "type": "string",
         "description": "",
         "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
+        "required": false
       }
     ]
   },
@@ -14316,6 +15500,12 @@
         "name": "asChild",
         "type": "boolean",
         "description": "Render as a polymorphic element via children (Radix-style asChild).",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone — destructive nav entries, warnings, etc.",
         "required": false
       }
     ]
@@ -14651,24 +15841,24 @@
   },
   {
     "name": "NumberInput",
-    "description": "Numeric text input with min/max/step, keyboard increment/decrement, and\nlocale parsing.",
+    "description": "Numeric text input with min/max/step, keyboard increment/decrement, and\nlocale parsing.\n\nAccessibility / test ergonomics: rest-spread props (including `data-testid`\nand `aria-*`) are forwarded to the inner native `<input type=\"number\">` so\n`getByTestId(id)` returns the actual control and `.value` reads work. Use\n`wrapperProps` for attributes that genuinely belong on the outer div.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
         "name": "value",
-        "type": "number",
+        "type": "NumberInputValue",
         "description": "",
         "required": false
       },
       {
         "name": "defaultValue",
-        "type": "number",
+        "type": "NumberInputValue",
         "description": "",
         "required": false
       },
       {
         "name": "onValueChange",
-        "type": "((value: number) => void)",
+        "type": "((value: NumberInputValue) => void)",
         "description": "",
         "required": false
       },
@@ -14703,6 +15893,25 @@
         "name": "width",
         "type": "string | number",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Voidframe-native size variant. Mirrors Input/Textarea/Select so forms\nread consistently at any density. Applied to the inner `<input>` via the\n`.vf-input--{size}` class pattern.",
+        "required": false
+      },
+      {
+        "name": "defaultBlank",
+        "type": "boolean",
+        "description": "When true, the uncontrolled default is `\"\"` (empty) instead of `min ?? 0`.\nUse for forms where \"no entry yet\" should remain distinguishable from\n`0` until the user types.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props to apply to the outer wrapper `<div>`. Use this when a consumer\nneeds to attach a `data-*` attribute or ref to the container rather\nthan the inner numeric `<input>`. Rest-spread (`{...props}`) lands on\nthe native `<input>` element so `data-testid`, `aria-*`, and any other\nHTMLAttributes are forwarded to the control as consumers expect.",
         "required": false
       }
     ]
@@ -15397,6 +16606,12 @@
         "defaultValue": "false",
         "description": "Start with password revealed.",
         "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Attributes for the outer wrapper `<div>` (container that holds the\ninput plus the visibility toggle button). Rest-spread (`{...props}`)\nlands on the inner native `<input>` so `data-testid`/`aria-*` forward\nto the control as consumers expect.",
+        "required": false
       }
     ]
   },
@@ -15475,20 +16690,20 @@
   },
   {
     "name": "PercentDisplay",
-    "description": "Locale-aware percentage formatter. Takes a 0-1 ratio and emits a localised\npercent string.",
+    "description": "Locale-aware percentage formatter. Defaults to treating `value` as\nalready-in-percent (50 → \"50%\"); switch with `basis=\"fraction\"` when\nyour source is a 0-1 ratio.",
     "file": "src/components/Numeric.tsx",
     "props": [
       {
         "name": "value",
         "type": "number",
-        "description": "Fraction (0.1 = 10%) by default. Pass `basis=\"percent\"` if value is\nalready in percent units (10 = 10%).",
+        "description": "Value to render. By default interpreted as already in percent units\n(`value={50}` → `\"50%\"`). Pass `basis=\"fraction\"` if your value is a\n0-1 ratio (`value={0.5}` + `basis=\"fraction\"` → `\"50%\"`).",
         "required": true
       },
       {
         "name": "basis",
         "type": "enum",
-        "defaultValue": "fraction",
-        "description": "",
+        "defaultValue": "percent",
+        "description": "`\"percent\"` (default): value is 0-100. `\"fraction\"`: value is 0-1.",
         "required": false
       },
       {
@@ -15549,15 +16764,28 @@
         "required": false
       },
       {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
         "name": "onValueChange",
         "type": "((info: { value: string; raw: string; }) => void)",
-        "description": "Also emit the raw (unmasked) string alongside the formatted one.",
+        "description": "Fires on every keystroke. Receives `{ value: formatted, raw: unmasked }`\n— preferred over `onChange` (which only emits the formatted string).",
         "required": false
       },
       {
         "name": "label",
         "type": "string",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
         "required": false
       }
     ]
@@ -16099,6 +17327,18 @@
         "type": "boolean",
         "description": "",
         "required": false
+      },
+      {
+        "name": "confirmButtonProps",
+        "type": "ButtonHTMLAttributes<HTMLButtonElement>",
+        "description": "Attributes applied to the built-in Confirm button. Defaults:\n`data-testid=\"vf-popconfirm-confirm-button\"` — override to disambiguate\nmultiple concurrent popconfirms in tests, or to attach an extra\n`aria-*` hook.",
+        "required": false
+      },
+      {
+        "name": "cancelButtonProps",
+        "type": "ButtonHTMLAttributes<HTMLButtonElement>",
+        "description": "Attributes applied to the built-in Cancel button. Defaults:\n`data-testid=\"vf-popconfirm-cancel-button\"`.",
+        "required": false
       }
     ]
   },
@@ -16131,6 +17371,78 @@
         "name": "width",
         "type": "string | number",
         "defaultValue": "240px",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "PopoverContent",
+    "description": "",
+    "file": "src/components/Popovers.tsx",
+    "props": [
+      {
+        "name": "placement",
+        "type": "enum",
+        "defaultValue": "bottom",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "offset",
+        "type": "number",
+        "defaultValue": "8",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "arrow",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "PopoverRoot",
+    "description": "",
+    "file": "src/components/Popovers.tsx",
+    "props": [
+      {
+        "name": "open",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onOpenChange",
+        "type": "((open: boolean) => void)",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "PopoverTrigger",
+    "description": "",
+    "file": "src/components/Popovers.tsx",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
         "description": "",
         "required": false
       }
@@ -16171,6 +17483,13 @@
         "name": "container",
         "type": "HTMLElement | null",
         "description": "Target container. Defaults to `document.body`.",
+        "required": false
+      },
+      {
+        "name": "inheritTheme",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "When true, the portaled subtree is wrapped in a `<ThemeScope>` mirroring\nthe nearest ancestor's resolved theme. Defaults to `true` so portaled\noverlays (Dialog, DrawerV2, Menu, ContextMenu, Tooltip, Popover, Toaster,\netc.) inherit the active theme even when:\n\n- the consumer ran `<VoidframeProvider scope=\"root\">` (no documentElement\n  write), and / or\n- a nested `<ThemeScope themeName=\"…\">` overrode theme for a subtree\n  that contains the portal trigger.\n\nSet to `false` for portaled content that needs to render outside the\nvoidframe theme cascade (very rare — e.g. embedding a third-party widget\nwith its own theming).",
         "required": false
       }
     ]
@@ -16348,6 +17667,12 @@
         "defaultValue": "md",
         "description": "",
         "required": false
+      },
+      {
+        "name": "indeterminate",
+        "type": "boolean",
+        "description": "When true, forces the indeterminate (no-value, continuously-animating)\nstate regardless of `value` / `variant`. Explicit form of the older\n`variant=\"indeterminate\"`; the variant prop still works for backward\ncompat, but `indeterminate` is clearer when the state is driven by a\nboolean condition (\"loading\" / \"pending\").",
+        "required": false
       }
     ]
   },
@@ -16403,7 +17728,7 @@
   },
   {
     "name": "QRCode",
-    "description": "Renders a QR code SVG from a string. Configurable error-correction level\nand cell size.",
+    "description": "Renders a scannable QR code SVG from a string.\n\nRequires the optional peer dependency `qrcode-generator` to produce\nreal output. When the peer is missing OR still loading, the\ncomponent renders a clearly-labelled placeholder. Bypass both by\npassing a pre-computed `matrix` prop.",
     "file": "src/components/Encoding.tsx",
     "props": [
       {
@@ -16429,7 +17754,7 @@
       {
         "name": "matrix",
         "type": "boolean[][]",
-        "description": "Provide a NxN boolean matrix. Takes precedence over placeholder.",
+        "description": "Provide a pre-computed NxN boolean matrix to bypass both the\npeer-dep encoder and the placeholder. Takes precedence when set.",
         "required": false
       },
       {
@@ -16742,20 +18067,26 @@
   },
   {
     "name": "Radio",
-    "description": "Single radio input with label. For groups use `RadioGroup`.",
+    "description": "Single radio input with label. Supports both controlled (`checked` +\n`onValueChange`) and uncontrolled (`defaultChecked`) usage. For groups\nuse `RadioGroup`.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
         "name": "checked",
         "type": "boolean",
-        "description": "",
-        "required": true
+        "description": "Controlled checked state. When provided, `defaultChecked` is ignored.",
+        "required": false
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "description": "Uncontrolled initial checked state. Defaults to `false`.",
+        "required": false
       },
       {
         "name": "onValueChange",
-        "type": "() => void",
-        "description": "",
-        "required": true
+        "type": "((checked: boolean) => void)",
+        "description": "Fires whenever the checked state changes (controlled or uncontrolled).",
+        "required": false
       },
       {
         "name": "label",
@@ -16873,20 +18204,26 @@
     "props": [
       {
         "name": "value",
-        "type": "number",
-        "description": "",
+        "type": "RatingValue",
+        "description": "Controlled value. `null` represents \"not yet rated\" — distinguishable\nfrom `0` (\"zero-star rating explicitly selected\"). The widened union\nreplaces the prior `number`-only type; existing call sites that only\npass `number` still work.",
         "required": false
       },
       {
         "name": "defaultValue",
-        "type": "number",
+        "type": "RatingValue",
         "description": "",
         "required": false
       },
       {
         "name": "onValueChange",
-        "type": "((value: number) => void)",
+        "type": "((value: RatingValue) => void)",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultBlank",
+        "type": "boolean",
+        "description": "When true, the uncontrolled default is `null` instead of `0`.",
         "required": false
       },
       {
@@ -16930,6 +18267,19 @@
         "name": "id",
         "type": "string",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
         "required": false
       }
     ]
@@ -18466,7 +19816,7 @@
   },
   {
     "name": "SearchInput",
-    "description": "Input tuned for search: leading search icon, clear-on-escape, debounce via\n`debounce` prop.",
+    "description": "Input tuned for search: leading search icon, clear-on-escape, debounce via\n`debounce` prop. Rest-spread props land on the inner native `<input>` so\n`data-testid`/`aria-*` forward to the control.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
@@ -18516,6 +19866,12 @@
         "name": "width",
         "type": "string | number",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Attributes for the outer wrapper `<div>`. Rest-spread (`{...props}`)\nlands on the inner native `<input>` so `data-testid`/`aria-*` forward\nto the control as consumers expect.",
         "required": false
       }
     ]
@@ -18674,6 +20030,144 @@
         "name": "width",
         "type": "string | number",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant. Voidframe-native — the native HTMLSelectElement\n`size` attribute (row count for open listbox) is exposed as `listSize`\nbelow so both axes are controllable without type collision.",
+        "required": false
+      },
+      {
+        "name": "listSize",
+        "type": "number",
+        "description": "Native `HTMLSelectElement.size` (number of rows when displayed as a list\nbox). Renamed from `size` to free that prop for the voidframe variant.",
+        "required": false
+      },
+      {
+        "name": "asAriaLabel",
+        "type": "string",
+        "description": "Accessible-name escape hatch for deliberately-unlabeled selects in\ndata-dense matrix UIs (e.g. tier-routing grids). When set, the value is\nemitted as `aria-label` and the \"requires label/aria-label/aria-labelledby\"\nwarning is suppressed. Matches the `TooltipV2.asAriaLabel` pattern.",
+        "required": false
+      },
+      {
+        "name": "suppressA11yWarning",
+        "type": "boolean",
+        "description": "Internal escape hatch for voidframe components that know they render\nSelects inside a structurally-labeled grid/row/gridcell. Prefer\n`asAriaLabel` in consumer code.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "Select.Content",
+    "description": "",
+    "file": "src/components/Form.tsx",
+    "props": []
+  },
+  {
+    "name": "Select.Item",
+    "description": "",
+    "file": "src/components/Form.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "Select.Trigger",
+    "description": "",
+    "file": "src/components/Form.tsx",
+    "props": []
+  },
+  {
+    "name": "Select.Value",
+    "description": "",
+    "file": "src/components/Form.tsx",
+    "props": [
+      {
+        "name": "placeholder",
+        "type": "string",
+        "description": "Text shown when nothing is selected.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SelectContent",
+    "description": "",
+    "file": "src/compat/shadcn/Select.tsx",
+    "props": []
+  },
+  {
+    "name": "SelectItem",
+    "description": "",
+    "file": "src/compat/shadcn/Select.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SelectRoot",
+    "description": "",
+    "file": "src/components/Form.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void)",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SelectTrigger",
+    "description": "",
+    "file": "src/compat/shadcn/Select.tsx",
+    "props": []
+  },
+  {
+    "name": "SelectValue",
+    "description": "",
+    "file": "src/compat/shadcn/Select.tsx",
+    "props": [
+      {
+        "name": "placeholder",
+        "type": "string",
+        "description": "Text shown when nothing is selected.",
         "required": false
       }
     ]
@@ -19112,6 +20606,129 @@
       },
       {
         "name": "modal",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SheetBody",
+    "description": "",
+    "file": "src/compat/shadcn/Sheet.tsx",
+    "props": []
+  },
+  {
+    "name": "SheetClose",
+    "description": "",
+    "file": "src/compat/shadcn/Sheet.tsx",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SheetContent",
+    "description": "",
+    "file": "src/compat/shadcn/Sheet.tsx",
+    "props": [
+      {
+        "name": "size",
+        "type": "string | number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "side",
+        "type": "enum",
+        "description": "Override the `side` set on the `<DrawerV2>` root. Useful when a single\ndrawer instance swaps between sides at runtime (e.g. RTL flip, responsive\nreorient). Defaults to the root's `side` when omitted — no behavior\nchange for existing consumers.",
+        "required": false
+      },
+      {
+        "name": "trapFocus",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "restoreFocus",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "adaptive",
+        "type": "boolean",
+        "description": "Expand to full-width below the `md` breakpoint. Default true.",
+        "required": false
+      },
+      {
+        "name": "monospace",
+        "type": "boolean",
+        "description": "When true, renders the drawer body in a monospace font — useful for\nlog-output drawers, prompt dumps, and code diffs. Mirrors `Card.monospace`.",
+        "required": false
+      },
+      {
+        "name": "onEscape",
+        "type": "((e: KeyboardEvent) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onInteractOutside",
+        "type": "((e: PointerEvent) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "initialFocus",
+        "type": "RefObject<HTMLElement>",
+        "description": "Focus this element when the drawer opens instead of the first focusable child.",
+        "required": false
+      },
+      {
+        "name": "finalFocus",
+        "type": "RefObject<HTMLElement>",
+        "description": "Focus this element when the drawer closes instead of the previously-focused element.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "SheetDescription",
+    "description": "",
+    "file": "src/compat/shadcn/Sheet.tsx",
+    "props": []
+  },
+  {
+    "name": "SheetFooter",
+    "description": "",
+    "file": "src/compat/shadcn/Sheet.tsx",
+    "props": []
+  },
+  {
+    "name": "SheetHeader",
+    "description": "",
+    "file": "src/compat/shadcn/Sheet.tsx",
+    "props": []
+  },
+  {
+    "name": "SheetTitle",
+    "description": "",
+    "file": "src/compat/shadcn/Sheet.tsx",
+    "props": []
+  },
+  {
+    "name": "SheetTrigger",
+    "description": "",
+    "file": "src/compat/shadcn/Sheet.tsx",
+    "props": [
+      {
+        "name": "asChild",
         "type": "boolean",
         "description": "",
         "required": false
@@ -19703,6 +21320,19 @@
         "required": false
       },
       {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
+        "required": false
+      },
+      {
         "name": "textareaProps",
         "type": "TextareaPassthrough",
         "description": "",
@@ -19745,12 +21375,19 @@
         "type": "((next: number) => void)",
         "description": "",
         "required": false
+      },
+      {
+        "name": "emptyMessage",
+        "type": "string",
+        "defaultValue": "No commands",
+        "description": "Text shown when no commands match the filter.",
+        "required": false
       }
     ]
   },
   {
     "name": "Slider",
-    "description": "Range slider for numeric values. Controllable via `value` /\n`onValueChange`; supports one or two thumbs.",
+    "description": "Range slider for numeric values. Controllable via `value` /\n`onValueChange`; supports one or two thumbs.\n\nAccessibility / test ergonomics: rest-spread props (including `data-testid`\nand `aria-*`) are forwarded to the inner native `<input type=\"range\">` so\n`getByTestId(id)` returns the actual control and `.value` reads work. Use\n`wrapperProps` for attributes that genuinely belong on the outer div.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
@@ -19808,6 +21445,12 @@
         "name": "showValue",
         "type": "boolean",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Attributes for the outer wrapper `<div>`. Use for container-level\n`data-*` hooks. Rest-spread (`{...props}`) lands on the inner native\n`<input type=\"range\">` so `data-testid`/`aria-*` forward to the control.",
         "required": false
       }
     ]
@@ -20360,6 +22003,12 @@
         "required": false
       },
       {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone — mirrors Button/IconButton/CopyButton vocabulary. Emits\n`data-tone` + primes `--vf-accent`. `variant=\"destructive\"` is an alias\nfor `tone=\"danger\"` + solid visual.",
+        "required": false
+      },
+      {
         "name": "disabled",
         "type": "boolean",
         "description": "",
@@ -20722,7 +22371,7 @@
   },
   {
     "name": "StatGroup",
-    "description": "Row or grid of `Stat`s with consistent spacing and optional dividers.",
+    "description": "Row or grid of `Stat`s with consistent spacing and optional dividers.\nPass `columns` for an N-column grid; omit for the default horizontal row.",
     "file": "src/components/Metrics.tsx",
     "props": [
       {
@@ -20730,6 +22379,12 @@
         "type": "boolean",
         "defaultValue": "true",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "columns",
+        "type": "number",
+        "description": "Render children in a CSS grid with `N` equal columns rather than the\ndefault horizontal flex row. Useful for 3-up / 4-up stat dashboards\nthat previously forced consumers to wrap in their own grid. Omit or\nset to 0 to keep the default row behavior.",
         "required": false
       }
     ]
@@ -21418,6 +23073,18 @@
         "type": "boolean",
         "description": "",
         "required": false
+      },
+      {
+        "name": "asAriaLabel",
+        "type": "string",
+        "description": "Accessible-name escape hatch — mirrors Input/Textarea.",
+        "required": false
+      },
+      {
+        "name": "suppressA11yWarning",
+        "type": "boolean",
+        "description": "Internal escape hatch for voidframe-composed parents.",
+        "required": false
       }
     ]
   },
@@ -21506,94 +23173,9 @@
   },
   {
     "name": "Table",
-    "description": "Semantic `<table>` wrapper with voidframe styling. For sortable /\nvirtualised tables use `DataGrid`.",
+    "description": "Identity helper that anchors `T` at the column-declaration site, avoiding\nTypeScript inference collapsing to a looser type when columns are defined\ninline alongside the data. Usage:\n\n    type Row = { id: string; name: string; count: number };\n    const columns = defineColumns<Row>([\n      { key: \"name\", header: \"Name\" },\n      { key: \"count\", header: \"Count\", render: (r) => r.count.toFixed(0) },\n    ]);",
     "file": "src/components/Data.tsx",
-    "props": [
-      {
-        "name": "columns",
-        "type": "TableColumn<T>[]",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "data",
-        "type": "T[]",
-        "description": "",
-        "required": true
-      },
-      {
-        "name": "striped",
-        "type": "boolean",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "dense",
-        "type": "boolean",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "bordered",
-        "type": "boolean",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "stickyHeader",
-        "type": "boolean",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "adaptive",
-        "type": "boolean",
-        "description": "Below the `md` breakpoint, render rows as stacked cards (column\nheader shown as a label above each value). Default true.",
-        "required": false
-      },
-      {
-        "name": "loading",
-        "type": "boolean",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "emptyState",
-        "type": "ReactNode",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "onRowClick",
-        "type": "((row: T, index: number) => void)",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "rowKey",
-        "type": "((row: T, index: number) => string | number)",
-        "description": "",
-        "required": false
-      },
-      {
-        "name": "defaultSort",
-        "type": "{ key: string; direction: SortDirection; }",
-        "description": "Initial sort state (uncontrolled).",
-        "required": false
-      },
-      {
-        "name": "sort",
-        "type": "{ key: string; direction: SortDirection; } | null",
-        "description": "Controlled sort state.",
-        "required": false
-      },
-      {
-        "name": "onSortChange",
-        "type": "((next: { key: string; direction: SortDirection; } | null) => void)",
-        "description": "",
-        "required": false
-      }
-    ]
+    "props": []
   },
   {
     "name": "Tabs",
@@ -21629,6 +23211,94 @@
         "name": "accent",
         "type": "string",
         "description": "Accent color for the active trigger (sets `--vf-accent`).",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "Tabs.List",
+    "description": "",
+    "file": "src/components/Interactive.tsx",
+    "props": []
+  },
+  {
+    "name": "Tabs.Panel",
+    "description": "",
+    "file": "src/components/Interactive.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "description": "Keep panel mounted when inactive (preserves state). Default false.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "Tabs.Trigger",
+    "description": "",
+    "file": "src/components/Interactive.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "TabsContent",
+    "description": "",
+    "file": "src/compat/shadcn/Tabs.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "description": "Keep panel mounted when inactive (preserves state). Default false.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "TabsList",
+    "description": "",
+    "file": "src/compat/shadcn/Tabs.tsx",
+    "props": []
+  },
+  {
+    "name": "TabsTrigger",
+    "description": "",
+    "file": "src/compat/shadcn/Tabs.tsx",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "required": true
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "",
         "required": false
       }
     ]
@@ -21719,6 +23389,12 @@
         "name": "validate",
         "type": "((tag: string) => string | boolean)",
         "description": "Return `true` to accept, `false` (or a string) to reject. Strings surface as dev warnings.",
+        "required": false
+      },
+      {
+        "name": "inputProps",
+        "type": "InputHTMLAttributes<HTMLInputElement>",
+        "description": "Props forwarded to the inner text `<input>` that drafts new tags. Use for\n`data-testid`, `aria-*`, or other attributes consumers want on the\nactual text entry field.",
         "required": false
       }
     ]
@@ -21961,6 +23637,25 @@
         "defaultValue": "3",
         "description": "",
         "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Voidframe-native size variant. Mirrors Input.size.",
+        "required": false
+      },
+      {
+        "name": "asAriaLabel",
+        "type": "string",
+        "description": "Accessible-name escape hatch.",
+        "required": false
+      },
+      {
+        "name": "suppressA11yWarning",
+        "type": "boolean",
+        "description": "Internal escape hatch for voidframe-composed parents.",
+        "required": false
       }
     ]
   },
@@ -22009,6 +23704,12 @@
         "name": "inline",
         "type": "boolean",
         "description": "Render as a span to avoid creating a block-level wrapper.",
+        "required": false
+      },
+      {
+        "name": "globalize",
+        "type": "boolean",
+        "description": "When true, theme attributes are also mirrored to `document.documentElement`\nfor the lifetime of this scope. Use inside a portaled overlay when you\nneed nested theming to affect the whole page (rare). Defaults to `false`\n— nested scopes are local-only.",
         "required": false
       }
     ]
@@ -22232,6 +23933,19 @@
         "type": "string",
         "description": "",
         "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
+        "required": false
       }
     ]
   },
@@ -22387,6 +24101,18 @@
         "type": "boolean",
         "description": "",
         "required": false
+      },
+      {
+        "name": "asAriaLabel",
+        "type": "string",
+        "description": "Accessible-name escape hatch — mirrors Input/Textarea.",
+        "required": false
+      },
+      {
+        "name": "suppressA11yWarning",
+        "type": "boolean",
+        "description": "Internal escape hatch for voidframe-composed parents.",
+        "required": false
       }
     ]
   },
@@ -22423,7 +24149,7 @@
         "name": "variant",
         "type": "enum",
         "defaultValue": "outline",
-        "description": "",
+        "description": "Visual style. `\"destructive\"` is a parity alias for shadcn migrations —\nit cascades to `tone=\"danger\"` so a single prop expresses intent.",
         "required": false
       },
       {
@@ -22431,6 +24157,12 @@
         "type": "enum",
         "defaultValue": "md",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "description": "Semantic tone. Mirrors Button/Badge/Menu.Item. Emits `data-tone` on\nthe group root + cascades to `vf-toggle-group--${tone}` BEM class for\nCSS targeting.",
         "required": false
       },
       {
@@ -22489,7 +24221,7 @@
       {
         "name": "kind",
         "type": "enum",
-        "defaultValue": "compact",
+        "defaultValue": "default",
         "description": "",
         "required": false
       }
@@ -22725,6 +24457,12 @@
     ]
   },
   {
+    "name": "TooltipContent",
+    "description": "",
+    "file": "src/components/Popovers.tsx",
+    "props": []
+  },
+  {
     "name": "TooltipProvider",
     "description": "Groups `Tooltip` instances to share timing. Once one tooltip closes,\nhovering another within `skipDelayDuration` (ms) opens instantly\ninstead of re-incurring `delayDuration`. Place near the root of the\napp (or a sub-tree of related controls).",
     "file": "src/components/Popovers.tsx",
@@ -22746,8 +24484,53 @@
     ]
   },
   {
+    "name": "TooltipRoot",
+    "description": "",
+    "file": "src/components/Popovers.tsx",
+    "props": [
+      {
+        "name": "placement",
+        "type": "enum",
+        "defaultValue": "bottom",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "offset",
+        "type": "number",
+        "defaultValue": "8",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "openDelay",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "closeDelay",
+        "type": "number",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "asAriaLabel",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "TooltipTrigger",
+    "description": "",
+    "file": "src/components/Popovers.tsx",
+    "props": []
+  },
+  {
     "name": "TraceViewer",
-    "description": "Developer trace viewer for agent runs — flamegraph-style timeline of steps\nand tool calls.",
+    "description": "Developer trace viewer for agent runs — flamegraph-style timeline of\nparent/child spans positioned by start time and duration.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -22819,6 +24602,12 @@
         "type": "enum",
         "defaultValue": "md",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "itemAttributes",
+        "type": "((item: TransferItem, panel: \"left\" | \"right\") => HTMLAttributes<HTMLDivElement>)",
+        "description": "Return arbitrary HTML attributes for each rendered item across both\npanels. Mirrors `Table.rowAttributes` — attach `data-testid` per item.",
         "required": false
       }
     ]
@@ -23111,6 +24900,25 @@
         "type": "string",
         "description": "",
         "required": false
+      },
+      {
+        "name": "itemAttributes",
+        "type": "((node: TreeNode, depth: number) => HTMLAttributes<HTMLLIElement>)",
+        "description": "Return arbitrary HTML attributes for each rendered node `<li>`. Mirrors\n`Table.rowAttributes` — tests can attach `data-testid` per node.",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Visual size variant — `\"sm\" | \"md\" | \"lg\"`. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wrapperProps",
+        "type": "HTMLAttributes<HTMLDivElement>",
+        "description": "Props forwarded to the outer wrapper `<div>`.",
+        "required": false
       }
     ]
   },
@@ -23154,12 +24962,18 @@
         "type": "((row: T) => void)",
         "description": "",
         "required": false
+      },
+      {
+        "name": "rowAttributes",
+        "type": "((row: T, depth: number) => HTMLAttributes<HTMLDivElement>)",
+        "description": "Return arbitrary HTML attributes for each rendered row. Mirrors\n`Table.rowAttributes` / `DataGrid.rowAttributes`.",
+        "required": false
       }
     ]
   },
   {
     "name": "TreeView",
-    "description": "A hierarchical tree for displaying and navigating nested data structures.\nSupports expand/collapse, keyboard traversal, and optional selection.",
+    "description": "Tree view. Memoized at the export site so parent re-renders with\nreferentially-stable `nodes` / `expanded` skip the recursive walk.",
     "file": "src/components/TreeView.tsx",
     "props": [
       {
@@ -23233,6 +25047,12 @@
         "name": "loadChildren",
         "type": "((node: TreeNode) => Promise<TreeNode[]>)",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "itemAttributes",
+        "type": "((node: TreeNode, depth: number) => HTMLAttributes<HTMLDivElement>)",
+        "description": "Return arbitrary HTML attributes for each rendered tree node. Mirrors\n`Table.rowAttributes` — tests can attach `data-testid` per node without\ninjecting marker spans inside `renderItem`.",
         "required": false
       }
     ]
@@ -23949,7 +25769,7 @@
   },
   {
     "name": "VirtualGrid",
-    "description": "Virtualised 2D grid. Renders only the visible cells; suitable for\nthousands of items.",
+    "description": "Virtualized 2D grid. Memoized at the export site (generic-preserving).",
     "file": "src/components/Virtualization.tsx",
     "props": [
       {
@@ -23992,7 +25812,7 @@
   },
   {
     "name": "VirtualList",
-    "description": "Virtualised 1D list. Renders only the visible rows; supports variable\nheight via measurement.",
+    "description": "Virtualized list. Memoized via `genericMemo` so the per-item-type\ngeneric survives. Parent re-renders with stable `items` / `renderItem`\nskip the slice computation + visible-window render.",
     "file": "src/components/Virtualization.tsx",
     "props": [
       {
@@ -24203,6 +26023,26 @@
         "name": "timeZone",
         "type": "string",
         "description": "Default time zone for date/time rendering.",
+        "required": false
+      },
+      {
+        "name": "scope",
+        "type": "enum",
+        "defaultValue": "global",
+        "description": "Where theme attributes get written. Default `\"global\"` writes to\n`document.documentElement` so portaled overlays inherit the theme.\nPass `\"root\"` to restrict theme scoping to the provider's wrapper div.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "VoidframeReactFlowTheme",
+    "description": "Scoped voidframe theme wrapper for `@xyflow/react`. Map ReactFlow's\n`Controls` / `MiniMap` / edges / nodes / handles to voidframe tokens\nvia CSS-variable bridging — no `!important` overrides, no global\nstylesheet. Place at any level above `<ReactFlow>`.",
+    "file": "src/components/ReactFlowTheme.tsx",
+    "props": [
+      {
+        "name": "vars",
+        "type": "Record<string, string | number>",
+        "description": "Additional CSS variable overrides scoped to the ReactFlow surface.\nUseful for nudging the accent color or border weight without forking\nthe whole theme.",
         "required": false
       }
     ]

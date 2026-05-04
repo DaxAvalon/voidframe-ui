@@ -35,6 +35,13 @@
     "file": "src/utils/responsiveClasses.ts"
   },
   {
+    "name": "buttonDisabledAttrs",
+    "kind": "function",
+    "signature": "export function buttonDisabledAttrs(disabled: boolean | undefined): DisabledAttrs",
+    "description": "Produce both `disabled` and `aria-disabled` attributes for any\nbutton-like component.\n\nUsage:\n  <button\n    {...buttonDisabledAttrs(isDisabled)}\n    onClick={isDisabled ? undefined : onClick}\n  />",
+    "file": "src/utils/buttonDisabledAttrs.ts"
+  },
+  {
     "name": "clamp",
     "kind": "function",
     "signature": "export function clamp(value: number, min: number, max: number): number",
@@ -210,6 +217,12 @@
     "file": "src/utils/forwardRef.ts"
   },
   {
+    "name": "genericMemo",
+    "kind": "function",
+    "signature": "export function genericMemo<T extends object>(component: T): T",
+    "file": "src/utils/genericMemo.ts"
+  },
+  {
     "name": "getAllCookies",
     "kind": "function",
     "signature": "export function getAllCookies(): Record<string, string>",
@@ -285,6 +298,13 @@
     "signature": "export function groupBy<T, K extends string | number>( arr: T[], keyFn: (item: T) => K ): Record<K, T[]>",
     "description": "Group an array by a key function.",
     "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "hasAccessibleGridAncestor",
+    "kind": "function",
+    "signature": "export function hasAccessibleGridAncestor(el: Element | null | undefined): boolean",
+    "description": "Returns true if `el` has an ancestor (itself or up) carrying a\nstructural grid/row/table role. Used to suppress missing-label\na11y warnings when the role-based context makes the label\nredundant.",
+    "file": "src/utils/hasAccessibleGridAncestor.ts"
   },
   {
     "name": "hasCookie",
@@ -616,6 +636,13 @@
     "file": "src/utils/formatters.ts"
   },
   {
+    "name": "toneAttrs",
+    "kind": "function",
+    "signature": "export function toneAttrs(base: string, input: ToneAttrsInput = {}): ToneAttrs",
+    "description": "Build a combined BEM class list + `data-*` attribute object from\ntone/variant/size props. Emits both representations so consumers\ncan target either.\n\n@param base  BEM base class (e.g. `\"vf-stat\"`). Always included.\n@param input Tone/variant/size values. Undefined values are omitted.",
+    "file": "src/utils/toneAttrs.ts"
+  },
+  {
     "name": "truncate",
     "kind": "function",
     "signature": "export function truncate(str: string | null | undefined, max: number = 40): string",
@@ -626,7 +653,7 @@
     "name": "uid",
     "kind": "function",
     "signature": "export function uid(prefix: string = \"vf\"): string",
-    "description": "Generate a short unique ID (monotonic counter, prefixed). Useful for\nnon-ARIA identifiers where `useId` isn't an option (e.g. module-level\ncaches). Not cryptographically random.\n\n@param prefix Default `\"vf\"`.",
+    "description": "Generate a short unique ID (monotonic counter, prefixed). Intended for\n**internal-only** non-rendered identifiers — e.g. module-level cache\nkeys, dev-warning de-dup keys, transient state lookups. The randomness\ncomes from `Math.random()` which is **not SSR-safe**; if you place\nthe result in the DOM, server and client will mismatch on hydration.\n\nFor DOM-rendered identifiers (id, htmlFor, aria-labelledby, list keys\nthat touch the DOM), use React's `useId()` hook instead.\n\n@param prefix Default `\"vf\"`.",
     "file": "src/utils/formatters.ts"
   },
   {

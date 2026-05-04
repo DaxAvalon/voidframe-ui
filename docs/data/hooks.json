@@ -98,6 +98,12 @@
     "file": "src/hooks/useDerivedState.ts"
   },
   {
+    "name": "useDisclosure",
+    "kind": "function",
+    "signature": "export function useDisclosure(options: UseDisclosureOptions = {}): DisclosureState",
+    "file": "src/hooks/useDisclosure.ts"
+  },
+  {
     "name": "useDocumentTitle",
     "kind": "function",
     "signature": "export function useDocumentTitle( title: string, options?: UseDocumentTitleOptions ): void",
