@@ -96,7 +96,7 @@ jobs:
         run: npm pack --dry-run
 
   publish:
-    name: Publish to npm
+    name: Publish to npm (trusted publishing)
     needs: ci
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
@@ -108,10 +108,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
+      # Trusted publishing requires npm >= 11.5.1 which ships with Node 22+.
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
           registry-url: "https://registry.npmjs.org"
 
@@ -131,7 +132,9 @@ jobs:
           test -f dist/voidframe.css || { echo "MISSING dist/voidframe.css"; exit 1; }
           echo "All dist files present."
 
+      # OIDC trusted publishing — no NPM_TOKEN secret needed.
+      # npm CLI auto-detects the GitHub OIDC environment and requests
+      # a short-lived publish token from npmjs.com. Provenance
+      # attestations are generated automatically.
       - name: Publish
-        run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
