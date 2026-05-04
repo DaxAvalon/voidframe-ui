@@ -157,7 +157,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         "sidebar main rightpanel"
         "footer footer footer"
       `,
-      minHeight: "100vh",
+      height: "100vh",
       ...style,
     };
 
@@ -190,7 +190,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         {sidebar && !collapsed && !isMobile && (
           <aside
             className="vf-appshell__sidebar"
-            style={{ gridArea: "sidebar", position: "relative" }}
+            style={{ gridArea: "sidebar", position: "relative", overflowY: "auto" }}
           >
             {sidebar}
             {sidebarResizable && (
@@ -227,14 +227,14 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         )}
         <main
           className="vf-appshell__main"
-          style={{ gridArea: "main" }}
+          style={{ gridArea: "main", overflowY: "auto" }}
         >
           {children}
         </main>
         {rightPanel && (
           <aside
             className="vf-appshell__rightpanel"
-            style={{ gridArea: "rightpanel" }}
+            style={{ gridArea: "rightpanel", overflowY: "auto" }}
           >
             {rightPanel}
           </aside>
