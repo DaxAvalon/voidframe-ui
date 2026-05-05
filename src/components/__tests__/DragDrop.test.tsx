@@ -10,7 +10,7 @@ describe("DragDrop surface", () => {
         value={["a", "b", "c"]}
         getKey={(item) => item}
         renderItem={(item) => <div data-testid={item}>{item}</div>}
-        onReorder={() => {}}
+        onValueChange={() => {}}
       />
     );
     expect(container.textContent).toContain("a");
@@ -22,7 +22,7 @@ describe("DragDrop surface", () => {
     const { container } = renderWithTheme(
       <DragDropContext onDragEnd={() => {}}>
         <Droppable id="zone1">
-          {(props) => <div {...props}><Draggable id="d1">{(dp) => <div {...dp}>drag</div>}</Draggable></div>}
+          {({ dropRef }) => <div ref={dropRef}><Draggable id="d1">{({ dragRef, dragHandleProps }) => <div ref={dragRef} {...dragHandleProps}>drag</div>}</Draggable></div>}
         </Droppable>
       </DragDropContext>
     );

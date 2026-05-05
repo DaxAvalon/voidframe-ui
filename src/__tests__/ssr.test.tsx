@@ -83,6 +83,22 @@ function wrap(node: React.ReactNode) {
   return <VoidframeProvider>{node}</VoidframeProvider>;
 }
 
+// Suppress React's "useLayoutEffect does nothing on the server" warning.
+// happy-dom provides a window object so useIsomorphicLayoutEffect binds
+// to useLayoutEffect at module load time. The warning is correct but
+// noisy — the hook works correctly in real SSR (Node/Deno) where window
+// is genuinely absent.
+const _origError = console.error;
+beforeAll(() => {
+  console.error = (...args: unknown[]) => {
+    if (String(args[0]).includes("useLayoutEffect does nothing")) return;
+    _origError(...args);
+  };
+});
+afterAll(() => {
+  console.error = _origError;
+});
+
 describe("SSR — renderToString smoke tests", () => {
   it("renders the base provider", () => {
     expect(() => renderToString(wrap(<div>hello</div>))).not.toThrow();

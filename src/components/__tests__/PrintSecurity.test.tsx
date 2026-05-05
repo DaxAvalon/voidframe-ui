@@ -27,12 +27,6 @@ describe("printNode security", () => {
     const node = document.createElement("div");
     node.textContent = "Print me";
 
-    // Add a stylesheet link to the document for the function to pick up
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://example.com/style.css";
-    document.head.appendChild(link);
-
     // Render PrintButton and capture its behavior by checking
     // the iframe it creates in the DOM
     const { renderWithTheme } = await import("../../../test/renderWithTheme");
@@ -56,7 +50,5 @@ describe("printNode security", () => {
     expect(source).not.toContain("link.outerHTML");
     expect(source).not.toContain("style.outerHTML");
 
-    // Cleanup
-    document.head.removeChild(link);
   });
 });

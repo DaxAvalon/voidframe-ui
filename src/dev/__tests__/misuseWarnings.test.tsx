@@ -8,10 +8,14 @@ import { Combobox } from "../../components/Combobox";
 
 function withWarnSpy(fn: (spy: ReturnType<typeof vi.fn>) => void): void {
   const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+  // Also suppress console.error — React emits duplicate-key warnings
+  // via console.error when these tests intentionally pass duplicate values.
+  const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
   try {
     fn(spy as unknown as ReturnType<typeof vi.fn>);
   } finally {
     spy.mockRestore();
+    errSpy.mockRestore();
   }
 }
 

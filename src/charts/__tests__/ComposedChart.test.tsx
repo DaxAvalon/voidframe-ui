@@ -3,9 +3,9 @@ import { renderWithTheme } from "../../../test/renderWithTheme";
 import { ComposedChart } from "../ComposedChart";
 
 const data = [
-  { x: "Jan", bars: 10, line: 8 },
-  { x: "Feb", bars: 15, line: 12 },
-  { x: "Mar", bars: 20, line: 18 },
+  { x: "Jan", bars: 10, line: 8, area: 6, scatter: 4 },
+  { x: "Feb", bars: 15, line: 12, area: 9, scatter: 7 },
+  { x: "Mar", bars: 20, line: 18, area: 14, scatter: 11 },
   { x: "Apr", bars: 12, line: 14 },
 ];
 
@@ -201,8 +201,8 @@ describe("ComposedChart", () => {
         series={[
           { key: "bars", type: "bar" },
           { key: "line", type: "line" },
-          { key: "bars", type: "area" },
-          { key: "line", type: "scatter" },
+          { key: "area", type: "area" },
+          { key: "scatter", type: "scatter" },
         ]}
         width={500}
         height={300}

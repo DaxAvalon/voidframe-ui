@@ -345,8 +345,8 @@ function BarChartInner({
               data={s.values.map((pt) => {
                 const bandPos = bandScaleInst(pt.data.category) ?? 0;
                 if (isVertical) {
-                  const y = valueScale(pt.y1);
-                  const yBase = valueScale(pt.y0);
+                  const y = isFinite(valueScale(pt.y1)) ? valueScale(pt.y1) : 0;
+                  const yBase = isFinite(valueScale(pt.y0)) ? valueScale(pt.y0) : 0;
                   return {
                     x: bandPos,
                     y,
@@ -354,8 +354,8 @@ function BarChartInner({
                     height: yBase - y,
                   };
                 }
-                const x = valueScale(pt.y0);
-                const xEnd = valueScale(pt.y1);
+                const x = isFinite(valueScale(pt.y0)) ? valueScale(pt.y0) : 0;
+                const xEnd = isFinite(valueScale(pt.y1)) ? valueScale(pt.y1) : 0;
                 return {
                   x,
                   y: bandPos,
@@ -394,8 +394,10 @@ function BarChartInner({
                 const subPos = subBand(s.key) ?? 0;
                 const value = Number(row[s.key] ?? 0);
                 if (isVertical) {
-                  const y = valueScale(Math.max(0, value));
-                  const yBase = valueScale(0);
+                  const yRaw = valueScale(Math.max(0, value));
+                  const yBaseRaw = valueScale(0);
+                  const y = isFinite(yRaw) ? yRaw : 0;
+                  const yBase = isFinite(yBaseRaw) ? yBaseRaw : 0;
                   return {
                     x: bandPos + subPos,
                     y: Math.min(y, yBase),
@@ -403,8 +405,10 @@ function BarChartInner({
                     height: Math.abs(yBase - y),
                   };
                 }
-                const xStart = valueScale(Math.min(0, value));
-                const xEnd = valueScale(Math.max(0, value));
+                const xStartRaw = valueScale(Math.min(0, value));
+                const xEndRaw = valueScale(Math.max(0, value));
+                const xStart = isFinite(xStartRaw) ? xStartRaw : 0;
+                const xEnd = isFinite(xEndRaw) ? xEndRaw : 0;
                 return {
                   x: xStart,
                   y: bandPos + subPos,

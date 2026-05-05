@@ -291,7 +291,7 @@ function ComposedInner({
           const bs = xScale as ReturnType<typeof bandScale>;
           return (
             <Bar
-              key={s.key}
+              key={`${s.key}-${sIdx}`}
               data={data.map((row) => {
                 const pos = bs(String(row.x)) ?? 0;
                 const value = Number(row[s.key] ?? 0);
@@ -330,7 +330,7 @@ function ComposedInner({
           .filter((p): p is { x: number; y: number } => p !== null);
         if (s.type === "area") {
           return (
-            <g key={s.key}>
+            <g key={`${s.key}-${sIdx}`}>
               <Area
                 data={pts.map((p) => ({ x: p.x, y0: yScale(0), y1: p.y }))}
                 fill={colors[sIdx]}
@@ -350,7 +350,7 @@ function ComposedInner({
         if (s.type === "line") {
           return (
             <Line
-              key={s.key}
+              key={`${s.key}-${sIdx}`}
               data={pts}
               stroke={colors[sIdx]}
               strokeWidth={1.5}
@@ -362,7 +362,7 @@ function ComposedInner({
         // scatter
         return (
           <Point
-            key={s.key}
+            key={`${s.key}-${sIdx}`}
             data={pts}
             shape="square"
             size={5}

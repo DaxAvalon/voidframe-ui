@@ -74,6 +74,24 @@ import { Popconfirm } from "../../src/components/Popconfirm";
 
 // ── Helper ──────────────────────────────────────────────────────
 
+// Suppress React's "useLayoutEffect does nothing on the server" warning.
+// happy-dom provides a `window` object, so useIsomorphicLayoutEffect
+// (evaluated at module load time) permanently binds to useLayoutEffect.
+// When renderToString runs, React warns because layout effects can't
+// execute during server rendering. The warning is correct but noisy —
+// VoidframeProvider's isomorphic hook works correctly in real SSR
+// environments (Node/Deno) where window is genuinely absent.
+const _origError = console.error;
+beforeAll(() => {
+  console.error = (...args: unknown[]) => {
+    if (String(args[0]).includes("useLayoutEffect does nothing")) return;
+    _origError(...args);
+  };
+});
+afterAll(() => {
+  console.error = _origError;
+});
+
 const wrap = (ui: React.ReactElement) =>
   renderToString(<VoidframeProvider>{ui}</VoidframeProvider>);
 
@@ -100,7 +118,7 @@ const ssrComponents: Array<{ name: string; element: React.ReactElement }> = [
 
   // Button
   { name: "Button", element: <Button>Click</Button> },
-  { name: "ButtonGroup", element: <ButtonGroup options={[{ value: "a", label: "A" }]} /> },
+  { name: "ButtonGroup", element: <ButtonGroup options={[{ key: "a", label: "A" }]} value="a" onValueChange={() => {}} /> },
 
   // Form
   { name: "Input", element: <Input label="Name" /> },

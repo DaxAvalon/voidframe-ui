@@ -53,3 +53,19 @@ if (!globalThis.matchMedia) {
 // relies on getContext returning null to skip the draw path — a
 // global mock that returns a real-looking context triggers scheduler
 // reentrancy in its flush cycle.
+
+// ── Suppress happy-dom fetch noise ────────────────────────────
+// happy-dom attempts to fetch stylesheets and other resources
+// referenced in the DOM. During test teardown, in-flight fetches
+// produce AbortError / NetworkError DOMExceptions that clutter
+// the test output. These are not test failures.
+const _origConsoleError = console.error;
+console.error = (...args: unknown[]) => {
+  const msg = String(args[0] ?? "");
+  if (
+    msg.includes("AbortError") ||
+    msg.includes("NetworkError") ||
+    msg.includes("Failed to perform request")
+  ) return;
+  _origConsoleError(...args);
+};

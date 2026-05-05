@@ -215,6 +215,7 @@ const ComposerInput = forwardRef<HTMLTextAreaElement, ComposerInputProps>(
       className,
       onKeyDown,
       placeholder = "Message…",
+      defaultValue: _defaultValue,
       ...props
     },
     ref

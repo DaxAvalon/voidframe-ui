@@ -3,6 +3,7 @@ import { act, fireEvent } from "@testing-library/react";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 import { useForm } from "../../hooks/useForm";
 import { Form, FormErrorSummary, focusFirstInvalid, useFormContext } from "../FormProvider";
+import { Input } from "../Form";
 
 function SimpleForm({
   onSubmit,
@@ -15,8 +16,8 @@ function SimpleForm({
   });
   return (
     <Form form={form}>
-      <input name="email" {...form.register("email")} />
-      <input name="name" {...form.register("name")} />
+      <Input label="Email" {...form.register("email")} />
+      <Input label="Name" {...form.register("name")} />
       <FormErrorSummary />
       <button type="submit">Submit</button>
     </Form>
@@ -33,7 +34,7 @@ function FormWithErrors() {
   });
   return (
     <Form form={form}>
-      <input name="email" {...form.register("email")} />
+      <Input label="Email" {...form.register("email")} />
       <FormErrorSummary />
       <button type="submit">Submit</button>
     </Form>
@@ -141,7 +142,7 @@ describe("FormErrorSummary — link click focuses field", () => {
       });
       return (
         <Form form={form}>
-          <input name="email" {...form.register("email")} />
+          <Input label="Email" {...form.register("email")} />
           <FormErrorSummary />
           <button type="submit">Submit</button>
         </Form>
