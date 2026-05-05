@@ -141,7 +141,7 @@ The [Voidframe for VS Code](https://marketplace.visualstudio.com/items?itemName=
 Install from the Marketplace, or build locally from [`tools/vscode-voidframe/`](tools/vscode-voidframe/):
 
 ```bash
-code --install-extension tools/vscode-voidframe/vscode-voidframe-1.0.0.vsix
+code --install-extension tools/vscode-voidframe/vscode-voidframe-*.vsix
 ```
 
 ## Quick Start
