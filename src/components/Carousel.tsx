@@ -23,6 +23,7 @@ import { useId } from "../hooks/useId";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { cx } from "../utils/cx";
 import { safeHref } from "../utils/safeHref";
+import { Lightbox } from "./Lightbox";
 
 export type CarouselAlign = "start" | "center" | "end";
 export type CarouselControls = "arrows" | "dots" | "both" | "none";
@@ -386,6 +387,10 @@ export interface CarouselImageProps extends Omit<CarouselProps, "slides" | "chil
   images: CarouselImage[];
   /** Apply a subtle Ken Burns zoom while a slide is active. */
   kenBurns?: boolean;
+  /** Open a Lightbox overlay when an image is clicked. Default true. */
+  lightbox?: boolean;
+  /** Show a horizontal thumbnail strip below the carousel. */
+  thumbnails?: boolean;
 }
 
 /**
@@ -395,26 +400,88 @@ export interface CarouselImageProps extends Omit<CarouselProps, "slides" | "chil
 export function CarouselImageGallery({
   images,
   kenBurns,
+  lightbox = true,
+  thumbnails,
+  index: indexProp,
+  defaultIndex,
+  onSlideChange,
   ...props
 }: CarouselImageProps) {
+  const [currentIndex, setCurrentIndex] = useState(defaultIndex ?? 0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const activeIndex = indexProp ?? currentIndex;
+
+  const handleSlideChange = (i: number) => {
+    setCurrentIndex(i);
+    onSlideChange?.(i);
+  };
+
   return (
-    <Carousel
-      {...props}
-      slides={images.map((img, i) => (
-        <figure key={i} className="vf-carousel__figure">
-          <img
-            src={safeHref(img.src)}
-            alt={img.alt}
-            className={cx(
-              "vf-carousel__img",
-              kenBurns && "vf-carousel__img--ken-burns"
+    <div className="vf-carousel-image-gallery">
+      <Carousel
+        {...props}
+        index={activeIndex}
+        onSlideChange={handleSlideChange}
+        slides={images.map((img, i) => (
+          <figure
+            key={i}
+            className="vf-carousel__figure"
+            onClick={
+              lightbox
+                ? () => {
+                    setLightboxIndex(i);
+                    setLightboxOpen(true);
+                  }
+                : undefined
+            }
+            style={lightbox ? { cursor: "pointer" } : undefined}
+          >
+            <img
+              src={safeHref(img.src)}
+              alt={img.alt}
+              className={cx(
+                "vf-carousel__img",
+                kenBurns && "vf-carousel__img--ken-burns"
+              )}
+            />
+            {img.caption && (
+              <figcaption className="vf-carousel__caption">{img.caption}</figcaption>
             )}
-          />
-          {img.caption && (
-            <figcaption className="vf-carousel__caption">{img.caption}</figcaption>
-          )}
-        </figure>
-      ))}
-    />
+          </figure>
+        ))}
+      />
+      {thumbnails && images.length > 1 && (
+        <div className="vf-carousel__thumbs" role="group" aria-label="Image thumbnails">
+          {images.map((img, i) => (
+            <img
+              key={i}
+              src={safeHref(img.src)}
+              alt={img.alt}
+              className={cx(
+                "vf-carousel__thumb",
+                i === activeIndex && "vf-carousel__thumb--active"
+              )}
+              style={{ width: 48, height: 48, objectFit: "cover", cursor: "pointer" }}
+              onClick={() => handleSlideChange(i)}
+            />
+          ))}
+        </div>
+      )}
+      {lightbox && (
+        <Lightbox
+          images={images.map((img) => ({
+            src: img.src,
+            alt: img.alt,
+            caption: img.caption,
+          }))}
+          open={lightboxOpen}
+          onOpenChange={setLightboxOpen}
+          index={lightboxIndex}
+          onIndexChange={setLightboxIndex}
+        />
+      )}
+    </div>
   );
 }

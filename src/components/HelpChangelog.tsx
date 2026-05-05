@@ -82,8 +82,9 @@ export interface ContextHelpProps extends HTMLAttributes<HTMLElement> {
 }
 
 /**
- * Small `?` trigger that opens a tooltip/popover with contextual help text.
- * Pair with form fields and dense UI.
+ * Conditional aside panel for contextual help. Renders when `open` is true,
+ * with an optional dismiss button. For a small `?` trigger tooltip, use
+ * `HelpTooltip` instead.
  */
 export const ContextHelp = forwardRef<HTMLElement, ContextHelpProps>(
   function ContextHelp(

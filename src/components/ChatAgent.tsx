@@ -3,12 +3,16 @@
 // Phase 12 — Tool calls, agent steps, traces, plans
 
 import {
+  createContext,
   forwardRef,
+  useContext,
+  useEffect,
   useId,
   useState,
   type HTMLAttributes,
   type ReactNode,
 } from "react";
+import { useControllableState } from "../hooks/useControllableState";
 import { JSONViewer } from "./Viewers";
 import { cx } from "../utils/cx";
 
@@ -173,15 +177,46 @@ export interface ToolCallGroupProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   title?: ReactNode;
   status?: ToolStatus;
+  expanded?: boolean;
+  defaultExpanded?: boolean;
+  onExpandedChange?: (expanded: boolean) => void;
   children?: ReactNode;
 }
 
 /**
  * Groups consecutive `ToolCall`s from the same turn with a collapsed
- * summary.
+ * summary. Controllable/uncontrolled via `expanded` / `defaultExpanded` /
+ * `onExpandedChange`.
  */
 export const ToolCallGroup = forwardRef<HTMLDivElement, ToolCallGroupProps>(
-  function ToolCallGroup({ title, status, className, children, ...props }, ref) {
+  function ToolCallGroup(
+    {
+      title,
+      status,
+      expanded: expandedProp,
+      defaultExpanded,
+      onExpandedChange,
+      className,
+      children,
+      ...props
+    },
+    ref
+  ) {
+    const [isExpanded, setExpanded] = useControllableState<boolean>({
+      value: expandedProp,
+      defaultValue: defaultExpanded ?? true,
+      onChange: onExpandedChange,
+      componentName: "ToolCallGroup",
+    });
+    const baseId = useId();
+    const bodyId = `${baseId}-body`;
+
+    const childCount = Array.isArray(children)
+      ? children.filter(Boolean).length
+      : children
+        ? 1
+        : 0;
+
     return (
       <section
         ref={ref}
@@ -189,24 +224,47 @@ export const ToolCallGroup = forwardRef<HTMLDivElement, ToolCallGroupProps>(
         className={cx(
           "vf-tool-call-group",
           status && `vf-tool-call-group--${status}`,
+          isExpanded && "vf-tool-call-group--expanded",
           className
         )}
         {...props}
       >
-        {(title || status) && (
-          <header className="vf-tool-call-group__header">
-            {status && <StatusBadge status={status} />}
-            {title && (
-              <span className="vf-tool-call-group__title">{title}</span>
-            )}
-          </header>
+        <header className="vf-tool-call-group__header">
+          {status && <StatusBadge status={status} />}
+          {title && (
+            <span className="vf-tool-call-group__title">{title}</span>
+          )}
+          {!isExpanded && (
+            <span className="vf-tool-call-group__summary">
+              {childCount} tool call{childCount !== 1 ? "s" : ""}
+            </span>
+          )}
+          <button
+            type="button"
+            className="vf-tool-call-group__toggle"
+            aria-expanded={isExpanded}
+            aria-controls={bodyId}
+            onClick={() => setExpanded(!isExpanded)}
+          >
+            {isExpanded ? "▾" : "▸"}
+          </button>
+        </header>
+        {isExpanded && (
+          <div id={bodyId} className="vf-tool-call-group__body">
+            {children}
+          </div>
         )}
-        <div className="vf-tool-call-group__body">{children}</div>
       </section>
     );
   }
 );
 ToolCallGroup.displayName = "ToolCallGroup";
+
+// ── AgentTraceContext ───────────────────────────────────────
+
+const AgentTraceContext = createContext<{ expandAll: boolean | null }>({
+  expandAll: null,
+});
 
 // ── AgentStep ───────────────────────────────────────────────
 
@@ -227,7 +285,8 @@ export interface AgentStepProps
 /**
  * Single step in an agent trace: a numbered card with title, status pill,
  * optional tool calls, output, and elapsed time. Controllable/uncontrolled
- * via `expanded` / `defaultExpanded` / `onExpandedChange`.
+ * via `expanded` / `defaultExpanded` / `onExpandedChange`. Responds to
+ * `AgentTraceContext.expandAll` for bulk expand/collapse.
  */
 export const AgentStep = forwardRef<HTMLDivElement, AgentStepProps>(
   function AgentStep(
@@ -255,6 +314,14 @@ export const AgentStep = forwardRef<HTMLDivElement, AgentStepProps>(
     };
     const baseId = useId();
     const bodyId = `${baseId}-body`;
+
+    const traceCtx = useContext(AgentTraceContext);
+    useEffect(() => {
+      if (traceCtx.expandAll !== null) {
+        setOpen(traceCtx.expandAll);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [traceCtx.expandAll]);
 
     return (
       <div
@@ -335,7 +402,8 @@ export interface AgentTraceProps extends HTMLAttributes<HTMLDivElement> {
 
 /**
  * Full trace view for an agent run — wraps a list of `AgentStep`s with
- * status summary and expand-all controls.
+ * status summary and expand-all controls. Provides `AgentTraceContext` so
+ * child `AgentStep`s can respond to bulk expand/collapse.
  */
 export const AgentTrace = forwardRef<HTMLDivElement, AgentTraceProps>(
   function AgentTrace(
@@ -352,18 +420,20 @@ export const AgentTrace = forwardRef<HTMLDivElement, AgentTraceProps>(
     },
     ref
   ) {
+    const [expandAll, setExpandAll] = useState<boolean | null>(null);
+
     return (
-      <section
-        ref={ref}
-        data-status={status}
-        className={cx(
-          "vf-agent-trace",
-          status && `vf-agent-trace--${status}`,
-          className
-        )}
-        {...props}
-      >
-        {(tokens || cost !== undefined || duration !== undefined) && (
+      <AgentTraceContext.Provider value={{ expandAll }}>
+        <section
+          ref={ref}
+          data-status={status}
+          className={cx(
+            "vf-agent-trace",
+            status && `vf-agent-trace--${status}`,
+            className
+          )}
+          {...props}
+        >
           <header className="vf-agent-trace__header" role="group" aria-label="Run summary">
             {tokens && (
               <span className="vf-agent-trace__metric">
@@ -387,22 +457,31 @@ export const AgentTrace = forwardRef<HTMLDivElement, AgentTraceProps>(
                 </span>
               </span>
             )}
+            <button
+              type="button"
+              className="vf-agent-trace__expand-all"
+              onClick={() =>
+                setExpandAll((prev) => (prev === null || !prev ? true : false))
+              }
+            >
+              {expandAll ? "Collapse all" : "Expand all"}
+            </button>
           </header>
-        )}
-        {onStop && status === "running" && (
-          <button
-            type="button"
-            className="vf-agent__stop-btn"
-            onClick={onStop}
-          >
-            Stop
-          </button>
-        )}
-        <div className="vf-agent-trace__steps">
-          {steps}
-          {children}
-        </div>
-      </section>
+          {onStop && status === "running" && (
+            <button
+              type="button"
+              className="vf-agent__stop-btn"
+              onClick={onStop}
+            >
+              Stop
+            </button>
+          )}
+          <div className="vf-agent-trace__steps">
+            {steps}
+            {children}
+          </div>
+        </section>
+      </AgentTraceContext.Provider>
     );
   }
 );
@@ -427,8 +506,9 @@ export interface PlanDisplayProps
 }
 
 /**
- * Pricing-plan card: tier name, price, feature list, and CTA. Used on
- * pricing pages.
+ * Agent plan stepper: renders a list of steps with status indicators
+ * (pending/active/done/failed). Click a step to navigate. Tracks
+ * `aria-current="step"` for the active step.
  */
 export const PlanDisplay = forwardRef<HTMLDivElement, PlanDisplayProps>(
   function PlanDisplay(

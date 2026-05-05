@@ -908,7 +908,7 @@ function FormsExtendedSection() {
           min={0}
           max={100}
         />
-        <Slider label="Volume" value={s} onValueChange={setS} max={100} />
+        <Slider label="Volume" value={s} onValueChange={(v) => setS(v as number)} max={100} />
         <SearchInputDemo />
       </Block>
       <Block label="Switch / Segmented / Password / Pin / Tags">

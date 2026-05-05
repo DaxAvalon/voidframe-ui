@@ -394,8 +394,10 @@ export interface ComposerMicButtonProps
 }
 
 /**
- * Microphone toggle for the composer. Requests mic permission on press and
- * visualises audio level while active.
+ * Microphone toggle for the composer. Manages recording state (start/stop)
+ * with an optional max-duration timer. The consumer is responsible for
+ * MediaStream access and audio visualization — pass visual feedback via the
+ * `waveform` slot.
  */
 export const ComposerMicButton = forwardRef<
   HTMLButtonElement,

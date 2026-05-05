@@ -1,12 +1,13 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useCallback, useEffect, useRef } from "react";
 import type {
   CSSProperties,
   ElementType,
   HTMLAttributes,
   ReactNode,
 } from "react";
+import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
 import { useResponsive, type Responsive } from "../responsive";
 
@@ -252,29 +253,134 @@ export interface SplitViewProps extends HTMLAttributes<HTMLDivElement> {
   right?: ReactNode;
   sidebarWidth?: string;
   gap?: number | string;
+  /** Controlled left-pane width in pixels. */
+  size?: number;
+  /** Initial left-pane width in pixels (uncontrolled). */
+  defaultSize?: number;
+  /** Called on each resize move with the new left-pane width. */
+  onSizeChange?: (leftWidth: number) => void;
+  /** Minimum left-pane width in pixels. Default 100. */
+  minSize?: number;
+  /** Maximum left-pane width in pixels. Default 80% of container. */
+  maxSize?: number;
+  /** Render a draggable divider between the two panes. */
+  resizable?: boolean;
   style?: CSSProperties;
 }
 
 /**
- * Two-pane split view with a draggable divider. Controllable split ratio.
+ * Two-pane split view with an optional draggable divider. Controllable split
+ * ratio via `size` / `defaultSize` / `onSizeChange`.
  */
 export const SplitView = forwardRef<HTMLDivElement, SplitViewProps>(
-  function SplitView({ left, right, sidebarWidth, gap, className, style, ...props }, ref) {
+  function SplitView(
+    {
+      left,
+      right,
+      sidebarWidth,
+      gap,
+      size: sizeProp,
+      defaultSize,
+      onSizeChange,
+      minSize = 100,
+      maxSize: maxSizeProp,
+      resizable,
+      className,
+      style,
+      ...props
+    },
+    ref
+  ) {
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const draggingRef = useRef(false);
+
+    const [liveSize, setLiveSize] = useControllableState<number | null>({
+      value: sizeProp,
+      defaultValue: defaultSize ?? null,
+      onChange: (v) => {
+        if (v !== null) onSizeChange?.(v);
+      },
+      componentName: "SplitView",
+    });
+
+    const onDividerPointerDown = useCallback(
+      (startEvent: React.PointerEvent<HTMLDivElement>) => {
+        if (!resizable) return;
+        startEvent.preventDefault();
+        (startEvent.target as HTMLElement).setPointerCapture(
+          startEvent.pointerId
+        );
+        draggingRef.current = true;
+        const startX = startEvent.clientX;
+        const startWidth =
+          liveSize ??
+          containerRef.current?.firstElementChild?.getBoundingClientRect()
+            .width ??
+          200;
+        const containerWidth =
+          containerRef.current?.getBoundingClientRect().width ?? 800;
+        const effectiveMax = maxSizeProp ?? containerWidth * 0.8;
+
+        const onMove = (e: PointerEvent) => {
+          if (!draggingRef.current) return;
+          const next = Math.max(
+            minSize,
+            Math.min(effectiveMax, startWidth + (e.clientX - startX))
+          );
+          setLiveSize(next);
+        };
+        const onUp = () => {
+          draggingRef.current = false;
+          window.removeEventListener("pointermove", onMove);
+          window.removeEventListener("pointerup", onUp);
+        };
+        window.addEventListener("pointermove", onMove);
+        window.addEventListener("pointerup", onUp);
+      },
+      [resizable, liveSize, minSize, maxSizeProp, setLiveSize]
+    );
+
+    useEffect(() => {
+      return () => {
+        draggingRef.current = false;
+      };
+    }, []);
+
     const inline: CSSProperties = {
-      ...(sidebarWidth
+      ...(sidebarWidth && !resizable
         ? ({ "--vf-sidebar-width": sidebarWidth } as CSSProperties)
         : {}),
-      ...(gap !== undefined ? { gap: typeof gap === "number" ? `${gap}px` : gap } : {}),
+      ...(gap !== undefined
+        ? { gap: typeof gap === "number" ? `${gap}px` : gap }
+        : {}),
       ...style,
     };
+
+    const leftStyle: CSSProperties | undefined =
+      resizable && liveSize !== null ? { width: liveSize, flexShrink: 0 } : undefined;
+
     return (
       <div
-        ref={ref}
-        className={cx("vf-split-view", className)}
+        ref={(node) => {
+          containerRef.current = node;
+          if (typeof ref === "function") ref(node);
+          else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }}
+        className={cx(
+          "vf-split-view",
+          resizable && "vf-split-view--resizable",
+          className
+        )}
         style={inline}
         {...props}
       >
-        <div>{left}</div>
+        <div style={leftStyle}>{left}</div>
+        {resizable && (
+          <div
+            className="vf-split-view__divider"
+            onPointerDown={onDividerPointerDown}
+          />
+        )}
         <div>{right}</div>
       </div>
     );

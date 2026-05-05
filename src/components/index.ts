@@ -302,12 +302,15 @@ export type {
   SortStrategy,
 } from "./DragDrop";
 
-export { Marquee, Typewriter, Ticker } from "./Animations";
+export { Marquee, Typewriter, Ticker, FadeIn, SlideIn } from "./Animations";
 export type {
   MarqueeProps,
   MarqueeDirection,
   TypewriterProps,
   TickerProps,
+  FadeInProps,
+  SlideInProps,
+  SlideInDirection,
 } from "./Animations";
 
 export { Image } from "./Image";
@@ -1176,7 +1179,7 @@ export type { CascaderProps, CascaderOption } from "./Cascader";
 export { HorizontalTimeline } from "./HorizontalTimeline";
 export type { HorizontalTimelineProps, HorizontalTimelineEvent } from "./HorizontalTimeline";
 export { Comment, CommentList } from "./Comment";
-export type { CommentProps, CommentListProps } from "./Comment";
+export type { CommentProps, CommentListProps, CommentData } from "./Comment";
 export { Result } from "./Result";
 export type { ResultProps } from "./Result";
 export { Descriptions } from "./Descriptions";

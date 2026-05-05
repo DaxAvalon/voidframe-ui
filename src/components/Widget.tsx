@@ -297,8 +297,10 @@ function findNearestEmpty(
 }
 
 /**
- * Responsive dashboard grid with configurable columns per breakpoint.
- * Children can span columns/rows via `GridItem`.
+ * Sub-cell coordinate dashboard grid with drag-to-move and drag-to-resize.
+ * Uses BFS collision avoidance to prevent card overlap. Cards snap to a
+ * configurable cell grid (`cols` × `cellSize`). Supports swap-on-drop and
+ * live preview during drag.
  */
 export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
   function DashboardGrid(

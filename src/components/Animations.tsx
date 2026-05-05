@@ -12,6 +12,7 @@ import {
   type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
+  type RefObject,
 } from "react";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { cx } from "../utils/cx";
@@ -231,8 +232,8 @@ function easeOutCubic(t: number): number {
 }
 
 /**
- * Auto-advancing horizontal ticker for news-style headlines. Respects
- * `prefers-reduced-motion`.
+ * Numeric counter/odometer that animates between two values. Supports smooth
+ * easing or discrete stepped transitions. Respects `prefers-reduced-motion`.
  */
 export const Ticker = forwardRef<HTMLSpanElement, TickerProps>(function Ticker(
   {
@@ -293,3 +294,165 @@ export const Ticker = forwardRef<HTMLSpanElement, TickerProps>(function Ticker(
   );
 });
 Ticker.displayName = "Ticker";
+
+// ── Enter-animation hook (shared by FadeIn / SlideIn) ──────
+
+function useEnterAnimation(opts: {
+  ref: RefObject<HTMLElement>;
+  triggerOnce?: boolean;
+  reducedMotion: boolean;
+}) {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = opts.ref.current;
+    if (!el || opts.reducedMotion) {
+      setVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setVisible(true);
+          if (opts.triggerOnce !== false) observer.disconnect();
+        } else if (opts.triggerOnce === false) {
+          setVisible(false);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [opts.reducedMotion, opts.triggerOnce]);
+  return visible;
+}
+
+// ── FadeIn ──────────────────────────────────────────────────
+
+export interface FadeInProps extends HTMLAttributes<HTMLDivElement> {
+  /** Animation duration in ms. Default 300. */
+  duration?: number;
+  /** Delay before animation starts in ms. Default 0. */
+  delay?: number;
+  /** CSS easing function. Default "ease". */
+  easing?: string;
+  /** Only animate the first time the element enters the viewport. Default true. */
+  triggerOnce?: boolean;
+}
+
+/**
+ * Fades children in when they scroll into view. Respects
+ * `prefers-reduced-motion` (renders immediately without animation).
+ */
+export const FadeIn = forwardRef<HTMLDivElement, FadeInProps>(
+  function FadeIn(
+    {
+      duration = 300,
+      delay = 0,
+      easing = "ease",
+      triggerOnce = true,
+      className,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) {
+    const innerRef = useRef<HTMLDivElement>(null);
+    const reducedMotion = usePrefersReducedMotion();
+    const visible = useEnterAnimation({ ref: innerRef, triggerOnce, reducedMotion });
+
+    const mergedRef = (node: HTMLDivElement | null) => {
+      (innerRef as { current: HTMLDivElement | null }).current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) (ref as { current: HTMLDivElement | null }).current = node;
+    };
+
+    return (
+      <div
+        ref={mergedRef}
+        className={cx("vf-fade-in", visible && "vf-fade-in--visible", className)}
+        style={{
+          opacity: visible ? 1 : 0,
+          transition: reducedMotion
+            ? "none"
+            : `opacity ${duration}ms ${easing} ${delay}ms`,
+          ...style,
+        }}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+FadeIn.displayName = "FadeIn";
+
+// ── SlideIn ─────────────────────────────────────────────────
+
+export type SlideInDirection = "left" | "right" | "up" | "down";
+
+export interface SlideInProps extends FadeInProps {
+  /** Direction to slide from. Default "up". */
+  direction?: SlideInDirection;
+  /** Distance to travel. Default "20px". */
+  distance?: number | string;
+}
+
+/**
+ * Slides (and fades) children in from a given direction when they scroll
+ * into view. Respects `prefers-reduced-motion` (renders immediately).
+ */
+export const SlideIn = forwardRef<HTMLDivElement, SlideInProps>(
+  function SlideIn(
+    {
+      direction = "up",
+      distance = "20px",
+      duration = 300,
+      delay = 0,
+      easing = "ease",
+      triggerOnce = true,
+      className,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) {
+    const innerRef = useRef<HTMLDivElement>(null);
+    const reducedMotion = usePrefersReducedMotion();
+    const visible = useEnterAnimation({ ref: innerRef, triggerOnce, reducedMotion });
+
+    const d = typeof distance === "number" ? `${distance}px` : distance;
+    const translateMap: Record<SlideInDirection, string> = {
+      up: `translateY(${d})`,
+      down: `translateY(-${d})`,
+      left: `translateX(${d})`,
+      right: `translateX(-${d})`,
+    };
+
+    const mergedRef = (node: HTMLDivElement | null) => {
+      (innerRef as { current: HTMLDivElement | null }).current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) (ref as { current: HTMLDivElement | null }).current = node;
+    };
+
+    return (
+      <div
+        ref={mergedRef}
+        className={cx("vf-slide-in", visible && "vf-slide-in--visible", className)}
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? "none" : translateMap[direction],
+          transition: reducedMotion
+            ? "none"
+            : `opacity ${duration}ms ${easing} ${delay}ms, transform ${duration}ms ${easing} ${delay}ms`,
+          ...style,
+        }}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+SlideIn.displayName = "SlideIn";

@@ -30,8 +30,8 @@ import { Label } from "./Text";
 
 export type SwitchProps = ToggleProps;
 /**
- * Two-state switch control with a visible on/off label option. Controllable
- * via `checked` / `onCheckedChange`; keyboard Space / Enter toggles.
+ * Two-state switch control. Re-export of `Toggle`; controllable via
+ * `checked` / `onValueChange`; keyboard Space / Enter toggles.
  */
 export const Switch = forwardRef<HTMLDivElement, SwitchProps>(function Switch(
   props,
@@ -266,6 +266,15 @@ export interface PasswordInputProps
   visibilityToggle?: boolean;
   /** Start with password revealed. */
   defaultVisible?: boolean;
+  /** Show a strength meter bar below the input. */
+  showStrength?: boolean;
+  /**
+   * Custom strength scoring function. Receives the current value and must
+   * return a number from 0 (weakest) to 4 (strongest). When omitted a
+   * built-in heuristic is used (+1 for length >= 8, +1 uppercase, +1
+   * lowercase, +1 digit, +1 symbol, mapped from 0-5 to 0-4).
+   */
+  strengthFn?: (value: string) => number;
   style?: CSSProperties;
   /**
    * Attributes for the outer wrapper `<div>` (container that holds the
@@ -296,6 +305,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       id,
       visibilityToggle = true,
       defaultVisible = false,
+      showStrength,
+      strengthFn,
       className,
       style,
       wrapperProps,
@@ -355,11 +366,44 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             </button>
           )}
         </div>
+        {showStrength && (() => {
+          const level = strengthFn
+            ? strengthFn(current)
+            : defaultPasswordStrength(current);
+          return (
+            <div className="vf-password__strength">
+              <div
+                className="vf-password__strength-bar"
+                data-level={level}
+                style={{ width: `${(level / 4) * 100}%` }}
+              />
+              <span className="vf-password__strength-label">
+                {(["Weak", "Fair", "Good", "Strong"] as const)[Math.min(level, 3)]}
+              </span>
+            </div>
+          );
+        })()}
       </div>
     );
   }
 );
 PasswordInput.displayName = "PasswordInput";
+
+/**
+ * Default password strength scorer. Awards one point each for length >= 8,
+ * containing uppercase, lowercase, digit, and symbol characters. The raw
+ * 0-5 score is mapped to 0-4 for display.
+ */
+function defaultPasswordStrength(value: string): number {
+  let score = 0;
+  if (value.length >= 8) score++;
+  if (/[A-Z]/.test(value)) score++;
+  if (/[a-z]/.test(value)) score++;
+  if (/\d/.test(value)) score++;
+  if (/[^A-Za-z0-9]/.test(value)) score++;
+  // Map 0-5 → 0-4.
+  return Math.min(4, Math.round((score / 5) * 4));
+}
 
 // ── PinInput — N-box OTP with auto-advance + paste split ─────
 

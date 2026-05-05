@@ -371,35 +371,102 @@ CurrencyInput.displayName = "CurrencyInput";
 
 // ── PhoneInput ────────────────────────────────────────────────
 
-// Common masks by country code. Keep this small and extensible via `mask` prop
-// rather than shipping a full libphonenumber.
-const DEFAULT_PHONE_MASKS: Record<string, string> = {
-  US: "(###) ###-####",
-  CA: "(###) ###-####",
-  GB: "#### ### ####",
-  FR: "## ## ## ## ##",
-  DE: "#### #######",
-  AU: "#### ### ###",
-  JP: "###-####-####",
-  IN: "#####-#####",
-};
+// ── Country phone data ────────────────────────────────────────
 
-export interface PhoneInputProps extends Omit<MaskedInputProps, "mask" | "onChange"> {
-  /** Two-letter country code (ISO 3166-1 alpha-2). Defaults to "US". */
-  country?: keyof typeof DEFAULT_PHONE_MASKS | string;
-  /** Override the mask entirely. */
-  mask?: string;
+export interface PhoneCountry {
+  code: string;
+  name: string;
+  dial: string;
+  flag: string;
+  mask: string;
 }
 
 /**
- * Phone number input with country selector, auto-formatting per E.164, and
- * validation.
+ * Phone country data. ~30 entries covering the most common locales.
+ * Consumers can extend this via the `mask` prop override.
+ */
+export const PHONE_COUNTRIES: PhoneCountry[] = [
+  { code: "US", name: "United States", dial: "+1", flag: "\u{1F1FA}\u{1F1F8}", mask: "(###) ###-####" },
+  { code: "CA", name: "Canada", dial: "+1", flag: "\u{1F1E8}\u{1F1E6}", mask: "(###) ###-####" },
+  { code: "GB", name: "United Kingdom", dial: "+44", flag: "\u{1F1EC}\u{1F1E7}", mask: "#### ### ####" },
+  { code: "FR", name: "France", dial: "+33", flag: "\u{1F1EB}\u{1F1F7}", mask: "## ## ## ## ##" },
+  { code: "DE", name: "Germany", dial: "+49", flag: "\u{1F1E9}\u{1F1EA}", mask: "#### #######" },
+  { code: "AU", name: "Australia", dial: "+61", flag: "\u{1F1E6}\u{1F1FA}", mask: "#### ### ###" },
+  { code: "JP", name: "Japan", dial: "+81", flag: "\u{1F1EF}\u{1F1F5}", mask: "###-####-####" },
+  { code: "IN", name: "India", dial: "+91", flag: "\u{1F1EE}\u{1F1F3}", mask: "#####-#####" },
+  { code: "BR", name: "Brazil", dial: "+55", flag: "\u{1F1E7}\u{1F1F7}", mask: "(##) #####-####" },
+  { code: "MX", name: "Mexico", dial: "+52", flag: "\u{1F1F2}\u{1F1FD}", mask: "## #### ####" },
+  { code: "IT", name: "Italy", dial: "+39", flag: "\u{1F1EE}\u{1F1F9}", mask: "### ### ####" },
+  { code: "ES", name: "Spain", dial: "+34", flag: "\u{1F1EA}\u{1F1F8}", mask: "### ## ## ##" },
+  { code: "NL", name: "Netherlands", dial: "+31", flag: "\u{1F1F3}\u{1F1F1}", mask: "## ########" },
+  { code: "SE", name: "Sweden", dial: "+46", flag: "\u{1F1F8}\u{1F1EA}", mask: "##-### ## ##" },
+  { code: "NO", name: "Norway", dial: "+47", flag: "\u{1F1F3}\u{1F1F4}", mask: "### ## ###" },
+  { code: "DK", name: "Denmark", dial: "+45", flag: "\u{1F1E9}\u{1F1F0}", mask: "## ## ## ##" },
+  { code: "FI", name: "Finland", dial: "+358", flag: "\u{1F1EB}\u{1F1EE}", mask: "## ### ####" },
+  { code: "CH", name: "Switzerland", dial: "+41", flag: "\u{1F1E8}\u{1F1ED}", mask: "## ### ## ##" },
+  { code: "AT", name: "Austria", dial: "+43", flag: "\u{1F1E6}\u{1F1F9}", mask: "#### ######" },
+  { code: "BE", name: "Belgium", dial: "+32", flag: "\u{1F1E7}\u{1F1EA}", mask: "### ## ## ##" },
+  { code: "PT", name: "Portugal", dial: "+351", flag: "\u{1F1F5}\u{1F1F9}", mask: "### ### ###" },
+  { code: "PL", name: "Poland", dial: "+48", flag: "\u{1F1F5}\u{1F1F1}", mask: "### ### ###" },
+  { code: "KR", name: "South Korea", dial: "+82", flag: "\u{1F1F0}\u{1F1F7}", mask: "###-####-####" },
+  { code: "CN", name: "China", dial: "+86", flag: "\u{1F1E8}\u{1F1F3}", mask: "### #### ####" },
+  { code: "RU", name: "Russia", dial: "+7", flag: "\u{1F1F7}\u{1F1FA}", mask: "(###) ###-##-##" },
+  { code: "ZA", name: "South Africa", dial: "+27", flag: "\u{1F1FF}\u{1F1E6}", mask: "## ### ####" },
+  { code: "NG", name: "Nigeria", dial: "+234", flag: "\u{1F1F3}\u{1F1EC}", mask: "### ### ####" },
+  { code: "AR", name: "Argentina", dial: "+54", flag: "\u{1F1E6}\u{1F1F7}", mask: "## ####-####" },
+  { code: "CL", name: "Chile", dial: "+56", flag: "\u{1F1E8}\u{1F1F1}", mask: "# #### ####" },
+  { code: "NZ", name: "New Zealand", dial: "+64", flag: "\u{1F1F3}\u{1F1FF}", mask: "## ### ####" },
+];
+
+const PHONE_MASK_BY_CODE: Record<string, string> = Object.fromEntries(
+  PHONE_COUNTRIES.map((c) => [c.code, c.mask])
+);
+
+export interface PhoneInputProps extends Omit<MaskedInputProps, "mask" | "onChange"> {
+  /** Two-letter country code (ISO 3166-1 alpha-2). Defaults to "US". */
+  country?: string;
+  /** Override the mask entirely. */
+  mask?: string;
+  /**
+   * When true, renders a `<select>` before the masked input showing country
+   * flag, name, and dial code. Selecting a country updates the mask
+   * automatically.
+   */
+  showCountrySelector?: boolean;
+}
+
+/**
+ * Phone number input with display formatting via masks. When
+ * `showCountrySelector` is true a country dropdown is rendered alongside the
+ * input, automatically switching the mask on selection.
  */
 export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
-  function PhoneInput({ country = "US", mask, ...props }, ref) {
+  function PhoneInput({ country = "US", mask, showCountrySelector, className, style, ...props }, ref) {
+    const [selectedCountry, setSelectedCountry] = useState(country);
     const resolved =
-      mask ?? DEFAULT_PHONE_MASKS[country] ?? DEFAULT_PHONE_MASKS.US!;
-    return <MaskedInput ref={ref} mask={resolved} {...props} />;
+      mask ?? PHONE_MASK_BY_CODE[selectedCountry] ?? PHONE_MASK_BY_CODE.US!;
+
+    if (showCountrySelector) {
+      return (
+        <div className={cx("vf-phone-input", className)} style={{ display: "flex", gap: 8, alignItems: "flex-end", ...style }}>
+          <select
+            className="vf-phone-input__country-select"
+            value={selectedCountry}
+            onChange={(e) => setSelectedCountry(e.target.value)}
+            aria-label="Country"
+          >
+            {PHONE_COUNTRIES.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.flag} {c.name} ({c.dial})
+              </option>
+            ))}
+          </select>
+          <MaskedInput ref={ref} mask={resolved} {...props} />
+        </div>
+      );
+    }
+
+    return <MaskedInput ref={ref} mask={resolved} className={className} style={style} {...props} />;
   }
 );
 PhoneInput.displayName = "PhoneInput";

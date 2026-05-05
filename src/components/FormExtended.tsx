@@ -236,15 +236,24 @@ RadioGroup.displayName = "RadioGroup";
 
 export interface SliderProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "defaultValue" | "value"> {
-  value?: number;
-  defaultValue?: number;
-  onValueChange?: (value: number) => void;
+  /** Single value or `[min, max]` pair when `range` is true. */
+  value?: number | [number, number];
+  /** Default single value or `[min, max]` pair when `range` is true. */
+  defaultValue?: number | [number, number];
+  /** Emits a single number or `[min, max]` pair depending on `range`. */
+  onValueChange?: (value: number | [number, number]) => void;
   min?: number;
   max?: number;
   step?: number;
   label?: string;
   accent?: string;
   showValue?: boolean;
+  /**
+   * When true, render two thumbs for selecting a numeric range. `value` and
+   * `onValueChange` operate on `[min, max]` tuples. Thumbs are constrained
+   * so the min thumb cannot exceed the max thumb and vice versa.
+   */
+  range?: boolean;
   style?: CSSProperties;
   /**
    * Attributes for the outer wrapper `<div>`. Use for container-level
@@ -258,31 +267,112 @@ export interface SliderProps
  * Range slider for numeric values. Controllable via `value` /
  * `onValueChange`; supports one or two thumbs.
  *
+ * When `range` is true, `value` / `defaultValue` accept `[min, max]` tuples
+ * and two thumbs are rendered. The fill spans between the two thumbs and
+ * thumbs are constrained so they cannot cross each other.
+ *
  * Accessibility / test ergonomics: rest-spread props (including `data-testid`
  * and `aria-*`) are forwarded to the inner native `<input type="range">` so
  * `getByTestId(id)` returns the actual control and `.value` reads work. Use
  * `wrapperProps` for attributes that genuinely belong on the outer div.
  */
 export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
-  { value, defaultValue, onValueChange, min = 0, max = 100, step = 1, label, accent, showValue, className, style, wrapperProps, ...inputProps },
+  { value, defaultValue, onValueChange, min = 0, max = 100, step = 1, label, accent, showValue, range, className, style, wrapperProps, ...inputProps },
   ref
 ) {
-  const [current, setCurrent] = useControllableState<number>({
-    value,
-    defaultValue: defaultValue ?? min,
-    onChange: onValueChange,
+  // ── Range mode ──────────────────────────────────────────────
+  const rangeDefault: [number, number] = Array.isArray(defaultValue)
+    ? defaultValue
+    : [min, max];
+  const [rangeValue, setRangeValue] = useControllableState<[number, number]>({
+    value: Array.isArray(value) ? value : undefined,
+    defaultValue: rangeDefault,
+    onChange: range ? (v) => onValueChange?.(v) : undefined,
     componentName: "Slider",
   });
-  const pct = ((current - min) / (max - min)) * 100;
+
+  // ── Single mode ─────────────────────────────────────────────
+  const singleDefault: number = typeof defaultValue === "number" ? defaultValue : min;
+  const [singleValue, setSingleValue] = useControllableState<number>({
+    value: typeof value === "number" ? value : undefined,
+    defaultValue: singleDefault,
+    onChange: range ? undefined : (v) => onValueChange?.(v),
+    componentName: "Slider",
+  });
+
   const composedStyle: CSSProperties = accent
     ? ({ "--vf-accent": accent, ...style } as CSSProperties)
     : (style ?? {});
+
+  if (range) {
+    const [lo, hi] = rangeValue;
+    const loPct = ((lo - min) / (max - min)) * 100;
+    const hiPct = ((hi - min) / (max - min)) * 100;
+
+    const setLo = (n: number) => {
+      const clamped = Math.min(n, hi);
+      setRangeValue([clamped, hi]);
+    };
+    const setHi = (n: number) => {
+      const clamped = Math.max(n, lo);
+      setRangeValue([lo, clamped]);
+    };
+
+    return (
+      <div className={cx("vf-slider", "vf-slider--range", className)} style={composedStyle} {...wrapperProps}>
+        {(label || showValue) && (
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {label && <Label>{label}</Label>}
+            {showValue && (
+              <Label style={{ color: "var(--vf-accent, var(--vf-green))" }}>
+                {lo} – {hi}
+              </Label>
+            )}
+          </div>
+        )}
+        <div className="vf-slider__track-wrap">
+          <div className="vf-slider__rail">
+            <div
+              className="vf-slider__fill"
+              style={{ left: `${loPct}%`, width: `${hiPct - loPct}%` }}
+            />
+          </div>
+          <input
+            className="vf-slider__input"
+            type="range"
+            aria-label={label ? `${label} minimum` : "Range minimum"}
+            min={min}
+            max={max}
+            step={step}
+            value={lo}
+            onChange={(e) => setLo(Number(e.target.value))}
+          />
+          <input
+            ref={ref}
+            className="vf-slider__input"
+            type="range"
+            aria-label={label ? `${label} maximum` : "Range maximum"}
+            min={min}
+            max={max}
+            step={step}
+            value={hi}
+            onChange={(e) => setHi(Number(e.target.value))}
+          />
+          <div className="vf-slider__thumb" style={{ insetInlineStart: `calc(${loPct}% - 6px)` }} />
+          <div className="vf-slider__thumb" style={{ insetInlineStart: `calc(${hiPct}% - 6px)` }} />
+        </div>
+      </div>
+    );
+  }
+
+  // ── Single-thumb (default) ──────────────────────────────────
+  const pct = ((singleValue - min) / (max - min)) * 100;
   return (
     <div className={cx("vf-slider", className)} style={composedStyle} {...wrapperProps}>
       {(label || showValue) && (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {label && <Label>{label}</Label>}
-          {showValue && <Label style={{ color: "var(--vf-accent, var(--vf-green))" }}>{current}</Label>}
+          {showValue && <Label style={{ color: "var(--vf-accent, var(--vf-green))" }}>{singleValue}</Label>}
         </div>
       )}
       <div className="vf-slider__track-wrap">
@@ -297,8 +387,8 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
           min={min}
           max={max}
           step={step}
-          value={current}
-          onChange={(e) => setCurrent(Number(e.target.value))}
+          value={singleValue}
+          onChange={(e) => setSingleValue(Number(e.target.value))}
           {...inputProps}
         />
         <div className="vf-slider__thumb" style={{ insetInlineStart: `calc(${pct}% - 6px)` }} />

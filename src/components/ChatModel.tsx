@@ -9,8 +9,11 @@ import {
   type HTMLAttributes,
   type ReactNode,
 } from "react";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import { cx } from "../utils/cx";
 import { toneAttrs } from "../utils/toneAttrs";
+import { Composer } from "./ChatComposer";
+import { DrawerV2 } from "./DrawerCompound";
 
 // ── ModelSelector ──────────────────────────────────────────
 
@@ -427,6 +430,12 @@ export interface LatencyIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
    * telemetry widgets (`ContextWindow`, `ChatTokenCounter`, `CostDisplay`).
    */
   kind?: "default" | "compact";
+  /** Upper bound (ms) for "good" tone. Default 500. */
+  goodThreshold?: number;
+  /** Upper bound (ms) for "warn" tone. Default 2000. */
+  warnThreshold?: number;
+  /** Upper bound (ms) for "slow" tone. Default 5000. */
+  slowThreshold?: number;
 }
 
 /**
@@ -436,9 +445,9 @@ export interface LatencyIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
 export const LatencyIndicator = forwardRef<
   HTMLSpanElement,
   LatencyIndicatorProps
->(function LatencyIndicator({ value, label, kind = "default", className, ...props }, ref) {
+>(function LatencyIndicator({ value, label, kind = "default", goodThreshold = 500, warnThreshold = 2000, slowThreshold = 5000, className, ...props }, ref) {
   const tone =
-    value < 500 ? "good" : value < 2000 ? "warn" : value < 5000 ? "slow" : "bad";
+    value < goodThreshold ? "good" : value < warnThreshold ? "warn" : value < slowThreshold ? "slow" : "bad";
   const ta = toneAttrs("vf-latency", { tone, variant: kind });
   return (
     <span
@@ -701,6 +710,8 @@ export interface ChatLayoutProps extends HTMLAttributes<HTMLDivElement> {
   /** Hide sidebar / inspector responsively. Consumer-driven. */
   hideSidebar?: boolean;
   hideInspector?: boolean;
+  /** Breakpoint (px) below which sidebar collapses into a drawer overlay. Default 768. */
+  mobileBreakpoint?: number;
 }
 
 /**
@@ -716,11 +727,53 @@ export const ChatLayout = forwardRef<HTMLDivElement, ChatLayoutProps>(
       inspector,
       hideSidebar,
       hideInspector,
+      mobileBreakpoint,
       className,
       ...props
     },
     ref
   ) {
+    const isMobile = useMediaQuery(
+      `(max-width: ${mobileBreakpoint ?? 768}px)`
+    );
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
+    if (isMobile) {
+      return (
+        <div
+          ref={ref}
+          className={cx("vf-chat-layout", "vf-chat-layout--mobile", className)}
+          {...props}
+        >
+          <header className="vf-chat-layout__mobile-header">
+            {sidebar && !hideSidebar && (
+              <button
+                type="button"
+                className="vf-chat-layout__hamburger"
+                aria-label="Open sidebar"
+                onClick={() => setDrawerOpen(true)}
+              >
+                ☰
+              </button>
+            )}
+          </header>
+          <main className="vf-chat-layout__main">{conversation}</main>
+          {sidebar && !hideSidebar && (
+            <DrawerV2
+              open={drawerOpen}
+              onOpenChange={setDrawerOpen}
+              side="left"
+              modal
+            >
+              <DrawerV2.Content>
+                <DrawerV2.Body>{sidebar}</DrawerV2.Body>
+              </DrawerV2.Content>
+            </DrawerV2>
+          )}
+        </div>
+      );
+    }
+
     return (
       <div
         ref={ref}
@@ -748,22 +801,47 @@ ChatLayout.displayName = "ChatLayout";
 export interface SimpleChatProps extends HTMLAttributes<HTMLDivElement> {
   conversation: ReactNode;
   header?: ReactNode;
+  /** When provided, renders a `Composer` below the conversation area. */
+  onSend?: (message: string) => void;
+  /** When provided alongside `models`, renders a `ModelSelector` in the header. */
+  onModelChange?: (model: string) => void;
+  /** Model options for the header model selector. */
+  models?: Array<{ value: string; label: string }>;
 }
 
 /**
  * Prewired minimal chat UI: conversation + composer + model selector.
- * Fastest path to a working chat surface.
+ * Fastest path to a working chat surface. When `onSend` is provided a
+ * `Composer` with input and submit button renders below the conversation.
+ * When `models` + `onModelChange` are provided a `ModelSelector` is
+ * rendered in the header.
  */
 export const SimpleChat = forwardRef<HTMLDivElement, SimpleChatProps>(
-  function SimpleChat({ conversation, header, className, ...props }, ref) {
+  function SimpleChat({ conversation, header, onSend, onModelChange, models, className, ...props }, ref) {
     return (
       <div
         ref={ref}
         className={cx("vf-simple-chat", className)}
         {...props}
       >
-        {header && <header className="vf-simple-chat__header">{header}</header>}
+        {(header || (models && onModelChange)) && (
+          <header className="vf-simple-chat__header">
+            {header}
+            {models && onModelChange && (
+              <ModelSelector
+                models={models.map((m) => ({ id: m.value, name: m.label }))}
+                onValueChange={onModelChange}
+              />
+            )}
+          </header>
+        )}
         <main className="vf-simple-chat__main">{conversation}</main>
+        {onSend && (
+          <Composer onSubmit={onSend} style={{ borderTop: "1px solid var(--vf-border-1)" }}>
+            <Composer.Input placeholder="Message\u2026" />
+            <Composer.Submit />
+          </Composer>
+        )}
       </div>
     );
   }

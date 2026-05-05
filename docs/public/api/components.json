@@ -88,7 +88,7 @@
   },
   {
     "name": "AgentStep",
-    "description": "Single step in an agent trace: a numbered card with title, status pill,\noptional tool calls, output, and elapsed time. Controllable/uncontrolled\nvia `expanded` / `defaultExpanded` / `onExpandedChange`.",
+    "description": "Single step in an agent trace: a numbered card with title, status pill,\noptional tool calls, output, and elapsed time. Controllable/uncontrolled\nvia `expanded` / `defaultExpanded` / `onExpandedChange`. Responds to\n`AgentTraceContext.expandAll` for bulk expand/collapse.",
     "file": "src/components/ChatAgent.tsx",
     "props": [
       {
@@ -151,7 +151,7 @@
   },
   {
     "name": "AgentTrace",
-    "description": "Full trace view for an agent run — wraps a list of `AgentStep`s with\nstatus summary and expand-all controls.",
+    "description": "Full trace view for an agent run — wraps a list of `AgentStep`s with\nstatus summary and expand-all controls. Provides `AgentTraceContext` so\nchild `AgentStep`s can respond to bulk expand/collapse.",
     "file": "src/components/ChatAgent.tsx",
     "props": [
       {
@@ -3221,31 +3221,31 @@
   },
   {
     "name": "CardContent",
-    "description": "",
+    "description": "Main body area of the card for primary content.",
     "file": "src/compat/shadcn/Card.tsx",
     "props": []
   },
   {
     "name": "CardDescription",
-    "description": "",
+    "description": "Muted subtitle paragraph rendered below the card title.",
     "file": "src/compat/shadcn/Card.tsx",
     "props": []
   },
   {
     "name": "CardFooter",
-    "description": "",
+    "description": "Bottom slot for card actions or metadata.",
     "file": "src/compat/shadcn/Card.tsx",
     "props": []
   },
   {
     "name": "CardHeader",
-    "description": "",
+    "description": "Top section of the card containing title and description.",
     "file": "src/compat/shadcn/Card.tsx",
     "props": []
   },
   {
     "name": "CardTitle",
-    "description": "",
+    "description": "Heading for the card. Renders an `<h3>` inside `CardHeader`.",
     "file": "src/compat/shadcn/Card.tsx",
     "props": []
   },
@@ -3416,6 +3416,19 @@
         "name": "kenBurns",
         "type": "boolean",
         "description": "Apply a subtle Ken Burns zoom while a slide is active.",
+        "required": false
+      },
+      {
+        "name": "lightbox",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Open a Lightbox overlay when an image is clicked. Default true.",
+        "required": false
+      },
+      {
+        "name": "thumbnails",
+        "type": "boolean",
+        "description": "Show a horizontal thumbnail strip below the carousel.",
         "required": false
       },
       {
@@ -3986,6 +3999,12 @@
         "name": "hideInspector",
         "type": "boolean",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "mobileBreakpoint",
+        "type": "number",
+        "description": "Breakpoint (px) below which sidebar collapses into a drawer overlay. Default 768.",
         "required": false
       }
     ]
@@ -5881,9 +5900,53 @@
   },
   {
     "name": "CommentList",
-    "description": "Vertical list of `Comment`s with threading and load-more affordances.",
+    "description": "Threaded comment list with optional load-more affordance.\n\n**Threaded mode:** pass `comments` (flat array with `parentId` references)\nand `renderComment` to build a nested tree automatically. Replies indent\nup to `maxDepth` levels and auto-collapse beyond `defaultCollapsedDepth`.\n\n**Simple mode (deprecated):** pass `Comment` components as `children` for\na flat, non-threaded list. This form is backwards-compatible but will not\nreceive new threading features.",
     "file": "src/components/Comment.tsx",
-    "props": []
+    "props": [
+      {
+        "name": "comments",
+        "type": "CommentData[]",
+        "description": "Flat array of comments with parentId references for threading.",
+        "required": false
+      },
+      {
+        "name": "renderComment",
+        "type": "((comment: CommentData, depth: number) => ReactNode)",
+        "description": "Render function for each comment. Receives the comment data and its depth level.",
+        "required": false
+      },
+      {
+        "name": "maxDepth",
+        "type": "number",
+        "defaultValue": "5",
+        "description": "Maximum nesting depth. Default 5.",
+        "required": false
+      },
+      {
+        "name": "defaultCollapsedDepth",
+        "type": "number",
+        "description": "Auto-collapse replies beyond this depth. Default Infinity (no auto-collapse).",
+        "required": false
+      },
+      {
+        "name": "onLoadMore",
+        "type": "(() => void)",
+        "description": "Called when user clicks \"Load more\".",
+        "required": false
+      },
+      {
+        "name": "hasMore",
+        "type": "boolean",
+        "description": "Show load-more button.",
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "description": "Show loading spinner in load-more area.",
+        "required": false
+      }
+    ]
   },
   {
     "name": "CommitGraph",
@@ -6135,7 +6198,7 @@
   },
   {
     "name": "ComposerMicButton",
-    "description": "Microphone toggle for the composer. Requests mic permission on press and\nvisualises audio level while active.",
+    "description": "Microphone toggle for the composer. Manages recording state (start/stop)\nwith an optional max-duration timer. The consumer is responsible for\nMediaStream access and audio visualization — pass visual feedback via the\n`waveform` slot.",
     "file": "src/components/ChatComposer.tsx",
     "props": [
       {
@@ -6489,7 +6552,7 @@
   },
   {
     "name": "ContextHelp",
-    "description": "Small `?` trigger that opens a tooltip/popover with contextual help text.\nPair with form fields and dense UI.",
+    "description": "Conditional aside panel for contextual help. Renders when `open` is true,\nwith an optional dismiss button. For a small `?` trigger tooltip, use\n`HelpTooltip` instead.",
     "file": "src/components/HelpChangelog.tsx",
     "props": [
       {
@@ -7241,7 +7304,7 @@
   },
   {
     "name": "DashboardGrid",
-    "description": "Responsive dashboard grid with configurable columns per breakpoint.\nChildren can span columns/rows via `GridItem`.",
+    "description": "Sub-cell coordinate dashboard grid with drag-to-move and drag-to-resize.\nUses BFS collision avoidance to prevent card overlap. Cards snap to a\nconfigurable cell grid (`cols` × `cellSize`). Supports swap-on-drop and\nlive preview during drag.",
     "file": "src/components/Widget.tsx",
     "props": [
       {
@@ -8188,7 +8251,7 @@
   },
   {
     "name": "DialogAction",
-    "description": "",
+    "description": "Primary action button that optionally closes the dialog after activation.",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -8208,13 +8271,13 @@
   },
   {
     "name": "DialogBody",
-    "description": "",
+    "description": "Scrollable main content area between the header and footer.",
     "file": "src/components/Dialog.tsx",
     "props": []
   },
   {
     "name": "DialogCancel",
-    "description": "",
+    "description": "Ghost-styled cancel button that closes the dialog on click.",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -8227,7 +8290,7 @@
   },
   {
     "name": "DialogClose",
-    "description": "",
+    "description": "Dismisses the dialog when activated. Renders a close button or merges via `asChild`.",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -8240,7 +8303,7 @@
   },
   {
     "name": "DialogContent",
-    "description": "",
+    "description": "Focus-trapped, portaled panel that renders the dialog surface with backdrop.",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -8305,31 +8368,31 @@
   },
   {
     "name": "DialogDescription",
-    "description": "",
+    "description": "Supplementary description for the dialog. Wires `aria-describedby` on the panel.",
     "file": "src/components/Dialog.tsx",
     "props": []
   },
   {
     "name": "DialogFooter",
-    "description": "",
+    "description": "Bottom slot for action buttons (Cancel, Confirm, etc.).",
     "file": "src/components/Dialog.tsx",
     "props": []
   },
   {
     "name": "DialogHeader",
-    "description": "",
+    "description": "Container for `Dialog.Title` and `Dialog.Description` at the top of the panel.",
     "file": "src/components/Dialog.tsx",
     "props": []
   },
   {
     "name": "DialogTitle",
-    "description": "",
+    "description": "Accessible heading for the dialog. Renders an `<h2>` and wires `aria-labelledby`.",
     "file": "src/components/Dialog.tsx",
     "props": []
   },
   {
     "name": "DialogTrigger",
-    "description": "",
+    "description": "Element that opens the dialog when activated. Wraps a button or merges via `asChild`.",
     "file": "src/components/Dialog.tsx",
     "props": [
       {
@@ -8785,13 +8848,13 @@
   },
   {
     "name": "DrawerBody",
-    "description": "",
+    "description": "Scrollable main content area of the drawer.",
     "file": "src/components/DrawerCompound.tsx",
     "props": []
   },
   {
     "name": "DrawerClose",
-    "description": "",
+    "description": "Dismisses the drawer when activated. Renders a close button or merges via `asChild`.",
     "file": "src/components/DrawerCompound.tsx",
     "props": [
       {
@@ -8804,19 +8867,19 @@
   },
   {
     "name": "DrawerFooter",
-    "description": "",
+    "description": "Bottom slot for action buttons within the drawer.",
     "file": "src/components/DrawerCompound.tsx",
     "props": []
   },
   {
     "name": "DrawerHeader",
-    "description": "",
+    "description": "Top section of the drawer, typically containing the title and close button.",
     "file": "src/components/DrawerCompound.tsx",
     "props": []
   },
   {
     "name": "DrawerRoot",
-    "description": "",
+    "description": "Root provider that manages open state and side for `DrawerV2` sub-components.",
     "file": "src/components/DrawerCompound.tsx",
     "props": [
       {
@@ -8892,7 +8955,7 @@
   },
   {
     "name": "DrawerV2Content",
-    "description": "",
+    "description": "Focus-trapped sliding panel that holds the drawer body. Portaled when modal.",
     "file": "src/components/DrawerCompound.tsx",
     "props": [
       {
@@ -8963,13 +9026,13 @@
   },
   {
     "name": "DrawerV2Title",
-    "description": "",
+    "description": "Accessible heading for the drawer. Renders an `<h2>` and wires `aria-labelledby`.",
     "file": "src/components/DrawerCompound.tsx",
     "props": []
   },
   {
     "name": "DrawerV2Trigger",
-    "description": "",
+    "description": "Element that opens the drawer. Wraps a button or merges via `asChild`.",
     "file": "src/components/DrawerCompound.tsx",
     "props": [
       {
@@ -9818,6 +9881,41 @@
         "name": "pulse",
         "type": "boolean",
         "description": "Opacity pulse. Disabled under prefers-reduced-motion.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "FadeIn",
+    "description": "Fades children in when they scroll into view. Respects\n`prefers-reduced-motion` (renders immediately without animation).",
+    "file": "src/components/Animations.tsx",
+    "props": [
+      {
+        "name": "duration",
+        "type": "number",
+        "defaultValue": "300",
+        "description": "Animation duration in ms. Default 300.",
+        "required": false
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "defaultValue": "0",
+        "description": "Delay before animation starts in ms. Default 0.",
+        "required": false
+      },
+      {
+        "name": "easing",
+        "type": "string",
+        "defaultValue": "ease",
+        "description": "CSS easing function. Default \"ease\".",
+        "required": false
+      },
+      {
+        "name": "triggerOnce",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Only animate the first time the element enters the viewport. Default true.",
         "required": false
       }
     ]
@@ -12505,7 +12603,7 @@
       {
         "name": "suppressA11yWarning",
         "type": "boolean",
-        "description": "Internal escape hatch for voidframe-composed parents.",
+        "description": "@internal Used by compound parents (DataGrid, TreeTable) to suppress\nthe accessible-name warning when the label is provided by table headers.\nNot intended for direct consumer use.",
         "required": false
       }
     ]
@@ -12810,6 +12908,27 @@
         "type": "enum",
         "defaultValue": "default",
         "description": "Layout variant. `\"default\"` renders label + value; `\"compact\"` shows\nonly the value pill — matches the compact vocabulary of the other chat\ntelemetry widgets (`ContextWindow`, `ChatTokenCounter`, `CostDisplay`).",
+        "required": false
+      },
+      {
+        "name": "goodThreshold",
+        "type": "number",
+        "defaultValue": "500",
+        "description": "Upper bound (ms) for \"good\" tone. Default 500.",
+        "required": false
+      },
+      {
+        "name": "warnThreshold",
+        "type": "number",
+        "defaultValue": "2000",
+        "description": "Upper bound (ms) for \"warn\" tone. Default 2000.",
+        "required": false
+      },
+      {
+        "name": "slowThreshold",
+        "type": "number",
+        "defaultValue": "5000",
+        "description": "Upper bound (ms) for \"slow\" tone. Default 5000.",
         "required": false
       }
     ]
@@ -13722,7 +13841,7 @@
       {
         "name": "direction",
         "type": "enum",
-        "defaultValue": "left",
+        "defaultValue": "up",
         "description": "",
         "required": false
       },
@@ -16608,6 +16727,18 @@
         "required": false
       },
       {
+        "name": "showStrength",
+        "type": "boolean",
+        "description": "Show a strength meter bar below the input.",
+        "required": false
+      },
+      {
+        "name": "strengthFn",
+        "type": "((value: string) => number)",
+        "description": "Custom strength scoring function. Receives the current value and must\nreturn a number from 0 (weakest) to 4 (strongest). When omitted a\nbuilt-in heuristic is used (+1 for length >= 8, +1 uppercase, +1\nlowercase, +1 digit, +1 symbol, mapped from 0-5 to 0-4).",
+        "required": false
+      },
+      {
         "name": "wrapperProps",
         "type": "HTMLAttributes<HTMLDivElement>",
         "description": "Attributes for the outer wrapper `<div>` (container that holds the\ninput plus the visibility toggle button). Rest-spread (`{...props}`)\nlands on the inner native `<input>` so `data-testid`/`aria-*` forward\nto the control as consumers expect.",
@@ -16734,8 +16865,14 @@
     ]
   },
   {
+    "name": "PHONE_COUNTRIES",
+    "description": "Phone country data. ~30 entries covering the most common locales.\nConsumers can extend this via the `mask` prop override.",
+    "file": "src/components/MaskedInput.tsx",
+    "props": []
+  },
+  {
     "name": "PhoneInput",
-    "description": "Phone number input with country selector, auto-formatting per E.164, and\nvalidation.",
+    "description": "Phone number input with display formatting via masks. When\n`showCountrySelector` is true a country dropdown is rendered alongside the\ninput, automatically switching the mask on selection.",
     "file": "src/components/MaskedInput.tsx",
     "props": [
       {
@@ -16749,6 +16886,12 @@
         "name": "mask",
         "type": "string",
         "description": "Override the mask entirely.",
+        "required": false
+      },
+      {
+        "name": "showCountrySelector",
+        "type": "boolean",
+        "description": "When true, renders a `<select>` before the masked input showing country\nflag, name, and dial code. Selecting a country updates the mask\nautomatically.",
         "required": false
       },
       {
@@ -17014,7 +17157,7 @@
   },
   {
     "name": "PlanDisplay",
-    "description": "Pricing-plan card: tier name, price, feature list, and CTA. Used on\npricing pages.",
+    "description": "Agent plan stepper: renders a list of steps with status indicators\n(pending/active/done/failed). Click a step to navigate. Tracks\n`aria-current=\"step\"` for the active step.",
     "file": "src/components/ChatAgent.tsx",
     "props": [
       {
@@ -17378,7 +17521,7 @@
   },
   {
     "name": "PopoverContent",
-    "description": "",
+    "description": "Portaled panel anchored to the trigger with viewport-aware positioning.",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -17411,7 +17554,7 @@
   },
   {
     "name": "PopoverRoot",
-    "description": "",
+    "description": "Root provider that manages open state and trigger reference for popover sub-components.",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -17437,7 +17580,7 @@
   },
   {
     "name": "PopoverTrigger",
-    "description": "",
+    "description": "Element that toggles the popover open/closed on click.",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -21010,7 +21153,7 @@
   },
   {
     "name": "SimpleChat",
-    "description": "Prewired minimal chat UI: conversation + composer + model selector.\nFastest path to a working chat surface.",
+    "description": "Prewired minimal chat UI: conversation + composer + model selector.\nFastest path to a working chat surface. When `onSend` is provided a\n`Composer` with input and submit button renders below the conversation.\nWhen `models` + `onModelChange` are provided a `ModelSelector` is\nrendered in the header.",
     "file": "src/components/ChatModel.tsx",
     "props": [
       {
@@ -21023,6 +21166,24 @@
         "name": "header",
         "type": "ReactNode",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "onSend",
+        "type": "((message: string) => void)",
+        "description": "When provided, renders a `Composer` below the conversation area.",
+        "required": false
+      },
+      {
+        "name": "onModelChange",
+        "type": "((model: string) => void)",
+        "description": "When provided alongside `models`, renders a `ModelSelector` in the header.",
+        "required": false
+      },
+      {
+        "name": "models",
+        "type": "{ value: string; label: string; }[]",
+        "description": "Model options for the header model selector.",
         "required": false
       }
     ]
@@ -21386,26 +21547,75 @@
     ]
   },
   {
+    "name": "SlideIn",
+    "description": "Slides (and fades) children in from a given direction when they scroll\ninto view. Respects `prefers-reduced-motion` (renders immediately).",
+    "file": "src/components/Animations.tsx",
+    "props": [
+      {
+        "name": "direction",
+        "type": "enum",
+        "defaultValue": "up",
+        "description": "Direction to slide from. Default \"up\".",
+        "required": false
+      },
+      {
+        "name": "distance",
+        "type": "string | number",
+        "defaultValue": "20px",
+        "description": "Distance to travel. Default \"20px\".",
+        "required": false
+      },
+      {
+        "name": "duration",
+        "type": "number",
+        "defaultValue": "300",
+        "description": "Animation duration in ms. Default 300.",
+        "required": false
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "defaultValue": "0",
+        "description": "Delay before animation starts in ms. Default 0.",
+        "required": false
+      },
+      {
+        "name": "easing",
+        "type": "string",
+        "defaultValue": "ease",
+        "description": "CSS easing function. Default \"ease\".",
+        "required": false
+      },
+      {
+        "name": "triggerOnce",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "Only animate the first time the element enters the viewport. Default true.",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "Slider",
-    "description": "Range slider for numeric values. Controllable via `value` /\n`onValueChange`; supports one or two thumbs.\n\nAccessibility / test ergonomics: rest-spread props (including `data-testid`\nand `aria-*`) are forwarded to the inner native `<input type=\"range\">` so\n`getByTestId(id)` returns the actual control and `.value` reads work. Use\n`wrapperProps` for attributes that genuinely belong on the outer div.",
+    "description": "Range slider for numeric values. Controllable via `value` /\n`onValueChange`; supports one or two thumbs.\n\nWhen `range` is true, `value` / `defaultValue` accept `[min, max]` tuples\nand two thumbs are rendered. The fill spans between the two thumbs and\nthumbs are constrained so they cannot cross each other.\n\nAccessibility / test ergonomics: rest-spread props (including `data-testid`\nand `aria-*`) are forwarded to the inner native `<input type=\"range\">` so\n`getByTestId(id)` returns the actual control and `.value` reads work. Use\n`wrapperProps` for attributes that genuinely belong on the outer div.",
     "file": "src/components/FormExtended.tsx",
     "props": [
       {
         "name": "value",
-        "type": "number",
-        "description": "",
+        "type": "number | [number, number]",
+        "description": "Single value or `[min, max]` pair when `range` is true.",
         "required": false
       },
       {
         "name": "defaultValue",
-        "type": "number",
-        "description": "",
+        "type": "number | [number, number]",
+        "description": "Default single value or `[min, max]` pair when `range` is true.",
         "required": false
       },
       {
         "name": "onValueChange",
-        "type": "((value: number) => void)",
-        "description": "",
+        "type": "((value: number | [number, number]) => void)",
+        "description": "Emits a single number or `[min, max]` pair depending on `range`.",
         "required": false
       },
       {
@@ -21445,6 +21655,12 @@
         "name": "showValue",
         "type": "boolean",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "range",
+        "type": "boolean",
+        "description": "When true, render two thumbs for selecting a numeric range. `value` and\n`onValueChange` operate on `[min, max]` tuples. Thumbs are constrained\nso the min thumb cannot exceed the max thumb and vice versa.",
         "required": false
       },
       {
@@ -22030,7 +22246,7 @@
   },
   {
     "name": "SplitView",
-    "description": "Two-pane split view with a draggable divider. Controllable split ratio.",
+    "description": "Two-pane split view with an optional draggable divider. Controllable split\nratio via `size` / `defaultSize` / `onSizeChange`.",
     "file": "src/components/Layout.tsx",
     "props": [
       {
@@ -22055,6 +22271,43 @@
         "name": "gap",
         "type": "string | number",
         "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "description": "Controlled left-pane width in pixels.",
+        "required": false
+      },
+      {
+        "name": "defaultSize",
+        "type": "number",
+        "description": "Initial left-pane width in pixels (uncontrolled).",
+        "required": false
+      },
+      {
+        "name": "onSizeChange",
+        "type": "((leftWidth: number) => void)",
+        "description": "Called on each resize move with the new left-pane width.",
+        "required": false
+      },
+      {
+        "name": "minSize",
+        "type": "number",
+        "defaultValue": "100",
+        "description": "Minimum left-pane width in pixels. Default 100.",
+        "required": false
+      },
+      {
+        "name": "maxSize",
+        "type": "number",
+        "description": "Maximum left-pane width in pixels. Default 80% of container.",
+        "required": false
+      },
+      {
+        "name": "resizable",
+        "type": "boolean",
+        "description": "Render a draggable divider between the two panes.",
         "required": false
       }
     ]
@@ -23035,7 +23288,7 @@
   },
   {
     "name": "Switch",
-    "description": "Two-state switch control with a visible on/off label option. Controllable\nvia `checked` / `onCheckedChange`; keyboard Space / Enter toggles.",
+    "description": "Two-state switch control. Re-export of `Toggle`; controllable via\n`checked` / `onValueChange`; keyboard Space / Enter toggles.",
     "file": "src/components/FormAdvanced.tsx",
     "props": [
       {
@@ -23083,7 +23336,7 @@
       {
         "name": "suppressA11yWarning",
         "type": "boolean",
-        "description": "Internal escape hatch for voidframe-composed parents.",
+        "description": "@internal Used by compound parents (DataGrid, TreeTable) to suppress\nthe accessible-name warning when the label is provided by table headers.\nNot intended for direct consumer use.",
         "required": false
       }
     ]
@@ -23217,13 +23470,13 @@
   },
   {
     "name": "Tabs.List",
-    "description": "",
+    "description": "Container with `role=\"tablist\"` that holds tab triggers and handles arrow-key navigation.",
     "file": "src/components/Interactive.tsx",
     "props": []
   },
   {
     "name": "Tabs.Panel",
-    "description": "",
+    "description": "Content panel shown when its matching tab trigger is active.",
     "file": "src/components/Interactive.tsx",
     "props": [
       {
@@ -23242,7 +23495,7 @@
   },
   {
     "name": "Tabs.Trigger",
-    "description": "",
+    "description": "Individual tab button that activates its corresponding panel on click.",
     "file": "src/components/Interactive.tsx",
     "props": [
       {
@@ -23280,13 +23533,13 @@
   },
   {
     "name": "TabsList",
-    "description": "",
+    "description": "Container with `role=\"tablist\"` that holds tab triggers and handles arrow-key navigation.",
     "file": "src/compat/shadcn/Tabs.tsx",
     "props": []
   },
   {
     "name": "TabsTrigger",
-    "description": "",
+    "description": "Individual tab button that activates its corresponding panel on click.",
     "file": "src/compat/shadcn/Tabs.tsx",
     "props": [
       {
@@ -23654,7 +23907,7 @@
       {
         "name": "suppressA11yWarning",
         "type": "boolean",
-        "description": "Internal escape hatch for voidframe-composed parents.",
+        "description": "@internal Used by compound parents (DataGrid, TreeTable) to suppress\nthe accessible-name warning when the label is provided by table headers.\nNot intended for direct consumer use.",
         "required": false
       }
     ]
@@ -23795,7 +24048,7 @@
   },
   {
     "name": "Ticker",
-    "description": "Auto-advancing horizontal ticker for news-style headlines. Respects\n`prefers-reduced-motion`.",
+    "description": "Numeric counter/odometer that animates between two values. Supports smooth\neasing or discrete stepped transitions. Respects `prefers-reduced-motion`.",
     "file": "src/components/Animations.tsx",
     "props": [
       {
@@ -23814,7 +24067,7 @@
       {
         "name": "duration",
         "type": "number",
-        "defaultValue": "800",
+        "defaultValue": "300",
         "description": "Animation duration in ms. Default 800.",
         "required": false
       },
@@ -24111,7 +24364,7 @@
       {
         "name": "suppressA11yWarning",
         "type": "boolean",
-        "description": "Internal escape hatch for voidframe-composed parents.",
+        "description": "@internal Used by compound parents (DataGrid, TreeTable) to suppress\nthe accessible-name warning when the label is provided by table headers.\nNot intended for direct consumer use.",
         "required": false
       }
     ]
@@ -24392,7 +24645,7 @@
   },
   {
     "name": "ToolCallGroup",
-    "description": "Groups consecutive `ToolCall`s from the same turn with a collapsed\nsummary.",
+    "description": "Groups consecutive `ToolCall`s from the same turn with a collapsed\nsummary. Controllable/uncontrolled via `expanded` / `defaultExpanded` /\n`onExpandedChange`.",
     "file": "src/components/ChatAgent.tsx",
     "props": [
       {
@@ -24405,6 +24658,25 @@
         "name": "status",
         "type": "enum",
         "defaultValue": "complete",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "expanded",
+        "type": "boolean",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "defaultExpanded",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onExpandedChange",
+        "type": "((expanded: boolean) => void)",
         "description": "",
         "required": false
       }
@@ -24458,7 +24730,7 @@
   },
   {
     "name": "TooltipContent",
-    "description": "",
+    "description": "Body rendered inside the tooltip popup. Registers into `Tooltip.Root`.",
     "file": "src/components/Popovers.tsx",
     "props": []
   },
@@ -24485,7 +24757,7 @@
   },
   {
     "name": "TooltipRoot",
-    "description": "",
+    "description": "Compound root that collects Trigger and Content slots for a Tooltip instance.",
     "file": "src/components/Popovers.tsx",
     "props": [
       {
@@ -24524,7 +24796,7 @@
   },
   {
     "name": "TooltipTrigger",
-    "description": "",
+    "description": "Element that shows the tooltip on hover/focus. Registers into `Tooltip.Root`.",
     "file": "src/components/Popovers.tsx",
     "props": []
   },
