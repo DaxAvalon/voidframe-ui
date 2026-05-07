@@ -349,6 +349,15 @@ These three are intentional but observable from the outside; pin to
   for="id">`. This fixes `getByLabelText` resolution against
   externally-positioned labels — the previous span-with-`for`
   combination was inert.
+- **`NumberInput.value` widened to `number | "" | null`** with a
+  matching `onValueChange`, plus a `defaultBlank` prop covering the
+  common "empty = unset" form pattern. `DatePicker`,
+  `DateTimePicker`, `TimePicker`, `RatingInput`, `ColorPicker`,
+  `Combobox`, `TreeSelect`, and `Cascader` got the same
+  empty-vs-zero-vs-null cleanup. Consumers using
+  `Dispatch<SetStateAction<number>>` or `(n: number) => void` for
+  `onValueChange` will need to widen their handler to accept
+  `NumberInputValue`.
 - **`Composer` defaults `disabled` from `status="streaming"`.** When
   `status="streaming"` and `disabled` is not explicitly set, the
   composer is now disabled. Consumers who want to allow interruption
@@ -435,12 +444,6 @@ These three are intentional but observable from the outside; pin to
   ancestor has `role="grid"` / `role="row"` / `role="gridcell"` /
   `role="table"` (via the new `hasAccessibleGridAncestor` helper),
   so DataGrid-cell controls don't false-positive.
-- **`NumberInput.value` widened to `number | "" | null`** with a
-  matching `onValueChange`, plus a `defaultBlank` prop covering the
-  common "empty = unset" form pattern. `DatePicker`,
-  `DateTimePicker`, `TimePicker`, `RatingInput`, `ColorPicker`,
-  `Combobox`, `TreeSelect`, and `Cascader` got the same
-  empty-vs-zero-vs-null cleanup.
 - **`Progress.indeterminate` prop** (explicit) alongside the
   existing `value === undefined ⇒ indeterminate` shortcut. Same
   prop added to `MultiProgress` and audited across `Loading`,

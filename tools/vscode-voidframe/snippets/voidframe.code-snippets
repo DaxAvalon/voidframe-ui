@@ -678,7 +678,7 @@
     "body": [
       "<CardContent />"
     ],
-    "description": "Voidframe CardContent component.",
+    "description": "Main body area of the card for primary content.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CardDescription": {
@@ -689,7 +689,7 @@
     "body": [
       "<CardDescription />"
     ],
-    "description": "Voidframe CardDescription component.",
+    "description": "Muted subtitle paragraph rendered below the card title.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CardFooter": {
@@ -700,7 +700,7 @@
     "body": [
       "<CardFooter />"
     ],
-    "description": "Voidframe CardFooter component.",
+    "description": "Bottom slot for card actions or metadata.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CardHeader": {
@@ -711,7 +711,7 @@
     "body": [
       "<CardHeader />"
     ],
-    "description": "Voidframe CardHeader component.",
+    "description": "Top section of the card containing title and description.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CardTitle": {
@@ -722,7 +722,7 @@
     "body": [
       "<CardTitle />"
     ],
-    "description": "Voidframe CardTitle component.",
+    "description": "Heading for the card.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CaretIcon": {
@@ -1228,7 +1228,7 @@
     "body": [
       "<CommentList />"
     ],
-    "description": "Vertical list of `Comment`s with threading and load-more affordances.",
+    "description": "Threaded comment list with optional load-more affordance.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "CommitGraph": {
@@ -1371,7 +1371,7 @@
     "body": [
       "<ContextHelp />"
     ],
-    "description": "Small `?` trigger that opens a tooltip/popover with contextual help text.",
+    "description": "Conditional aside panel for contextual help.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "ContextMenu": {
@@ -1547,7 +1547,7 @@
     "body": [
       "<DashboardGrid\n  items={${1:/* items: DashboardLayoutItem[] */}}\n  renderItem={${2:/* renderItem: (id: string, item: DashboardLayoutItem) => ReactNode */}}\n/>"
     ],
-    "description": "Responsive dashboard grid with configurable columns per breakpoint.",
+    "description": "Sub-cell coordinate dashboard grid with drag-to-move and drag-to-resize.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DatabaseIcon": {
@@ -1690,7 +1690,7 @@
     "body": [
       "<DialogAction />"
     ],
-    "description": "Voidframe DialogAction component.",
+    "description": "Primary action button that optionally closes the dialog after activation.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DialogBody": {
@@ -1701,7 +1701,7 @@
     "body": [
       "<DialogBody />"
     ],
-    "description": "Voidframe DialogBody component.",
+    "description": "Scrollable main content area between the header and footer.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DialogCancel": {
@@ -1712,7 +1712,7 @@
     "body": [
       "<DialogCancel />"
     ],
-    "description": "Voidframe DialogCancel component.",
+    "description": "Ghost-styled cancel button that closes the dialog on click.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DialogClose": {
@@ -1723,7 +1723,7 @@
     "body": [
       "<DialogClose />"
     ],
-    "description": "Voidframe DialogClose component.",
+    "description": "Dismisses the dialog when activated.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DialogContent": {
@@ -1734,7 +1734,7 @@
     "body": [
       "<DialogContent\n  size={${1:/* size: enum */}}\n/>"
     ],
-    "description": "Voidframe DialogContent component.",
+    "description": "Focus-trapped, portaled panel that renders the dialog surface with backdrop.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DialogDescription": {
@@ -1745,7 +1745,7 @@
     "body": [
       "<DialogDescription />"
     ],
-    "description": "Voidframe DialogDescription component.",
+    "description": "Supplementary description for the dialog.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DialogFooter": {
@@ -1756,7 +1756,7 @@
     "body": [
       "<DialogFooter />"
     ],
-    "description": "Voidframe DialogFooter component.",
+    "description": "Bottom slot for action buttons (Cancel, Confirm, etc.).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DialogHeader": {
@@ -1767,7 +1767,7 @@
     "body": [
       "<DialogHeader />"
     ],
-    "description": "Voidframe DialogHeader component.",
+    "description": "Container for `Dialog.Title` and `Dialog.Description` at the top of the panel.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DialogTitle": {
@@ -1778,7 +1778,7 @@
     "body": [
       "<DialogTitle />"
     ],
-    "description": "Voidframe DialogTitle component.",
+    "description": "Accessible heading for the dialog.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DialogTrigger": {
@@ -1789,7 +1789,7 @@
     "body": [
       "<DialogTrigger />"
     ],
-    "description": "Voidframe DialogTrigger component.",
+    "description": "Element that opens the dialog when activated.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DiffViewer": {
@@ -1910,7 +1910,7 @@
     "body": [
       "<DrawerBody />"
     ],
-    "description": "Voidframe DrawerBody component.",
+    "description": "Scrollable main content area of the drawer.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DrawerClose": {
@@ -1921,7 +1921,7 @@
     "body": [
       "<DrawerClose />"
     ],
-    "description": "Voidframe DrawerClose component.",
+    "description": "Dismisses the drawer when activated.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DrawerFooter": {
@@ -1932,7 +1932,7 @@
     "body": [
       "<DrawerFooter />"
     ],
-    "description": "Voidframe DrawerFooter component.",
+    "description": "Bottom slot for action buttons within the drawer.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DrawerHeader": {
@@ -1943,7 +1943,7 @@
     "body": [
       "<DrawerHeader />"
     ],
-    "description": "Voidframe DrawerHeader component.",
+    "description": "Top section of the drawer, typically containing the title and close button.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DrawerRoot": {
@@ -1954,7 +1954,7 @@
     "body": [
       "<DrawerRoot />"
     ],
-    "description": "Voidframe DrawerRoot component.",
+    "description": "Root provider that manages open state and side for `DrawerV2` sub-components.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DrawerV2": {
@@ -1976,7 +1976,7 @@
     "body": [
       "<DrawerV2Content\n  size={${1:/* size: string | number */}}\n/>"
     ],
-    "description": "Voidframe DrawerV2Content component.",
+    "description": "Focus-trapped sliding panel that holds the drawer body.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DrawerV2Title": {
@@ -1987,7 +1987,7 @@
     "body": [
       "<DrawerV2Title />"
     ],
-    "description": "Voidframe DrawerV2Title component.",
+    "description": "Accessible heading for the drawer.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "DrawerV2Trigger": {
@@ -1998,7 +1998,7 @@
     "body": [
       "<DrawerV2Trigger />"
     ],
-    "description": "Voidframe DrawerV2Trigger component.",
+    "description": "Element that opens the drawer.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Dropdown": {
@@ -2285,6 +2285,17 @@
       "<EyeOffIcon\n  size={${1:/* size: number | IconSize */}}\n  label=\"${2:label}\"\n/>"
     ],
     "description": "EyeOff icon.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "FadeIn": {
+    "prefix": [
+      "vf-fadein",
+      "FadeIn"
+    ],
+    "body": [
+      "<FadeIn />"
+    ],
+    "description": "Fades children in when they scroll into view.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Field": {
@@ -3860,6 +3871,17 @@
     "description": "Locale-aware percentage formatter.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "PHONE_COUNTRIES": {
+    "prefix": [
+      "vf-phone_countries",
+      "PHONE_COUNTRIES"
+    ],
+    "body": [
+      "<PHONE_COUNTRIES />"
+    ],
+    "description": "Phone country data.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "PhoneInput": {
     "prefix": [
       "vf-phoneinput",
@@ -3868,7 +3890,7 @@
     "body": [
       "<PhoneInput\n  size={${1:/* size: enum */}}\n  label=\"${2:label}\"\n/>"
     ],
-    "description": "Phone number input with country selector, auto-formatting per E.164, and validation.",
+    "description": "Phone number input with display formatting via masks.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PieChart": {
@@ -3912,7 +3934,7 @@
     "body": [
       "<PlanDisplay\n  steps={${1:/* steps: PlanStep[] */}}\n/>"
     ],
-    "description": "Pricing-plan card: tier name, price, feature list, and CTA.",
+    "description": "Agent plan stepper: renders a list of steps with status indicators (pending/active/done/failed).",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PlayIcon": {
@@ -3978,7 +4000,7 @@
     "body": [
       "<PopoverContent />"
     ],
-    "description": "Voidframe PopoverContent component.",
+    "description": "Portaled panel anchored to the trigger with viewport-aware positioning.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PopoverRoot": {
@@ -3989,7 +4011,7 @@
     "body": [
       "<PopoverRoot />"
     ],
-    "description": "Voidframe PopoverRoot component.",
+    "description": "Root provider that manages open state and trigger reference for popover sub-components.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PopoverTrigger": {
@@ -4000,7 +4022,7 @@
     "body": [
       "<PopoverTrigger />"
     ],
-    "description": "Voidframe PopoverTrigger component.",
+    "description": "Element that toggles the popover open/closed on click.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "PopoverV2": {
@@ -5103,6 +5125,17 @@
     "description": "Popover listing available slash commands.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "SlideIn": {
+    "prefix": [
+      "vf-slidein",
+      "SlideIn"
+    ],
+    "body": [
+      "<SlideIn />"
+    ],
+    "description": "Slides (and fades) children in from a given direction when they scroll into view.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "Slider": {
     "prefix": [
       "vf-slider",
@@ -5263,9 +5296,9 @@
       "SplitView"
     ],
     "body": [
-      "<SplitView />"
+      "<SplitView\n  size={${1:0}}\n/>"
     ],
-    "description": "Two-pane split view with a draggable divider.",
+    "description": "Two-pane split view with an optional draggable divider.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Spotlight": {
@@ -5518,7 +5551,7 @@
     "body": [
       "<Switch\n  label=\"${1:label}\"\n  accent=\"${2:accent}\"\n/>"
     ],
-    "description": "Two-state switch control with a visible on/off label option.",
+    "description": "Two-state switch control.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "SystemPromptEditor": {
@@ -5573,7 +5606,7 @@
     "body": [
       "<Tabs.List />"
     ],
-    "description": "Voidframe Tabs.List component.",
+    "description": "Container with `role=\"tablist\"` that holds tab triggers and handles arrow-key navigation.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tabs.Panel": {
@@ -5584,7 +5617,7 @@
     "body": [
       "<Tabs.Panel\n  value=\"${1:value}\"\n/>"
     ],
-    "description": "Voidframe Tabs.Panel component.",
+    "description": "Content panel shown when its matching tab trigger is active.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tabs.Trigger": {
@@ -5595,7 +5628,7 @@
     "body": [
       "<Tabs.Trigger\n  value=\"${1:value}\"\n/>"
     ],
-    "description": "Voidframe Tabs.Trigger component.",
+    "description": "Individual tab button that activates its corresponding panel on click.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TabsContent": {
@@ -5617,7 +5650,7 @@
     "body": [
       "<TabsList />"
     ],
-    "description": "Voidframe TabsList component.",
+    "description": "Container with `role=\"tablist\"` that holds tab triggers and handles arrow-key navigation.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TabsTrigger": {
@@ -5628,7 +5661,7 @@
     "body": [
       "<TabsTrigger\n  value=\"${1:value}\"\n/>"
     ],
-    "description": "Voidframe TabsTrigger component.",
+    "description": "Individual tab button that activates its corresponding panel on click.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "Tag": {
@@ -5749,7 +5782,7 @@
     "body": [
       "<Ticker\n  to={${1:0}}\n/>"
     ],
-    "description": "Auto-advancing horizontal ticker for news-style headlines.",
+    "description": "Numeric counter/odometer that animates between two values.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TileGridMap": {
@@ -5914,7 +5947,7 @@
     "body": [
       "<TooltipContent />"
     ],
-    "description": "Voidframe TooltipContent component.",
+    "description": "Body rendered inside the tooltip popup.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TooltipProvider": {
@@ -5936,7 +5969,7 @@
     "body": [
       "<TooltipRoot />"
     ],
-    "description": "Voidframe TooltipRoot component.",
+    "description": "Compound root that collects Trigger and Content slots for a Tooltip instance.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TooltipTrigger": {
@@ -5947,7 +5980,7 @@
     "body": [
       "<TooltipTrigger />"
     ],
-    "description": "Voidframe TooltipTrigger component.",
+    "description": "Element that shows the tooltip on hover/focus.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
   "TraceViewer": {

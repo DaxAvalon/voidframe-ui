@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { screen } from "@testing-library/react";
 import {
   createMockStorage,
-  expectNoA11yViolations,
   installMatchMedia,
   renderWithTheme,
 } from "../index";
+import { expectNoA11yViolations } from "../axe";
 import { ar } from "../../i18n";
 
 describe("voidframe/testing — renderWithTheme", () => {

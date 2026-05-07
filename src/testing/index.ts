@@ -23,8 +23,6 @@ export {
   act,
 } from "./renderWithVoidframe";
 
-export { expectNoA11yViolations } from "./axe";
-
 export {
   installMatchMedia,
   createMockStorage,

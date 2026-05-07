@@ -14,7 +14,7 @@ import { toneAttrs } from "../utils/toneAttrs";
  * for `variant="solid" tone="danger"` — not an independent variant.
  */
 export type ButtonVariant = "solid" | "outline" | "ghost" | "subtle" | "destructive";
-export type ButtonSize = "sm" | "md" | "lg" | "icon";
+export type ButtonSize = "xs" | "sm" | "md" | "lg" | "icon";
 export type ButtonTone =
   | "neutral"
   | "info"

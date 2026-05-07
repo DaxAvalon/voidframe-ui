@@ -22,7 +22,8 @@ import type {
 export interface MessageGroupProps extends HTMLAttributes<HTMLDivElement> {
   author?: MessageAuthor;
   role?: MessageRole;
-  timestamp?: ReactNode;
+  /** Timestamp — accepts a ReactNode, Date, epoch number, or ISO string. Date/number/ISO values are auto-formatted as `HH:MM`. */
+  timestamp?: ReactNode | Date | number;
   children?: ReactNode;
 }
 
@@ -35,6 +36,13 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
     { author, role, timestamp, className, children, ...props },
     ref
   ) {
+    const formattedTimestamp = timestamp instanceof Date
+      ? new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "numeric" }).format(timestamp)
+      : typeof timestamp === "number"
+        ? new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "numeric" }).format(new Date(timestamp))
+        : typeof timestamp === "string" && /^\d{4}-\d{2}-\d{2}T/.test(timestamp)
+          ? new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "numeric" }).format(new Date(timestamp))
+          : timestamp;
     return (
       <div
         ref={ref}
@@ -46,7 +54,7 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
         data-role={role}
         {...props}
       >
-        {(author || timestamp) && (
+        {(author || formattedTimestamp) && (
           <header className="vf-message-group__header">
             {author?.avatar && (
               <span className="vf-message-group__avatar" aria-hidden="true">
@@ -56,8 +64,8 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
             {author?.name && (
               <span className="vf-message-group__name">{author.name}</span>
             )}
-            {timestamp && (
-              <span className="vf-message-group__time">{timestamp}</span>
+            {formattedTimestamp && (
+              <span className="vf-message-group__time">{formattedTimestamp}</span>
             )}
           </header>
         )}
@@ -73,7 +81,8 @@ MessageGroup.displayName = "MessageGroup";
 export interface MessageProps extends Omit<HTMLAttributes<HTMLDivElement>, "content"> {
   role?: MessageRole;
   content?: ReactNode;
-  timestamp?: ReactNode;
+  /** Timestamp — accepts a ReactNode, Date, epoch number, or ISO string. Date/number/ISO values are auto-formatted as `HH:MM`. */
+  timestamp?: ReactNode | Date | number;
   author?: MessageAuthor;
   status?: MessageStatus;
   actions?: ReactNode;
@@ -114,6 +123,13 @@ export const Message = forwardRef<HTMLDivElement, MessageProps>(function Message
   },
   ref
 ) {
+  const formattedTimestamp = timestamp instanceof Date
+    ? new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "numeric" }).format(timestamp)
+    : typeof timestamp === "number"
+      ? new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "numeric" }).format(new Date(timestamp))
+      : typeof timestamp === "string" && /^\d{4}-\d{2}-\d{2}T/.test(timestamp)
+        ? new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "numeric" }).format(new Date(timestamp))
+        : timestamp;
   return (
     <article
       ref={ref}
@@ -130,7 +146,7 @@ export const Message = forwardRef<HTMLDivElement, MessageProps>(function Message
       )}
       {...props}
     >
-      {(author || timestamp || pinned) && (
+      {(author || formattedTimestamp || pinned) && (
         <header className="vf-message__header">
           {author?.avatar && (
             <span className="vf-message__avatar" aria-hidden="true">
@@ -146,8 +162,8 @@ export const Message = forwardRef<HTMLDivElement, MessageProps>(function Message
               ★
             </span>
           )}
-          {timestamp && (
-            <time className="vf-message__time">{timestamp}</time>
+          {formattedTimestamp && (
+            <time className="vf-message__time">{formattedTimestamp}</time>
           )}
         </header>
       )}

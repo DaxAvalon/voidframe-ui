@@ -23,6 +23,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
@@ -176,13 +177,19 @@ const MenuTrigger = forwardRef<HTMLElement, MenuTriggerProps>(
 // ── Menu.Content ──────────────────────────────────────────────
 
 export interface MenuContentProps extends HTMLAttributes<HTMLDivElement> {
+  /** Horizontal alignment relative to the trigger. Default `"start"`. */
+  align?: "start" | "center" | "end";
+  /** Side of the trigger to open on. Default `"bottom"`. */
+  side?: "top" | "bottom";
+  /** Gap between the trigger and the content in pixels. */
+  sideOffset?: number;
   children?: ReactNode;
 }
 
 /**
  * Positioned popover that holds menu items. Subpart of `Menu`.
  */
-function MenuContent({ children, className, ...props }: MenuContentProps) {
+function MenuContent({ children, align = "start", side = "bottom", sideOffset, className, style, ...props }: MenuContentProps) {
   const ctx = useMenu();
   const outsideRef = useClickOutside<HTMLDivElement>(() => ctx.setOpen(false));
 
@@ -259,6 +266,19 @@ function MenuContent({ children, className, ...props }: MenuContentProps) {
     }
   };
 
+  const posStyle: CSSProperties = {
+    position: "absolute",
+    ...(side === "top" ? { bottom: "100%", top: "auto" } : { top: "100%" }),
+    ...(align === "end"
+      ? { insetInlineEnd: 0, insetInlineStart: "auto" }
+      : align === "center"
+        ? { insetInlineStart: "50%", transform: "translateX(-50%)" }
+        : { insetInlineStart: 0 }),
+    ...(sideOffset
+      ? { [side === "top" ? "marginBottom" : "marginTop"]: sideOffset }
+      : {}),
+  };
+
   return (
     <div
       ref={(node) => {
@@ -269,6 +289,7 @@ function MenuContent({ children, className, ...props }: MenuContentProps) {
       role="menu"
       aria-labelledby={ctx.triggerId}
       className={cx("vf-menu__content", className)}
+      style={{ ...posStyle, ...style }}
       onKeyDown={onKey}
       tabIndex={-1}
       {...props}

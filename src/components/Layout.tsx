@@ -83,17 +83,30 @@ export interface StackProps extends HTMLAttributes<HTMLDivElement> {
   align?: CSSProperties["alignItems"];
   gap?: number | string;
   wrap?: boolean;
+  overflow?: "auto" | "hidden" | "scroll" | "visible";
+  maxHeight?: number | string;
+  maxWidth?: number | string;
+  minHeight?: number | string;
+  minWidth?: number | string;
+  /** Shorthand: sets `overflow: auto` and `minHeight: 0` for flex-child scrolling. */
+  scrollable?: boolean;
   style?: CSSProperties;
 }
 
 /** Horizontal stack — `flex-direction: row`, default align `center`. */
 export const HStack = forwardRef<HTMLDivElement, StackProps>(function HStack(
-  { children, align, gap, wrap, className, style, ...props },
+  { children, align, gap, wrap, overflow, maxHeight, maxWidth, minHeight, minWidth, scrollable, className, style, ...props },
   ref
 ) {
   const inline: CSSProperties = {
     ...(align !== undefined ? { alignItems: align } : {}),
     ...(gap !== undefined ? { gap: typeof gap === "number" ? `${gap}px` : gap } : {}),
+    ...(overflow ? { overflow } : {}),
+    ...(maxHeight !== undefined ? { maxHeight: typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight } : {}),
+    ...(maxWidth !== undefined ? { maxWidth: typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth } : {}),
+    ...(minHeight !== undefined ? { minHeight: typeof minHeight === "number" ? `${minHeight}px` : minHeight } : {}),
+    ...(minWidth !== undefined ? { minWidth: typeof minWidth === "number" ? `${minWidth}px` : minWidth } : {}),
+    ...(scrollable ? { overflow: "auto", minHeight: 0 } : {}),
     ...style,
   };
   return (
@@ -111,12 +124,18 @@ HStack.displayName = "HStack";
 
 /** Vertical stack — `flex-direction: column`, default align `stretch`. */
 export const VStack = forwardRef<HTMLDivElement, StackProps>(function VStack(
-  { children, align, gap, wrap, className, style, ...props },
+  { children, align, gap, wrap, overflow, maxHeight, maxWidth, minHeight, minWidth, scrollable, className, style, ...props },
   ref
 ) {
   const inline: CSSProperties = {
     ...(align !== undefined ? { alignItems: align } : {}),
     ...(gap !== undefined ? { gap: typeof gap === "number" ? `${gap}px` : gap } : {}),
+    ...(overflow ? { overflow } : {}),
+    ...(maxHeight !== undefined ? { maxHeight: typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight } : {}),
+    ...(maxWidth !== undefined ? { maxWidth: typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth } : {}),
+    ...(minHeight !== undefined ? { minHeight: typeof minHeight === "number" ? `${minHeight}px` : minHeight } : {}),
+    ...(minWidth !== undefined ? { minWidth: typeof minWidth === "number" ? `${minWidth}px` : minWidth } : {}),
+    ...(scrollable ? { overflow: "auto", minHeight: 0 } : {}),
     ...style,
   };
   return (

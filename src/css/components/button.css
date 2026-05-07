@@ -18,6 +18,7 @@
 }
 
 /* sizes */
+.vf-button--xs { padding: var(--vf-sp-1) var(--vf-sp-2); font-size: 8px; letter-spacing: 1px; }
 .vf-button--sm { padding: var(--vf-sp-1) var(--vf-sp-4); font-size: var(--vf-font-xs); }
 .vf-button--md { padding: var(--vf-sp-3) var(--vf-sp-7); font-size: var(--vf-font-sm); }
 .vf-button--lg { padding: var(--vf-sp-4) var(--vf-sp-9); font-size: var(--vf-font-md); }

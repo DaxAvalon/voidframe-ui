@@ -287,6 +287,11 @@ export interface AgentStepProps
  * optional tool calls, output, and elapsed time. Controllable/uncontrolled
  * via `expanded` / `defaultExpanded` / `onExpandedChange`. Responds to
  * `AgentTraceContext.expandAll` for bulk expand/collapse.
+ *
+ * @remarks When using the `toolCalls` slot, pass individual `ToolCall`
+ * components directly — not wrapped in `ToolCallGroup`. AgentStep
+ * provides its own expand/collapse header, so nesting another collapsible
+ * wrapper creates redundant double-headers.
  */
 export const AgentStep = forwardRef<HTMLDivElement, AgentStepProps>(
   function AgentStep(

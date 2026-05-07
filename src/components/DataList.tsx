@@ -25,6 +25,8 @@ export interface DataListProps extends HTMLAttributes<HTMLDivElement> {
   items?: DataListItem[];
   /** Orientation. Default "horizontal" (2-col). */
   orientation?: "horizontal" | "vertical";
+  /** Gap between rows. Number values are treated as pixels. */
+  gap?: number | string;
   /**
    * Return arbitrary HTML attributes to apply to each rendered row when the
    * array-API (`items`) is used. Tests / instrumentation can attach
@@ -37,13 +39,15 @@ export interface DataListProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const DataListBase = forwardRef<HTMLDivElement, DataListProps>(function DataList(
-  { items, orientation = "horizontal", itemAttributes, className, children, ...props },
+  { items, orientation = "horizontal", gap, itemAttributes, className, children, style, ...props },
   ref
 ) {
+  const gapStyle = gap !== undefined ? { gap: typeof gap === "number" ? `${gap}px` : gap } : {};
   return (
     <div
       ref={ref}
       className={cx("vf-datalist", `vf-datalist--${orientation}`, className)}
+      style={{ ...gapStyle, ...style }}
       {...props}
     >
       {items?.map((it, i) => {

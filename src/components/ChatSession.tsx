@@ -495,7 +495,7 @@ export interface ConversationEmptyStateProps
   title?: ReactNode;
   description?: ReactNode;
   logo?: ReactNode;
-  suggestions?: ConversationEmptyStateSuggestion[];
+  suggestions?: Array<string | ConversationEmptyStateSuggestion>;
   onSuggestionSelect?: (suggestion: ConversationEmptyStateSuggestion) => void;
 }
 
@@ -518,6 +518,9 @@ export const ConversationEmptyState = forwardRef<
   },
   ref
 ) {
+  const normalized = (suggestions ?? []).map(s =>
+    typeof s === "string" ? { text: s } as ConversationEmptyStateSuggestion : s
+  );
   return (
     <div
       ref={ref}
@@ -529,9 +532,9 @@ export const ConversationEmptyState = forwardRef<
       {description && (
         <p className="vf-conversation-empty__description">{description}</p>
       )}
-      {suggestions && suggestions.length > 0 && (
+      {normalized.length > 0 && (
         <ul className="vf-conversation-empty__suggestions" role="list">
-          {suggestions.map((s, i) => (
+          {normalized.map((s, i) => (
             <li
               key={s.id ?? `sugg-${i}`}
               className="vf-conversation-empty__item"

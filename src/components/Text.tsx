@@ -66,8 +66,17 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   ref
 ) {
   const resolvedSize = useResolvedTextSize(size);
+  const COLOR_TOKENS: Record<string, string> = {
+    muted: "var(--vf-text-3)",
+    accent: "var(--vf-accent, var(--vf-green))",
+    danger: "var(--vf-danger, var(--vf-red))",
+    success: "var(--vf-success, var(--vf-green))",
+    warning: "var(--vf-warning, var(--vf-amber))",
+    info: "var(--vf-info, var(--vf-blue))",
+  };
+  const resolvedColor = color ? (COLOR_TOKENS[color] ?? color) : undefined;
   const inline: CSSProperties = {
-    ...(color !== undefined ? { color } : {}),
+    ...(resolvedColor !== undefined ? { color: resolvedColor } : {}),
     ...(weight !== undefined ? { fontWeight: weight } : {}),
     ...(spacing !== undefined ? { letterSpacing: spacing } : {}),
     ...style,

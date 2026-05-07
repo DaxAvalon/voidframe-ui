@@ -88,7 +88,7 @@ the root entry:
 | `voidframe-ui/specialty` | Niche surface: `ThemeSelector`, `ShortcutGuide`, `Print`, `ColorTools`, `Numeric`, `TimeDisplays`, etc. |
 | `voidframe-ui/interactive` | `Accordion`, `DragDrop`, `Gestures`, `FilterBuilder`, `Interactive` primitives. |
 | `voidframe-ui/compat-shadcn` | Migrating from shadcn/Radix — flat named exports with shadcn-shaped API. |
-| `voidframe-ui/reactflow` | `VoidframeReactFlowTheme` wrapper + `useVoidframeReactFlowStyles()` for `@xyflow/react`. |
+| `voidframe-ui/reactflow` | `VoidframeReactFlowTheme` wrapper + `useVoidframeReactFlowStyles()` for `@xyflow/react`. Theme CSS is included in `styles.css`. |
 | `voidframe-ui/styles.css` | The single bundled stylesheet. |
 | `voidframe-ui/theme-script.js` | Inline `<head>` snippet that applies the persisted theme pre-hydration (no flash). |
 
