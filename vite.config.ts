@@ -111,6 +111,7 @@ export default defineConfig({
         dev: resolve(__dirname, "src/dev/index.ts"),
         tokens: resolve(__dirname, "src/tokens.ts"),
         testing: resolve(__dirname, "src/testing/index.ts"),
+        "testing-axe": resolve(__dirname, "src/testing/axe.ts"),
         // Per-category tree-shaking subpaths — one bundle per taxonomy
         // section so consumers can pull just Forms, Data, Icons, etc.
         // without dragging the whole library in. Source of truth for

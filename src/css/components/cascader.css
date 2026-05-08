@@ -61,7 +61,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 100;
+  z-index: var(--vf-z-dropdown, 1000);
   display: flex;
   margin-top: var(--vf-sp-1);
   background: var(--vf-surface-1);

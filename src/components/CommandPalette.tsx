@@ -291,7 +291,7 @@ function CommandPaletteShell({
   const [query, setQuery] = useState("");
   const [highlighted, setHighlighted] = useState<string | null>(null);
   const itemScores = useRef(new Map<string, number>());
-  const [, force] = useState(0);
+  const [forceCounter, force] = useState(0);
 
   const registerItem = useCallback((id: string, score: number) => {
     const prev = itemScores.current.get(id);
@@ -305,15 +305,13 @@ function CommandPaletteShell({
     force((n) => n + 1);
   }, []);
 
-  // Re-computed on every render (cheap; O(n log n)) so that score updates
-  // pushed via `force()` are reflected without depending on query alone.
-  const scoredOrder = (() => {
+  const scoredOrderRef = useRef<string[]>([]);
+  const scoredOrder = useMemo(() => {
     const entries = [...itemScores.current.entries()];
-    return entries
-      .filter(([, s]) => s > 0)
-      .sort((a, b) => b[1] - a[1])
-      .map(([id]) => id);
-  })();
+    const result = entries.filter(([, s]) => s > 0).sort((a, b) => b[1] - a[1]).map(([id]) => id);
+    scoredOrderRef.current = result;
+    return result;
+  }, [forceCounter]);
 
   // Reset the highlight whenever the visible set changes.
   useEffect(() => {
@@ -348,7 +346,7 @@ function CommandPaletteShell({
       setHighlighted,
       registerItem,
       unregisterItem,
-      scoredOrder,
+      scoredOrder: scoredOrderRef.current,
       selectByItem,
       contentId,
       inputId,
@@ -362,7 +360,7 @@ function CommandPaletteShell({
       highlighted,
       registerItem,
       unregisterItem,
-      scoredOrder,
+      forceCounter,
       selectByItem,
       contentId,
       inputId,

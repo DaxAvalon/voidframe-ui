@@ -627,7 +627,7 @@ const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(
           position: "absolute",
           top: "100%",
           left: 0,
-          zIndex: 100,
+          zIndex: "var(--vf-z-dropdown, 1000)",
           background: "var(--vf-bg-3)",
           border: "1px solid var(--vf-border-1)",
           minWidth: "100%",

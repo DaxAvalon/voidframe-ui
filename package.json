@@ -41,8 +41,8 @@
     },
     "./testing/axe": {
       "types": "./dist/types/testing/axe.d.ts",
-      "import": "./dist/testing.es.js",
-      "require": "./dist/testing.cjs.js"
+      "import": "./dist/testing-axe.es.js",
+      "require": "./dist/testing-axe.cjs.js"
     },
     "./primitives": {
       "types": "./dist/types/subpaths/primitives.d.ts",

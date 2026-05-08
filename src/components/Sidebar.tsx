@@ -58,6 +58,7 @@ const SidebarBase = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
     </SidebarContext.Provider>
   );
 });
+SidebarBase.displayName = "Sidebar";
 
 function SidebarBrand({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   const { collapsed } = useContext(SidebarContext);

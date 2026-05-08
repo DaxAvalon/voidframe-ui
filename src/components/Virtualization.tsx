@@ -165,9 +165,16 @@ const VirtualListImpl = genericForwardRef(function VirtualList<T>(
   // ResizeObserver-driven measurement: write rendered rows' actual extents
   // back into `measured` so subsequent offset calculations use real sizes
   // instead of `estimatedItemHeight`. Only active when useEstimate is set.
+  const rowObservers = useRef(new Map<number, ResizeObserver>());
+
   const observeRow = useCallback(
     (index: number) => (el: HTMLDivElement | null) => {
-      if (!useEstimate || !el || typeof ResizeObserver === "undefined") return;
+      // Disconnect previous observer for this index
+      rowObservers.current.get(index)?.disconnect();
+      rowObservers.current.delete(index);
+
+      if (!el || !useEstimate || typeof ResizeObserver === "undefined") return;
+
       const ro = new ResizeObserver(() => {
         const size = horizontal ? el.offsetWidth : el.offsetHeight;
         if (!size) return;
@@ -179,10 +186,17 @@ const VirtualListImpl = genericForwardRef(function VirtualList<T>(
         });
       });
       ro.observe(el);
-      (el as unknown as { __vfRo?: ResizeObserver }).__vfRo = ro;
+      rowObservers.current.set(index, ro);
     },
     [useEstimate, horizontal]
   );
+
+  useEffect(() => {
+    return () => {
+      for (const ro of rowObservers.current.values()) ro.disconnect();
+      rowObservers.current.clear();
+    };
+  }, []);
 
   const slice: ReactNode[] = [];
   for (let i = startIndex; i <= endIndex; i++) {

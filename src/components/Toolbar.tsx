@@ -23,6 +23,7 @@ import {
 import { useMergedRefs } from "../hooks/useMergedRefs";
 import { cx } from "../utils/cx";
 import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
+import { safeHref } from "../utils/safeHref";
 
 export type ToolbarOrientation = "horizontal" | "vertical";
 
@@ -106,9 +107,9 @@ ToolbarButton.displayName = "ToolbarButton";
 
 export interface ToolbarLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {}
 const ToolbarLink = forwardRef<HTMLAnchorElement, ToolbarLinkProps>(
-  function ToolbarLink({ className, ...props }, ref) {
+  function ToolbarLink({ className, href, ...props }, ref) {
     return (
-      <a ref={ref} className={cx("vf-toolbar__link", className)} {...props} />
+      <a ref={ref} href={href ? safeHref(href) : undefined} className={cx("vf-toolbar__link", className)} {...props} />
     );
   }
 );

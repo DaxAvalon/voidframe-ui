@@ -250,7 +250,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     return (
       <div
         ref={mergedRef}
-        className={cx("vf-combobox", `vf-combobox--${size}`, className)}
+        className={cx("vf-combobox", size !== "md" && `vf-combobox--${size}`, className)}
         data-size={size}
         style={style}
         {...wrapperProps}
@@ -505,7 +505,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
         className={cx(
           "vf-combobox",
           "vf-multi-select",
-          `vf-combobox--${size}`,
+          size !== "md" && `vf-combobox--${size}`,
           className
         )}
         data-size={size}

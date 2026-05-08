@@ -16,8 +16,6 @@
 // rely on tree-shaking to drop this module entirely; consumers who do
 // install dompurify alongside voidframe-ui.
 
-import DOMPurify from "dompurify";
-
 export type SanitizeProfile = "rich-text" | "svg" | "strict";
 
 const RICH_TEXT_CONFIG = {
@@ -68,9 +66,20 @@ interface Purifier {
   removeAllHooks: () => void;
 }
 
+let _purifier: Purifier | null | undefined;
+
 function getPurifier(): Purifier | null {
   if (typeof window === "undefined") return null;
-  return DOMPurify(window) as unknown as Purifier;
+  if (_purifier !== undefined) return _purifier;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const mod = require("dompurify");
+    const DP = mod.default ?? mod;
+    _purifier = DP(window) as unknown as Purifier;
+  } catch {
+    _purifier = null;
+  }
+  return _purifier;
 }
 
 /**

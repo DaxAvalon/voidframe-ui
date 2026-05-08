@@ -151,16 +151,18 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
     const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
     const [pos, setPos] = useState<AnchorPosition | null>(null);
 
+    const update = useCallback(() => {
+      if (!ctx.triggerEl || !contentEl) return;
+      const trig = ctx.triggerEl.getBoundingClientRect();
+      const size = {
+        width: contentEl.offsetWidth,
+        height: contentEl.offsetHeight,
+      };
+      setPos(computeAnchoredPosition(trig, size, placement, offset));
+    }, [ctx.triggerEl, contentEl, placement, offset]);
+
     useEffect(() => {
       if (!ctx.open || !ctx.triggerEl || !contentEl) return;
-      const update = () => {
-        const trig = ctx.triggerEl!.getBoundingClientRect();
-        const size = {
-          width: contentEl.offsetWidth,
-          height: contentEl.offsetHeight,
-        };
-        setPos(computeAnchoredPosition(trig, size, placement, offset));
-      };
       update();
       window.addEventListener("scroll", update, true);
       window.addEventListener("resize", update);
@@ -168,7 +170,7 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
         window.removeEventListener("scroll", update, true);
         window.removeEventListener("resize", update);
       };
-    }, [ctx.open, ctx.triggerEl, contentEl, placement, offset]);
+    }, [ctx.open, ctx.triggerEl, contentEl, placement, offset, update]);
 
     if (!ctx.open) return null;
 

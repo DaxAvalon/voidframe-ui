@@ -7,7 +7,7 @@
 
 .vf-popconfirm__overlay {
   position: absolute;
-  z-index: 50;
+  z-index: var(--vf-z-popover, 1400);
   min-width: 220px;
   padding: var(--vf-sp-5);
   background: var(--vf-bg-2);

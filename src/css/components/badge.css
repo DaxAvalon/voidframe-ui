@@ -13,6 +13,9 @@
   color: var(--vf-accent, var(--vf-text-3));
 }
 
+.vf-badge--sm { font-size: 9px; padding: 1px 4px; }
+.vf-badge--lg { font-size: var(--vf-font-sm); padding: 3px 8px; }
+
 .vf-dots {
   display: inline-flex;
   gap: var(--vf-sp-1);

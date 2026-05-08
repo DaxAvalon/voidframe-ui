@@ -20,6 +20,7 @@ import {
 } from "react";
 import { useClickOutside, useId } from "../hooks";
 import { cx } from "../utils/cx";
+import { safeHref } from "../utils/safeHref";
 import { toneAttrs } from "../utils/toneAttrs";
 
 interface MegaMenuContextValue {
@@ -187,13 +188,14 @@ export interface MegaMenuLinkProps extends AnchorHTMLAttributes<HTMLAnchorElemen
 }
 
 const MegaMenuLink = forwardRef<HTMLAnchorElement, MegaMenuLinkProps>(
-  function MegaMenuLink({ description, tone, className, children, ...props }, ref) {
+  function MegaMenuLink({ description, tone, className, children, href, ...props }, ref) {
     const ta = toneAttrs("vf-megamenu__link", { tone });
     return (
       <li className="vf-megamenu__link-item">
         <a
           ref={ref}
           role="menuitem"
+          href={href ? safeHref(href) : undefined}
           className={cx(ta.className, className)}
           {...ta.attrs}
           {...props}
