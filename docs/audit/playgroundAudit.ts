@@ -24,6 +24,7 @@ import { playgroundScope } from "../scope";
 import { curated } from "../curated";
 import { patterns } from "../patterns";
 import { generatePlaygroundCode, hasOverride } from "../autoPlayground";
+import { LIVE_NON_ELEMENTS } from "../usageSnippets";
 import propsData from "../data/props.json";
 import type { ComponentDoc } from "../../src/dev";
 
@@ -51,12 +52,18 @@ export interface AuditResult extends AuditEntry {
  * precedence ComponentPage uses: curated examples win, otherwise
  * generatePlaygroundCode (override or auto-generated). Patterns are
  * appended after components.
+ *
+ * Mirrors the app's kind logic: only entries that render a LIVE
+ * playground are enumerated — non-element kinds outside
+ * LIVE_NON_ELEMENTS get static usage docs, not demos.
  */
 export function enumeratePlaygroundEntries(): AuditEntry[] {
   const docs = propsData as ComponentDoc[];
   const entries: AuditEntry[] = [];
 
   for (const doc of docs) {
+    const kind = doc.kind ?? "element";
+    if (kind !== "element" && !LIVE_NON_ELEMENTS.has(doc.name)) continue;
     const over = curated[doc.name];
     if (over) {
       for (const ex of over.examples) {

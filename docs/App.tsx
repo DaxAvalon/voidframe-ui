@@ -7,6 +7,7 @@ import {
   Input,
   Badge,
   Stat,
+  CodeBlock,
 } from "../src";
 import { auditData, getAuditSummary } from "./a11y-audit";
 import { migrations } from "./migration";
@@ -25,6 +26,7 @@ import { generatePlaygroundCode } from "./autoPlayground";
 import { categorize, CATEGORIES, type Category } from "./taxonomy";
 import { patterns, type Pattern } from "./patterns";
 import { componentHooks, getComponentsForHook } from "./hookMap";
+import { usageSnippets, LIVE_NON_ELEMENTS } from "./usageSnippets";
 
 // ── Types ────────────────────────────────────────────────────
 
@@ -62,6 +64,32 @@ function getPropsFor(name: string): ComponentDoc {
   );
 }
 
+type DocKind = NonNullable<ComponentDoc["kind"]>;
+
+/** Entries predating the kind field count as visual elements. */
+function kindOf(doc: ComponentDoc): DocKind {
+  return doc.kind ?? "element";
+}
+
+/** Compound parts folded into this component's page. */
+function childrenOf(name: string): ComponentDoc[] {
+  return (propsData as ComponentDoc[])
+    .filter((d) => kindOf(d) === "subcomponent" && d.docsParent === name)
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** Short honest description of what a non-element entry is. */
+const KIND_NOTES: Record<Exclude<DocKind, "element">, string> = {
+  layout:
+    "Layout utility — arranges its children and renders no visual chrome of its own.",
+  primitive:
+    "Behavioral primitive — a building block other components compose; mostly or entirely invisible.",
+  provider:
+    "Provider — supplies context to the subtree; renders nothing visual itself.",
+  subcomponent: "Compound part — only meaningful inside its parent component.",
+  compat: "shadcn-compat alias backed by the equivalent voidframe component.",
+};
+
 // ── Page renderers ───────────────────────────────────────────
 
 function OverviewPage() {
@@ -74,7 +102,7 @@ function OverviewPage() {
         data-dense interfaces.
       </Text>
       <Text>
-        The sidebar splits into five sections:
+        The sidebar splits into these sections:
       </Text>
       <ul style={{ paddingLeft: 20, lineHeight: 1.8 }}>
         <li>
@@ -85,8 +113,23 @@ function OverviewPage() {
           multiple components work together.
         </li>
         <li>
-          <b>Components</b> — every exported component grouped by category,
-          with auto-generated props tables pulled live from source.
+          <b>Components</b> — every visual component grouped by category,
+          with live playgrounds and props tables pulled from source.
+          Compound parts (<code>Dialog.Trigger</code>, <code>MenuItem</code>…)
+          are documented on their parent&rsquo;s page.
+        </li>
+        <li>
+          <b>Primitives &amp; Utilities</b> — layout utilities
+          (<code>VStack</code>, <code>Box</code>…) and behavioral primitives
+          (<code>Portal</code>, <code>FocusScope</code>…) that arrange or
+          orchestrate rather than draw.
+        </li>
+        <li>
+          <b>Providers</b> — context surfaces like{" "}
+          <code>VoidframeProvider</code>, documented with usage code.
+        </li>
+        <li>
+          <b>Compat</b> — shadcn-compat aliases on one collective page.
         </li>
         <li>
           <b>Hooks</b> — every exported React hook with signature and description.
@@ -109,14 +152,31 @@ function ComponentPage({ name, onNavigate }: { name: string; onNavigate?: (id: s
   const over = curated[name];
   const hasDescription = Boolean(doc.description && doc.description.trim());
   const hasProps = doc.props.length > 0;
+  const kind = kindOf(doc);
+  const liveDemo = kind === "element" || LIVE_NON_ELEMENTS.has(name);
+  const subParts = childrenOf(name);
 
   // Auto-generate playground code if no curated examples
-  const autoCode = !over ? generatePlaygroundCode(doc) : null;
+  const autoCode = !over && liveDemo ? generatePlaygroundCode(doc) : null;
 
   return (
     <div className="vf-docs__page">
       {/* Section 1: Info */}
       <div className="vf-docs__info-section">
+        {/* Kind note for non-element entries */}
+        {kind !== "element" && (
+          <section className="vf-docs__block">
+            <Badge tone="neutral">{kind}</Badge>{" "}
+            <Text size="sm" color="var(--vf-text-3)">
+              {KIND_NOTES[kind]}
+              {kind === "subcomponent" && doc.docsParent ? (
+                <>
+                  {" "}Part of <code>{doc.docsParent}</code>.
+                </>
+              ) : null}
+            </Text>
+          </section>
+        )}
         {/* Description */}
         {over ? (
           <section className="vf-docs__block">
@@ -160,13 +220,24 @@ function ComponentPage({ name, onNavigate }: { name: string; onNavigate?: (id: s
       {/* Divider */}
       <hr className="vf-docs__divider" />
 
-      {/* Section 2: Playground(s) */}
+      {/* Section 2: Playground / usage */}
       <div className="vf-docs__playground-section">
         <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
-          Playground
+          {liveDemo ? "Playground" : "Usage"}
         </Text>
 
-        {over ? (
+        {!liveDemo ? (
+          // Honest code-only usage for invisible surfaces — no fake demo.
+          usageSnippets[name] ? (
+            <CodeBlock language="tsx" code={usageSnippets[name]!} />
+          ) : (
+            <Text size="sm" color="var(--vf-text-3)">
+              {kind === "subcomponent" && doc.docsParent
+                ? <>See the <code>{doc.docsParent}</code> page for a working example.</>
+                : <>See the props table above — this {kind} renders no standalone demo.</>}
+            </Text>
+          )
+        ) : over ? (
           // Curated examples
           over.examples.map((ex) => (
             <section key={ex.title} className="vf-docs__block">
@@ -197,6 +268,34 @@ function ComponentPage({ name, onNavigate }: { name: string; onNavigate?: (id: s
           </Text>
         )}
       </div>
+
+      {/* Section 3: Compound parts folded into this page */}
+      {subParts.length > 0 && (
+        <div className="vf-docs__info-section">
+          <hr className="vf-docs__divider" />
+          <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
+            Sub-components
+          </Text>
+          {subParts.map((part) => (
+            <section key={part.name} className="vf-docs__block">
+              <Text size="sm" style={{ fontWeight: 700 }}>
+                <code>{part.name}</code>
+              </Text>
+              {part.description && (
+                <Text size="sm" color="var(--vf-text-3)">
+                  {part.description}
+                </Text>
+              )}
+              {part.props.length > 0 && (
+                <PropsTable
+                  doc={part}
+                  exclude={["className", "style", "children"]}
+                />
+              )}
+            </section>
+          ))}
+        </div>
+      )}
 
       {/* Hook relationships */}
       {componentHooks[name] && (
@@ -449,11 +548,89 @@ function MigrationPage() {
   );
 }
 
+// ── Compat page ──────────────────────────────────────────────
+
+function CompatPage({ docs }: { docs: ComponentDoc[] }) {
+  const byParent = new Map<string, ComponentDoc[]>();
+  for (const d of docs) {
+    const root = d.docsParent ?? d.name;
+    const arr = byParent.get(root) ?? [];
+    arr.push(d);
+    byParent.set(root, arr);
+  }
+  const roots = Array.from(byParent.keys()).sort();
+  return (
+    <div className="vf-docs__page">
+      <div className="vf-docs__info-section">
+        <section className="vf-docs__block">
+          <Text size="sm" color="var(--vf-text-3)">
+            Drop-in aliases mirroring the shadcn/ui API, each backed by the
+            equivalent voidframe component. Import from{" "}
+            <code>voidframe-ui/compat-shadcn</code> when porting an existing
+            shadcn codebase; new code should use the voidframe components
+            directly.
+          </Text>
+        </section>
+        {roots.map((root) => (
+          <section key={root} className="vf-docs__block">
+            <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
+              {root}
+            </Text>
+            {(byParent.get(root) ?? []).map((d) => (
+              <div key={d.name} style={{ marginBottom: 12 }}>
+                <Text size="sm" style={{ fontWeight: 700 }}>
+                  <code>{d.name}</code>
+                </Text>
+                {d.props.length > 0 && (
+                  <PropsTable
+                    doc={d}
+                    exclude={["className", "style", "children"]}
+                  />
+                )}
+              </div>
+            ))}
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Build the flat nav list ──────────────────────────────────
 
 const allComponents = (propsData as ComponentDoc[]).slice().sort((a, b) =>
   a.name.localeCompare(b.name)
 );
+
+// Partition by kind so the sidebar lists honestly: visual elements
+// under Components; invisible utilities and providers in their own
+// sections; compound parts folded into their parent's page; compat
+// aliases on one collective page.
+const elementDocs = allComponents.filter((c) => kindOf(c) === "element");
+const utilityDocs = allComponents.filter(
+  (c) => kindOf(c) === "layout" || kindOf(c) === "primitive"
+);
+const providerDocs = allComponents.filter((c) => kindOf(c) === "provider");
+const subcomponentDocs = allComponents.filter(
+  (c) => kindOf(c) === "subcomponent"
+);
+const compatDocs = allComponents.filter((c) => kindOf(c) === "compat");
+// Subcomponents whose parent has no docs entry keep a standalone page
+// rather than dead-ending (e.g. a parent the extractor failed to parse).
+const orphanSubDocs = subcomponentDocs.filter(
+  (c) => !c.docsParent || !propsIndex.has(c.docsParent)
+);
+
+// Folding children into parent pages must not break search: searching a
+// child name should surface the parent page.
+const childSearchText = new Map<string, string>();
+for (const c of subcomponentDocs) {
+  if (!c.docsParent) continue;
+  childSearchText.set(
+    c.docsParent,
+    `${childSearchText.get(c.docsParent) ?? ""} ${c.name}`
+  );
+}
 const allHooks = (hooksData as ApiEntry[]).slice().sort((a, b) =>
   a.name.localeCompare(b.name)
 );
@@ -497,7 +674,15 @@ const items: NavItem[] = [
     render: () => <PatternPage pattern={p} />,
     searchText: `${p.title} ${p.description} ${p.components.join(" ")}`,
   })),
-  ...allComponents.map((c) => ({
+  ...elementDocs.map((c) => ({
+    id: `component-${c.name}`,
+    title: c.name,
+    section: "Components",
+    group: categorize(c.file, c.name),
+    render: (onNavigate?: (id: string) => void) => <ComponentPage name={c.name} onNavigate={onNavigate} />,
+    searchText: `${c.name} ${c.description ?? ""}${childSearchText.get(c.name) ?? ""}`,
+  })),
+  ...orphanSubDocs.map((c) => ({
     id: `component-${c.name}`,
     title: c.name,
     section: "Components",
@@ -505,6 +690,28 @@ const items: NavItem[] = [
     render: (onNavigate?: (id: string) => void) => <ComponentPage name={c.name} onNavigate={onNavigate} />,
     searchText: `${c.name} ${c.description ?? ""}`,
   })),
+  ...utilityDocs.map((c) => ({
+    id: `component-${c.name}`,
+    title: c.name,
+    section: "Primitives & Utilities",
+    group: kindOf(c) === "layout" ? "Layout" : "Primitives",
+    render: (onNavigate?: (id: string) => void) => <ComponentPage name={c.name} onNavigate={onNavigate} />,
+    searchText: `${c.name} ${c.description ?? ""}`,
+  })),
+  ...providerDocs.map((c) => ({
+    id: `component-${c.name}`,
+    title: c.name,
+    section: "Providers",
+    render: (onNavigate?: (id: string) => void) => <ComponentPage name={c.name} onNavigate={onNavigate} />,
+    searchText: `${c.name} ${c.description ?? ""}`,
+  })),
+  {
+    id: "compat-shadcn",
+    title: "shadcn compat",
+    section: "Compat",
+    render: () => <CompatPage docs={compatDocs} />,
+    searchText: `shadcn compat aliases ${compatDocs.map((c) => c.name).join(" ")}`,
+  },
   ...allHooks.map((h) => ({
     id: `hook-${h.name}`,
     title: h.name,
@@ -523,6 +730,23 @@ const items: NavItem[] = [
 
 const itemsById = new Map<string, NavItem>(items.map((i) => [i.id, i]));
 
+// Alias nav IDs for entries without standalone pages, so existing
+// onNavigate("component-DialogHeader") calls (hook map, future links)
+// resolve to the page that documents them.
+for (const c of subcomponentDocs) {
+  const own = `component-${c.name}`;
+  if (itemsById.has(own)) continue;
+  const parentItem = c.docsParent
+    ? itemsById.get(`component-${c.docsParent}`)
+    : undefined;
+  if (parentItem) itemsById.set(own, parentItem);
+}
+const compatItem = itemsById.get("compat-shadcn")!;
+for (const c of compatDocs) {
+  const own = `component-${c.name}`;
+  if (!itemsById.has(own)) itemsById.set(own, compatItem);
+}
+
 // ── App ──────────────────────────────────────────────────────
 
 type SectionName =
@@ -530,6 +754,9 @@ type SectionName =
   | "Guides"
   | "Patterns"
   | "Components"
+  | "Primitives & Utilities"
+  | "Providers"
+  | "Compat"
   | "Hooks"
   | "Utilities";
 
@@ -544,13 +771,21 @@ function groupItems(list: NavItem[]): GroupedSection[] {
     "Guides",
     "Patterns",
     "Components",
+    "Primitives & Utilities",
+    "Providers",
+    "Compat",
     "Hooks",
     "Utilities",
   ];
+  const SECTION_GROUP_ORDER: Partial<Record<SectionName, readonly string[]>> = {
+    Components: CATEGORIES as readonly string[],
+    "Primitives & Utilities": ["Layout", "Primitives"],
+  };
   return sections
     .map<GroupedSection>((s) => {
       const own = list.filter((i) => i.section === s);
-      if (s === "Components") {
+      const order = SECTION_GROUP_ORDER[s];
+      if (order) {
         const byCat = new Map<string, NavItem[]>();
         for (const it of own) {
           const g = it.group ?? "Other";
@@ -558,7 +793,7 @@ function groupItems(list: NavItem[]): GroupedSection[] {
           arr.push(it);
           byCat.set(g, arr);
         }
-        const groups = (CATEGORIES as readonly string[])
+        const groups = order
           .map((cat) => ({
             group: cat,
             items: (byCat.get(cat) ?? []).sort((a, b) =>
@@ -604,7 +839,8 @@ export default function DocsApp() {
         <header className="vf-docs__topbar">
           <span className="vf-docs__brand">▲ VOIDFRAME · DOCS</span>
           <span className="vf-docs__count">
-            {guides.length} guides · {allComponents.length} components ·{" "}
+            {guides.length} guides · {elementDocs.length} components ·{" "}
+            {utilityDocs.length + providerDocs.length} primitives & providers ·{" "}
             {allHooks.length} hooks · {allUtils.length} utilities
           </span>
         </header>

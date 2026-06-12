@@ -4,7 +4,7 @@
 
 > 500+ components, 76 hooks, 100 utilities
 
-Generated: 2026-05-04
+Generated: 2026-06-12
 
 ---
 
@@ -1538,7 +1538,7 @@ A single-line text field with optional label and standard HTML input types.
 | size | enum | No | md | Voidframe-native size variant. The native `size` attribute (visible- character count) is exposed as `lengthSize` so both axes are independently controllable. |
 | lengthSize | number | No | — | Native `HTMLInputElement.size` — visible character count. |
 | asAriaLabel | string | No | — | Accessible-name escape hatch. When set, emits as `aria-label` and suppresses the missing-name warning. Use for inline controls inside data-dense UIs where a visible label would be redundant. |
-| suppressA11yWarning | boolean | No | — | Internal escape hatch for voidframe-composed parents. |
+| suppressA11yWarning | boolean | No | — | @internal Used by compound parents (DataGrid, TreeTable) to suppress the accessible-name warning when the label is provided by table headers. Not intended for direct consumer use. |
 
 #### InputGroup.Addon
 Source: `src/components/FormStructure.tsx`
@@ -1974,7 +1974,7 @@ Two-state switch control with a visible on/off label option. Controllable via `c
 | accent | string | No | — | Active color (sets `--vf-accent`). |
 | readOnly | boolean | No | — |  |
 | asAriaLabel | string | No | — | Accessible-name escape hatch — mirrors Input/Textarea. |
-| suppressA11yWarning | boolean | No | — | Internal escape hatch for voidframe-composed parents. |
+| suppressA11yWarning | boolean | No | — | @internal Used by compound parents (DataGrid, TreeTable) to suppress the accessible-name warning when the label is provided by table headers. Not intended for direct consumer use. |
 
 #### TagInput
 Source: `src/components/FormAdvanced.tsx`
@@ -2009,7 +2009,7 @@ A multi-line text field for longer free-form input, with configurable rows and o
 | rows | number | No | 3 |  |
 | size | enum | No | md | Voidframe-native size variant. Mirrors Input.size. |
 | asAriaLabel | string | No | — | Accessible-name escape hatch. |
-| suppressA11yWarning | boolean | No | — | Internal escape hatch for voidframe-composed parents. |
+| suppressA11yWarning | boolean | No | — | @internal Used by compound parents (DataGrid, TreeTable) to suppress the accessible-name warning when the label is provided by table headers. Not intended for direct consumer use. |
 
 #### TimePicker
 Source: `src/components/TimePicker.tsx`
@@ -2046,7 +2046,7 @@ Binary on/off switch with WAI-ARIA `role="switch"` and controlled/uncontrolled d
 | accent | string | No | — | Active color (sets `--vf-accent`). |
 | readOnly | boolean | No | — |  |
 | asAriaLabel | string | No | — | Accessible-name escape hatch — mirrors Input/Textarea. |
-| suppressA11yWarning | boolean | No | — | Internal escape hatch for voidframe-composed parents. |
+| suppressA11yWarning | boolean | No | — | @internal Used by compound parents (DataGrid, TreeTable) to suppress the accessible-name warning when the label is provided by table headers. Not intended for direct consumer use. |
 
 #### ToggleGroup
 Source: `src/components/ToggleGroup.tsx`
@@ -2986,6 +2986,8 @@ Compound modal overlay. Use `Dialog.Trigger` to open, `Dialog.Content` for the b
 #### DialogAction
 Source: `src/components/Dialog.tsx`
 
+Primary action button that optionally closes the dialog after activation.
+
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
 | autoClose | boolean | No | true |  |
@@ -2994,8 +2996,12 @@ Source: `src/components/Dialog.tsx`
 #### DialogBody
 Source: `src/components/Dialog.tsx`
 
+Scrollable main content area between the header and footer.
+
 #### DialogCancel
 Source: `src/components/Dialog.tsx`
+
+Ghost-styled cancel button that closes the dialog on click.
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
@@ -3004,12 +3010,16 @@ Source: `src/components/Dialog.tsx`
 #### DialogClose
 Source: `src/components/Dialog.tsx`
 
+Dismisses the dialog when activated. Renders a close button or merges via `asChild`.
+
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
 | asChild | boolean | No | — |  |
 
 #### DialogContent
 Source: `src/components/Dialog.tsx`
+
+Focus-trapped, portaled panel that renders the dialog surface with backdrop.
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
@@ -3026,17 +3036,27 @@ Source: `src/components/Dialog.tsx`
 #### DialogDescription
 Source: `src/components/Dialog.tsx`
 
+Supplementary description for the dialog. Wires `aria-describedby` on the panel.
+
 #### DialogFooter
 Source: `src/components/Dialog.tsx`
+
+Bottom slot for action buttons (Cancel, Confirm, etc.).
 
 #### DialogHeader
 Source: `src/components/Dialog.tsx`
 
+Container for `Dialog.Title` and `Dialog.Description` at the top of the panel.
+
 #### DialogTitle
 Source: `src/components/Dialog.tsx`
 
+Accessible heading for the dialog. Renders an `<h2>` and wires `aria-labelledby`.
+
 #### DialogTrigger
 Source: `src/components/Dialog.tsx`
+
+Element that opens the dialog when activated. Wraps a button or merges via `asChild`.
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
@@ -3060,8 +3080,12 @@ V1 side-panel overlay with backdrop, focus trap, and Escape dismiss. Controlled 
 #### DrawerBody
 Source: `src/components/DrawerCompound.tsx`
 
+Scrollable main content area of the drawer.
+
 #### DrawerClose
 Source: `src/components/DrawerCompound.tsx`
+
+Dismisses the drawer when activated. Renders a close button or merges via `asChild`.
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
@@ -3070,11 +3094,17 @@ Source: `src/components/DrawerCompound.tsx`
 #### DrawerFooter
 Source: `src/components/DrawerCompound.tsx`
 
+Bottom slot for action buttons within the drawer.
+
 #### DrawerHeader
 Source: `src/components/DrawerCompound.tsx`
 
+Top section of the drawer, typically containing the title and close button.
+
 #### DrawerRoot
 Source: `src/components/DrawerCompound.tsx`
+
+Root provider that manages open state and side for `DrawerV2` sub-components.
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
@@ -3100,6 +3130,8 @@ Compound side-panel overlay. Slides in from any edge (`left`, `right`, `top`, `b
 #### DrawerV2Content
 Source: `src/components/DrawerCompound.tsx`
 
+Focus-trapped sliding panel that holds the drawer body. Portaled when modal.
+
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
 | size | string \| number | No | 360 |  |
@@ -3116,8 +3148,12 @@ Source: `src/components/DrawerCompound.tsx`
 #### DrawerV2Title
 Source: `src/components/DrawerCompound.tsx`
 
+Accessible heading for the drawer. Renders an `<h2>` and wires `aria-labelledby`.
+
 #### DrawerV2Trigger
 Source: `src/components/DrawerCompound.tsx`
+
+Element that opens the drawer. Wraps a button or merges via `asChild`.
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
@@ -3214,6 +3250,8 @@ V1 popover anchored to a `trigger` with click- or hover-activation and a fixed `
 #### PopoverContent
 Source: `src/components/Popovers.tsx`
 
+Portaled panel anchored to the trigger with viewport-aware positioning.
+
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
 | placement | enum | No | bottom |  |
@@ -3224,6 +3262,8 @@ Source: `src/components/Popovers.tsx`
 #### PopoverRoot
 Source: `src/components/Popovers.tsx`
 
+Root provider that manages open state and trigger reference for popover sub-components.
+
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
 | open | boolean | No | true |  |
@@ -3232,6 +3272,8 @@ Source: `src/components/Popovers.tsx`
 
 #### PopoverTrigger
 Source: `src/components/Popovers.tsx`
+
+Element that toggles the popover open/closed on click.
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
@@ -3330,6 +3372,8 @@ Compact labelling overlay. Wraps a single child and shows `content` on hover or 
 #### TooltipContent
 Source: `src/components/Popovers.tsx`
 
+Body rendered inside the tooltip popup. Registers into `Tooltip.Root`.
+
 #### TooltipProvider
 Source: `src/components/Popovers.tsx`
 
@@ -3343,6 +3387,8 @@ Groups `Tooltip` instances to share timing. Once one tooltip closes, hovering an
 #### TooltipRoot
 Source: `src/components/Popovers.tsx`
 
+Compound root that collects Trigger and Content slots for a Tooltip instance.
+
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
 | placement | enum | No | bottom |  |
@@ -3353,6 +3399,8 @@ Source: `src/components/Popovers.tsx`
 
 #### TooltipTrigger
 Source: `src/components/Popovers.tsx`
+
+Element that shows the tooltip on hover/focus. Registers into `Tooltip.Root`.
 
 ### Media
 
@@ -7521,8 +7569,12 @@ Keyboard-navigable tablist. Arrow keys cycle within the list, Home/End jump to f
 #### Tabs.List
 Source: `src/components/Interactive.tsx`
 
+Container with `role="tablist"` that holds tab triggers and handles arrow-key navigation.
+
 #### Tabs.Panel
 Source: `src/components/Interactive.tsx`
+
+Content panel shown when its matching tab trigger is active.
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
@@ -7531,6 +7583,8 @@ Source: `src/components/Interactive.tsx`
 
 #### Tabs.Trigger
 Source: `src/components/Interactive.tsx`
+
+Individual tab button that activates its corresponding panel on click.
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
@@ -7778,17 +7832,27 @@ Source: `src/compat/shadcn/AlertDialog.tsx`
 #### CardContent
 Source: `src/compat/shadcn/Card.tsx`
 
+Main body area of the card for primary content.
+
 #### CardDescription
 Source: `src/compat/shadcn/Card.tsx`
+
+Muted subtitle paragraph rendered below the card title.
 
 #### CardFooter
 Source: `src/compat/shadcn/Card.tsx`
 
+Bottom slot for card actions or metadata.
+
 #### CardHeader
 Source: `src/compat/shadcn/Card.tsx`
 
+Top section of the card containing title and description.
+
 #### CardTitle
 Source: `src/compat/shadcn/Card.tsx`
+
+Heading for the card. Renders an `<h3>` inside `CardHeader`.
 
 #### CodeContextView
 Source: `src/components/Viewers/CodeContextView.tsx`
@@ -7969,8 +8033,12 @@ Source: `src/compat/shadcn/Tabs.tsx`
 #### TabsList
 Source: `src/compat/shadcn/Tabs.tsx`
 
+Container with `role="tablist"` that holds tab triggers and handles arrow-key navigation.
+
 #### TabsTrigger
 Source: `src/compat/shadcn/Tabs.tsx`
+
+Individual tab button that activates its corresponding panel on click.
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|

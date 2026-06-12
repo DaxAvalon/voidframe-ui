@@ -138,24 +138,18 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   Collapsible: '<Collapsible title="Click to expand">\n  <Text>This content is inside a collapsible section.</Text>\n</Collapsible>',
   Card: '<Card style={{ maxWidth: 300 }}>\n  <VStack gap={8}>\n    <Text size="lg" style={{ fontWeight: 700 }}>Card Title</Text>\n    <Text size="sm" color="var(--vf-text-3)">Card content with description text.</Text>\n    <Button size="sm">Action</Button>\n  </VStack>\n</Card>',
   Dropdown: '<Dropdown\n  trigger={<Button>Dropdown</Button>}\n  items={[\n    { label: "Option 1", onClick: () => {} },\n    { label: "Option 2", onClick: () => {} },\n    { divider: true },\n    { label: "Delete", danger: true, onClick: () => {} },\n  ]}\n/>',
-  DropdownMenu: '<Text size="sm" color="var(--vf-text-3)">DropdownMenu opens from a trigger button. Use the compound pattern with DropdownMenu.Trigger and .Content.</Text>',
 
   // ── Behavioral / invisible ─────────────────────────────────────────
-  Portal: '<div style={{ padding: 12, border: "1px solid var(--vf-border-1)", background: "var(--vf-bg-2)" }}>\n  <Text size="sm">Portal renders children into document.body via React createPortal. Used by all overlay components.</Text>\n</div>',
-  ScrollLock: '<div style={{ padding: 12, border: "1px solid var(--vf-border-1)", background: "var(--vf-bg-2)" }}>\n  <Text size="sm">ScrollLock prevents body scrolling when mounted. Used by Modal and Drawer to prevent background scroll.</Text>\n</div>',
+  // Portal, ScrollLock, DismissableLayer, HydrationBoundary, and
+  // RovingFocusGroup are documented code-only via docs/usageSnippets.ts —
+  // they render nothing a live demo could honestly show. Only primitives
+  // with genuinely observable behavior keep entries here.
   FocusScope: '<FocusScope>\n  <div style={{ padding: 12, border: "2px dashed var(--vf-border-2)", display: "flex", gap: 8 }}>\n    <Button size="sm">First</Button>\n    <Button size="sm">Second</Button>\n    <Button size="sm">Third</Button>\n  </div>\n</FocusScope>',
-  FocusTrap: '<Text size="sm" color="var(--vf-text-3)">FocusTrap traps Tab focus within its children. Used by Dialog and Modal.</Text>',
-  DismissableLayer: '<div style={{ padding: 12, border: "1px solid var(--vf-border-1)", background: "var(--vf-bg-2)" }}>\n  <Text size="sm">DismissableLayer detects Escape and outside clicks. Used internally by Dialog, Popover, and Menu overlays.</Text>\n</div>',
   Presence: 'function Example() {\n  const [show, setShow] = useState(true);\n  return (\n    <VStack gap={8}>\n      <Button onClick={() => setShow(!show)}>{show ? "Unmount" : "Mount"}</Button>\n      <Presence present={show}>\n        <div style={{ padding: 12, background: "var(--vf-bg-3)", border: "1px solid var(--vf-border-1)" }}>Managed by Presence</div>\n      </Presence>\n    </VStack>\n  );\n}\nrender(<Example />);',
   VisuallyHidden: '<div>\n  <Button>\n    <VisuallyHidden>Accessible label for screen readers</VisuallyHidden>\n    <span aria-hidden="true">&#9733;</span>\n  </Button>\n  <Text size="sm" color="var(--vf-text-3)">Button has a hidden label: inspect with dev tools to see it</Text>\n</div>',
   LiveRegion: 'function Example() {\n  const [msg, setMsg] = useState("");\n  return (\n    <VStack gap={8}>\n      <Button onClick={() => setMsg("Notification: 3 new messages!")}>Announce</Button>\n      <LiveRegion message={msg} />\n      <Text size="sm">Screen reader announcement: {msg || "(click button)"}</Text>\n    </VStack>\n  );\n}\nrender(<Example />);',
   ErrorBoundary: 'function Example() {\n  const [throwError, setThrowError] = useState(false);\n  if (throwError) throw new Error("Demo error");\n  return (\n    <ErrorBoundary fallback={<Text color="var(--vf-red)">Something went wrong! This is the error fallback.</Text>}>\n      <Button onClick={() => setThrowError(true)}>Trigger Error</Button>\n    </ErrorBoundary>\n  );\n}\nrender(<Example />);',
   Slot: '<Slot style={{ color: "var(--vf-green)", fontWeight: 700 }}>\n  <Text>This Text got Slot-merged styles (green, bold)</Text>\n</Slot>',
-  HydrationBoundary: '<HydrationBoundary>\n  <div style={{ padding: 12, border: "1px solid var(--vf-border-1)", background: "var(--vf-bg-2)" }}>\n    <Text size="sm">HydrationBoundary suppresses React hydration mismatch warnings for SSR content.</Text>\n  </div>\n</HydrationBoundary>',
-  ClientOnly: '<Text size="sm" color="var(--vf-text-3)">ClientOnly renders children only on the client side, skipping SSR.</Text>',
-  Suspense: '<Text size="sm" color="var(--vf-text-3)">Suspense wraps lazy-loaded content with a fallback while loading.</Text>',
-  ConditionalWrap: '<Text size="sm" color="var(--vf-text-3)">ConditionalWrap wraps children with a wrapper element only when a condition is true.</Text>',
-  RenderCount: '<Text size="sm" color="var(--vf-text-3)">RenderCount displays a debug counter showing how many times its parent re-renders.</Text>',
 
   // ── Loading states ─────────────────────────────────────────────────
   LoadingOverlay: '<div style={{ position: "relative", height: 100, border: "1px solid var(--vf-border-1)" }}>\n  <Text>Content underneath</Text>\n  <LoadingOverlay loading message="Loading..." />\n</div>',
@@ -194,35 +188,13 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   ImageCompare: '<Text size="sm" color="var(--vf-text-3)">ImageCompare shows a before/after image slider. Provide before and after image URLs.</Text>',
   Gallery: '<Text size="sm" color="var(--vf-text-3)">Gallery renders a grid of images with optional lightbox. Provide an images array.</Text>',
 
-  // ── Compound component parts ────────────────────────────────────────
-  ToolbarButton: '<Text size="sm" color="var(--vf-text-3)">ToolbarButton is used inside a Toolbar component.</Text>',
-  SidebarSection: '<Text size="sm" color="var(--vf-text-3)">SidebarSection is used inside a Sidebar component to group NavItems.</Text>',
-  TabPanel: '<Text size="sm" color="var(--vf-text-3)">TabPanel is the content panel for a Tab. Used inside Tabs compound component.</Text>',
-  TabList: '<Text size="sm" color="var(--vf-text-3)">TabList contains Tab triggers. Used inside Tabs compound component.</Text>',
-  MenuItem: '<Button variant="ghost" style={{ width: "100%", justifyContent: "start" }}>Menu Item</Button>',
-  MenuGroup: '<Text size="sm" color="var(--vf-text-3)">MenuGroup groups MenuItems with an optional label.</Text>',
-  MenuSeparator: '<VStack gap={0}>\n  <Text size="sm" style={{ padding: "4px 8px" }}>Above</Text>\n  <Divider />\n  <Text size="sm" style={{ padding: "4px 8px" }}>Below</Text>\n</VStack>',
-  ListItem: '<Text size="sm" color="var(--vf-text-3)">ListItem is used inside a List component.</Text>',
-  AccordionItem: '<Text size="sm" color="var(--vf-text-3)">AccordionItem is used inside an Accordion compound component.</Text>',
-  DialogHeader: '<Text size="sm" color="var(--vf-text-3)">DialogHeader is used inside Dialog for the title area.</Text>',
-  DialogFooter: '<Text size="sm" color="var(--vf-text-3)">DialogFooter is used inside Dialog for action buttons.</Text>',
-  DialogBody: '<Text size="sm" color="var(--vf-text-3)">DialogBody is used inside Dialog for the main content area.</Text>',
-  CardHeader: '<Text size="sm" color="var(--vf-text-3)">CardHeader is used inside Card for the header area.</Text>',
-  CardBody: '<Text size="sm" color="var(--vf-text-3)">CardBody is used inside Card for the main content.</Text>',
-  CardFooter: '<Text size="sm" color="var(--vf-text-3)">CardFooter is used inside Card for the footer/actions.</Text>',
-  ResizablePanel: '<div style={{ display: "flex", height: 80 }}>\n  <div style={{ flex: 1, padding: 8, background: "var(--vf-bg-3)" }}>Panel A</div>\n  <div style={{ width: 4, background: "var(--vf-border-2)" }} />\n  <div style={{ flex: 2, padding: 8, background: "var(--vf-bg-2)" }}>Panel B (wider)</div>\n</div>',
-  ResizableHandle: '<div style={{ display: "flex", height: 80 }}>\n  <div style={{ flex: 1, padding: 8, background: "var(--vf-bg-3)" }}>Left</div>\n  <div style={{ width: 4, background: "var(--vf-border-2)", cursor: "col-resize" }} />\n  <div style={{ flex: 1, padding: 8, background: "var(--vf-bg-2)" }}>Right</div>\n</div>',
-  StepperStep: '<Text size="sm" color="var(--vf-text-3)">StepperStep is a single step inside a Stepper component.</Text>',
+  // Compound parts (DialogHeader, MenuItem, ResizablePanel…) carry no
+  // entries here — the docs fold them into their parent's page, where
+  // the parent's curated example shows them in context.
 
-  // ── Providers ───────────────────────────────────────────────────────
-  VoidframeProvider: '<VStack gap={4} style={{ padding: 12, border: "1px solid var(--vf-border-1)" }}>\n  <Text size="sm" style={{ fontWeight: 600 }}>Inside VoidframeProvider:</Text>\n  <HStack gap={8}>\n    <Button size="sm">Themed Button</Button>\n    <Badge tone="success">Themed Badge</Badge>\n    <Toggle checked={true} label="Toggle" onValueChange={() => {}} />\n  </HStack>\n  <Text size="xs" color="var(--vf-text-3)">All components inherit theme, density, contrast, and locale from the provider.</Text>\n</VStack>',
-  ThemeProvider: '<Text size="sm" color="var(--vf-text-3)">ThemeProvider supplies theme context to all voidframe-ui components.</Text>',
-  ConfirmProvider: '<VStack gap={8}>\n  <Button>Show Confirm</Button>\n  <Text size="xs" color="var(--vf-text-3)">Wrap your app in ConfirmProvider, then call useConfirm() in any child.</Text>\n</VStack>',
-  ShortcutProvider: '<VStack gap={4} style={{ padding: 12, border: "1px solid var(--vf-border-1)" }}>\n  <Text size="sm" style={{ fontWeight: 600 }}>Keyboard Shortcuts</Text>\n  <HStack gap={8}>\n    <HStack gap={2}><Kbd>Ctrl</Kbd><Kbd>K</Kbd><Text size="xs">Search</Text></HStack>\n    <HStack gap={2}><Kbd>Ctrl</Kbd><Kbd>S</Kbd><Text size="xs">Save</Text></HStack>\n  </HStack>\n  <Text size="xs" color="var(--vf-text-3)">Enables useShortcut() for registering global hotkeys.</Text>\n</VStack>',
-  MessagesProvider: '<VStack gap={4} style={{ padding: 12, border: "1px solid var(--vf-border-1)" }}>\n  <Text size="sm" style={{ fontWeight: 600 }}>i18n Provider</Text>\n  <HStack gap={8}>\n    <Badge>English</Badge>\n    <Badge>Spanish</Badge>\n    <Badge>French</Badge>\n    <Badge>Arabic</Badge>\n    <Badge>Japanese</Badge>\n  </HStack>\n  <Text size="xs" color="var(--vf-text-3)">Supplies translated strings to all voidframe-ui components.</Text>\n</VStack>',
-  TooltipProvider: '<Tooltip content="Tooltip text">\n  <Button>Hover for tooltip</Button>\n</Tooltip>',
-  NotificationProvider: '<Text size="sm" color="var(--vf-text-3)">NotificationProvider enables the useNotification() hook for push-style notifications.</Text>',
-  ModalProvider: '<Text size="sm" color="var(--vf-text-3)">ModalProvider enables imperative modal APIs via useModal().</Text>',
+  // Providers (VoidframeProvider, ShortcutProvider, MessagesProvider…)
+  // are documented code-only via docs/usageSnippets.ts — their old
+  // entries here rendered mock markup that never used the provider.
 
   // ── Notifications ───────────────────────────────────────────────────
   Toaster: '<VStack gap={4} style={{ maxWidth: 300 }}>\n  <div style={{ padding: "8px 12px", background: "var(--vf-bg-3)", border: "1px solid var(--vf-green)", borderInlineStart: "3px solid var(--vf-green)", display: "flex", justifyContent: "space-between" }}>\n    <Text size="sm">Saved successfully</Text>\n    <Text size="xs" color="var(--vf-text-3)">x</Text>\n  </div>\n  <div style={{ padding: "8px 12px", background: "var(--vf-bg-3)", border: "1px solid var(--vf-red)", borderInlineStart: "3px solid var(--vf-red)", display: "flex", justifyContent: "space-between" }}>\n    <Text size="sm">Connection failed</Text>\n    <Text size="xs" color="var(--vf-text-3)">x</Text>\n  </div>\n</VStack>',
@@ -411,7 +383,6 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   // ── Misc (additional) ──────────────────────────────────────────────
   ThemeScope: '<ThemeScope themeName="midnight">\n  <VStack gap={4} style={{ padding: 12, background: "var(--vf-bg-2)" }}>\n    <Text>This subtree has overridden theme tokens</Text>\n    <Badge tone="success">Custom green</Badge>\n  </VStack>\n</ThemeScope>',
   AsyncData: 'function Example() {\n  const [status, setStatus] = useState("success");\n  return (\n    <VStack gap={8}>\n      <HStack gap={4}>\n        <Button size="sm" onClick={() => setStatus("loading")}>Loading</Button>\n        <Button size="sm" onClick={() => setStatus("success")}>Success</Button>\n        <Button size="sm" onClick={() => setStatus("error")}>Error</Button>\n      </HStack>\n      <AsyncData\n        status={status}\n        data="Loaded content!"\n        error="Something went wrong"\n        loading={<Spinner />}\n        renderError={(err) => <Text color="var(--vf-red)">{String(err)}</Text>}\n      >\n        {(data) => <Text>{data}</Text>}\n      </AsyncData>\n    </VStack>\n  );\n}\nrender(<Example />);',
-  RovingFocusGroup: '<div role="group" style={{ display: "flex", gap: 4 }}>\n  <Button size="sm">Item 1</Button>\n  <Button size="sm">Item 2</Button>\n  <Button size="sm">Item 3</Button>\n</div>',
 
   // ── Chart components (separate entry point) ─────────────────────────
   Arc: '<PieChart\n  data={[{ key: "a", value: 60, label: "Done" }, { key: "b", value: 40, label: "Left" }]}\n  size={120}\n/>',

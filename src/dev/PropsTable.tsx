@@ -10,6 +10,20 @@ export interface PropDoc {
   required?: boolean;
 }
 
+/**
+ * What a documented export *is*, so the docs can list it honestly:
+ * visual elements get live playgrounds; layout/primitive/provider
+ * surfaces get code-only usage docs; subcomponents fold into their
+ * parent's page; compat aliases group on the shadcn-compat page.
+ */
+export type ComponentDocKind =
+  | "element"
+  | "layout"
+  | "primitive"
+  | "provider"
+  | "subcomponent"
+  | "compat";
+
 export interface ComponentDoc {
   name: string;
   description?: string;
@@ -17,6 +31,11 @@ export interface ComponentDoc {
   /** Source file path relative to the repo root. Emitted by the
    * extract-props script so the docs site can link back to source. */
   file?: string;
+  /** Resolved by scripts/docs-kinds.mjs at extract time. Entries
+   * predating the kind field are treated as "element". */
+  kind?: ComponentDocKind;
+  /** Owning component for subcomponent/compat kinds. */
+  docsParent?: string;
 }
 
 export interface PropsTableProps {

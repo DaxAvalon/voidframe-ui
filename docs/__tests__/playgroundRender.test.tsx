@@ -31,6 +31,17 @@ const entries = enumeratePlaygroundEntries();
 const results: AuditResult[] = [];
 
 describe("Playground snippets render", () => {
+  it("baseline contains only ids that still enumerate", () => {
+    const enumerated = new Set(entries.map((e) => e.id));
+    for (const id of baselineIds) {
+      expect(
+        enumerated.has(id),
+        `${id} is in docs/audit/baseline.json but no longer renders a ` +
+          `playground (kind change or removed entry) — delete its baseline row.`,
+      ).toBe(true);
+    }
+  });
+
   for (const entry of entries) {
     it(`${entry.source}: ${entry.name} — ${entry.title}`, () => {
       const result = auditEntry(entry);

@@ -14,6 +14,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import docgen from "react-docgen-typescript";
 import ts from "typescript";
+import { resolveKind } from "./docs-kinds.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "..");
@@ -90,10 +91,13 @@ async function extractComponents() {
           'ReactNode', 'RESPONSIVE_SIZE_PRESETS', 'Context',
         ]);
         if (EXCLUDED_NAMES.has(comp.displayName)) continue;
+        const { kind, parent } = resolveKind(comp.displayName, rel, comp.tags);
         docs.push({
           name: comp.displayName,
           description: comp.description,
           file: rel,
+          kind,
+          ...(parent ? { docsParent: parent } : {}),
           props: Object.values(comp.props).map((p) => ({
             name: p.name,
             type: p.type?.name ?? "unknown",
