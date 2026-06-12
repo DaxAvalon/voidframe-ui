@@ -1,4 +1,5 @@
 import type { ComponentDoc, PropDoc } from "../src/dev";
+import { sampleValueFor } from "./sampleData";
 
 /**
  * Hand-crafted playground overrides for components that need specific examples.
@@ -185,8 +186,6 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   IFrame: '<IFrame\n  src="https://example.com"\n  title="External content"\n  style={{ width: "100%", height: 150, border: "1px solid var(--vf-border-1)" }}\n/>',
   Marquee: '<Marquee speed={30}>\n  <HStack gap={16}>\n    <Badge>Breaking</Badge>\n    <Text size="sm">Voidframe 1.2 released with 500+ components, 76 hooks, and 50+ chart types.</Text>\n  </HStack>\n</Marquee>',
   Image: '<Image src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'120\'%3E%3Crect fill=\'%231a1a1a\' width=\'200\' height=\'120\'/%3E%3Ctext fill=\'%23666\' x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'monospace\' font-size=\'14\'%3EImage%3C/text%3E%3C/svg%3E" alt="Placeholder" style={{ borderRadius: 8 }} />',
-  ImageCompare: '<Text size="sm" color="var(--vf-text-3)">ImageCompare shows a before/after image slider. Provide before and after image URLs.</Text>',
-  Gallery: '<Text size="sm" color="var(--vf-text-3)">Gallery renders a grid of images with optional lightbox. Provide an images array.</Text>',
 
   // Compound parts (DialogHeader, MenuItem, ResizablePanel…) carry no
   // entries here — the docs fold them into their parent's page, where
@@ -197,13 +196,12 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
   // entries here rendered mock markup that never used the provider.
 
   // ── Notifications ───────────────────────────────────────────────────
-  Toaster: '<VStack gap={4} style={{ maxWidth: 300 }}>\n  <div style={{ padding: "8px 12px", background: "var(--vf-bg-3)", border: "1px solid var(--vf-green)", borderInlineStart: "3px solid var(--vf-green)", display: "flex", justifyContent: "space-between" }}>\n    <Text size="sm">Saved successfully</Text>\n    <Text size="xs" color="var(--vf-text-3)">x</Text>\n  </div>\n  <div style={{ padding: "8px 12px", background: "var(--vf-bg-3)", border: "1px solid var(--vf-red)", borderInlineStart: "3px solid var(--vf-red)", display: "flex", justifyContent: "space-between" }}>\n    <Text size="sm">Connection failed</Text>\n    <Text size="xs" color="var(--vf-text-3)">x</Text>\n  </div>\n</VStack>',
+  Toaster: 'function Example() {\n  return (\n    <VStack gap={8}>\n      <HStack gap={8}>\n        <Button size="sm" onClick={() => toast.success("Saved successfully")}>Success toast</Button>\n        <Button size="sm" onClick={() => toast.error("Connection failed")}>Error toast</Button>\n      </HStack>\n      <Toaster position="bottom-right" />\n    </VStack>\n  );\n}\nrender(<Example />);',
 
   // ── AppShell / page layout ──────────────────────────────────────────
   AppShell: '<div style={{ height: 200, border: "1px solid var(--vf-border-1)", overflow: "hidden" }}>\n  <AppShell\n    header={<Text size="sm" style={{ padding: "4px 8px" }}>Header</Text>}\n    sidebar={<div style={{ padding: 8 }}><Text size="sm">Sidebar</Text></div>}\n    footer={<Text size="xs" style={{ padding: "4px 8px" }}>Footer</Text>}\n  >\n    <Text>Main content</Text>\n  </AppShell>\n</div>',
   Navbar: '<div style={{ border: "1px solid var(--vf-border-1)" }}>\n  <Navbar>\n    <Text size="sm" style={{ fontWeight: 700 }}>MyApp</Text>\n    <NavItem active>Home</NavItem>\n    <NavItem>About</NavItem>\n    <NavItem>Contact</NavItem>\n  </Navbar>\n</div>',
   Sidebar: '<div style={{ display: "flex", height: 200, border: "1px solid var(--vf-border-1)" }}>\n  <Sidebar style={{ width: 180 }}>\n    <Sidebar.Brand>APP</Sidebar.Brand>\n    <Sidebar.Section label="Main">\n      <NavItem active>Dashboard</NavItem>\n      <NavItem>Analytics</NavItem>\n      <NavItem>Settings</NavItem>\n    </Sidebar.Section>\n  </Sidebar>\n  <div style={{ flex: 1, padding: 12 }}>\n    <Text>Main content area</Text>\n  </div>\n</div>',
-  Footer: '<Text size="sm" color="var(--vf-text-3)">Footer renders a page footer. Typically placed in AppShell footer slot.</Text>',
   Header: '<Text size="sm" color="var(--vf-text-3)">Header renders a page header. Typically placed in AppShell header slot.</Text>',
   PageHeader: '<PageHeader eyebrow="Settings" title="User Profile" description="Manage your account settings and preferences" />',
   SectionHeader: '<SectionHeader title="Recent Activity" action={<Button size="sm">View All</Button>} />',
@@ -574,9 +572,14 @@ export function hasOverride(name: string): boolean {
 
 /**
  * Generate a default playground code snippet for a component
- * based on its extracted prop documentation. Never returns null.
+ * based on its extracted prop documentation.
+ *
+ * Returns null when a required prop can't be synthesized — the docs
+ * render an honest "no playground available" instead of emitting JSX
+ * that's missing required props and renders broken. Fix by adding a
+ * matcher to docs/sampleData.ts or a hand-written override above.
  */
-export function generatePlaygroundCode(doc: ComponentDoc): string {
+export function generatePlaygroundCode(doc: ComponentDoc): string | null {
   const name = doc.name;
 
   // 1. Check hand-crafted overrides first
@@ -606,8 +609,11 @@ export function generatePlaygroundCode(doc: ComponentDoc): string {
   const propsEntries: string[] = [];
 
   for (const prop of requiredProps) {
-    const val = getDefaultValueForProp(prop);
-    if (val) propsEntries.push(`${prop.name}=${val}`);
+    const val = sampleValueFor(prop) ?? getDefaultValueForProp(prop);
+    // A required prop we can't synthesize means the example would be
+    // broken JSX — refuse to generate rather than lie.
+    if (!val) return null;
+    propsEntries.push(`${prop.name}=${val}`);
   }
 
   // Add a few interesting optional props with example values
