@@ -662,7 +662,7 @@
   inset-block: 0;
   inset-inline-end: 0;
   width: 6px;
-  background: rgba(0, 0, 0, 0.2);
+  background: color-mix(in srgb, var(--vf-bg-0) 20%, transparent);
   cursor: ew-resize;
 }
 .vf-gantt__deps {

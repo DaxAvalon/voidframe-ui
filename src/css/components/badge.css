@@ -18,7 +18,8 @@
   gap: var(--vf-sp-1);
 }
 .vf-dots__dot {
-  font-size: 7px;
+  /* Overridable via the Dots `size` prop (sets --vf-dots-size). */
+  font-size: var(--vf-dots-size, 7px);
   color: var(--vf-accent, var(--vf-amber));
 }
 

@@ -67,7 +67,7 @@
   padding: var(--vf-sp-1) var(--vf-sp-2);
   background: var(--vf-bg-0);
   color: var(--vf-text-1);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   border-radius: var(--vf-radius);
 }
 
@@ -98,7 +98,7 @@
   display: flex;
   align-items: center;
   gap: var(--vf-sp-2);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-1);
 }
 
@@ -106,7 +106,7 @@
   display: flex;
   align-items: center;
   gap: var(--vf-sp-1);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-1);
 }
 

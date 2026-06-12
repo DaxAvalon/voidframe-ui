@@ -19,7 +19,7 @@
 .vf-regexp-tester__pattern-input {
   flex: 1;
   font-family: var(--vf-font-mono, monospace);
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
   padding: var(--vf-sp-2);
   background: var(--vf-bg-0);
   border: 1px solid var(--vf-border-2);
@@ -28,7 +28,7 @@
 
 .vf-regexp-tester__pattern-error {
   color: var(--vf-red, #ef4444);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   padding: var(--vf-sp-1) var(--vf-sp-2);
   background: color-mix(in srgb, var(--vf-red, #ef4444) 8%, transparent);
   border-radius: var(--vf-radius);
@@ -44,7 +44,7 @@
   border: 1px solid var(--vf-border-2);
   color: var(--vf-text-2);
   font-family: var(--vf-font-mono, monospace);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   padding: var(--vf-sp-1) var(--vf-sp-2);
   cursor: pointer;
   border-radius: var(--vf-radius);
@@ -62,7 +62,7 @@
 
 .vf-regexp-tester__test-string {
   font-family: var(--vf-font-mono, monospace);
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
   padding: var(--vf-sp-2);
   background: var(--vf-bg-0);
   border: 1px solid var(--vf-border-2);
@@ -72,7 +72,7 @@
 }
 
 .vf-regexp-tester__match-info {
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-1);
   display: flex;
   flex-direction: column;
@@ -87,7 +87,7 @@
 }
 
 .vf-regexp-tester__captures {
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-1);
   display: flex;
   flex-direction: column;
@@ -109,7 +109,7 @@
 
 .vf-regexp-tester__replace input {
   font-family: var(--vf-font-mono, monospace);
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
   padding: var(--vf-sp-2);
   background: var(--vf-bg-0);
   border: 1px solid var(--vf-border-2);
@@ -118,11 +118,11 @@
 
 .vf-regexp-tester__replace-result {
   font-family: var(--vf-font-mono, monospace);
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
   color: var(--vf-text-1);
 }
 
 /* Size modifiers */
 .vf-regexp-tester--sm { padding: var(--vf-sp-2); gap: var(--vf-sp-1); }
 .vf-regexp-tester--sm .vf-regexp-tester__pattern-input,
-.vf-regexp-tester--sm .vf-regexp-tester__test-string { font-size: var(--vf-fs-0); }
+.vf-regexp-tester--sm .vf-regexp-tester__test-string { font-size: var(--vf-font-xs); }

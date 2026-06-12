@@ -7,7 +7,7 @@
   border: 1px solid var(--vf-border-2);
   background: var(--vf-bg-1);
   font-family: var(--vf-font-family);
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
   flex: 1 1 auto;
 }
 .vf-playground__head {
@@ -30,7 +30,7 @@
   border: 1px solid var(--vf-border-2);
   color: var(--vf-text-1);
   font-family: inherit;
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   cursor: pointer;
 }
 .vf-playground__reset:hover {
@@ -74,7 +74,7 @@
 .vf-playground__editor textarea,
 .vf-playground__editor pre {
   font-family: var(--vf-font-family) !important;
-  font-size: var(--vf-fs-1) !important;
+  font-size: var(--vf-font-sm) !important;
   background: transparent !important;
   color: var(--vf-text-0) !important;
 }
@@ -92,7 +92,7 @@
   border-top: 1px solid var(--vf-red);
   color: var(--vf-red);
   font-family: var(--vf-font-family);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   white-space: pre-wrap;
   overflow: auto;
   max-height: 160px;
@@ -106,7 +106,7 @@
   background: var(--vf-bg-0);
   color: var(--vf-text-1);
   font-family: var(--vf-font-family);
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
 }
 .vf-docs__topbar {
   display: flex;
@@ -318,7 +318,7 @@
   width: 100%;
   border-collapse: collapse;
   font-family: var(--vf-font-family);
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
   color: var(--vf-text-1);
 }
 .vf-props-table__table th,
@@ -375,7 +375,7 @@
   border: 1px solid var(--vf-red, var(--vf-border-2));
   color: var(--vf-text-1);
   font-family: var(--vf-font-family);
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
 }
 .vf-error-boundary__head {
   display: flex;
@@ -389,7 +389,7 @@
   color: var(--vf-bg-0);
   font-weight: 700;
   letter-spacing: var(--vf-heading-tracking, 0.08em);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
 }
 .vf-error-boundary__name {
   font-weight: 600;
@@ -404,7 +404,7 @@
   word-break: break-word;
 }
 .vf-error-boundary__details {
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-2);
 }
 .vf-error-boundary__details summary {
@@ -420,7 +420,7 @@
   max-height: 240px;
   overflow: auto;
   white-space: pre;
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
 }
 .vf-error-boundary__reset {
   align-self: flex-start;
@@ -429,7 +429,7 @@
   color: var(--vf-text-0);
   border: 1px solid var(--vf-border-2);
   font-family: inherit;
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   cursor: pointer;
 }
 .vf-error-boundary__reset:hover {
@@ -449,8 +449,8 @@
   border: 1px solid var(--vf-border-2);
   color: var(--vf-text-1);
   font-family: var(--vf-font-family);
-  font-size: var(--vf-fs-0);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  font-size: var(--vf-font-xs);
+  box-shadow: var(--vf-shadow-md);
 }
 .vf-dev-panel--tl {
   top: 12px;

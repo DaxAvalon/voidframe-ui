@@ -13,7 +13,7 @@
   background: var(--vf-bg-2);
   border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--vf-shadow-md);
 }
 
 /* Placement modifiers */

@@ -48,6 +48,9 @@ jobs:
       - name: Lint (voidframe rules)
         run: npm run lint:voidframe -- src/
 
+      - name: Lint (CSS token discipline)
+        run: npm run lint:css-colors
+
       - name: Typecheck
         run: npm run typecheck
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, memo, useMemo, type HTMLAttributes } from "react";
+import { forwardRef, memo, useMemo, type CSSProperties, type HTMLAttributes } from "react";
 import { cx } from "../utils/cx";
 
 export interface ConfidenceZone {
@@ -24,9 +24,9 @@ export interface ConfidenceMeterProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const DEFAULT_ZONES: ConfidenceZone[] = [
-  { min: 0, max: 0.3, label: "Low", color: "var(--vf-red, #ef4444)" },
-  { min: 0.3, max: 0.7, label: "Medium", color: "var(--vf-amber, #f59e0b)" },
-  { min: 0.7, max: 1.0, label: "High", color: "var(--vf-green, #22c55e)" },
+  { min: 0, max: 0.3, label: "Low", color: "var(--vf-red)" },
+  { min: 0.3, max: 0.7, label: "Medium", color: "var(--vf-amber)" },
+  { min: 0.7, max: 1.0, label: "High", color: "var(--vf-green)" },
 ];
 
 function getZone(value: number, zones: ConfidenceZone[]): ConfidenceZone | undefined {
@@ -60,8 +60,11 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
     const value = Math.min(max, Math.max(0, rawValue));
     const pct = max > 0 ? value / max : 0;
     const zone = useMemo(() => getZone(pct, zones), [pct, zones]);
-    const zoneColor = zone?.color ?? "var(--vf-text-2)";
     const zoneLabel = zone?.label ?? "";
+    // Zone color lives in CSS (--vf-confidence-color, set by the zone
+    // modifier classes). Only a consumer-supplied custom zone color
+    // needs the inline custom-property override.
+    const customColor = zones !== DEFAULT_ZONES ? zone?.color : undefined;
 
     const formattedValue = valueFormat
       ? valueFormat(value)
@@ -83,7 +86,11 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
           zoneClass,
           className
         )}
-        style={style}
+        style={
+          customColor
+            ? ({ "--vf-confidence-color": customColor, ...style } as CSSProperties)
+            : style
+        }
         role="meter"
         aria-valuenow={value}
         aria-valuemin={0}
@@ -92,10 +99,7 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
         {...props}
       >
         {kind === "text-only" && (
-          <span
-            className="vf-confidence-meter__text"
-            style={{ color: zoneColor }}
-          >
+          <span className="vf-confidence-meter__text">
             {formattedValue}
             {zoneLabel && (
               <span className="vf-confidence-meter__text-zone">{` · ${zoneLabel}`}</span>
@@ -109,7 +113,6 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
               className="vf-confidence-meter__bar-fill"
               style={{
                 width: `${pct * 100}%`,
-                backgroundColor: zoneColor,
                 transition: animate ? "width 0.3s ease" : "none",
               }}
             />
@@ -131,9 +134,9 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
             />
             {/* Foreground arc */}
             <path
+              className="vf-confidence-meter__gauge-fill"
               d={`M ${STROKE_WIDTH / 2} ${SVG_SIZE / 2} A ${RADIUS} ${RADIUS} 0 0 1 ${SVG_SIZE - STROKE_WIDTH / 2} ${SVG_SIZE / 2}`}
               fill="none"
-              stroke={zoneColor}
               strokeWidth={STROKE_WIDTH}
               strokeLinecap="round"
               strokeDasharray={`${Math.PI * RADIUS}`}
@@ -157,11 +160,11 @@ const ConfidenceMeterImpl = forwardRef<HTMLDivElement, ConfidenceMeterProps>(
               strokeWidth={STROKE_WIDTH}
             />
             <circle
+              className="vf-confidence-meter__ring-fill"
               cx={SVG_SIZE / 2}
               cy={SVG_SIZE / 2}
               r={RADIUS}
               fill="none"
-              stroke={zoneColor}
               strokeWidth={STROKE_WIDTH}
               strokeLinecap="round"
               strokeDasharray={CIRCUMFERENCE}

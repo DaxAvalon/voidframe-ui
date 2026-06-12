@@ -262,35 +262,35 @@
 - ConfirmProvider: App-root provider that hosts imperative confirm dialogs triggered via `useConfirm()`.
 - ConnectionStatus: Inline indicator for a network/channel connection state (`connecting` | `connected` | `disconnected…
 - Dialog: Compound modal overlay. Use `Dialog.Trigger` to open, `Dialog.Content` for the body, `Dialog.Close`…
-- DialogAction
-- DialogBody
-- DialogCancel
-- DialogClose
-- DialogContent
-- DialogDescription
-- DialogFooter
-- DialogHeader
-- DialogTitle
-- DialogTrigger
+- DialogAction: Primary action button that optionally closes the dialog after activation.
+- DialogBody: Scrollable main content area between the header and footer.
+- DialogCancel: Ghost-styled cancel button that closes the dialog on click.
+- DialogClose: Dismisses the dialog when activated. Renders a close button or merges via `asChild`.
+- DialogContent: Focus-trapped, portaled panel that renders the dialog surface with backdrop.
+- DialogDescription: Supplementary description for the dialog. Wires `aria-describedby` on the panel.
+- DialogFooter: Bottom slot for action buttons (Cancel, Confirm, etc.).
+- DialogHeader: Container for `Dialog.Title` and `Dialog.Description` at the top of the panel.
+- DialogTitle: Accessible heading for the dialog. Renders an `<h2>` and wires `aria-labelledby`.
+- DialogTrigger: Element that opens the dialog when activated. Wraps a button or merges via `asChild`.
 - Drawer: V1 side-panel overlay with backdrop, focus trap, and Escape dismiss. Controlled via `open` / `onDis…
-- DrawerBody
-- DrawerClose
-- DrawerFooter
-- DrawerHeader
-- DrawerRoot
+- DrawerBody: Scrollable main content area of the drawer.
+- DrawerClose: Dismisses the drawer when activated. Renders a close button or merges via `asChild`.
+- DrawerFooter: Bottom slot for action buttons within the drawer.
+- DrawerHeader: Top section of the drawer, typically containing the title and close button.
+- DrawerRoot: Root provider that manages open state and side for `DrawerV2` sub-components.
 - DrawerV2: Compound side-panel overlay. Slides in from any edge (`left`, `right`, `top`, `bottom`). Use `Drawe…
-- DrawerV2Content
-- DrawerV2Title
-- DrawerV2Trigger
+- DrawerV2Content: Focus-trapped sliding panel that holds the drawer body. Portaled when modal.
+- DrawerV2Title: Accessible heading for the drawer. Renders an `<h2>` and wires `aria-labelledby`.
+- DrawerV2Trigger: Element that opens the drawer. Wraps a button or merges via `asChild`.
 - Dropdown: Simple trigger + menu dropdown. For richer composition (submenus, checkbox items, radio groups) use…
 - HoverCard: Open-on-hover anchored overlay for rich previews (profile cards, link metadata). Compose `HoverCard…
 - NotificationCenter: Drawer of grouped notifications with read/unread state, per-item actions, and clear-all.
 - OfflineBanner: Top-of-page banner that appears when `navigator.onLine` flips to false. Auto-hides on reconnect.
 - Popconfirm: Lightweight confirmation popover anchored to a trigger. Cheaper than a full modal for simple yes/no…
 - Popover: V1 popover anchored to a `trigger` with click- or hover-activation and a fixed `position` (top/righ…
-- PopoverContent
-- PopoverRoot
-- PopoverTrigger
+- PopoverContent: Portaled panel anchored to the trigger with viewport-aware positioning.
+- PopoverRoot: Root provider that manages open state and trigger reference for popover sub-components.
+- PopoverTrigger: Element that toggles the popover open/closed on click.
 - PopoverV2: Compound anchored popover. Compose `PopoverV2.Trigger` and `PopoverV2.Content`; content is portaled…
 - Quote: Styled pull-quote block with optional attribution.
 - Sheet: Mobile-style bottom sheet with drag-to-resize snap points. Compound API: `Sheet.Trigger`, `Sheet.Co…
@@ -298,10 +298,10 @@
 - Spotlight: Dimmed overlay with a cut-out highlighting a target element. Used by `CoachMark`.
 - Toaster: A portaled queue of transient notifications rendered at a configurable viewport corner. Mount once …
 - Tooltip: Compact labelling overlay. Wraps a single child and shows `content` on hover or focus with a config…
-- TooltipContent
+- TooltipContent: Body rendered inside the tooltip popup. Registers into `Tooltip.Root`.
 - TooltipProvider: Groups `Tooltip` instances to share timing. Once one tooltip closes, hovering another within `skipD…
-- TooltipRoot
-- TooltipTrigger
+- TooltipRoot: Compound root that collects Trigger and Content slots for a Tooltip instance.
+- TooltipTrigger: Element that shows the tooltip on hover/focus. Registers into `Tooltip.Root`.
 
 ### Media
 - AudioPlayer: Accessible audio player with play/pause, scrub bar, time readout, and volume. Wraps the native `<au…
@@ -571,9 +571,9 @@
 - Swipeable: Wrapper that makes a child horizontally or vertically swipeable. Emits swipe-direction events.
 - SwipeActions: List-item wrapper revealing actions on horizontal swipe (iOS Mail style).
 - Tabs: Keyboard-navigable tablist. Arrow keys cycle within the list, Home/End jump to first/last, Tab leav…
-- Tabs.List
-- Tabs.Panel
-- Tabs.Trigger
+- Tabs.List: Container with `role="tablist"` that holds tab triggers and handles arrow-key navigation.
+- Tabs.Panel: Content panel shown when its matching tab trigger is active.
+- Tabs.Trigger: Individual tab button that activates its corresponding panel on click.
 - Toast: Transient popup notification for async feedback. For 1.0+ use the module-level `toast` API (`toast.…
 - Zoomable: Wrapper that makes a child pan + zoomable (pinch / wheel / drag). Emits the current transform.
 
@@ -597,11 +597,11 @@
 - AlertDialogHeader
 - AlertDialogTitle
 - AlertDialogTrigger
-- CardContent
-- CardDescription
-- CardFooter
-- CardHeader
-- CardTitle
+- CardContent: Main body area of the card for primary content.
+- CardDescription: Muted subtitle paragraph rendered below the card title.
+- CardFooter: Bottom slot for card actions or metadata.
+- CardHeader: Top section of the card containing title and description.
+- CardTitle: Heading for the card. Renders an `<h3>` inside `CardHeader`.
 - CodeContextView: "Error at line N" block with `before`/`after` context. Use when CI failure summaries, linter output…
 - DropdownMenu
 - DropdownMenuCheckboxItem
@@ -629,8 +629,8 @@
 - SheetTitle
 - SheetTrigger
 - TabsContent
-- TabsList
-- TabsTrigger
+- TabsList: Container with `role="tablist"` that holds tab triggers and handles arrow-key navigation.
+- TabsTrigger: Individual tab button that activates its corresponding panel on click.
 - VoidframeReactFlowTheme: Scoped voidframe theme wrapper for `@xyflow/react`. Map ReactFlow's `Controls` / `MiniMap` / edges …
 
 ## Hooks

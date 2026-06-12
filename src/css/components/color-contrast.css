@@ -21,7 +21,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--vf-sp-1);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-1);
 }
 
@@ -37,7 +37,7 @@
   background: transparent;
   border: 1px solid var(--vf-border-2);
   color: var(--vf-text-1);
-  font-size: var(--vf-fs-2);
+  font-size: var(--vf-font-md);
   cursor: pointer;
   padding: var(--vf-sp-1) var(--vf-sp-2);
   border-radius: var(--vf-radius);
@@ -48,7 +48,7 @@
 }
 
 .vf-color-contrast__ratio {
-  font-size: var(--vf-fs-4);
+  font-size: var(--vf-font-xl);
   font-weight: 700;
   text-align: center;
 }
@@ -71,7 +71,7 @@
   display: flex;
   align-items: center;
   gap: var(--vf-sp-2);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   padding: var(--vf-sp-1) var(--vf-sp-2);
 }
 
@@ -86,7 +86,7 @@
 .vf-color-contrast__preview {
   padding: var(--vf-sp-4);
   border-radius: var(--vf-radius);
-  font-size: var(--vf-fs-2);
+  font-size: var(--vf-font-md);
   text-align: center;
 }
 
@@ -95,5 +95,5 @@
   padding: var(--vf-sp-2);
   gap: var(--vf-sp-2);
 }
-.vf-color-contrast--sm .vf-color-contrast__ratio { font-size: var(--vf-fs-3); }
+.vf-color-contrast--sm .vf-color-contrast__ratio { font-size: var(--vf-font-lg); }
 .vf-color-contrast--sm .vf-color-contrast__swatch-label { width: 32px; height: 32px; }

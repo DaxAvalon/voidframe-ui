@@ -179,6 +179,9 @@ const DotsImpl = forwardRef<HTMLSpanElement, DotsProps>(function Dots(
   const n = Math.min(count, max);
   const composedStyle: CSSProperties = {
     ...(color ? ({ "--vf-accent": color } as CSSProperties) : {}),
+    ...(size !== undefined
+      ? ({ "--vf-dots-size": `${size}px` } as CSSProperties)
+      : {}),
     ...style,
   };
   return (
@@ -189,11 +192,7 @@ const DotsImpl = forwardRef<HTMLSpanElement, DotsProps>(function Dots(
       {...props}
     >
       {Array.from({ length: n }).map((_, i) => (
-        <span
-          key={i}
-          className="vf-dots__dot"
-          style={size !== undefined ? { fontSize: size } : undefined}
-        >
+        <span key={i} className="vf-dots__dot">
           ●
         </span>
       ))}
