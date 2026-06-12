@@ -140,6 +140,7 @@
     "docs": "npm run docs:extract-props && npm run docs:generate-llms && vite serve docs",
     "docs:build": "npm run docs:extract-props && npm run docs:generate-llms && vite build --config docs/vite.config.ts",
     "docs:generate-llms": "node scripts/generate-llms.mjs",
+    "docs:audit": "PLAYGROUND_AUDIT_REPORT=1 vitest run docs/__tests__/playgroundRender.test.tsx",
     "docs:extract-props": "node scripts/extract-props.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

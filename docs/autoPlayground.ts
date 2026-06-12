@@ -593,6 +593,15 @@ const COMPONENT_OVERRIDES: Record<string, string> = {
 };
 
 /**
+ * True when a component has a hand-crafted override snippet. Lets the
+ * docs audit distinguish override-sourced playgrounds from auto-generated
+ * ones, since both flow through generatePlaygroundCode.
+ */
+export function hasOverride(name: string): boolean {
+  return Object.prototype.hasOwnProperty.call(COMPONENT_OVERRIDES, name);
+}
+
+/**
  * Generate a default playground code snippet for a component
  * based on its extracted prop documentation. Never returns null.
  */
