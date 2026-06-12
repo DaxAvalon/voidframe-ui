@@ -56,7 +56,7 @@
 .vf-comment__replies {
   margin-top: var(--vf-sp-3);
   padding-inline-start: var(--vf-sp-5);
-  border-inline-start: 2px solid var(--vf-border);
+  border-inline-start: 2px solid var(--vf-border-1);
   display: flex;
   flex-direction: column;
   gap: var(--vf-sp-3);

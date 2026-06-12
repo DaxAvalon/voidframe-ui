@@ -11,7 +11,8 @@
 }
 
 .vf-link:hover {
-  color: color-mix(in srgb, var(--vf-accent, var(--vf-text-0)) 85%, white 15%);
+  /* Shift toward the foreground: brightens on dark themes, deepens on light. */
+  color: color-mix(in srgb, var(--vf-accent, var(--vf-text-0)) 85%, var(--vf-text-0) 15%);
 }
 
 .vf-link:focus-visible {

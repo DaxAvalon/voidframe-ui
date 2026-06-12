@@ -5,7 +5,7 @@
   align-items: center;
   gap: var(--vf-sp-2);
   background: var(--vf-bg-2);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   font-family: var(--vf-font-mono);
   position: relative;
@@ -71,9 +71,9 @@
   padding: var(--vf-sp-1) 0;
   list-style: none;
   background: var(--vf-bg-2);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--vf-shadow-md);
   max-height: 200px;
   overflow-y: auto;
   z-index: 10;

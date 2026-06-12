@@ -50,20 +50,20 @@
 
 /* Bordered variant */
 .vf-descriptions--bordered .vf-descriptions__list {
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   gap: 0;
 }
 
 .vf-descriptions--bordered .vf-descriptions__label {
-  background: color-mix(in srgb, var(--vf-surface-2) 50%, transparent);
+  background: color-mix(in srgb, var(--vf-bg-3) 50%, transparent);
   padding: var(--vf-sp-2) var(--vf-sp-3);
-  border-bottom: 1px solid var(--vf-border);
+  border-bottom: 1px solid var(--vf-border-1);
 }
 
 .vf-descriptions--bordered .vf-descriptions__value {
   padding: var(--vf-sp-2) var(--vf-sp-3);
-  border-bottom: 1px solid var(--vf-border);
+  border-bottom: 1px solid var(--vf-border-1);
 }
 
 .vf-descriptions--bordered .vf-descriptions__item:last-child .vf-descriptions__label,

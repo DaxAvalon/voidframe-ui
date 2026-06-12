@@ -28,7 +28,7 @@
 .vf-filter-builder__field-select,
 .vf-filter-builder__operator-select {
   background: var(--vf-bg-3);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   padding: var(--vf-sp-1) var(--vf-sp-2);
   color: var(--vf-text-1);
@@ -38,7 +38,7 @@
 
 .vf-filter-builder__value-input {
   background: var(--vf-bg-3);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   padding: var(--vf-sp-1) var(--vf-sp-2);
   color: var(--vf-text-1);
@@ -49,7 +49,7 @@
 
 .vf-filter-builder__remove {
   background: none;
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   padding: var(--vf-sp-1) var(--vf-sp-2);
   color: var(--vf-text-3);
@@ -72,7 +72,7 @@
 .vf-filter-builder__add,
 .vf-filter-builder__clear {
   background: var(--vf-bg-3);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   padding: var(--vf-sp-1) var(--vf-sp-3);
   color: var(--vf-text-2);

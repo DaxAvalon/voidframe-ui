@@ -7,7 +7,7 @@
   flex-direction: column;
   gap: var(--vf-sp-2);
   background: var(--vf-bg-2);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   padding: var(--vf-sp-3);
 }
@@ -25,7 +25,7 @@
 .vf-env-vars__search {
   width: 100%;
   background: var(--vf-bg-3);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   padding: var(--vf-sp-2) var(--vf-sp-3);
   color: var(--vf-text-1);
@@ -40,7 +40,7 @@
   font-size: 0.85em;
   letter-spacing: var(--vf-letter-spacing);
   padding: var(--vf-sp-2) 0;
-  border-bottom: 1px solid var(--vf-border);
+  border-bottom: 1px solid var(--vf-border-1);
 }
 
 .vf-env-vars__row {
@@ -48,7 +48,7 @@
   align-items: center;
   gap: var(--vf-sp-3);
   padding: var(--vf-sp-2) 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--vf-border) 40%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--vf-border-1) 40%, transparent);
 }
 
 .vf-env-vars__row--inherited {
@@ -102,7 +102,7 @@
 
 .vf-env-vars__actions button {
   background: none;
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   padding: var(--vf-sp-1) var(--vf-sp-2);
   color: var(--vf-text-3);
@@ -120,12 +120,12 @@
   display: flex;
   gap: var(--vf-sp-2);
   padding-top: var(--vf-sp-2);
-  border-top: 1px solid var(--vf-border);
+  border-top: 1px solid var(--vf-border-1);
 }
 
 .vf-env-vars__add-row input {
   background: var(--vf-bg-3);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   padding: var(--vf-sp-1) var(--vf-sp-2);
   color: var(--vf-text-1);
@@ -136,7 +136,7 @@
 
 .vf-env-vars__add-row button {
   background: var(--vf-bg-3);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   padding: var(--vf-sp-1) var(--vf-sp-3);
   color: var(--vf-text-2);

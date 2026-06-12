@@ -26,8 +26,8 @@
   font-family: inherit;
   font-size: var(--vf-font-sm);
   color: var(--vf-text-1);
-  background: var(--vf-surface-1);
-  border: 1px solid var(--vf-border);
+  background: var(--vf-bg-3);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   cursor: pointer;
   text-align: start;
@@ -64,10 +64,10 @@
   z-index: 100;
   display: flex;
   margin-top: var(--vf-sp-1);
-  background: var(--vf-surface-1);
-  border: 1px solid var(--vf-border);
+  background: var(--vf-bg-1);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--vf-shadow-md);
 }
 
 .vf-cascader__panel {
@@ -77,7 +77,7 @@
   padding: var(--vf-sp-1) 0;
 }
 .vf-cascader__panel + .vf-cascader__panel {
-  border-inline-start: 1px solid var(--vf-border);
+  border-inline-start: 1px solid var(--vf-border-1);
 }
 
 .vf-cascader__option {

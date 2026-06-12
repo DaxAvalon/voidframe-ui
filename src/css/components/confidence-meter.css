@@ -6,6 +6,35 @@
   align-items: center;
   gap: var(--vf-sp-2);
   font-family: var(--vf-font-family);
+  /* Zone color flows through one custom property: zone modifier
+   * classes set it below; a consumer-supplied zones[].color overrides
+   * it via an inline custom property on the root. */
+  --vf-confidence-color: var(--vf-text-2);
+}
+
+.vf-confidence-meter--low {
+  --vf-confidence-color: var(--vf-red);
+}
+
+.vf-confidence-meter--medium {
+  --vf-confidence-color: var(--vf-amber);
+}
+
+.vf-confidence-meter--high {
+  --vf-confidence-color: var(--vf-green);
+}
+
+.vf-confidence-meter__text {
+  color: var(--vf-confidence-color);
+}
+
+.vf-confidence-meter__bar-fill {
+  background: var(--vf-confidence-color);
+}
+
+.vf-confidence-meter__gauge-fill,
+.vf-confidence-meter__ring-fill {
+  stroke: var(--vf-confidence-color);
 }
 
 .vf-confidence-meter__bar {
@@ -32,37 +61,31 @@
 }
 
 .vf-confidence-meter__value {
-  font-size: var(--vf-fs-3);
+  font-size: var(--vf-font-lg);
   font-weight: 700;
   color: var(--vf-text-0);
 }
 
 .vf-confidence-meter__label {
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-2);
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.04em;
 }
 
-.vf-confidence-meter--low .vf-confidence-meter__value {
-  color: var(--vf-red, #ef4444);
-}
-
-.vf-confidence-meter--medium .vf-confidence-meter__value {
-  color: var(--vf-amber, #f59e0b);
-}
-
+.vf-confidence-meter--low .vf-confidence-meter__value,
+.vf-confidence-meter--medium .vf-confidence-meter__value,
 .vf-confidence-meter--high .vf-confidence-meter__value {
-  color: var(--vf-green, #22c55e);
+  color: var(--vf-confidence-color);
 }
 
 /* Size modifiers */
 .vf-confidence-meter--sm .vf-confidence-meter__bar { height: 4px; }
-.vf-confidence-meter--sm .vf-confidence-meter__value { font-size: var(--vf-fs-1); }
+.vf-confidence-meter--sm .vf-confidence-meter__value { font-size: var(--vf-font-sm); }
 .vf-confidence-meter--sm .vf-confidence-meter__gauge { max-width: 80px; }
 .vf-confidence-meter--sm .vf-confidence-meter__ring { max-width: 60px; }
 
 .vf-confidence-meter--lg .vf-confidence-meter__bar { height: 12px; }
-.vf-confidence-meter--lg .vf-confidence-meter__value { font-size: var(--vf-fs-4); }
+.vf-confidence-meter--lg .vf-confidence-meter__value { font-size: var(--vf-font-xl); }
 .vf-confidence-meter--lg .vf-confidence-meter__gauge { max-width: 180px; }
 .vf-confidence-meter--lg .vf-confidence-meter__ring { max-width: 140px; }

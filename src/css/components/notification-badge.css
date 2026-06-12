@@ -12,9 +12,10 @@
   transform: translate(50%, -50%);
   min-width: 18px;
   height: 18px;
-  border-radius: 9999px;
+  /* Square pip — zero-radius design language (was a 9999px pill). */
+  border-radius: var(--vf-radius, 0);
   background: var(--vf-accent, var(--vf-red));
-  color: #fff;
+  color: var(--vf-bg-0);
   font-size: var(--vf-font-xxs);
   font-family: var(--vf-font-family);
   font-weight: 600;

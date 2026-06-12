@@ -18,7 +18,7 @@
 .vf-model-compare__prompt textarea {
   flex: 1;
   font-family: inherit;
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
   padding: var(--vf-sp-2);
   background: var(--vf-bg-0);
   border: 1px solid var(--vf-border-2);
@@ -34,7 +34,7 @@
   color: var(--vf-bg-0);
   border: none;
   font-family: inherit;
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
   cursor: pointer;
 }
 
@@ -62,7 +62,7 @@
   padding: var(--vf-sp-2) var(--vf-sp-3);
   border-bottom: 1px solid var(--vf-border-1);
   font-weight: 600;
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.04em;
   color: var(--vf-text-0);
@@ -71,7 +71,7 @@
 .vf-model-compare__panel-content {
   padding: var(--vf-sp-3);
   flex: 1;
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
   color: var(--vf-text-1);
   white-space: pre-wrap;
   min-height: 100px;
@@ -82,7 +82,7 @@
   gap: var(--vf-sp-3);
   padding: var(--vf-sp-2) var(--vf-sp-3);
   border-top: 1px solid var(--vf-border-1);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-2);
 }
 
@@ -96,4 +96,4 @@
 
 /* Size modifiers */
 .vf-model-compare--sm { padding: var(--vf-sp-2); gap: var(--vf-sp-2); }
-.vf-model-compare--sm .vf-model-compare__panel-content { font-size: var(--vf-fs-0); min-height: 60px; }
+.vf-model-compare--sm .vf-model-compare__panel-content { font-size: var(--vf-font-xs); min-height: 60px; }

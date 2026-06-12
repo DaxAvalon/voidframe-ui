@@ -366,7 +366,7 @@ function ApiEntryPage({ entry, onNavigate }: { entry: ApiEntry; onNavigate?: (id
               background: "var(--vf-bg-0)",
               border: "1px solid var(--vf-border-1)",
               fontFamily: "var(--vf-font-family)",
-              fontSize: "var(--vf-fs-1)",
+              fontSize: "var(--vf-font-sm)",
               color: "var(--vf-text-0)",
               overflowX: "auto",
               whiteSpace: "pre-wrap",
@@ -480,7 +480,7 @@ function A11yAuditPage() {
       </section>
       <hr className="vf-docs__divider" />
       <section className="vf-docs__block">
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--vf-fs-1)" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--vf-font-sm)" }}>
           <thead>
             <tr style={{ borderBottom: "1px solid var(--vf-border-2)", textAlign: "start" }}>
               <th style={{ padding: "4px 8px" }}>Component</th>

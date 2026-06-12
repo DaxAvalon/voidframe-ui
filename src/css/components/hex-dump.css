@@ -5,7 +5,7 @@
   font-size: var(--vf-font-sm);
   line-height: 1.6;
   background: var(--vf-bg-2);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   padding: var(--vf-sp-3);
   overflow-x: auto;
@@ -21,7 +21,7 @@
   display: flex;
   gap: var(--vf-sp-4);
   color: var(--vf-text-3);
-  border-bottom: 1px solid var(--vf-border);
+  border-bottom: 1px solid var(--vf-border-1);
   padding-bottom: var(--vf-sp-1);
   margin-bottom: var(--vf-sp-1);
   font-weight: 600;
@@ -76,7 +76,7 @@
 
 .vf-hex-dump__ascii {
   display: inline-flex;
-  border-inline-start: 1px solid var(--vf-border);
+  border-inline-start: 1px solid var(--vf-border-1);
   padding-inline-start: var(--vf-sp-3);
   white-space: pre;
 }

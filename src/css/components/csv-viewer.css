@@ -4,7 +4,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
   background: var(--vf-bg-2);
-  border: 1px solid var(--vf-border);
+  border: 1px solid var(--vf-border-1);
   border-radius: var(--vf-radius);
   overflow: auto;
 }
@@ -40,7 +40,7 @@
   text-align: start;
   font-weight: 600;
   color: var(--vf-text-2);
-  border-bottom: 2px solid var(--vf-border);
+  border-bottom: 2px solid var(--vf-border-1);
   text-transform: var(--vf-heading-case, uppercase);
   font-size: 0.85em;
   letter-spacing: var(--vf-letter-spacing);
@@ -52,12 +52,12 @@
   font-family: var(--vf-font-mono, monospace);
   text-align: end;
   min-width: 4ch;
-  border-inline-end: 1px solid var(--vf-border);
+  border-inline-end: 1px solid var(--vf-border-1);
   user-select: none;
 }
 
 .vf-csv-viewer__row {
-  border-bottom: 1px solid color-mix(in srgb, var(--vf-border) 40%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--vf-border-1) 40%, transparent);
 }
 
 .vf-csv-viewer__row--striped {
@@ -85,7 +85,7 @@
 
 .vf-csv-viewer__footer {
   padding: var(--vf-sp-2) var(--vf-sp-3);
-  border-top: 1px solid var(--vf-border);
+  border-top: 1px solid var(--vf-border-1);
   color: var(--vf-text-3);
   font-size: 0.85em;
 }

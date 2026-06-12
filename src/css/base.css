@@ -100,12 +100,15 @@
   }
 
   .vf-root {
+    /* vf-allow-raw-color: print — ink on paper, theme-invariant */
     background: white !important;
+    /* vf-allow-raw-color: print — ink on paper, theme-invariant */
     color: black !important;
   }
 
   .vf-root * {
     color: inherit;
+    /* vf-allow-raw-color: print borders — ink on paper, theme-invariant */
     border-color: #ccc;
   }
 

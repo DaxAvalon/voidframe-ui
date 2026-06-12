@@ -5,7 +5,7 @@
   flex-wrap: wrap;
   gap: 0;
   font-family: var(--vf-font-mono, monospace);
-  font-size: var(--vf-fs-1);
+  font-size: var(--vf-font-sm);
   border: 1px solid var(--vf-border-2);
   background: var(--vf-bg-1);
   padding: var(--vf-sp-3);
@@ -79,11 +79,11 @@
   margin-top: var(--vf-sp-2);
   padding-top: var(--vf-sp-2);
   border-top: 1px solid var(--vf-border-1);
-  font-size: var(--vf-fs-0);
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-2);
 }
 
 /* Size modifiers */
-.vf-token-viz--sm { font-size: var(--vf-fs-0); padding: var(--vf-sp-2); }
-.vf-token-viz--md { font-size: var(--vf-fs-1); }
-.vf-token-viz--lg { font-size: var(--vf-fs-2); padding: var(--vf-sp-4); }
+.vf-token-viz--sm { font-size: var(--vf-font-xs); padding: var(--vf-sp-2); }
+.vf-token-viz--md { font-size: var(--vf-font-sm); }
+.vf-token-viz--lg { font-size: var(--vf-font-md); padding: var(--vf-sp-4); }

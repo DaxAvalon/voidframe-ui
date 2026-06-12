@@ -55,7 +55,7 @@ export function Playground({
                 onChange={setCode}
                 style={{
                   fontFamily: "var(--vf-font-family)",
-                  fontSize: "var(--vf-fs-1, 12px)",
+                  fontSize: "var(--vf-font-md, 12px)",
                   background: "var(--vf-bg-0)",
                   color: "var(--vf-text-0)",
                   height: "100%",

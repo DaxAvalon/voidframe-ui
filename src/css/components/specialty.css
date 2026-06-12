@@ -844,7 +844,7 @@
 }
 
 .vf-big-number--md .vf-big-number__value { font-size: var(--vf-font-xl); }
-.vf-big-number--lg .vf-big-number__value { font-size: var(--vf-font-2xl); }
+.vf-big-number--lg .vf-big-number__value { font-size: var(--vf-font-xxl); }
 .vf-big-number--xl .vf-big-number__value { font-size: var(--vf-font-3xl); }
 
 .vf-big-number__value {
@@ -1195,7 +1195,7 @@
 .vf-barcode {
   border: 1px solid var(--vf-border-2);
   padding: var(--vf-sp-4);
-  background: #ffffff;
+  background: var(--vf-static-white);
   box-sizing: content-box;
   width: fit-content;
 }
@@ -1219,7 +1219,7 @@
 .vf-barcode__text {
   margin-top: var(--vf-sp-3);
   font-size: var(--vf-font-xs);
-  color: #000000;
+  color: var(--vf-static-black);
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
@@ -1409,7 +1409,7 @@
 
 .vf-dashboard-grid__cell--moving {
   cursor: grabbing;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--vf-shadow-lg);
   border-color: var(--vf-accent, var(--vf-text-2));
   pointer-events: none;
 }

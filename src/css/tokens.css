@@ -190,6 +190,12 @@
   /* focus */
   --vf-focus-ring: 2px solid var(--vf-text-0);
   --vf-focus-offset: 0;
+
+  /* optical surfaces — theme-invariant by design. QR codes and
+   * barcodes need dark-on-light contrast regardless of app theme or
+   * scanners fail to decode. Never remap these per theme. */
+  --vf-static-white: #ffffff;
+  --vf-static-black: #000000;
 }
 
 [data-vf-theme="midnight"] {

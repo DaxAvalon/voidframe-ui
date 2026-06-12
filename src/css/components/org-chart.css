@@ -21,7 +21,7 @@
 }
 
 .vf-org-chart__node-card {
-  fill: var(--vf-surface-1);
+  fill: var(--vf-bg-2);
   stroke: var(--vf-border-2);
   stroke-width: 1;
 }
@@ -60,7 +60,7 @@
 }
 
 .vf-org-chart__collapse-toggle circle {
-  fill: var(--vf-surface-0);
+  fill: var(--vf-bg-1);
   stroke: var(--vf-border-2);
   stroke-width: 1;
 }
@@ -94,7 +94,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
   font-weight: 600;
-  background: var(--vf-surface-0);
+  background: var(--vf-bg-1);
   color: var(--vf-text-1);
   border: 1px solid var(--vf-border-2);
   cursor: pointer;
