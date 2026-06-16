@@ -382,6 +382,30 @@ function MyComponent() {
 }
 ```
 
+### Tailwind preset
+
+If you use Tailwind, the bundled preset exposes every `--vf-*` token as a
+Tailwind utility. Values resolve to CSS custom properties, so utilities
+re-theme automatically when `VoidframeProvider` swaps the active theme.
+
+```js
+// tailwind.config.js
+module.exports = {
+  presets: [require("voidframe-ui/tailwind")],
+};
+```
+
+```html
+<div class="bg-vf-bg-1 text-vf-text-0 border border-vf-border-2 p-vf-4 font-vf-mono">
+  <span class="text-vf-green bg-vf-green-10 px-vf-2">OK</span>
+</div>
+```
+
+Scales: `vf-bg-*` / `vf-text-*` / `vf-border-*` colors, accents with
+`5/10/20/40/60` opacity steps, `vf-success|danger|warning|info`, spacing
+`vf-1`→`vf-12`, font family/size, line-height, letter-spacing, border radius,
+border width, and `vf-sm`→`vf-xxl` breakpoints.
+
 ---
 
 ## Design Tokens
