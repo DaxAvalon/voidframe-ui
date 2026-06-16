@@ -1133,6 +1133,23 @@ Demo entry: `demo/App.tsx`. Sections are defined as plain components and registe
 
 ---
 
+## AI agents (MCP)
+
+Coding with an AI assistant? The **`voidframe-mcp`** [Model Context Protocol](https://modelcontextprotocol.io) server exposes the full component / hook / utility catalog — exact names, props, types, and signatures — so agents look APIs up instead of guessing.
+
+```jsonc
+// Claude Desktop, Cursor (.cursor/mcp.json), etc.
+{
+  "mcpServers": {
+    "voidframe": { "command": "npx", "args": ["-y", "voidframe-mcp"] }
+  }
+}
+```
+
+Tools: `list_components`, `get_component`, `list_hooks`, `get_hook`, `list_utils`, `get_util`, and a unified `search`. It's a zero-dependency stdio server over the same structured data behind the docs site and `llms.txt`. See [`tools/mcp/README.md`](tools/mcp/README.md).
+
+---
+
 ## Build
 
 ```bash
