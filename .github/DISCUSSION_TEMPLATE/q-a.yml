@@ -1,0 +1,34 @@
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Asking how to do something with voidframe-ui? Great — fill this in so
+        people can help quickly. If you've found a clear bug, file a
+        [bug report](https://github.com/DaxAvalon/voidframe-ui/issues/new?template=bug_report.yml)
+        instead.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: What are you trying to do?
+      description: Describe the goal and what you've tried so far.
+    validations:
+      required: true
+
+  - type: textarea
+    id: code
+    attributes:
+      label: Relevant code
+      description: A snippet or a StackBlitz/CodeSandbox link makes this much easier to answer.
+      render: tsx
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: voidframe-ui version
+      placeholder: "1.3.0"
+    validations:
+      required: false
