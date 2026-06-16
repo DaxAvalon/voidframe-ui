@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Text } from "../src";
 import { Playground } from "../src/dev";
 import { playgroundScope } from "./scope";
+import { SandboxButtons } from "./sandbox/SandboxButtons";
 
 export interface Guide {
   id: string;
@@ -94,6 +95,7 @@ createRoot(document.getElementById("root")!).render(
     <Button variant="solid">Ship it</Button>
   </div>
 </Card>`}
+          actions={(code) => <SandboxButtons code={code} title="Hello, voidframe-ui" />}
         />
       </Section>
       <Section title="Next">
@@ -130,15 +132,20 @@ function ThemingGuide() {
       </Section>
       <Section title="Built-in themes">
         <Text>
-          Four bundled themes ship out of the box. Pick one via the{" "}
-          <code>theme</code> prop on the provider.
+          Six bundled themes ship out of the box. <code>soft</code> and{" "}
+          <code>soft-light</code> are the rounded, lower-contrast pair — they
+          set non-zero radius tokens, so corners round across the whole UI
+          while keeping the monospace identity. Pick one via the{" "}
+          <code>themeName</code> prop on the provider.
         </Text>
         <CodeBlock>{`import { VoidframeProvider } from "voidframe-ui";
 
-<VoidframeProvider theme="dark">      {/* default */}
-<VoidframeProvider theme="light">
-<VoidframeProvider theme="midnight">
-<VoidframeProvider theme="grey">`}</CodeBlock>
+<VoidframeProvider themeName="dark">      {/* default */}
+<VoidframeProvider themeName="light">
+<VoidframeProvider themeName="midnight">
+<VoidframeProvider themeName="grey">
+<VoidframeProvider themeName="soft">       {/* rounded dark */}
+<VoidframeProvider themeName="soft-light"> {/* rounded light */}`}</CodeBlock>
       </Section>
       <Section title="Overriding tokens">
         <Text>
@@ -363,6 +370,65 @@ const unsub = subscribeWarnings((entry) => {
   );
 }
 
+function TailwindGuide() {
+  return (
+    <>
+      <Section title="What the preset gives you">
+        <Text>
+          Voidframe ships a Tailwind preset that maps its{" "}
+          <code>--vf-*</code> design tokens onto Tailwind's theme scales. You
+          get utilities like <code>bg-vf-bg-1</code>,{" "}
+          <code>text-vf-text-0</code>, <code>border-vf-border-2</code>,{" "}
+          <code>p-vf-4</code>, and <code>font-vf-mono</code> — and because each
+          one resolves to a CSS custom property, they re-theme automatically
+          whenever <code>VoidframeProvider</code> swaps the active theme.
+        </Text>
+      </Section>
+      <Section title="Install">
+        <Text>
+          Add the preset to your Tailwind config. It only extends the theme, so
+          it composes with your existing config and other presets.
+        </Text>
+        <CodeBlock>{`// tailwind.config.js
+module.exports = {
+  presets: [require("voidframe-ui/tailwind")],
+  content: ["./src/**/*.{ts,tsx}"],
+};`}</CodeBlock>
+        <Text>
+          ESM configs work too:{" "}
+          <code>import vf from "voidframe-ui/tailwind"</code> then{" "}
+          <code>presets: [vf]</code>.
+        </Text>
+      </Section>
+      <Section title="Available utilities">
+        <CodeBlock>{`<div class="bg-vf-bg-1 text-vf-text-0 border border-vf-border-2 p-vf-4">
+  <h2 class="font-vf-mono text-vf-xl tracking-vf-heading">Status</h2>
+  <span class="text-vf-green bg-vf-green-10 px-vf-2">OK</span>
+</div>`}</CodeBlock>
+        <Text>
+          Scales: colors (<code>vf-bg-*</code>, <code>vf-text-*</code>,{" "}
+          <code>vf-border-*</code>, accents with <code>5/10/20/40/60</code>{" "}
+          opacity steps, and <code>vf-success|danger|warning|info</code>),
+          spacing (<code>vf-1</code>…<code>vf-12</code>), font family/size,
+          line-height, letter-spacing, border radius, border width, and{" "}
+          <code>vf-sm</code>…<code>vf-xxl</code> breakpoints.
+        </Text>
+      </Section>
+      <Section title="How re-theming works">
+        <Text>
+          The preset's color, spacing, and typography values are{" "}
+          <code>var(--vf-*)</code> references — not hard-coded hex. Mount{" "}
+          <code>VoidframeProvider</code> (or apply the theme's CSS variables)
+          and every Tailwind utility above follows the active theme with no
+          rebuild. Breakpoints are the one exception: CSS media queries can't
+          read custom properties, so <code>vf-*</code> screens are emitted as
+          literal pixels from the default theme.
+        </Text>
+      </Section>
+    </>
+  );
+}
+
 // ── Index ─────────────────────────────────────────────────────
 
 export const guides: Guide[] = [
@@ -395,5 +461,11 @@ export const guides: Guide[] = [
     title: "Dev tools",
     subtitle: "DevPanel, ErrorBoundary, render profiler, misuse warnings.",
     render: () => <DevToolsGuide />,
+  },
+  {
+    id: "tailwind",
+    title: "Tailwind preset",
+    subtitle: "Use voidframe's --vf-* tokens as Tailwind utilities.",
+    render: () => <TailwindGuide />,
   },
 ];

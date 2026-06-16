@@ -265,7 +265,7 @@ import { VoidframeProvider } from "voidframe-ui";
 
 ### Built-in themes
 
-Four themes ship out of the box: `darkTheme` (default), `lightTheme`, `midnightTheme` (deep-black OLED-friendly), and `greyTheme` (neutral mid-grey for print and projection). Pass any of them to `VoidframeProvider`'s `theme` prop or address them by name via `themeName="dark" | "light" | "midnight" | "grey" | "system"`.
+Six themes ship out of the box: `darkTheme` (default), `lightTheme`, `midnightTheme` (deep-black OLED-friendly), `greyTheme` (neutral mid-grey for print and projection), and the rounded pair `softTheme` / `softLightTheme` (lower-contrast surfaces with rounded corners — the deliberate opt-out of the brutalist zero-radius default). Pass any of them to `VoidframeProvider`'s `theme` prop or address them by name via `themeName="dark" | "light" | "midnight" | "grey" | "soft" | "soft-light" | "system"`.
 
 ```jsx
 import { VoidframeProvider } from "voidframe-ui";
@@ -381,6 +381,30 @@ function MyComponent() {
   return <div style={{ color: t.green, fontFamily: t.fontFamily }}>OK</div>;
 }
 ```
+
+### Tailwind preset
+
+If you use Tailwind, the bundled preset exposes every `--vf-*` token as a
+Tailwind utility. Values resolve to CSS custom properties, so utilities
+re-theme automatically when `VoidframeProvider` swaps the active theme.
+
+```js
+// tailwind.config.js
+module.exports = {
+  presets: [require("voidframe-ui/tailwind")],
+};
+```
+
+```html
+<div class="bg-vf-bg-1 text-vf-text-0 border border-vf-border-2 p-vf-4 font-vf-mono">
+  <span class="text-vf-green bg-vf-green-10 px-vf-2">OK</span>
+</div>
+```
+
+Scales: `vf-bg-*` / `vf-text-*` / `vf-border-*` colors, accents with
+`5/10/20/40/60` opacity steps, `vf-success|danger|warning|info`, spacing
+`vf-1`→`vf-12`, font family/size, line-height, letter-spacing, border radius,
+border width, and `vf-sm`→`vf-xxl` breakpoints.
 
 ---
 
@@ -805,7 +829,7 @@ Use `@axe-core/playwright` for per-route browser-level a11y checks. For visual r
 
 Voidframe is SSR-safe and carries `"use client"` directives on every stateful module, so it works out of the box with Next.js (App + Pages Router), Remix, Astro, Vite SSR, and Gatsby. A `renderToString` smoke test exercises a representative sample of every complexity tier on every commit.
 
-**Next.js (App Router):** wrap the root layout in a thin client wrapper — this keeps the rest of the layout server-rendered while carving out a single client boundary for `VoidframeProvider`.
+**Next.js (App Router):** scaffold a ready-made project with `npm create voidframe-app@latest my-app --template next`, or wire it by hand — wrap the root layout in a thin client wrapper, which keeps the rest of the layout server-rendered while carving out a single client boundary for `VoidframeProvider`.
 
 ```tsx
 // app/providers.tsx
@@ -1106,6 +1130,23 @@ docker compose up demo      # serves http://localhost:5173
 ```
 
 Demo entry: `demo/App.tsx`. Sections are defined as plain components and registered in a `SECTIONS` array — add your own by appending one.
+
+---
+
+## AI agents (MCP)
+
+Coding with an AI assistant? The **`voidframe-mcp`** [Model Context Protocol](https://modelcontextprotocol.io) server exposes the full component / hook / utility catalog — exact names, props, types, and signatures — so agents look APIs up instead of guessing.
+
+```jsonc
+// Claude Desktop, Cursor (.cursor/mcp.json), etc.
+{
+  "mcpServers": {
+    "voidframe": { "command": "npx", "args": ["-y", "voidframe-mcp"] }
+  }
+}
+```
+
+Tools: `list_components`, `get_component`, `list_hooks`, `get_hook`, `list_utils`, `get_util`, and a unified `search`. It's a zero-dependency stdio server over the same structured data behind the docs site and `llms.txt`. See [`tools/mcp/README.md`](tools/mcp/README.md).
 
 ---
 

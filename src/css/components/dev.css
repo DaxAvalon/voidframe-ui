@@ -24,6 +24,11 @@
   letter-spacing: 0.06em;
   color: var(--vf-text-0);
 }
+.vf-playground__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-1);
+}
 .vf-playground__reset {
   padding: var(--vf-sp-1) var(--vf-sp-2);
   background: transparent;

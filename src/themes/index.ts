@@ -11,8 +11,17 @@ export { darkTheme } from "./dark";
 export { lightTheme } from "./light";
 export { midnightTheme } from "./midnight";
 export { greyTheme } from "./grey";
+export { softTheme } from "./soft";
+export { softLightTheme } from "./soft-light";
 
-export const THEME_NAMES = ["dark", "light", "midnight", "grey"] as const;
+export const THEME_NAMES = [
+  "dark",
+  "light",
+  "midnight",
+  "grey",
+  "soft",
+  "soft-light",
+] as const;
 export type BuiltInThemeName = (typeof THEME_NAMES)[number];
 
 /** Emit `--vf-*` CSS custom properties from a partial or full token set. */
@@ -34,7 +43,6 @@ export function tokensToCssVars(
 
 const UNITLESS_KEYS = new Set<keyof VoidframeTokens>([
   "lineHeight",
-  "radius",
 ]);
 
 function camelToKebab(s: string): string {

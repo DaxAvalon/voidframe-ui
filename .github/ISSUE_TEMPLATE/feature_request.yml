@@ -1,0 +1,56 @@
+name: Feature request
+description: Suggest a component, prop, or capability for voidframe-ui.
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Open-ended ideas and "would it make sense to…" questions are often a
+        better fit for [Discussions](https://github.com/DaxAvalon/voidframe-ui/discussions).
+        Use this form when you have a concrete proposal.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Pre-flight checklist
+      options:
+        - label: I searched existing issues and discussions and this is not a duplicate.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / use case
+      description: What are you trying to build, and where does voidframe-ui fall short today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: >
+        The API you have in mind — component name, props, behaviour. A code
+        sketch of how you'd want to call it is ideal.
+      render: tsx
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Existing components or workarounds you tried, and why they fall short.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Fit with voidframe's design language
+      description: Voidframe is a dark, monochrome, terminal-brutalist system themed entirely through `--vf-*` tokens.
+      options:
+        - label: This proposal can be themed through the existing `--vf-*` token system (no hard-coded colors).
+          required: false
+        - label: I'm willing to help implement this with a PR.
+          required: false

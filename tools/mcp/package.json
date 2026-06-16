@@ -1,0 +1,33 @@
+{
+  "name": "voidframe-mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server exposing voidframe-ui's component, hook, and utility catalog to AI agents.",
+  "type": "module",
+  "bin": {
+    "voidframe-mcp": "./bin/voidframe-mcp.mjs"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "data",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "voidframe-ui",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "agent"
+  ],
+  "author": "DaxAvalon",
+  "license": "MIT",
+  "homepage": "https://daxavalon.github.io/voidframe-ui",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaxAvalon/voidframe-ui.git",
+    "directory": "tools/mcp"
+  }
+}

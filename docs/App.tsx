@@ -27,6 +27,8 @@ import { categorize, CATEGORIES, type Category } from "./taxonomy";
 import { patterns, type Pattern } from "./patterns";
 import { componentHooks, getComponentsForHook } from "./hookMap";
 import { usageSnippets, LIVE_NON_ELEMENTS } from "./usageSnippets";
+import { SandboxButtons } from "./sandbox/SandboxButtons";
+import AiConsole from "./showcase/AiConsole";
 
 // ── Types ────────────────────────────────────────────────────
 
@@ -250,6 +252,7 @@ function ComponentPage({ name, onNavigate }: { name: string; onNavigate?: (id: s
                 scope={playgroundScope}
                 paneHeight={260}
                 noInline={ex.noInline ?? /\brender\s*\(/.test(ex.code)}
+                actions={(code) => <SandboxButtons code={code} title={ex.title} />}
               />
             </section>
           ))
@@ -261,6 +264,7 @@ function ComponentPage({ name, onNavigate }: { name: string; onNavigate?: (id: s
             scope={playgroundScope}
             paneHeight={260}
             noInline={/\brender\s*\(/.test(autoCode)}
+            actions={(code) => <SandboxButtons code={code} title={name} />}
           />
         ) : (
           <Text size="sm" color="var(--vf-text-3)">
@@ -460,6 +464,7 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
           scope={playgroundScope}
           paneHeight={400}
           noInline={/\brender\s*\(/.test(pattern.code)}
+          actions={(code) => <SandboxButtons code={code} title={pattern.title} />}
         />
       </div>
     </div>
@@ -510,6 +515,162 @@ function A11yAuditPage() {
             ))}
           </tbody>
         </table>
+      </section>
+    </div>
+  );
+}
+
+// ── Trust / security posture page ────────────────────────────
+
+const CI_GATES: Array<{ label: string; detail: string }> = [
+  { label: "Typecheck", detail: "tsc across the whole tree, zero errors" },
+  { label: "Lint", detail: "voidframe component rules + CSS token discipline" },
+  { label: "Tests", detail: "full Vitest suite (jsdom) on every push & PR" },
+  { label: "Coverage", detail: "collected and tracked on main via Codecov" },
+  { label: "a11y", detail: "jest-axe assertions on a representative cross-section" },
+  { label: "SSR", detail: "render + hydration tests under Node, no DOM globals" },
+  { label: "Types", detail: "type-level tests (test/types) for public surface" },
+  { label: "Render audit", detail: "every docs playground evaluated through react-live" },
+  { label: "Bundle size", detail: "size-limit budgets enforced per entry point" },
+  { label: "Dist verify", detail: "all 23 entry points + .d.ts + CSS present in dist" },
+  { label: "Pack dry-run", detail: "npm pack --dry-run confirms the published file list" },
+];
+
+const BUNDLE_BUDGETS: Array<{ name: string; limit: string }> = [
+  { name: "Core (voidframe.es.js)", limit: "200 KB gz" },
+  { name: "Charts (charts.es.js)", limit: "42 KB gz" },
+  { name: "Core subpath (core.es.js)", limit: "25 KB gz" },
+  { name: "Primitives (primitives.es.js)", limit: "15 KB gz" },
+  { name: "Dev tools (dev.es.js)", limit: "10 KB gz" },
+  { name: "Stylesheet (voidframe.css)", limit: "50 KB gz" },
+];
+
+function TrustPage() {
+  return (
+    <div className="vf-docs__page">
+      <section className="vf-docs__block">
+        <Text>
+          Voidframe is built to be auditable. It ships with{" "}
+          <strong>zero runtime dependencies</strong> — every heavy capability
+          (charts, QR/barcode, flow diagrams, HTML sanitisation) is a peer
+          dependency you install and version yourself — and every release is
+          published from CI with cryptographic provenance. The claims below are
+          enforced by the pipeline on every commit, not aspirations.
+        </Text>
+        <div style={{ display: "flex", gap: 16, marginTop: 12, flexWrap: "wrap" }}>
+          <Stat label="Runtime deps" value="0" />
+          <Stat label="Tests" value="3,900+" />
+          <Stat label="Test files" value="330+" />
+          <Stat label="License" value="MIT" />
+        </div>
+      </section>
+
+      <hr className="vf-docs__divider" />
+
+      <section className="vf-docs__block">
+        <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
+          Supply-chain integrity
+        </Text>
+        <ul style={{ paddingLeft: 20, lineHeight: 1.8 }}>
+          <li>
+            <strong>No runtime dependency tree.</strong> The published package
+            has an empty <code>dependencies</code> map — nothing transitive to
+            compromise.
+          </li>
+          <li>
+            <strong>OIDC trusted publishing.</strong> Releases are published from
+            GitHub Actions with no long-lived <code>NPM_TOKEN</code>; npm issues
+            a short-lived token per run.
+          </li>
+          <li>
+            <strong>Provenance attestations.</strong> Each tarball is linked to
+            the exact workflow run and commit that built it.
+          </li>
+          <li>
+            <strong>Pinned actions.</strong> Every GitHub Action is pinned to a
+            full commit SHA, so a hijacked upstream tag can't alter the pipeline.
+          </li>
+          <li>
+            <strong>Audit gate.</strong> CI runs{" "}
+            <code>npm audit --omit=dev --audit-level=low</code> on runtime
+            dependencies and fails on any advisory.
+          </li>
+        </ul>
+        <Text size="sm" color="var(--vf-text-3)">
+          Verify any published release yourself:
+        </Text>
+        <CodeBlock
+          language="shell"
+          code={`npm view voidframe-ui dist.integrity   # subresource integrity hash
+npm audit signatures                   # verify provenance + signatures`}
+        />
+      </section>
+
+      <hr className="vf-docs__divider" />
+
+      <section className="vf-docs__block">
+        <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
+          CI gates (every push &amp; pull request)
+        </Text>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--vf-font-sm)" }}>
+          <tbody>
+            {CI_GATES.map((g) => (
+              <tr key={g.label} style={{ borderBottom: "1px solid var(--vf-border-0)" }}>
+                <td style={{ padding: "4px 8px", whiteSpace: "nowrap" }}>
+                  <Badge tone="success" size="sm">{g.label}</Badge>
+                </td>
+                <td style={{ padding: "4px 8px", color: "var(--vf-text-3)" }}>{g.detail}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <hr className="vf-docs__divider" />
+
+      <section className="vf-docs__block">
+        <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
+          Bundle-size budgets (gzipped, enforced)
+        </Text>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--vf-font-sm)" }}>
+          <tbody>
+            {BUNDLE_BUDGETS.map((b) => (
+              <tr key={b.name} style={{ borderBottom: "1px solid var(--vf-border-0)" }}>
+                <td style={{ padding: "4px 8px" }}>{b.name}</td>
+                <td style={{ padding: "4px 8px", textAlign: "end", whiteSpace: "nowrap" }}>
+                  <Badge size="sm" variant="outline">{b.limit}</Badge>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <Text size="sm" color="var(--vf-text-3)">
+          The library is side-effect free apart from its stylesheet
+          (<code>sideEffects: ["*.css"]</code>), so unused components are
+          tree-shaken out of your build.
+        </Text>
+      </section>
+
+      <hr className="vf-docs__divider" />
+
+      <section className="vf-docs__block">
+        <Text size="sm" upper spacing={2} color="var(--vf-text-2)">
+          Reporting a vulnerability
+        </Text>
+        <Text>
+          Found a security issue? Please report it privately through GitHub
+          Security Advisories rather than a public issue. Full policy, supported
+          versions, and response targets are in{" "}
+          <a
+            href="https://github.com/DaxAvalon/voidframe-ui/security/advisories/new"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: "var(--vf-text-0)" }}
+          >
+            SECURITY.md
+          </a>
+          .
+        </Text>
       </section>
     </div>
   );
@@ -646,6 +807,14 @@ const items: NavItem[] = [
     render: () => <OverviewPage />,
     searchText: "overview intro",
   },
+  {
+    id: "showcase-ai-console",
+    title: "AI Console",
+    section: "Showcase",
+    render: () => <AiConsole />,
+    searchText:
+      "showcase ai console agent demo landing chat trace tool call plan agentstep agenttrace",
+  },
   ...guides.map((g) => ({
     id: `guide-${g.id}`,
     title: g.title,
@@ -659,6 +828,14 @@ const items: NavItem[] = [
     section: "Guides",
     render: () => <A11yAuditPage />,
     searchText: "accessibility a11y audit wcag keyboard screen reader",
+  },
+  {
+    id: "security-trust",
+    title: "Security & Trust",
+    section: "Guides",
+    render: () => <TrustPage />,
+    searchText:
+      "security trust supply chain provenance oidc trusted publishing zero dependencies audit ci gates bundle size vulnerability disclosure",
   },
   {
     id: "migration-guide",
@@ -751,6 +928,7 @@ for (const c of compatDocs) {
 
 type SectionName =
   | "Overview"
+  | "Showcase"
   | "Guides"
   | "Patterns"
   | "Components"
@@ -768,6 +946,7 @@ interface GroupedSection {
 function groupItems(list: NavItem[]): GroupedSection[] {
   const sections: SectionName[] = [
     "Overview",
+    "Showcase",
     "Guides",
     "Patterns",
     "Components",

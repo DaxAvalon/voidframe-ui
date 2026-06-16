@@ -1,0 +1,25 @@
+labels: ["idea"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Floating an idea before it's a formal request? Perfect place for it.
+        Concrete, fully-specified proposals can also go straight to a
+        [feature request](https://github.com/DaxAvalon/voidframe-ui/issues/new?template=feature_request.yml).
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What would you like voidframe-ui to do, and who would it help?
+    validations:
+      required: true
+
+  - type: textarea
+    id: shape
+    attributes:
+      label: Rough shape (optional)
+      description: Any thoughts on the API, component name, or how it'd be themed through `--vf-*` tokens.
+      render: tsx
+    validations:
+      required: false

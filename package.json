@@ -120,10 +120,16 @@
       "require": "./dist/compat-shadcn.cjs.js"
     },
     "./theme-script.js": "./theme-script.js",
+    "./tailwind": {
+      "types": "./tailwind/preset.d.ts",
+      "import": "./tailwind/preset.mjs",
+      "require": "./tailwind/preset.cjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
+    "tailwind",
     "theme-script.js",
     "README.md",
     "LICENSE",

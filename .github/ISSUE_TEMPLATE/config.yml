@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Questions & ideas (Discussions)
+    url: https://github.com/DaxAvalon/voidframe-ui/discussions
+    about: Ask "how do I…", share what you built, or float an idea before filing a request.
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/DaxAvalon/voidframe-ui/security/advisories/new
+    about: Report security issues privately via a GitHub Security Advisory — never in a public issue.
+  - name: 📖 Documentation
+    url: https://daxavalon.github.io/voidframe-ui
+    about: Component reference, guides, and live playgrounds.
