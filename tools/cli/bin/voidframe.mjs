@@ -35,10 +35,19 @@ export function buildProgram({ exit = true } = {}) {
 
   program
     .command("init <directory>")
-    .description("Scaffold a new Vite + React project pre-wired with voidframe.")
+    .description("Scaffold a new React project pre-wired with voidframe.")
     .option("--force", "Overwrite the target directory if it already exists.")
+    .option(
+      "--template <name>",
+      "Project template: app (Vite SPA) or next (Next.js App Router).",
+      "app"
+    )
     .action(async (dir, opts) => {
-      const code = await initCommand({ dir, force: Boolean(opts.force) });
+      const code = await initCommand({
+        dir,
+        force: Boolean(opts.force),
+        template: opts.template,
+      });
       done(code);
     });
 

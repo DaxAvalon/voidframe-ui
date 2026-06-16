@@ -829,7 +829,7 @@ Use `@axe-core/playwright` for per-route browser-level a11y checks. For visual r
 
 Voidframe is SSR-safe and carries `"use client"` directives on every stateful module, so it works out of the box with Next.js (App + Pages Router), Remix, Astro, Vite SSR, and Gatsby. A `renderToString` smoke test exercises a representative sample of every complexity tier on every commit.
 
-**Next.js (App Router):** wrap the root layout in a thin client wrapper — this keeps the rest of the layout server-rendered while carving out a single client boundary for `VoidframeProvider`.
+**Next.js (App Router):** scaffold a ready-made project with `npm create voidframe-app@latest my-app --template next`, or wire it by hand — wrap the root layout in a thin client wrapper, which keeps the rest of the layout server-rendered while carving out a single client boundary for `VoidframeProvider`.
 
 ```tsx
 // app/providers.tsx

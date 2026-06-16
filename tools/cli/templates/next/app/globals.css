@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  /* Default dark surface so the first paint matches before hydration.
+     Switch to a light theme? Update this to match your default theme. */
+  background: #050505;
+}
