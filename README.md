@@ -265,7 +265,7 @@ import { VoidframeProvider } from "voidframe-ui";
 
 ### Built-in themes
 
-Four themes ship out of the box: `darkTheme` (default), `lightTheme`, `midnightTheme` (deep-black OLED-friendly), and `greyTheme` (neutral mid-grey for print and projection). Pass any of them to `VoidframeProvider`'s `theme` prop or address them by name via `themeName="dark" | "light" | "midnight" | "grey" | "system"`.
+Six themes ship out of the box: `darkTheme` (default), `lightTheme`, `midnightTheme` (deep-black OLED-friendly), `greyTheme` (neutral mid-grey for print and projection), and the rounded pair `softTheme` / `softLightTheme` (lower-contrast surfaces with rounded corners — the deliberate opt-out of the brutalist zero-radius default). Pass any of them to `VoidframeProvider`'s `theme` prop or address them by name via `themeName="dark" | "light" | "midnight" | "grey" | "soft" | "soft-light" | "system"`.
 
 ```jsx
 import { VoidframeProvider } from "voidframe-ui";

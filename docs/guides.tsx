@@ -132,15 +132,20 @@ function ThemingGuide() {
       </Section>
       <Section title="Built-in themes">
         <Text>
-          Four bundled themes ship out of the box. Pick one via the{" "}
-          <code>theme</code> prop on the provider.
+          Six bundled themes ship out of the box. <code>soft</code> and{" "}
+          <code>soft-light</code> are the rounded, lower-contrast pair — they
+          set non-zero radius tokens, so corners round across the whole UI
+          while keeping the monospace identity. Pick one via the{" "}
+          <code>themeName</code> prop on the provider.
         </Text>
         <CodeBlock>{`import { VoidframeProvider } from "voidframe-ui";
 
-<VoidframeProvider theme="dark">      {/* default */}
-<VoidframeProvider theme="light">
-<VoidframeProvider theme="midnight">
-<VoidframeProvider theme="grey">`}</CodeBlock>
+<VoidframeProvider themeName="dark">      {/* default */}
+<VoidframeProvider themeName="light">
+<VoidframeProvider themeName="midnight">
+<VoidframeProvider themeName="grey">
+<VoidframeProvider themeName="soft">       {/* rounded dark */}
+<VoidframeProvider themeName="soft-light"> {/* rounded light */}`}</CodeBlock>
       </Section>
       <Section title="Overriding tokens">
         <Text>
