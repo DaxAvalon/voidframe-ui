@@ -27,6 +27,7 @@ import { categorize, CATEGORIES, type Category } from "./taxonomy";
 import { patterns, type Pattern } from "./patterns";
 import { componentHooks, getComponentsForHook } from "./hookMap";
 import { usageSnippets, LIVE_NON_ELEMENTS } from "./usageSnippets";
+import { SandboxButtons } from "./sandbox/SandboxButtons";
 
 // ── Types ────────────────────────────────────────────────────
 
@@ -250,6 +251,7 @@ function ComponentPage({ name, onNavigate }: { name: string; onNavigate?: (id: s
                 scope={playgroundScope}
                 paneHeight={260}
                 noInline={ex.noInline ?? /\brender\s*\(/.test(ex.code)}
+                actions={(code) => <SandboxButtons code={code} title={ex.title} />}
               />
             </section>
           ))
@@ -261,6 +263,7 @@ function ComponentPage({ name, onNavigate }: { name: string; onNavigate?: (id: s
             scope={playgroundScope}
             paneHeight={260}
             noInline={/\brender\s*\(/.test(autoCode)}
+            actions={(code) => <SandboxButtons code={code} title={name} />}
           />
         ) : (
           <Text size="sm" color="var(--vf-text-3)">
@@ -460,6 +463,7 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
           scope={playgroundScope}
           paneHeight={400}
           noInline={/\brender\s*\(/.test(pattern.code)}
+          actions={(code) => <SandboxButtons code={code} title={pattern.title} />}
         />
       </div>
     </div>

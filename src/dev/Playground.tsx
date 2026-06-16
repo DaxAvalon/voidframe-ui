@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, type CSSProperties } from "react";
+import { useCallback, useState, type CSSProperties, type ReactNode } from "react";
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
 import { cx } from "../utils/cx";
 
@@ -17,6 +17,12 @@ export interface PlaygroundProps {
   title?: string;
   /** When true, the snippet is treated as an expression; otherwise it's a full block ending with `render(...)`. */
   noInline?: boolean;
+  /**
+   * Optional toolbar slot rendered in the header, to the left of Reset.
+   * Receives the current (possibly edited) source so callers can act on
+   * exactly what the user sees — e.g. "open in sandbox" links.
+   */
+  actions?: (code: string) => ReactNode;
 }
 
 export function Playground({
@@ -26,6 +32,7 @@ export function Playground({
   paneHeight = 220,
   title = "Playground",
   noInline = false,
+  actions,
 }: PlaygroundProps) {
   const [code, setCode] = useState(initialCode);
   const reset = useCallback(() => setCode(initialCode), [initialCode]);
@@ -38,13 +45,16 @@ export function Playground({
     <div className={cx("vf-playground", className)}>
       <div className="vf-playground__head">
         <span className="vf-playground__title">{title}</span>
-        <button
-          type="button"
-          className="vf-playground__reset"
-          onClick={reset}
-        >
-          Reset
-        </button>
+        <div className="vf-playground__actions">
+          {actions?.(code)}
+          <button
+            type="button"
+            className="vf-playground__reset"
+            onClick={reset}
+          >
+            Reset
+          </button>
+        </div>
       </div>
       <LiveProvider code={code} scope={scope} noInline={noInline}>
         <div className="vf-playground__body">

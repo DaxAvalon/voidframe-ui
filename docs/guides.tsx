@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Text } from "../src";
 import { Playground } from "../src/dev";
 import { playgroundScope } from "./scope";
+import { SandboxButtons } from "./sandbox/SandboxButtons";
 
 export interface Guide {
   id: string;
@@ -94,6 +95,7 @@ createRoot(document.getElementById("root")!).render(
     <Button variant="solid">Ship it</Button>
   </div>
 </Card>`}
+          actions={(code) => <SandboxButtons code={code} title="Hello, voidframe-ui" />}
         />
       </Section>
       <Section title="Next">
