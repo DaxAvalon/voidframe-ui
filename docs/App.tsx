@@ -28,6 +28,7 @@ import { patterns, type Pattern } from "./patterns";
 import { componentHooks, getComponentsForHook } from "./hookMap";
 import { usageSnippets, LIVE_NON_ELEMENTS } from "./usageSnippets";
 import { SandboxButtons } from "./sandbox/SandboxButtons";
+import AiConsole from "./showcase/AiConsole";
 
 // ── Types ────────────────────────────────────────────────────
 
@@ -806,6 +807,14 @@ const items: NavItem[] = [
     render: () => <OverviewPage />,
     searchText: "overview intro",
   },
+  {
+    id: "showcase-ai-console",
+    title: "AI Console",
+    section: "Showcase",
+    render: () => <AiConsole />,
+    searchText:
+      "showcase ai console agent demo landing chat trace tool call plan agentstep agenttrace",
+  },
   ...guides.map((g) => ({
     id: `guide-${g.id}`,
     title: g.title,
@@ -919,6 +928,7 @@ for (const c of compatDocs) {
 
 type SectionName =
   | "Overview"
+  | "Showcase"
   | "Guides"
   | "Patterns"
   | "Components"
@@ -936,6 +946,7 @@ interface GroupedSection {
 function groupItems(list: NavItem[]): GroupedSection[] {
   const sections: SectionName[] = [
     "Overview",
+    "Showcase",
     "Guides",
     "Patterns",
     "Components",
