@@ -110,7 +110,51 @@ for (const file of walk(cssRoot)) {
   }
 }
 
-if (violations.length > 0 || undefinedRefs.length > 0) {
+// ── z-index token discipline ─────────────────────────────────
+// The stacking scale lives in tokens.css; component CSS must reference
+// it bare. Fallbacks are a second source of truth that drifts (we found
+// var(--vf-z-modal, 1000) against a real value of 1300, and two tokens
+// that existed ONLY as fallbacks) — and the undefined-token check above
+// can only see bare references.
+
+const zFallbacks = [];
+for (const file of walk(cssRoot)) {
+  const rel = relative(repoRoot, file);
+  if (rel.endsWith("tokens.css")) continue;
+  const lines = readFileSync(file, "utf8").split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    if (/var\(--vf-z-[\w-]+\s*,/.test(lines[i])) {
+      zFallbacks.push(`${rel}:${i + 1}: ${lines[i].trim()}`);
+    }
+  }
+}
+
+// ── Raw font-size px ─────────────────────────────────────────
+// Raw px font sizes ignore theme-level font overrides (and read as
+// design drift next to the --vf-font-* scale). Genuinely non-typographic
+// sizes (decorative glyphs) annotate with vf-allow-raw-size: <reason>.
+
+const ALLOW_SIZE = /vf-allow-raw-size\s*:/;
+const rawFontSizes = [];
+for (const file of walk(cssRoot)) {
+  const rel = relative(repoRoot, file);
+  if (rel.endsWith("tokens.css")) continue;
+  const lines = readFileSync(file, "utf8").split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (ALLOW_SIZE.test(line) || (i > 0 && ALLOW_SIZE.test(lines[i - 1]))) continue;
+    if (/font-size:\s*\d+px/.test(line)) {
+      rawFontSizes.push(`${rel}:${i + 1}: ${line.trim()}`);
+    }
+  }
+}
+
+if (
+  violations.length > 0 ||
+  undefinedRefs.length > 0 ||
+  zFallbacks.length > 0 ||
+  rawFontSizes.length > 0
+) {
   if (violations.length > 0) {
     console.error(
       `[check-css-colors] ${violations.length} raw color(s) outside the token system:\n`
@@ -129,8 +173,22 @@ if (violations.length > 0 || undefinedRefs.length > 0) {
     );
     for (const v of undefinedRefs) console.error("  " + v);
   }
+  if (zFallbacks.length > 0) {
+    console.error(
+      `\n[check-css-colors] ${zFallbacks.length} z-index token reference(s) with fallbacks` +
+        ` — reference the scale bare, e.g. var(--vf-z-modal):\n`
+    );
+    for (const v of zFallbacks) console.error("  " + v);
+  }
+  if (rawFontSizes.length > 0) {
+    console.error(
+      `\n[check-css-colors] ${rawFontSizes.length} raw px font-size(s) outside the type scale` +
+        ` — use var(--vf-font-*), or annotate /* vf-allow-raw-size: <reason> */:\n`
+    );
+    for (const v of rawFontSizes) console.error("  " + v);
+  }
   process.exit(1);
 }
 console.log(
-  "[check-css-colors] OK — no raw colors, no undefined token references"
+  "[check-css-colors] OK — no raw colors, no undefined tokens, no z-index fallbacks, no raw font sizes"
 );
