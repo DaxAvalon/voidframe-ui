@@ -415,6 +415,163 @@
   --vf-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.55);
 }
 
+/* Values mirror src/themes/soft.ts — keep in sync (asserted by
+   src/themes/__tests__/themeCascade.test.ts). */
+[data-vf-theme="soft"] {
+  --vf-bg-0: #121214;
+  --vf-bg-1: #17171a;
+  --vf-bg-2: #1c1c20;
+  --vf-bg-3: #222227;
+  --vf-bg-4: #29292f;
+  --vf-bg-5: #313138;
+  --vf-border-0: #222227;
+  --vf-border-1: #2b2b31;
+  --vf-border-2: #38383f;
+  --vf-border-3: #47474f;
+  --vf-border-4: #5a5a63;
+  --vf-text-0: #f3f3f6;
+  --vf-text-1: #cdcdd4;
+  --vf-text-2: #9696a0;
+  --vf-text-3: #6a6a73;
+  --vf-text-4: #45454c;
+  --vf-text-5: #2b2b31;
+  --vf-green: #6ee7a8;
+  --vf-red: #fb7185;
+  --vf-amber: #f1c96b;
+  --vf-blue: #8fb8f0;
+  --vf-purple: #c4a3ff;
+  --vf-cyan: #7fe8f3;
+  --vf-rose: #ff95b6;
+  --vf-green-5: #6ee7a80d;
+  --vf-green-10: #6ee7a81a;
+  --vf-green-20: #6ee7a833;
+  --vf-green-40: #6ee7a866;
+  --vf-green-60: #6ee7a899;
+  --vf-red-5: #fb71850d;
+  --vf-red-10: #fb71851a;
+  --vf-red-20: #fb718533;
+  --vf-red-40: #fb718566;
+  --vf-red-60: #fb718599;
+  --vf-amber-5: #f1c96b0d;
+  --vf-amber-10: #f1c96b1a;
+  --vf-amber-20: #f1c96b33;
+  --vf-amber-40: #f1c96b66;
+  --vf-amber-60: #f1c96b99;
+  --vf-blue-5: #8fb8f00d;
+  --vf-blue-10: #8fb8f01a;
+  --vf-blue-20: #8fb8f033;
+  --vf-blue-40: #8fb8f066;
+  --vf-blue-60: #8fb8f099;
+  --vf-purple-5: #c4a3ff0d;
+  --vf-purple-10: #c4a3ff1a;
+  --vf-purple-20: #c4a3ff33;
+  --vf-purple-40: #c4a3ff66;
+  --vf-purple-60: #c4a3ff99;
+  --vf-cyan-5: #7fe8f30d;
+  --vf-cyan-10: #7fe8f31a;
+  --vf-cyan-20: #7fe8f333;
+  --vf-cyan-40: #7fe8f366;
+  --vf-cyan-60: #7fe8f399;
+  --vf-rose-5: #ff95b60d;
+  --vf-rose-10: #ff95b61a;
+  --vf-rose-20: #ff95b633;
+  --vf-rose-40: #ff95b666;
+  --vf-rose-60: #ff95b699;
+  --vf-success: var(--vf-green);
+  --vf-danger: var(--vf-red);
+  --vf-warning: var(--vf-amber);
+  --vf-info: var(--vf-blue);
+  --vf-accent: var(--vf-blue);
+  /* The soft signature: rounded corners. */
+  --vf-radius: 6px;
+  --vf-radius-1: 4px;
+  --vf-radius-2: 10px;
+  --vf-scrim: rgba(0, 0, 0, 0.55);
+  --vf-scrim-strong: rgba(0, 0, 0, 0.82);
+  --vf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --vf-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.45);
+  --vf-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.55);
+}
+
+/* Values mirror src/themes/soft-light.ts — keep in sync (asserted by
+   src/themes/__tests__/themeCascade.test.ts). */
+[data-vf-theme="soft-light"] {
+  --vf-bg-0: #faf9f6;
+  --vf-bg-1: #f1f0ec;
+  --vf-bg-2: #e9e8e3;
+  --vf-bg-3: #e0dfd9;
+  --vf-bg-4: #d3d2ca;
+  --vf-bg-5: #c4c3ba;
+  --vf-border-0: #e0dfd9;
+  --vf-border-1: #cfcec6;
+  --vf-border-2: #b3b2a9;
+  --vf-border-3: #8d8c83;
+  --vf-border-4: #66655d;
+  --vf-text-0: #1c1b18;
+  --vf-text-1: #3a3934;
+  --vf-text-2: #5c5b54;
+  --vf-text-3: #7c7b73;
+  --vf-text-4: #9b9a91;
+  --vf-text-5: #b9b8af;
+  --vf-green: #0f7f38;
+  --vf-red: #b91c1c;
+  --vf-amber: #854d0e;
+  --vf-blue: #1d4ed8;
+  --vf-purple: #6d28d9;
+  --vf-cyan: #0e7490;
+  --vf-rose: #be123c;
+  --vf-green-5: #0f7f380d;
+  --vf-green-10: #0f7f381a;
+  --vf-green-20: #0f7f3833;
+  --vf-green-40: #0f7f3866;
+  --vf-green-60: #0f7f3899;
+  --vf-red-5: #b91c1c0d;
+  --vf-red-10: #b91c1c1a;
+  --vf-red-20: #b91c1c33;
+  --vf-red-40: #b91c1c66;
+  --vf-red-60: #b91c1c99;
+  --vf-amber-5: #854d0e0d;
+  --vf-amber-10: #854d0e1a;
+  --vf-amber-20: #854d0e33;
+  --vf-amber-40: #854d0e66;
+  --vf-amber-60: #854d0e99;
+  --vf-blue-5: #1d4ed80d;
+  --vf-blue-10: #1d4ed81a;
+  --vf-blue-20: #1d4ed833;
+  --vf-blue-40: #1d4ed866;
+  --vf-blue-60: #1d4ed899;
+  --vf-purple-5: #6d28d90d;
+  --vf-purple-10: #6d28d91a;
+  --vf-purple-20: #6d28d933;
+  --vf-purple-40: #6d28d966;
+  --vf-purple-60: #6d28d999;
+  --vf-cyan-5: #0e74900d;
+  --vf-cyan-10: #0e74901a;
+  --vf-cyan-20: #0e749033;
+  --vf-cyan-40: #0e749066;
+  --vf-cyan-60: #0e749099;
+  --vf-rose-5: #be123c0d;
+  --vf-rose-10: #be123c1a;
+  --vf-rose-20: #be123c33;
+  --vf-rose-40: #be123c66;
+  --vf-rose-60: #be123c99;
+  --vf-success: var(--vf-green);
+  --vf-danger: var(--vf-red);
+  --vf-warning: var(--vf-amber);
+  --vf-info: var(--vf-blue);
+  --vf-accent: var(--vf-blue);
+  /* The soft signature: rounded corners. */
+  --vf-radius: 6px;
+  --vf-radius-1: 4px;
+  --vf-radius-2: 10px;
+  /* Light themes use a dark scrim so modal backdrops dim pale content. */
+  --vf-scrim: rgba(0, 0, 0, 0.5);
+  --vf-scrim-strong: rgba(0, 0, 0, 0.8);
+  --vf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --vf-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.16);
+  --vf-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
 /* ── Density modes ──────────────────────────────────────── */
 
 [data-vf-density="compact"] {
