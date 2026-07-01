@@ -1224,6 +1224,38 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Placeholder badge shown while the encoder peer dep is missing/loading.
+ * Optical surface: stays white-on-black in every theme, like the code
+ * frame it overlays. */
+.vf-qrcode__placeholder-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.vf-qrcode__placeholder-label > span,
+.vf-barcode__placeholder-label {
+  background: var(--vf-static-white);
+  color: var(--vf-static-black);
+  border: 1px solid var(--vf-static-black);
+  padding: var(--vf-sp-2) var(--vf-sp-4);
+  font-family: var(--vf-font-mono, monospace);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+  line-height: 1.2;
+}
+.vf-barcode__placeholder-label {
+  position: absolute;
+  top: 50%;
+  left: 50%; /* centering transform — direction-neutral */
+  transform: translate(-50%, -50%);
+  font-size: var(--vf-font-sm);
+  pointer-events: none;
+}
+
 /* ── Color tools ───────────────────────────────────────────── */
 
 .vf-color-swatch {

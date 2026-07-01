@@ -153,31 +153,10 @@ export const QRCode = forwardRef<HTMLDivElement, QRCodeProps>(function QRCode(
         />
       ))}
       {isPlaceholder && (
-        <div
-          className="vf-qrcode__placeholder-label"
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            pointerEvents: "none",
-          }}
-        >
-          <span
-            style={{
-              background: "#ffffff",
-              color: "#000000",
-              padding: "4px 8px",
-              fontFamily: "monospace",
-              fontSize: Math.max(9, Math.floor(size / 16)),
-              fontWeight: 700,
-              border: "1px solid #000",
-              letterSpacing: 1,
-              textAlign: "center",
-              lineHeight: 1.2,
-            }}
-          >
+        <div className="vf-qrcode__placeholder-label">
+          {/* Static styling lives in specialty.css (optical tokens);
+              only the size-derived font scales inline. */}
+          <span style={{ fontSize: Math.max(9, Math.floor(size / 16)) }}>
             PLACEHOLDER
             <br />
             {peerMissing ? "install qrcode-generator" : "loading…"}
@@ -415,26 +394,7 @@ export const Barcode = forwardRef<HTMLDivElement, BarcodeProps>(function Barcode
           </div>
           {showText && <span className="vf-barcode__text">{value}</span>}
           {isPlaceholder && (
-            <div
-              className="vf-barcode__placeholder-label"
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                background: "#ffffff",
-                color: "#000000",
-                padding: "4px 8px",
-                fontFamily: "monospace",
-                fontSize: 11,
-                fontWeight: 700,
-                border: "1px solid #000",
-                letterSpacing: 1,
-                pointerEvents: "none",
-                textAlign: "center",
-                lineHeight: 1.2,
-              }}
-            >
+            <div className="vf-barcode__placeholder-label">
               PLACEHOLDER
               <br />
               {peerMissing ? "install jsbarcode" : "loading…"}
