@@ -101,12 +101,12 @@
   background: var(--vf-text-4);
   position: absolute;
   top: 1px;
-  left: 1px;
+  inset-inline-start: 1px;
   transition: var(--vf-transition);
 }
 .vf-toggle[aria-checked="true"] .vf-toggle__thumb {
   background: var(--vf-accent, var(--vf-green));
-  left: 15px;
+  inset-inline-start: 15px;
 }
 
 /* ── FormErrorSummary ────────────────────────────────────── */

@@ -47,7 +47,7 @@
 .vf-command-input__suggestion {
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   pointer-events: none;
   color: transparent;
   white-space: pre;

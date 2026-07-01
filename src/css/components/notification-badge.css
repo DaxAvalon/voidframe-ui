@@ -8,7 +8,7 @@
 .vf-notification-badge__indicator {
   position: absolute;
   top: 0;
-  right: 0;
+  inset-inline-end: 0;
   transform: translate(50%, -50%);
   min-width: 18px;
   height: 18px;
@@ -52,6 +52,13 @@
   width: 6px;
   height: 6px;
   padding-inline: 0;
+}
+
+/* inset-inline-end flips the corner in RTL; the outward translate must
+ * mirror with it or the pip lands inside the wrapped element. Declared
+ * before the standalone override so `transform: none` still wins there. */
+[dir="rtl"] .vf-notification-badge__indicator {
+  transform: translate(-50%, -50%);
 }
 
 /* standalone — no children, badge renders inline without absolute positioning */

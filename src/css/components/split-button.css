@@ -156,8 +156,8 @@
 .vf-split-button__menu {
   position: absolute;
   top: 100%;
-  left: 0;
-  z-index: 100;
+  inset-inline-start: 0;
+  z-index: var(--vf-z-dropdown);
   min-width: 100%;
   margin-top: var(--vf-sp-1);
   padding: var(--vf-sp-1) 0;

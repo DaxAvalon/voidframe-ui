@@ -60,8 +60,8 @@
 .vf-cascader__dropdown {
   position: absolute;
   top: 100%;
-  left: 0;
-  z-index: 100;
+  inset-inline-start: 0;
+  z-index: var(--vf-z-dropdown);
   display: flex;
   margin-top: var(--vf-sp-1);
   background: var(--vf-bg-1);

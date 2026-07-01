@@ -79,7 +79,7 @@
 .vf-org-chart__controls {
   position: absolute;
   top: var(--vf-sp-2);
-  right: var(--vf-sp-2);
+  inset-inline-end: var(--vf-sp-2);
   display: flex;
   gap: var(--vf-sp-1);
   z-index: 1;

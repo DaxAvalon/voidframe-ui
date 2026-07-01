@@ -63,7 +63,7 @@
 .vf-image-diff__label {
   position: absolute;
   bottom: var(--vf-sp-2);
-  left: var(--vf-sp-2);
+  inset-inline-start: var(--vf-sp-2);
   padding: var(--vf-sp-1) var(--vf-sp-2);
   background: var(--vf-bg-0);
   color: var(--vf-text-1);
