@@ -144,12 +144,19 @@
   /* geometry */
   --vf-radius: 0;
 
-  /* z-index */
+  /* z-index — the full stacking scale. Component CSS must reference these
+   * bare (no fallback): fallbacks are a second source of truth that drifts,
+   * and the CSS lint only catches undefined tokens on bare var() refs. */
   --vf-z-base: 0;
   --vf-z-raised: 1;
   --vf-z-overlay-sub: 20;
   --vf-z-dropdown: 1000;
   --vf-z-sticky: 1100;
+  /* Floating action buttons: above sticky chrome, below any modal. */
+  --vf-z-fab: 1200;
+  /* Global backdrop scrim (Dialog/Drawer): dims sticky chrome, sits
+   * directly under the modal surface it belongs to. */
+  --vf-z-overlay: 1250;
   --vf-z-modal: 1300;
   --vf-z-popover: 1400;
   --vf-z-tooltip: 1500;

@@ -8,7 +8,7 @@
 .vf-dialog {
   position: fixed; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  z-index: var(--vf-z-modal, 1000);
+  z-index: var(--vf-z-modal);
   font-family: var(--vf-font-family);
 }
 .vf-dialog__backdrop {
@@ -50,7 +50,7 @@
 /* ── Drawer V2 ─────────────────────────────────────────────── */
 .vf-drawer-v2 {
   position: fixed; inset: 0;
-  display: flex; z-index: var(--vf-z-modal, 1000);
+  display: flex; z-index: var(--vf-z-modal);
 }
 .vf-drawer-v2--right { justify-content: flex-end; }
 .vf-drawer-v2--left { justify-content: flex-start; }
@@ -87,7 +87,7 @@
 }
 
 /* ── Sheet ────────────────────────────────────────────────── */
-.vf-sheet { position: fixed; inset: 0; z-index: var(--vf-z-modal, 1000); }
+.vf-sheet { position: fixed; inset: 0; z-index: var(--vf-z-modal); }
 .vf-sheet__backdrop {
   position: absolute; inset: 0;
   background: var(--vf-scrim);
@@ -114,7 +114,7 @@
 .vf-backdrop {
   position: fixed; inset: 0;
   background: var(--vf-scrim);
-  z-index: var(--vf-z-overlay, 100);
+  z-index: var(--vf-z-overlay);
 }
 
 /* ── Popover V2 ──────────────────────────────────────────── */
@@ -122,7 +122,7 @@
   background: var(--vf-bg-1); border: 1px solid var(--vf-border-2);
   padding: var(--vf-sp-3);
   font-family: var(--vf-font-family);
-  z-index: var(--vf-z-popover, 200);
+  z-index: var(--vf-z-popover);
 }
 .vf-popover-v2__arrow {
   position: absolute; width: 8px; height: 8px;
@@ -144,7 +144,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
   border: 1px solid var(--vf-border-2);
-  z-index: var(--vf-z-tooltip, 300);
+  z-index: var(--vf-z-tooltip);
   pointer-events: none;
   max-width: 320px;
 }
@@ -154,7 +154,7 @@
   background: var(--vf-bg-1);
   border: 1px solid var(--vf-border-2);
   padding: var(--vf-sp-3);
-  z-index: var(--vf-z-popover, 200);
+  z-index: var(--vf-z-popover);
   font-family: var(--vf-font-family);
   min-width: 200px;
   max-width: 360px;
@@ -165,7 +165,7 @@
   position: fixed; inset: 0;
   display: flex; align-items: flex-start; justify-content: center;
   padding: 10vh var(--vf-sp-8) var(--vf-sp-8);
-  z-index: var(--vf-z-modal, 1000);
+  z-index: var(--vf-z-modal);
 }
 .vf-cmd-overlay__backdrop {
   position: absolute; inset: 0;
@@ -226,7 +226,7 @@
 /* ── Spotlight + CoachMark ───────────────────────────────── */
 .vf-spotlight {
   position: fixed; inset: 0;
-  z-index: var(--vf-z-modal, 1000);
+  z-index: var(--vf-z-modal);
   font-family: var(--vf-font-family);
 }
 .vf-spotlight__mask {
@@ -256,7 +256,7 @@
   font-family: var(--vf-font-family); font-size: var(--vf-font-sm);
   display: inline-flex; gap: var(--vf-sp-2); align-items: flex-start;
   max-width: 240px;
-  z-index: var(--vf-z-tooltip, 300);
+  z-index: var(--vf-z-tooltip);
 }
 .vf-coachmark__dismiss {
   background: transparent; border: none; color: var(--vf-text-3);
@@ -267,7 +267,7 @@
 .vf-toaster {
   position: fixed;
   display: flex; flex-direction: column;
-  z-index: var(--vf-z-toast, 1100);
+  z-index: var(--vf-z-toast);
   pointer-events: none;
   font-family: var(--vf-font-family);
   padding: var(--vf-sp-6);
@@ -355,7 +355,7 @@
   overflow-y: auto;
   background: var(--vf-bg-1);
   border: 1px solid var(--vf-border-2);
-  z-index: var(--vf-z-popover, 200);
+  z-index: var(--vf-z-popover);
 }
 /* Flip to right-anchored if the trigger is in the right third of the viewport. */
 .vf-notif-center--right .vf-notif-center__panel {
@@ -460,7 +460,7 @@
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
   background: var(--vf-scrim);
-  z-index: var(--vf-z-overlay, 100);
+  z-index: var(--vf-z-overlay-sub);
   font-family: var(--vf-font-family);
 }
 .vf-loading-overlay--blur { backdrop-filter: blur(2px); }
@@ -549,7 +549,7 @@
   padding: var(--vf-sp-2) var(--vf-sp-4);
   background: var(--vf-amber); color: var(--vf-bg-0);
   font-family: var(--vf-font-family); font-size: var(--vf-font-sm);
-  z-index: var(--vf-z-sticky, 50);
+  z-index: var(--vf-z-sticky);
 }
 .vf-offline-banner__dismiss {
   background: transparent; border: none; color: var(--vf-bg-0);

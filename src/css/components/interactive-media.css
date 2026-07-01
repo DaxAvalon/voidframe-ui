@@ -64,7 +64,7 @@
 
 /* ── Lightbox / ImageGallery ─────────────────────────────── */
 .vf-lightbox {
-  position: fixed; inset: 0; z-index: var(--vf-z-modal, 1000);
+  position: fixed; inset: 0; z-index: var(--vf-z-modal);
   display: flex; align-items: center; justify-content: center;
   font-family: var(--vf-font-family);
 }

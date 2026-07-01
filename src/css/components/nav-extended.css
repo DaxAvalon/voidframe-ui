@@ -144,7 +144,7 @@
   border-bottom: 1px solid var(--vf-border-1);
   font-family: var(--vf-font-family);
 }
-.vf-navbar--sticky { position: sticky; top: 0; z-index: var(--vf-z-sticky, 10); }
+.vf-navbar--sticky { position: sticky; top: 0; z-index: var(--vf-z-sticky); }
 .vf-navbar__brand {
   color: var(--vf-text-0);
   font-size: var(--vf-font-sm);
@@ -310,7 +310,7 @@
   display: none;
   align-items: center;
   justify-content: center;
-  z-index: var(--vf-z-overlay, 100);
+  z-index: var(--vf-z-fab);
   transition: var(--vf-transition);
 }
 .vf-back-to-top--bottom-right { right: 16px; bottom: 16px; }

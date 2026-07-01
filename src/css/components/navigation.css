@@ -361,7 +361,7 @@
   align-items: center;
   justify-content: center;
   background: color-mix(in srgb, var(--vf-bg-0) 70%, transparent);
-  z-index: var(--vf-z-modal, 1000);
+  z-index: var(--vf-z-modal);
   font-family: var(--vf-font-family);
 }
 .vf-shortcut-guide__panel {

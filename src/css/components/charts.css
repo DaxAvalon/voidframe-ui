@@ -116,7 +116,7 @@ button.vf-chart-legend__item:focus-visible {
   font-size: var(--vf-font-xs);
   color: var(--vf-text-0);
   pointer-events: none;
-  z-index: var(--vf-z-tooltip, 300);
+  z-index: var(--vf-z-tooltip);
   max-width: 320px;
   line-height: 1.4;
 }

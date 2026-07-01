@@ -335,7 +335,7 @@
   font-size: var(--vf-font-xs);
   white-space: nowrap;
   pointer-events: none;
-  z-index: var(--vf-z-popover, 100);
+  z-index: var(--vf-z-popover);
 }
 .vf-chart {
   display: flex; flex-direction: column; gap: var(--vf-sp-3);
