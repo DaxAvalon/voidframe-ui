@@ -66,7 +66,7 @@
   padding: var(--vf-sp-1) var(--vf-sp-2);
   background: var(--vf-bg-0);
   color: var(--vf-text-2);
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
   font-weight: 600;
   letter-spacing: var(--vf-heading-tracking, 0.08em);
   border-bottom: 1px solid var(--vf-border-0);
@@ -171,7 +171,7 @@
 .vf-docs__nav-subhead {
   padding: var(--vf-sp-1) var(--vf-sp-2);
   color: var(--vf-text-3);
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
   letter-spacing: var(--vf-heading-tracking, 0.08em);
   text-transform: var(--vf-heading-case, uppercase);
   background: none;
@@ -338,7 +338,7 @@
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.06em;
   font-weight: 600;
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
   background: var(--vf-bg-2);
   border-bottom-color: var(--vf-border-1);
 }
@@ -601,7 +601,7 @@
   font-weight: 600;
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.04em;
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
 }
 .vf-dev-panel__list {
   list-style: none;
@@ -619,7 +619,7 @@
   flex-shrink: 0;
   text-transform: var(--vf-heading-case, uppercase);
   font-weight: 700;
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
   letter-spacing: 0.06em;
   padding: 0 var(--vf-sp-1);
 }
@@ -655,7 +655,7 @@
 .vf-dev-panel__about dt {
   color: var(--vf-text-2);
   text-transform: var(--vf-heading-case, uppercase);
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
   letter-spacing: 0.06em;
 }
 .vf-dev-panel__about dd {

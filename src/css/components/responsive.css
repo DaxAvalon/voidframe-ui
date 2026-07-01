@@ -199,7 +199,7 @@
   }
   .vf-table--adaptive .vf-table__cell-label {
     display: inline-block;
-    font-size: 9px;
+    font-size: var(--vf-font-xs);
     text-transform: var(--vf-heading-case, uppercase);
     letter-spacing: 0.05em;
     color: var(--vf-text-4);

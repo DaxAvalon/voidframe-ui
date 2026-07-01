@@ -164,7 +164,7 @@
   padding: var(--vf-sp-12) var(--vf-sp-8);
 }
 .vf-empty-state__icon {
-  font-size: 28px;
+  font-size: 28px; /* vf-allow-raw-size: icon glyph sizing, not typography */
   color: var(--vf-text-4);
   margin-bottom: var(--vf-sp-5);
 }
@@ -213,7 +213,7 @@
 }
 .vf-list__marker {
   color: var(--vf-text-4);
-  font-size: 6px;
+  font-size: 6px; /* vf-allow-raw-size: decorative glyph, below the type scale */
   flex-shrink: 0;
   margin-top: var(--vf-sp-2);
 }

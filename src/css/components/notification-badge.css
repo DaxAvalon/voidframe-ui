@@ -43,8 +43,8 @@
 .vf-notification-badge--sm .vf-notification-badge__indicator {
   min-width: 14px;
   height: 14px;
-  font-size: 10px;
-  padding-inline: 2px;
+  font-size: var(--vf-font-sm);
+  padding-inline: var(--vf-sp-1);
 }
 
 .vf-notification-badge--sm .vf-notification-badge__indicator--dot {

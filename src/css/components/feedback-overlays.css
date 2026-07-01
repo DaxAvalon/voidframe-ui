@@ -337,7 +337,7 @@
   inset-inline-end: -5px;
   background: var(--vf-accent, var(--vf-danger));
   color: var(--vf-bg-0);
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   line-height: 1;
   padding: var(--vf-sp-1) var(--vf-sp-2);
   border: 1px solid var(--vf-bg-0);

@@ -111,7 +111,7 @@
 }
 
 .vf-org-chart--sm .vf-org-chart__node-description {
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
 }
 
 .vf-org-chart--md .vf-org-chart__node-label {

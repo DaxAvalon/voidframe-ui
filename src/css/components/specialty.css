@@ -60,7 +60,7 @@
 }
 
 .vf-theme-selector__label-text {
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
@@ -164,7 +164,7 @@
 .vf-commit-graph__branch {
   padding: 0 var(--vf-sp-2);
   border: 1px solid var(--vf-border-2);
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-2);
@@ -236,7 +236,7 @@
 }
 
 .vf-network-inspector__table th {
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
@@ -310,7 +310,7 @@
 }
 
 .vf-network-inspector__section-title {
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
@@ -374,7 +374,7 @@
 .vf-debug-tree__label {
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
 
@@ -543,7 +543,7 @@
 }
 
 .vf-shortcut-editor__label {
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
@@ -831,7 +831,7 @@
 }
 
 .vf-big-number__label {
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
@@ -884,7 +884,7 @@
 }
 
 .vf-tz-select__label {
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   color: var(--vf-text-4);
@@ -929,7 +929,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
   cursor: help;
 }
 
@@ -1016,7 +1016,7 @@
 .vf-changelog__title {
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
 
@@ -1078,7 +1078,7 @@
 }
 
 .vf-changelog__kind {
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
   letter-spacing: 0.05em;
   padding: 1px var(--vf-sp-2);

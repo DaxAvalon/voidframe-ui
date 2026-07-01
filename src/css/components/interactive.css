@@ -112,7 +112,7 @@
   color: var(--vf-accent, var(--vf-red));
   display: inline-block;
   transition: transform 0.2s;
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
 }
 .vf-collapsible__trigger[aria-expanded="true"] .vf-collapsible__caret {
   transform: rotate(180deg);
@@ -184,7 +184,7 @@
   color: var(--vf-toast-color, var(--vf-info));
 }
 .vf-toast__dot {
-  font-size: 6px;
+  font-size: 6px; /* vf-allow-raw-size: decorative glyph, below the type scale */
 }
 .vf-toast__msg {
   flex: 1;
