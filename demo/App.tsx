@@ -702,7 +702,7 @@ function ButtonsSection() {
           <Button>Default</Button>
           <Button variant="solid">Solid</Button>
           <Button variant="ghost">Ghost</Button>
-          <Button variant="subtle" accent="#4ade80">Accent</Button>
+          <Button variant="subtle" accent="var(--vf-green)">Accent</Button>
           <Button disabled>Disabled</Button>
         </Flex>
       </Block>
@@ -3338,10 +3338,10 @@ function IconsButtonSection() {
           <IconButton aria-label="Edit" variant="ghost">
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="Save" variant="solid" accent="#4ade80">
+          <IconButton aria-label="Save" variant="solid" accent="var(--vf-green)">
             <SaveIcon />
           </IconButton>
-          <IconButton aria-label="Refresh" variant="subtle" accent="#60a5fa">
+          <IconButton aria-label="Refresh" variant="subtle" accent="var(--vf-blue)">
             <RefreshIcon />
           </IconButton>
           <IconButton aria-label="Disabled" disabled>
