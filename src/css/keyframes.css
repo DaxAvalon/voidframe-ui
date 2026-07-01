@@ -86,8 +86,15 @@
   to { transform: translateX(-100%); }
 }
 
+/* Reduced-motion kill switch. Mirrors the token contract in tokens.css
+   ("Reduced motion" section): the OS preference zeroes every duration
+   UNLESS the app opts out with data-vf-motion="never" on :root (where
+   VoidframeProvider writes the attribute). The force-reduce counterpart
+   ([data-vf-motion="always"]) lives in tokens.css next to the token rule.
+   Keep the scoping of the two files in sync. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  :root:not([data-vf-motion="never"]) :is(*, *::before, *::after),
+  :root:not([data-vf-motion="never"]) {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
