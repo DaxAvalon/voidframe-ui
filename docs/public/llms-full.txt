@@ -4,7 +4,7 @@
 
 > 500+ components, 76 hooks, 100 utilities
 
-Generated: 2026-06-12
+Generated: 2026-07-01
 
 ---
 
@@ -2204,9 +2204,9 @@ Horizontal meter for a 0-1 confidence score with qualitative bands (e.g. low / m
 | label | string | No | — |  |
 | kind | enum | No | bar |  |
 | zones | ConfidenceZone[] | No | [
-  { min: 0, max: 0.3, label: "Low", color: "var(--vf-red, #ef4444)" },
-  { min: 0.3, max: 0.7, label: "Medium", color: "var(--vf-amber, #f59e0b)" },
-  { min: 0.7, max: 1.0, label: "High", color: "var(--vf-green, #22c55e)" },
+  { min: 0, max: 0.3, label: "Low", color: "var(--vf-red)" },
+  { min: 0.3, max: 0.7, label: "Medium", color: "var(--vf-amber)" },
+  { min: 0.7, max: 1.0, label: "High", color: "var(--vf-green)" },
 ] |  |
 | showLabel | boolean | No | true |  |
 | showValue | boolean | No | true |  |
@@ -7749,7 +7749,7 @@ Subtree-level theme override. Wrap any subtree to apply a different theme withou
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
 | theme | VoidframeTokens \| Partial<VoidframeTokens> | No | — |  |
-| themeName | "dark" \| "light" \| "midnight" \| "grey" \| (string & {}) | No | — |  |
+| themeName | "dark" \| "light" \| "midnight" \| "grey" \| "soft" \| "soft-light" \| (string & {}) | No | — |  |
 | density | enum | No | — |  |
 | contrast | enum | No | — |  |
 | direction | enum | No | — |  |

@@ -2,27 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://daxavalon.github.io/voidframe-ui/</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://daxavalon.github.io/voidframe-ui/llms.txt</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-01</lastmod>
   </url>
   <url>
     <loc>https://daxavalon.github.io/voidframe-ui/llms-full.txt</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-01</lastmod>
   </url>
   <url>
     <loc>https://daxavalon.github.io/voidframe-ui/api/components.json</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-01</lastmod>
   </url>
   <url>
     <loc>https://daxavalon.github.io/voidframe-ui/api/hooks.json</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-01</lastmod>
   </url>
   <url>
     <loc>https://daxavalon.github.io/voidframe-ui/api/utils.json</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-01</lastmod>
   </url>
 </urlset>
