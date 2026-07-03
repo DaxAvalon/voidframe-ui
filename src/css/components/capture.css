@@ -148,7 +148,7 @@
   transition: var(--vf-transition);
 }
 .vf-file-upload__surface:focus-visible {
-  outline: 1px solid var(--vf-border-3);
+  outline: var(--vf-focus-ring-accent);
   outline-offset: 2px;
 }
 .vf-file-upload__surface--dragging {

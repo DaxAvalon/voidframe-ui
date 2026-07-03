@@ -89,7 +89,7 @@ button.vf-chart-legend__item:hover .vf-chart-legend__label {
   color: var(--vf-text-0);
 }
 button.vf-chart-legend__item:focus-visible {
-  outline: 1px solid var(--vf-accent, var(--vf-text-2));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: 2px;
 }
 .vf-chart-legend__item--disabled {

@@ -156,7 +156,7 @@
 }
 .vf-tree-select__node:focus-visible {
   background: var(--vf-bg-4);
-  outline: 1px solid var(--vf-border-3);
+  outline: var(--vf-focus-ring-accent);
   outline-offset: -1px;
 }
 .vf-tree-select__node--selected {
@@ -203,7 +203,7 @@
   outline: none;
 }
 .vf-rating-input__stars:focus-visible {
-  outline: 1px solid var(--vf-border-3);
+  outline: var(--vf-focus-ring-accent);
   outline-offset: 4px;
 }
 .vf-rating-input__star {

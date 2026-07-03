@@ -326,7 +326,7 @@
 }
 
 .vf-reasoning-trace__trigger:focus-visible {
-  outline: 2px solid var(--vf-accent, var(--vf-text-2));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: -2px;
 }
 
@@ -388,7 +388,7 @@
 }
 
 .vf-message-actions__btn:focus-visible {
-  outline: 2px solid var(--vf-accent, var(--vf-text-2));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: 1px;
 }
 
@@ -752,7 +752,7 @@
 }
 
 .vf-tool-call__header:focus-visible {
-  outline: 2px solid var(--vf-accent, var(--vf-text-2));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: -2px;
 }
 
@@ -874,7 +874,7 @@
 }
 
 .vf-agent-step__header:focus-visible {
-  outline: 2px solid var(--vf-accent, var(--vf-text-2));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: -2px;
 }
 
@@ -1288,7 +1288,7 @@
 }
 
 .vf-composer__input:focus-visible {
-  outline: 2px solid var(--vf-accent, var(--vf-text-2));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: -2px;
 }
 

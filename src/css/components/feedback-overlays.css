@@ -325,7 +325,7 @@
   border-color: var(--vf-border-3);
 }
 .vf-notif-center__trigger:focus-visible {
-  outline: 2px solid var(--vf-accent, var(--vf-text-2));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: 1px;
 }
 .vf-notif-center__icon {

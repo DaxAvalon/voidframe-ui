@@ -51,7 +51,7 @@
 }
 
 .vf-token-viz__token--selected {
-  outline: 2px solid var(--vf-accent, var(--vf-text-0));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: -1px;
 }
 

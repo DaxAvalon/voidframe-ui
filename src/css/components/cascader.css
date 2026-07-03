@@ -100,7 +100,7 @@
   cursor: not-allowed;
 }
 .vf-cascader__option--focused {
-  outline: 2px solid var(--vf-accent, var(--vf-text-3));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: -2px;
 }
 

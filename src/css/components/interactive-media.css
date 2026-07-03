@@ -151,7 +151,7 @@
 }
 .vf-accordion__trigger:focus-visible {
   background: var(--vf-bg-4);
-  outline: 1px solid var(--vf-border-3); outline-offset: -1px;
+  outline: var(--vf-focus-ring-accent); outline-offset: -2px;
 }
 .vf-accordion__trigger:hover { background: var(--vf-bg-2); }
 .vf-accordion__trigger--open { background: var(--vf-bg-3); }
@@ -278,7 +278,7 @@
   font-family: var(--vf-font-family);
   outline: none;
 }
-.vf-media:focus-visible { outline: 1px solid var(--vf-border-3); outline-offset: 2px; }
+.vf-media:focus-visible { outline: var(--vf-focus-ring-accent); outline-offset: 2px; }
 .vf-media__el { width: 100%; display: block; }
 .vf-media__controls {
   display: flex; align-items: center; gap: var(--vf-sp-2);
