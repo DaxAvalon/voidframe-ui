@@ -490,9 +490,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
         <div className="vf-progress__head">
           {label && <Label>{label}</Label>}
           {showValue && (
-            <Label style={{ color: "var(--vf-accent, var(--vf-green))" }}>
-              {Math.round(pct)}%
-            </Label>
+            <Label className="vf-progress__value">{Math.round(pct)}%</Label>
           )}
         </div>
       )}

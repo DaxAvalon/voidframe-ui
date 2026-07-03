@@ -77,6 +77,10 @@
   display: flex;
   justify-content: space-between;
 }
+.vf-progress__value {
+  color: var(--vf-accent);
+  font-variant-numeric: tabular-nums;
+}
 .vf-progress__track {
   height: var(--vf-progress-height, 6px);
   background: var(--vf-bg-3);

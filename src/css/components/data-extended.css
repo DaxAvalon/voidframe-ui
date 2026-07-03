@@ -154,8 +154,10 @@
   gap: var(--vf-sp-3);
 }
 .vf-skeleton__line {
-  background: var(--vf-bg-4);
-  animation: vf-pulse 1.5s ease-in-out infinite;
+  /* One loading language: the shimmer sweep (see skeleton-composites). */
+  background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
+  background-size: 200% 100%;
+  animation: vf-shimmer 1.2s infinite;
 }
 
 /* EmptyState */

@@ -29,12 +29,13 @@ export interface AttachmentProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+// Monochrome glyphs only - color emoji break the monochrome identity.
 const KIND_ICON: Record<AttachmentKind, string> = {
-  image: "🖼",
-  video: "▶",
-  audio: "♪",
-  file: "▤",
-  pdf: "📄",
+  image: "\u25A6",
+  video: "\u25B6\uFE0E",
+  audio: "\u266A",
+  file: "\u25A4",
+  pdf: "\u25A4",
   code: "<>",
 };
 

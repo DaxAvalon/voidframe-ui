@@ -294,11 +294,6 @@
   animation: vf-shimmer 1.4s infinite linear;
 }
 
-@keyframes vf-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
 .vf-thinking-indicator__duration {
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);

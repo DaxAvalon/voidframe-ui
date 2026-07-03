@@ -21,14 +21,17 @@ export interface ResultProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+// Monochrome glyphs only - color-emoji presentations (the old \u26D4 /
+// \uD83D\uDD0D / \u2620) break the monochrome identity. \uFE0E pins the
+// warning/info marks to text presentation on emoji-happy platforms.
 const defaultIcons: Record<ResultStatus, string> = {
   success: "\u2713",
   error: "\u2717",
-  warning: "\u26A0",
-  info: "\u2139",
-  "403": "\u26D4",
-  "404": "\uD83D\uDD0D",
-  "500": "\u2620",
+  warning: "\u26A0\uFE0E",
+  info: "\u2139\uFE0E",
+  "403": "\u2298",
+  "404": "\u2315",
+  "500": "\u2A2F",
 };
 
 const ResultImpl = forwardRef<HTMLDivElement, ResultProps>(function Result(

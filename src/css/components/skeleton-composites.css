@@ -20,7 +20,7 @@
 
 .vf-skeleton-text__line {
   width: 100%;
-  border-radius: 2px;
+  border-radius: var(--vf-radius-1);
   background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
   background-size: 200% 100%;
   animation: vf-shimmer 1.2s infinite;
@@ -86,7 +86,7 @@
 .vf-skeleton-card__line {
   height: 14px;
   width: 100%;
-  border-radius: 2px;
+  border-radius: var(--vf-radius-1);
   background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
   background-size: 200% 100%;
   animation: vf-shimmer 1.2s infinite;
@@ -116,7 +116,7 @@
 
 .vf-skeleton-table__header-cell {
   height: 16px;
-  border-radius: 2px;
+  border-radius: var(--vf-radius-1);
   background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
   background-size: 200% 100%;
   animation: vf-shimmer 1.2s infinite;
@@ -125,7 +125,7 @@
 
 .vf-skeleton-table__cell {
   height: 14px;
-  border-radius: 2px;
+  border-radius: var(--vf-radius-1);
   background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
   background-size: 200% 100%;
   animation: vf-shimmer 1.2s infinite;
@@ -146,7 +146,7 @@
 .vf-skeleton-form__label {
   height: 12px;
   width: 30%;
-  border-radius: 2px;
+  border-radius: var(--vf-radius-1);
   background: linear-gradient(90deg, var(--vf-bg-4) 25%, var(--vf-bg-3) 50%, var(--vf-bg-4) 75%);
   background-size: 200% 100%;
   animation: vf-shimmer 1.2s infinite;

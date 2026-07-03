@@ -194,6 +194,7 @@
   background: var(--vf-bg-1);
 }
 .vf-appshell__header {
+  grid-area: header;
   display: flex;
   align-items: center;
   gap: var(--vf-sp-3);
@@ -216,20 +217,34 @@
   background: var(--vf-bg-4);
 }
 .vf-appshell__sidebar {
+  grid-area: sidebar;
+  position: relative;
   border-inline-end: 1px solid var(--vf-border-1);
   background: var(--vf-bg-2);
-  overflow: auto;
+  overflow-y: auto;
+}
+.vf-appshell__sidebar-resizer {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: ew-resize;
+  user-select: none;
 }
 .vf-appshell__main {
+  grid-area: main;
   padding: var(--vf-sp-5);
-  overflow: auto;
+  overflow-y: auto;
 }
 .vf-appshell__rightpanel {
+  grid-area: rightpanel;
   border-inline-start: 1px solid var(--vf-border-1);
   background: var(--vf-bg-2);
-  overflow: auto;
+  overflow-y: auto;
 }
 .vf-appshell__footer {
+  grid-area: footer;
   border-top: 1px solid var(--vf-border-1);
   background: var(--vf-bg-2);
   padding: var(--vf-sp-2) var(--vf-sp-4);

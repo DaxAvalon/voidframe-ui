@@ -169,10 +169,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         {...props}
       >
         {header && (
-          <div
-            className="vf-appshell__header"
-            style={{ gridArea: "header" }}
-          >
+          <div className="vf-appshell__header">
             {sidebarCollapsible && sidebar && (
               <button
                 type="button"
@@ -188,10 +185,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
           </div>
         )}
         {sidebar && !collapsed && !isMobile && (
-          <aside
-            className="vf-appshell__sidebar"
-            style={{ gridArea: "sidebar", position: "relative", overflowY: "auto" }}
-          >
+          <aside className="vf-appshell__sidebar">
             {sidebar}
             {sidebarResizable && (
               <div
@@ -200,15 +194,6 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
                 aria-orientation="vertical"
                 aria-label="Resize sidebar"
                 onMouseDown={onResizerMouseDown}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  width: 4,
-                  cursor: "ew-resize",
-                  userSelect: "none",
-                }}
               />
             )}
           </aside>
@@ -225,25 +210,16 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
             </aside>
           </>
         )}
-        <main
-          className="vf-appshell__main"
-          style={{ gridArea: "main", overflowY: "auto" }}
-        >
+        <main className="vf-appshell__main">
           {children}
         </main>
         {rightPanel && (
-          <aside
-            className="vf-appshell__rightpanel"
-            style={{ gridArea: "rightpanel", overflowY: "auto" }}
-          >
+          <aside className="vf-appshell__rightpanel">
             {rightPanel}
           </aside>
         )}
         {footer && (
-          <footer
-            className="vf-appshell__footer"
-            style={{ gridArea: "footer" }}
-          >
+          <footer className="vf-appshell__footer">
             {footer}
           </footer>
         )}
