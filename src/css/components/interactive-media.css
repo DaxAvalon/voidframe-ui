@@ -32,7 +32,7 @@
 .vf-carousel__prev { inset-inline-start: 6px; }
 .vf-carousel__next { inset-inline-end: 6px; }
 .vf-carousel__prev:disabled,
-.vf-carousel__next:disabled { opacity: 0.4; cursor: not-allowed; }
+.vf-carousel__next:disabled { opacity: var(--vf-disabled-opacity); cursor: not-allowed; }
 .vf-carousel__dots {
   display: flex;
   justify-content: center;
@@ -95,7 +95,7 @@
   cursor: pointer; font-size: var(--vf-font-lg);
 }
 .vf-lightbox__prev:disabled,
-.vf-lightbox__next:disabled { opacity: 0.4; cursor: not-allowed; }
+.vf-lightbox__next:disabled { opacity: var(--vf-disabled-opacity); cursor: not-allowed; }
 .vf-lightbox__stage {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
@@ -138,7 +138,8 @@
   border: 1px solid var(--vf-border-1);
 }
 .vf-accordion__item + .vf-accordion__item { border-top: 1px solid var(--vf-border-1); }
-.vf-accordion__item--disabled { opacity: 0.5; }
+.vf-accordion__item--disabled { opacity: var(--vf-disabled-opacity);
+  cursor: not-allowed; }
 .vf-accordion__trigger {
   width: 100%;
   display: flex; align-items: center; justify-content: space-between;

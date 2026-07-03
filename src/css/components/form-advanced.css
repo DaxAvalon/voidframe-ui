@@ -60,7 +60,8 @@
   gap: var(--vf-sp-5);
 }
 .vf-fieldset:disabled {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
+  cursor: not-allowed;
   pointer-events: none;
 }
 .vf-legend {
@@ -79,7 +80,7 @@
   border-color: var(--vf-danger);
 }
 .vf-field[data-disabled="true"] {
-  opacity: 0.6;
+  opacity: var(--vf-disabled-opacity);
   pointer-events: none;
 }
 
@@ -123,7 +124,7 @@
   color: var(--vf-text-0);
 }
 .vf-segmented__item:disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 .vf-segmented__icon {
@@ -157,7 +158,7 @@
   color: var(--vf-text-1);
 }
 .vf-password-input__toggle:disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -182,7 +183,8 @@
   border-color: var(--vf-border-3);
 }
 .vf-pin-input__slot:disabled {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
+  cursor: not-allowed;
 }
 
 /* ── TagInput ────────────────────────────────────────────────── */
@@ -202,7 +204,7 @@
   border-color: var(--vf-border-3);
 }
 .vf-tag-input[data-disabled="true"] {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
   pointer-events: none;
 }
 .vf-tag-input__chip {

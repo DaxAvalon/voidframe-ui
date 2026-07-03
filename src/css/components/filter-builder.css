@@ -90,6 +90,6 @@
 
 .vf-filter-builder__add:disabled,
 .vf-filter-builder__clear:disabled {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }

@@ -63,7 +63,8 @@
 /* ── State modifiers ────────────────────────────────────── */
 
 .vf-inline-edit--disabled {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
+  cursor: not-allowed;
   pointer-events: none;
 }
 

@@ -33,7 +33,7 @@
   text-align: start;
 }
 .vf-cascader__trigger:disabled {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 .vf-cascader__trigger:hover:not(:disabled) {
@@ -96,7 +96,7 @@
   color: var(--vf-text-0);
 }
 .vf-cascader__option--disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 .vf-cascader__option--focused {

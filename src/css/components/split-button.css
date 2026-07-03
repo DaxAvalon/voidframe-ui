@@ -135,7 +135,7 @@
 
 .vf-split-button__primary[data-disabled="true"],
 .vf-split-button__caret[data-disabled="true"] {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -205,7 +205,7 @@
 }
 
 .vf-split-button__menu-item--disabled {
-  opacity: 0.35;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
   pointer-events: none;
 }

@@ -85,7 +85,7 @@
 
 .vf-button:disabled,
 .vf-button[data-disabled="true"] {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 

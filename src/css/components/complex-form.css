@@ -224,7 +224,7 @@
   cursor: default;
 }
 .vf-rating-input--disabled .vf-rating-input__star {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 .vf-rating-input__glyph { display: inline-block; }

@@ -78,7 +78,7 @@
 }
 
 .vf-icon-button[disabled] {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 

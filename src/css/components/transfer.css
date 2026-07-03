@@ -75,7 +75,7 @@
 }
 
 .vf-transfer__item--disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -139,7 +139,7 @@
 }
 
 .vf-transfer__action-btn:disabled {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -178,6 +178,6 @@
 /* ── Disabled state ───────────────────────────────────────────── */
 
 .vf-transfer--disabled {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
   pointer-events: none;
 }

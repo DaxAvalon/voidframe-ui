@@ -572,7 +572,7 @@
   background: var(--vf-bg-4);
 }
 .vf-dev-panel__action:disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 .vf-dev-panel__empty {

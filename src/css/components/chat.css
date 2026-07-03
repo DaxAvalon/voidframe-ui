@@ -393,7 +393,7 @@
 }
 
 .vf-message-actions__btn[disabled] {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -1264,7 +1264,8 @@
 }
 
 .vf-composer--disabled {
-  opacity: 0.6;
+  opacity: var(--vf-disabled-opacity);
+  cursor: not-allowed;
 }
 
 .vf-composer__toolbar {
@@ -1321,7 +1322,7 @@
 }
 
 .vf-composer__submit[disabled] {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 

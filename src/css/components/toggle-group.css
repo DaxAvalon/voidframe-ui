@@ -105,12 +105,12 @@
 /* ── Disabled ── */
 
 .vf-toggle-group__item:disabled {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
 .vf-toggle-group[data-disabled="true"] .vf-toggle-group__item {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 

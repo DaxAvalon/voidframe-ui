@@ -416,7 +416,7 @@
 }
 
 .vf-kv-editor__row--disabled {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
 }
 
 .vf-kv-editor__enabled {

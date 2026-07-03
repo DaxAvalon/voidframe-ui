@@ -93,7 +93,8 @@ button.vf-chart-legend__item:focus-visible {
   outline-offset: 2px;
 }
 .vf-chart-legend__item--disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
+  cursor: not-allowed;
   text-decoration: line-through;
 }
 

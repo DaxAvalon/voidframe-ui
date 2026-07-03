@@ -10,7 +10,7 @@
 
 .vf-checkbox[data-disabled="true"],
 .vf-radio[data-disabled="true"] {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 

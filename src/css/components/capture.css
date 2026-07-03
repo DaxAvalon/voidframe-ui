@@ -55,7 +55,7 @@
 }
 .vf-signature__frame[data-disabled] .vf-signature__canvas {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: var(--vf-disabled-opacity);
 }
 
 /* ── ImageCropper ──────────────────────────────────────────── */
@@ -157,7 +157,7 @@
 }
 .vf-file-upload__surface--disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: var(--vf-disabled-opacity);
 }
 .vf-file-upload__cta {
   color: var(--vf-text-0);

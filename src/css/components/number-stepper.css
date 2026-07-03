@@ -41,7 +41,7 @@
 
 .vf-number-stepper__decrement:disabled,
 .vf-number-stepper__increment:disabled {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -110,7 +110,7 @@ input.vf-number-stepper__value:focus-visible {
 /* ── Disabled state ─────────────────────────────────────────── */
 
 .vf-number-stepper--disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 .vf-number-stepper--disabled .vf-number-stepper__value {

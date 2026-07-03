@@ -116,6 +116,7 @@
 /* ── Disabled ────────────────────────────────────────────────── */
 
 .vf-command-input--disabled {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
+  cursor: not-allowed;
   pointer-events: none;
 }

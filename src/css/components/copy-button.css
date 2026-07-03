@@ -70,7 +70,7 @@
 
 /* disabled */
 .vf-copy-button[data-disabled="true"] {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
