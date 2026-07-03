@@ -26,7 +26,6 @@
   color: var(--vf-text-3);
   cursor: pointer;
   text-decoration: none;
-  letter-spacing: 0.5px;
   background: transparent;
   border: none;
   padding: 0;
@@ -253,7 +252,6 @@
   gap: var(--vf-sp-4);
   font-size: var(--vf-font-sm);
   font-family: var(--vf-font-family);
-  letter-spacing: 0.5px;
   text-decoration: none;
 }
 .vf-nav-item__content { flex: 1; min-width: 0; }
@@ -298,7 +296,7 @@
 .vf-nav-group__caret {
   color: var(--vf-text-4);
   font-size: var(--vf-font-xxs);
-  transition: 0.2s;
+  transition: var(--vf-duration-slow) var(--vf-easing-standard);
 }
 .vf-nav-group__head {
   background: transparent;

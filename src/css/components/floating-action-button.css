@@ -40,7 +40,7 @@
   color: var(--vf-text-1);
   cursor: pointer;
   box-shadow: var(--vf-shadow-md);
-  transition: background 150ms ease, box-shadow 150ms ease;
+  transition: background var(--vf-duration-base) var(--vf-easing-standard);
 }
 
 .vf-fab__button:hover {
@@ -137,7 +137,7 @@
   color: var(--vf-text-1);
   cursor: pointer;
   box-shadow: var(--vf-shadow-xs);
-  transition: background 150ms ease;
+  transition: background var(--vf-duration-base) var(--vf-easing-standard);
 }
 
 .vf-fab__action-button:hover {

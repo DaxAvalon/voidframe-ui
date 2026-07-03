@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--vf-font-family);
-  letter-spacing: 1px;
+  letter-spacing: var(--vf-letter-spacing);
   overflow: hidden;
   flex-shrink: 0;
   background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 13%, transparent);
@@ -173,7 +173,7 @@
   font-size: var(--vf-font-lg);
   font-family: var(--vf-font-family);
   margin-bottom: var(--vf-sp-3);
-  letter-spacing: 1px;
+  letter-spacing: var(--vf-letter-spacing);
 }
 .vf-empty-state__desc {
   color: var(--vf-text-4);

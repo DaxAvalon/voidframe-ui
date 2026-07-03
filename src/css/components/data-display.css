@@ -109,7 +109,7 @@
   cursor: col-resize;
   user-select: none;
   background: transparent;
-  transition: background 0.15s ease;
+  transition: background var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-datagrid__header-cell {
   position: relative;

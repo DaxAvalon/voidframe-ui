@@ -20,7 +20,7 @@
   font-size: var(--vf-font-sm);
   color: var(--vf-text-2);
   border-inline-end: 1px solid var(--vf-border-1);
-  transition: background 0.12s ease, color 0.12s ease;
+  transition: background var(--vf-duration-fast) var(--vf-easing-standard), color var(--vf-duration-fast) var(--vf-easing-standard);
 }
 
 .vf-theme-selector--sm .vf-theme-selector__option {
@@ -62,7 +62,7 @@
 .vf-theme-selector__label-text {
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-4);
 }
 
@@ -166,7 +166,7 @@
   border: 1px solid var(--vf-border-2);
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-2);
 }
 
@@ -238,7 +238,7 @@
 .vf-network-inspector__table th {
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-4);
   background: var(--vf-bg-2);
 }
@@ -312,7 +312,7 @@
 .vf-network-inspector__section-title {
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-4);
 }
 
@@ -373,7 +373,7 @@
 
 .vf-debug-tree__label {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -545,7 +545,7 @@
 .vf-shortcut-editor__label {
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-4);
 }
 
@@ -833,7 +833,7 @@
 .vf-big-number__label {
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-4);
 }
 
@@ -886,7 +886,7 @@
 .vf-tz-select__label {
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-4);
 }
 
@@ -949,7 +949,7 @@
   font-size: var(--vf-font-xs);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.12s ease;
+  transition: opacity var(--vf-duration-fast) var(--vf-easing-standard);
   z-index: var(--vf-z-overlay-sub);
   white-space: normal;
 }
@@ -1015,7 +1015,7 @@
 
 .vf-changelog__title {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -1080,7 +1080,7 @@
 .vf-changelog__kind {
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   padding: 1px var(--vf-sp-2);
   border: 1px solid var(--vf-border-2);
   color: var(--vf-text-3);
@@ -1243,7 +1243,7 @@
   padding: var(--vf-sp-2) var(--vf-sp-4);
   font-family: var(--vf-font-mono, monospace);
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: var(--vf-letter-spacing);
   text-align: center;
   line-height: 1.2;
 }
@@ -1377,7 +1377,7 @@
   font-weight: 600;
   font-size: var(--vf-font-sm);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
 }
 
 .vf-widget__body {
@@ -1436,7 +1436,7 @@
   background: var(--vf-bg-1);
   border: 1px solid var(--vf-border-1);
   box-sizing: border-box;
-  transition: box-shadow var(--vf-transition-duration, 0.15s) ease;
+  transition: box-shadow var(--vf-duration-base) var(--vf-easing-standard);
 }
 
 .vf-dashboard-grid__cell--moving {
@@ -1483,7 +1483,7 @@
     transparent 85%
   );
   opacity: 0.6;
-  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: opacity var(--vf-duration-base) var(--vf-easing-standard);
   z-index: calc(var(--vf-z-raised) + 1);
   touch-action: none;
 }

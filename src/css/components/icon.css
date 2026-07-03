@@ -60,7 +60,7 @@
   background: transparent;
   border: 1px solid var(--vf-border-1);
   color: var(--vf-text-1);
-  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  transition: background var(--vf-duration-fast) var(--vf-easing-standard), color var(--vf-duration-fast) var(--vf-easing-standard), border-color var(--vf-duration-fast) var(--vf-easing-standard);
 }
 
 .vf-icon-button:hover:not([disabled]) {
@@ -132,7 +132,7 @@
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.12s ease;
+  transition: opacity var(--vf-duration-fast) var(--vf-easing-standard);
   z-index: var(--vf-z-overlay-sub);
 }
 

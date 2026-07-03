@@ -268,7 +268,7 @@
   flex: 1; padding: var(--vf-sp-2); text-align: center;
   font-family: var(--vf-font-family); font-size: var(--vf-font-xs);
   color: var(--vf-text-3); border-bottom: 2px solid transparent;
-  text-transform: var(--vf-heading-case, uppercase); letter-spacing: 0.06em;
+  text-transform: var(--vf-heading-case, uppercase); letter-spacing: var(--vf-letter-spacing);
 }
 .vf-wizard__step-label--active { color: var(--vf-text-0); border-bottom-color: var(--vf-accent); }
 .vf-wizard__step-label--completed { color: var(--vf-text-2); }

@@ -54,7 +54,6 @@
   color: var(--vf-text-0);
   font-weight: 400;
   margin-top: var(--vf-sp-1);
-  letter-spacing: 1px;
   font-family: var(--vf-font-family);
 }
 .vf-stat__sub {
@@ -84,7 +83,7 @@
   height: 100%;
   background: color-mix(in srgb, var(--vf-accent, var(--vf-green)) 40%, transparent);
   border-inline-end: 1px solid var(--vf-accent, var(--vf-green));
-  transition: width 0.3s ease;
+  transition: width var(--vf-duration-slow) var(--vf-easing-standard);
 }
 .vf-progress__fill[data-empty="true"],
 .vf-progress__fill[data-full="true"] {

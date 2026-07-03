@@ -64,7 +64,7 @@
   font-weight: 600;
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.04em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-0);
 }
 

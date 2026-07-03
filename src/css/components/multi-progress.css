@@ -48,7 +48,7 @@
   height: 100%;
   border-radius: var(--vf-radius);
   background: var(--vf-accent, var(--vf-blue));
-  transition: width 300ms ease;
+  transition: width var(--vf-duration-slow) var(--vf-easing-standard);
 }
 
 /* ── Striped animation ───────────────────────────────────────── */

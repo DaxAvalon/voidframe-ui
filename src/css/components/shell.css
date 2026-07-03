@@ -139,7 +139,7 @@
 .vf-resizable-box__grip {
   position: absolute;
   background: transparent;
-  transition: background var(--vf-transition-duration, 0.15s) ease;
+  transition: background var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-resizable-box__grip:hover,
 .vf-resizable-box__grip:focus-visible {

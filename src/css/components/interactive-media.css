@@ -128,7 +128,7 @@
   background: transparent; border: 1px solid var(--vf-border-1);
   padding: 0; cursor: pointer; overflow: hidden;
 }
-.vf-image-gallery__cell img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
+.vf-image-gallery__cell img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--vf-duration-slow) var(--vf-easing-standard); }
 .vf-image-gallery__cell:hover img { transform: scale(1.04); }
 
 /* ── Accordion ───────────────────────────────────────────── */
@@ -177,7 +177,7 @@
 .vf-swipe-actions__trailing { inset-inline-end: 0; }
 .vf-swipe-actions__content {
   position: relative; flex: 1; background: var(--vf-bg-2);
-  transition: transform 0.2s ease;
+  transition: transform var(--vf-duration-slow) var(--vf-easing-standard);
   z-index: var(--vf-z-raised);
 }
 .vf-swipe-actions__action {
@@ -267,7 +267,7 @@
 .vf-image__placeholder {
   position: absolute; inset: 0;
   filter: blur(8px); transform: scale(1.05);
-  transition: opacity 0.3s ease;
+  transition: opacity var(--vf-duration-slow) var(--vf-easing-standard);
 }
 .vf-image-wrapper--blurring > .vf-image { opacity: 0.001; }
 

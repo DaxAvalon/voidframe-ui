@@ -115,7 +115,7 @@
 
 .vf-message__role-label {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -204,7 +204,7 @@
 
 .vf-message-content__thinking-label {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -675,7 +675,7 @@
 
 .vf-code-attachment__lang {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -792,7 +792,7 @@
   margin: 0;
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-4);
 }
 
@@ -934,7 +934,7 @@
 
 .vf-agent-trace__metric-label {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -960,7 +960,7 @@
 
 .vf-plan-display__title {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -1055,7 +1055,7 @@
 
 .vf-citation-list__title {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
   margin-bottom: var(--vf-sp-1);
@@ -1440,7 +1440,7 @@
 
 .vf-prompt-template-list__title {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -1495,7 +1495,7 @@
   font-size: var(--vf-font-xs);
   color: var(--vf-text-3);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
 }
 
 .vf-prompt-template-editor__input,
@@ -1637,7 +1637,7 @@
 
 .vf-session-list__group-label {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
   padding: 0 var(--vf-sp-1);
@@ -1885,7 +1885,7 @@
 
 .vf-model-selector__label-text {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -1927,7 +1927,7 @@
 
 .vf-system-prompt-editor__label-text {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-4);
 }
@@ -1976,7 +1976,7 @@
 
 .vf-token-counter__part-label {
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
 }
 
@@ -2014,7 +2014,7 @@
 .vf-context-window__label {
   color: var(--vf-text-3);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-xs);
 }
 
@@ -2031,7 +2031,7 @@
 .vf-context-window__bar-fill {
   height: 100%;
   background: var(--vf-info);
-  transition: width 0.2s linear;
+  transition: width var(--vf-duration-slow) linear;
 }
 
 .vf-context-window__bar-fill--warn { background: var(--vf-warning); }

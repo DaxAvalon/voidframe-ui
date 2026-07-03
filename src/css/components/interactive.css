@@ -111,7 +111,7 @@
 .vf-collapsible__caret {
   color: var(--vf-accent, var(--vf-red));
   display: inline-block;
-  transition: transform 0.2s;
+  transition: transform var(--vf-duration-slow) var(--vf-easing-standard);
   font-size: var(--vf-font-sm);
 }
 .vf-collapsible__trigger[aria-expanded="true"] .vf-collapsible__caret {
@@ -175,7 +175,6 @@
   padding: var(--vf-sp-4) var(--vf-sp-7);
   font-size: var(--vf-font-sm);
   font-family: var(--vf-font-family);
-  letter-spacing: 0.5px;
   display: flex;
   align-items: center;
   gap: var(--vf-sp-4);

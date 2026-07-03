@@ -51,7 +51,7 @@
   cursor: pointer;
   padding: 0 1px;
   border-radius: 2px;
-  transition: background 0.1s;
+  transition: background var(--vf-duration-fast) var(--vf-easing-standard);
 }
 
 .vf-hex-dump__byte:hover,
@@ -85,7 +85,7 @@
   cursor: pointer;
   padding: 0 0.5px;
   border-radius: 2px;
-  transition: background 0.1s;
+  transition: background var(--vf-duration-fast) var(--vf-easing-standard);
 }
 
 .vf-hex-dump__char:hover {

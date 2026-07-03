@@ -21,7 +21,7 @@
 .vf-playground__title {
   font-weight: 600;
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-0);
 }
 .vf-playground__actions {
@@ -68,7 +68,7 @@
   color: var(--vf-text-2);
   font-size: var(--vf-font-sm);
   font-weight: 600;
-  letter-spacing: var(--vf-heading-tracking, 0.08em);
+  letter-spacing: var(--vf-heading-tracking);
   border-bottom: 1px solid var(--vf-border-0);
 }
 .vf-playground__editor {
@@ -127,7 +127,7 @@
 }
 .vf-docs__brand {
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: var(--vf-heading-tracking);
   color: var(--vf-text-0);
 }
 .vf-docs__count {
@@ -172,7 +172,7 @@
   padding: var(--vf-sp-1) var(--vf-sp-2);
   color: var(--vf-text-3);
   font-size: var(--vf-font-sm);
-  letter-spacing: var(--vf-heading-tracking, 0.08em);
+  letter-spacing: var(--vf-heading-tracking);
   text-transform: var(--vf-heading-case, uppercase);
   background: none;
   border: none;
@@ -336,7 +336,7 @@
 .vf-props-table__table th {
   color: var(--vf-text-2);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--vf-letter-spacing);
   font-weight: 600;
   font-size: var(--vf-font-sm);
   background: var(--vf-bg-2);
@@ -393,7 +393,7 @@
   background: var(--vf-red);
   color: var(--vf-bg-0);
   font-weight: 700;
-  letter-spacing: var(--vf-heading-tracking, 0.08em);
+  letter-spacing: var(--vf-heading-tracking);
   font-size: var(--vf-font-xs);
 }
 .vf-error-boundary__name {
@@ -489,7 +489,7 @@
 }
 .vf-dev-panel__title {
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--vf-letter-spacing);
   text-transform: var(--vf-heading-case, uppercase);
   color: var(--vf-text-0);
 }
@@ -600,7 +600,7 @@
   color: var(--vf-text-2);
   font-weight: 600;
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.04em;
+  letter-spacing: var(--vf-letter-spacing);
   font-size: var(--vf-font-sm);
 }
 .vf-dev-panel__list {
@@ -620,7 +620,7 @@
   text-transform: var(--vf-heading-case, uppercase);
   font-weight: 700;
   font-size: var(--vf-font-sm);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--vf-letter-spacing);
   padding: 0 var(--vf-sp-1);
 }
 .vf-dev-panel__level--warn {
@@ -656,7 +656,7 @@
   color: var(--vf-text-2);
   text-transform: var(--vf-heading-case, uppercase);
   font-size: var(--vf-font-sm);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--vf-letter-spacing);
 }
 .vf-dev-panel__about dd {
   margin: 0;

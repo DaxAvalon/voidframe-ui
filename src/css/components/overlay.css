@@ -148,7 +148,7 @@
 .vf-alert__title {
   color: var(--vf-alert-color, var(--vf-info));
   font-size: var(--vf-font-sm);
-  letter-spacing: 1px;
+  letter-spacing: var(--vf-letter-spacing);
   text-transform: var(--vf-heading-case, uppercase);
   margin-bottom: var(--vf-sp-1);
 }

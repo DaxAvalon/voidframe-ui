@@ -37,7 +37,6 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
   white-space: nowrap;
-  letter-spacing: 0.5px;
 }
 
 /* Ensure input inside group expands to fill. */

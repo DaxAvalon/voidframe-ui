@@ -104,7 +104,7 @@
   font-size: inherit;
   font-family: inherit;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background var(--vf-duration-base) var(--vf-easing-standard);
 }
 
 .vf-cron-builder__preset:hover {

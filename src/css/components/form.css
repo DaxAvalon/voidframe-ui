@@ -14,7 +14,6 @@
   color: var(--vf-text-0);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
-  letter-spacing: 0.5px;
   padding: var(--vf-sp-3) var(--vf-sp-5);
   outline: none;
   transition: var(--vf-transition);
