@@ -77,8 +77,12 @@
 .vf-split-button--outline .vf-split-button__primary:hover:not([data-disabled="true"]),
 .vf-split-button--outline .vf-split-button__caret:hover:not([data-disabled="true"]) {
   background: var(--vf-bg-4);
-  border-color: var(--vf-border-2);
-  color: var(--vf-text-1);
+  border-color: var(--vf-border-4);
+  color: var(--vf-text-0);
+}
+.vf-split-button--outline .vf-split-button__primary:active:not([data-disabled="true"]),
+.vf-split-button--outline .vf-split-button__caret:active:not([data-disabled="true"]) {
+  background: var(--vf-bg-5);
 }
 
 /* ── Variant: ghost ────────────────────────────────────────── */

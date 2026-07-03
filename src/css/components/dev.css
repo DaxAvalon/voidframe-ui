@@ -39,7 +39,7 @@
   cursor: pointer;
 }
 .vf-playground__reset:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
 .vf-playground__body {
   display: grid;
@@ -273,7 +273,7 @@
   transition: var(--vf-transition);
 }
 .vf-docs__hook-link:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
   border-color: var(--vf-border-2);
   color: var(--vf-text-0);
 }
@@ -438,7 +438,7 @@
   cursor: pointer;
 }
 .vf-error-boundary__reset:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
 
 /* ── DevPanel ────────────────────────────────────────────── */
@@ -508,7 +508,7 @@
   line-height: 1;
 }
 .vf-dev-panel__toggle:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
 .vf-dev-panel__tabs {
   display: flex;
@@ -569,7 +569,7 @@
   cursor: pointer;
 }
 .vf-dev-panel__action:hover:not(:disabled) {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
 .vf-dev-panel__action:disabled {
   opacity: 0.4;

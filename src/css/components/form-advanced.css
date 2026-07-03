@@ -113,7 +113,10 @@
 .vf-segmented--lg .vf-segmented__item { padding: var(--vf-sp-4) var(--vf-sp-9); font-size: var(--vf-font-md); }
 .vf-segmented__item:hover:not(:disabled) {
   background: var(--vf-bg-4);
-  color: var(--vf-text-1);
+  color: var(--vf-text-0);
+}
+.vf-segmented__item:active:not(:disabled) {
+  background: var(--vf-bg-5);
 }
 .vf-segmented__item[data-active="true"] {
   background: var(--vf-bg-5);

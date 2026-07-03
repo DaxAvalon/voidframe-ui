@@ -47,8 +47,11 @@
 
 .vf-toggle-group--outline .vf-toggle-group__item:hover:not(:disabled) {
   background: var(--vf-bg-4);
-  border-color: var(--vf-border-2);
-  color: var(--vf-text-1);
+  border-color: var(--vf-border-4);
+  color: var(--vf-text-0);
+}
+.vf-toggle-group--outline .vf-toggle-group__item:active:not(:disabled) {
+  background: var(--vf-bg-5);
 }
 .vf-toggle-group--outline .vf-toggle-group__item--active {
   background: var(--vf-bg-5);

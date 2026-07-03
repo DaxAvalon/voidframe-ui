@@ -786,7 +786,7 @@
   font-family: var(--vf-font-family); font-size: var(--vf-font-xs);
   padding: 1px var(--vf-sp-1); cursor: pointer;
 }
-.vf-json-viewer__toolbar button:hover { background: var(--vf-bg-3); }
+.vf-json-viewer__toolbar button:hover { background: var(--vf-bg-4); }
 .vf-json-viewer__copy-path {
   background: none; border: none; color: var(--vf-text-3); cursor: pointer;
   font-size: var(--vf-sp-5); padding: 0 var(--vf-sp-1); opacity: 0; transition: opacity 0.1s;

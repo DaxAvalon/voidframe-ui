@@ -92,6 +92,9 @@
   background: var(--vf-bg-4);
   color: var(--vf-text-0);
 }
+.vf-dropdown__item:active {
+  background: var(--vf-bg-5);
+}
 .vf-dropdown__item[data-disabled="true"] {
   opacity: 0.4;
   cursor: not-allowed;

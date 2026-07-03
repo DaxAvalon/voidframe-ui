@@ -40,7 +40,7 @@
   cursor: pointer;
 }
 .vf-table__header-cell--sortable:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
 .vf-table__sort-indicator {
   color: var(--vf-text-3);

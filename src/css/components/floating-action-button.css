@@ -44,7 +44,7 @@
 }
 
 .vf-fab__button:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
   box-shadow: var(--vf-shadow-lg);
 }
 
@@ -141,5 +141,5 @@
 }
 
 .vf-fab__action-button:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }

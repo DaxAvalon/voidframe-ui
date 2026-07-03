@@ -131,6 +131,9 @@
 .vf-pagination__btn:hover:not(:disabled) {
   background: var(--vf-bg-4);
 }
+.vf-pagination__btn:active:not(:disabled) {
+  background: var(--vf-bg-5);
+}
 .vf-pagination__btn[aria-current="page"] {
   background: var(--vf-bg-5);
   border-color: var(--vf-border-3);
@@ -264,7 +267,10 @@
 }
 .vf-nav-item:hover {
   background: var(--vf-bg-4);
-  color: var(--vf-text-1);
+  color: var(--vf-text-0);
+}
+.vf-nav-item:active {
+  background: var(--vf-bg-5);
 }
 .vf-nav-item[data-active="true"] {
   background: var(--vf-bg-3);

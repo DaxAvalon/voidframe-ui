@@ -43,6 +43,9 @@
   background: var(--vf-bg-4);
   color: var(--vf-text-0);
 }
+.vf-menu__item:active:not(.vf-menu__item--disabled) {
+  background: var(--vf-bg-5);
+}
 .vf-menu__item--disabled { color: var(--vf-text-5); cursor: not-allowed; }
 .vf-menu__item-label { flex: 1; }
 .vf-menu__item-shortcut { color: var(--vf-text-4); font-size: var(--vf-font-xs); }

@@ -36,8 +36,12 @@
 
 .vf-button--outline:hover:not(:disabled) {
   background: var(--vf-bg-4);
-  border-color: var(--vf-border-2);
-  color: var(--vf-text-1);
+  border-color: var(--vf-border-4);
+  color: var(--vf-text-0);
+}
+.vf-button--outline:active:not(:disabled),
+.vf-button--ghost:active:not(:disabled) {
+  background: var(--vf-bg-5);
 }
 .vf-button--outline[data-active="true"] {
   background: var(--vf-bg-5);
