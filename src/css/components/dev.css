@@ -455,7 +455,6 @@
   color: var(--vf-text-1);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
-  box-shadow: var(--vf-shadow-md);
 }
 .vf-dev-panel--tl {
   top: 12px;

@@ -14,7 +14,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--vf-border-1);
+  border: 1px solid var(--vf-border-3);
   border-inline-end: none;
   border-start-start-radius: var(--vf-radius);
   border-end-start-radius: var(--vf-radius);
@@ -32,7 +32,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--vf-border-1);
+  border: 1px solid var(--vf-border-3);
   border-radius: 0 var(--vf-radius) var(--vf-radius) 0;
   background: transparent;
   color: var(--vf-text-3);
@@ -166,9 +166,8 @@
   margin-top: var(--vf-sp-1);
   padding: var(--vf-sp-1) 0;
   background: var(--vf-bg-1);
-  border: 1px solid var(--vf-border-1);
+  border: 1px solid var(--vf-border-2);
   border-radius: var(--vf-radius);
-  box-shadow: var(--vf-shadow-md);
 }
 
 /* ── Menu item ─────────────────────────────────────────────── */

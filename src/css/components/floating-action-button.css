@@ -35,17 +35,18 @@
   justify-content: center;
   gap: var(--vf-sp-2);
   border: 1px solid var(--vf-border-1);
-  border-radius: 50%;
+  border-radius: var(--vf-radius);
   background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-3);
   color: var(--vf-text-1);
   cursor: pointer;
-  box-shadow: var(--vf-shadow-md);
   transition: background var(--vf-duration-base) var(--vf-easing-standard);
 }
 
 .vf-fab__button:hover {
   background: var(--vf-bg-4);
-  box-shadow: var(--vf-shadow-lg);
+  border-color: var(--vf-border-4);
+  color: var(--vf-text-0);
 }
 
 .vf-fab__label {
@@ -122,7 +123,6 @@
   border-radius: var(--vf-radius);
   font-size: var(--vf-font-xs);
   white-space: nowrap;
-  box-shadow: var(--vf-shadow-xs);
 }
 
 .vf-fab__action-button {
@@ -132,11 +132,10 @@
   width: 40px;
   height: 40px;
   border: 1px solid var(--vf-border-1);
-  border-radius: 50%;
+  border-radius: var(--vf-radius);
   background: var(--vf-bg-2);
   color: var(--vf-text-1);
   cursor: pointer;
-  box-shadow: var(--vf-shadow-xs);
   transition: background var(--vf-duration-base) var(--vf-easing-standard);
 }
 

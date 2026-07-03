@@ -66,12 +66,11 @@
   padding: var(--vf-sp-1) 0;
   list-style: none;
   background: var(--vf-bg-2);
-  border: 1px solid var(--vf-border-1);
+  border: 1px solid var(--vf-border-2);
   border-radius: var(--vf-radius);
-  box-shadow: var(--vf-shadow-md);
   max-height: 200px;
   overflow-y: auto;
-  z-index: 10;
+  z-index: var(--vf-z-dropdown);
 }
 
 .vf-command-input__completion-item {

@@ -1436,13 +1436,13 @@
   background: var(--vf-bg-1);
   border: 1px solid var(--vf-border-1);
   box-sizing: border-box;
-  transition: box-shadow var(--vf-duration-base) var(--vf-easing-standard);
+  transition: border-color var(--vf-duration-base) var(--vf-easing-standard), background var(--vf-duration-base) var(--vf-easing-standard);
 }
 
 .vf-dashboard-grid__cell--moving {
   cursor: grabbing;
-  box-shadow: var(--vf-shadow-lg);
-  border-color: var(--vf-accent, var(--vf-text-2));
+  background: var(--vf-bg-2);
+  border-color: var(--vf-accent);
   pointer-events: none;
 }
 

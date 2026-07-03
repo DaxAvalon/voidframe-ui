@@ -65,9 +65,8 @@
   display: flex;
   margin-top: var(--vf-sp-1);
   background: var(--vf-bg-1);
-  border: 1px solid var(--vf-border-1);
+  border: 1px solid var(--vf-border-2);
   border-radius: var(--vf-radius);
-  box-shadow: var(--vf-shadow-md);
 }
 
 .vf-cascader__panel {
