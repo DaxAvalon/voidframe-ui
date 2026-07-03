@@ -66,7 +66,7 @@ export const CursorPagination = forwardRef<HTMLDivElement, CursorPaginationProps
       >
         <button
           type="button"
-          className="vf-button vf-cursor-pagination__prev"
+          className="vf-button vf-button--sm vf-button--outline vf-cursor-pagination__prev"
           disabled={!hasPrev || loading}
           onClick={onPrev}
           aria-label={prevLabel}
@@ -75,7 +75,7 @@ export const CursorPagination = forwardRef<HTMLDivElement, CursorPaginationProps
         </button>
         <button
           type="button"
-          className="vf-button vf-cursor-pagination__next"
+          className="vf-button vf-button--sm vf-button--outline vf-cursor-pagination__next"
           disabled={!hasNext || loading}
           onClick={onNext}
           aria-label={nextLabel}

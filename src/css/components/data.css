@@ -34,6 +34,7 @@
   text-align: start;
 }
 .vf-table__cell-value {
+  font-variant-numeric: tabular-nums;
   display: inline;
 }
 .vf-table__header-cell--sortable {
@@ -46,10 +47,13 @@
   color: var(--vf-text-3);
   margin-inline-start: auto;
 }
+.vf-table__sort-indicator--active { color: var(--vf-text-0); }
+.vf-table__header-cell--sortable:hover .vf-table__sort-indicator { color: var(--vf-text-1); }
 .vf-table__cell--bold { font-weight: 700; }
 
 /* Stat */
 .vf-stat__value {
+  font-variant-numeric: tabular-nums;
   font-size: var(--vf-font-xl);
   color: var(--vf-text-0);
   font-weight: 400;

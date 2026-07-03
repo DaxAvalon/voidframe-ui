@@ -34,8 +34,13 @@
 .vf-breadcrumb__link:hover:not(.vf-breadcrumb__link--current) {
   color: var(--vf-text-0);
 }
+.vf-breadcrumb__link:focus-visible {
+  outline: var(--vf-focus-ring-accent);
+  outline-offset: 2px;
+}
 .vf-breadcrumb__link--current {
   color: var(--vf-text-0);
+  font-weight: 600;
   cursor: default;
 }
 
@@ -121,6 +126,7 @@
   padding: var(--vf-sp-1) var(--vf-sp-4);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
+  font-variant-numeric: tabular-nums;
   cursor: pointer;
   outline: none;
   transition: var(--vf-transition);

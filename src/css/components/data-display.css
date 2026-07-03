@@ -11,6 +11,9 @@
 .vf-table--sticky-header .vf-table__head { position: sticky; top: 0; z-index: var(--vf-z-raised); background: var(--vf-bg-2); }
 .vf-table__header-cell--sortable { cursor: pointer; user-select: none; }
 .vf-table__sort-indicator { color: var(--vf-text-4); margin-inline-start: var(--vf-sp-2); }
+.vf-table__sort-indicator--active { color: var(--vf-text-0); }
+/* Unsorted hint stays quiet until the header invites the click. */
+.vf-table__header-cell--sortable:hover .vf-table__sort-indicator { color: var(--vf-text-1); }
 .vf-table__cell--sticky-left { position: sticky; inset-inline-start: 0; background: var(--vf-bg-2); z-index: var(--vf-z-raised); }
 .vf-table__cell--sticky-right { position: sticky; inset-inline-end: 0; background: var(--vf-bg-2); z-index: var(--vf-z-raised); }
 .vf-table__empty,
@@ -212,7 +215,7 @@
 .vf-stat { display: flex; flex-direction: column; gap: var(--vf-sp-2); font-family: var(--vf-font-family); }
 .vf-stat__head { display: inline-flex; align-items: center; gap: var(--vf-sp-2); }
 .vf-stat__icon { color: var(--vf-text-3); }
-.vf-stat__value { color: var(--vf-text-0); font-size: var(--vf-font-lg); font-weight: 500; }
+.vf-stat__value { color: var(--vf-text-0); font-size: var(--vf-font-lg); font-weight: 500; font-variant-numeric: tabular-nums; }
 .vf-stat__sub { color: var(--vf-text-4); font-size: var(--vf-font-xs); }
 .vf-stat__change { color: var(--vf-text-2); font-size: var(--vf-font-xs); }
 .vf-stat__change--success { color: var(--vf-green); }
@@ -240,7 +243,7 @@
   font-family: var(--vf-font-family);
 }
 .vf-metric-card__head { display: inline-flex; align-items: center; gap: var(--vf-sp-2); }
-.vf-metric-card__value { color: var(--vf-text-0); font-size: var(--vf-font-xl); font-weight: 500; }
+.vf-metric-card__value { color: var(--vf-text-0); font-size: var(--vf-font-xl); font-weight: 500; font-variant-numeric: tabular-nums; }
 .vf-metric-card__delta { font-size: var(--vf-font-xs); }
 .vf-metric-card__delta--up { color: var(--vf-green); }
 .vf-metric-card__delta--down { color: var(--vf-red); }
@@ -703,14 +706,27 @@
 .vf-kanban__column--at-limit { border-color: var(--vf-amber); }
 .vf-kanban__column-header { display: flex; justify-content: space-between; align-items: center; }
 .vf-kanban__count { color: var(--vf-text-3); font-size: var(--vf-font-xs); }
-.vf-kanban__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--vf-sp-2); min-height: 40px; }
+.vf-kanban__list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: var(--vf-sp-2);
+  min-height: 40px;
+  /* Long columns scroll internally instead of growing the whole board. */
+  max-height: 60vh;
+  overflow-y: auto;
+}
 .vf-kanban__item {
   background: var(--vf-bg-3); border: 1px solid var(--vf-border-1);
   padding: var(--vf-sp-3); color: var(--vf-text-0);
   cursor: grab;
 }
 .vf-kanban__item:focus-visible { outline: var(--vf-focus-ring-accent); outline-offset: -2px; }
-.vf-kanban__item--drop-hint { border-color: var(--vf-accent, var(--vf-green)); }
+.vf-kanban__item--drop-hint { border-color: var(--vf-accent); }
+.vf-kanban__item--dragging,
+.vf-kanban__item:active {
+  cursor: grabbing;
+  background: var(--vf-bg-4);
+  border-color: var(--vf-border-3);
+}
 .vf-kanban__search {
   padding: var(--vf-sp-2); border-bottom: 1px solid var(--vf-border-0);
   grid-column: 1 / -1; width: 100%;

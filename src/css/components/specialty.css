@@ -840,7 +840,7 @@
 .vf-big-number__row {
   display: inline-flex;
   align-items: baseline;
-  gap: var(--vf-sp-1);
+  gap: var(--vf-sp-2);
 }
 
 .vf-big-number--md .vf-big-number__value { font-size: var(--vf-font-xl); }
@@ -861,7 +861,7 @@
   padding: 0 var(--vf-sp-3);
   border: 1px solid var(--vf-border-2);
   font-size: var(--vf-font-xs);
-  margin-inline-start: var(--vf-sp-1);
+  margin-inline-start: var(--vf-sp-2);
   font-variant-numeric: tabular-nums;
 }
 

@@ -201,7 +201,13 @@ const TableImpl = genericForwardRef(function Table<T = Record<string, unknown>>(
               >
                 {c.header}
                 {c.sortable && (
-                  <span aria-hidden="true" className="vf-table__sort-indicator">
+                  <span
+                    aria-hidden="true"
+                    className={cx(
+                      "vf-table__sort-indicator",
+                      isSorted && "vf-table__sort-indicator--active"
+                    )}
+                  >
                     {isSorted ? (current!.direction === "asc" ? "▲" : "▼") : "▾"}
                   </span>
                 )}
