@@ -79,7 +79,9 @@ function collectDefined() {
   for (const file of walkAll(srcRoot)) {
     if (!/\.(tsx?|mjs)$/.test(file)) continue;
     const text = readFileSync(file, "utf8");
-    for (const m of text.matchAll(/["'](--vf-[\w-]+)["']\s*[:\]]/g)) {
+    // Allow TS casts between the property name and the assignment:
+    //   ["--vf-toast-color" as never]: TOAST_VAR[type]
+    for (const m of text.matchAll(/["'](--vf-[\w-]+)["']\s*(?:as\s+\w+\s*)?[:\]]/g)) {
       defined.add(m[1]);
     }
   }
@@ -101,10 +103,20 @@ for (const file of walk(cssRoot)) {
   const rel = relative(repoRoot, file);
   const lines = readFileSync(file, "utf8").split(/\r?\n/);
   for (let i = 0; i < lines.length; i++) {
-    // Only flag fallback-less references — var(--x, fallback) is safe.
+    // Fallback-less references silently resolve to currentColor/initial.
     for (const m of lines[i].matchAll(/var\((--vf-[\w-]+)\)/g)) {
       if (!defined.has(m[1])) {
         undefinedRefs.push(`${rel}:${i + 1}: var(${m[1]}) — token not defined anywhere`);
+      }
+    }
+    // References WITH fallbacks to never-defined tokens are phantom tokens:
+    // the fallback always applies and the "token" is fiction. This is how
+    // --vf-transition-duration and the old --vf-z-overlay/--vf-z-fab hid.
+    for (const m of lines[i].matchAll(/var\((--vf-[\w-]+)\s*,/g)) {
+      if (!defined.has(m[1])) {
+        undefinedRefs.push(
+          `${rel}:${i + 1}: var(${m[1]}, …) — phantom token: never defined, fallback always wins`
+        );
       }
     }
   }
@@ -149,11 +161,33 @@ for (const file of walk(cssRoot)) {
   }
 }
 
+// ── Raw letter-spacing ───────────────────────────────────────
+// Tracking is a three-token grammar (--vf-letter-spacing for uppercase
+// micro-labels, --vf-label-spacing for label tiers, --vf-heading-tracking
+// for headings); raw em/px literals were how two parallel tracking systems
+// grew. Annotate deliberate exceptions with vf-allow-tracking: <reason>.
+
+const ALLOW_TRACKING = /vf-allow-tracking\s*:/;
+const rawTracking = [];
+for (const file of walk(cssRoot)) {
+  const rel = relative(repoRoot, file);
+  if (rel.endsWith("tokens.css")) continue;
+  const lines = readFileSync(file, "utf8").split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (ALLOW_TRACKING.test(line) || (i > 0 && ALLOW_TRACKING.test(lines[i - 1]))) continue;
+    if (/letter-spacing:\s*-?[\d.]+(px|em|rem)/.test(line)) {
+      rawTracking.push(`${rel}:${i + 1}: ${line.trim()}`);
+    }
+  }
+}
+
 if (
   violations.length > 0 ||
   undefinedRefs.length > 0 ||
   zFallbacks.length > 0 ||
-  rawFontSizes.length > 0
+  rawFontSizes.length > 0 ||
+  rawTracking.length > 0
 ) {
   if (violations.length > 0) {
     console.error(
@@ -187,8 +221,16 @@ if (
     );
     for (const v of rawFontSizes) console.error("  " + v);
   }
+  if (rawTracking.length > 0) {
+    console.error(
+      `\n[check-css-colors] ${rawTracking.length} raw letter-spacing value(s) outside the tracking tokens` +
+        ` — use var(--vf-letter-spacing/--vf-label-spacing/--vf-heading-tracking),` +
+        ` or annotate /* vf-allow-tracking: <reason> */:\n`
+    );
+    for (const v of rawTracking) console.error("  " + v);
+  }
   process.exit(1);
 }
 console.log(
-  "[check-css-colors] OK — no raw colors, no undefined tokens, no z-index fallbacks, no raw font sizes"
+  "[check-css-colors] OK — tokens hold: colors, z-index, font sizes, tracking, no phantom refs"
 );
