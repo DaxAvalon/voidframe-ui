@@ -29,11 +29,6 @@
   border-color: var(--vf-border-3);
 }
 
-.vf-input::placeholder,
-.vf-textarea::placeholder {
-  color: var(--vf-text-4);
-}
-
 .vf-textarea {
   padding: var(--vf-sp-4) var(--vf-sp-5);
   resize: vertical;

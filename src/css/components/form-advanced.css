@@ -239,6 +239,3 @@
   font-size: var(--vf-font-sm);
   padding: var(--vf-sp-1) var(--vf-sp-2);
 }
-.vf-tag-input__field::placeholder {
-  color: var(--vf-text-4);
-}

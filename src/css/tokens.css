@@ -101,7 +101,8 @@
   --vf-line-height: 1.6;
   --vf-letter-spacing: 1.5px;
   --vf-label-spacing: 2px;
-  /* Heading tracking (em-based; applied to .vf-h1/.vf-h2 + component headings). */
+  /* Heading tracking (em-based; applied by the .vf-h1–.vf-h6 utilities
+     in utilities.css and by component headings). */
   --vf-heading-tracking: 0.08em;
   /* Heading text-transform. Default `uppercase` preserves brutalist behavior;
      consumers can override to `none`, `lowercase`, or `capitalize`. */
@@ -197,6 +198,32 @@
   /* focus */
   --vf-focus-ring: 2px solid var(--vf-text-0);
   --vf-focus-offset: 0;
+  /* Accent-flavored ring for controls whose grammar is accent-driven
+   * (text inputs, editors). Everything else uses the monochrome ring. */
+  --vf-focus-ring-accent: 2px solid var(--vf-accent);
+
+  /* interaction states */
+  --vf-disabled-opacity: 0.4;
+
+  /* control metrics — shared computed heights so Button, IconButton, and
+   * inputs of the same size tier align in toolbars and form rows.
+   * md/lg match Button's natural height exactly; sm is the aligned
+   * compact height (Button-sm gains a min-height to meet it). */
+  --vf-control-height-sm: 20px;
+  --vf-control-height-md: 25px;
+  --vf-control-height-lg: 32px;
+
+  /* categorical chart series — decoupled from the semantic accents so
+   * "series 4" doesn't read as "danger". Defaults alias the accent ramp
+   * (zero visual change); consumers/themes can remap independently. */
+  --vf-chart-1: var(--vf-green);
+  --vf-chart-2: var(--vf-amber);
+  --vf-chart-3: var(--vf-blue);
+  --vf-chart-4: var(--vf-red);
+  --vf-chart-5: var(--vf-cyan);
+  --vf-chart-6: var(--vf-purple);
+  --vf-chart-7: var(--vf-rose);
+  --vf-chart-8: var(--vf-text-2);
 
   /* optical surfaces — theme-invariant by design. QR codes and
    * barcodes need dark-on-light contrast regardless of app theme or

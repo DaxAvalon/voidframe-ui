@@ -35,11 +35,6 @@
   color: var(--vf-text-1);
   font-family: inherit;
   font-size: inherit;
-  caret-color: var(--vf-accent, var(--vf-text-1));
-}
-
-.vf-command-input__input::placeholder {
-  color: var(--vf-text-3);
 }
 
 /* ── Ghost suggestion text ───────────────────────────────────── */

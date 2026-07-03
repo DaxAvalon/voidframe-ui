@@ -45,10 +45,6 @@
   outline: none;
 }
 
-.vf-transfer__search::placeholder {
-  color: var(--vf-text-4);
-}
-
 /* ── Item list ────────────────────────────────────────────────── */
 
 .vf-transfer__list {

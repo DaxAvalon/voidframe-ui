@@ -201,7 +201,6 @@
 }
 .vf-code-editor__textarea--overlay {
   color: transparent;
-  caret-color: var(--vf-text-0);
   background: transparent;
 }
 
