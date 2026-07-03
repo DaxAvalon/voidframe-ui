@@ -534,7 +534,7 @@
   color: var(--vf-text-0);
 }
 .vf-dev-panel__tab--active {
-  background: var(--vf-bg-2);
+  background: var(--vf-bg-3);
   color: var(--vf-text-0);
   font-weight: 600;
 }

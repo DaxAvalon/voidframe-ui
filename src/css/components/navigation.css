@@ -218,9 +218,9 @@
   color: var(--vf-text-4);
 }
 .vf-stepper__bullet--active {
-  background: color-mix(in srgb, var(--vf-amber) 13%, transparent);
-  border: 1px solid color-mix(in srgb, var(--vf-amber) 27%, transparent);
-  color: var(--vf-amber);
+  background: color-mix(in srgb, var(--vf-accent) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--vf-accent) 27%, transparent);
+  color: var(--vf-accent);
 }
 .vf-stepper__bullet--done {
   background: color-mix(in srgb, var(--vf-green) 13%, transparent);
@@ -267,8 +267,8 @@
   color: var(--vf-text-1);
 }
 .vf-nav-item[data-active="true"] {
-  background: var(--vf-bg-5);
-  border-inline-start-color: var(--vf-amber);
+  background: var(--vf-bg-3);
+  border-inline-start-color: var(--vf-accent);
   color: var(--vf-text-0);
 }
 .vf-nav-item__icon {

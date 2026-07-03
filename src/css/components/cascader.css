@@ -90,12 +90,10 @@
   font-size: var(--vf-font-sm);
   color: var(--vf-text-1);
 }
-.vf-cascader__option:hover {
-  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 8%, transparent);
-}
+.vf-cascader__option:hover,
 .vf-cascader__option--active {
-  background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 12%, transparent);
-  font-weight: 600;
+  background: var(--vf-bg-4);
+  color: var(--vf-text-0);
 }
 .vf-cascader__option--disabled {
   opacity: 0.4;

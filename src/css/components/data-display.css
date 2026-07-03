@@ -79,7 +79,7 @@
   color: var(--vf-text-0); font: inherit; padding: 1px var(--vf-sp-2);
 }
 .vf-datagrid__cell--selection input { margin: 0; }
-.vf-datagrid__row--selected > .vf-datagrid__cell { background: var(--vf-bg-4); }
+.vf-datagrid__row--selected > .vf-datagrid__cell { background: var(--vf-bg-3); }
 .vf-datagrid__cell--pin-left { position: sticky; inset-inline-start: 0; background: var(--vf-bg-2); }
 .vf-datagrid__cell--pin-right { position: sticky; inset-inline-end: 0; background: var(--vf-bg-2); }
 .vf-datagrid__expand {
@@ -150,9 +150,10 @@
   display: flex; align-items: center; gap: var(--vf-sp-2);
   padding: var(--vf-sp-2) var(--vf-sp-4); color: var(--vf-text-1); cursor: pointer;
   outline: none;
+  border-inline-start: 2px solid transparent;
 }
 .vf-treeview__item:focus-visible { background: var(--vf-bg-4); outline: 1px solid var(--vf-border-3); outline-offset: -1px; }
-.vf-treeview__item--selected { background: var(--vf-bg-4); color: var(--vf-text-0); }
+.vf-treeview__item--selected { background: var(--vf-bg-3); color: var(--vf-text-0); border-inline-start-color: var(--vf-accent); }
 .vf-treeview__item--disabled { color: var(--vf-text-5); cursor: not-allowed; }
 .vf-treeview__disclosure {
   background: transparent; border: none; color: var(--vf-text-3);
@@ -528,7 +529,7 @@
   color: var(--vf-text-2); padding: var(--vf-sp-1) var(--vf-sp-4);
   font: inherit; text-transform: capitalize; cursor: pointer;
 }
-.vf-calendar-view__view-btn--active { background: var(--vf-bg-4); color: var(--vf-text-0); }
+.vf-calendar-view__view-btn--active { background: var(--vf-bg-5); color: var(--vf-text-0); }
 .vf-calendar-view__grid {
   display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px;
 }

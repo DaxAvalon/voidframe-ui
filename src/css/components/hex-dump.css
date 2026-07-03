@@ -65,8 +65,8 @@
 }
 
 .vf-hex-dump__byte--selected {
-  background: color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 30%, transparent);
-  outline: 1px solid color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 50%, transparent);
+  background: color-mix(in srgb, var(--vf-accent) 30%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--vf-accent) 50%, transparent);
 }
 
 .vf-hex-dump__group-sep {

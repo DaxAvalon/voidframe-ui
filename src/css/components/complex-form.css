@@ -42,7 +42,8 @@
 }
 .vf-combobox__option--selected {
   color: var(--vf-text-0);
-  border-inline-start: 2px solid var(--vf-accent, var(--vf-green));
+  background: var(--vf-bg-3);
+  border-inline-start: 2px solid var(--vf-accent);
 }
 .vf-combobox__option--disabled {
   color: var(--vf-text-5);
@@ -60,7 +61,7 @@
   display: inline-block;
   width: 1em;
   text-align: center;
-  color: var(--vf-accent, var(--vf-green));
+  color: var(--vf-accent);
 }
 
 .vf-multi-select__control {
@@ -160,7 +161,8 @@
 }
 .vf-tree-select__node--selected {
   color: var(--vf-text-0);
-  border-inline-start: 2px solid var(--vf-accent, var(--vf-green));
+  background: var(--vf-bg-3);
+  border-inline-start: 2px solid var(--vf-accent);
 }
 .vf-tree-select__node--disabled {
   color: var(--vf-text-5);

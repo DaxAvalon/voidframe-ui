@@ -107,8 +107,8 @@
   color: var(--vf-bg-0);
 }
 .vf-htimeline__event--active .vf-htimeline__dot {
-  background: var(--vf-accent, var(--vf-blue, #3b82f6));
-  border-color: var(--vf-accent, var(--vf-blue, #3b82f6));
+  background: var(--vf-accent);
+  border-color: var(--vf-accent);
   color: var(--vf-bg-0);
 }
 .vf-htimeline__event--pending .vf-htimeline__dot {

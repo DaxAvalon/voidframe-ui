@@ -64,7 +64,7 @@
 }
 .vf-tabs__trigger--active {
   color: var(--vf-text-0);
-  border-bottom-color: var(--vf-accent, var(--vf-green));
+  border-bottom-color: var(--vf-accent);
 }
 
 .vf-tabs--vertical .vf-tabs__trigger {
@@ -76,7 +76,7 @@
   padding: var(--vf-sp-5) var(--vf-sp-7);
 }
 .vf-tabs--vertical .vf-tabs__trigger--active {
-  border-inline-end-color: var(--vf-accent, var(--vf-green));
+  border-inline-end-color: var(--vf-accent);
 }
 
 .vf-tabs__panel {

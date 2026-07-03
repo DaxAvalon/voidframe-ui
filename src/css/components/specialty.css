@@ -112,8 +112,8 @@
 }
 
 .vf-commit-graph__row--active {
-  background: var(--vf-bg-2);
-  border-inline-start-color: var(--vf-accent, var(--vf-info));
+  background: var(--vf-bg-3);
+  border-inline-start-color: var(--vf-accent);
 }
 
 .vf-commit-graph__row--neutral .vf-commit-graph__node { color: var(--vf-text-2); }
@@ -1269,7 +1269,7 @@
 }
 
 .vf-color-swatch--selected {
-  border-color: var(--vf-accent, var(--vf-text-0));
+  border-color: var(--vf-accent);
 }
 
 .vf-color-swatch[disabled] {

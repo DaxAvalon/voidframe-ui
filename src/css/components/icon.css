@@ -110,7 +110,7 @@
 }
 
 .vf-icon-button--active {
-  background: var(--vf-bg-2);
+  background: var(--vf-bg-5);
   border-color: var(--vf-border-3);
   color: var(--vf-text-0);
 }

@@ -46,7 +46,7 @@
 .vf-menu__item--disabled { color: var(--vf-text-5); cursor: not-allowed; }
 .vf-menu__item-label { flex: 1; }
 .vf-menu__item-shortcut { color: var(--vf-text-4); font-size: var(--vf-font-xs); }
-.vf-menu__item-check { width: 1em; text-align: center; color: var(--vf-accent, var(--vf-green)); }
+.vf-menu__item-check { width: 1em; text-align: center; color: var(--vf-accent); }
 .vf-menu__separator {
   height: 1px;
   background: var(--vf-border-1);
@@ -163,7 +163,7 @@
 .vf-navbar__link:hover { color: var(--vf-text-0); }
 .vf-navbar__link--active {
   color: var(--vf-text-0);
-  border-bottom: 2px solid var(--vf-accent, var(--vf-green));
+  border-bottom: 2px solid var(--vf-accent);
 }
 .vf-navbar__actions { display: inline-flex; gap: var(--vf-sp-2); margin-inline-start: auto; }
 
@@ -223,13 +223,17 @@
   font-size: var(--vf-font-xxs);
   cursor: pointer;
   transition: var(--vf-transition);
+  border-block-start: 2px solid transparent;
 }
-.vf-tabbar__item--selected { color: var(--vf-text-0); }
+.vf-tabbar__item--selected {
+  color: var(--vf-text-0);
+  border-block-start-color: var(--vf-accent);
+}
 .vf-tabbar__icon { font-size: 1.25rem; }
 .vf-tabbar__badge {
   position: relative;
   font-size: var(--vf-font-xxs);
-  color: var(--vf-accent, var(--vf-green));
+  color: var(--vf-accent);
 }
 
 /* ── Wizard ──────────────────────────────────────────────── */
@@ -263,7 +267,7 @@
   color: var(--vf-text-3); border-bottom: 2px solid transparent;
   text-transform: var(--vf-heading-case, uppercase); letter-spacing: 0.06em;
 }
-.vf-wizard__step-label--active { color: var(--vf-text-0); border-bottom-color: var(--vf-accent, var(--vf-blue)); }
+.vf-wizard__step-label--active { color: var(--vf-text-0); border-bottom-color: var(--vf-accent); }
 .vf-wizard__step-label--completed { color: var(--vf-text-2); }
 
 /* ── CursorPagination ───────────────────────────────────── */
@@ -283,7 +287,7 @@
 }
 .vf-scrollspy__item--active {
   color: var(--vf-text-0);
-  border-inline-start-color: var(--vf-accent, var(--vf-green));
+  border-inline-start-color: var(--vf-accent);
 }
 .vf-scrollspy__link {
   background: transparent;
@@ -336,10 +340,12 @@
   gap: var(--vf-sp-2);
   padding: var(--vf-sp-2) var(--vf-sp-4);
   transition: var(--vf-transition);
+  border-inline-start: 2px solid transparent;
 }
 .vf-treenav__row--active {
-  background: var(--vf-bg-4);
+  background: var(--vf-bg-3);
   color: var(--vf-text-0);
+  border-inline-start-color: var(--vf-accent);
 }
 .vf-treenav__disclosure {
   background: transparent;

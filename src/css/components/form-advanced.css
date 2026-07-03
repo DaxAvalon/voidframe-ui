@@ -117,7 +117,7 @@
 }
 .vf-segmented__item[data-active="true"] {
   background: var(--vf-bg-5);
-  color: var(--vf-accent, var(--vf-text-0));
+  color: var(--vf-text-0);
 }
 .vf-segmented__item:disabled {
   opacity: 0.4;

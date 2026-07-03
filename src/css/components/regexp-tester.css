@@ -55,9 +55,9 @@
 }
 
 .vf-regexp-tester__flag--active {
-  background: var(--vf-accent, var(--vf-text-0));
-  color: var(--vf-bg-0);
-  border-color: var(--vf-accent, var(--vf-text-0));
+  background: var(--vf-bg-5);
+  color: var(--vf-text-0);
+  border-color: var(--vf-border-3);
 }
 
 .vf-regexp-tester__test-string {
