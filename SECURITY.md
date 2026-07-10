@@ -16,10 +16,10 @@ non-breaking by policy (see [CHANGELOG.md](./CHANGELOG.md)).
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.3.x   | :white_check_mark: |
-| < 1.3   | :x: (please upgrade) |
+| 1.4.x   | :white_check_mark: |
+| < 1.4   | :x: (please upgrade) |
 
-The current release is **1.3.0**.
+The current release is **1.4.0**.
 
 ## Reporting a vulnerability
 
