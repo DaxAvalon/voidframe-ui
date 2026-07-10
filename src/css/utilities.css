@@ -31,6 +31,39 @@
   letter-spacing: var(--vf-heading-tracking, 0.08em);
 }
 
+/* ── Heading scale ──────────────────────────────────────────
+   The semantic heading utilities the token docs promise. Six tiers,
+   all monospace, tracked and cased via the heading tokens; h6 is the
+   label-like tier and uses the label spacing instead. */
+.vf-h1, .vf-h2, .vf-h3, .vf-h4, .vf-h5, .vf-h6 {
+  font-family: var(--vf-font-family);
+  text-transform: var(--vf-heading-case, uppercase);
+  letter-spacing: var(--vf-heading-tracking);
+  line-height: 1.25;
+  margin: 0;
+}
+.vf-h1 { font-size: var(--vf-font-3xl); font-weight: 700; color: var(--vf-text-0); }
+.vf-h2 { font-size: var(--vf-font-xxl); font-weight: 600; color: var(--vf-text-0); }
+.vf-h3 { font-size: var(--vf-font-xl);  font-weight: 600; color: var(--vf-text-0); }
+.vf-h4 { font-size: var(--vf-font-lg);  font-weight: 600; color: var(--vf-text-1); }
+.vf-h5 { font-size: var(--vf-font-md);  font-weight: 600; color: var(--vf-text-1); }
+.vf-h6 {
+  font-size: var(--vf-font-sm);
+  font-weight: 600;
+  color: var(--vf-text-2);
+  letter-spacing: var(--vf-label-spacing);
+}
+
+/* ── Multi-line truncation ─────────────────────────────────── */
+.vf-line-clamp-2,
+.vf-line-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.vf-line-clamp-2 { -webkit-line-clamp: 2; }
+.vf-line-clamp-3 { -webkit-line-clamp: 3; }
+
 /* SkipToContent — visually hidden until focused, then fixed at the top. */
 .vf-skip-to-content {
   position: absolute;

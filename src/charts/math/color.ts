@@ -4,15 +4,18 @@
 // from the active theme. `seriesPalette(n)` returns an array of length n of
 // CSS `var(--vf-*)` strings that cycle through the accent palette.
 
+// Series N reads --vf-chart-N (tokens.css), which defaults to the accent
+// ramp below — identical rendering out of the box, but categorical series
+// are decoupled from semantic status colors and re-mappable per theme.
 const DEFAULT_PALETTE: string[] = [
-  "var(--vf-green)",
-  "var(--vf-amber)",
-  "var(--vf-blue)",
-  "var(--vf-red)",
-  "var(--vf-cyan)",
-  "var(--vf-purple)",
-  "var(--vf-rose)",
-  "var(--vf-text-2)",
+  "var(--vf-chart-1, var(--vf-green))",
+  "var(--vf-chart-2, var(--vf-amber))",
+  "var(--vf-chart-3, var(--vf-blue))",
+  "var(--vf-chart-4, var(--vf-red))",
+  "var(--vf-chart-5, var(--vf-cyan))",
+  "var(--vf-chart-6, var(--vf-purple))",
+  "var(--vf-chart-7, var(--vf-rose))",
+  "var(--vf-chart-8, var(--vf-text-2))",
 ];
 
 export interface SeriesPaletteOptions {

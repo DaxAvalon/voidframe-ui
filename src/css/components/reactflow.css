@@ -13,7 +13,6 @@
   background: var(--vf-bg-2);
   border: 1px solid var(--vf-border-3);
   border-radius: var(--vf-radius-1);
-  box-shadow: var(--vf-shadow-md);
 }
 [data-vf-reactflow] .react-flow__controls-button {
   background: transparent;
@@ -78,7 +77,7 @@
 }
 [data-vf-reactflow] .react-flow__node.selected .react-flow__node-default {
   border-color: var(--vf-accent);
-  box-shadow: 0 0 0 1px var(--vf-accent);
+  outline: 1px solid var(--vf-accent);
 }
 
 [data-vf-reactflow] .react-flow__attribution {

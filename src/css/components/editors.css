@@ -201,7 +201,6 @@
 }
 .vf-code-editor__textarea--overlay {
   color: transparent;
-  caret-color: var(--vf-text-0);
   background: transparent;
 }
 
@@ -295,5 +294,5 @@
   background-clip: padding-box;
 }
 .vf-color-picker__swatch-btn:hover:not(:disabled) {
-  outline: 1px solid var(--vf-border-3);
+  outline: var(--vf-focus-ring-accent);
 }

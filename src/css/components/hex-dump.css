@@ -51,7 +51,7 @@
   cursor: pointer;
   padding: 0 1px;
   border-radius: 2px;
-  transition: background 0.1s;
+  transition: background var(--vf-duration-fast) var(--vf-easing-standard);
 }
 
 .vf-hex-dump__byte:hover,
@@ -65,8 +65,8 @@
 }
 
 .vf-hex-dump__byte--selected {
-  background: color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 30%, transparent);
-  outline: 1px solid color-mix(in srgb, var(--vf-accent, var(--vf-blue)) 50%, transparent);
+  background: color-mix(in srgb, var(--vf-accent) 30%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--vf-accent) 50%, transparent);
 }
 
 .vf-hex-dump__group-sep {
@@ -85,7 +85,7 @@
   cursor: pointer;
   padding: 0 0.5px;
   border-radius: 2px;
-  transition: background 0.1s;
+  transition: background var(--vf-duration-fast) var(--vf-easing-standard);
 }
 
 .vf-hex-dump__char:hover {

@@ -12,7 +12,7 @@
 .vf-date-picker__popover {
   position: absolute;
   top: 100%;
-  left: 0;
+  inset-inline-start: 0;
   margin-top: var(--vf-sp-2);
   background: var(--vf-bg-1);
   border: 1px solid var(--vf-border-2);
@@ -121,12 +121,12 @@
 }
 .vf-calendar__day--selected,
 .vf-calendar__day--range-end {
-  background: color-mix(in srgb, var(--vf-accent, var(--vf-green)) 22%, transparent);
-  border-color: var(--vf-accent, var(--vf-green));
+  background: color-mix(in srgb, var(--vf-accent) 22%, transparent);
+  border-color: var(--vf-accent);
   color: var(--vf-text-0);
 }
 .vf-calendar__day--in-range {
-  background: color-mix(in srgb, var(--vf-accent, var(--vf-green)) 10%, transparent);
+  background: color-mix(in srgb, var(--vf-accent) 10%, transparent);
   color: var(--vf-text-1);
 }
 .vf-calendar__day--disabled {

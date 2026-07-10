@@ -7,6 +7,18 @@
   font-size: var(--vf-font-md);
   line-height: var(--vf-line-height);
   box-sizing: border-box;
+  /* Crisp monospace rendering by default — not gated behind the opt-in
+     reset.css baseline. */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  caret-color: var(--vf-text-0);
+}
+
+/* One placeholder voice everywhere (inputs, textareas, search fields). */
+.vf-root ::placeholder {
+  color: var(--vf-text-4);
+  opacity: 1;
 }
 
 .vf-root *,
@@ -40,6 +52,9 @@
 }
 .vf-root *::-webkit-scrollbar-thumb:hover {
   background: var(--vf-border-3);
+}
+.vf-root *::-webkit-scrollbar-corner {
+  background: var(--vf-bg-1);
 }
 .vf-root * {
   scrollbar-width: thin;

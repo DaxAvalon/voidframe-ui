@@ -23,21 +23,29 @@
   color: var(--vf-text-3);
   cursor: pointer;
   transition: var(--vf-transition);
-  outline: none;
   user-select: none;
   flex-shrink: 0;
 }
 
 .vf-number-stepper__decrement:hover:not(:disabled),
 .vf-number-stepper__increment:hover:not(:disabled) {
+  background: var(--vf-bg-4);
+  border-color: var(--vf-border-3);
+  color: var(--vf-text-0);
+}
+.vf-number-stepper__decrement:active:not(:disabled),
+.vf-number-stepper__increment:active:not(:disabled) {
   background: var(--vf-bg-5);
-  border-color: var(--vf-border-2);
-  color: var(--vf-text-1);
+}
+.vf-number-stepper__decrement:focus-visible,
+.vf-number-stepper__increment:focus-visible {
+  outline: var(--vf-focus-ring-accent);
+  outline-offset: -2px;
 }
 
 .vf-number-stepper__decrement:disabled,
 .vf-number-stepper__increment:disabled {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -45,6 +53,7 @@
 .vf-number-stepper__increment { border-inline-start: none; }
 
 .vf-number-stepper__value {
+  font-variant-numeric: tabular-nums;
   background: var(--vf-bg-3);
   border: 1px solid var(--vf-border-1);
   color: var(--vf-text-1);
@@ -106,7 +115,7 @@ input.vf-number-stepper__value:focus-visible {
 /* ── Disabled state ─────────────────────────────────────────── */
 
 .vf-number-stepper--disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 .vf-number-stepper--disabled .vf-number-stepper__value {

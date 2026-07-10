@@ -79,7 +79,9 @@ function collectDefined() {
   for (const file of walkAll(srcRoot)) {
     if (!/\.(tsx?|mjs)$/.test(file)) continue;
     const text = readFileSync(file, "utf8");
-    for (const m of text.matchAll(/["'](--vf-[\w-]+)["']\s*[:\]]/g)) {
+    // Allow TS casts between the property name and the assignment:
+    //   ["--vf-toast-color" as never]: TOAST_VAR[type]
+    for (const m of text.matchAll(/["'](--vf-[\w-]+)["']\s*(?:as\s+\w+\s*)?[:\]]/g)) {
       defined.add(m[1]);
     }
   }
@@ -101,16 +103,92 @@ for (const file of walk(cssRoot)) {
   const rel = relative(repoRoot, file);
   const lines = readFileSync(file, "utf8").split(/\r?\n/);
   for (let i = 0; i < lines.length; i++) {
-    // Only flag fallback-less references — var(--x, fallback) is safe.
+    // Fallback-less references silently resolve to currentColor/initial.
     for (const m of lines[i].matchAll(/var\((--vf-[\w-]+)\)/g)) {
       if (!defined.has(m[1])) {
         undefinedRefs.push(`${rel}:${i + 1}: var(${m[1]}) — token not defined anywhere`);
       }
     }
+    // References WITH fallbacks to never-defined tokens are phantom tokens:
+    // the fallback always applies and the "token" is fiction. This is how
+    // --vf-transition-duration and the old --vf-z-overlay/--vf-z-fab hid.
+    for (const m of lines[i].matchAll(/var\((--vf-[\w-]+)\s*,/g)) {
+      if (!defined.has(m[1])) {
+        undefinedRefs.push(
+          `${rel}:${i + 1}: var(${m[1]}, …) — phantom token: never defined, fallback always wins`
+        );
+      }
+    }
   }
 }
 
-if (violations.length > 0 || undefinedRefs.length > 0) {
+// ── z-index token discipline ─────────────────────────────────
+// The stacking scale lives in tokens.css; component CSS must reference
+// it bare. Fallbacks are a second source of truth that drifts (we found
+// var(--vf-z-modal, 1000) against a real value of 1300, and two tokens
+// that existed ONLY as fallbacks) — and the undefined-token check above
+// can only see bare references.
+
+const zFallbacks = [];
+for (const file of walk(cssRoot)) {
+  const rel = relative(repoRoot, file);
+  if (rel.endsWith("tokens.css")) continue;
+  const lines = readFileSync(file, "utf8").split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    if (/var\(--vf-z-[\w-]+\s*,/.test(lines[i])) {
+      zFallbacks.push(`${rel}:${i + 1}: ${lines[i].trim()}`);
+    }
+  }
+}
+
+// ── Raw font-size px ─────────────────────────────────────────
+// Raw px font sizes ignore theme-level font overrides (and read as
+// design drift next to the --vf-font-* scale). Genuinely non-typographic
+// sizes (decorative glyphs) annotate with vf-allow-raw-size: <reason>.
+
+const ALLOW_SIZE = /vf-allow-raw-size\s*:/;
+const rawFontSizes = [];
+for (const file of walk(cssRoot)) {
+  const rel = relative(repoRoot, file);
+  if (rel.endsWith("tokens.css")) continue;
+  const lines = readFileSync(file, "utf8").split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (ALLOW_SIZE.test(line) || (i > 0 && ALLOW_SIZE.test(lines[i - 1]))) continue;
+    if (/font-size:\s*\d+px/.test(line)) {
+      rawFontSizes.push(`${rel}:${i + 1}: ${line.trim()}`);
+    }
+  }
+}
+
+// ── Raw letter-spacing ───────────────────────────────────────
+// Tracking is a three-token grammar (--vf-letter-spacing for uppercase
+// micro-labels, --vf-label-spacing for label tiers, --vf-heading-tracking
+// for headings); raw em/px literals were how two parallel tracking systems
+// grew. Annotate deliberate exceptions with vf-allow-tracking: <reason>.
+
+const ALLOW_TRACKING = /vf-allow-tracking\s*:/;
+const rawTracking = [];
+for (const file of walk(cssRoot)) {
+  const rel = relative(repoRoot, file);
+  if (rel.endsWith("tokens.css")) continue;
+  const lines = readFileSync(file, "utf8").split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (ALLOW_TRACKING.test(line) || (i > 0 && ALLOW_TRACKING.test(lines[i - 1]))) continue;
+    if (/letter-spacing:\s*-?[\d.]+(px|em|rem)/.test(line)) {
+      rawTracking.push(`${rel}:${i + 1}: ${line.trim()}`);
+    }
+  }
+}
+
+if (
+  violations.length > 0 ||
+  undefinedRefs.length > 0 ||
+  zFallbacks.length > 0 ||
+  rawFontSizes.length > 0 ||
+  rawTracking.length > 0
+) {
   if (violations.length > 0) {
     console.error(
       `[check-css-colors] ${violations.length} raw color(s) outside the token system:\n`
@@ -129,8 +207,30 @@ if (violations.length > 0 || undefinedRefs.length > 0) {
     );
     for (const v of undefinedRefs) console.error("  " + v);
   }
+  if (zFallbacks.length > 0) {
+    console.error(
+      `\n[check-css-colors] ${zFallbacks.length} z-index token reference(s) with fallbacks` +
+        ` — reference the scale bare, e.g. var(--vf-z-modal):\n`
+    );
+    for (const v of zFallbacks) console.error("  " + v);
+  }
+  if (rawFontSizes.length > 0) {
+    console.error(
+      `\n[check-css-colors] ${rawFontSizes.length} raw px font-size(s) outside the type scale` +
+        ` — use var(--vf-font-*), or annotate /* vf-allow-raw-size: <reason> */:\n`
+    );
+    for (const v of rawFontSizes) console.error("  " + v);
+  }
+  if (rawTracking.length > 0) {
+    console.error(
+      `\n[check-css-colors] ${rawTracking.length} raw letter-spacing value(s) outside the tracking tokens` +
+        ` — use var(--vf-letter-spacing/--vf-label-spacing/--vf-heading-tracking),` +
+        ` or annotate /* vf-allow-tracking: <reason> */:\n`
+    );
+    for (const v of rawTracking) console.error("  " + v);
+  }
   process.exit(1);
 }
 console.log(
-  "[check-css-colors] OK — no raw colors, no undefined token references"
+  "[check-css-colors] OK — tokens hold: colors, z-index, font sizes, tracking, no phantom refs"
 );

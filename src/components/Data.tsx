@@ -201,7 +201,13 @@ const TableImpl = genericForwardRef(function Table<T = Record<string, unknown>>(
               >
                 {c.header}
                 {c.sortable && (
-                  <span aria-hidden="true" className="vf-table__sort-indicator">
+                  <span
+                    aria-hidden="true"
+                    className={cx(
+                      "vf-table__sort-indicator",
+                      isSorted && "vf-table__sort-indicator--active"
+                    )}
+                  >
                     {isSorted ? (current!.direction === "asc" ? "▲" : "▼") : "▾"}
                   </span>
                 )}
@@ -484,9 +490,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
         <div className="vf-progress__head">
           {label && <Label>{label}</Label>}
           {showValue && (
-            <Label style={{ color: "var(--vf-accent, var(--vf-green))" }}>
-              {Math.round(pct)}%
-            </Label>
+            <Label className="vf-progress__value">{Math.round(pct)}%</Label>
           )}
         </div>
       )}

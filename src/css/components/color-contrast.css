@@ -5,7 +5,7 @@
   flex-direction: column;
   gap: var(--vf-sp-3);
   font-family: var(--vf-font-family);
-  border: 1px solid var(--vf-border-2);
+  border: 1px solid var(--vf-border-1);
   background: var(--vf-bg-1);
   padding: var(--vf-sp-4);
 }
@@ -44,7 +44,7 @@
 }
 
 .vf-color-contrast__swap:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
 
 .vf-color-contrast__ratio {

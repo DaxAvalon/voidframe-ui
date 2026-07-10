@@ -40,7 +40,7 @@
 }
 
 .vf-anchor__link--active {
-  color: var(--vf-accent, var(--vf-text-1));
+  color: var(--vf-accent);
   font-weight: 600;
 }
 

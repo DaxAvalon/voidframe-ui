@@ -139,7 +139,7 @@
 .vf-resizable-box__grip {
   position: absolute;
   background: transparent;
-  transition: background var(--vf-transition-duration, 0.15s) ease;
+  transition: background var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-resizable-box__grip:hover,
 .vf-resizable-box__grip:focus-visible {
@@ -194,6 +194,7 @@
   background: var(--vf-bg-1);
 }
 .vf-appshell__header {
+  grid-area: header;
   display: flex;
   align-items: center;
   gap: var(--vf-sp-3);
@@ -216,20 +217,34 @@
   background: var(--vf-bg-4);
 }
 .vf-appshell__sidebar {
+  grid-area: sidebar;
+  position: relative;
   border-inline-end: 1px solid var(--vf-border-1);
   background: var(--vf-bg-2);
-  overflow: auto;
+  overflow-y: auto;
+}
+.vf-appshell__sidebar-resizer {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: ew-resize;
+  user-select: none;
 }
 .vf-appshell__main {
+  grid-area: main;
   padding: var(--vf-sp-5);
-  overflow: auto;
+  overflow-y: auto;
 }
 .vf-appshell__rightpanel {
+  grid-area: rightpanel;
   border-inline-start: 1px solid var(--vf-border-1);
   background: var(--vf-bg-2);
-  overflow: auto;
+  overflow-y: auto;
 }
 .vf-appshell__footer {
+  grid-area: footer;
   border-top: 1px solid var(--vf-border-1);
   background: var(--vf-bg-2);
   padding: var(--vf-sp-2) var(--vf-sp-4);
@@ -237,11 +252,11 @@
 
 .vf-appshell__mobile-backdrop {
   position: fixed; inset: 0; background: var(--vf-scrim);
-  z-index: var(--vf-z-modal, 1000);
+  z-index: var(--vf-z-modal);
 }
 .vf-appshell__sidebar--mobile {
   position: fixed; inset-block: 0; inset-inline-start: 0;
-  z-index: calc(var(--vf-z-modal, 1000) + 1);
+  z-index: calc(var(--vf-z-modal) + 1);
   width: 280px; background: var(--vf-bg-1);
   border-inline-end: 1px solid var(--vf-border-2);
   overflow: auto;

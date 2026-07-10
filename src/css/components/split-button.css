@@ -14,7 +14,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--vf-border-1);
+  border: 1px solid var(--vf-border-3);
   border-inline-end: none;
   border-start-start-radius: var(--vf-radius);
   border-end-start-radius: var(--vf-radius);
@@ -32,7 +32,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--vf-border-1);
+  border: 1px solid var(--vf-border-3);
   border-radius: 0 var(--vf-radius) var(--vf-radius) 0;
   background: transparent;
   color: var(--vf-text-3);
@@ -77,8 +77,12 @@
 .vf-split-button--outline .vf-split-button__primary:hover:not([data-disabled="true"]),
 .vf-split-button--outline .vf-split-button__caret:hover:not([data-disabled="true"]) {
   background: var(--vf-bg-4);
-  border-color: var(--vf-border-2);
-  color: var(--vf-text-1);
+  border-color: var(--vf-border-4);
+  color: var(--vf-text-0);
+}
+.vf-split-button--outline .vf-split-button__primary:active:not([data-disabled="true"]),
+.vf-split-button--outline .vf-split-button__caret:active:not([data-disabled="true"]) {
+  background: var(--vf-bg-5);
 }
 
 /* ── Variant: ghost ────────────────────────────────────────── */
@@ -131,7 +135,7 @@
 
 .vf-split-button__primary[data-disabled="true"],
 .vf-split-button__caret[data-disabled="true"] {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -156,15 +160,14 @@
 .vf-split-button__menu {
   position: absolute;
   top: 100%;
-  left: 0;
-  z-index: 100;
+  inset-inline-start: 0;
+  z-index: var(--vf-z-dropdown);
   min-width: 100%;
   margin-top: var(--vf-sp-1);
   padding: var(--vf-sp-1) 0;
   background: var(--vf-bg-1);
-  border: 1px solid var(--vf-border-1);
+  border: 1px solid var(--vf-border-2);
   border-radius: var(--vf-radius);
-  box-shadow: var(--vf-shadow-md);
 }
 
 /* ── Menu item ─────────────────────────────────────────────── */
@@ -201,7 +204,7 @@
 }
 
 .vf-split-button__menu-item--disabled {
-  opacity: 0.35;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
   pointer-events: none;
 }

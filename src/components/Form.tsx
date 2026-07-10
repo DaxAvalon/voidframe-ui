@@ -461,28 +461,38 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
           {label}
         </Label>
       )}
-      <select
-        ref={(el) => {
-          gridCheckRef.current = el;
-          if (typeof ref === "function") ref(el);
-          else if (ref) (ref as React.MutableRefObject<HTMLSelectElement | null>).current = el;
-        }}
-        id={selectId}
-        value={current}
-        onChange={(e) => setCurrent(e.target.value)}
-        className={cx(selectTa.className, className)}
-        style={inline}
-        size={listSize}
-        aria-label={asAriaLabel ?? (props as Record<string, unknown>)["aria-label"] as string | undefined}
-        {...selectTa.attrs}
-        {...props}
-      >
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
+      <span className="vf-select-wrap">
+        <select
+          ref={(el) => {
+            gridCheckRef.current = el;
+            if (typeof ref === "function") ref(el);
+            else if (ref) (ref as React.MutableRefObject<HTMLSelectElement | null>).current = el;
+          }}
+          id={selectId}
+          value={current}
+          onChange={(e) => setCurrent(e.target.value)}
+          className={cx(selectTa.className, className)}
+          style={inline}
+          size={listSize}
+          aria-label={asAriaLabel ?? (props as Record<string, unknown>)["aria-label"] as string | undefined}
+          {...selectTa.attrs}
+          {...props}
+        >
+          {options.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+        {/* appearance:none strips the native arrow; without this the closed
+            control is indistinguishable from a text input. Hidden in
+            open-listbox mode (listSize > 1), which has no popup to signal. */}
+        {(!listSize || listSize <= 1) && (
+          <span className="vf-select__chevron" aria-hidden="true">
+            ▾
+          </span>
+        )}
+      </span>
     </div>
   );
 });

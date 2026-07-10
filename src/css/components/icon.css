@@ -53,36 +53,40 @@
 
 .vf-icon-button {
   all: unset;
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   background: transparent;
-  border: 1px solid var(--vf-border-1);
+  border: 1px solid var(--vf-border-3);
   color: var(--vf-text-1);
-  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  transition: background var(--vf-duration-fast) var(--vf-easing-standard), color var(--vf-duration-fast) var(--vf-easing-standard), border-color var(--vf-duration-fast) var(--vf-easing-standard);
 }
 
 .vf-icon-button:hover:not([disabled]) {
   color: var(--vf-text-0);
-  border-color: var(--vf-border-3);
-  background: var(--vf-bg-2);
+  border-color: var(--vf-border-4);
+  background: var(--vf-bg-4);
+}
+.vf-icon-button:active:not([disabled]) {
+  background: var(--vf-bg-5);
 }
 
 .vf-icon-button:focus-visible {
-  outline: 2px solid var(--vf-accent, var(--vf-text-2));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: 1px;
 }
 
 .vf-icon-button[disabled] {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
 .vf-icon-button--xs { width: 20px; height: 20px; }
-.vf-icon-button--sm { width: 24px; height: 24px; }
-.vf-icon-button--md { width: 28px; height: 28px; }
-.vf-icon-button--lg { width: 36px; height: 36px; }
+.vf-icon-button--sm { width: var(--vf-control-height-sm); height: var(--vf-control-height-sm); }
+.vf-icon-button--md { width: var(--vf-control-height-md); height: var(--vf-control-height-md); }
+.vf-icon-button--lg { width: var(--vf-control-height-lg); height: var(--vf-control-height-lg); }
 
 .vf-icon-button--ghost {
   border-color: transparent;
@@ -110,7 +114,7 @@
 }
 
 .vf-icon-button--active {
-  background: var(--vf-bg-2);
+  background: var(--vf-bg-5);
   border-color: var(--vf-border-3);
   color: var(--vf-text-0);
 }
@@ -129,7 +133,7 @@
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.12s ease;
+  transition: opacity var(--vf-duration-fast) var(--vf-easing-standard);
   z-index: var(--vf-z-overlay-sub);
 }
 

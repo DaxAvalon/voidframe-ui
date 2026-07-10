@@ -55,7 +55,7 @@
 }
 .vf-signature__frame[data-disabled] .vf-signature__canvas {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: var(--vf-disabled-opacity);
 }
 
 /* ── ImageCropper ──────────────────────────────────────────── */
@@ -148,7 +148,7 @@
   transition: var(--vf-transition);
 }
 .vf-file-upload__surface:focus-visible {
-  outline: 1px solid var(--vf-border-3);
+  outline: var(--vf-focus-ring-accent);
   outline-offset: 2px;
 }
 .vf-file-upload__surface--dragging {
@@ -157,7 +157,7 @@
 }
 .vf-file-upload__surface--disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: var(--vf-disabled-opacity);
 }
 .vf-file-upload__cta {
   color: var(--vf-text-0);
@@ -229,7 +229,7 @@
   display: block;
   height: 100%;
   background: var(--vf-accent, var(--vf-green));
-  transition: width 0.15s linear;
+  transition: width var(--vf-duration-base) linear;
 }
 .vf-file-upload__actions {
   display: inline-flex;

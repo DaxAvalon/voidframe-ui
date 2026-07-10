@@ -18,9 +18,12 @@
 }
 
 /* sizes */
-.vf-button--sm { padding: var(--vf-sp-1) var(--vf-sp-4); font-size: var(--vf-font-xs); }
-.vf-button--md { padding: var(--vf-sp-3) var(--vf-sp-7); font-size: var(--vf-font-sm); }
-.vf-button--lg { padding: var(--vf-sp-4) var(--vf-sp-9); font-size: var(--vf-font-md); }
+/* Heights ride the shared control scale so Button, IconButton, and inputs
+   of the same size tier align in toolbars. Horizontal padding is wider than
+   the input scale on purpose - buttons are the strongest rectangle. */
+.vf-button--sm { padding: var(--vf-sp-1) var(--vf-sp-4); font-size: var(--vf-font-xs); min-height: var(--vf-control-height-sm); }
+.vf-button--md { padding: var(--vf-sp-3) var(--vf-sp-7); font-size: var(--vf-font-sm); min-height: var(--vf-control-height-md); }
+.vf-button--lg { padding: var(--vf-sp-4) var(--vf-sp-9); font-size: var(--vf-font-md); min-height: var(--vf-control-height-lg); }
 /* Icon-only square button. Use when the child is a single icon and aria-label
    is provided on the Button; equivalent to IconButton without a separate
    component. Matches the common shadcn `size="icon"` convention. */
@@ -36,8 +39,12 @@
 
 .vf-button--outline:hover:not(:disabled) {
   background: var(--vf-bg-4);
-  border-color: var(--vf-border-2);
-  color: var(--vf-text-1);
+  border-color: var(--vf-border-4);
+  color: var(--vf-text-0);
+}
+.vf-button--outline:active:not(:disabled),
+.vf-button--ghost:active:not(:disabled) {
+  background: var(--vf-bg-5);
 }
 .vf-button--outline[data-active="true"] {
   background: var(--vf-bg-5);
@@ -81,7 +88,7 @@
 
 .vf-button:disabled,
 .vf-button[data-disabled="true"] {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 

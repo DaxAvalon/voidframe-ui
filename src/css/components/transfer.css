@@ -45,10 +45,6 @@
   outline: none;
 }
 
-.vf-transfer__search::placeholder {
-  color: var(--vf-text-4);
-}
-
 /* ── Item list ────────────────────────────────────────────────── */
 
 .vf-transfer__list {
@@ -70,7 +66,7 @@
 }
 
 .vf-transfer__item:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-2);
 }
 
 .vf-transfer__item--selected {
@@ -79,7 +75,7 @@
 }
 
 .vf-transfer__item--disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -143,7 +139,7 @@
 }
 
 .vf-transfer__action-btn:disabled {
-  opacity: 0.3;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -182,6 +178,6 @@
 /* ── Disabled state ───────────────────────────────────────────── */
 
 .vf-transfer--disabled {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
   pointer-events: none;
 }

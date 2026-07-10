@@ -14,7 +14,6 @@
   font-size: var(--vf-font-md);
   font-weight: 600;
   color: var(--vf-text-0);
-  letter-spacing: 0.5px;
 }
 .vf-chart-frame__description {
   margin: 0;
@@ -42,7 +41,7 @@
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
   fill: var(--vf-text-2);
-  letter-spacing: 0.5px;
+  letter-spacing: var(--vf-letter-spacing);
   text-transform: var(--vf-heading-case, uppercase);
 }
 
@@ -89,11 +88,12 @@ button.vf-chart-legend__item:hover .vf-chart-legend__label {
   color: var(--vf-text-0);
 }
 button.vf-chart-legend__item:focus-visible {
-  outline: 1px solid var(--vf-accent, var(--vf-text-2));
+  outline: var(--vf-focus-ring-accent);
   outline-offset: 2px;
 }
 .vf-chart-legend__item--disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
+  cursor: not-allowed;
   text-decoration: line-through;
 }
 
@@ -109,14 +109,14 @@ button.vf-chart-legend__item:focus-visible {
 
 /* ── Chart tooltip ────────────────────────────────────────── */
 .vf-chart-tooltip {
-  background: var(--vf-bg-1);
-  border: 1px solid var(--vf-border-2);
+  background: var(--vf-bg-5);
+  border: 1px solid var(--vf-border-3);
   padding: var(--vf-sp-2) var(--vf-sp-3);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
   color: var(--vf-text-0);
   pointer-events: none;
-  z-index: var(--vf-z-tooltip, 300);
+  z-index: var(--vf-z-tooltip);
   max-width: 320px;
   line-height: 1.4;
 }
@@ -128,7 +128,6 @@ button.vf-chart-legend__item:focus-visible {
 .vf-chart-tooltip__title {
   font-weight: 600;
   color: var(--vf-text-0);
-  letter-spacing: 0.2px;
 }
 .vf-chart-tooltip__metrics {
   display: flex;
@@ -199,7 +198,7 @@ button.vf-chart-legend__item:focus-visible {
 /* ── Series (Bar / Line / Area / Point / Arc) ─────────────── */
 .vf-chart-bar__rect,
 .vf-chart-arc path {
-  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-bar__rect:hover,
 .vf-chart-arc path:hover {
@@ -267,7 +266,7 @@ button.vf-chart-legend__item:focus-visible {
 .vf-chart-heatmap__cell {
   stroke: var(--vf-border-0);
   stroke-width: 1;
-  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-calheat__cell:hover,
 .vf-chart-heatmap__cell:hover {
@@ -291,7 +290,7 @@ button.vf-chart-legend__item:focus-visible {
 .vf-chart-treemap__cell {
   stroke: var(--vf-bg-1);
   stroke-width: 1;
-  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-treemap__cell:hover,
 .vf-chart-sunburst__slice:hover {
@@ -371,7 +370,7 @@ button.vf-chart-legend__item:focus-visible {
   font-family: var(--vf-font-family);
 }
 .vf-chart-sankey__link {
-  transition: stroke-opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: stroke-opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-sankey__link:hover {
   stroke-opacity: 0.7;
@@ -391,7 +390,7 @@ button.vf-chart-legend__item:focus-visible {
   font-family: var(--vf-font-family);
 }
 .vf-chart-chord__chord {
-  transition: stroke-opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: stroke-opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-chord__chord:hover {
   stroke-opacity: 0.85;
@@ -436,7 +435,7 @@ button.vf-chart-legend__item:focus-visible {
   color: var(--vf-text-0);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
   text-transform: var(--vf-heading-case, uppercase);
 }
 
@@ -456,7 +455,7 @@ button.vf-chart-legend__item:focus-visible {
   color: var(--vf-text-2);
   font-size: var(--vf-font-xs);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
 }
 
 /* ── NetworkGraph ─────────────────────────────────────────── */
@@ -476,8 +475,8 @@ button.vf-chart-legend__item:focus-visible {
   color: var(--vf-border-2);
   cursor: pointer;
   transition:
-    stroke var(--vf-transition-duration, 0.15s) ease,
-    stroke-opacity var(--vf-transition-duration, 0.15s) ease;
+    stroke var(--vf-duration-base) var(--vf-easing-standard),
+    stroke-opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-network__link--highlighted {
   stroke: var(--vf-accent, var(--vf-amber));
@@ -501,7 +500,7 @@ button.vf-chart-legend__item:focus-visible {
 }
 .vf-chart-network__node {
   cursor: grab;
-  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-network__node--dragging {
   cursor: grabbing;
@@ -534,8 +533,8 @@ button.vf-chart-legend__item:focus-visible {
   shape-rendering: geometricPrecision;
   cursor: pointer;
   transition:
-    color var(--vf-transition-duration, 0.15s) ease,
-    opacity var(--vf-transition-duration, 0.15s) ease;
+    color var(--vf-duration-base) var(--vf-easing-standard),
+    opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-dep-graph__edge--highlighted {
   color: var(--vf-accent, var(--vf-amber));
@@ -556,7 +555,7 @@ button.vf-chart-legend__item:focus-visible {
 }
 .vf-chart-dep-graph__node {
   cursor: pointer;
-  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-dep-graph__node--dimmed {
   opacity: 0.35;
@@ -573,13 +572,13 @@ button.vf-chart-legend__item:focus-visible {
 
 /* ── Choropleth + BubbleMap ───────────────────────────────── */
 .vf-chart-choropleth__feature {
-  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-choropleth__feature:hover {
   opacity: 0.82;
 }
 .vf-chart-bubble-map__bubble {
-  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-bubble-map__bubble:hover {
   opacity: 1;
@@ -587,7 +586,7 @@ button.vf-chart-legend__item:focus-visible {
 
 /* ── TileGridMap ──────────────────────────────────────────── */
 .vf-chart-tile-map__cell {
-  transition: opacity var(--vf-transition-duration, 0.15s) ease;
+  transition: opacity var(--vf-duration-base) var(--vf-easing-standard);
 }
 .vf-chart-tile-map__cell:hover {
   opacity: 0.82;
@@ -597,7 +596,7 @@ button.vf-chart-legend__item:focus-visible {
   font-size: var(--vf-font-xxs);
   font-family: var(--vf-font-family);
   pointer-events: none;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--vf-letter-spacing);
 }
 
 /* ── Density overrides ────────────────────────────────────── */

@@ -702,7 +702,7 @@ function ButtonsSection() {
           <Button>Default</Button>
           <Button variant="solid">Solid</Button>
           <Button variant="ghost">Ghost</Button>
-          <Button variant="subtle" accent="#4ade80">Accent</Button>
+          <Button variant="subtle" accent="var(--vf-green)">Accent</Button>
           <Button disabled>Disabled</Button>
         </Flex>
       </Block>
@@ -3338,10 +3338,10 @@ function IconsButtonSection() {
           <IconButton aria-label="Edit" variant="ghost">
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="Save" variant="solid" accent="#4ade80">
+          <IconButton aria-label="Save" variant="solid" accent="var(--vf-green)">
             <SaveIcon />
           </IconButton>
-          <IconButton aria-label="Refresh" variant="subtle" accent="#60a5fa">
+          <IconButton aria-label="Refresh" variant="subtle" accent="var(--vf-blue)">
             <RefreshIcon />
           </IconButton>
           <IconButton aria-label="Disabled" disabled>
@@ -4919,11 +4919,11 @@ function App() {
   const [activeId, setActiveId] = useState(SECTIONS[0]!.id);
   const [collapsed, setCollapsed] = useState(false);
   const { theme: themeName, setTheme: setThemeName } = useThemePersistence<
-    "dark" | "light" | "midnight" | "grey" | "system"
+    "dark" | "light" | "midnight" | "grey" | "soft" | "soft-light" | "system"
   >({
     key: "voidframe-demo-theme",
     defaultTheme: "dark",
-    allowed: ["dark", "light", "midnight", "grey", "system"] as const,
+    allowed: ["dark", "light", "midnight", "grey", "soft", "soft-light", "system"] as const,
   });
   const [localeTag, setLocaleTag] = useState<string>("en");
   const localePack = LOCALE_PACKS[localeTag] ?? LOCALE_PACKS.en!;
@@ -4961,6 +4961,8 @@ function App() {
                     { id: "light", label: "Light" },
                     { id: "midnight", label: "Midnight" },
                     { id: "grey", label: "Grey" },
+                    { id: "soft", label: "Soft" },
+                    { id: "soft-light", label: "Soft Light" },
                     { id: "system", label: "Auto" },
                   ]}
                 />

@@ -35,11 +35,6 @@
   color: var(--vf-text-1);
   font-family: inherit;
   font-size: inherit;
-  caret-color: var(--vf-accent, var(--vf-text-1));
-}
-
-.vf-command-input__input::placeholder {
-  color: var(--vf-text-3);
 }
 
 /* ── Ghost suggestion text ───────────────────────────────────── */
@@ -47,7 +42,7 @@
 .vf-command-input__suggestion {
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   pointer-events: none;
   color: transparent;
   white-space: pre;
@@ -71,12 +66,11 @@
   padding: var(--vf-sp-1) 0;
   list-style: none;
   background: var(--vf-bg-2);
-  border: 1px solid var(--vf-border-1);
+  border: 1px solid var(--vf-border-2);
   border-radius: var(--vf-radius);
-  box-shadow: var(--vf-shadow-md);
   max-height: 200px;
   overflow-y: auto;
-  z-index: 10;
+  z-index: var(--vf-z-dropdown);
 }
 
 .vf-command-input__completion-item {
@@ -91,7 +85,8 @@
 
 .vf-command-input__completion-item:hover,
 .vf-command-input__completion-item--active {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
+  color: var(--vf-text-0);
 }
 
 .vf-command-input__completion-desc {
@@ -120,6 +115,7 @@
 /* ── Disabled ────────────────────────────────────────────────── */
 
 .vf-command-input--disabled {
-  opacity: 0.5;
+  opacity: var(--vf-disabled-opacity);
+  cursor: not-allowed;
   pointer-events: none;
 }

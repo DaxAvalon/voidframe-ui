@@ -79,7 +79,7 @@
 .vf-org-chart__controls {
   position: absolute;
   top: var(--vf-sp-2);
-  right: var(--vf-sp-2);
+  inset-inline-end: var(--vf-sp-2);
   display: flex;
   gap: var(--vf-sp-1);
   z-index: 1;
@@ -111,7 +111,7 @@
 }
 
 .vf-org-chart--sm .vf-org-chart__node-description {
-  font-size: 9px;
+  font-size: var(--vf-font-xs);
 }
 
 .vf-org-chart--md .vf-org-chart__node-label {

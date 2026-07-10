@@ -10,6 +10,7 @@ import {
   type ButtonHTMLAttributes,
   type CSSProperties,
   type HTMLAttributes,
+  type KeyboardEvent,
   type OlHTMLAttributes,
   type ReactElement,
   type ReactNode,
@@ -678,12 +679,29 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
       </a>
     );
   }
+  // Clickable items without an href must still be reachable and operable
+  // from the keyboard: expose button semantics and activate on Enter/Space.
+  const interactiveProps = onClick
+    ? {
+        role: "button" as const,
+        tabIndex: 0,
+        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
+          props.onKeyDown?.(e);
+          if (e.defaultPrevented) return;
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onClick();
+          }
+        },
+      }
+    : {};
   return (
     <div
       ref={ref}
       onClick={onClick}
       {...commonProps}
       {...props}
+      {...interactiveProps}
     >
       {inner}
     </div>

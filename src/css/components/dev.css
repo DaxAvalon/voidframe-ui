@@ -21,7 +21,7 @@
 .vf-playground__title {
   font-weight: 600;
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--vf-letter-spacing);
   color: var(--vf-text-0);
 }
 .vf-playground__actions {
@@ -39,7 +39,7 @@
   cursor: pointer;
 }
 .vf-playground__reset:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
 .vf-playground__body {
   display: grid;
@@ -66,9 +66,9 @@
   padding: var(--vf-sp-1) var(--vf-sp-2);
   background: var(--vf-bg-0);
   color: var(--vf-text-2);
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
   font-weight: 600;
-  letter-spacing: var(--vf-heading-tracking, 0.08em);
+  letter-spacing: var(--vf-heading-tracking);
   border-bottom: 1px solid var(--vf-border-0);
 }
 .vf-playground__editor {
@@ -127,7 +127,7 @@
 }
 .vf-docs__brand {
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: var(--vf-heading-tracking);
   color: var(--vf-text-0);
 }
 .vf-docs__count {
@@ -171,8 +171,8 @@
 .vf-docs__nav-subhead {
   padding: var(--vf-sp-1) var(--vf-sp-2);
   color: var(--vf-text-3);
-  font-size: 10px;
-  letter-spacing: var(--vf-heading-tracking, 0.08em);
+  font-size: var(--vf-font-sm);
+  letter-spacing: var(--vf-heading-tracking);
   text-transform: var(--vf-heading-case, uppercase);
   background: none;
   border: none;
@@ -273,7 +273,7 @@
   transition: var(--vf-transition);
 }
 .vf-docs__hook-link:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
   border-color: var(--vf-border-2);
   color: var(--vf-text-0);
 }
@@ -336,9 +336,9 @@
 .vf-props-table__table th {
   color: var(--vf-text-2);
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--vf-letter-spacing);
   font-weight: 600;
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
   background: var(--vf-bg-2);
   border-bottom-color: var(--vf-border-1);
 }
@@ -393,7 +393,7 @@
   background: var(--vf-red);
   color: var(--vf-bg-0);
   font-weight: 700;
-  letter-spacing: var(--vf-heading-tracking, 0.08em);
+  letter-spacing: var(--vf-heading-tracking);
   font-size: var(--vf-font-xs);
 }
 .vf-error-boundary__name {
@@ -438,7 +438,7 @@
   cursor: pointer;
 }
 .vf-error-boundary__reset:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
 
 /* ── DevPanel ────────────────────────────────────────────── */
@@ -455,7 +455,6 @@
   color: var(--vf-text-1);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);
-  box-shadow: var(--vf-shadow-md);
 }
 .vf-dev-panel--tl {
   top: 12px;
@@ -489,7 +488,7 @@
 }
 .vf-dev-panel__title {
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--vf-letter-spacing);
   text-transform: var(--vf-heading-case, uppercase);
   color: var(--vf-text-0);
 }
@@ -508,7 +507,7 @@
   line-height: 1;
 }
 .vf-dev-panel__toggle:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
 .vf-dev-panel__tabs {
   display: flex;
@@ -534,7 +533,7 @@
   color: var(--vf-text-0);
 }
 .vf-dev-panel__tab--active {
-  background: var(--vf-bg-2);
+  background: var(--vf-bg-3);
   color: var(--vf-text-0);
   font-weight: 600;
 }
@@ -569,10 +568,10 @@
   cursor: pointer;
 }
 .vf-dev-panel__action:hover:not(:disabled) {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
 .vf-dev-panel__action:disabled {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 .vf-dev-panel__empty {
@@ -600,8 +599,8 @@
   color: var(--vf-text-2);
   font-weight: 600;
   text-transform: var(--vf-heading-case, uppercase);
-  letter-spacing: 0.04em;
-  font-size: 10px;
+  letter-spacing: var(--vf-letter-spacing);
+  font-size: var(--vf-font-sm);
 }
 .vf-dev-panel__list {
   list-style: none;
@@ -619,8 +618,8 @@
   flex-shrink: 0;
   text-transform: var(--vf-heading-case, uppercase);
   font-weight: 700;
-  font-size: 10px;
-  letter-spacing: 0.06em;
+  font-size: var(--vf-font-sm);
+  letter-spacing: var(--vf-letter-spacing);
   padding: 0 var(--vf-sp-1);
 }
 .vf-dev-panel__level--warn {
@@ -655,8 +654,8 @@
 .vf-dev-panel__about dt {
   color: var(--vf-text-2);
   text-transform: var(--vf-heading-case, uppercase);
-  font-size: 10px;
-  letter-spacing: 0.06em;
+  font-size: var(--vf-font-sm);
+  letter-spacing: var(--vf-letter-spacing);
 }
 .vf-dev-panel__about dd {
   margin: 0;

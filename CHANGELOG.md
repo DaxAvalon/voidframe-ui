@@ -7,6 +7,104 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 _Nothing yet._
 
+## [1.4.0] - 2026-07-10
+
+Ecosystem, design-review, and style-refinement release. Adds two
+rounded themes, a Tailwind preset, a Next.js template, and an MCP
+server; fixes every P0/P1 from a browser-verified design audit; and
+unifies the interaction grammar (selection, hover, pressed, disabled,
+focus) across all 65 component stylesheets. No component API changes.
+
+### Behavior changes
+
+- **One accent for selection.** Every selected/current indicator now
+  uses `var(--vf-accent)` (defaults to `--vf-blue`) instead of
+  per-component amber/green/info edges: nav items, tabs, tab bars,
+  wizards, steppers, scrollspy, combobox/tree options, commit graph,
+  carousel dots, calendar days. Two documented forms: collection
+  selection = `bg-3 + text-0 + 2px accent edge`; toggled-on control =
+  `bg-5 + text-0 + border-3`.
+- **Pressed feedback exists.** Buttons, icon buttons, split buttons,
+  menu/dropdown items, segmented controls, toggle groups, pagination,
+  and steppers gain an `:active` state (bg-5). Hover is unified
+  (controls → bg-4 + text-0, border tier never dims; rows → bg-2).
+- **No shadows for depth.** Removed `box-shadow` elevation from
+  popconfirm, cascader, split-button and command-input menus, dev
+  panel, reactflow controls, hoverable cards, dashboard-grid drag, and
+  the FAB — which is also no longer a circle (`border-radius:
+  var(--vf-radius)`), matching the zero-radius identity.
+- **Select renders a chevron.** The native arrow was stripped by
+  `appearance: none` with no replacement; a `.vf-select__chevron` span
+  now sits at the inline end (hidden in open-listbox mode). DOM gains
+  a `.vf-select-wrap` wrapper around the `<select>`.
+- **Monochrome glyphs replace color emoji.** Result 403/404/500
+  (⛔🔍☠ → ⊘ ⌕ ⨯, with U+FE0E pinning ⚠/ℹ to text presentation) and
+  the file-kind maps in ChatAttachments, Embed, and FileUpload.
+- **`.vf-root` ships font smoothing, a global caret color (text-0),
+  and one `::placeholder` voice (text-4)** — previously opt-in via
+  reset.css or scattered per-component.
+- **Button-sm gains `min-height: 20px`** (was 16px) so Button,
+  IconButton, and inputs of the same size tier align exactly in
+  toolbars (20/25/32px via the new control-height tokens). IconButton
+  and SplitButton join Button's `border-3` resting tier.
+- **Disabled is uniform**: `opacity: var(--vf-disabled-opacity)` (0.4)
+  plus `cursor: not-allowed` everywhere (was 0.3–0.6 across 38 rules).
+
+### Added
+
+- **`soft` and `soft-light` themes** — the first rounded themes
+  (radius 6px), with a theme-drift test guarding token completeness.
+- **Tailwind preset** (`voidframe-ui/tailwind`) mapping every `--vf-*`
+  token to utilities that re-theme at runtime.
+- **Next.js template** — `create-voidframe-app --template next` App
+  Router scaffold with a pre-hydration theme script.
+- **`voidframe-mcp`** — zero-dependency MCP stdio server over the
+  component catalog (separate package under `tools/mcp`).
+- **AI Console showcase** docs page built from shipped components.
+- **`SECURITY.md` + issue/discussion templates** and a docs Security
+  & Trust page.
+- **New tokens**: `--vf-chart-1..8` (categorical series, decoupled
+  from status colors — `seriesPalette()` reads them),
+  `--vf-control-height-sm/md/lg`, `--vf-disabled-opacity`,
+  `--vf-focus-ring-accent`.
+- **`.vf-h1`–`.vf-h6` heading utilities** (the scale tokens.css always
+  documented) and `.vf-line-clamp-2/3`.
+- **StackBlitz / CodeSandbox buttons** on every docs playground.
+
+### Fixed
+
+- **Soft themes rendered as dark** — the tokens.css cascade blocks for
+  `soft`/`soft-light` were missing entirely (P0); the new drift test
+  also caught midnight's stale accent ramps.
+- **`data-vf-motion="never"` was inert** — the reduced-motion kill
+  rule ignored the documented opt-out; e2e contract spec added.
+- **Clickable NavItem was keyboard-inoperable** (rendered a div with
+  onClick; now a real focusable control).
+- **Modal scrims rendered under sticky navbars** — z-index usage
+  aligned to the token scale; two load-bearing phantom z-tokens
+  (`--vf-z-overlay`, `--vf-z-fab`) defined for real; the phantom
+  `--vf-transition-duration` (referenced 14× via fallback, never
+  defined) replaced with the duration tokens.
+- **Toggle had no focus ring and a near-invisible off state**; +/-
+  steppers declared `outline: none` with no replacement — accent
+  focus rings restored across 22 divergent component overrides.
+- **CursorPagination buttons had zero padding** (no size class);
+  Kanban columns now cap at 60vh with internal scroll and lift while
+  dragged; sort carets readable (text-0) with hover reveal;
+  `tabular-nums` on tables, stats, pagination, and steppers;
+  StatusBar's `│` glyph separator replaced with a real hairline.
+- **RTL**: physical `left/right` positioning migrated to logical
+  properties; QR/barcode placeholders use the optical tokens.
+- Demo accent props no longer hardcode dark-theme hex (illegible in
+  light theme); 35 raw px font sizes tokenized.
+
+### Tooling
+
+- `lint:css-colors` now also fails on: z-index fallbacks, raw px font
+  sizes, phantom tokens referenced only via fallbacks, and raw
+  `letter-spacing` literals (annotate `/* vf-allow-tracking */`).
+- One skeleton loading language (shimmer); duplicate keyframes removed.
+
 ## [1.3.0] - 2026-05-04
 
 Developer experience release driven by a comparative audit against

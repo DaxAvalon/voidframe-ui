@@ -44,13 +44,18 @@
   align-items: center;
   gap: var(--vf-sp-3);
 }
+/* Segment divider - a real hairline, not a text pipe glyph. */
 .vf-status-bar__sep {
-  color: var(--vf-border-1);
+  font-size: 0; /* vf-allow-raw-size: hides the legacy glyph, renders as a line */
+  align-self: stretch;
+  width: 1px;
+  background: var(--vf-border-2);
   margin-inline-end: var(--vf-sp-3);
 }
 .vf-status-bar__value {
   font-family: var(--vf-font-family);
   color: var(--vf-text-0);
+  font-variant-numeric: tabular-nums;
 }
 
 .vf-segment-bar {
@@ -70,13 +75,11 @@
 }
 
 .vf-card--hoverable {
-  transition: border-color var(--vf-duration-base) ease,
-              box-shadow var(--vf-duration-base) ease;
+  transition: border-color var(--vf-duration-base) ease;
   cursor: pointer;
 }
 .vf-card--hoverable:hover {
   border-color: var(--vf-border-3);
-  box-shadow: var(--vf-shadow-sm);
 }
 .vf-card__actions {
   display: flex;

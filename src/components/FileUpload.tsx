@@ -377,7 +377,7 @@ export const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
                     className="vf-file-upload__thumb vf-file-upload__thumb--placeholder"
                     aria-hidden="true"
                   >
-                    📄
+                    {"\u25A4"}
                   </span>
                 )}
                 <div className="vf-file-upload__meta">

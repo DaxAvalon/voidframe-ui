@@ -92,16 +92,17 @@ export type DocumentKind =
   | "doc"
   | "other";
 
+// Monochrome glyphs only - color emoji break the monochrome identity.
 const KIND_GLYPH: Record<DocumentKind, string> = {
-  pdf: "📄",
-  image: "🖼",
-  text: "📃",
-  audio: "🎵",
-  video: "🎬",
-  archive: "🗜",
-  spreadsheet: "📊",
-  doc: "📝",
-  other: "📁",
+  pdf: "\u25A4",
+  image: "\u25A6",
+  text: "\u2261",
+  audio: "\u266A",
+  video: "\u25B6\uFE0E",
+  archive: "\u25A3",
+  spreadsheet: "\u229E",
+  doc: "\u25A4",
+  other: "\u25A2",
 };
 
 function formatBytes(n: number | undefined): string {

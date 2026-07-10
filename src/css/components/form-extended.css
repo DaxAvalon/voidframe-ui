@@ -10,7 +10,7 @@
 
 .vf-checkbox[data-disabled="true"],
 .vf-radio[data-disabled="true"] {
-  opacity: 0.4;
+  opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -41,7 +41,7 @@
 
 .vf-checkbox__check {
   color: var(--vf-accent, var(--vf-green));
-  font-size: 10px;
+  font-size: var(--vf-font-sm);
   line-height: 1;
 }
 .vf-radio__pip {
@@ -101,7 +101,7 @@
   background: var(--vf-accent, var(--vf-green));
   border: 1px solid var(--vf-accent, var(--vf-green));
   pointer-events: none;
-  transition: inset-inline-start 0.05s;
+  transition: inset-inline-start var(--vf-duration-faster) linear;
 }
 
 /* NumberInput */
@@ -172,7 +172,6 @@
   padding: var(--vf-sp-3) var(--vf-sp-11) var(--vf-sp-3) var(--vf-sp-10);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
-  letter-spacing: 0.5px;
   outline: none;
   transition: var(--vf-transition);
   width: 100%;

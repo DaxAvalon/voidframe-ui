@@ -114,6 +114,26 @@ describe("NavItem", () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
+  it("clickable item without href is keyboard-operable (role, tab stop, Enter/Space)", async () => {
+    const onClick = vi.fn();
+    renderWithTheme(<NavItem onClick={onClick}>Go</NavItem>);
+    const item = screen.getByRole("button", { name: "Go" });
+    expect(item).toHaveAttribute("tabindex", "0");
+    await userEvent.tab();
+    expect(item).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    expect(onClick).toHaveBeenCalledTimes(1);
+    await userEvent.keyboard(" ");
+    expect(onClick).toHaveBeenCalledTimes(2);
+  });
+
+  it("display-only item (no onClick, no href) stays inert", () => {
+    renderWithTheme(<NavItem>Static</NavItem>);
+    const el = screen.getByText("Static").closest(".vf-nav-item")!;
+    expect(el).not.toHaveAttribute("role");
+    expect(el).not.toHaveAttribute("tabindex");
+  });
+
   it("asChild forwards ref and arbitrary aria-label", () => {
     const ref: { current: HTMLElement | null } = { current: null };
     renderWithTheme(

@@ -70,7 +70,7 @@
 
 .vf-env-vars__value--masked {
   color: var(--vf-text-4);
-  letter-spacing: 2px;
+  letter-spacing: var(--vf-label-spacing);
 }
 
 .vf-env-vars__value input {
@@ -108,7 +108,7 @@
   color: var(--vf-text-3);
   font-size: 0.85em;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: color var(--vf-duration-base) var(--vf-easing-standard), border-color var(--vf-duration-base) var(--vf-easing-standard);
 }
 
 .vf-env-vars__actions button:hover {

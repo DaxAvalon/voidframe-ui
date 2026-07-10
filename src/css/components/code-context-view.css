@@ -27,7 +27,7 @@
 
 .vf-code-context__source {
   color: var(--vf-text-2);
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .vf-code-context__line {
@@ -50,7 +50,7 @@
   color: var(--vf-text-0);
   background: color-mix(in srgb, var(--vf-accent, var(--vf-danger)) 12%, transparent);
   padding: var(--vf-sp-1) 0;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .vf-code-context__context-line {

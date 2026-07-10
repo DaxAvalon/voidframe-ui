@@ -14,7 +14,6 @@
   color: var(--vf-text-0);
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-sm);
-  letter-spacing: 0.5px;
   padding: var(--vf-sp-3) var(--vf-sp-5);
   outline: none;
   transition: var(--vf-transition);
@@ -29,11 +28,6 @@
   border-color: var(--vf-border-3);
 }
 
-.vf-input::placeholder,
-.vf-textarea::placeholder {
-  color: var(--vf-text-4);
-}
-
 .vf-textarea {
   padding: var(--vf-sp-4) var(--vf-sp-5);
   resize: vertical;
@@ -43,6 +37,25 @@
 .vf-select {
   appearance: none;
   cursor: pointer;
+  /* room for the chevron affordance */
+  padding-inline-end: var(--vf-sp-9);
+}
+
+/* Chevron affordance - appearance:none strips the native arrow, and a
+   select that looks identical to a text input is a usability bug. */
+.vf-select-wrap {
+  position: relative;
+  display: block;
+}
+.vf-select__chevron {
+  position: absolute;
+  inset-inline-end: var(--vf-sp-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--vf-text-3);
+  font-size: var(--vf-font-xs);
+  pointer-events: none;
+  line-height: 1;
 }
 
 /* Size variants — voidframe-native dimension scale, independent of the
@@ -83,30 +96,41 @@
   gap: var(--vf-sp-4);
   cursor: pointer;
 }
+.vf-toggle:focus-visible {
+  outline: var(--vf-focus-ring-accent);
+  outline-offset: var(--vf-focus-offset);
+}
+.vf-toggle[aria-disabled="true"],
+.vf-toggle:disabled {
+  opacity: var(--vf-disabled-opacity);
+  cursor: not-allowed;
+}
 .vf-toggle__track {
   width: 28px;
   height: 14px;
   background: var(--vf-bg-3);
-  border: 1px solid var(--vf-border-2);
+  /* border-3 + text-3 thumb: the off state must actually read as a
+     control on bg-1/bg-2 surfaces, not vanish into them. */
+  border: 1px solid var(--vf-border-3);
   position: relative;
   transition: var(--vf-transition);
 }
 .vf-toggle[aria-checked="true"] .vf-toggle__track {
-  background: color-mix(in srgb, var(--vf-accent, var(--vf-green)) 20%, transparent);
-  border-color: color-mix(in srgb, var(--vf-accent, var(--vf-green)) 33%, transparent);
+  background: color-mix(in srgb, var(--vf-accent) 20%, transparent);
+  border-color: color-mix(in srgb, var(--vf-accent) 33%, transparent);
 }
 .vf-toggle__thumb {
   width: 10px;
   height: 10px;
-  background: var(--vf-text-4);
+  background: var(--vf-text-3);
   position: absolute;
   top: 1px;
-  left: 1px;
+  inset-inline-start: 1px;
   transition: var(--vf-transition);
 }
 .vf-toggle[aria-checked="true"] .vf-toggle__thumb {
-  background: var(--vf-accent, var(--vf-green));
-  left: 15px;
+  background: var(--vf-accent);
+  inset-inline-start: 15px;
 }
 
 /* ── FormErrorSummary ────────────────────────────────────── */
@@ -186,5 +210,5 @@
   cursor: pointer;
 }
 .vf-async-data__retry:hover {
-  background: var(--vf-bg-3);
+  background: var(--vf-bg-4);
 }
