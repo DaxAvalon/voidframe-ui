@@ -111,13 +111,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
-      # Trusted publishing requires npm >= 11.5.1 which ships with Node 22+.
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
           cache: npm
           registry-url: "https://registry.npmjs.org"
+
+      # Trusted publishing requires npm >= 11.5.1. Node 22 bundles npm 10.x,
+      # which never attempts the OIDC token exchange and fails with
+      # "404 Not Found - PUT .../voidframe-ui" — upgrade the CLI explicitly.
+      - name: Upgrade npm for trusted publishing
+        run: |
+          npm install -g npm@^11.5.1
+          npm --version
 
       - name: Install dependencies
         run: npm ci --no-fund
