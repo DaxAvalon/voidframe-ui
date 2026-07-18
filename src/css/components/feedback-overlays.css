@@ -366,7 +366,7 @@
    the panel escapes ancestor overflow/scroll clipping (e.g. app sidebars). */
 .vf-notif-center__float {
   position: fixed;
-  z-index: 1000;
+  z-index: var(--vf-z-popover, 1000);
 }
 .vf-notif-center__panel--portaled {
   position: static;
