@@ -104,6 +104,38 @@ describe("NotificationCenter", () => {
     await userEvent.click(screen.getByRole("button", { name: /Notifications/ }));
     expect(screen.getByTestId("custom")).toHaveTextContent("Custom note custom");
   });
+
+  it("portals the open panel to document.body (escapes clipping ancestors)", async () => {
+    renderWithTheme(
+      <div data-testid="clip" style={{ overflow: "hidden", position: "relative" }}>
+        <NotificationCenter notifications={items} />
+      </div>
+    );
+    await userEvent.click(screen.getByRole("button", { name: /Notifications/ }));
+    const panel = screen.getByRole("dialog");
+    expect(screen.getByTestId("clip").contains(panel)).toBe(false);
+    expect(document.body.contains(panel)).toBe(true);
+  });
+
+  it("does not close when clicking inside the portaled panel", async () => {
+    renderWithTheme(<NotificationCenter notifications={items} />);
+    await userEvent.click(screen.getByRole("button", { name: /Notifications/ }));
+    await userEvent.click(screen.getByText("New message"));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("closes on outside click when portaled", async () => {
+    renderWithTheme(
+      <div>
+        <button type="button">outside</button>
+        <NotificationCenter notifications={items} />
+      </div>
+    );
+    await userEvent.click(screen.getByRole("button", { name: /Notifications/ }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "outside" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
 });
 
 describe("BannerAlert", () => {

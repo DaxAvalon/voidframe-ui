@@ -5,7 +5,14 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
-_Nothing yet._
+### Fixed
+
+- **NotificationCenter panel now renders through a portal.** The dropdown
+  panel was an inline `position:absolute` child of the trigger, so ancestor
+  `overflow`/scroll containers (e.g. an app sidebar) clipped it and forced
+  layout shifts. The open panel is now portaled to `document.body` at a
+  fixed position anchored to the trigger, repositioning on resize/scroll.
+  Outside-click and Escape behavior are unchanged; no API changes.
 
 ## [1.4.0] - 2026-07-10
 

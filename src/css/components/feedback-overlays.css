@@ -362,6 +362,18 @@
   inset-inline-start: auto;
   inset-inline-end: 0;
 }
+/* Portaled panel: fixed-position float anchored to the trigger rect, so
+   the panel escapes ancestor overflow/scroll clipping (e.g. app sidebars). */
+.vf-notif-center__float {
+  position: fixed;
+  z-index: 1000;
+}
+.vf-notif-center__panel--portaled {
+  position: static;
+  top: auto;
+  inset-inline: auto;
+  margin-top: 0;
+}
 .vf-notif-center__head {
   display: flex; justify-content: space-between; align-items: center;
   padding: var(--vf-sp-3); border-bottom: 1px solid var(--vf-border-1);

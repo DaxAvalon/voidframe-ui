@@ -4,7 +4,9 @@
 
 import {
   forwardRef,
+  useCallback,
   useEffect,
+  useRef,
   useState,
   type CSSProperties,
   type HTMLAttributes,
@@ -13,9 +15,9 @@ import {
 import { cx } from "../utils/cx";
 import { toneAttrs } from "../utils/toneAttrs";
 import { Label } from "./Text";
-import { useClickOutside } from "../hooks";
 import { useMergedRefs } from "../hooks/useMergedRefs";
 import { FocusScope } from "../primitives/FocusScope";
+import { Portal } from "../primitives/Portal";
 
 // ── NotificationCenter ──────────────────────────────────────
 
@@ -84,8 +86,56 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
     ref
   ) {
     const [open, setOpen] = useState(false);
-    const outsideRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
-    const mergedRef = useMergedRefs(ref, outsideRef);
+    const wrapperRef = useRef<HTMLDivElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const mergedRef = useMergedRefs(ref, wrapperRef);
+
+    // Fixed-position coords for the portaled panel, computed from the
+    // trigger rect. `right` is used when anchor="end".
+    const [panelPos, setPanelPos] = useState<{
+      top: number;
+      left?: number;
+      right?: number;
+    } | null>(null);
+
+    const updatePosition = useCallback(() => {
+      const el = triggerRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (anchor === "end") {
+        setPanelPos({ top: r.bottom + 6, right: Math.max(12, window.innerWidth - r.right) });
+      } else {
+        setPanelPos({ top: r.bottom + 6, left: Math.max(12, r.left) });
+      }
+    }, [anchor]);
+
+    // The panel lives under document.body, so a single-ref click-outside
+    // would treat clicks inside the panel as "outside". Check both nodes.
+    useEffect(() => {
+      if (!open) return;
+      const handler = (e: MouseEvent) => {
+        const t = e.target as Node;
+        if (wrapperRef.current?.contains(t)) return;
+        if (panelRef.current?.contains(t)) return;
+        setOpen(false);
+      };
+      document.addEventListener("mousedown", handler);
+      return () => document.removeEventListener("mousedown", handler);
+    }, [open]);
+
+    // Keep the panel anchored across viewport changes while open.
+    useEffect(() => {
+      if (!open) return;
+      updatePosition();
+      window.addEventListener("resize", updatePosition);
+      window.addEventListener("scroll", updatePosition, true);
+      return () => {
+        window.removeEventListener("resize", updatePosition);
+        window.removeEventListener("scroll", updatePosition, true);
+      };
+    }, [open, updatePosition]);
+
     // Close on Escape while the dialog is open.
     useEffect(() => {
       if (!open) return;
@@ -116,12 +166,16 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
         {...props}
       >
         <button
+          ref={triggerRef}
           type="button"
           className="vf-notif-center__trigger"
           aria-haspopup="dialog"
           aria-expanded={open}
           aria-label={`${triggerLabel}${unread ? ` (${unread} unread)` : ""}`}
-          onClick={() => setOpen(!open)}
+          onClick={() => {
+            if (!open) updatePosition();
+            setOpen((v) => !v);
+          }}
         >
           <svg
             aria-hidden="true"
@@ -142,16 +196,22 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
             <span className="vf-notif-center__badge">{unread}</span>
           )}
         </button>
-        {open && (
-          <FocusScope
-            trapped
-            loop
-            autoFocus
-            restoreFocus
-            role="dialog"
-            aria-label={triggerLabel}
-            className="vf-notif-center__panel"
-          >
+        {open && panelPos && (
+          <Portal>
+            <div
+              ref={panelRef}
+              className="vf-notif-center__float"
+              style={{ top: panelPos.top, left: panelPos.left, right: panelPos.right }}
+            >
+              <FocusScope
+                trapped
+                loop
+                autoFocus
+                restoreFocus
+                role="dialog"
+                aria-label={triggerLabel}
+                className="vf-notif-center__panel vf-notif-center__panel--portaled"
+              >
             <header className="vf-notif-center__head">
               <Label>{triggerLabel}</Label>
               {onMarkAllRead && unread > 0 && (
@@ -208,7 +268,9 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
                 </li>
               ))}
             </ul>
-          </FocusScope>
+              </FocusScope>
+            </div>
+          </Portal>
         )}
       </div>
     );
