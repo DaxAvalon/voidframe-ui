@@ -5,6 +5,10 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+_Nothing yet._
+
+## [1.4.1] - 2026-07-17
+
 ### Fixed
 
 - **NotificationCenter panel now renders through a portal.** The dropdown
