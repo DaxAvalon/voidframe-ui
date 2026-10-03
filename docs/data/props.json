@@ -1358,6 +1358,13 @@
     ]
   },
   {
+    "name": "AudioLevelMeter",
+    "description": "Pure ballistics: rises snap, falls are limited to `rateDbPerSecond` over\n`dtSeconds`. Returns the value to display.",
+    "file": "src/components/AudioLevelMeter.tsx",
+    "kind": "element",
+    "props": []
+  },
+  {
     "name": "AudioPlayer",
     "description": "Accessible audio player with play/pause, scrub bar, time readout, and\nvolume. Wraps the native `<audio>` element and exposes keyboard controls.",
     "file": "src/components/MediaPlayer.tsx",

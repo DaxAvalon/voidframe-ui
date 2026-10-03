@@ -51,6 +51,7 @@ export const auditData: ComponentAudit[] = [
   { name: "CSVViewer", category: "Data", wcagLevel: "AA", keyboardNav: "n/a", screenReader: "tested", ariaRoles: ["table"], focusManagement: "n/a" },
   { name: "HexDump", category: "Data", wcagLevel: "AA", keyboardNav: "partial", screenReader: "tested", ariaRoles: ["grid"], focusManagement: "natural" },
   { name: "ConfidenceMeter", category: "Data", wcagLevel: "AA", keyboardNav: "n/a", screenReader: "tested", ariaRoles: ["meter"], focusManagement: "n/a" },
+  { name: "AudioLevelMeter", category: "Data", wcagLevel: "AA", keyboardNav: "n/a", screenReader: "tested", ariaRoles: ["meter"], focusManagement: "n/a", notes: "aria-valuetext carries the unit (dBFS/LUFS); -Infinity reads as -∞. Fall-off animation is disabled under prefers-reduced-motion." },
 
   // Chat & AI
   { name: "ModelCompare", category: "Chat & AI", wcagLevel: "AA", keyboardNav: "partial", screenReader: "untested", ariaRoles: [], focusManagement: "natural" },

@@ -693,6 +693,13 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "usePrefersReducedMotion", reason: "Disable animation" },
     ],
   },
+  AudioLevelMeter: {
+    internal: ["usePrefersReducedMotion"],
+    recommended: [
+      { hook: "useInterval", reason: "Poll the audio engine for the current peak" },
+      { hook: "useRafLoop", reason: "Drive the meter from an analyser at frame rate" },
+    ],
+  },
 
   // ── Numeric Displays ────────────────────────────────────────
 

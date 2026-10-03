@@ -74,6 +74,7 @@
 @import "./components/model-compare.css";
 @import "./components/token-visualizer.css";
 @import "./components/confidence-meter.css";
+@import "./components/audio-level-meter.css";
 @import "./components/org-chart.css";
 @import "./gradients.css";
 @import "./container-queries.css";

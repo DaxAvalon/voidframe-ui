@@ -13,6 +13,7 @@ import type {
   CopyButtonProps,
   CascaderProps,
   ConfidenceMeterProps,
+  AudioLevelMeterProps,
 } from "../../src/components";
 import type { VoidframeTokens } from "../../src/tokens";
 import type { Size, Accent, SemanticColor } from "../../src/types";
@@ -68,6 +69,12 @@ describe("Type contracts: components", () => {
   it("CascaderProps has options and onValueChange", () => {
     expectTypeOf<CascaderProps>().toHaveProperty("options");
     expectTypeOf<CascaderProps>().toHaveProperty("onValueChange");
+  });
+
+  it("AudioLevelMeterProps has value, hold and limits", () => {
+    expectTypeOf<AudioLevelMeterProps>().toHaveProperty("value");
+    expectTypeOf<AudioLevelMeterProps>().toHaveProperty("hold");
+    expectTypeOf<AudioLevelMeterProps>().toHaveProperty("limits");
   });
 
   it("ConfidenceMeterProps has value and variant", () => {

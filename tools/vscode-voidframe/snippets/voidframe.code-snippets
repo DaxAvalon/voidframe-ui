@@ -340,6 +340,17 @@
     "description": "Attachment variant for audio files — shows duration and a compact inline `AudioPlayer` on expand.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "AudioLevelMeter": {
+    "prefix": [
+      "vf-audiolevelmeter",
+      "AudioLevelMeter"
+    ],
+    "body": [
+      "<AudioLevelMeter />"
+    ],
+    "description": "Pure ballistics: rises snap, falls are limited to `rateDbPerSecond` over `dtSeconds`.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "AudioPlayer": {
     "prefix": [
       "vf-audioplayer",
