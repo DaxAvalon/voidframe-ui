@@ -13,6 +13,7 @@ export { midnightTheme } from "./midnight";
 export { greyTheme } from "./grey";
 export { softTheme } from "./soft";
 export { softLightTheme } from "./soft-light";
+export { boothTheme } from "./booth";
 
 export const THEME_NAMES = [
   "dark",
@@ -21,6 +22,7 @@ export const THEME_NAMES = [
   "grey",
   "soft",
   "soft-light",
+  "booth",
 ] as const;
 export type BuiltInThemeName = (typeof THEME_NAMES)[number];
 

@@ -15,6 +15,8 @@ import type {
   ConfidenceMeterProps,
   AudioLevelMeterProps,
   VerdictProps,
+  TransportStripProps,
+  StatusStripProps,
   CountdownDialProps,
 } from "../../src/components";
 import type { VoidframeTokens } from "../../src/tokens";
@@ -71,6 +73,18 @@ describe("Type contracts: components", () => {
   it("CascaderProps has options and onValueChange", () => {
     expectTypeOf<CascaderProps>().toHaveProperty("options");
     expectTypeOf<CascaderProps>().toHaveProperty("onValueChange");
+  });
+
+  it("TransportStripProps has actions, state and onAction", () => {
+    expectTypeOf<TransportStripProps>().toHaveProperty("actions");
+    expectTypeOf<TransportStripProps>().toHaveProperty("state");
+    expectTypeOf<TransportStripProps>().toHaveProperty("onAction");
+  });
+
+  it("StatusStripProps has segments, wrap and separator", () => {
+    expectTypeOf<StatusStripProps>().toHaveProperty("segments");
+    expectTypeOf<StatusStripProps>().toHaveProperty("wrap");
+    expectTypeOf<StatusStripProps>().toHaveProperty("separator");
   });
 
   it("CountdownDialProps has total, remaining and variant", () => {

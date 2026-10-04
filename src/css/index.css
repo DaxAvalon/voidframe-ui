@@ -76,6 +76,8 @@
 @import "./components/confidence-meter.css";
 @import "./components/audio-level-meter.css";
 @import "./components/verdict.css";
+@import "./components/transport-strip.css";
+@import "./components/status-strip.css";
 @import "./components/countdown-dial.css";
 @import "./components/org-chart.css";
 @import "./gradients.css";

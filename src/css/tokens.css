@@ -606,6 +606,39 @@
   --vf-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Booth — large type and 7:1 text for a recorder read from one to two metres in a dark room (voidframe-ui #12). */
+[data-vf-theme="booth"] {
+  --vf-bg-0: #050505;
+  --vf-bg-1: #0a0a0a;
+  --vf-bg-2: #0d0d0d;
+  --vf-bg-3: #111111;
+  --vf-bg-4: #161616;
+  --vf-bg-5: #1a1a1a;
+  --vf-border-0: #1a1a1a;
+  --vf-border-1: #2a2a2a;
+  --vf-border-2: #3a3a3a;
+  --vf-border-3: #555555;
+  --vf-border-4: #7a7a7a;
+  --vf-text-0: #ffffff;
+  --vf-text-1: #f0f0f0;
+  --vf-text-2: #c8c8c8;
+  --vf-text-3: #a0a0a0;
+  --vf-text-4: #444444;
+  --vf-text-5: #1a1a1a;
+  --vf-green: #4ade80;
+  --vf-rose-60: #ff6b6b99;
+  --vf-font-xxs: 11px;
+  --vf-font-xs: 12px;
+  --vf-font-sm: 14px;
+  --vf-font-md: 18px;
+  --vf-font-lg: 24px;
+  --vf-font-xl: 32px;
+  --vf-font-xxl: 40px;
+  --vf-font-3xl: 48px;
+  --vf-line-height: 1.4;
+  --vf-radius: 0;
+}
+
 /* ── Density modes ──────────────────────────────────────── */
 
 [data-vf-density="compact"] {

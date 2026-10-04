@@ -27,5 +27,7 @@ export * from "../components/CSVViewer";
 export * from "../components/ConfidenceMeter";
 export * from "../components/AudioLevelMeter";
 export * from "../components/Verdict";
+export * from "../components/TransportStrip";
+export * from "../components/StatusStrip";
 export * from "../components/CountdownDial";
 export * from "../components/AsyncData";
