@@ -707,6 +707,12 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "useInterval", reason: "Tick the elapsed and remaining clocks once a second" },
     ],
   },
+  StatusStrip: {
+    internal: [],
+    recommended: [
+      { hook: "useInterval", reason: "Refresh relative values such as \"saved 20 s ago\" once a second" },
+    ],
+  },
 
   // ── Numeric Displays ────────────────────────────────────────
 
