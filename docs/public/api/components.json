@@ -1358,6 +1358,13 @@
     ]
   },
   {
+    "name": "AudioLevelMeter",
+    "description": "Pure ballistics: rises snap, falls are limited to `rateDbPerSecond` over\n`dtSeconds`. Returns the value to display.",
+    "file": "src/components/AudioLevelMeter.tsx",
+    "kind": "element",
+    "props": []
+  },
+  {
     "name": "AudioPlayer",
     "description": "Accessible audio player with play/pause, scrub bar, time readout, and\nvolume. Wraps the native `<audio>` element and exposes keyboard controls.",
     "file": "src/components/MediaPlayer.tsx",
@@ -26213,6 +26220,58 @@
         "name": "pulse",
         "type": "boolean",
         "description": "Opacity pulse. Disabled under prefers-reduced-motion.",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "Verdict",
+    "description": "A check's outcome — pass, warn, fail, flagged or skipped — as a glyph and a\nword (never colour alone), with optional measured/required values in\nmonospace and an explanation sentence. A thin layer over `Badge` so verdicts\nlook the same in a checker report, a table cell and a session check.",
+    "file": "src/components/Verdict.tsx",
+    "kind": "element",
+    "props": [
+      {
+        "name": "verdict",
+        "type": "enum",
+        "description": "The outcome. Decides the tone, the glyph and the word.",
+        "required": true
+      },
+      {
+        "name": "explanation",
+        "type": "string",
+        "description": "One sentence the reader can act on, rendered after the badge.",
+        "required": false
+      },
+      {
+        "name": "measured",
+        "type": "string",
+        "description": "What was measured, e.g. \"-54 dB RMS\". Rendered in monospace with a hidden \"measured\" label.",
+        "required": false
+      },
+      {
+        "name": "required",
+        "type": "string",
+        "description": "What was required, e.g. \"≤ -60 dB RMS\". Rendered in monospace with a hidden \"required\" label.",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Badge size. Default `\"md\"`.",
+        "required": false
+      },
+      {
+        "name": "wordCase",
+        "type": "enum",
+        "defaultValue": "upper",
+        "description": "`\"upper\"` follows the theme's heading case (the Badge default); `\"lower\"` renders the word as written. Default `\"upper\"`.",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Override the word shown for this verdict (e.g. a translation). The verdict itself is still exposed via `data-verdict`.",
         "required": false
       }
     ]

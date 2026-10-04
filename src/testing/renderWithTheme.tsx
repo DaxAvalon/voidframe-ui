@@ -17,7 +17,7 @@ import type { LocalePack } from "../i18n/locales/types";
 export interface RenderWithThemeOptions extends RenderOptions {
   theme?: ThemeOverrides;
   locale?: LocalePack;
-  themeName?: "dark" | "light" | "midnight" | "system" | (string & {});
+  themeName?: "dark" | "light" | "midnight" | "booth" | "system" | (string & {});
   density?: "comfortable" | "compact" | "spacious";
   contrast?: "normal" | "high";
   direction?: "ltr" | "rtl";

@@ -24,7 +24,7 @@ import type { LocalePack } from "../i18n/locales/types";
 export interface RenderWithVoidframeOptions extends RenderOptions {
   theme?: ThemeOverrides;
   locale?: LocalePack;
-  themeName?: "dark" | "light" | "midnight" | "grey" | "system" | (string & {});
+  themeName?: "dark" | "light" | "midnight" | "grey" | "booth" | "system" | (string & {});
   density?: "comfortable" | "compact" | "spacious";
   contrast?: "normal" | "high";
   direction?: "ltr" | "rtl";
@@ -42,7 +42,7 @@ export interface RenderWithVoidframeOptions extends RenderOptions {
    * portaled overlays inherit a deeper-scoped theme correctly.
    */
   scope?: {
-    themeName?: "dark" | "light" | "midnight" | "grey" | (string & {});
+    themeName?: "dark" | "light" | "midnight" | "grey" | "booth" | (string & {});
     density?: "comfortable" | "compact" | "spacious";
     contrast?: "normal" | "high";
     /** Mirror the scoped theme to documentElement (see ThemeScope.globalize). */

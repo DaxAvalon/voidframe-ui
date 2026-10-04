@@ -7112,6 +7112,59 @@
     ]
   },
   {
+    "name": "CountdownDial",
+    "description": "A countdown readable from a distance: a large numeral inside a ring or\nabove a bar that empties as the count runs. The consumer supplies `total`\nand `remaining` and ticks them; the component keeps no time. `role=\"timer\"`\nwith `aria-live=\"off\"` so the count is never read every second — the\naccessible name carries the label and the seconds for whoever asks. Under\n`prefers-reduced-motion` the ring and bar step instead of sliding.",
+    "file": "src/components/CountdownDial.tsx",
+    "kind": "element",
+    "props": [
+      {
+        "name": "total",
+        "type": "number",
+        "description": "Total seconds of the count.",
+        "required": true
+      },
+      {
+        "name": "remaining",
+        "type": "number",
+        "description": "Seconds remaining. The consumer drives it; the component keeps no time.",
+        "required": true
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "defaultValue": "ring",
+        "description": "`ring` (default) or `bar`.",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "`md`, `lg`, or `xl` — the numeral at the display size, readable from a distance. Default `md`.",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Caption and accessible name (\"Stay quiet\", \"Rolling\").",
+        "required": false
+      },
+      {
+        "name": "format",
+        "type": "((remaining: number) => string)",
+        "description": "Formats the numeral. Default: whole seconds, rounded up, never negative.",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "defaultValue": "neutral",
+        "description": "Colour emphasis. Default `neutral`.",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "CronBuilder",
     "description": "Visual builder for a cron expression. Controllable via `value` /\n`onChange`; emits the standard five-field string.",
     "file": "src/components/CronBuilder.tsx",
@@ -22993,6 +23046,48 @@
     ]
   },
   {
+    "name": "StatusStrip",
+    "description": "One dense line of named facts — interface · sample rate · latency ·\ndropouts · \"saved 20 s ago\" — readable at a glance and never relying on\ncolour alone: each non-neutral tone adds a visually hidden word. A list\nfor assistive technology; the separators are drawn in CSS and so are not\nread. No live region: a status strip is glanced at, not announced.",
+    "file": "src/components/StatusStrip.tsx",
+    "kind": "element",
+    "props": [
+      {
+        "name": "segments",
+        "type": "StatusSegment[]",
+        "description": "The segments, in display order.",
+        "required": true
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "Type size. Default `md`.",
+        "required": false
+      },
+      {
+        "name": "separator",
+        "type": "string",
+        "defaultValue": "·",
+        "description": "Text drawn between segments, decorative. Default `·`.",
+        "required": false
+      },
+      {
+        "name": "wrap",
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Allow the line to wrap. Default `false`: one line that scrolls rather than hides.",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "defaultValue": "Status",
+        "description": "Accessible name of the list. Default \"Status\".",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "Stepper",
     "description": "Linear step indicator rendered as an `ol` with completed / active /\nupcoming states. Dual API: pass a `steps` string array or compose\n`Stepper.Step` children (with `label`, `description`, `optional`).\n`numbered` or `dotted` variant; `horizontal` or `vertical` orientation;\nset `clickable` to wire `onValueChange(index)`.",
     "file": "src/components/Navigation.tsx",
@@ -25281,6 +25376,70 @@
         "type": "number",
         "description": "Override exit duration only (ms).",
         "required": false
+      }
+    ]
+  },
+  {
+    "name": "TransportStrip",
+    "description": "A recorder's transport: the session state as a dominant word (with a\npulsing indicator while recording, announced once per change), elapsed and\nroll-remaining clocks, a countdown bar along the top edge while a roll runs,\nand the actions as toolbar buttons named with their key, pedal or MIDI\nbinding so they can be found without looking. Audio-agnostic: labels,\nbindings, state and seconds in; action ids out.",
+    "file": "src/components/TransportStrip.tsx",
+    "kind": "element",
+    "props": [
+      {
+        "name": "actions",
+        "type": "TransportAction[]",
+        "description": "The actions, in display order. Each becomes a toolbar button.",
+        "required": true
+      },
+      {
+        "name": "state",
+        "type": "TransportState",
+        "description": "The session state shown as a word (and announced once per change).",
+        "required": true
+      },
+      {
+        "name": "elapsed",
+        "type": "number",
+        "description": "Seconds elapsed in the session or take; omitted when not applicable.",
+        "required": false
+      },
+      {
+        "name": "remaining",
+        "type": "number | null",
+        "description": "Seconds remaining in a roll (a countdown to the punch point); `null` or omitted hides the bar.",
+        "required": false
+      },
+      {
+        "name": "rollTotal",
+        "type": "number",
+        "description": "Total seconds of the roll, for the bar's geometry. Default: `remaining` when it first appears is unknown, so pass it.",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "`lg`: targets at least 44 × 44 CSS px, wider than tall, for booth and tablet use. Default `md`.",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "defaultValue": "Transport",
+        "description": "Accessible name of the toolbar. Default \"Transport\".",
+        "required": false
+      },
+      {
+        "name": "formatTime",
+        "type": "((seconds: number) => string)",
+        "description": "Clock formatter for `elapsed` and `remaining`. Default `formatClock`.",
+        "required": false
+      },
+      {
+        "name": "onAction",
+        "type": "(id: string) => void",
+        "description": "Fires with the action id on click or keyboard activation.",
+        "required": true
       }
     ]
   },

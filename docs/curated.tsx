@@ -645,6 +645,119 @@ render(<Example />);`,
       },
     ],
   },
+  StatusStrip: {
+    summary: (
+      <p>
+        One dense line of labelled values — an audio interface, its sample rate
+        and buffer, the measured latency, a dropout count, when the take was
+        last saved — readable at a glance. Each non-neutral tone adds a visually
+        hidden word so the meaning never depends on colour; the separators are
+        CSS content and are not read.
+      </p>
+    ),
+    examples: [
+      {
+        title: "An engine status line, one line and wrapped",
+        code: `<div style={{ display: "grid", gap: 16 }}>
+  <StatusStrip
+    size="lg"
+    segments={[
+      { id: "device", value: "Scarlett 2i2" },
+      { id: "format", label: "format", value: "44.1 kHz / 128" },
+      { id: "latency", label: "latency", value: "6.2 ms", tone: "success", title: "Measured round trip" },
+      { id: "dropouts", label: "dropouts", value: "0", tone: "success" },
+      { id: "saved", label: "saved", value: "20 s ago", tone: "info" },
+    ]}
+  />
+  <StatusStrip
+    wrap
+    separator="|"
+    segments={[
+      { id: "device", value: "Built-in microphone" },
+      { id: "latency", label: "latency", value: "estimated 11 ms", tone: "warning" },
+      { id: "dropouts", label: "dropouts", value: "1 at 12:04", tone: "danger" },
+    ]}
+  />
+</div>`,
+      },
+    ],
+  },
+  TransportStrip: {
+    summary: (
+      <p>
+        A recorder&apos;s transport: the session state as a dominant word with a
+        pulsing indicator while recording, elapsed and roll-remaining clocks, a
+        countdown bar while a roll runs, and the actions as toolbar buttons
+        named with their key, pedal or MIDI binding so they can be found without
+        looking. Labels, bindings, state and seconds in; action ids out.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Idle, rolling and recording",
+        code: `function Demo() {
+  const [state, setState] = useState("idle");
+  const actions = [
+    { id: "record", label: "Record", binding: "Numpad 0", tone: "danger" },
+    { id: "stop", label: "Stop", binding: "Numpad ." },
+    { id: "punch", label: "Punch", binding: "Enter", tone: "warning" },
+    { id: "marker", label: "Marker", binding: "Numpad +" },
+    { id: "flag", label: "Flag", binding: "Numpad -" },
+  ];
+  const states = {
+    idle: { label: "Idle" },
+    rolling: { label: "Rolling", tone: "warning" },
+    recording: { label: "Recording", tone: "danger", recording: true },
+  };
+  return (
+    <div style={{ display: "grid", gap: 16 }}>
+      <TransportStrip
+        size="lg"
+        actions={actions}
+        state={states[state]}
+        elapsed={724}
+        remaining={state === "rolling" ? 2.5 : null}
+        rollTotal={5}
+        onAction={(id) => setState(id === "record" ? "recording" : id === "punch" ? "rolling" : "idle")}
+      />
+      <TransportStrip actions={actions.slice(0, 3)} state={{ label: "Idle" }} elapsed={61} onAction={() => {}} />
+    </div>
+  );
+}
+render(<Demo />);`,
+      },
+    ],
+  },
+  CountdownDial: {
+    summary: (
+      <p>
+        A countdown readable from a distance: a large numeral inside a ring or
+        above a bar that empties as the count runs. The consumer supplies the
+        total and the remaining seconds and ticks them; the component keeps no
+        time and is never read aloud every second.
+      </p>
+    ),
+    examples: [
+      {
+        title: "A thirty-second room-tone capture and a five-second roll",
+        code: `function Demo() {
+  const [left, setLeft] = useState(30);
+  useEffect(() => {
+    const id = setInterval(() => setLeft((s) => (s <= 0 ? 30 : s - 1)), 1000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div style={{ display: "flex", gap: 32, alignItems: "flex-end", flexWrap: "wrap" }}>
+      <CountdownDial total={30} remaining={left} label="Stay quiet" size="xl" />
+      <CountdownDial total={5} remaining={(left % 5) + 0.5} variant="bar" label="Rolling" tone="warning" size="lg" />
+      <CountdownDial total={10} remaining={left % 11} tone="danger" />
+    </div>
+  );
+}
+render(<Demo />);`,
+      },
+    ],
+  },
   WaveformStrip: {
     summary: (
       <p>

@@ -136,7 +136,7 @@ function generateLlmsTxt() {
   lines.push("- " + "500+ components, " + hooks.length + " hooks, " + utils.length + " utilities");
   lines.push("- React 18+ peer dependency");
   lines.push("- TypeScript strict mode, full .d.ts declarations");
-  lines.push("- 4 built-in themes: dark, light, midnight, grey");
+  lines.push("- 7 built-in themes: dark, light, midnight, grey, soft, soft-light, booth");
   lines.push("- 10 locales with RTL support");
   lines.push("- WAI-ARIA semantics + keyboard navigation on every interactive surface");
   lines.push("- Tree-shakeable subpath exports: voidframe-ui/core, /forms, /data, /charts, etc.");
