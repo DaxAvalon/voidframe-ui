@@ -4,7 +4,7 @@
 
 > 500+ components, 76 hooks, 100 utilities
 
-Generated: 2026-07-01
+Generated: 2026-10-04
 
 ---
 
@@ -2121,6 +2121,11 @@ Universal async-data envelope. Eliminates per-component `loading ? <Skeleton /> 
 | renderError | ((error: unknown, retry?: (() => void)) => ReactNode) | No | — | Render when loading failed. Receives the error + a retry handle. |
 | onRetry | (() => void) | No | — | Callback wired into the default error UI's retry button. |
 
+#### AudioLevelMeter
+Source: `src/components/AudioLevelMeter.tsx`
+
+Pure ballistics: rises snap, falls are limited to `rateDbPerSecond` over `dtSeconds`. Returns the value to display.
+
 #### Avatar
 Source: `src/components/DataExtended.tsx`
 
@@ -2704,6 +2709,21 @@ Up/down / flat arrow plus percentage showing a delta. Tones follow direction (su
 | value | number | No | 0 |  |
 | format | enum | No | percent | "percent" or "number". Default "percent". |
 | showArrow | boolean | No | true | Show the ▲/▼ arrow. Default true. |
+
+#### Verdict
+Source: `src/components/Verdict.tsx`
+
+A check's outcome — pass, warn, fail, flagged or skipped — as a glyph and a word (never colour alone), with optional measured/required values in monospace and an explanation sentence. A thin layer over `Badge` so verdicts look the same in a checker report, a table cell and a session check.
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| verdict | enum | Yes | — | The outcome. Decides the tone, the glyph and the word. |
+| explanation | string | No | — | One sentence the reader can act on, rendered after the badge. |
+| measured | string | No | — | What was measured, e.g. "-54 dB RMS". Rendered in monospace with a hidden "measured" label. |
+| required | string | No | — | What was required, e.g. "≤ -60 dB RMS". Rendered in monospace with a hidden "required" label. |
+| size | enum | No | md | Badge size. Default `"md"`. |
+| wordCase | enum | No | upper | `"upper"` follows the theme's heading case (the Badge default); `"lower"` renders the word as written. Default `"upper"`. |
+| label | string | No | — | Override the word shown for this verdict (e.g. a translation). The verdict itself is still exposed via `data-verdict`. |
 
 #### VirtualGrid
 Source: `src/components/Virtualization.tsx`

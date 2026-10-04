@@ -75,7 +75,8 @@
 }
 
 [data-vf-theme="dark"],
-[data-vf-theme="midnight"] {
+[data-vf-theme="midnight"],
+[data-vf-theme="booth"] {
   color-scheme: dark;
 }
 

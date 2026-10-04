@@ -27,6 +27,7 @@ import {
   greyTheme,
   softTheme,
   softLightTheme,
+  boothTheme,
 } from "../themes";
 import {
   useTokens,
@@ -44,6 +45,7 @@ const BUILTIN_THEMES: Record<BuiltInThemeName, VoidframeTokens> = {
   grey: greyTheme,
   soft: softTheme,
   "soft-light": softLightTheme,
+  booth: boothTheme,
 };
 
 export interface ThemeScopeProps

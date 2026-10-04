@@ -15,6 +15,12 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   `showScale`, horizontal or vertical. `role="meter"` with unit-bearing
   `aria-valuetext` (`-∞ dBFS` for silence). Pure helpers `applyDecay` and
   `dbToFraction` are exported. Built for Vonyx (DaxAvalon/Vonyx#44); see #9.
+- **`booth` theme** (`themeName="booth"`, `boothTheme`). The dark ground and
+  accents with every text tier used for words at 7:1 or better, a type scale
+  raised for reading at one to two metres (`fontMd` 18 px, `font3xl` 48 px),
+  a tighter line height and zero radius — a recorder read in a dark booth.
+  Wired like the other built-ins (cascade block, provider and scope maps,
+  colour-scheme). Specified by Vonyx (DaxAvalon/Vonyx#131); see #12.
 - **`Verdict`** (data tier, `voidframe-ui/data`). A check's outcome — `pass`,
   `warn`, `fail`, `flagged` or `skipped` — as a glyph and a word over `Badge`,
   never colour alone, with optional `measured`/`required` values in monospace
