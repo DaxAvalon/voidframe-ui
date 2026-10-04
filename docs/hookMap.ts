@@ -713,6 +713,13 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "useInterval", reason: "Refresh relative values such as \"saved 20 s ago\" once a second" },
     ],
   },
+  CountdownDial: {
+    internal: ["usePrefersReducedMotion"],
+    recommended: [
+      { hook: "useInterval", reason: "Tick `remaining` once a second" },
+      { hook: "useRafLoop", reason: "Drive a smooth ring from a high-resolution clock" },
+    ],
+  },
 
   // ── Numeric Displays ────────────────────────────────────────
 

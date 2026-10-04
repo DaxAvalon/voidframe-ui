@@ -7112,6 +7112,59 @@
     ]
   },
   {
+    "name": "CountdownDial",
+    "description": "A countdown readable from a distance: a large numeral inside a ring or\nabove a bar that empties as the count runs. The consumer supplies `total`\nand `remaining` and ticks them; the component keeps no time. `role=\"timer\"`\nwith `aria-live=\"off\"` so the count is never read every second — the\naccessible name carries the label and the seconds for whoever asks. Under\n`prefers-reduced-motion` the ring and bar step instead of sliding.",
+    "file": "src/components/CountdownDial.tsx",
+    "kind": "element",
+    "props": [
+      {
+        "name": "total",
+        "type": "number",
+        "description": "Total seconds of the count.",
+        "required": true
+      },
+      {
+        "name": "remaining",
+        "type": "number",
+        "description": "Seconds remaining. The consumer drives it; the component keeps no time.",
+        "required": true
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "defaultValue": "ring",
+        "description": "`ring` (default) or `bar`.",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "`md`, `lg`, or `xl` — the numeral at the display size, readable from a distance. Default `md`.",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Caption and accessible name (\"Stay quiet\", \"Rolling\").",
+        "required": false
+      },
+      {
+        "name": "format",
+        "type": "((remaining: number) => string)",
+        "description": "Formats the numeral. Default: whole seconds, rounded up, never negative.",
+        "required": false
+      },
+      {
+        "name": "tone",
+        "type": "enum",
+        "defaultValue": "neutral",
+        "description": "Colour emphasis. Default `neutral`.",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "CronBuilder",
     "description": "Visual builder for a cron expression. Controllable via `value` /\n`onChange`; emits the standard five-field string.",
     "file": "src/components/CronBuilder.tsx",

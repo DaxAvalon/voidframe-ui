@@ -78,6 +78,7 @@
 @import "./components/verdict.css";
 @import "./components/transport-strip.css";
 @import "./components/status-strip.css";
+@import "./components/countdown-dial.css";
 @import "./components/org-chart.css";
 @import "./gradients.css";
 @import "./container-queries.css";

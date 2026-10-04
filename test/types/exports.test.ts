@@ -17,6 +17,7 @@ import type {
   VerdictProps,
   TransportStripProps,
   StatusStripProps,
+  CountdownDialProps,
 } from "../../src/components";
 import type { VoidframeTokens } from "../../src/tokens";
 import type { Size, Accent, SemanticColor } from "../../src/types";
@@ -84,6 +85,12 @@ describe("Type contracts: components", () => {
     expectTypeOf<StatusStripProps>().toHaveProperty("segments");
     expectTypeOf<StatusStripProps>().toHaveProperty("wrap");
     expectTypeOf<StatusStripProps>().toHaveProperty("separator");
+  });
+
+  it("CountdownDialProps has total, remaining and variant", () => {
+    expectTypeOf<CountdownDialProps>().toHaveProperty("total");
+    expectTypeOf<CountdownDialProps>().toHaveProperty("remaining");
+    expectTypeOf<CountdownDialProps>().toHaveProperty("variant");
   });
 
   it("AudioLevelMeterProps has value, hold and limits", () => {

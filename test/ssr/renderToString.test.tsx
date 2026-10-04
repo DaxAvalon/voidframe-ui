@@ -56,6 +56,7 @@ import { AudioLevelMeter } from "../../src/components/AudioLevelMeter";
 import { Verdict } from "../../src/components/Verdict";
 import { TransportStrip } from "../../src/components/TransportStrip";
 import { StatusStrip } from "../../src/components/StatusStrip";
+import { CountdownDial } from "../../src/components/CountdownDial";
 import { ColorContrast } from "../../src/components/ColorContrast";
 import { Anchor } from "../../src/components/Anchor";
 import { Cascader } from "../../src/components/Cascader";
@@ -193,6 +194,7 @@ const ssrComponents: Array<{ name: string; element: React.ReactElement }> = [
   { name: "Verdict", element: <Verdict verdict="fail" measured="-54 dB RMS" required="≤ -60 dB RMS" explanation="Too noisy in the pauses." /> },
   { name: "TransportStrip", element: <TransportStrip actions={[{ id: "punch", label: "Punch", binding: "Enter" }]} state={{ label: "Recording", tone: "danger", recording: true }} elapsed={61} remaining={2} rollTotal={5} onAction={() => {}} /> },
   { name: "StatusStrip", element: <StatusStrip segments={[{ id: "d", value: "Scarlett 2i2" }, { id: "l", label: "latency", value: "6.2 ms", tone: "success" }]} /> },
+  { name: "CountdownDial", element: <CountdownDial total={30} remaining={12} label="Stay quiet" /> },
   {
     name: "ColorContrast",
     element: <ColorContrast foreground="#000000" background="#ffffff" />,

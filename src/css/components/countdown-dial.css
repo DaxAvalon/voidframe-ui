@@ -1,0 +1,86 @@
+/* CountdownDial — a large numeral in a ring or above a bar that empties as the count runs. */
+
+.vf-countdown-dial {
+  --vf-countdown-dial-accent: var(--vf-text-0);
+  --vf-countdown-dial-size: 96px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  font-family: var(--vf-font-mono);
+  color: var(--vf-text-0);
+}
+.vf-countdown-dial--warning { --vf-countdown-dial-accent: var(--vf-amber); }
+.vf-countdown-dial--danger { --vf-countdown-dial-accent: var(--vf-red); }
+.vf-countdown-dial--lg { --vf-countdown-dial-size: 140px; }
+.vf-countdown-dial--xl { --vf-countdown-dial-size: 200px; }
+
+.vf-countdown-dial__ring {
+  position: relative;
+  width: var(--vf-countdown-dial-size);
+  height: var(--vf-countdown-dial-size);
+}
+.vf-countdown-dial__svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.vf-countdown-dial__track { stroke: var(--vf-bg-3); }
+.vf-countdown-dial__fill {
+  stroke: var(--vf-countdown-dial-accent);
+  transition: stroke-dashoffset var(--vf-duration-base) linear;
+}
+.vf-countdown-dial__ring .vf-countdown-dial__value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--vf-font-xxl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--vf-countdown-dial-accent);
+}
+.vf-countdown-dial--lg .vf-countdown-dial__ring .vf-countdown-dial__value { font-size: var(--vf-font-3xl); }
+.vf-countdown-dial--xl .vf-countdown-dial__ring .vf-countdown-dial__value { font-size: calc(var(--vf-font-3xl) * 1.75); }
+
+.vf-countdown-dial__bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--vf-sp-1);
+  width: min(100%, calc(var(--vf-countdown-dial-size) * 2.5));
+}
+.vf-countdown-dial__bar .vf-countdown-dial__value {
+  font-size: var(--vf-font-xxl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--vf-countdown-dial-accent);
+}
+.vf-countdown-dial--lg .vf-countdown-dial__bar .vf-countdown-dial__value { font-size: var(--vf-font-3xl); }
+.vf-countdown-dial--xl .vf-countdown-dial__bar .vf-countdown-dial__value { font-size: calc(var(--vf-font-3xl) * 1.75); }
+.vf-countdown-dial__bar .vf-countdown-dial__track {
+  width: 100%;
+  height: 8px;
+  background: var(--vf-bg-3);
+  border-radius: var(--vf-radius);
+  overflow: hidden;
+}
+.vf-countdown-dial--lg .vf-countdown-dial__bar .vf-countdown-dial__track { height: 12px; }
+.vf-countdown-dial--xl .vf-countdown-dial__bar .vf-countdown-dial__track { height: 16px; }
+.vf-countdown-dial__bar .vf-countdown-dial__fill {
+  height: 100%;
+  background: var(--vf-countdown-dial-accent);
+  transition: width var(--vf-duration-base) linear;
+}
+
+.vf-countdown-dial__label {
+  font-size: var(--vf-font-md);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: var(--vf-heading-case, uppercase);
+  color: var(--vf-text-1);
+}
+.vf-countdown-dial--lg .vf-countdown-dial__label,
+.vf-countdown-dial--xl .vf-countdown-dial__label { font-size: var(--vf-font-lg); }
+
+.vf-countdown-dial--reduced .vf-countdown-dial__fill { transition: none; }

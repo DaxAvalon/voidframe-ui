@@ -728,6 +728,36 @@ render(<Demo />);`,
       },
     ],
   },
+  CountdownDial: {
+    summary: (
+      <p>
+        A countdown readable from a distance: a large numeral inside a ring or
+        above a bar that empties as the count runs. The consumer supplies the
+        total and the remaining seconds and ticks them; the component keeps no
+        time and is never read aloud every second.
+      </p>
+    ),
+    examples: [
+      {
+        title: "A thirty-second room-tone capture and a five-second roll",
+        code: `function Demo() {
+  const [left, setLeft] = useState(30);
+  useEffect(() => {
+    const id = setInterval(() => setLeft((s) => (s <= 0 ? 30 : s - 1)), 1000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div style={{ display: "flex", gap: 32, alignItems: "flex-end", flexWrap: "wrap" }}>
+      <CountdownDial total={30} remaining={left} label="Stay quiet" size="xl" />
+      <CountdownDial total={5} remaining={(left % 5) + 0.5} variant="bar" label="Rolling" tone="warning" size="lg" />
+      <CountdownDial total={10} remaining={left % 11} tone="danger" />
+    </div>
+  );
+}
+render(<Demo />);`,
+      },
+    ],
+  },
   AudioLevelMeter: {
     summary: (
       <p>

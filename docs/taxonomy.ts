@@ -188,6 +188,7 @@ const FILE_MAP: Record<string, Category> = {
   "src/components/Verdict.tsx": "Data",
   "src/components/TransportStrip.tsx": "Data",
   "src/components/StatusStrip.tsx": "Data",
+  "src/components/CountdownDial.tsx": "Data",
 
   // Responsive system
   "src/responsive/Show.tsx": "Layout",

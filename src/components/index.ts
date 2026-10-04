@@ -1219,3 +1219,5 @@ export { TransportStrip, rollFraction, formatClock } from "./TransportStrip";
 export type { TransportStripProps, TransportAction, TransportState, TransportTone } from "./TransportStrip";
 export { StatusStrip, toneWord } from "./StatusStrip";
 export type { StatusStripProps, StatusSegment, StatusTone } from "./StatusStrip";
+export { CountdownDial, countdownFraction, formatSeconds } from "./CountdownDial";
+export type { CountdownDialProps, CountdownDialVariant, CountdownDialTone } from "./CountdownDial";

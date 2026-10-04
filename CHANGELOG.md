@@ -41,6 +41,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   hidden word so meaning never depends on colour; separators drawn in CSS;
   one line by default (`wrap`), `sm`/`md`/`lg`. Pure helper `toneWord`. Built
   for Vonyx (DaxAvalon/Vonyx#131); see #14.
+- **`CountdownDial`** (data tier, `voidframe-ui/data`). A large numeral in a ring
+  or above a bar that empties as the count runs; consumer-driven (`total`,
+  `remaining`), `md`/`lg`/`xl`, tones; `role="timer"` with `aria-live="off"`
+  and the label and seconds in the accessible name; steps under
+  `prefers-reduced-motion`. Pure helpers `countdownFraction` and
+  `formatSeconds`. Distinct from `Countdown`, the text timer to a target date.
+  Built for Vonyx (DaxAvalon/Vonyx#131); see #16.
 
 ## [1.4.1] - 2026-07-17
 

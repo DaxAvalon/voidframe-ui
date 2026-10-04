@@ -132,6 +132,7 @@ const NAME_TO_SUBPATH: Record<string, string> = {
   Verdict: "data",
   TransportStrip: "data",
   StatusStrip: "data",
+  CountdownDial: "data",
   AsyncData: "data",
   Stat: "data",
   StatGroup: "data",
