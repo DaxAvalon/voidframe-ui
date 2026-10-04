@@ -601,6 +601,32 @@ render(<Example />);`,
       },
     ],
   },
+  Verdict: {
+    summary: (
+      <p>
+        A check&apos;s outcome — pass, warn, fail, flagged or skipped — as a glyph
+        and a word over <code>Badge</code>, so a verdict never depends on colour
+        alone. Optional <code>measured</code> and <code>required</code> values in
+        monospace, and an <code>explanation</code> sentence linked to the badge.
+        Built for a delivery-spec checker; fits any table of checks.
+      </p>
+    ),
+    examples: [
+      {
+        title: "The five verdicts, with numbers and explanations",
+        code: `<div style={{ display: "grid", gap: 12 }}>
+  <Verdict verdict="pass" explanation="OK." />
+  <Verdict verdict="warn" measured="-18.4 dB RMS" required="-23 to -18 dB RMS"
+    explanation="Within the window but near its edge — aim for the middle." />
+  <Verdict verdict="fail" measured="-54 dB RMS" required="≤ -60 dB RMS"
+    explanation="Too noisy in the pauses: a fan, the computer, or gain set too high." />
+  <Verdict verdict="flagged" explanation="Chapter 7 is louder than the rest of the book." />
+  <Verdict verdict="skipped" size="sm" explanation="Too short to measure loudness." />
+  <Verdict verdict="pass" wordCase="lower" label="bestanden" size="lg" />
+</div>`,
+      },
+    ],
+  },
   ConfidenceMeter: {
     summary: (
       <p>

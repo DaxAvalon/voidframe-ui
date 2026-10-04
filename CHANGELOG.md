@@ -15,6 +15,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   `showScale`, horizontal or vertical. `role="meter"` with unit-bearing
   `aria-valuetext` (`-∞ dBFS` for silence). Pure helpers `applyDecay` and
   `dbToFraction` are exported. Built for Vonyx (DaxAvalon/Vonyx#44); see #9.
+- **`Verdict`** (data tier, `voidframe-ui/data`). A check's outcome — `pass`,
+  `warn`, `fail`, `flagged` or `skipped` — as a glyph and a word over `Badge`,
+  never colour alone, with optional `measured`/`required` values in monospace
+  (visually hidden "measured"/"required" labels) and an `explanation` sentence
+  linked by `aria-describedby`; `size`, `wordCase` and a `label` override.
+  `verdictTone()` is exported so tables can colour neighbouring cells the same
+  way. Built for Vonyx (DaxAvalon/Vonyx#131); see #17.
 
 ## [1.4.1] - 2026-07-17
 
@@ -69,8 +76,6 @@ focus) across all 65 component stylesheets. No component API changes.
   and SplitButton join Button's `border-3` resting tier.
 - **Disabled is uniform**: `opacity: var(--vf-disabled-opacity)` (0.4)
   plus `cursor: not-allowed` everywhere (was 0.3–0.6 across 38 rules).
-
-### Added
 
 - **`soft` and `soft-light` themes** — the first rounded themes
   (radius 6px), with a theme-drift test guarding token completeness.

@@ -52,6 +52,7 @@ export const auditData: ComponentAudit[] = [
   { name: "HexDump", category: "Data", wcagLevel: "AA", keyboardNav: "partial", screenReader: "tested", ariaRoles: ["grid"], focusManagement: "natural" },
   { name: "ConfidenceMeter", category: "Data", wcagLevel: "AA", keyboardNav: "n/a", screenReader: "tested", ariaRoles: ["meter"], focusManagement: "n/a" },
   { name: "AudioLevelMeter", category: "Data", wcagLevel: "AA", keyboardNav: "n/a", screenReader: "tested", ariaRoles: ["meter"], focusManagement: "n/a", notes: "aria-valuetext carries the unit (dBFS/LUFS); -Infinity reads as -∞. Fall-off animation is disabled under prefers-reduced-motion." },
+  { name: "Verdict", category: "Data", wcagLevel: "AA", keyboardNav: "n/a", screenReader: "tested", ariaRoles: [], focusManagement: "n/a", notes: "The word is always rendered text and the glyph is aria-hidden, so the verdict never depends on colour; the explanation is linked with aria-describedby; measured/required carry visually hidden labels." },
 
   // Chat & AI
   { name: "ModelCompare", category: "Chat & AI", wcagLevel: "AA", keyboardNav: "partial", screenReader: "untested", ariaRoles: [], focusManagement: "natural" },

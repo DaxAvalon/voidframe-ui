@@ -6170,6 +6170,17 @@
     "description": "Users icon.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "Verdict": {
+    "prefix": [
+      "vf-verdict",
+      "Verdict"
+    ],
+    "body": [
+      "<Verdict\n  verdict={${1:/* verdict: enum */}}\n  size={${2:/* size: enum */}}\n  label=\"${3:label}\"\n/>"
+    ],
+    "description": "A check's outcome — pass, warn, fail, flagged or skipped — as a glyph and a word (never colour alone), with optional measured/required values in monospace an…",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "VideoPlayer": {
     "prefix": [
       "vf-videoplayer",

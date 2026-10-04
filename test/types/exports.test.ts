@@ -14,6 +14,7 @@ import type {
   CascaderProps,
   ConfidenceMeterProps,
   AudioLevelMeterProps,
+  VerdictProps,
 } from "../../src/components";
 import type { VoidframeTokens } from "../../src/tokens";
 import type { Size, Accent, SemanticColor } from "../../src/types";
@@ -75,6 +76,13 @@ describe("Type contracts: components", () => {
     expectTypeOf<AudioLevelMeterProps>().toHaveProperty("value");
     expectTypeOf<AudioLevelMeterProps>().toHaveProperty("hold");
     expectTypeOf<AudioLevelMeterProps>().toHaveProperty("limits");
+  });
+
+  it("VerdictProps has verdict, explanation, measured and required", () => {
+    expectTypeOf<VerdictProps>().toHaveProperty("verdict");
+    expectTypeOf<VerdictProps>().toHaveProperty("explanation");
+    expectTypeOf<VerdictProps>().toHaveProperty("measured");
+    expectTypeOf<VerdictProps>().toHaveProperty("required");
   });
 
   it("ConfidenceMeterProps has value and variant", () => {
