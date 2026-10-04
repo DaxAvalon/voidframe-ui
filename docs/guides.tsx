@@ -145,7 +145,8 @@ function ThemingGuide() {
 <VoidframeProvider themeName="midnight">
 <VoidframeProvider themeName="grey">
 <VoidframeProvider themeName="soft">       {/* rounded dark */}
-<VoidframeProvider themeName="soft-light"> {/* rounded light */}`}</CodeBlock>
+<VoidframeProvider themeName="soft-light"> {/* rounded light */}
+<VoidframeProvider themeName="booth">      {/* large type, 7:1 text, for a dark recording booth */}`}</CodeBlock>
       </Section>
       <Section title="Overriding tokens">
         <Text>

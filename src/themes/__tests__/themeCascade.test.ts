@@ -8,6 +8,7 @@ import { midnightTheme } from "../midnight";
 import { greyTheme } from "../grey";
 import { softTheme } from "../soft";
 import { softLightTheme } from "../soft-light";
+import { boothTheme } from "../booth";
 import type { VoidframeTokens } from "../../tokens";
 
 // `themeName="…"` on VoidframeProvider works via the stylesheet cascade:
@@ -27,6 +28,7 @@ const THEMES: Record<(typeof THEME_NAMES)[number], VoidframeTokens> = {
   grey: greyTheme,
   soft: softTheme,
   "soft-light": softLightTheme,
+  booth: boothTheme,
 };
 
 function cascadeBlock(name: string): string | null {

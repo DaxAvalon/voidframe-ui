@@ -682,6 +682,52 @@ render(<Example />);`,
       },
     ],
   },
+  TransportStrip: {
+    summary: (
+      <p>
+        A recorder&apos;s transport: the session state as a dominant word with a
+        pulsing indicator while recording, elapsed and roll-remaining clocks, a
+        countdown bar while a roll runs, and the actions as toolbar buttons
+        named with their key, pedal or MIDI binding so they can be found without
+        looking. Labels, bindings, state and seconds in; action ids out.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Idle, rolling and recording",
+        code: `function Demo() {
+  const [state, setState] = useState("idle");
+  const actions = [
+    { id: "record", label: "Record", binding: "Numpad 0", tone: "danger" },
+    { id: "stop", label: "Stop", binding: "Numpad ." },
+    { id: "punch", label: "Punch", binding: "Enter", tone: "warning" },
+    { id: "marker", label: "Marker", binding: "Numpad +" },
+    { id: "flag", label: "Flag", binding: "Numpad -" },
+  ];
+  const states = {
+    idle: { label: "Idle" },
+    rolling: { label: "Rolling", tone: "warning" },
+    recording: { label: "Recording", tone: "danger", recording: true },
+  };
+  return (
+    <div style={{ display: "grid", gap: 16 }}>
+      <TransportStrip
+        size="lg"
+        actions={actions}
+        state={states[state]}
+        elapsed={724}
+        remaining={state === "rolling" ? 2.5 : null}
+        rollTotal={5}
+        onAction={(id) => setState(id === "record" ? "recording" : id === "punch" ? "rolling" : "idle")}
+      />
+      <TransportStrip actions={actions.slice(0, 3)} state={{ label: "Idle" }} elapsed={61} onAction={() => {}} />
+    </div>
+  );
+}
+render(<Demo />);`,
+      },
+    ],
+  },
   AudioLevelMeter: {
     summary: (
       <p>

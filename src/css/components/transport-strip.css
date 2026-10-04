@@ -1,0 +1,98 @@
+/* TransportStrip — session state, clocks, roll countdown and the actions with their bindings. */
+
+.vf-transport {
+  --vf-transport-accent: var(--vf-text-1);
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--vf-sp-3);
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  border: 1px solid var(--vf-border-1);
+  border-radius: var(--vf-radius);
+  background: var(--vf-bg-1);
+  font-family: var(--vf-font-family);
+}
+.vf-transport--danger { --vf-transport-accent: var(--vf-red); }
+.vf-transport--warning { --vf-transport-accent: var(--vf-amber); }
+
+.vf-transport__roll {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--vf-bg-3);
+}
+.vf-transport__roll-bar {
+  height: 100%;
+  background: var(--vf-amber);
+}
+
+.vf-transport__state {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--vf-sp-3);
+  min-width: 0;
+}
+.vf-transport__word {
+  color: var(--vf-transport-accent);
+  font-size: var(--vf-font-xl);
+  font-weight: 700;
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: var(--vf-heading-case, uppercase);
+}
+.vf-transport__time,
+.vf-transport__remaining {
+  font-family: var(--vf-font-mono);
+  font-size: var(--vf-font-lg);
+  color: var(--vf-text-1);
+  font-variant-numeric: tabular-nums;
+}
+.vf-transport__remaining { color: var(--vf-amber); }
+
+.vf-transport__actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--vf-sp-2);
+  margin-inline-start: auto;
+}
+.vf-transport__action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  min-height: var(--vf-control-height-md);
+  padding: 0 var(--vf-sp-3);
+}
+.vf-transport__action--danger { --vf-accent: var(--vf-red); }
+.vf-transport__action--warning { --vf-accent: var(--vf-amber); }
+.vf-transport__binding {
+  font-family: var(--vf-font-mono);
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-2);
+  border: 1px solid var(--vf-border-2);
+  border-radius: var(--vf-radius);
+  padding: 0 var(--vf-sp-1);
+}
+
+.vf-transport--lg { gap: var(--vf-sp-4); padding: var(--vf-sp-3) var(--vf-sp-4); }
+.vf-transport--lg .vf-transport__word { font-size: var(--vf-font-3xl); }
+.vf-transport--lg .vf-transport__time,
+.vf-transport--lg .vf-transport__remaining { font-size: var(--vf-font-xxl); }
+.vf-transport--lg .vf-transport__action {
+  min-height: 44px;
+  min-width: 88px;
+  padding: 0 var(--vf-sp-4);
+  font-size: var(--vf-font-lg);
+}
+.vf-transport--lg .vf-transport__binding { font-size: var(--vf-font-sm); }
+
+.vf-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
