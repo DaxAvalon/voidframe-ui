@@ -1,0 +1,137 @@
+/* WaveformStrip — takes over a min/max waveform with hidden ranges, boundaries, marker lanes, selection, playhead and ruler. */
+
+.vf-waveform-strip {
+  --vf-waveform-envelope: var(--vf-text-2);
+  --vf-waveform-bg: var(--vf-bg-1);
+  --vf-waveform-hidden: var(--vf-bg-4);
+  --vf-waveform-boundary: var(--vf-amber);
+  --vf-waveform-selection: var(--vf-amber-20);
+  --vf-waveform-playhead: var(--vf-red);
+  position: relative;
+  width: 100%;
+  background: var(--vf-waveform-bg);
+  border: 1px solid var(--vf-border-1);
+  border-radius: var(--vf-radius);
+  font-family: var(--vf-font-mono);
+  color: var(--vf-text-1);
+}
+.vf-waveform-strip__viewport {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  outline: none;
+  cursor: default;
+}
+.vf-waveform-strip__seek {
+  position: absolute;
+  inset: 0;
+  outline: none;
+}
+.vf-waveform-strip--seekable .vf-waveform-strip__seek { cursor: crosshair; }
+.vf-waveform-strip__seek:focus-visible {
+  outline: 2px solid var(--vf-amber);
+  outline-offset: -2px;
+}
+.vf-waveform-strip__content {
+  position: relative;
+  min-width: 100%;
+}
+
+.vf-waveform-strip__ruler {
+  position: relative;
+  height: 18px;
+  border-bottom: 1px solid var(--vf-border-1);
+  font-size: var(--vf-font-xxs);
+  color: var(--vf-text-2);
+}
+.vf-waveform-strip__tick {
+  position: absolute;
+  top: 2px;
+  transform: translateX(2px);
+  padding-inline-start: var(--vf-sp-1);
+  border-inline-start: 1px solid var(--vf-border-2);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.vf-waveform-strip__lane {
+  position: relative;
+  height: 14px;
+  border-bottom: 1px dashed var(--vf-border-1);
+}
+.vf-waveform-strip--lg .vf-waveform-strip__lane { height: 20px; }
+.vf-waveform-strip__marker {
+  position: absolute;
+  top: 1px;
+  width: 12px;
+  height: 12px;
+  margin-inline-start: -6px;
+  padding: 0;
+  border: none;
+  border-radius: var(--vf-radius);
+  background: var(--vf-blue);
+  cursor: pointer;
+}
+.vf-waveform-strip--lg .vf-waveform-strip__marker { width: 18px; height: 18px; margin-inline-start: -9px; }
+.vf-waveform-strip__marker:focus-visible { outline: 2px solid var(--vf-text-0); outline-offset: 1px; }
+.vf-waveform-strip__marker--flag { background: var(--vf-purple); }
+.vf-waveform-strip__marker--gap { background: var(--vf-rose); }
+.vf-waveform-strip__marker--peak { background: var(--vf-red); }
+
+.vf-waveform-strip__wave {
+  position: relative;
+  overflow: hidden;
+}
+.vf-waveform-strip__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.vf-waveform-strip__envelope {
+  fill: var(--vf-waveform-envelope);
+  stroke: none;
+}
+.vf-waveform-strip__segment {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  box-shadow: inset 1px 0 0 var(--vf-border-2);
+}
+.vf-waveform-strip__segment--hidden {
+  background: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--vf-waveform-hidden) 75%, transparent) 0 6px,
+    color-mix(in srgb, var(--vf-waveform-hidden) 92%, transparent) 6px 12px
+  );
+  box-shadow: none;
+}
+.vf-waveform-strip__boundary {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--vf-waveform-boundary);
+  opacity: 0.8;
+  pointer-events: none;
+}
+.vf-waveform-strip__selection {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--vf-waveform-selection);
+  box-shadow: inset 1px 0 0 var(--vf-amber), inset -1px 0 0 var(--vf-amber);
+  pointer-events: none;
+}
+.vf-waveform-strip__playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-inline-start: -1px;
+  background: var(--vf-waveform-playhead);
+  pointer-events: none;
+  transition: left var(--vf-duration-fast) linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vf-waveform-strip__playhead { transition: none; }
+}

@@ -14,6 +14,7 @@ import type {
   CascaderProps,
   ConfidenceMeterProps,
   AudioLevelMeterProps,
+  WaveformStripProps,
   VerdictProps,
 } from "../../src/components";
 import type { VoidframeTokens } from "../../src/tokens";
@@ -70,6 +71,13 @@ describe("Type contracts: components", () => {
   it("CascaderProps has options and onValueChange", () => {
     expectTypeOf<CascaderProps>().toHaveProperty("options");
     expectTypeOf<CascaderProps>().toHaveProperty("onValueChange");
+  });
+
+  it("WaveformStripProps has duration, tiles, segments and onSeek", () => {
+    expectTypeOf<WaveformStripProps>().toHaveProperty("duration");
+    expectTypeOf<WaveformStripProps>().toHaveProperty("tiles");
+    expectTypeOf<WaveformStripProps>().toHaveProperty("segments");
+    expectTypeOf<WaveformStripProps>().toHaveProperty("onSeek");
   });
 
   it("AudioLevelMeterProps has value, hold and limits", () => {

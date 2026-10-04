@@ -129,6 +129,7 @@ const NAME_TO_SUBPATH: Record<string, string> = {
   CSVViewer: "data",
   ConfidenceMeter: "data",
   AudioLevelMeter: "data",
+  WaveformStrip: "data",
   Verdict: "data",
   AsyncData: "data",
   Stat: "data",

@@ -26,5 +26,6 @@ export * from "../components/MultiProgress";
 export * from "../components/CSVViewer";
 export * from "../components/ConfidenceMeter";
 export * from "../components/AudioLevelMeter";
+export * from "../components/WaveformStrip";
 export * from "../components/Verdict";
 export * from "../components/AsyncData";

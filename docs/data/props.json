@@ -26944,6 +26944,131 @@
     ]
   },
   {
+    "name": "WaveformStrip",
+    "description": "A timeline of recorded takes over a waveform drawn from min/max tiles the\nconsumer supplies: segments with superseded (hidden) ranges drawn dimmed\nand hatched, boundaries with their crossfades, marker lanes (marker · flag\n· gap · peak) as focusable buttons, a selection, a playhead and a ruler.\nClick seeks, drag selects; with `onSeek` the strip is a slider the arrow\nkeys move. The strip is never the only way to reach anything: the consumer\nrenders the equivalent list and the component emits ids.",
+    "file": "src/components/WaveformStrip.tsx",
+    "kind": "element",
+    "props": [
+      {
+        "name": "onSelect",
+        "type": "((range: WaveformRange | null) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "duration",
+        "type": "number",
+        "description": "Total length in seconds.",
+        "required": true
+      },
+      {
+        "name": "tiles",
+        "type": "WaveformTile[]",
+        "defaultValue": "[]",
+        "description": "Min/max tiles for the visible range (see `onTilesNeeded`).",
+        "required": false
+      },
+      {
+        "name": "segments",
+        "type": "WaveformSegment[]",
+        "defaultValue": "[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "boundaries",
+        "type": "WaveformBoundary[]",
+        "defaultValue": "[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "markers",
+        "type": "WaveformMarker[]",
+        "defaultValue": "[]",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "playhead",
+        "type": "number",
+        "description": "Playhead position in seconds.",
+        "required": false
+      },
+      {
+        "name": "selection",
+        "type": "WaveformRange | null",
+        "defaultValue": "null",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "zoom",
+        "type": "number",
+        "description": "Pixels per second. Default: fit `duration` to the width.",
+        "required": false
+      },
+      {
+        "name": "width",
+        "type": "number",
+        "description": "Width in CSS px; measured from the element when omitted.",
+        "required": false
+      },
+      {
+        "name": "seekStep",
+        "type": "number",
+        "defaultValue": "1",
+        "description": "Seconds moved per arrow key when the strip is focused (Shift multiplies by 10). Default 1.",
+        "required": false
+      },
+      {
+        "name": "showRuler",
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "defaultValue": "Waveform",
+        "description": "Accessible name. Default \"Waveform\".",
+        "required": false
+      },
+      {
+        "name": "onSeek",
+        "type": "((time: number) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onMarkerClick",
+        "type": "((id: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onSegmentClick",
+        "type": "((id: string) => void)",
+        "description": "",
+        "required": false
+      },
+      {
+        "name": "onTilesNeeded",
+        "type": "((range: WaveformRange, pixelsPerSecond: number) => void)",
+        "description": "Called with the visible range and the pixel density whenever either changes; supply tiles for it.",
+        "required": false
+      }
+    ]
+  },
+  {
     "name": "WhatsNewPopover",
     "description": "Popover that announces recent releases / changelog entries. Auto-dismisses\nwhen the user has seen the latest version.",
     "file": "src/components/HelpChangelog.tsx",

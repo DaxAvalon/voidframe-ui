@@ -15,6 +15,14 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   `showScale`, horizontal or vertical. `role="meter"` with unit-bearing
   `aria-valuetext` (`-∞ dBFS` for silence). Pure helpers `applyDecay` and
   `dbToFraction` are exported. Built for Vonyx (DaxAvalon/Vonyx#44); see #9.
+- **`WaveformStrip`** (data tier, `voidframe-ui/data`). A timeline of takes
+  over a waveform drawn from consumer-supplied min/max tiles: segments with
+  superseded ranges drawn dimmed and hatched, boundaries with crossfades,
+  marker lanes (marker · flag · gap · peak) as focusable buttons, a selection,
+  a playhead and a ruler; click seeks, drag selects, and with `onSeek` the
+  strip is a slider the arrow keys move. Pure helpers `timeToX`, `xToTime`,
+  `bucketTiles`, `rulerTicks` and `formatTimecode`. Built for Vonyx
+  (DaxAvalon/Vonyx#131); see #15.
 - **`Verdict`** (data tier, `voidframe-ui/data`). A check's outcome — `pass`,
   `warn`, `fail`, `flagged` or `skipped` — as a glyph and a word over `Badge`,
   never colour alone, with optional `measured`/`required` values in monospace

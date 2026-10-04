@@ -185,6 +185,7 @@ const FILE_MAP: Record<string, Category> = {
   "src/components/TokenVisualizer.tsx": "Chat & AI",
   "src/components/ConfidenceMeter.tsx": "Data",
   "src/components/AudioLevelMeter.tsx": "Data",
+  "src/components/WaveformStrip.tsx": "Data",
   "src/components/Verdict.tsx": "Data",
 
   // Responsive system

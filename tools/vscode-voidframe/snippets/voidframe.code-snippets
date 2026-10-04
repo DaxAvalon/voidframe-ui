@@ -6302,6 +6302,17 @@
     "description": "Waterfall chart showing running totals with positive/negative contributions.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "WaveformStrip": {
+    "prefix": [
+      "vf-waveformstrip",
+      "WaveformStrip"
+    ],
+    "body": [
+      "<WaveformStrip\n  duration={${1:0}}\n  size={${2:/* size: enum */}}\n  label=\"${3:label}\"\n/>"
+    ],
+    "description": "A timeline of recorded takes over a waveform drawn from min/max tiles the consumer supplies: segments with superseded (hidden) ranges drawn dimmed and hatche…",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "WhatsNewPopover": {
     "prefix": [
       "vf-whatsnewpopover",
