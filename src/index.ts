@@ -44,6 +44,7 @@ export {
   greyTheme,
   softTheme,
   softLightTheme,
+  boothTheme,
   tokensToCssVars,
   THEME_NAMES,
 } from "./themes";
