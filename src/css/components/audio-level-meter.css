@@ -1,0 +1,137 @@
+/* AudioLevelMeter */
+
+.vf-audio-level-meter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+  font-family: var(--vf-font-mono, var(--vf-font-family));
+  font-variant-numeric: tabular-nums;
+  /* Fill colour flows through one custom property; the over-limit
+   * modifiers below switch it. */
+  --vf-alm-fill: var(--vf-green);
+  --vf-alm-track: var(--vf-bg-3);
+  --vf-alm-thickness: 16px;
+  --vf-alm-length: 100%;
+}
+
+.vf-audio-level-meter--over-amber { --vf-alm-fill: var(--vf-amber); }
+.vf-audio-level-meter--over-red { --vf-alm-fill: var(--vf-red); }
+
+.vf-audio-level-meter--sm { --vf-alm-thickness: 8px; }
+.vf-audio-level-meter--md { --vf-alm-thickness: 16px; }
+/* lg is the booth-mode size: readable at arm's length in the dark. */
+.vf-audio-level-meter--lg { --vf-alm-thickness: 28px; }
+
+/* ── Tracks ─────────────────────────────────────────────────── */
+
+.vf-audio-level-meter__tracks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+}
+
+.vf-audio-level-meter__track {
+  position: relative;
+  overflow: hidden;
+  background: var(--vf-alm-track);
+  border: var(--vf-border-width-1, 1px) solid var(--vf-border-1);
+  border-radius: var(--vf-radius);
+}
+
+.vf-audio-level-meter--horizontal .vf-audio-level-meter__track {
+  width: var(--vf-alm-length);
+  height: var(--vf-alm-thickness);
+}
+
+.vf-audio-level-meter__fill {
+  position: absolute;
+  background: var(--vf-alm-fill);
+  /* Motion comes from the ballistics in JS, not CSS transitions, so the
+   * bar never lags a real peak. */
+  transition: none;
+}
+
+.vf-audio-level-meter--horizontal .vf-audio-level-meter__fill {
+  inset: 0 auto 0 0;
+}
+
+.vf-audio-level-meter__hold,
+.vf-audio-level-meter__limit {
+  position: absolute;
+}
+
+.vf-audio-level-meter--horizontal .vf-audio-level-meter__hold,
+.vf-audio-level-meter--horizontal .vf-audio-level-meter__limit {
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-1px);
+}
+
+.vf-audio-level-meter__hold { background: var(--vf-text-0); }
+.vf-audio-level-meter__limit--amber { background: var(--vf-amber); }
+.vf-audio-level-meter__limit--red { background: var(--vf-red); }
+
+/* ── Vertical ───────────────────────────────────────────────── */
+
+.vf-audio-level-meter--vertical {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.vf-audio-level-meter--vertical .vf-audio-level-meter__tracks {
+  flex-direction: row;
+  height: var(--vf-alm-length);
+  min-height: 120px;
+}
+
+.vf-audio-level-meter--vertical .vf-audio-level-meter__track {
+  width: var(--vf-alm-thickness);
+  height: 100%;
+}
+
+.vf-audio-level-meter--vertical .vf-audio-level-meter__fill {
+  inset: auto 0 0 0;
+}
+
+.vf-audio-level-meter--vertical .vf-audio-level-meter__hold,
+.vf-audio-level-meter--vertical .vf-audio-level-meter__limit {
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: translateY(1px);
+}
+
+/* ── Scale and readout ──────────────────────────────────────── */
+
+.vf-audio-level-meter__scale {
+  position: relative;
+  height: 1.4em;
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-2);
+}
+
+.vf-audio-level-meter--vertical .vf-audio-level-meter__scale {
+  height: auto;
+  width: 3em;
+}
+
+.vf-audio-level-meter__tick {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.vf-audio-level-meter--vertical .vf-audio-level-meter__tick {
+  transform: translateY(50%);
+  left: var(--vf-sp-1);
+}
+
+.vf-audio-level-meter__value {
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-1);
+}
+
+.vf-audio-level-meter--lg .vf-audio-level-meter__value {
+  font-size: var(--vf-font-xl);
+  color: var(--vf-text-0);
+}

@@ -5,7 +5,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
-_Nothing yet._
+### Added
+
+- **`AudioLevelMeter`** (data tier, `voidframe-ui/data`). Bar meter for audio
+  levels in dB (dBFS, dBTP, LUFS): rises snap, falls are limited to
+  `decayDbPerSecond` (default 60, disabled under `prefers-reduced-motion`),
+  consumer-owned `hold` marker, `limits` markers with amber/red tones that
+  recolour the fill once crossed, `channels` for one bar per channel, a 10 dB
+  `showScale`, horizontal or vertical. `role="meter"` with unit-bearing
+  `aria-valuetext` (`-∞ dBFS` for silence). Pure helpers `applyDecay` and
+  `dbToFraction` are exported. Built for Vonyx (DaxAvalon/Vonyx#44); see #9.
 
 ## [1.4.1] - 2026-07-17
 

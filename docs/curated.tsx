@@ -619,6 +619,53 @@ render(<Example />);`,
       },
     ],
   },
+  AudioLevelMeter: {
+    summary: (
+      <p>
+        Bar meter for audio levels in dB (dBFS, dBTP, LUFS) with fall-off
+        ballistics, a consumer-owned peak-hold marker, threshold markers such
+        as the ACX −3 dBFS peak limit, and an optional 10 dB scale. One bar per
+        channel when <code>channels</code> is given. The meter renders levels;
+        reading audio and resetting the peak between polls is the consumer's job.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Simulated signal with hold and limits",
+        code: `function Demo() {
+  const [db, setDb] = useState(-60);
+  const [hold, setHold] = useState(-60);
+  useEffect(() => {
+    const id = setInterval(() => {
+      const next = -40 + Math.random() * 38; // -40 … -2 dBFS
+      setDb(next);
+      setHold((h) => Math.max(h, next));
+    }, 180);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div style={{ display: "grid", gap: 16 }}>
+      <AudioLevelMeter
+        value={db}
+        hold={hold}
+        showScale
+        showValue
+        size="lg"
+        limits={[
+          { at: -12, label: "Comfort ceiling", tone: "amber" },
+          { at: -3, label: "ACX peak limit", tone: "red" },
+        ]}
+      />
+      <AudioLevelMeter channels={[db, db - 4]} size="sm" label="Stereo" limits={[{ at: -3 }]} />
+      <AudioLevelMeter value={-23} min={-36} max={-10} unit="LUFS" showScale showValue decayDbPerSecond={0}
+        limits={[{ at: -18, label: "ACX RMS upper", tone: "amber" }]} label="Integrated loudness" />
+    </div>
+  );
+}
+render(<Demo />);`,
+      },
+    ],
+  },
   Popconfirm: {
     summary: (
       <p>

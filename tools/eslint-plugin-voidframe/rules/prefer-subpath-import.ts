@@ -128,6 +128,7 @@ const NAME_TO_SUBPATH: Record<string, string> = {
   HorizontalTimeline: "data",
   CSVViewer: "data",
   ConfidenceMeter: "data",
+  AudioLevelMeter: "data",
   AsyncData: "data",
   Stat: "data",
   StatGroup: "data",
