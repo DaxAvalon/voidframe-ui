@@ -15,6 +15,7 @@ import type {
   ConfidenceMeterProps,
   AudioLevelMeterProps,
   VerdictProps,
+  TransportStripProps,
 } from "../../src/components";
 import type { VoidframeTokens } from "../../src/tokens";
 import type { Size, Accent, SemanticColor } from "../../src/types";
@@ -70,6 +71,12 @@ describe("Type contracts: components", () => {
   it("CascaderProps has options and onValueChange", () => {
     expectTypeOf<CascaderProps>().toHaveProperty("options");
     expectTypeOf<CascaderProps>().toHaveProperty("onValueChange");
+  });
+
+  it("TransportStripProps has actions, state and onAction", () => {
+    expectTypeOf<TransportStripProps>().toHaveProperty("actions");
+    expectTypeOf<TransportStripProps>().toHaveProperty("state");
+    expectTypeOf<TransportStripProps>().toHaveProperty("onAction");
   });
 
   it("AudioLevelMeterProps has value, hold and limits", () => {

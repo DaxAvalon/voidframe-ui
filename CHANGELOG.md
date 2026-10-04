@@ -22,6 +22,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   linked by `aria-describedby`; `size`, `wordCase` and a `label` override.
   `verdictTone()` is exported so tables can colour neighbouring cells the same
   way. Built for Vonyx (DaxAvalon/Vonyx#131); see #17.
+- **`TransportStrip`** (data tier, `voidframe-ui/data`). A recorder's transport:
+  the session state as a dominant word (pulsing indicator while recording,
+  announced once per change), elapsed and roll-remaining clocks, a countdown
+  bar along the top edge while a roll runs, and the actions as toolbar buttons
+  named with their key, pedal or MIDI binding (`aria-label`,
+  `aria-keyshortcuts`). Pure helpers `rollFraction` and `formatClock`. Built
+  for Vonyx (DaxAvalon/Vonyx#131); see #13.
 
 ## [1.4.1] - 2026-07-17
 

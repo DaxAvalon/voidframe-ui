@@ -700,6 +700,13 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "useRafLoop", reason: "Drive the meter from an analyser at frame rate" },
     ],
   },
+  TransportStrip: {
+    internal: [],
+    recommended: [
+      { hook: "useHotkeys", reason: "Bind the same keys the strip displays to the actions it emits" },
+      { hook: "useInterval", reason: "Tick the elapsed and remaining clocks once a second" },
+    ],
+  },
 
   // ── Numeric Displays ────────────────────────────────────────
 

@@ -53,6 +53,7 @@ export const auditData: ComponentAudit[] = [
   { name: "ConfidenceMeter", category: "Data", wcagLevel: "AA", keyboardNav: "n/a", screenReader: "tested", ariaRoles: ["meter"], focusManagement: "n/a" },
   { name: "AudioLevelMeter", category: "Data", wcagLevel: "AA", keyboardNav: "n/a", screenReader: "tested", ariaRoles: ["meter"], focusManagement: "n/a", notes: "aria-valuetext carries the unit (dBFS/LUFS); -Infinity reads as -∞. Fall-off animation is disabled under prefers-reduced-motion." },
   { name: "Verdict", category: "Data", wcagLevel: "AA", keyboardNav: "n/a", screenReader: "tested", ariaRoles: [], focusManagement: "n/a", notes: "The word is always rendered text and the glyph is aria-hidden, so the verdict never depends on colour; the explanation is linked with aria-describedby; measured/required carry visually hidden labels." },
+  { name: "TransportStrip", category: "Data", wcagLevel: "AA", keyboardNav: "full", screenReader: "tested", ariaRoles: ["toolbar", "button"], focusManagement: "natural", notes: "Actions are toolbar buttons named with their binding (aria-label, aria-keyshortcuts); the state word is announced once per change through a polite live region; the roll bar is decorative." },
 
   // Chat & AI
   { name: "ModelCompare", category: "Chat & AI", wcagLevel: "AA", keyboardNav: "partial", screenReader: "untested", ariaRoles: [], focusManagement: "natural" },

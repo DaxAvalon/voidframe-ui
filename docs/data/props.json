@@ -25285,6 +25285,70 @@
     ]
   },
   {
+    "name": "TransportStrip",
+    "description": "A recorder's transport: the session state as a dominant word (with a\npulsing indicator while recording, announced once per change), elapsed and\nroll-remaining clocks, a countdown bar along the top edge while a roll runs,\nand the actions as toolbar buttons named with their key, pedal or MIDI\nbinding so they can be found without looking. Audio-agnostic: labels,\nbindings, state and seconds in; action ids out.",
+    "file": "src/components/TransportStrip.tsx",
+    "kind": "element",
+    "props": [
+      {
+        "name": "actions",
+        "type": "TransportAction[]",
+        "description": "The actions, in display order. Each becomes a toolbar button.",
+        "required": true
+      },
+      {
+        "name": "state",
+        "type": "TransportState",
+        "description": "The session state shown as a word (and announced once per change).",
+        "required": true
+      },
+      {
+        "name": "elapsed",
+        "type": "number",
+        "description": "Seconds elapsed in the session or take; omitted when not applicable.",
+        "required": false
+      },
+      {
+        "name": "remaining",
+        "type": "number | null",
+        "description": "Seconds remaining in a roll (a countdown to the punch point); `null` or omitted hides the bar.",
+        "required": false
+      },
+      {
+        "name": "rollTotal",
+        "type": "number",
+        "description": "Total seconds of the roll, for the bar's geometry. Default: `remaining` when it first appears is unknown, so pass it.",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "defaultValue": "md",
+        "description": "`lg`: targets at least 44 × 44 CSS px, wider than tall, for booth and tablet use. Default `md`.",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "defaultValue": "Transport",
+        "description": "Accessible name of the toolbar. Default \"Transport\".",
+        "required": false
+      },
+      {
+        "name": "formatTime",
+        "type": "((seconds: number) => string)",
+        "description": "Clock formatter for `elapsed` and `remaining`. Default `formatClock`.",
+        "required": false
+      },
+      {
+        "name": "onAction",
+        "type": "(id: string) => void",
+        "description": "Fires with the action id on click or keyboard activation.",
+        "required": true
+      }
+    ]
+  },
+  {
     "name": "TrashIcon",
     "description": "Trash icon. Decorative by default; supply `label` to promote to\n`role=\"img\"`. Monoline, 1px stroke, 24x24 at `size=\"md\"`.",
     "file": "src/icons/set.tsx",
