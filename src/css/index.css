@@ -75,6 +75,7 @@
 @import "./components/token-visualizer.css";
 @import "./components/confidence-meter.css";
 @import "./components/audio-level-meter.css";
+@import "./components/waveform-strip.css";
 @import "./components/verdict.css";
 @import "./components/transport-strip.css";
 @import "./components/status-strip.css";

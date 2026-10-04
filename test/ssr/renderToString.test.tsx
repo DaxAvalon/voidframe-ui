@@ -53,6 +53,7 @@ import { LiveIndicator } from "../../src/components/LiveIndicator";
 import { MultiProgress } from "../../src/components/MultiProgress";
 import { ConfidenceMeter } from "../../src/components/ConfidenceMeter";
 import { AudioLevelMeter } from "../../src/components/AudioLevelMeter";
+import { WaveformStrip } from "../../src/components/WaveformStrip";
 import { Verdict } from "../../src/components/Verdict";
 import { TransportStrip } from "../../src/components/TransportStrip";
 import { StatusStrip } from "../../src/components/StatusStrip";
@@ -191,6 +192,7 @@ const ssrComponents: Array<{ name: string; element: React.ReactElement }> = [
   },
   { name: "ConfidenceMeter", element: <ConfidenceMeter value={0.8} /> },
   { name: "AudioLevelMeter", element: <AudioLevelMeter value={-14} hold={-6} limits={[{ at: -3, label: "ACX peak" }]} showScale /> },
+  { name: "WaveformStrip", element: <WaveformStrip duration={10} width={600} segments={[{ id: "t1", start: 0, end: 6 }, { id: "h", start: 4, end: 6, hidden: true }]} markers={[{ id: "m", at: 2, kind: "marker" }]} playhead={2} /> },
   { name: "Verdict", element: <Verdict verdict="fail" measured="-54 dB RMS" required="≤ -60 dB RMS" explanation="Too noisy in the pauses." /> },
   { name: "TransportStrip", element: <TransportStrip actions={[{ id: "punch", label: "Punch", binding: "Enter" }]} state={{ label: "Recording", tone: "danger", recording: true }} elapsed={61} remaining={2} rollTotal={5} onAction={() => {}} /> },
   { name: "StatusStrip", element: <StatusStrip segments={[{ id: "d", value: "Scarlett 2i2" }, { id: "l", label: "latency", value: "6.2 ms", tone: "success" }]} /> },

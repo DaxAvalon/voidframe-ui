@@ -758,6 +758,48 @@ render(<Demo />);`,
       },
     ],
   },
+  WaveformStrip: {
+    summary: (
+      <p>
+        A timeline of recorded takes over a waveform drawn from min/max tiles
+        the consumer supplies: superseded ranges dimmed and hatched, boundaries
+        with their crossfades, marker lanes as focusable buttons, a selection, a
+        playhead and a ruler. Click seeks, drag selects; with <code>onSeek</code>
+        the strip is a slider the arrow keys move.
+      </p>
+    ),
+    examples: [
+      {
+        title: "Two takes, a replaced range, markers and a moving playhead",
+        code: `function Demo() {
+  const [head, setHead] = useState(2.5);
+  const [sel, setSel] = useState(null);
+  const tiles = useMemo(() => {
+    const n = 200, min = [], max = [];
+    for (let i = 0; i < n; i++) { const a = 0.2 + 0.7 * Math.abs(Math.sin(i / 9)) * (i % 37 === 0 ? 1.3 : 1); max.push(Math.min(1, a)); min.push(-Math.min(1, a * 0.9)); }
+    return [{ start: 0, end: 20, min, max }];
+  }, []);
+  return (
+    <WaveformStrip
+      duration={20}
+      tiles={tiles}
+      segments={[{ id: "t1", start: 0, end: 12, label: "Take 1" }, { id: "h", start: 8, end: 12, hidden: true, label: "Replaced by the punch" }, { id: "t2", start: 12, end: 20, label: "Take 2" }]}
+      boundaries={[{ at: 12, crossfadeMs: 400 }]}
+      markers={[{ id: "m1", at: 4, kind: "marker", label: "Come back" }, { id: "f1", at: 15, kind: "flag" }, { id: "p1", at: 17.5, kind: "peak", label: "-1.8 dBFS" }]}
+      playhead={head}
+      selection={sel}
+      size="lg"
+      label="Chapter 4"
+      onSeek={setHead}
+      onSelect={setSel}
+      onMarkerClick={(id) => alert(id)}
+    />
+  );
+}
+render(<Demo />);`,
+      },
+    ],
+  },
   AudioLevelMeter: {
     summary: (
       <p>

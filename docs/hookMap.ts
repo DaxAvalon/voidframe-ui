@@ -720,6 +720,13 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "useRafLoop", reason: "Drive a smooth ring from a high-resolution clock" },
     ],
   },
+  WaveformStrip: {
+    internal: ["useElementSize"],
+    recommended: [
+      { hook: "useRafInterval", reason: "Advance the playhead smoothly during playback" },
+      { hook: "useDebounce", reason: "Coalesce onTilesNeeded while zooming" },
+    ],
+  },
 
   // ── Numeric Displays ────────────────────────────────────────
 

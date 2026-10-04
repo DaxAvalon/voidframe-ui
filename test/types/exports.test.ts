@@ -14,6 +14,7 @@ import type {
   CascaderProps,
   ConfidenceMeterProps,
   AudioLevelMeterProps,
+  WaveformStripProps,
   VerdictProps,
   TransportStripProps,
   StatusStripProps,
@@ -91,6 +92,13 @@ describe("Type contracts: components", () => {
     expectTypeOf<CountdownDialProps>().toHaveProperty("total");
     expectTypeOf<CountdownDialProps>().toHaveProperty("remaining");
     expectTypeOf<CountdownDialProps>().toHaveProperty("variant");
+  });
+
+  it("WaveformStripProps has duration, tiles, segments and onSeek", () => {
+    expectTypeOf<WaveformStripProps>().toHaveProperty("duration");
+    expectTypeOf<WaveformStripProps>().toHaveProperty("tiles");
+    expectTypeOf<WaveformStripProps>().toHaveProperty("segments");
+    expectTypeOf<WaveformStripProps>().toHaveProperty("onSeek");
   });
 
   it("AudioLevelMeterProps has value, hold and limits", () => {
