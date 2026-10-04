@@ -1,0 +1,35 @@
+/* Verdict — a check's outcome as glyph + word, with optional numbers and an explanation. */
+
+.vf-verdict {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--vf-sp-2);
+  font-family: var(--vf-font-family);
+}
+
+.vf-verdict__badge {
+  flex: none;
+}
+
+.vf-verdict__numbers {
+  font-family: var(--vf-font-mono);
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-1);
+  white-space: nowrap;
+}
+
+.vf-verdict__explanation {
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-1);
+}
+
+.vf-verdict--sm .vf-verdict__numbers,
+.vf-verdict--sm .vf-verdict__explanation {
+  font-size: var(--vf-font-xs);
+}
+
+.vf-verdict--lg .vf-verdict__numbers,
+.vf-verdict--lg .vf-verdict__explanation {
+  font-size: var(--vf-font-md);
+}

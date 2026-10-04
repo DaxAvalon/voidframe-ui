@@ -781,6 +781,12 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "usePrevious", reason: "Animate count changes" },
     ],
   },
+  Verdict: {
+    internal: [],
+    recommended: [
+      { hook: "useLiveRegion", reason: "Announce a changed verdict once, politely, when a check re-runs" },
+    ],
+  },
   NotificationBadge: {
     internal: [],
     recommended: [
