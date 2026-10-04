@@ -15,6 +15,7 @@ import type {
   ConfidenceMeterProps,
   AudioLevelMeterProps,
   VerdictProps,
+  StatusStripProps,
 } from "../../src/components";
 import type { VoidframeTokens } from "../../src/tokens";
 import type { Size, Accent, SemanticColor } from "../../src/types";
@@ -70,6 +71,12 @@ describe("Type contracts: components", () => {
   it("CascaderProps has options and onValueChange", () => {
     expectTypeOf<CascaderProps>().toHaveProperty("options");
     expectTypeOf<CascaderProps>().toHaveProperty("onValueChange");
+  });
+
+  it("StatusStripProps has segments, wrap and separator", () => {
+    expectTypeOf<StatusStripProps>().toHaveProperty("segments");
+    expectTypeOf<StatusStripProps>().toHaveProperty("wrap");
+    expectTypeOf<StatusStripProps>().toHaveProperty("separator");
   });
 
   it("AudioLevelMeterProps has value, hold and limits", () => {

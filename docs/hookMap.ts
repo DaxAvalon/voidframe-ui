@@ -700,6 +700,12 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "useRafLoop", reason: "Drive the meter from an analyser at frame rate" },
     ],
   },
+  StatusStrip: {
+    internal: [],
+    recommended: [
+      { hook: "useInterval", reason: "Refresh relative values such as \"saved 20 s ago\" once a second" },
+    ],
+  },
 
   // ── Numeric Displays ────────────────────────────────────────
 

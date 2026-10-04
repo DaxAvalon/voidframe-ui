@@ -22,6 +22,12 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   linked by `aria-describedby`; `size`, `wordCase` and a `label` override.
   `verdictTone()` is exported so tables can colour neighbouring cells the same
   way. Built for Vonyx (DaxAvalon/Vonyx#131); see #17.
+- **`StatusStrip`** (data tier, `voidframe-ui/data`). One dense line of
+  labelled values with tones — interface · sample rate · latency · dropouts ·
+  "saved 20 s ago" — as a named list; each non-neutral tone adds a visually
+  hidden word so meaning never depends on colour; separators drawn in CSS;
+  one line by default (`wrap`), `sm`/`md`/`lg`. Pure helper `toneWord`. Built
+  for Vonyx (DaxAvalon/Vonyx#131); see #14.
 
 ## [1.4.1] - 2026-07-17
 

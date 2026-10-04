@@ -76,6 +76,7 @@
 @import "./components/confidence-meter.css";
 @import "./components/audio-level-meter.css";
 @import "./components/verdict.css";
+@import "./components/status-strip.css";
 @import "./components/org-chart.css";
 @import "./gradients.css";
 @import "./container-queries.css";

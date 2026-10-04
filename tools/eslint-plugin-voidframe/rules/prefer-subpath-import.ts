@@ -130,6 +130,7 @@ const NAME_TO_SUBPATH: Record<string, string> = {
   ConfidenceMeter: "data",
   AudioLevelMeter: "data",
   Verdict: "data",
+  StatusStrip: "data",
   AsyncData: "data",
   Stat: "data",
   StatGroup: "data",

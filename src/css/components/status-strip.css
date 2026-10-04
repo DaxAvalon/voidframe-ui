@@ -1,0 +1,50 @@
+/* StatusStrip — one dense line of labelled values with tones. */
+
+.vf-status-strip {
+  --vf-status-strip-separator: "·";
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: 0 var(--vf-sp-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  font-family: var(--vf-font-mono);
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-1);
+  white-space: nowrap;
+}
+.vf-status-strip--wrap {
+  flex-wrap: wrap;
+  overflow-x: visible;
+  white-space: normal;
+  row-gap: var(--vf-sp-1);
+}
+.vf-status-strip--sm { font-size: var(--vf-font-xs); }
+.vf-status-strip--lg { font-size: var(--vf-font-lg); gap: 0 var(--vf-sp-4); }
+
+.vf-status-strip__segment {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--vf-sp-1);
+}
+.vf-status-strip__segment + .vf-status-strip__segment::before {
+  content: var(--vf-status-strip-separator);
+  color: var(--vf-text-3);
+  margin-inline-end: var(--vf-sp-3);
+}
+.vf-status-strip__label {
+  color: var(--vf-text-2);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: var(--vf-heading-case, uppercase);
+  font-size: 0.85em;
+}
+.vf-status-strip__value {
+  color: var(--vf-text-0);
+  font-variant-numeric: tabular-nums;
+}
+.vf-status-strip__segment--success .vf-status-strip__value { color: var(--vf-success); }
+.vf-status-strip__segment--warning .vf-status-strip__value { color: var(--vf-warning); }
+.vf-status-strip__segment--danger .vf-status-strip__value { color: var(--vf-danger); }
+.vf-status-strip__segment--info .vf-status-strip__value { color: var(--vf-info); }

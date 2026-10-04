@@ -645,6 +645,43 @@ render(<Example />);`,
       },
     ],
   },
+  StatusStrip: {
+    summary: (
+      <p>
+        One dense line of labelled values — an audio interface, its sample rate
+        and buffer, the measured latency, a dropout count, when the take was
+        last saved — readable at a glance. Each non-neutral tone adds a visually
+        hidden word so the meaning never depends on colour; the separators are
+        CSS content and are not read.
+      </p>
+    ),
+    examples: [
+      {
+        title: "An engine status line, one line and wrapped",
+        code: `<div style={{ display: "grid", gap: 16 }}>
+  <StatusStrip
+    size="lg"
+    segments={[
+      { id: "device", value: "Scarlett 2i2" },
+      { id: "format", label: "format", value: "44.1 kHz / 128" },
+      { id: "latency", label: "latency", value: "6.2 ms", tone: "success", title: "Measured round trip" },
+      { id: "dropouts", label: "dropouts", value: "0", tone: "success" },
+      { id: "saved", label: "saved", value: "20 s ago", tone: "info" },
+    ]}
+  />
+  <StatusStrip
+    wrap
+    separator="|"
+    segments={[
+      { id: "device", value: "Built-in microphone" },
+      { id: "latency", label: "latency", value: "estimated 11 ms", tone: "warning" },
+      { id: "dropouts", label: "dropouts", value: "1 at 12:04", tone: "danger" },
+    ]}
+  />
+</div>`,
+      },
+    ],
+  },
   AudioLevelMeter: {
     summary: (
       <p>
