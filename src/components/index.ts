@@ -1215,3 +1215,5 @@ export { AudioLevelMeter, applyDecay, dbToFraction } from "./AudioLevelMeter";
 export type { AudioLevelMeterProps, AudioLevelMeterLimit, AudioLevelMeterTone } from "./AudioLevelMeter";
 export { Verdict, verdictTone } from "./Verdict";
 export type { VerdictProps, VerdictKind } from "./Verdict";
+export { CountdownDial, countdownFraction, formatSeconds } from "./CountdownDial";
+export type { CountdownDialProps, CountdownDialVariant, CountdownDialTone } from "./CountdownDial";

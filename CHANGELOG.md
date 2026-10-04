@@ -22,6 +22,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   linked by `aria-describedby`; `size`, `wordCase` and a `label` override.
   `verdictTone()` is exported so tables can colour neighbouring cells the same
   way. Built for Vonyx (DaxAvalon/Vonyx#131); see #17.
+- **`CountdownDial`** (data tier, `voidframe-ui/data`). A large numeral in a ring
+  or above a bar that empties as the count runs; consumer-driven (`total`,
+  `remaining`), `md`/`lg`/`xl`, tones; `role="timer"` with `aria-live="off"`
+  and the label and seconds in the accessible name; steps under
+  `prefers-reduced-motion`. Pure helpers `countdownFraction` and
+  `formatSeconds`. Distinct from `Countdown`, the text timer to a target date.
+  Built for Vonyx (DaxAvalon/Vonyx#131); see #16.
 
 ## [1.4.1] - 2026-07-17
 

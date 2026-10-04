@@ -54,6 +54,7 @@ import { MultiProgress } from "../../src/components/MultiProgress";
 import { ConfidenceMeter } from "../../src/components/ConfidenceMeter";
 import { AudioLevelMeter } from "../../src/components/AudioLevelMeter";
 import { Verdict } from "../../src/components/Verdict";
+import { CountdownDial } from "../../src/components/CountdownDial";
 import { ColorContrast } from "../../src/components/ColorContrast";
 import { Anchor } from "../../src/components/Anchor";
 import { Cascader } from "../../src/components/Cascader";
@@ -189,6 +190,7 @@ const ssrComponents: Array<{ name: string; element: React.ReactElement }> = [
   { name: "ConfidenceMeter", element: <ConfidenceMeter value={0.8} /> },
   { name: "AudioLevelMeter", element: <AudioLevelMeter value={-14} hold={-6} limits={[{ at: -3, label: "ACX peak" }]} showScale /> },
   { name: "Verdict", element: <Verdict verdict="fail" measured="-54 dB RMS" required="≤ -60 dB RMS" explanation="Too noisy in the pauses." /> },
+  { name: "CountdownDial", element: <CountdownDial total={30} remaining={12} label="Stay quiet" /> },
   {
     name: "ColorContrast",
     element: <ColorContrast foreground="#000000" background="#ffffff" />,

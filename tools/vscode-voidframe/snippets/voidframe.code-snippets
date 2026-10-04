@@ -1484,6 +1484,17 @@
     "description": "Countdown timer to a target date/time.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "CountdownDial": {
+    "prefix": [
+      "vf-countdowndial",
+      "CountdownDial"
+    ],
+    "body": [
+      "<CountdownDial\n  total={${1:0}}\n  remaining={${2:0}}\n  variant={${3:/* variant: enum */}}\n  size={${4:/* size: enum */}}\n  label=\"${5:label}\"\n  tone={${6:/* tone: enum */}}\n/>"
+    ],
+    "description": "A countdown readable from a distance: a large numeral inside a ring or above a bar that empties as the count runs.",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "CronBuilder": {
     "prefix": [
       "vf-cronbuilder",

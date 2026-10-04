@@ -700,6 +700,13 @@ export const componentHooks: Record<string, HookRelation> = {
       { hook: "useRafLoop", reason: "Drive the meter from an analyser at frame rate" },
     ],
   },
+  CountdownDial: {
+    internal: ["usePrefersReducedMotion"],
+    recommended: [
+      { hook: "useInterval", reason: "Tick `remaining` once a second" },
+      { hook: "useRafLoop", reason: "Drive a smooth ring from a high-resolution clock" },
+    ],
+  },
 
   // ── Numeric Displays ────────────────────────────────────────
 

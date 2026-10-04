@@ -15,6 +15,7 @@ import type {
   ConfidenceMeterProps,
   AudioLevelMeterProps,
   VerdictProps,
+  CountdownDialProps,
 } from "../../src/components";
 import type { VoidframeTokens } from "../../src/tokens";
 import type { Size, Accent, SemanticColor } from "../../src/types";
@@ -70,6 +71,12 @@ describe("Type contracts: components", () => {
   it("CascaderProps has options and onValueChange", () => {
     expectTypeOf<CascaderProps>().toHaveProperty("options");
     expectTypeOf<CascaderProps>().toHaveProperty("onValueChange");
+  });
+
+  it("CountdownDialProps has total, remaining and variant", () => {
+    expectTypeOf<CountdownDialProps>().toHaveProperty("total");
+    expectTypeOf<CountdownDialProps>().toHaveProperty("remaining");
+    expectTypeOf<CountdownDialProps>().toHaveProperty("variant");
   });
 
   it("AudioLevelMeterProps has value, hold and limits", () => {
