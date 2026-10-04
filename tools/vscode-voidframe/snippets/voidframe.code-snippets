@@ -5994,6 +5994,17 @@
     "description": "High-level enter/exit animation wrapper.",
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
   },
+  "TransportStrip": {
+    "prefix": [
+      "vf-transportstrip",
+      "TransportStrip"
+    ],
+    "body": [
+      "<TransportStrip\n  actions={${1:/* actions: TransportAction[] */}}\n  state={${2:/* state: TransportState */}}\n  onAction={${3:/* onAction: (id: string) => void */}}\n  size={${4:/* size: enum */}}\n  label=\"${5:label}\"\n/>"
+    ],
+    "description": "A recorder's transport: the session state as a dominant word (with a pulsing indicator while recording, announced once per change), elapsed and roll-remainin…",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "TrashIcon": {
     "prefix": [
       "vf-trashicon",
