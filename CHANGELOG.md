@@ -57,6 +57,18 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   `formatSeconds`. Distinct from `Countdown`, the text timer to a target date.
   Built for Vonyx (DaxAvalon/Vonyx#131); see #16.
 
+### Fixed
+
+- **`CommandPalette` no longer re-renders without bound when `Item`s are
+  mounted.** `scoredOrder` was rebuilt as a new array on every render and sat
+  in the context memo, so each `Item`'s registration effect re-fired every
+  render and forced the next one. The order is now memoised on a version
+  counter that changes only when a score changes or an item leaves, and
+  `Item` registration depends on the stable register/unregister callbacks
+  (upsert on score change, unregister on unmount). `Item` also gains
+  `keywords` (aliases the query may match, ranked below a label match).
+  Regression test mounts several items and asserts a bounded render count.
+
 ## [1.4.1] - 2026-07-17
 
 ### Fixed

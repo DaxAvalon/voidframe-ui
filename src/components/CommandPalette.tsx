@@ -291,29 +291,31 @@ function CommandPaletteShell({
   const [query, setQuery] = useState("");
   const [highlighted, setHighlighted] = useState<string | null>(null);
   const itemScores = useRef(new Map<string, number>());
-  const [, force] = useState(0);
+  // Bumped only when an item's score actually changes or an item leaves.
+  // `scoredOrder` is memoised on it, so the context value keeps its identity
+  // between score changes and `Item` effects do not re-fire every render.
+  const [version, setVersion] = useState(0);
 
   const registerItem = useCallback((id: string, score: number) => {
     const prev = itemScores.current.get(id);
     if (prev === score) return;
     itemScores.current.set(id, score);
-    force((n) => n + 1);
+    setVersion((n) => n + 1);
   }, []);
   const unregisterItem = useCallback((id: string) => {
     if (!itemScores.current.has(id)) return;
     itemScores.current.delete(id);
-    force((n) => n + 1);
+    setVersion((n) => n + 1);
   }, []);
 
-  // Re-computed on every render (cheap; O(n log n)) so that score updates
-  // pushed via `force()` are reflected without depending on query alone.
-  const scoredOrder = (() => {
+  const scoredOrder = useMemo(() => {
     const entries = [...itemScores.current.entries()];
     return entries
       .filter(([, s]) => s > 0)
       .sort((a, b) => b[1] - a[1])
       .map(([id]) => id);
-  })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version]);
 
   // Reset the highlight whenever the visible set changes.
   useEffect(() => {
@@ -605,6 +607,8 @@ export interface CommandPaletteItemProps extends Omit<HTMLAttributes<HTMLDivElem
   disabled?: boolean;
   /** Semantic tone — destructive commands, warnings, etc. Mirrors Menu.Item tone. */
   tone?: "neutral" | "danger" | "warning" | "success";
+  /** Extra words the query may match (synonyms, aliases), beyond the visible label. */
+  keywords?: string[];
   children?: ReactNode;
 }
 
@@ -616,37 +620,46 @@ function CommandPaletteItem({
   description,
   disabled,
   tone,
+  keywords,
   className,
   children,
   ...props
 }: CommandPaletteItemProps) {
   const ctx = usePalette();
+  const { registerItem, unregisterItem, setOpen } = ctx;
   const handlers = useContext(PaletteHandlersContext);
   // React's useId() returns `:r1:` style ids which axe's IDREF validator
   // rejects (colons disallowed as a leading char). Sanitize so the id is
   // a valid HTML4+ IDREF for aria-activedescendant.
   const rawId = useId();
   const id = `vfcmd-${rawId.replace(/[^a-zA-Z0-9_-]/g, "")}`;
-  const text = value ?? (typeof children === "string" ? children : id);
-  const score = useMemo(
-    () => (ctx.filter ?? fuzzyScore)(ctx.query, text),
-    [ctx.query, text, ctx.filter]
-  );
+  const label = value ?? (typeof children === "string" ? children : id);
+  const keywordText = keywords && keywords.length > 0 ? keywords.join(" ") : "";
+  const score = useMemo(() => {
+    const scorer = ctx.filter ?? fuzzyScore;
+    const own = scorer(ctx.query, label);
+    if (!keywordText) return own;
+    // A keyword match counts, but never outranks a direct label match.
+    return Math.max(own, scorer(ctx.query, keywordText) * 0.5);
+  }, [ctx.query, label, keywordText, ctx.filter]);
 
+  // Register/upsert on score changes; unregister only on unmount. Depends on
+  // the stable callbacks, never on the context object, so a context identity
+  // change cannot re-fire registration.
   useEffect(() => {
-    ctx.registerItem(id, disabled ? 0 : score);
-    return () => ctx.unregisterItem(id);
-  }, [ctx, id, score, disabled]);
+    registerItem(id, disabled ? 0 : score);
+  }, [registerItem, id, score, disabled]);
+  useEffect(() => () => unregisterItem(id), [unregisterItem, id]);
 
   useEffect(() => {
     if (!handlers) return;
     handlers(id, () => {
       if (disabled) return;
       onSelect();
-      ctx.setOpen(false);
+      setOpen(false);
     });
     return () => handlers(id, null);
-  }, [handlers, id, onSelect, disabled, ctx]);
+  }, [handlers, id, onSelect, disabled, setOpen]);
 
   if (score === 0 || disabled === true) {
     if (score === 0) return null;

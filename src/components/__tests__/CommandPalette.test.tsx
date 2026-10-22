@@ -1,14 +1,8 @@
 // Coverage tests for CommandPalette compound (CommandPalette.tsx).
 //
-// NOTE: tests intentionally avoid mounting many `<CommandPalette.Item>`
-// instances simultaneously. The current Item implementation causes a
-// re-render storm when combined with Shell's per-render `scoredOrder`
-// recomputation (scoredOrder is a new array every render → ctx memo
-// invalidates → Item's effect re-fires → registerItem/unregisterItem
-// → force() → next render). Production usage tolerates this because
-// the loop is fast, but vitest waits for renders to settle and times
-// out. Tests here exercise the compound's surface without triggering
-// that loop.
+// `scoredOrder` is memoised on a version counter and `Item` registration
+// depends on the stable register/unregister callbacks, so mounting many
+// items is bounded (see "render loop" below).
 
 import { act, fireEvent, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
