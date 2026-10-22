@@ -11,12 +11,10 @@ import {
   type HTMLAttributes,
   type ReactNode,
 } from "react";
-import {
-  hierarchy,
-  partition,
-  type HierarchyRectangularNode,
-} from "d3-hierarchy";
+import type { HierarchyRectangularNode } from "d3-hierarchy";
 import { arc as d3Arc } from "d3-shape";
+import { usePeer } from "./peer";
+import { ChartSkeleton } from "./primitives/ChartSkeleton";
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import {
   ChartTooltipBody,
@@ -46,8 +44,12 @@ export interface SunburstProps
   padAngle?: number;
 }
 
+type HierarchyModule = typeof import("d3-hierarchy");
+
 /**
- * Radial hierarchical chart (zoomable). Peer: `d3-hierarchy`.
+ * Radial hierarchical chart (zoomable). Peer: `d3-hierarchy`, loaded on
+ * first render; a `ChartSkeleton` holds the space meanwhile and a
+ * `MissingPeerDependencyError` message renders if it is not installed.
  */
 export const Sunburst = forwardRef<HTMLDivElement, SunburstProps>(
   function Sunburst(
@@ -76,18 +78,27 @@ export const Sunburst = forwardRef<HTMLDivElement, SunburstProps>(
     const measured = useElementSize(containerRef);
     const size = sizeProp ?? measured.width ?? 320;
     const radius = Math.max(40, size / 2 - 8);
+    const { module: d3h, error } = usePeer<HierarchyModule>(
+      "d3-hierarchy",
+      "<Sunburst>",
+      () => import("d3-hierarchy")
+    );
 
     const root = useMemo(() => {
-      const h = hierarchy<SunburstNode>(data)
+      if (!d3h) return null;
+      const h = d3h
+        .hierarchy<SunburstNode>(data)
         .sum((d) => d.value ?? 0)
         .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
-      const layout = partition<SunburstNode>().size([Math.PI * 2, radius]);
+      const layout = d3h
+        .partition<SunburstNode>()
+        .size([Math.PI * 2, radius]);
       layout(h);
       return h;
-    }, [data, radius]);
+    }, [d3h, data, radius]);
 
     const palette = useMemo(() => {
-      const firstLevel = root.children?.map((c) => c.data.name) ?? [];
+      const firstLevel = root?.children?.map((c) => c.data.name) ?? [];
       const p = seriesPalette(Math.max(1, firstLevel.length));
       const map = new Map<string, string>();
       firstLevel.forEach((name, i) => map.set(name, p[i]!));
@@ -112,9 +123,8 @@ export const Sunburst = forwardRef<HTMLDivElement, SunburstProps>(
       .outerRadius((d) => d.y1)
       .padAngle(padAngle);
 
-    const nodes = root
-      .descendants()
-      .filter((n) => n.depth > 0) as unknown as HierarchyRectangularNode<SunburstNode>[];
+    const nodes = (root?.descendants().filter((n) => n.depth > 0) ??
+      []) as unknown as HierarchyRectangularNode<SunburstNode>[];
 
     const [hover, setHover] = useState<{
       name: string;
@@ -124,6 +134,29 @@ export const Sunburst = forwardRef<HTMLDivElement, SunburstProps>(
       y: number;
     } | null>(null);
 
+    const header = (title || description) && (
+      <div className="vf-chart-frame__header">
+        {title && <h4 className="vf-chart-frame__title">{title}</h4>}
+        {description && (
+          <p className="vf-chart-frame__description">{description}</p>
+        )}
+      </div>
+    );
+
+    if (error) {
+      return (
+        <div
+          ref={mergedRef}
+          className={cx("vf-chart-sunburst", "vf-chart-sunburst--error", className)}
+          style={{ width: sizeProp ?? "100%", ...style }}
+          {...props}
+        >
+          {header}
+          <div className="vf-chart-sunburst__error-message">{error.message}</div>
+        </div>
+      );
+    }
+
     return (
       <div
         ref={mergedRef}
@@ -131,14 +164,10 @@ export const Sunburst = forwardRef<HTMLDivElement, SunburstProps>(
         style={{ width: sizeProp ?? "100%", ...style }}
         {...props}
       >
-        {(title || description) && (
-          <div className="vf-chart-frame__header">
-            {title && <h4 className="vf-chart-frame__title">{title}</h4>}
-            {description && (
-              <p className="vf-chart-frame__description">{description}</p>
-            )}
-          </div>
-        )}
+        {header}
+        {!d3h ? (
+          <ChartSkeleton height={size} width={sizeProp ?? "100%"} />
+        ) : (
         <svg
           className="vf-chart-sunburst__svg"
           role="img"
@@ -186,6 +215,7 @@ export const Sunburst = forwardRef<HTMLDivElement, SunburstProps>(
             );
           })}
         </svg>
+        )}
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
             <ChartTooltipBody

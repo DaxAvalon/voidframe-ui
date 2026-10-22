@@ -144,7 +144,7 @@ export function buildProject(
       dependencies,
       pickPeers([
         "d3-array", "d3-force", "d3-geo", "d3-hierarchy", "d3-sankey",
-        "d3-scale", "d3-shape", "d3-time", "topojson-client",
+        "d3-scale", "d3-shape", "topojson-client",
       ])
     );
   }

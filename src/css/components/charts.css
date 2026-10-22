@@ -519,7 +519,10 @@ button.vf-chart-legend__item:focus-visible {
 }
 .vf-chart-network__error-message,
 .vf-chart-bubble-map__error-message,
-.vf-chart-choropleth__error-message {
+.vf-chart-choropleth__error-message,
+.vf-chart-treemap__error-message,
+.vf-chart-sunburst__error-message,
+.vf-chart-sankey__error-message {
   padding: var(--vf-sp-3);
   border: 1px dashed var(--vf-border-2);
   color: var(--vf-text-2);
@@ -607,4 +610,18 @@ button.vf-chart-legend__item:focus-visible {
 }
 [data-vf-density="spacious"] .vf-chart-legend {
   gap: var(--vf-sp-5);
+}
+
+/* ── ChartSkeleton ────────────────────────────────────────── */
+.vf-chart-skeleton {
+  box-sizing: border-box;
+  display: block;
+  background: var(--vf-bg-3);
+  border: 1px dashed var(--vf-border-1);
+}
+.vf-chart-skeleton--animate {
+  animation: vf-pulse-op 1.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vf-chart-skeleton--animate { animation: none; }
 }

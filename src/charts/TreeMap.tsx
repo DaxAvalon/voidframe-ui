@@ -12,16 +12,9 @@ import {
   type HTMLAttributes,
   type ReactNode,
 } from "react";
-import {
-  hierarchy,
-  treemap as d3Treemap,
-  treemapSquarify,
-  treemapBinary,
-  treemapDice,
-  treemapSlice,
-  treemapSliceDice,
-  type HierarchyRectangularNode,
-} from "d3-hierarchy";
+import type { HierarchyRectangularNode } from "d3-hierarchy";
+import { usePeer } from "./peer";
+import { ChartSkeleton } from "./primitives/ChartSkeleton";
 import { formatChartNumber, seriesPalette } from "./math/color";
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
@@ -42,12 +35,17 @@ export type TreeMapTile =
   | "dice"
   | "slice-dice";
 
-const TILE_MAP = {
-  squarify: treemapSquarify,
-  binary: treemapBinary,
-  slice: treemapSlice,
-  dice: treemapDice,
-  "slice-dice": treemapSliceDice,
+type HierarchyModule = typeof import("d3-hierarchy");
+
+const TILE_KEY: Record<
+  TreeMapTile,
+  "treemapSquarify" | "treemapBinary" | "treemapSlice" | "treemapDice" | "treemapSliceDice"
+> = {
+  squarify: "treemapSquarify",
+  binary: "treemapBinary",
+  slice: "treemapSlice",
+  dice: "treemapDice",
+  "slice-dice": "treemapSliceDice",
 };
 
 export interface TreeMapProps
@@ -68,7 +66,9 @@ export interface TreeMapProps
 }
 
 /**
- * Hierarchical rectangle tiling weighted by value. Peer: `d3-hierarchy`.
+ * Hierarchical rectangle tiling weighted by value. Peer: `d3-hierarchy`,
+ * loaded on first render; a `ChartSkeleton` holds the space meanwhile and
+ * a `MissingPeerDependencyError` message renders if it is not installed.
  */
 export const TreeMap = forwardRef<HTMLDivElement, TreeMapProps>(
   function TreeMap(
@@ -99,6 +99,11 @@ export const TreeMap = forwardRef<HTMLDivElement, TreeMapProps>(
     };
     const measured = useElementSize(containerRef);
     const width = widthProp ?? measured.width ?? 520;
+    const { module: d3h, error } = usePeer<HierarchyModule>(
+      "d3-hierarchy",
+      "<TreeMap>",
+      () => import("d3-hierarchy")
+    );
 
     const groupNames = useMemo(
       () => (data.children ?? []).map((c) => c.name),
@@ -116,16 +121,19 @@ export const TreeMap = forwardRef<HTMLDivElement, TreeMapProps>(
     }, [groupNames, palette, colorForGroup]);
 
     const leaves = useMemo<HierarchyRectangularNode<TreeMapNode>[]>(() => {
-      const root = hierarchy<TreeMapNode>(data)
+      if (!d3h) return [];
+      const root = d3h
+        .hierarchy<TreeMapNode>(data)
         .sum((d) => d.value ?? 0)
         .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
-      const layout = d3Treemap<TreeMapNode>()
-        .tile(TILE_MAP[tile])
+      const layout = d3h
+        .treemap<TreeMapNode>()
+        .tile(d3h[TILE_KEY[tile]])
         .size([width, height])
         .paddingInner(padding)
         .paddingOuter(padding);
       return layout(root).leaves();
-    }, [data, tile, padding, width, height]);
+    }, [d3h, data, tile, padding, width, height]);
 
     const [hover, setHover] = useState<{
       name: string;
@@ -135,6 +143,29 @@ export const TreeMap = forwardRef<HTMLDivElement, TreeMapProps>(
       y: number;
     } | null>(null);
 
+    const header = (title || description) && (
+      <div className="vf-chart-frame__header">
+        {title && <h4 className="vf-chart-frame__title">{title}</h4>}
+        {description && (
+          <p className="vf-chart-frame__description">{description}</p>
+        )}
+      </div>
+    );
+
+    if (error) {
+      return (
+        <div
+          ref={mergedRef}
+          className={cx("vf-chart-treemap", "vf-chart-treemap--error", className)}
+          style={{ width: widthProp ?? "100%", ...style }}
+          {...props}
+        >
+          {header}
+          <div className="vf-chart-treemap__error-message">{error.message}</div>
+        </div>
+      );
+    }
+
     return (
       <div
         ref={mergedRef}
@@ -142,14 +173,10 @@ export const TreeMap = forwardRef<HTMLDivElement, TreeMapProps>(
         style={{ width: widthProp ?? "100%", ...style }}
         {...props}
       >
-        {(title || description) && (
-          <div className="vf-chart-frame__header">
-            {title && <h4 className="vf-chart-frame__title">{title}</h4>}
-            {description && (
-              <p className="vf-chart-frame__description">{description}</p>
-            )}
-          </div>
-        )}
+        {header}
+        {!d3h ? (
+          <ChartSkeleton height={height} width={widthProp ?? "100%"} />
+        ) : (
         <svg
           className="vf-chart-treemap__svg"
           role="img"
@@ -201,6 +228,7 @@ export const TreeMap = forwardRef<HTMLDivElement, TreeMapProps>(
             );
           })}
         </svg>
+        )}
         <ChartTooltip
           active={!!hover}
           x={hover?.x ?? 0}

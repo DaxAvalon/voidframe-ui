@@ -23,6 +23,11 @@
       "import": "./dist/charts.es.js",
       "require": "./dist/charts.cjs.js"
     },
+    "./charts/lazy": {
+      "types": "./dist/types/charts/lazy.d.ts",
+      "import": "./dist/charts-lazy.es.js",
+      "require": "./dist/charts-lazy.cjs.js"
+    },
     "./dev": {
       "types": "./dist/types/dev/index.d.ts",
       "import": "./dist/dev.es.js",
@@ -192,6 +197,12 @@
       "gzip": true
     },
     {
+      "name": "Charts lazy ESM (dist/charts-lazy.es.js) — wrappers only, no d3",
+      "path": "dist/charts-lazy.es.js",
+      "limit": "4 KB",
+      "gzip": true
+    },
+    {
       "name": "Dev ESM (dist/dev.es.js)",
       "path": "dist/dev.es.js",
       "limit": "10 KB",
@@ -318,7 +329,6 @@
     "d3-sankey": ">=0.12.0",
     "d3-scale": ">=4.0.0",
     "d3-shape": ">=3.0.0",
-    "d3-time": ">=3.0.0",
     "dompurify": ">=3.2.4",
     "jest-axe": ">=9.0.0",
     "jsbarcode": ">=3.11.0",
@@ -351,9 +361,6 @@
       "optional": true
     },
     "d3-shape": {
-      "optional": true
-    },
-    "d3-time": {
       "optional": true
     },
     "topojson-client": {
@@ -398,7 +405,6 @@
     "@types/d3-sankey": "^0.12.4",
     "@types/d3-scale": "^4.0.9",
     "@types/d3-shape": "^3.1.7",
-    "@types/d3-time": "^3.0.4",
     "@types/jest-axe": "^3.5.9",
     "@types/jscodeshift": "^0.11.11",
     "@types/react": "^18.2.0",
@@ -420,7 +426,6 @@
     "d3-sankey": "^0.12.3",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.2.0",
-    "d3-time": "^3.1.0",
     "dompurify": "^3.2.4",
     "eslint": "^8.57.0",
     "happy-dom": "^20.9.0",

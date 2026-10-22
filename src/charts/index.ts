@@ -268,4 +268,8 @@ export type { TileGridCell, TileGridMapProps } from "./TileGridMap";
 export { OrgChart } from "./OrgChart";
 export type { OrgChartProps, OrgChartNode } from "./OrgChart";
 
-export { MissingPeerDependencyError } from "./peer";
+export { ChartSkeleton } from "./primitives/ChartSkeleton";
+export type { ChartSkeletonProps } from "./primitives/ChartSkeleton";
+
+export { MissingPeerDependencyError, loadPeer, usePeer } from "./peer";
+export type { PeerState } from "./peer";

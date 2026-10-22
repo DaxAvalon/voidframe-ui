@@ -10,16 +10,9 @@ import {
   type HTMLAttributes,
   type ReactNode,
 } from "react";
-import {
-  sankey as d3Sankey,
-  sankeyLinkHorizontal,
-  sankeyJustify,
-  sankeyLeft,
-  sankeyRight,
-  sankeyCenter,
-  type SankeyGraph,
-  type SankeyLayout,
-} from "d3-sankey";
+import type { SankeyGraph, SankeyLayout } from "d3-sankey";
+import { usePeer } from "./peer";
+import { ChartSkeleton } from "./primitives/ChartSkeleton";
 import { ChartTooltip } from "./primitives/ChartTooltip";
 import { ChartTooltipBody } from "./primitives/ChartTooltipBody";
 import { formatChartNumber, seriesPalette } from "./math/color";
@@ -40,11 +33,16 @@ export interface SankeyLink {
 
 export type SankeyAlign = "justify" | "left" | "right" | "center";
 
-const ALIGN_MAP = {
-  justify: sankeyJustify,
-  left: sankeyLeft,
-  right: sankeyRight,
-  center: sankeyCenter,
+type SankeyModule = typeof import("d3-sankey");
+
+const ALIGN_KEY: Record<
+  SankeyAlign,
+  "sankeyJustify" | "sankeyLeft" | "sankeyRight" | "sankeyCenter"
+> = {
+  justify: "sankeyJustify",
+  left: "sankeyLeft",
+  right: "sankeyRight",
+  center: "sankeyCenter",
 };
 
 export interface SankeyProps
@@ -80,7 +78,9 @@ interface InternalLink {
 
 /**
  * Sankey flow diagram. Weighted links between nodes; auto-layout via
- * `d3-sankey` (peer).
+ * `d3-sankey` (peer), loaded on first render. A `ChartSkeleton` holds the
+ * space meanwhile and a `MissingPeerDependencyError` message renders if
+ * the peer is not installed.
  */
 export const Sankey = forwardRef<HTMLDivElement, SankeyProps>(function Sankey(
   {
@@ -110,8 +110,19 @@ export const Sankey = forwardRef<HTMLDivElement, SankeyProps>(function Sankey(
   };
   const measured = useElementSize(containerRef);
   const width = widthProp ?? measured.width ?? 560;
+  const { module: d3s, error } = usePeer<SankeyModule>(
+    "d3-sankey",
+    "<Sankey>",
+    () => import("d3-sankey")
+  );
 
   const { computedNodes, computedLinks } = useMemo(() => {
+    if (!d3s) {
+      return {
+        computedNodes: [] as InternalNode[],
+        computedLinks: [] as InternalLink[],
+      };
+    }
     const indexByKey = new Map(nodes.map((n, i) => [n.key, i]));
     const inputNodes: InternalNode[] = nodes.map((n) => ({ ...n }));
     const inputLinks: InternalLink[] = links.map((l) => ({
@@ -119,17 +130,18 @@ export const Sankey = forwardRef<HTMLDivElement, SankeyProps>(function Sankey(
       target: indexByKey.get(l.target) ?? 0,
       value: l.value,
     }));
-    const layout = d3Sankey<InternalNode, InternalLink>()
+    const layout = d3s
+      .sankey<InternalNode, InternalLink>()
       .nodeWidth(nodeWidth)
       .nodePadding(nodePadding)
-      .nodeAlign(ALIGN_MAP[align])
+      .nodeAlign(d3s[ALIGN_KEY[align]])
       .extent([
         [1, 1],
         [width - 1, height - 1],
       ]) as SankeyLayout<SankeyGraph<InternalNode, InternalLink>, InternalNode, InternalLink>;
     const graph = layout({ nodes: inputNodes, links: inputLinks });
     return { computedNodes: graph.nodes, computedLinks: graph.links };
-  }, [nodes, links, width, height, nodeWidth, nodePadding, align]);
+  }, [d3s, nodes, links, width, height, nodeWidth, nodePadding, align]);
 
   const palette = useMemo(
     () => seriesPalette(computedNodes.length),
@@ -138,13 +150,38 @@ export const Sankey = forwardRef<HTMLDivElement, SankeyProps>(function Sankey(
   const colorFor = (node: InternalNode, i: number) =>
     node.color ?? palette[i]!;
 
-  const linkPath = sankeyLinkHorizontal<InternalNode, InternalLink>();
+  const linkPath = d3s
+    ? d3s.sankeyLinkHorizontal<InternalNode, InternalLink>()
+    : () => null;
 
   const [hover, setHover] = useState<
     | { type: "link"; source: string; target: string; value: number; x: number; y: number }
     | { type: "node"; key: string; label: string; value: number; x: number; y: number }
     | null
   >(null);
+
+  const header = (title || description) && (
+    <div className="vf-chart-frame__header">
+      {title && <h4 className="vf-chart-frame__title">{title}</h4>}
+      {description && (
+        <p className="vf-chart-frame__description">{description}</p>
+      )}
+    </div>
+  );
+
+  if (error) {
+    return (
+      <div
+        ref={mergedRef}
+        className={cx("vf-chart-sankey", "vf-chart-sankey--error", className)}
+        style={{ width: widthProp ?? "100%", ...style }}
+        {...props}
+      >
+        {header}
+        <div className="vf-chart-sankey__error-message">{error.message}</div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -153,14 +190,10 @@ export const Sankey = forwardRef<HTMLDivElement, SankeyProps>(function Sankey(
       style={{ width: widthProp ?? "100%", ...style }}
       {...props}
     >
-      {(title || description) && (
-        <div className="vf-chart-frame__header">
-          {title && <h4 className="vf-chart-frame__title">{title}</h4>}
-          {description && (
-            <p className="vf-chart-frame__description">{description}</p>
-          )}
-        </div>
-      )}
+      {header}
+      {!d3s ? (
+        <ChartSkeleton height={height} width={widthProp ?? "100%"} />
+      ) : (
       <svg
         className="vf-chart-sankey__svg"
         role="img"
@@ -238,6 +271,7 @@ export const Sankey = forwardRef<HTMLDivElement, SankeyProps>(function Sankey(
           );
         })}
       </svg>
+      )}
       <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
         {hover?.type === "link" ? (
           <ChartTooltipBody

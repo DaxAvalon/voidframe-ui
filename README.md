@@ -43,11 +43,11 @@ npm install voidframe-ui
 
 | Optional peer | Needed by |
 |---|---|
-| `d3-force` | `NetworkGraph` |
-| `d3-geo`, `topojson-client` | `ChoroplethMap`, `BubbleMap` |
-| `d3-hierarchy` | `TreeMap`, `Sunburst` |
-| `d3-sankey` | `Sankey` |
-| `d3-scale`, `d3-shape`, `d3-array`, `d3-time` | All other charts (pulled in via the `voidframe-ui/charts` subpath) |
+| `d3-force` | `NetworkGraph` (loaded on first render) |
+| `d3-geo`, `topojson-client` | `ChoroplethMap`, `BubbleMap` (loaded on first render) |
+| `d3-hierarchy` | `TreeMap`, `Sunburst` (loaded on first render) |
+| `d3-sankey` | `Sankey` (loaded on first render) |
+| `d3-scale`, `d3-shape`, `d3-array` | Every other chart in `voidframe-ui/charts`. `voidframe-ui/charts/lazy` imports none of them itself. |
 | `dompurify` | `MarkdownRenderer`, `MarkdownEditor` preview |
 | `react-live` | `docs/` site and any `<Playground>` consumer |
 | `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`, `jest-axe` | Required only when using `voidframe-ui/testing`'s helpers |
@@ -104,7 +104,8 @@ when it renders without it.
 |---|---|
 | `voidframe-ui/core`, `/layout`, `/navigation`, `/overlays`, `/data`, `/activity` | none |
 | `voidframe-ui` (root), `/forms`, `/media`, `/specialty` | `dompurify` (RichTextEditor, Mermaid, MarkdownRenderer HTML) |
-| `voidframe-ui/charts` | `d3-geo` + `topojson-client` (ChoroplethMap, BubbleMap), `d3-force` (NetworkGraph) |
+| `voidframe-ui/charts` | `d3-scale` + `d3-shape` + `d3-array` (eager, every chart); `d3-geo` + `topojson-client` (ChoroplethMap, BubbleMap), `d3-force` (NetworkGraph), `d3-hierarchy` (TreeMap, Sunburst), `d3-sankey` (Sankey) are loaded when the chart first renders |
+| `voidframe-ui/charts/lazy` | none at import time; each `Lazy*` wrapper pulls its chart's peers when it mounts |
 | `voidframe-ui/reactflow` | `@xyflow/react` |
 | `voidframe-ui/testing` | `jest-axe` (only `expectNoA11yViolations`) |
 
@@ -588,7 +589,7 @@ Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortabl
 
 Metrics: `Stat`, `StatGroup`, `MetricCard`, `CircularProgress`.
 
-Charts — hand-rolled SVG library. Math uses d3-scale / d3-shape / d3-array / d3-time for algorithms; every rendered element, CSS class, and interaction is ours and themed through `--vf-*` tokens.
+Charts — hand-rolled SVG library. Math uses d3-scale / d3-shape / d3-array for algorithms; every rendered element, CSS class, and interaction is ours and themed through `--vf-*` tokens.
 
 **Primitives (Phase 21):**
 
@@ -647,11 +648,24 @@ Charts — hand-rolled SVG library. Math uses d3-scale / d3-shape / d3-array / d
 | `ChoroplethMap` | `d3-geo`, `topojson-client` (optional) | quantized fill per feature, supports `geoMercator`/`geoEqualEarth`/`geoNaturalEarth1`/`geoAlbersUsa` |
 | `BubbleMap` | `d3-geo`, `topojson-client` (optional) | sized circles at `[lon, lat]` over a TopoJSON base layer |
 
-If a chart's optional peer is not installed when it renders, voidframe throws `MissingPeerDependencyError` with the exact `npm install` command. Install only what you use:
+Charts with an optional peer load it when they first render and show a `ChartSkeleton` meanwhile. If the peer is not installed, the chart renders a `MissingPeerDependencyError` message in place with the exact `npm install` command. Install only what you use:
 
 ```sh
 npm install d3-force                 # NetworkGraph
 npm install d3-geo topojson-client   # ChoroplethMap + BubbleMap
+npm install d3-hierarchy             # TreeMap + Sunburst
+npm install d3-sankey                # Sankey
+```
+
+**Lazy charts.** `voidframe-ui/charts/lazy` exports a `React.lazy` wrapper for every chart (`LazyBarChart`, `LazyLineChart`, `LazyTreeMap`, …) and a `ChartSkeleton` placeholder that reserves the chart's height. The entry imports no d3, so it is safe on routes that may never draw a chart:
+
+```jsx
+import { Suspense } from "react";
+import { LazyLineChart, ChartSkeleton } from "voidframe-ui/charts/lazy";
+
+<Suspense fallback={<ChartSkeleton height={240} />}>
+  <LazyLineChart data={rows} series={series} height={240} />
+</Suspense>
 ```
 
 **Math utilities:** `linearScale`, `logScale`, `sqrtScale`, `timeScale`, `bandScale`, `pointScale`, `quantizeScale`, `generateTicks`, `stackSeries`, `resolveCurve`, `bisectNearest`, `scanNearest`, `seriesPalette`, `formatChartNumber`.
@@ -751,9 +765,9 @@ import {
   LazyDataGrid, LazyTreeTable, LazyGantt, LazyKanban,
   LazyCodeEditor, LazyMarkdownEditor, LazyRichTextEditor,
   LazyDatePicker, LazyDateRangePicker, LazyCalendar,
-  LazySparkline, LazyHeatmap,
   LazySignaturePad, LazyImageCropper, LazyVideoPlayer,
 } from "voidframe-ui";
+// Charts: every chart has a wrapper in "voidframe-ui/charts/lazy".
 
 <Suspense fallback={<Spinner />}>
   <LazyDataGrid columns={cols} data={rows} />

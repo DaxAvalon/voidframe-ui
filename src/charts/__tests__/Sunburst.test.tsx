@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { waitFor } from "@testing-library/react";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 import { Sunburst } from "../Sunburst";
 
@@ -23,15 +24,18 @@ const data = {
 };
 
 describe("Sunburst", () => {
-  it("renders one slice per non-root descendant", () => {
+  it("renders one slice per non-root descendant", async () => {
     const { container } = renderWithTheme(<Sunburst data={data} size={240} />);
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
+    );
     // 2 top-level + 4 leaves = 6 non-root descendants.
     expect(
       container.querySelectorAll(".vf-chart-sunburst__slice").length
     ).toBe(6);
   });
 
-  it("renders title and description", () => {
+  it("renders title and description", async () => {
     const { getByText } = renderWithTheme(
       <Sunburst data={data} size={240} title="Hierarchy" description="Nested" />
     );
@@ -39,17 +43,23 @@ describe("Sunburst", () => {
     expect(getByText("Nested")).toBeTruthy();
   });
 
-  it("uses the default aria-label", () => {
+  it("uses the default aria-label", async () => {
     const { container } = renderWithTheme(
       <Sunburst data={data} size={240} />
+    );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
     );
     const svg = container.querySelector("svg[role='img']");
     expect(svg!.getAttribute("aria-label")).toBe("Sunburst chart");
   });
 
-  it("applies custom className", () => {
+  it("applies custom className", async () => {
     const { container } = renderWithTheme(
       <Sunburst data={data} size={240} className="my-sunburst" />
+    );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
     );
     expect(
       container

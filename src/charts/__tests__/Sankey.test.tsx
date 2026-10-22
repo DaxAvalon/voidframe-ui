@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { waitFor } from "@testing-library/react";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 import { Sankey } from "../Sankey";
 
@@ -15,9 +16,12 @@ const links = [
 ];
 
 describe("Sankey", () => {
-  it("renders one node rect and one link path per input", () => {
+  it("renders one node rect and one link path per input", async () => {
     const { container } = renderWithTheme(
       <Sankey nodes={nodes} links={links} width={420} height={200} />
+    );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
     );
     expect(
       container.querySelectorAll(".vf-chart-sankey__node").length
@@ -27,16 +31,19 @@ describe("Sankey", () => {
     ).toBe(links.length);
   });
 
-  it("renders a node label per node", () => {
+  it("renders a node label per node", async () => {
     const { container } = renderWithTheme(
       <Sankey nodes={nodes} links={links} width={420} height={200} />
+    );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
     );
     expect(
       container.querySelectorAll(".vf-chart-sankey__label").length
     ).toBe(nodes.length);
   });
 
-  it("renders title and description", () => {
+  it("renders title and description", async () => {
     const { getByText } = renderWithTheme(
       <Sankey
         nodes={nodes}
@@ -51,15 +58,18 @@ describe("Sankey", () => {
     expect(getByText("Flow diagram")).toBeTruthy();
   });
 
-  it("uses the default aria-label", () => {
+  it("uses the default aria-label", async () => {
     const { container } = renderWithTheme(
       <Sankey nodes={nodes} links={links} width={420} height={200} />
+    );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
     );
     const svg = container.querySelector(".vf-chart-sankey__svg");
     expect(svg!.getAttribute("aria-label")).toBe("Sankey diagram");
   });
 
-  it("uses custom accessibleLabel", () => {
+  it("uses custom accessibleLabel", async () => {
     const { container } = renderWithTheme(
       <Sankey
         nodes={nodes}
@@ -69,11 +79,14 @@ describe("Sankey", () => {
         accessibleLabel="flow chart"
       />
     );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
+    );
     const svg = container.querySelector(".vf-chart-sankey__svg");
     expect(svg!.getAttribute("aria-label")).toBe("flow chart");
   });
 
-  it("uses node label when provided, key otherwise", () => {
+  it("uses node label when provided, key otherwise", async () => {
     const mixedNodes = [
       { key: "a" },
       { key: "b", label: "Beta" },
@@ -86,22 +99,28 @@ describe("Sankey", () => {
     const { container } = renderWithTheme(
       <Sankey nodes={mixedNodes} links={mixedLinks} width={420} height={200} />
     );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
+    );
     const labels = container.querySelectorAll(".vf-chart-sankey__label");
     const texts = Array.from(labels).map((l) => l.textContent);
     expect(texts).toContain("a");
     expect(texts).toContain("Beta");
   });
 
-  it("renders with different align options", () => {
+  it("renders with different align options", async () => {
     const { container } = renderWithTheme(
       <Sankey nodes={nodes} links={links} width={420} height={200} align="left" />
+    );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
     );
     expect(
       container.querySelectorAll(".vf-chart-sankey__node").length
     ).toBe(nodes.length);
   });
 
-  it("applies custom className", () => {
+  it("applies custom className", async () => {
     const { container } = renderWithTheme(
       <Sankey
         nodes={nodes}
@@ -111,30 +130,39 @@ describe("Sankey", () => {
         className="my-sankey"
       />
     );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
+    );
     expect(
       container.querySelector(".vf-chart-sankey")!.classList.contains("my-sankey")
     ).toBe(true);
   });
 
-  it("renders with align=right", () => {
+  it("renders with align=right", async () => {
     const { container } = renderWithTheme(
       <Sankey nodes={nodes} links={links} width={420} height={200} align="right" />
     );
-    expect(
-      container.querySelectorAll(".vf-chart-sankey__node").length
-    ).toBe(nodes.length);
-  });
-
-  it("renders with align=center", () => {
-    const { container } = renderWithTheme(
-      <Sankey nodes={nodes} links={links} width={420} height={200} align="center" />
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
     );
     expect(
       container.querySelectorAll(".vf-chart-sankey__node").length
     ).toBe(nodes.length);
   });
 
-  it("uses per-node color when provided", () => {
+  it("renders with align=center", async () => {
+    const { container } = renderWithTheme(
+      <Sankey nodes={nodes} links={links} width={420} height={200} align="center" />
+    );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
+    );
+    expect(
+      container.querySelectorAll(".vf-chart-sankey__node").length
+    ).toBe(nodes.length);
+  });
+
+  it("uses per-node color when provided", async () => {
     const coloredNodes = [
       { key: "a", color: "#ff0000" },
       { key: "b", color: "#00ff00" },
@@ -147,12 +175,15 @@ describe("Sankey", () => {
     const { container } = renderWithTheme(
       <Sankey nodes={coloredNodes} links={coloredLinks} width={420} height={200} />
     );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
+    );
     const rects = container.querySelectorAll(".vf-chart-sankey__node");
     expect(rects[0]!.getAttribute("fill")).toBe("#ff0000");
     expect(rects[1]!.getAttribute("fill")).toBe("#00ff00");
   });
 
-  it("custom nodeWidth and nodePadding", () => {
+  it("custom nodeWidth and nodePadding", async () => {
     const { container } = renderWithTheme(
       <Sankey
         nodes={nodes}
@@ -163,12 +194,15 @@ describe("Sankey", () => {
         nodePadding={15}
       />
     );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
+    );
     expect(
       container.querySelectorAll(".vf-chart-sankey__node").length
     ).toBe(nodes.length);
   });
 
-  it("uses custom valueFormat", () => {
+  it("uses custom valueFormat", async () => {
     const { container } = renderWithTheme(
       <Sankey
         nodes={nodes}
@@ -177,6 +211,9 @@ describe("Sankey", () => {
         height={200}
         valueFormat={(v) => `$${v}`}
       />
+    );
+    await waitFor(() =>
+      expect(container.querySelector("svg[role='img']")).toBeTruthy()
     );
     expect(container.querySelector(".vf-chart-sankey")).toBeTruthy();
   });

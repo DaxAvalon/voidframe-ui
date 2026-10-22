@@ -7,6 +7,7 @@ import { describe, it, expect } from "vitest";
 const subpaths: Record<string, () => Promise<Record<string, unknown>>> = {
   "src/index.ts": () => import("../../src/index"),
   "src/charts/index.ts": () => import("../../src/charts/index"),
+  "src/charts/lazy.ts": () => import("../../src/charts/lazy"),
   "src/dev/index.ts": () => import("../../src/dev/index"),
   "src/tokens.ts": () => import("../../src/tokens"),
   "src/testing/index.ts": () => import("../../src/testing/index"),

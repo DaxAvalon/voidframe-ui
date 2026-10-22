@@ -114,13 +114,10 @@ export const LazyCalendar: L<
 // consumers used `voidframe-ui` without installing every d3 peer.
 //
 // Sparkline / Heatmap and other charts now ship via `voidframe-ui/charts`
-// only. Consumers who want them lazy-loaded in their app should write a
-// local `lazy()` wrapper:
-//
-//   const Sparkline = lazy(() => import("voidframe-ui/charts").then((m) => ({ default: m.Sparkline })));
-//
-// — same shape, but the import lives on the consumer side so their
-// bundler tracks the d3 dep against the chart code instead of the root.
+// only. Pre-built lazy wrappers for every chart (`LazyLineChart`,
+// `LazySparkline`, …) plus a sized `ChartSkeleton` fallback live in
+// `voidframe-ui/charts/lazy`, which imports no d3 itself, so the d3 deps
+// stay attached to the chart chunks rather than the root entry.
 
 // Capture / media-heavy
 export const LazySignaturePad: L<

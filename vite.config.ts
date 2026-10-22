@@ -108,6 +108,7 @@ export default defineConfig({
       entry: {
         voidframe: resolve(__dirname, "src/index.ts"),
         charts: resolve(__dirname, "src/charts/index.ts"),
+        "charts-lazy": resolve(__dirname, "src/charts/lazy.ts"),
         dev: resolve(__dirname, "src/dev/index.ts"),
         tokens: resolve(__dirname, "src/tokens.ts"),
         testing: resolve(__dirname, "src/testing/index.ts"),

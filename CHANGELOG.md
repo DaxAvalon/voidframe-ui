@@ -7,6 +7,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **`voidframe-ui/charts/lazy`** — a `React.lazy` wrapper for every chart
+  (`LazyBarChart`, `LazyLineChart`, `LazyTreeMap`, … 34 in all) with the
+  chart's own props and `ref`, plus `ChartSkeleton` (`height`, `width`,
+  `label`, `animate`), a sized placeholder that reserves the chart's
+  footprint while a chunk, a peer or data is still loading. The entry
+  imports no d3 itself. `ChartSkeleton` is also exported from
+  `voidframe-ui/charts`.
 - **`AudioLevelMeter`** (data tier, `voidframe-ui/data`). Bar meter for audio
   levels in dB (dBFS, dBTP, LUFS): rises snap, falls are limited to
   `decayDbPerSecond` (default 60, disabled under `prefers-reduced-motion`),
@@ -59,6 +66,9 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Behavior changes
 
+- **`d3-time` removed from the optional peer list.** Nothing in the library
+  imported it directly; `d3-scale` pulls in what `timeScale` needs. Remove
+  it from your own dependencies if voidframe was the only reason it was there.
 - **One `Tooltip`.** The root and `voidframe-ui/data` exported an inline
   tooltip (an absolutely positioned bubble inside the trigger's wrapper,
   prop `position`) while `voidframe-ui/overlays` exported the portaled one
@@ -75,6 +85,15 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **`d3-hierarchy` and `d3-sankey` are no longer imported eagerly by
+  `voidframe-ui/charts`.** `TreeMap`, `Sunburst` and `Sankey` load their
+  peer on first render through the new `usePeer` hook (exported with
+  `loadPeer` and `PeerState`), show a `ChartSkeleton` while it loads, and
+  render the `MissingPeerDependencyError` message in place when it is not
+  installed, matching `NetworkGraph` and the geo charts. Importing the
+  charts entry for a `LineChart` now needs only `d3-scale`, `d3-shape` and
+  `d3-array`. The three charts' first paint is one frame later; tests that
+  query their SVG should `await`.
 - **`dompurify` is no longer required to import the root entry or
   `voidframe-ui/forms`.** `sanitizeHtml` loads the optional peer lazily on
   first use; until it has loaded it returns the input with markup escaped
