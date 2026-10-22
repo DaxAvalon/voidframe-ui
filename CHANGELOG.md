@@ -6,6 +6,14 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Glossary primitives** (`voidframe-ui/specialty`): `GlossaryProvider terms={{ id: { term,
+  definition, section, see } }}` feeds one vocabulary to `<Term id>` (an inline `dfn` with a dotted
+  underline, `cursor: help`, focusable, definition in a portaled tooltip linked by
+  `aria-describedby`; unknown ids render plain with `data-term-missing`; `definition` prop for an
+  inline one-off) and `GlossaryList` (alphabetical definition list grouped by `section` or explicit
+  `sections`, `filter`, per-term anchors, "see also" links with `onSelect`). `HelpDrawer` composes
+  `DrawerV2` with an orientation section, a `Stepper`-rendered `workflow` (`currentStep`) and the
+  `GlossaryList`, with a `trigger` slot and extra children.
 - **Exported helpers and small hooks**: `contrastRatio` and `luminance` from the root and
   `voidframe-ui/tokens`; `lineDiff` / `wordDiff`, `dayLabel` and the new `groupByDay(items, getDate,
   options)` (local-day groups labelled Today / Yesterday / weekday / date) from the root;

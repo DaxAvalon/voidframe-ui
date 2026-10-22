@@ -15,6 +15,8 @@ export * from "../components/DevTools";
 export * from "../components/Identity";
 export * from "../components/Encoding";
 export * from "../components/HelpChangelog";
+export * from "../components/Glossary";
+export * from "../components/HelpDrawer";
 export * from "../components/Widget";
 export * from "../components/ColorTools";
 export * from "../components/Numeric";

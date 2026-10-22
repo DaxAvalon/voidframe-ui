@@ -1123,6 +1123,10 @@ export type {
 } from "./ColorTools";
 
 export { LegalText, Mermaid, mermaidThemeVariables } from "./RichEmbed";
+export { GlossaryProvider, Term, GlossaryList, useGlossary } from "./Glossary";
+export type { GlossaryTerm, GlossaryTerms, GlossaryProviderProps, TermProps, GlossaryListProps, GlossarySection } from "./Glossary";
+export { HelpDrawer } from "./HelpDrawer";
+export type { HelpDrawerProps, HelpWorkflowStep } from "./HelpDrawer";
 export type { LegalTextProps, MermaidProps } from "./RichEmbed";
 
 export {

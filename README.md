@@ -85,7 +85,7 @@ the root entry:
 | `voidframe-ui/animation` | `FadeIn`, `SlideIn`, and the rest of the `Animations` module. |
 | `voidframe-ui/icons` | `Icon`, `IconButton`, the bundled icon set, and `adaptIcon`. |
 | `voidframe-ui/chat` | Chat surface — `Conversation`, `Message*`, `ChatComposer`, `ChatSession`, `ModelCompare`, `TokenVisualizer`. |
-| `voidframe-ui/specialty` | Niche surface: `ThemeSelector`, `ShortcutGuide`, `Print`, `ColorTools`, `Numeric`, `TimeDisplays`, etc. |
+| `voidframe-ui/specialty` | Niche surface: `ThemeSelector`, `ShortcutGuide`, `Print`, `ColorTools`, `Numeric`, `TimeDisplays`, `GlossaryProvider` / `Term` / `GlossaryList` / `HelpDrawer`, etc. |
 | `voidframe-ui/interactive` | `Accordion`, `DragDrop`, `Gestures`, `FilterBuilder`, `Interactive` primitives. |
 | `voidframe-ui/compat-shadcn` | Migrating from shadcn/Radix — flat named exports with shadcn-shaped API. |
 | `voidframe-ui/reactflow` | `VoidframeReactFlowTheme` wrapper, `FlowNode` custom-node shell, `useVoidframeReactFlowStyles()` (edge, label and panel styles), `flowKindColor()`, `readToken()`/`useVoidframeTokens()` and the deterministic `layeredLayout()`/`forceLayout()` helpers for `@xyflow/react`. |
