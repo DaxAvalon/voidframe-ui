@@ -14,3 +14,4 @@ export * from "../components/ScrollArea";
 export * from "../responsive/Show";
 export * from "../responsive/ResponsiveBox";
 export * from "../components/InspectorPane";
+export * from "../components/Disclosure";

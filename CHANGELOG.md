@@ -7,6 +7,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **`Card title` and `subtitle` accept any node**, `titleAs="h2" | … | "h6"`
+  renders the title as a heading (default stays the chrome `Label`), a
+  `header` slot replaces the title row, and `tone` tints the panel with the
+  status colour. **`Disclosure`** (layout tier): a standalone expand/collapse
+  region with a ReactNode `trigger`, `actions` beside it, `open` /
+  `defaultOpen` / `onOpenChange(boolean)`, `surface="card"`, `keepMounted`,
+  `chevron` side and `headingAs`; content unmounts when closed.
 - **Verdict rows and checklists** (data tier). `Verdict verdict="pending"`
   (tone `info`, glyph `…`) for a check that has not run. `FactRow`: label ·
   value · note (· actions) at a 44 px minimum height with the tone as a 3 px

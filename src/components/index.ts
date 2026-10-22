@@ -63,8 +63,11 @@ export type {
 
 // ── Containers ──────────────────────────────────────────────
 export { Card, ScrollRow, StatusBar, SegmentBar } from "./Card";
+export { Disclosure } from "./Disclosure";
+export type { DisclosureProps } from "./Disclosure";
 export type {
   CardProps,
+  CardTitleAs,
   ScrollRowProps,
   StatusBarProps,
   StatusBarItem,

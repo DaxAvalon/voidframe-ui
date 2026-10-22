@@ -74,6 +74,56 @@
   border-bottom: 2px solid var(--vf-border-2);
 }
 
+.vf-card__title { margin: 0; }
+h1.vf-card__title, h2.vf-card__title, h3.vf-card__title,
+h4.vf-card__title, h5.vf-card__title, h6.vf-card__title {
+  font-size: var(--vf-font-sm);
+  font-weight: 600;
+  color: var(--vf-text-0);
+  letter-spacing: var(--vf-letter-spacing);
+  text-transform: var(--vf-heading-case, uppercase);
+}
+.vf-card__header--custom { display: block; }
+
+/* Tinted panels: a wash of the status colour, border to match. */
+.vf-card--success { background: color-mix(in srgb, var(--vf-success) 10%, var(--vf-bg-2)); border-color: color-mix(in srgb, var(--vf-success) 35%, var(--vf-border-1)); }
+.vf-card--warning { background: color-mix(in srgb, var(--vf-warning) 10%, var(--vf-bg-2)); border-color: color-mix(in srgb, var(--vf-warning) 35%, var(--vf-border-1)); }
+.vf-card--danger { background: color-mix(in srgb, var(--vf-danger) 10%, var(--vf-bg-2)); border-color: color-mix(in srgb, var(--vf-danger) 35%, var(--vf-border-1)); }
+.vf-card--info { background: color-mix(in srgb, var(--vf-info) 10%, var(--vf-bg-2)); border-color: color-mix(in srgb, var(--vf-info) 35%, var(--vf-border-1)); }
+
+/* ── Disclosure ──────────────────────────────────────────── */
+.vf-disclosure { font-family: var(--vf-font-family); }
+.vf-disclosure--card {
+  border: 1px solid var(--vf-border-1);
+  background: var(--vf-bg-2);
+  border-radius: var(--vf-radius);
+  padding: var(--vf-sp-5) var(--vf-sp-8);
+}
+.vf-disclosure__header { display: flex; align-items: center; gap: var(--vf-sp-3); }
+.vf-disclosure__heading { margin: 0; flex: 1; min-width: 0; font: inherit; }
+.vf-disclosure__trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  padding: var(--vf-sp-1) 0;
+  font: inherit;
+  color: var(--vf-text-0);
+  text-align: start;
+  cursor: pointer;
+}
+.vf-disclosure__trigger:disabled { cursor: default; opacity: var(--vf-disabled-opacity); }
+.vf-disclosure__trigger:focus-visible { outline: var(--vf-focus-ring); outline-offset: 2px; }
+.vf-disclosure__chevron { flex: none; color: var(--vf-text-3); }
+.vf-disclosure__chevron--end { margin-inline-start: auto; }
+.vf-disclosure__label { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--vf-sp-2); }
+.vf-disclosure__actions { flex: none; display: inline-flex; gap: var(--vf-sp-2); }
+.vf-disclosure__content { padding-top: var(--vf-sp-4); }
+.vf-disclosure--card .vf-disclosure__content { margin-top: var(--vf-sp-4); border-top: 1px solid var(--vf-border-0); }
+
 .vf-card--hoverable {
   transition: border-color var(--vf-duration-base) ease;
   cursor: pointer;

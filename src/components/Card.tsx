@@ -5,11 +5,25 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";
 import { useDisclosure } from "../hooks/useDisclosure";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
+import type { Tone } from "../types";
 import { Label } from "./Text";
 
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  title?: string;
-  subtitle?: string;
+export type CardTitleAs = "label" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
+export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
+  /** Title row content: text or a rich row (badges, counts). */
+  title?: ReactNode;
+  subtitle?: ReactNode;
+  /**
+   * Element for the title: `label` (default, the chrome `Label`) or a
+   * heading level so a page of cards is navigable by headings.
+   */
+  titleAs?: CardTitleAs;
+  /** Replaces the whole title row (title, subtitle, headerRight) with your own header. */
+  header?: ReactNode;
+  /** Tinted panel: a wash of the status colour behind the card. */
+  tone?: Tone;
   headerRight?: ReactNode;
   padding?: number;
   /** Adds hover elevation effect via CSS class. */
@@ -41,8 +55,10 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Brutalist content container with a bordered surface. Optional `title` /
- * `subtitle` / `headerRight` header slot and `actions` footer slot. Use
+ * Brutalist content container with a bordered surface. Optional `title`
+ * (any node; `titleAs` picks a heading level) / `subtitle` / `headerRight`
+ * header slot, or a `header` slot that replaces the row; `tone` tints the
+ * panel; `actions` footer slot. Use
  * `hoverable` for a lift-on-hover effect, `monospace` for log/code content,
  * or `asChild` to render a custom element (link, button) while keeping card
  * styling.
@@ -52,6 +68,9 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
     children,
     title,
     subtitle,
+    titleAs = "label",
+    header,
+    tone,
     padding,
     headerRight,
     hoverable,
@@ -79,17 +98,30 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
   const reactId = useReactId();
   const bodyId = `vf-card-${reactId}-body`;
   const titleId = `vf-card-${reactId}-title`;
+  const ta = toneAttrs("vf-card", { tone: tone && tone !== "neutral" ? tone : undefined });
+  const TitleTag = titleAs === "label" ? null : titleAs;
+  const titleNode =
+    title === undefined || title === null ? null : TitleTag ? (
+      <TitleTag id={titleId} className="vf-card__title">
+        {title}
+      </TitleTag>
+    ) : (
+      <Label id={titleId} className="vf-card__title">
+        {title}
+      </Label>
+    );
 
   if (asChild) {
     return (
       <Slot
         ref={ref as never}
         className={cx(
-          "vf-card",
+          ta.className,
           monospace && "vf-card--monospace",
           className
         )}
         style={composedStyle}
+        {...ta.attrs}
         {...props}
       >
         {children}
@@ -101,7 +133,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
     <div
       ref={ref}
       className={cx(
-        "vf-card",
+        ta.className,
         hoverable && "vf-card--hoverable",
         monospace && "vf-card--monospace",
         collapsible && "vf-card--collapsible",
@@ -109,9 +141,12 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
       )}
       data-open={collapsible ? disclosure.open : undefined}
       style={composedStyle}
+      {...ta.attrs}
       {...props}
     >
-      {(title || subtitle || headerRight) && (
+      {header ? (
+        <div className="vf-card__header vf-card__header--custom">{header}</div>
+      ) : (title || subtitle || headerRight) && (
         <div className="vf-card__header">
           {collapsible ? (
             <button
@@ -136,13 +171,13 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
             >
               <span aria-hidden="true">{disclosure.open ? "▾" : "▸"}</span>
               <div>
-                {title && <Label id={titleId}>{title}</Label>}
+                {titleNode}
                 {subtitle && <div className="vf-card__subtitle">{subtitle}</div>}
               </div>
             </button>
           ) : (
             <div>
-              {title && <Label id={titleId}>{title}</Label>}
+              {titleNode}
               {subtitle && <div className="vf-card__subtitle">{subtitle}</div>}
             </div>
           )}
