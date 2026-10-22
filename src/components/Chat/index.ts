@@ -25,6 +25,29 @@ export {
   MessageContent,
   StreamingText,
 } from "./Message";
+
+export { DateDivider } from "./DateDivider";
+export type { DateDividerProps } from "./DateDivider";
+
+export {
+  formatTimestamp,
+  dayLabel,
+  isSameDay,
+  isDateLike,
+  groupMessagesBySender,
+  exportConversationMarkdown,
+  exportConversationJson,
+} from "./helpers";
+export type {
+  TimestampInput,
+  FormatTimestampOptions,
+  DayLabelOptions,
+  GroupMessagesOptions,
+  MessageGroupOf,
+  ExportableMessage,
+  ExportOptions,
+  ExportedConversation,
+} from "./helpers";
 export type {
   MessageGroupProps,
   MessageProps,

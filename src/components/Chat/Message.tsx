@@ -5,11 +5,14 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from "react";
 import { MarkdownRenderer } from "../Viewers";
 import { cx } from "../../utils/cx";
+import { useMessages } from "../../i18n/MessagesProvider";
+import { formatTimestamp, isDateLike, toDate, type TimestampInput } from "./helpers";
 import type {
   MessageRole,
   MessageStatus,
@@ -22,7 +25,12 @@ import type {
 export interface MessageGroupProps extends HTMLAttributes<HTMLDivElement> {
   author?: MessageAuthor;
   role?: MessageRole;
-  timestamp?: ReactNode;
+  /** A Date, epoch number or ISO string is formatted in the active locale; any other node renders as given. */
+  timestamp?: TimestampInput;
+  /** How a date-like `timestamp` is formatted. Default `time`. */
+  timestampStyle?: "time" | "datetime" | "relative";
+  /** Accent colour for the group (avatar ring); defaults to `author.color`. */
+  accent?: string;
   children?: ReactNode;
 }
 
@@ -32,18 +40,24 @@ export interface MessageGroupProps extends HTMLAttributes<HTMLDivElement> {
  */
 export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
   function MessageGroup(
-    { author, role, timestamp, className, children, ...props },
+    { author, role, timestamp, timestampStyle = "time", accent, className, style, children, ...props },
     ref
   ) {
+    const i18n = useMessages();
+    const color = accent ?? author?.color;
+    const shownTime = formatTimestamp(timestamp, { locale: i18n.locale, timeZone: i18n.timeZone, style: timestampStyle });
+    const dateTime = isDateLike(timestamp) ? toDate(timestamp).toISOString() : undefined;
     return (
       <div
         ref={ref}
         className={cx(
           "vf-message-group",
           role && `vf-message-group--${role}`,
+          color && "vf-message-group--accented",
           className
         )}
         data-role={role}
+        style={color ? ({ "--vf-message-accent": color, ...style } as CSSProperties) : style}
         {...props}
       >
         {(author || timestamp) && (
@@ -57,7 +71,9 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
               <span className="vf-message-group__name">{author.name}</span>
             )}
             {timestamp && (
-              <span className="vf-message-group__time">{timestamp}</span>
+              <time className="vf-message-group__time" dateTime={dateTime}>
+                {shownTime}
+              </time>
             )}
           </header>
         )}
@@ -73,7 +89,12 @@ MessageGroup.displayName = "MessageGroup";
 export interface MessageProps extends Omit<HTMLAttributes<HTMLDivElement>, "content"> {
   role?: MessageRole;
   content?: ReactNode;
-  timestamp?: ReactNode;
+  /** A Date, epoch number or ISO string is formatted in the active locale; any other node renders as given. */
+  timestamp?: TimestampInput;
+  /** How a date-like `timestamp` is formatted. Default `time`. */
+  timestampStyle?: "time" | "datetime" | "relative";
+  /** Accent colour: a leading stripe on the card. Defaults to `author.color`. */
+  accent?: string;
   author?: MessageAuthor;
   status?: MessageStatus;
   actions?: ReactNode;
@@ -99,6 +120,8 @@ export const Message = forwardRef<HTMLDivElement, MessageProps>(function Message
     role = "assistant",
     content,
     timestamp,
+    timestampStyle = "time",
+    accent,
     author,
     status,
     actions,
@@ -109,11 +132,16 @@ export const Message = forwardRef<HTMLDivElement, MessageProps>(function Message
     error,
     replyTo,
     className,
+    style,
     children,
     ...props
   },
   ref
 ) {
+  const i18n = useMessages();
+  const color = accent ?? author?.color;
+  const shownTime = formatTimestamp(timestamp, { locale: i18n.locale, timeZone: i18n.timeZone, style: timestampStyle });
+  const dateTime = isDateLike(timestamp) ? toDate(timestamp).toISOString() : undefined;
   return (
     <article
       ref={ref}
@@ -126,8 +154,10 @@ export const Message = forwardRef<HTMLDivElement, MessageProps>(function Message
         edited && "vf-message--edited",
         pinned && "vf-message--pinned",
         error && "vf-message--error",
+        color && "vf-message--accented",
         className
       )}
+      style={color ? ({ "--vf-message-accent": color, ...style } as CSSProperties) : style}
       {...props}
     >
       {(author || timestamp || pinned) && (
@@ -147,7 +177,9 @@ export const Message = forwardRef<HTMLDivElement, MessageProps>(function Message
             </span>
           )}
           {timestamp && (
-            <time className="vf-message__time">{timestamp}</time>
+            <time className="vf-message__time" dateTime={dateTime}>
+              {shownTime}
+            </time>
           )}
         </header>
       )}

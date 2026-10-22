@@ -827,6 +827,8 @@ Toasts: `toast()` imperative API, `useToast()` hook, `Toaster` (placement wrappe
 
 ### Chat & AI
 
+Transcripts of several agents: give each `MessageAuthor` a `color` and every `Message` and `MessageGroup` from them carries a stripe and avatar ring; `timestamp` takes a `Date`, epoch or ISO string and is formatted in the active locale (`timestampStyle="time" | "datetime" | "relative"`); `MessageList onLoadEarlier` / `hasEarlier` prepends history with the scroll anchored; `DateDivider` marks a new day; `ToolCall icon` and `ToolCallGroup` counts. Helpers: `groupMessagesBySender`, `dayLabel`, `formatTimestamp`, `exportConversationMarkdown` / `exportConversationJson`.
+
 Purpose-built surface for Claude-/ChatGPT-/agent-style products. Everything below is in the top-level `voidframe-ui` import.
 
 **Conversation + messages:** `Conversation`, `MessageList`, `MessageGroup`, `Message`, `MessageContent` (with `MessagePart[]` — text / code / tool_use / tool_result / thinking), `StreamingText`, `ThinkingIndicator` / `TypingIndicator`, `ReasoningTrace`, `MessageActions` (compound: `Copy`/`Regenerate`/`Edit`/`Delete`/`Share`/`Feedback`/`Pin`/`Branch`), `MessageFeedback`, `ReactionBar` / `MessageReactions`, `MessageEdit`.

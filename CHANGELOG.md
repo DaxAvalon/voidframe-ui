@@ -7,6 +7,18 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **Chat tier for agent transcripts.** `MessageAuthor.color` / `Message
+  accent` / `MessageGroup accent` draw a per-author stripe and avatar ring;
+  `timestamp` on `Message` and `MessageGroup` accepts a `Date`, epoch number
+  or ISO string and formats it in the active locale (`timestampStyle`:
+  `time`, `datetime`, `relative`), other nodes render as given.
+  `MessageList onLoadEarlier` / `hasEarlier` / `loadingEarlier` prepend
+  history with the scroll position anchored (control at the top, also on
+  scroll-to-top). `DateDivider` labels a day change. `ToolCall icon`;
+  `ToolCallGroup` shows per-status counts (`showCounts`). Helpers exported
+  from the chat barrel: `formatTimestamp`, `dayLabel`, `isSameDay`,
+  `groupMessagesBySender`, `exportConversationMarkdown`,
+  `exportConversationJson`, `summarizeToolCalls`.
 - **`Menu.Content` positioning**: `side` (`top` | `bottom` | `left` |
   `right`), `align` (`start` | `center` | `end`), `sideOffset`,
   `alignOffset` and `avoidCollisions` (flip to the opposite side when the

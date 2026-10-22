@@ -898,6 +898,7 @@ export type {
 export {
   ToolCall,
   ToolCallGroup,
+  summarizeToolCalls,
   AgentStep,
   AgentTrace,
   PlanDisplay,

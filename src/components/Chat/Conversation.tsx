@@ -43,6 +43,12 @@ export interface MessageAuthor {
   name?: string;
   avatar?: ReactNode;
   role?: string;
+  /**
+   * Per-author colour: a CSS colour or `var(--vf-…)`. Rendered as the
+   * message's leading stripe and the group avatar ring so several
+   * assistants in one transcript tell apart without reading names.
+   */
+  color?: string;
 }
 
 export type MessagePart =
@@ -172,6 +178,20 @@ export interface MessageListProps extends HTMLAttributes<HTMLDivElement> {
   autoScroll?: boolean;
   /** Pixels from bottom that still count as "pinned". */
   pinThreshold?: number;
+  /**
+   * Prepend older history. The list records its scroll position before the
+   * call and restores it after the children change, so the messages the
+   * reader was looking at stay put while earlier ones appear above.
+   */
+  onLoadEarlier?: () => void | Promise<void>;
+  /** Whether more history exists; renders the load-earlier control at the top. */
+  hasEarlier?: boolean;
+  /** Controlled loading state for the control (otherwise derived from the promise). */
+  loadingEarlier?: boolean;
+  /** Also call `onLoadEarlier` when the reader scrolls to the top. Default true. */
+  loadEarlierOnScroll?: boolean;
+  /** Label of the load-earlier control. Default "Load earlier messages". */
+  loadEarlierLabel?: ReactNode;
   children?: ReactNode;
   style?: CSSProperties;
 }
@@ -191,6 +211,11 @@ export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
     {
       autoScroll: autoScrollProp,
       pinThreshold,
+      onLoadEarlier,
+      hasEarlier = false,
+      loadingEarlier: loadingEarlierProp,
+      loadEarlierOnScroll = true,
+      loadEarlierLabel = "Load earlier messages",
       className,
       children,
       style,
@@ -206,6 +231,23 @@ export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
     const [pinned, setPinnedLocal] = useState(true);
     const setPinned = convo?.setPinnedToBottom ?? setPinnedLocal;
     const isPinned = convo?.pinnedToBottom ?? pinned;
+    const [loadingInternal, setLoadingInternal] = useState(false);
+    const loadingEarlier = loadingEarlierProp ?? loadingInternal;
+    // Scroll anchor captured before history is prepended.
+    const anchorRef = useRef<{ height: number; top: number } | null>(null);
+
+    const loadEarlier = () => {
+      if (!onLoadEarlier || loadingEarlier || !hasEarlier) return;
+      const el = innerRef.current;
+      if (el) anchorRef.current = { height: el.scrollHeight, top: el.scrollTop };
+      // Prepending history must not drag the view to the bottom.
+      setPinned(false);
+      const result = onLoadEarlier();
+      if (result && typeof (result as Promise<void>).then === "function") {
+        setLoadingInternal(true);
+        (result as Promise<void>).finally(() => setLoadingInternal(false));
+      }
+    };
 
     const captureRef = (node: HTMLDivElement | null) => {
       innerRef.current = node;
@@ -216,8 +258,21 @@ export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
       }
     };
 
+    // Restore the anchor once history has arrived: the content grew by
+    // (new height - old height) above the reader, so move down by that much.
     useIsomorphicLayoutEffect(() => {
-      if (!autoScroll || !isPinned) return;
+      const anchor = anchorRef.current;
+      const el = innerRef.current;
+      if (!anchor || !el) return;
+      const grown = el.scrollHeight - anchor.height;
+      if (grown > 0) {
+        el.scrollTop = anchor.top + grown;
+        anchorRef.current = null;
+      }
+    }, [children]);
+
+    useIsomorphicLayoutEffect(() => {
+      if (!autoScroll || !isPinned || anchorRef.current) return;
       const el = innerRef.current;
       if (!el) return;
       el.scrollTop = el.scrollHeight;
@@ -228,6 +283,9 @@ export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
       const el = e.currentTarget;
       const distance = el.scrollHeight - el.clientHeight - el.scrollTop;
       setPinned(distance <= threshold);
+      if (loadEarlierOnScroll && hasEarlier && onLoadEarlier && el.scrollTop <= 0 && !loadingEarlier) {
+        loadEarlier();
+      }
     };
 
     return (
@@ -239,8 +297,22 @@ export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
         className={cx("vf-message-list", className)}
         onScroll={handleScroll}
         style={style}
+        data-has-earlier={hasEarlier ? "true" : undefined}
         {...props}
       >
+        {hasEarlier && onLoadEarlier && (
+          <div className="vf-message-list__earlier">
+            <button
+              type="button"
+              className="vf-message-list__earlier-button"
+              onClick={loadEarlier}
+              disabled={loadingEarlier}
+              aria-busy={loadingEarlier || undefined}
+            >
+              {loadingEarlier ? "Loading…" : loadEarlierLabel}
+            </button>
+          </div>
+        )}
         {children}
       </div>
     );

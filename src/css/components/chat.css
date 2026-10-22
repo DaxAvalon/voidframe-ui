@@ -90,6 +90,51 @@
   border-color: var(--vf-danger);
 }
 
+/* Per-author accent: a leading stripe on the card, a ring on the group avatar. */
+.vf-message--accented {
+  border-inline-start: 3px solid var(--vf-message-accent);
+}
+.vf-message-group--accented .vf-message-group__avatar {
+  box-shadow: 0 0 0 2px var(--vf-message-accent);
+}
+.vf-message-group--accented .vf-message-group__name {
+  color: var(--vf-message-accent);
+}
+
+/* Load-earlier control at the top of the list. */
+.vf-message-list__earlier { display: flex; justify-content: center; padding: var(--vf-sp-2) 0; }
+.vf-message-list__earlier-button {
+  background: transparent;
+  border: 1px solid var(--vf-border-1);
+  color: var(--vf-text-2);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+  padding: var(--vf-sp-1) var(--vf-sp-4);
+  cursor: pointer;
+}
+.vf-message-list__earlier-button:hover:not(:disabled) { color: var(--vf-text-0); background: var(--vf-bg-3); }
+.vf-message-list__earlier-button:disabled { opacity: var(--vf-disabled-opacity); cursor: default; }
+
+/* Date divider pill between days. */
+.vf-date-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-3);
+  margin: var(--vf-sp-3) 0;
+  font-family: var(--vf-font-family);
+}
+.vf-date-divider::before,
+.vf-date-divider::after { content: ""; flex: 1; border-top: 1px solid var(--vf-border-1); }
+.vf-date-divider__label {
+  font-size: var(--vf-font-xxs);
+  color: var(--vf-text-3);
+  letter-spacing: var(--vf-label-spacing);
+  text-transform: var(--vf-label-case, uppercase);
+  padding: 0 var(--vf-sp-3);
+  border: 1px solid var(--vf-border-1);
+  background: var(--vf-bg-2);
+}
+
 .vf-message__header {
   display: flex;
   align-items: center;
@@ -767,6 +812,13 @@
 .vf-tool-call__name {
   font-weight: 600;
   color: var(--vf-text-0);
+}
+.vf-tool-call__icon { display: inline-flex; align-items: center; color: var(--vf-text-2); line-height: 1; }
+.vf-tool-call-group__counts {
+  margin-inline-start: auto;
+  font-size: var(--vf-font-xxs);
+  color: var(--vf-text-3);
+  font-variant-numeric: tabular-nums;
 }
 
 .vf-tool-call__duration {

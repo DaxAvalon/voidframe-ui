@@ -3,7 +3,9 @@
 // Phase 12 — Tool calls, agent steps, traces, plans
 
 import {
+  Children,
   forwardRef,
+  isValidElement,
   useId,
   useState,
   type HTMLAttributes,
@@ -17,6 +19,8 @@ export type ToolStatus = "running" | "complete" | "error" | "pending";
 export interface ToolCallProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   name: ReactNode;
+  /** Glyph for the tool, before the name; decorative. */
+  icon?: ReactNode;
   status?: ToolStatus;
   args?: unknown;
   result?: unknown;
@@ -37,6 +41,7 @@ export const ToolCall = forwardRef<HTMLDivElement, ToolCallProps>(
   function ToolCall(
     {
       name,
+      icon,
       status = "running",
       args,
       result,
@@ -84,6 +89,11 @@ export const ToolCall = forwardRef<HTMLDivElement, ToolCallProps>(
             {isOpen ? "▾" : "▸"}
           </span>
           <StatusBadge status={status} />
+          {icon && (
+            <span className="vf-tool-call__icon" aria-hidden="true">
+              {icon}
+            </span>
+          )}
           <span className="vf-tool-call__name">{name}</span>
           {duration !== undefined && (
             <span className="vf-tool-call__duration">
@@ -173,19 +183,45 @@ export interface ToolCallGroupProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   title?: ReactNode;
   status?: ToolStatus;
+  /** Show per-status counts of the child tool calls ("3 done · 1 running"). Default true. */
+  showCounts?: boolean;
   children?: ReactNode;
+}
+
+/** Count `ToolCall` children by status. */
+export function summarizeToolCalls(children: ReactNode): Partial<Record<ToolStatus, number>> & { total: number } {
+  const counts: Partial<Record<ToolStatus, number>> & { total: number } = { total: 0 };
+  Children.forEach(children, (child) => {
+    if (!isValidElement(child)) return;
+    const props = child.props as { status?: ToolStatus };
+    const type = child.type as { displayName?: string };
+    if (type?.displayName !== "ToolCall" && !("args" in (child.props as object)) && !("status" in (child.props as object))) return;
+    const st: ToolStatus = props.status ?? "running";
+    counts[st] = (counts[st] ?? 0) + 1;
+    counts.total++;
+  });
+  return counts;
 }
 
 /**
  * Groups consecutive `ToolCall`s from the same turn with a collapsed
- * summary.
+ * summary and per-status counts.
  */
 export const ToolCallGroup = forwardRef<HTMLDivElement, ToolCallGroupProps>(
-  function ToolCallGroup({ title, status, className, children, ...props }, ref) {
+  function ToolCallGroup({ title, status, showCounts = true, className, children, ...props }, ref) {
+    const counts = showCounts ? summarizeToolCalls(children) : null;
+    const countText =
+      counts && counts.total > 0
+        ? (Object.keys(counts) as Array<keyof typeof counts>)
+            .filter((k) => k !== "total" && (counts[k] ?? 0) > 0)
+            .map((k) => `${counts[k]} ${k}`)
+            .join(" · ")
+        : null;
     return (
       <section
         ref={ref}
         data-status={status}
+        data-count={counts?.total}
         className={cx(
           "vf-tool-call-group",
           status && `vf-tool-call-group--${status}`,
@@ -193,11 +229,14 @@ export const ToolCallGroup = forwardRef<HTMLDivElement, ToolCallGroupProps>(
         )}
         {...props}
       >
-        {(title || status) && (
+        {(title || status || countText) && (
           <header className="vf-tool-call-group__header">
             {status && <StatusBadge status={status} />}
             {title && (
               <span className="vf-tool-call-group__title">{title}</span>
+            )}
+            {countText && (
+              <span className="vf-tool-call-group__counts">{countText}</span>
             )}
           </header>
         )}
