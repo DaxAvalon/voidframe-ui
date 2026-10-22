@@ -1481,6 +1481,8 @@
   padding: var(--vf-sp-2);
   overflow: auto;
 }
+.vf-widget__content { display: contents; }
+.vf-widget__content--hidden { display: none; }
 
 .vf-widget__footer {
   padding: var(--vf-sp-1) var(--vf-sp-2);

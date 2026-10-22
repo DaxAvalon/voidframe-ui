@@ -5,9 +5,52 @@ import { cx } from "../utils/cx";
 
 export type AsyncDataStatus = "loading" | "empty" | "error" | "success";
 
-export interface AsyncDataProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
-  /** The current state. Determines which slot renders. */
-  status: AsyncDataStatus;
+export interface AsyncDataInputs<T> {
+  /** Loading flag, as returned by most data hooks. */
+  isLoading?: boolean;
+  /** Error payload; any value other than `undefined`/`null`/`false` counts. */
+  error?: unknown;
+  /** The data. */
+  data?: T;
+  /** Decide emptiness of present data. Default: `null`, `undefined`, `[]` and `{}`. */
+  isEmpty?: (data: T) => boolean;
+}
+
+function defaultIsEmpty(data: unknown): boolean {
+  if (data === undefined || data === null) return true;
+  if (Array.isArray(data)) return data.length === 0;
+  if (typeof data === "object" && Object.getPrototypeOf(data) === Object.prototype)
+    return Object.keys(data as object).length === 0;
+  return false;
+}
+
+/**
+ * Derive an `AsyncDataStatus` from the `{ data, isLoading, error }` shape
+ * most data hooks return. Loading wins while nothing has arrived yet; an
+ * error wins over stale data; otherwise data decides between success and
+ * empty.
+ */
+export function asyncDataStatus<T>({
+  isLoading,
+  error,
+  data,
+  isEmpty = defaultIsEmpty,
+}: AsyncDataInputs<T>): AsyncDataStatus {
+  if (error !== undefined && error !== null && error !== false) return "error";
+  if (isLoading) return "loading";
+  if (data === undefined || data === null) return "empty";
+  return isEmpty(data) ? "empty" : "success";
+}
+
+export interface AsyncDataProps<T>
+  extends Omit<HTMLAttributes<HTMLDivElement>, "children">,
+    AsyncDataInputs<T> {
+  /**
+   * The current state. Determines which slot renders. Optional: when
+   * omitted it is derived from `isLoading`, `error` and `data` with
+   * `asyncDataStatus`.
+   */
+  status?: AsyncDataStatus;
   /** The data, available when `status === "success"`. */
   data?: T;
   /** Error payload, available when `status === "error"`. */
@@ -30,6 +73,9 @@ export interface AsyncDataProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, 
  * `loading ? <Skeleton /> : data ? <Table /> : <Empty />` boilerplate
  * by routing to the correct slot based on `status`.
  *
+ * `status` may be omitted: `<AsyncData isLoading={q.isLoading} error={q.error}
+ * data={q.data}>` derives it (see `asyncDataStatus`).
+ *
  * @example
  * <AsyncData status={query.status} data={query.data} onRetry={query.refetch}
  *   loading={<Skeleton lines={5} />}
@@ -41,9 +87,11 @@ export interface AsyncDataProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, 
 export const AsyncData = forwardRef<HTMLDivElement, AsyncDataProps<unknown>>(
   function AsyncData(
     {
-      status,
+      status: statusProp,
       data,
       error,
+      isLoading,
+      isEmpty,
       children,
       loading,
       empty,
@@ -54,6 +102,7 @@ export const AsyncData = forwardRef<HTMLDivElement, AsyncDataProps<unknown>>(
     },
     ref
   ) {
+    const status = statusProp ?? asyncDataStatus({ isLoading, error, data, isEmpty });
     let content: ReactNode;
     switch (status) {
       case "loading":

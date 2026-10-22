@@ -1120,12 +1120,23 @@ export {
   DashboardGrid,
   packLayout,
   usePackedLayout,
+  reconcileLayout,
+  useDashboardLayout,
+  useWidgetShell,
+  useWidgetShellStatus,
 } from "./Widget";
 export type {
   WidgetShellProps,
+  WidgetShellStatus,
+  WidgetShellContextValue,
   DashboardLayoutItem,
   DashboardGridProps,
   DashboardBounds,
+  PackLayoutItem,
+  PackLayoutOptions,
+  DashboardLayoutStorage,
+  UseDashboardLayoutOptions,
+  UseDashboardLayoutResult,
 } from "./Widget";
 
 export { PrintLayout, PrintButton } from "./Print";
@@ -1192,10 +1203,11 @@ export type {
   FormProps,
   FormErrorSummaryProps,
 } from "./FormProvider";
-export { AsyncData } from "./AsyncData";
+export { AsyncData, asyncDataStatus } from "./AsyncData";
 export type {
   AsyncDataProps,
   AsyncDataStatus,
+  AsyncDataInputs,
 } from "./AsyncData";
 
 // ── Phase 1: New Components ─────────────────────────────────

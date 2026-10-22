@@ -869,7 +869,7 @@ Domain surfaces that round out the tier-1 offering. Everything below is in the t
 
 **Rich embeds:** `LegalText`, `Mermaid` (accepts a `loader` prop to lazy-resolve the peer dep at runtime).
 
-**Widgets:** `WidgetShell` (loading / error / empty states, optional drag + resize handles), `DashboardGrid` (CSS-grid placement, optional drag-to-swap with live drop indicator, optional corner-resize handles via `resizable`), `packLayout` / `usePackedLayout` helpers.
+**Widgets:** `WidgetShell` (loading / error / empty states, optional drag + resize handles; a body can drive those states itself with `useWidgetShellStatus({ loading, error, empty })` or `useWidgetShell().setStatus` and stays mounted while they show), `DashboardGrid` (CSS-grid placement, optional drag-to-swap with live drop indicator, optional corner-resize handles via `resizable`), `packLayout` / `usePackedLayout` (per-item `{ id, w, h }` sizes, skyline packing; plain `string[]` still packs uniformly), `useDashboardLayout({ storageKey, items, cols })` (persists the arrangement and reconciles it with the current widget set: known ids keep their place, stale ids are dropped, newcomers pack below) and `reconcileLayout`. `AsyncData` accepts `isLoading` / `error` / `data` and derives `status` (`asyncDataStatus`).
 
 **Print:** `PrintLayout` (`@media print` optimized), `PrintButton` (prints a ref'd subtree via a transient iframe, preserving styles).
 

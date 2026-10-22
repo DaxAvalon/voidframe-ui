@@ -6,6 +6,24 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Dashboard layout**: `packLayout` accepts `Array<string | { id, w?, h? }>` and packs with a
+  per-column skyline, so widgets of different spans and heights fill the lowest free row instead
+  of advancing by one uniform height (the `string[]` form is unchanged); `startY` packs below an
+  existing layout. `reconcileLayout(stored, items, cols)` merges a stored layout with the current
+  widget set (known ids keep position and size, stale ids are dropped, newcomers pack below the
+  used rows, over-wide items are clamped) and returns the stored array itself when nothing
+  changed. `useDashboardLayout({ storageKey, items, cols, defaults?, storage?, version? })` reads,
+  validates and persists the layout (`{ version, layout }` JSON; malformed or other-version data
+  is ignored) and returns `{ layout, onLayoutChange, reset }`.
+- **WidgetShell status from the body**: `useWidgetShell()` exposes `{ inShell, status, setStatus }`
+  and `useWidgetShellStatus({ loading, error, empty })` keeps the enclosing shell in sync, so a
+  widget body that owns its fetch can show the shell's loading, error and empty slots. Props set
+  on the shell win over the body's report. Children now render inside `.vf-widget__content`
+  (`display: contents`), which is hidden rather than unmounted while a body-reported status shows,
+  so effects keep running and can clear it.
+- **AsyncData** derives `status` when it is omitted: `isLoading`, `error` and `data` (plus an
+  optional `isEmpty(data)` predicate; `[]`, `{}`, `null` and `undefined` count as empty) go
+  through the exported `asyncDataStatus()`.
 - **Gantt**: `snapTo="day" | "week" | "none"` snaps drag results (week starts follow the
   provider's `firstDayOfWeek`); `getTaskPermissions(task) → { move, resize, link }` and the
   `task.locked` shorthand fix a bar (pointer cursor, no resize handle, `(fixed)` in the

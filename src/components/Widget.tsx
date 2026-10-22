@@ -3,8 +3,10 @@
 // Phase 13 — Widget shell + dashboard grid
 
 import {
+  createContext,
   forwardRef,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -18,6 +20,75 @@ import { cx } from "../utils/cx";
 import { warnOnce } from "../utils/warn";
 import { announce } from "../utils/announce";
 import { useElementSize } from "../hooks/useElementSize";
+
+// ── WidgetShell status context ──────────────────────────────
+//
+// A widget body usually owns the data fetch, but the shell owns the
+// loading / error / empty presentation. The body reports its status through
+// this context so the shell can render the right slot without the parent
+// threading state through props. While a body-reported status is showing,
+// the body stays mounted (hidden) so its effects keep running and can clear
+// the status again.
+
+export interface WidgetShellStatus {
+  loading?: boolean;
+  /** Error content; `null`/`undefined`/`false` means no error. */
+  error?: ReactNode;
+  /** Empty content; `true` uses the shell's `empty` prop, a node replaces it. */
+  empty?: ReactNode | boolean;
+}
+
+export interface WidgetShellContextValue {
+  /** Whether this body is rendered inside a `WidgetShell`. */
+  inShell: boolean;
+  /** Status the body has reported so far. */
+  status: WidgetShellStatus;
+  /** Merge a partial status; pass `undefined` for a field to clear it. */
+  setStatus: (status: WidgetShellStatus) => void;
+}
+
+const noopShell: WidgetShellContextValue = {
+  inShell: false,
+  status: {},
+  setStatus: () => undefined,
+};
+
+const WidgetShellContext = createContext<WidgetShellContextValue>(noopShell);
+
+/**
+ * Access the enclosing `WidgetShell` from a widget body. `setStatus` drives
+ * the shell's loading / error / empty slots. Outside a shell it is a no-op
+ * and `inShell` is false, so bodies can render standalone.
+ */
+export function useWidgetShell(): WidgetShellContextValue {
+  return useContext(WidgetShellContext);
+}
+
+/**
+ * Declarative form of `useWidgetShell().setStatus`: keeps the enclosing
+ * shell's status in sync with the given values on every change.
+ *
+ * ```tsx
+ * function CpuBody() {
+ *   const q = useCpuQuery();
+ *   useWidgetShellStatus({ loading: q.isLoading, error: q.error?.message, empty: q.data?.length === 0 });
+ *   return <Sparkline data={q.data ?? []} />;
+ * }
+ * ```
+ */
+export function useWidgetShellStatus(status: WidgetShellStatus): void {
+  const { setStatus } = useWidgetShell();
+  const { loading, error, empty } = status;
+  useEffect(() => {
+    setStatus({ loading, error, empty });
+  }, [setStatus, loading, error, empty]);
+  useEffect(
+    () => () => {
+      setStatus({ loading: undefined, error: undefined, empty: undefined });
+    },
+    [setStatus]
+  );
+}
 
 // ── WidgetShell ─────────────────────────────────────────────
 
@@ -67,19 +138,60 @@ export const WidgetShell = forwardRef<HTMLElement, WidgetShellProps>(
         ? { height: typeof height === "number" ? `${height}px` : height }
         : {}),
     };
+    // Body-reported status (via useWidgetShell). Props win when set; the
+    // body fills in what the parent did not decide.
+    const [bodyStatus, setBodyStatus] = useState<WidgetShellStatus>({});
+    const setStatus = useCallback((next: WidgetShellStatus) => {
+      setBodyStatus((prev) => {
+        const merged = { ...prev, ...next };
+        if (
+          merged.loading === prev.loading &&
+          merged.error === prev.error &&
+          merged.empty === prev.empty
+        )
+          return prev;
+        return merged;
+      });
+    }, []);
+    const shellContext = useMemo<WidgetShellContextValue>(
+      () => ({ inShell: true, status: bodyStatus, setStatus }),
+      [bodyStatus, setStatus]
+    );
+    const isLoading = loading ?? bodyStatus.loading ?? false;
+    const errorNode: ReactNode =
+      error !== undefined && error !== null && error !== false
+        ? error
+        : bodyStatus.error !== undefined && bodyStatus.error !== null && bodyStatus.error !== false
+          ? bodyStatus.error
+          : null;
+    const bodyEmpty = bodyStatus.empty;
+    const emptyNode: ReactNode | undefined =
+      bodyEmpty === true
+        ? (empty ?? "No data.")
+        : bodyEmpty === false || bodyEmpty === undefined || bodyEmpty === null
+          ? undefined
+          : bodyEmpty;
+    const bodyDriven =
+      loading === undefined && bodyStatus.loading === true
+        ? "loading"
+        : !(error !== undefined && error !== null && error !== false) && errorNode
+          ? "error"
+          : emptyNode !== undefined
+            ? "empty"
+            : null;
     return (
       <section
         ref={ref}
         className={cx(
           "vf-widget",
-          loading && "vf-widget--loading",
-          error && "vf-widget--error",
+          isLoading && "vf-widget--loading",
+          errorNode && "vf-widget--error",
           resizable && "vf-widget--resizable",
           draggable && "vf-widget--draggable",
           className
         )}
         style={composed}
-        aria-busy={loading || undefined}
+        aria-busy={isLoading || undefined}
         {...props}
       >
         {(title || actions || draggable) && (
@@ -97,17 +209,35 @@ export const WidgetShell = forwardRef<HTMLElement, WidgetShellProps>(
             {actions && <div className="vf-widget__actions">{actions}</div>}
           </header>
         )}
-        <div className="vf-widget__body">
-          {loading ? (
-            <div className="vf-widget__loading">Loading…</div>
-          ) : error ? (
-            <div className="vf-widget__error-body">{error}</div>
-          ) : (children === undefined || children === null) && empty !== undefined ? (
-            <div className="vf-widget__empty">{empty}</div>
-          ) : (
-            children
-          )}
-        </div>
+        <WidgetShellContext.Provider value={shellContext}>
+          <div className="vf-widget__body" data-status={bodyDriven ?? undefined}>
+            {isLoading && bodyDriven !== "loading" ? (
+              <div className="vf-widget__loading">Loading…</div>
+            ) : errorNode && bodyDriven !== "error" ? (
+              <div className="vf-widget__error-body">{errorNode}</div>
+            ) : (children === undefined || children === null) && empty !== undefined ? (
+              <div className="vf-widget__empty">{empty}</div>
+            ) : (
+              <>
+                {bodyDriven === "loading" ? (
+                  <div className="vf-widget__loading">Loading…</div>
+                ) : bodyDriven === "error" ? (
+                  <div className="vf-widget__error-body">{errorNode}</div>
+                ) : bodyDriven === "empty" ? (
+                  <div className="vf-widget__empty">{emptyNode}</div>
+                ) : null}
+                {/* Children keep one tree position so a body that reports a
+                    status is hidden, never remounted, while it shows. */}
+                <div
+                  className={cx("vf-widget__content", bodyDriven && "vf-widget__content--hidden")}
+                  hidden={bodyDriven ? true : undefined}
+                >
+                  {children}
+                </div>
+              </>
+            )}
+          </div>
+        </WidgetShellContext.Provider>
         {footer && <footer className="vf-widget__footer">{footer}</footer>}
         {resizable && (
           <span
@@ -814,33 +944,275 @@ DashboardGrid.displayName = "DashboardGrid";
 
 // ── Layout helpers ──────────────────────────────────────────
 
+/** Input to `packLayout`: an id with optional size, or a bare id. */
+export interface PackLayoutItem {
+  id: string;
+  /** Width in cells. Defaults to `defaults.w`. */
+  w?: number;
+  /** Height in cells. Defaults to `defaults.h`. */
+  h?: number;
+}
+
+export interface PackLayoutOptions {
+  /** Default size for items that do not specify one. Default `{ w: 4, h: 2 }`. */
+  w?: number;
+  h?: number;
+  /** First row to place into (used to pack newcomers below an existing layout). Default 0. */
+  startY?: number;
+}
+
+/**
+ * Pack items into a `cols`-wide grid. Items are placed in order at the
+ * lowest available row, left-most first (skyline packing), so widgets of
+ * different widths and heights fill gaps instead of advancing by one
+ * uniform row height. Items wider than `cols` are clamped to `cols`.
+ *
+ * The `string[]` form with a uniform size is unchanged from earlier
+ * releases: left to right, wrapping to a new row of the default height.
+ */
 export function packLayout(
-  ids: string[],
+  items: ReadonlyArray<string | PackLayoutItem>,
   cols: number,
-  defaultSize: { w: number; h: number } = { w: 4, h: 2 }
+  defaults: { w: number; h: number } | PackLayoutOptions = { w: 4, h: 2 }
 ): DashboardLayoutItem[] {
+  const defW = Math.max(1, Math.floor(defaults.w ?? 4));
+  const defH = Math.max(1, Math.floor(defaults.h ?? 2));
+  const startY = Math.max(0, Math.floor(("startY" in defaults ? defaults.startY : undefined) ?? 0));
+  const width = Math.max(1, Math.floor(cols));
+  // Skyline: the first free row in each column.
+  const skyline = new Array<number>(width).fill(startY);
   const out: DashboardLayoutItem[] = [];
-  let x = 0;
-  let y = 0;
-  for (const id of ids) {
-    if (x + defaultSize.w > cols) {
-      x = 0;
-      y += defaultSize.h;
+  for (const raw of items) {
+    const item: PackLayoutItem = typeof raw === "string" ? { id: raw } : raw;
+    const w = Math.min(width, Math.max(1, Math.floor(item.w ?? defW)));
+    const h = Math.max(1, Math.floor(item.h ?? defH));
+    let bestX = 0;
+    let bestY = Number.POSITIVE_INFINITY;
+    for (let x = 0; x + w <= width; x++) {
+      let top = 0;
+      for (let c = x; c < x + w; c++) top = Math.max(top, skyline[c]!);
+      if (top < bestY) {
+        bestY = top;
+        bestX = x;
+      }
     }
-    out.push({ id, x, y, w: defaultSize.w, h: defaultSize.h });
-    x += defaultSize.w;
+    out.push({ id: item.id, x: bestX, y: bestY, w, h });
+    for (let c = bestX; c < bestX + w; c++) skyline[c] = bestY + h;
   }
   return out;
 }
 
 export function usePackedLayout(
-  ids: string[],
+  items: ReadonlyArray<string | PackLayoutItem>,
   cols: number,
-  defaultSize?: { w: number; h: number }
+  defaults?: { w: number; h: number } | PackLayoutOptions
 ): DashboardLayoutItem[] {
-  return useMemo(() => packLayout(ids, cols, defaultSize), [
-    ids,
+  return useMemo(() => packLayout(items, cols, defaults), [
+    items,
     cols,
-    defaultSize,
+    defaults,
   ]);
+}
+
+// ── Persisted dashboard layout ──────────────────────────────
+
+/** Minimal storage surface: `localStorage`, or any `{ get, set, remove }` adapter. */
+export interface DashboardLayoutStorage {
+  get: (key: string) => string | null;
+  set: (key: string, value: string) => void;
+  remove?: (key: string) => void;
+}
+
+export interface UseDashboardLayoutOptions {
+  /** Storage key. Omit to keep the layout in memory only. */
+  storageKey?: string;
+  /** The current widget set, with optional default sizes. */
+  items: ReadonlyArray<string | PackLayoutItem>;
+  /** Grid width in cells. */
+  cols: number;
+  /** Default size for items without one. */
+  defaults?: { w: number; h: number };
+  /** Storage adapter. Default `window.localStorage` (no-op when unavailable). */
+  storage?: DashboardLayoutStorage | Storage | null;
+  /**
+   * Bump to discard stored layouts written under an older version (the
+   * value is stored alongside the layout). Default 1.
+   */
+  version?: number;
+}
+
+export interface UseDashboardLayoutResult {
+  layout: DashboardLayoutItem[];
+  /** Pass to `DashboardGrid onLayoutChange`; persists and re-renders. */
+  onLayoutChange: (next: DashboardLayoutItem[]) => void;
+  /** Discard the stored layout and re-pack every item. */
+  reset: () => void;
+}
+
+function isLayoutItem(value: unknown): value is DashboardLayoutItem {
+  if (typeof value !== "object" || value === null) return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.id === "string" &&
+    [v.x, v.y, v.w, v.h].every((n) => typeof n === "number" && Number.isFinite(n) && n >= 0)
+  );
+}
+
+function readStoredLayout(
+  storage: DashboardLayoutStorage | null,
+  key: string | undefined,
+  version: number
+): DashboardLayoutItem[] | null {
+  if (!storage || !key) return null;
+  try {
+    const raw = storage.get(key);
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    const list: unknown = Array.isArray(parsed)
+      ? parsed
+      : typeof parsed === "object" && parsed !== null && (parsed as { version?: unknown }).version === version
+        ? (parsed as { layout?: unknown }).layout
+        : null;
+    if (!Array.isArray(list)) return null;
+    const items = list.filter(isLayoutItem);
+    return items.length === list.length ? items : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Merge a stored layout with the current widget set.
+ *
+ * - Ids present in both keep their stored position and size.
+ * - Ids no longer in `items` are dropped.
+ * - New ids are packed into the first free rows below everything kept, in
+ *   the order they appear in `items`, using their declared size.
+ * - Items that are wider than `cols` are clamped.
+ *
+ * Returns a new array (in `items` order) or `stored` itself when nothing
+ * changed, so callers can compare by identity.
+ */
+export function reconcileLayout(
+  stored: readonly DashboardLayoutItem[] | null,
+  items: ReadonlyArray<string | PackLayoutItem>,
+  cols: number,
+  defaults: { w: number; h: number } = { w: 4, h: 2 }
+): DashboardLayoutItem[] {
+  const specs = items.map((i) => (typeof i === "string" ? { id: i } : i));
+  if (!stored) return packLayout(specs, cols, defaults);
+  const byId = new Map(stored.map((s) => [s.id, s] as const));
+  const kept: DashboardLayoutItem[] = [];
+  const fresh: PackLayoutItem[] = [];
+  for (const spec of specs) {
+    const s = byId.get(spec.id);
+    if (s) {
+      const w = Math.min(Math.max(1, cols), s.w);
+      kept.push(w === s.w && s.x + w <= cols ? s : { ...s, w, x: Math.max(0, Math.min(s.x, cols - w)) });
+    } else fresh.push(spec);
+  }
+  const usedRows = kept.reduce((m, k) => Math.max(m, k.y + k.h), 0);
+  const packed = fresh.length ? packLayout(fresh, cols, { ...defaults, startY: usedRows }) : [];
+  const packedById = new Map(packed.map((p) => [p.id, p] as const));
+  const next = specs.map((spec) => byId.get(spec.id) ?? packedById.get(spec.id)!).map((entry) => {
+    const k = kept.find((x) => x.id === entry.id);
+    return k ?? entry;
+  });
+  const unchanged =
+    next.length === stored.length && next.every((n, i) => n === stored[i]);
+  return unchanged ? (stored as DashboardLayoutItem[]) : next;
+}
+
+function resolveStorage(
+  storage: DashboardLayoutStorage | Storage | null | undefined
+): DashboardLayoutStorage | null {
+  if (storage === null) return null;
+  if (storage === undefined) {
+    if (typeof window === "undefined" || !window.localStorage) return null;
+    storage = window.localStorage;
+  }
+  if ("getItem" in storage) {
+    const s = storage;
+    return {
+      get: (k) => s.getItem(k),
+      set: (k, v) => s.setItem(k, v),
+      remove: (k) => s.removeItem(k),
+    };
+  }
+  return storage;
+}
+
+/**
+ * A `DashboardGrid` layout that survives reloads and widget-set changes.
+ * Reads `storageKey` once, reconciles it with `items` (see
+ * `reconcileLayout`) whenever the id set or `cols` changes, and writes
+ * every `onLayoutChange` back.
+ *
+ * ```tsx
+ * const { layout, onLayoutChange, reset } = useDashboardLayout({
+ *   storageKey: "ops-dashboard",
+ *   items: widgets.map((w) => ({ id: w.id, w: w.span, h: w.rows })),
+ *   cols: 12,
+ * });
+ * <DashboardGrid items={layout} onLayoutChange={onLayoutChange} />
+ * ```
+ */
+export function useDashboardLayout({
+  storageKey,
+  items,
+  cols,
+  defaults,
+  storage: storageProp,
+  version = 1,
+}: UseDashboardLayoutOptions): UseDashboardLayoutResult {
+  const storage = useMemo(() => resolveStorage(storageProp), [storageProp]);
+  const itemsKey = items
+    .map((i) => (typeof i === "string" ? i : `${i.id}:${i.w ?? ""}x${i.h ?? ""}`))
+    .join("|");
+  const [layout, setLayout] = useState<DashboardLayoutItem[]>(() =>
+    reconcileLayout(readStoredLayout(storage, storageKey, version), items, cols, defaults)
+  );
+  const persist = useCallback(
+    (next: DashboardLayoutItem[]) => {
+      if (!storage || !storageKey) return;
+      try {
+        storage.set(storageKey, JSON.stringify({ version, layout: next }));
+      } catch {
+        /* storage full or unavailable */
+      }
+    },
+    [storage, storageKey, version]
+  );
+  // Reconcile when the widget set or width changes.
+  const lastKeyRef = useRef(`${itemsKey}#${cols}`);
+  useEffect(() => {
+    const key = `${itemsKey}#${cols}`;
+    if (lastKeyRef.current === key) return;
+    lastKeyRef.current = key;
+    setLayout((prev) => {
+      const next = reconcileLayout(prev, items, cols, defaults);
+      if (next !== prev) persist(next);
+      return next;
+    });
+    // `itemsKey` captures items' identity-relevant content.
+  }, [itemsKey, cols, persist]);
+  const onLayoutChange = useCallback(
+    (next: DashboardLayoutItem[]) => {
+      setLayout(next);
+      persist(next);
+    },
+    [persist]
+  );
+  const reset = useCallback(() => {
+    const next = packLayout(items, cols, defaults);
+    setLayout(next);
+    if (storage && storageKey) {
+      try {
+        storage.remove?.(storageKey);
+      } catch {
+        /* noop */
+      }
+    }
+  }, [itemsKey, cols, defaults, storage, storageKey]);
+  return { layout, onLayoutChange, reset };
 }
