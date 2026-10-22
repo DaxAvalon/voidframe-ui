@@ -47,5 +47,21 @@ export {
   MockMarkdownEditor,
   MockCodeEditor,
   MockConversation,
+  MockTooltip,
+  MockPopover,
+  MockPopoverV2,
   mockComponents,
+  mockMermaidLoader,
+  type MockMermaidLoader,
+  type MockMermaidLoaderOptions,
 } from "./mocks";
+
+export {
+  installResizeObserver,
+  installIntersectionObserver,
+  setupVoidframeTestEnv,
+  type ResizeObserverController,
+  type IntersectionObserverController,
+  type VoidframeTestEnvOptions,
+  type VoidframeTestEnv,
+} from "./env";

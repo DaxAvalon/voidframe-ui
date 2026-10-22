@@ -72,7 +72,7 @@ the root entry:
 | `voidframe-ui/charts` | Charts only (dead-code elimination if you don't touch any non-chart component). |
 | `voidframe-ui/dev` | `<Playground>`, `<PropsTable>`, `<DevPanel>`, `ProfilerScope` — dev-only surface, never ships to production. |
 | `voidframe-ui/tokens` | Token object (`darkTheme`, `lightTheme`, …) without pulling in React. Useful for tooling and design-tool sync. |
-| `voidframe-ui/testing` | `renderWithTheme`, `expectNoA11yViolations`, `installMatchMedia`, `createMockStorage`. |
+| `voidframe-ui/testing` | `renderWithTheme`, `renderWithVoidframe`, `expectNoA11yViolations`, `setupVoidframeTestEnv`, `installMatchMedia`, `installResizeObserver`, `createMockStorage`, interactive editor mocks, `MockTooltip` / `MockPopover`, `mockReactFlow`, `mockMermaidLoader`. |
 | `voidframe-ui/primitives` | Low-level primitives: `Slot`, `Portal`, `FocusScope`, `DismissableLayer`, `Presence`, `LiveRegion`, a11y helpers. |
 | `voidframe-ui/core` | `Button`, `Badge`, `Card`, `Text`, `Loading`, `SplitButton`, `CopyButton`, `Result`. |
 | `voidframe-ui/layout` | `Layout` family, `AppShell`, `Sidebar`, `Masonry`, `Resizable`, `ScrollArea`, responsive `Show`/`ResponsiveBox`. |
@@ -966,6 +966,12 @@ Two render helpers are exposed:
 
 - **`renderWithTheme`** — wraps in `VoidframeProvider` only. Smallest possible setup.
 - **`renderWithVoidframe`** — wraps in `VoidframeProvider` + `ConfirmProvider` (and optionally a nested `ThemeScope`). Use when the component under test calls `useConfirm()` or other voidframe imperative hooks. Re-exports `screen` / `waitFor` / `fireEvent` / `within` / `cleanup` / `act` from testing-library so consumers don't need to dual-import.
+
+**Environment.** jsdom and happy-dom lack the layout APIs several components touch. `setupVoidframeTestEnv({ width })` installs `matchMedia`, a controllable `ResizeObserver` (`env.resizeObserver.trigger()`), an `IntersectionObserver`, a no-op `scrollIntoView` and `requestAnimationFrame` where missing, and returns `restore()`; `installResizeObserver()` and `installIntersectionObserver()` are available on their own.
+
+**Portals and providers.** `Tooltip`, `Popover`, `Menu`, `Dialog` and `DrawerV2` portal into `document.body`, so query with `screen` (not the render `container`) and wait for them (`await screen.findByRole("tooltip")`). No `TooltipProvider` is required in tests: it only tunes delays. When you want the overlay text inline and synchronous, mock the component: `MockTooltip` / `MockPopover` render the content next to the trigger with `role="tooltip"` / `role="dialog"`, and `MockPopoverV2` is an always-open compound stand-in.
+
+**Mocks.** `MockCodeEditor`, `MockMarkdownEditor` and `MockRichTextEditor` are textarea-backed: `value` / `defaultValue`, `onValueChange`, `placeholder` and `aria-label` work, so a test can type into them with user-event. `mockMermaidLoader({ svg })` gives `Mermaid` a loader that records `initialize` and `render` calls; `mockReactFlow()` stands in for `@xyflow/react` (`vi.mock("@xyflow/react", () => mockReactFlow())`).
 
 ```jsx
 import { describe, expect, it } from "vitest";

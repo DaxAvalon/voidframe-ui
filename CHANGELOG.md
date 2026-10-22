@@ -6,6 +6,15 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Testing utilities** (`voidframe-ui/testing`): `MockCodeEditor`, `MockMarkdownEditor` and
+  `MockRichTextEditor` are now textarea-backed and forward `value` / `defaultValue`,
+  `onValueChange`, `placeholder`, `aria-label` and `readOnly` (data attributes kept);
+  `MockTooltip` / `MockPopover` render their content inline with `role="tooltip"` / `"dialog"` and
+  `MockPopoverV2` is an always-open compound stand-in; `mockMermaidLoader({ svg, error })` records
+  `initialize` and `render` calls; `installResizeObserver()` and `installIntersectionObserver()`
+  install controllable stubs with `trigger()`; `setupVoidframeTestEnv({ width })` installs
+  matchMedia, both observers, `scrollIntoView` and `requestAnimationFrame` where missing and returns
+  `restore()`. README gains a Testing section on portals and providers.
 - **Lightweight data visuals** (`voidframe-ui/data`): `BarList` (ranked bars scaled to the largest
   value, `sort`, tones, links or buttons, `meta`); `TargetProgress { value, target, direction:
   "at-least" | "at-most", unit, format, warnWithin, showDelta }` (a `meter` with a target marker and
