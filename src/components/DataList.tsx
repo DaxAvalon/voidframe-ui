@@ -14,6 +14,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 
 export interface DataListItem {
@@ -65,7 +66,7 @@ export interface DataListItemProps extends HTMLAttributes<HTMLDivElement> {
   label: ReactNode;
   value: ReactNode;
   /** Semantic tone — highlight rows as success/warning/danger/info. */
-  tone?: "neutral" | "info" | "success" | "warning" | "danger";
+  tone?: Tone;
   /**
    * Optional rich expansion content rendered below the label/value row.
    * Use for "click to expand" patterns where the simple value isn't

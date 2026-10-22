@@ -21,6 +21,14 @@ export type Accent =
 /** Semantic role aliases. */
 export type SemanticColor = "success" | "danger" | "warning" | "info";
 
+/**
+ * The one tone vocabulary every tone-bearing prop accepts: the four semantic
+ * colours plus `neutral`. Components that take a `tone` prop use this type
+ * (or a documented subset of it), so a status enum mapped once to `Tone`
+ * works everywhere.
+ */
+export type Tone = "neutral" | SemanticColor;
+
 /** Placement sides for overlays/tooltips. */
 export type Side = "top" | "right" | "bottom" | "left";
 

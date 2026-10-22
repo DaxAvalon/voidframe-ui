@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 
 function formatRelative(time: Date | string): string {
@@ -64,7 +65,7 @@ export interface ActivityItemProps extends HTMLAttributes<HTMLDivElement> {
   time?: Date | string;
   /** Show absolute time instead of relative. */
   absoluteTime?: boolean;
-  tone?: "neutral" | "success" | "warning" | "danger" | "info";
+  tone?: Tone;
   /**
    * Optional rich expansion content rendered below the fixed-shape row.
    * Use when an activity item should disclose more detail than fits in

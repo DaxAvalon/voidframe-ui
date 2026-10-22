@@ -15,6 +15,7 @@ import { genericForwardRef } from "../utils/forwardRef";
 import { genericMemo } from "../utils/genericMemo";
 import { cx } from "../utils/cx";
 import { toneAttrs } from "../utils/toneAttrs";
+import type { Tone } from "../types";
 import { Label } from "./Text";
 
 // ── Table ─────────────────────────────────────────────────────
@@ -455,7 +456,7 @@ export const Table = genericMemo(TableImpl);
 
 // ── Stat ──────────────────────────────────────────────────────
 
-export type StatTone = "neutral" | "info" | "success" | "danger" | "warning";
+export type StatTone = Tone;
 
 export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   label: string;
@@ -556,7 +557,7 @@ function MiniTrend({ data, tone }: { data: number[]; tone: StatTone }) {
 // ── Progress ──────────────────────────────────────────────────
 
 export type ProgressVariant = "determinate" | "indeterminate";
-export type ProgressTone = "neutral" | "info" | "success" | "danger" | "warning";
+export type ProgressTone = Tone;
 
 export interface ProgressProps extends HTMLAttributes<HTMLDivElement> {
   value?: number;

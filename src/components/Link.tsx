@@ -20,11 +20,12 @@ import type {
   ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { safeHrefOrWarn } from "../utils/safeHref";
 import { toneAttrs } from "../utils/toneAttrs";
 
 export type LinkVariant = "inline" | "standalone" | "muted";
-export type LinkTone = "neutral" | "info" | "success" | "danger" | "warning";
+export type LinkTone = Tone;
 
 export interface LinkProps
   extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "color"> {

@@ -17,6 +17,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 import { addDays } from "../utils/date";
 
@@ -26,7 +27,7 @@ export interface GanttTask {
   start: Date;
   end: Date;
   dependencies?: string[];
-  tone?: "neutral" | "success" | "warning" | "danger" | "info";
+  tone?: Tone;
   /** When true, render as a diamond milestone marker instead of a bar. */
   milestone?: boolean;
 }

@@ -33,6 +33,7 @@ import { MessagesProvider } from "../i18n/MessagesProvider";
 import type { PartialMessages } from "../i18n/messages";
 import type { LocalePack } from "../i18n/locales/types";
 import { cx } from "../utils/cx";
+import { warnUnknownTokens } from "../utils/auditTokens";
 
 const VoidframeContext = createContext<VoidframeTokens>(defaultTokens);
 
@@ -120,6 +121,12 @@ export interface VoidframeProviderProps {
    * Pass `"root"` to restrict theme scoping to the provider's wrapper div.
    */
   scope?: VoidframeScope;
+  /**
+   * Development only: after mount, scan the loaded stylesheets once for
+   * `var(--vf-…)` references that nothing defines and `console.warn` the
+   * names. No-op in production builds. Default `false`.
+   */
+  auditTokens?: boolean;
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
@@ -170,6 +177,7 @@ export function VoidframeProvider({
   firstDayOfWeek,
   timeZone,
   scope: themeScopeMode = "global",
+  auditTokens: auditTokensProp = false,
   className,
   style,
   children,
@@ -302,6 +310,11 @@ export function VoidframeProvider({
     // Keyed on the serialised CSS (a string), so an inline `theme={{…}}`
     // object with a fresh identity does not churn the style element.
   }, [themeScopeMode, resolvedThemeName, themeVarsCss]);
+
+  useEffect(() => {
+    if (!auditTokensProp || process.env.NODE_ENV === "production") return;
+    warnUnknownTokens();
+  }, [auditTokensProp]);
 
   return (
     <VoidframeContext.Provider value={tokens}>

@@ -11,6 +11,8 @@ import preferAsChild from "./rules/prefer-asChild";
 import exhaustiveKindVariant from "./rules/exhaustive-kind-variant";
 import noDeprecatedPropCombination from "./rules/no-deprecated-prop-combination";
 import requireControlledPair from "./rules/require-controlled-pair";
+import noUnknownVfToken from "./rules/no-unknown-vf-token";
+export { VF_TOKEN_NAMES } from "./rules/vf-token-names";
 
 export const rules = {
   "no-raw-hex-colors": noRawHexColors,
@@ -26,6 +28,7 @@ export const rules = {
   "exhaustive-kind-variant": exhaustiveKindVariant,
   "no-deprecated-prop-combination": noDeprecatedPropCombination,
   "require-controlled-pair": requireControlledPair,
+  "no-unknown-vf-token": noUnknownVfToken,
 };
 
 export const configs = {
@@ -45,6 +48,7 @@ export const configs = {
       "voidframe-ui/exhaustive-kind-variant": "off",
       "voidframe-ui/no-deprecated-prop-combination": "error",
       "voidframe-ui/require-controlled-pair": "warn",
+      "voidframe-ui/no-unknown-vf-token": "error",
     },
   },
 };

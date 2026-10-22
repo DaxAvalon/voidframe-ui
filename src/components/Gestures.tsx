@@ -15,6 +15,7 @@ import {
   type WheelEvent,
 } from "react";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 
 // ── Swipeable ───────────────────────────────────────────────
@@ -166,7 +167,7 @@ const SwipeActionsRoot = forwardRef<HTMLDivElement, SwipeActionsProps>(
 SwipeActionsRoot.displayName = "SwipeActions";
 
 export interface SwipeActionProps extends HTMLAttributes<HTMLButtonElement> {
-  tone?: "neutral" | "success" | "warning" | "danger" | "info";
+  tone?: Tone;
   children?: ReactNode;
 }
 

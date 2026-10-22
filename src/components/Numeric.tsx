@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 
 // ── NumberDisplay ───────────────────────────────────────────
@@ -23,7 +24,7 @@ export interface NumberDisplayProps
   signed?: boolean;
   prefix?: ReactNode;
   suffix?: ReactNode;
-  tone?: "neutral" | "success" | "warning" | "danger" | "info";
+  tone?: Tone;
 }
 
 /**

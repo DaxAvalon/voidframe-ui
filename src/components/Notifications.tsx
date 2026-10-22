@@ -13,6 +13,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 import { Label } from "./Text";
 import { useMergedRefs } from "../hooks/useMergedRefs";
@@ -27,7 +28,7 @@ export interface NotificationItem {
   description?: ReactNode;
   read?: boolean;
   time?: Date | string;
-  tone?: "neutral" | "info" | "success" | "warning" | "danger";
+  tone?: Tone;
 }
 
 export interface NotificationCenterProps extends HTMLAttributes<HTMLDivElement> {
@@ -281,7 +282,7 @@ NotificationCenter.displayName = "NotificationCenter";
 // ── BannerAlert ─────────────────────────────────────────────
 
 export interface BannerAlertProps extends HTMLAttributes<HTMLDivElement> {
-  tone?: "neutral" | "info" | "success" | "warning" | "danger";
+  tone?: Tone;
   dismissible?: boolean;
   onDismiss?: () => void;
   action?: ReactNode;
@@ -348,7 +349,7 @@ BannerAlert.displayName = "BannerAlert";
 export interface CalloutProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   icon?: ReactNode;
   title?: ReactNode;
-  tone?: "neutral" | "info" | "success" | "warning" | "danger";
+  tone?: Tone;
   children?: ReactNode;
 }
 

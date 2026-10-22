@@ -128,3 +128,5 @@ export { responsiveClasses, breakpointClass } from "./responsiveClasses";
 export { toneAttrs, type ToneAttrs, type ToneAttrsInput } from "./toneAttrs";
 export { buttonDisabledAttrs, type DisabledAttrs } from "./buttonDisabledAttrs";
 export { hasAccessibleGridAncestor } from "./hasAccessibleGridAncestor";
+export { auditTokens, warnUnknownTokens, resetTokenAudit } from "./auditTokens";
+export type { TokenAuditResult } from "./auditTokens";

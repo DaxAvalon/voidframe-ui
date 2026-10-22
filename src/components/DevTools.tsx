@@ -16,6 +16,7 @@ import {
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 import { JSONViewer } from "./Viewers";
 
@@ -30,7 +31,7 @@ export interface CommitNode {
   timestamp?: ReactNode;
   branch?: string;
   parents?: string[];
-  tone?: "neutral" | "info" | "success" | "warning" | "danger";
+  tone?: Tone;
 }
 
 export interface CommitGraphProps extends HTMLAttributes<HTMLDivElement> {

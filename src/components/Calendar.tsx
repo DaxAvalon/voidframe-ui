@@ -22,6 +22,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 import {
   addDays,
@@ -42,7 +43,7 @@ export interface CalendarEvent {
   date: Date;
   endDate?: Date;
   label: ReactNode;
-  tone?: "neutral" | "success" | "warning" | "danger" | "info";
+  tone?: Tone;
   description?: ReactNode;
 }
 

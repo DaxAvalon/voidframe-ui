@@ -239,6 +239,31 @@
   --vf-static-black: #000000;
 }
 
+/* ── Semantic aliases ──────────────────────────────────────────
+ * Names consumers reach for before they learn the numeric tiers. Each one
+ * resolves through the tier it aliases, so a single definition here follows
+ * every theme and every nested ThemeScope: var() is resolved on the element
+ * that uses it, against that element's --vf-text-3 and friends. */
+:root {
+  --vf-text-muted: var(--vf-text-3);
+  --vf-text-subtle: var(--vf-text-4);
+  --vf-border: var(--vf-border-1);
+  --vf-border-strong: var(--vf-border-3);
+  --vf-accent-success: var(--vf-success);
+  --vf-accent-warning: var(--vf-warning);
+  --vf-accent-danger: var(--vf-danger);
+  --vf-accent-info: var(--vf-info);
+  --vf-surface-0: var(--vf-bg-0);
+  --vf-surface-1: var(--vf-bg-1);
+  --vf-surface-2: var(--vf-bg-2);
+  --vf-surface-3: var(--vf-bg-3);
+  --vf-surface-4: var(--vf-bg-4);
+  --vf-surface-5: var(--vf-bg-5);
+  /* A panel that lets the page show through (toolbars over content, HUDs). */
+  --vf-surface-translucent: color-mix(in srgb, var(--vf-bg-1) 80%, transparent);
+  /* --vf-scrim and --vf-scrim-strong (above) are the backdrop tokens. */
+}
+
 [data-vf-theme="midnight"] {
   --vf-bg-0: #000000;
   --vf-bg-1: #040407;

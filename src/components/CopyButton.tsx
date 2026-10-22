@@ -3,6 +3,7 @@
 import { forwardRef, memo, useCallback, useEffect, useRef, useState } from "react";
 import type { HTMLAttributes } from "react";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
 import { toneAttrs } from "../utils/toneAttrs";
 
@@ -22,7 +23,7 @@ export interface CopyButtonProps
    * Semantic tone. Mirrors Button/IconButton tone vocabulary — emits
    * `data-tone` and primes `--vf-accent` when no explicit accent is supplied.
    */
-  tone?: "neutral" | "info" | "success" | "danger" | "warning";
+  tone?: Tone;
   disabled?: boolean;
   /** Fires after a successful clipboard write with the copied text. */
   onCopy?: (text: string) => void;

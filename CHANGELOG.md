@@ -7,6 +7,21 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **Semantic alias tokens** in the stylesheet, resolving through the tiers
+  in every theme and `ThemeScope`: `--vf-text-muted`, `--vf-text-subtle`,
+  `--vf-border`, `--vf-border-strong`, `--vf-accent-{success,warning,danger,
+  info}`, `--vf-surface-0…5` and `--vf-surface-translucent`.
+- **`Tone` type** (`"neutral" | "info" | "success" | "warning" | "danger"`)
+  exported from the root and used by every five-value `tone` prop
+  (`StatTone`, `ProgressTone`, `LinkTone` are now aliases of it).
+- **`no-unknown-vf-token` ESLint rule** (recommended: error) flags
+  `var(--vf-…)` strings and `--vf-…` style keys that name no voidframe token,
+  with a "did you mean" hint; `allow` whitelists project prefixes. The token
+  registry is generated from the stylesheet (`npm run tokens:names`, checked
+  in CI) and published as `dist/token-names.json`.
+- **`VoidframeProvider auditTokens`** (development only) scans the loaded
+  stylesheets once and warns with every undefined `--vf-*` reference;
+  `auditTokens()` and `warnUnknownTokens()` are exported.
 - **`onTaskToggle(index, checked, line)` and `interactiveTasks`** on
   `MarkdownRenderer`, `renderMarkdownBlocks` options and chat
   `MessageContent`/`MessageMarkdown`: task checkboxes are disabled until a

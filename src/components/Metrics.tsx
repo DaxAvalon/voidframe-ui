@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 import { Label } from "./Text";
 import { Stat, type StatTone } from "./Data";
@@ -227,7 +228,7 @@ CircularProgress.displayName = "CircularProgress";
 export interface SegmentedProgressSegment {
   value: number;
   label?: ReactNode;
-  tone?: "neutral" | "success" | "warning" | "danger" | "info";
+  tone?: Tone;
   color?: string;
 }
 

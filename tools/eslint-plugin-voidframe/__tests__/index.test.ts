@@ -10,6 +10,7 @@ describe("eslint-plugin-voidframe barrel", () => {
       "no-inline-style-overrides",
       "no-legacy-chart-imports",
       "no-raw-hex-colors",
+      "no-unknown-vf-token",
       "prefer-asChild",
       "prefer-compound-pattern",
       "prefer-subpath-import",

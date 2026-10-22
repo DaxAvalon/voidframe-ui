@@ -2,7 +2,7 @@
 
 import { forwardRef, memo, useState } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
-import type { Side } from "../types";
+import type { Side, Tone } from "../types";
 import { cx } from "../utils/cx";
 import { toneAttrs } from "../utils/toneAttrs";
 import { deprecatedComponent } from "../utils/deprecate";
@@ -535,7 +535,7 @@ export interface ListItemProps extends HTMLAttributes<HTMLDivElement> {
   leading?: ReactNode;
   trailing?: ReactNode;
   /** Semantic tone — mirrors Badge/AlertV2/Card tone vocabulary. */
-  tone?: "neutral" | "info" | "success" | "warning" | "danger";
+  tone?: Tone;
   children?: ReactNode;
 }
 

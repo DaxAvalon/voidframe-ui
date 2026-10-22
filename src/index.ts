@@ -13,6 +13,7 @@ export type {
   Size,
   Accent,
   SemanticColor,
+  Tone,
   Side,
   Alignment,
   ToastType,
@@ -130,6 +131,8 @@ export {
   sanitizeHtml,
   ensureSanitizer,
   isSanitizerReady,
+  auditTokens,
+  warnUnknownTokens,
 } from "./utils";
 export type {
   ClassValue,

@@ -450,6 +450,31 @@ border width, and `vf-sm`→`vf-xxl` breakpoints.
 | Breakpoints | `bpSm` → `bpXxl`                         | Responsive props and `Show`/`Hide` |
 | Shape      | `radius` (0 in the brutalist themes), `radius1`, `radius2`, `borderWidth0` → `borderWidth4`, `transition` | Soft themes raise the radii |
 
+**Semantic aliases (CSS only).** The names people guess before they learn the
+tiers exist and resolve through the tier they alias, in every theme and
+nested `ThemeScope`: `--vf-text-muted` (text-3), `--vf-text-subtle` (text-4),
+`--vf-border` (border-1), `--vf-border-strong` (border-3),
+`--vf-accent-success` / `-warning` / `-danger` / `-info`, `--vf-surface-0…5`
+(the `bg` tiers), `--vf-surface-translucent` (bg-1 at 80 % over the page) and
+the backdrops `--vf-scrim` / `--vf-scrim-strong`.
+
+**Unknown names fail silently.** `color: var(--vf-text-mutd)` inherits and
+`border: 1px solid var(--vf-bordr)` removes the border, with no error. Three
+guards: the `voidframe-ui/no-unknown-vf-token` ESLint rule (in the
+`recommended` config as an error; `allow: ["--vf-app-"]` whitelists your own
+prefixes) checks every `var(--vf-…)` string and `--vf-…` style key in TS/TSX
+against the registry; the registry itself ships as `dist/token-names.json`
+(`{ "tokens": ["--vf-accent", …] }`) for stylelint or your own scripts; and
+`<VoidframeProvider auditTokens>` scans the loaded stylesheets once in
+development and warns with the undefined names (no-op in production).
+`auditTokens()` is exported for tests.
+
+**One `Tone` type.** Every tone-bearing prop accepts
+`Tone = "neutral" | "info" | "success" | "warning" | "danger"` (exported from
+the root), so a status enum mapped once to `Tone` works on `Badge`, `Stat`,
+`Progress`, `Activity.Item`, `Notification`, `Link`, `Gantt`, `Calendar`
+events and the rest.
+
 ---
 
 ## Component Inventory

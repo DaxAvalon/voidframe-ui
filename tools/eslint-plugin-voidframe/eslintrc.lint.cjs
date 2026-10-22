@@ -42,5 +42,6 @@ module.exports = {
     "exhaustive-kind-variant": "off",
     "no-deprecated-prop-combination": "error",
     "require-controlled-pair": "warn",
+    "no-unknown-vf-token": "error",
   },
 };

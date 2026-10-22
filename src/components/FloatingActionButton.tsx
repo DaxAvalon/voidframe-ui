@@ -11,6 +11,7 @@ import {
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
 import { cx } from "../utils/cx";
+import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 
 export interface FABAction {
@@ -39,7 +40,7 @@ export interface FloatingActionButtonProps
    * Semantic tone. Mirrors Button/Badge. Emits `data-tone` + cascades to
    * `vf-fab--${tone}` BEM class.
    */
-  tone?: "neutral" | "info" | "success" | "danger" | "warning";
+  tone?: Tone;
   offset?: { bottom?: number; right?: number; left?: number };
   /**
    * Disables the FAB trigger (and any speed-dial actions cascade via their
