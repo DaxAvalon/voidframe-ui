@@ -26,6 +26,9 @@ export const THEME_NAMES = [
 ] as const;
 export type BuiltInThemeName = (typeof THEME_NAMES)[number];
 
+export { THEME_OPTIONS } from "./options";
+export type { ThemeOption } from "./options";
+
 /** Emit `--vf-*` CSS custom properties from a partial or full token set. */
 export function tokensToCssVars(
   tokens: ThemeOverrides | VoidframeTokens

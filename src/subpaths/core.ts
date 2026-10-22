@@ -15,9 +15,10 @@ export * from "../components/Result";
 
 // The provider and theming surface, so an app can mount voidframe from
 // `voidframe-ui/core` without the root entry's optional peers.
-export { VoidframeProvider, useTokens, useThemeScope } from "../provider/VoidframeProvider";
+export { VoidframeProvider, useTokens, useThemeScope, useTheme } from "../provider/VoidframeProvider";
 export type {
   VoidframeProviderProps,
+  ThemeControl,
   VoidframeDensity,
   VoidframeContrast,
   VoidframeDirection,
@@ -45,5 +46,6 @@ export {
   tokensToCssVars,
   themeToCss,
   THEME_NAMES,
+  THEME_OPTIONS,
 } from "../themes";
-export type { BuiltInThemeName } from "../themes";
+export type { BuiltInThemeName, ThemeOption } from "../themes";

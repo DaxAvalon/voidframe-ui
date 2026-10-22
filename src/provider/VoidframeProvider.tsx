@@ -3,6 +3,7 @@
 import {
   createContext,
   useContext,
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -75,6 +76,40 @@ export function useThemeScope(): ResolvedScope | null {
   return useContext(RuntimeScopeContext);
 }
 
+export interface ThemeControl {
+  /** The theme name as set (may be `"system"`). */
+  themeName: ThemeName;
+  /** The name actually applied (`"system"` resolved to `dark`/`light`). */
+  resolvedThemeName: string;
+  /**
+   * Change the theme. Updates the provider's own state when `themeName` is
+   * uncontrolled, and always calls `onThemeNameChange`.
+   */
+  setThemeName: (next: ThemeName) => void;
+}
+
+const ThemeControlContext = createContext<ThemeControl | null>(null);
+
+const noProviderControl: ThemeControl = {
+  themeName: "dark",
+  resolvedThemeName: "dark",
+  setThemeName: () => {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("[voidframe] useTheme().setThemeName called outside <VoidframeProvider>; nothing to update.");
+    }
+  },
+};
+
+/**
+ * Read and change the active theme from anywhere under the provider.
+ * Pair with `useThemePersistence` at the root (`themeName={theme}
+ * onThemeNameChange={setTheme}`) and a settings pane can call
+ * `setThemeName` without lifting state itself.
+ */
+export function useTheme(): ThemeControl {
+  return useContext(ThemeControlContext) ?? noProviderControl;
+}
+
 export interface VoidframeProviderProps {
   /**
    * Full token set or partial overrides merged over `defaultTokens`.
@@ -87,6 +122,14 @@ export interface VoidframeProviderProps {
    * palettes statically.
    */
   themeName?: ThemeName;
+  /**
+   * Initial theme name when `themeName` is left uncontrolled; the provider
+   * then owns the state and `useTheme().setThemeName` changes it. Default
+   * `"dark"`.
+   */
+  defaultThemeName?: ThemeName;
+  /** Fires with the next name whenever `useTheme().setThemeName` is called. */
+  onThemeNameChange?: (next: ThemeName) => void;
   /** Density mode. Scales spacing globally. */
   density?: VoidframeDensity;
   /** Contrast mode. Boosts text + border tokens under `"high"`. */
@@ -165,7 +208,9 @@ function resolveSystemScheme(): "dark" | "light" {
  */
 export function VoidframeProvider({
   theme,
-  themeName = "dark",
+  themeName: themeNameProp,
+  defaultThemeName = "dark",
+  onThemeNameChange,
   density = "comfortable",
   contrast = "normal",
   direction,
@@ -182,6 +227,16 @@ export function VoidframeProvider({
   style,
   children,
 }: VoidframeProviderProps) {
+  // Theme name: controlled by `themeName`, else owned here.
+  const [internalThemeName, setInternalThemeName] = useState<ThemeName>(defaultThemeName);
+  const themeName = themeNameProp ?? internalThemeName;
+  const setThemeName = useCallback(
+    (next: ThemeName) => {
+      if (themeNameProp === undefined) setInternalThemeName(next);
+      onThemeNameChange?.(next);
+    },
+    [themeNameProp, onThemeNameChange]
+  );
   // Direction resolution: explicit prop > locale pack > ltr.
   const resolvedDirection: VoidframeDirection =
     direction ?? locale?.direction ?? "ltr";
@@ -223,6 +278,11 @@ export function VoidframeProvider({
     if (theme) return tokensToCssVars(theme);
     return {};
   }, [theme]);
+
+  const control = useMemo<ThemeControl>(
+    () => ({ themeName, resolvedThemeName, setThemeName }),
+    [themeName, resolvedThemeName, setThemeName]
+  );
 
   const scope = useMemo<ResolvedScope>(
     () => ({
@@ -318,6 +378,7 @@ export function VoidframeProvider({
 
   return (
     <VoidframeContext.Provider value={tokens}>
+      <ThemeControlContext.Provider value={control}>
       <RuntimeScopeContext.Provider value={scope}>
         <div
           className={cx("vf-root", cssBaseline && "vf-baseline", className)}
@@ -340,6 +401,7 @@ export function VoidframeProvider({
           </MessagesProvider>
         </div>
       </RuntimeScopeContext.Provider>
+      </ThemeControlContext.Provider>
     </VoidframeContext.Provider>
   );
 }

@@ -7,6 +7,18 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **Theme control from the provider.** `useTheme()` returns `{ themeName,
+  resolvedThemeName, setThemeName }`; `VoidframeProvider` takes
+  `defaultThemeName` (uncontrolled) and `onThemeNameChange`, so a settings
+  pane changes the theme without the app lifting state.
+- **`useThemePersistence({ hydrate: "sync" })`** reads storage in the first
+  render for client-only apps (no default-theme flash); the default
+  `"effect"` stays SSR-safe. Instances sharing a key now sync within a tab
+  through an in-memory emitter as well as across tabs.
+- **`THEME_OPTIONS`** (`ThemeOption[]`: id, label, description, scheme for
+  every built-in plus `system`) is exported and is `ThemeSelector`'s default
+  `themes`. `ThemeSelector` gains `kind="list"` (vertical radio list with
+  descriptions) and `connected` (binds to the provider via `useTheme()`).
 - **Semantic alias tokens** in the stylesheet, resolving through the tiers
   in every theme and `ThemeScope`: `--vf-text-muted`, `--vf-text-subtle`,
   `--vf-border`, `--vf-border-strong`, `--vf-accent-{success,warning,danger,

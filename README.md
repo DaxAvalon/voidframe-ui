@@ -371,6 +371,42 @@ import { ThemeScope, lightTheme } from "voidframe-ui";
 
 ### Persistence
 
+**Recommended wiring, end to end.** One hook at the root owns the persisted
+name and hands it to the provider; any picker anywhere in the tree is
+`connected` and needs no props; `useTheme()` gives code a setter.
+
+```jsx
+import { VoidframeProvider, ThemeSelector, useTheme, useThemePersistence } from "voidframe-ui";
+
+function Root({ children }) {
+  // hydrate: "sync" reads localStorage in the first render (no flash) and is
+  // right for client-only apps; leave the default "effect" under SSR.
+  const { theme, setTheme } = useThemePersistence({ hydrate: "sync" });
+  return (
+    <VoidframeProvider themeName={theme} onThemeNameChange={setTheme}>
+      {children}
+    </VoidframeProvider>
+  );
+}
+
+function SettingsPage() {
+  // Every built-in plus "system", with labels and descriptions, from THEME_OPTIONS.
+  return <ThemeSelector connected kind="list" />;
+}
+
+function ResetButton() {
+  const { themeName, setThemeName } = useTheme();
+  return <button onClick={() => setThemeName("system")}>Reset ({themeName})</button>;
+}
+```
+
+Two `useThemePersistence` instances with the same key stay in sync within a
+tab (shared emitter) as well as across tabs (`storage` event). Without the
+hook, the provider can own the state itself: `defaultThemeName="dark"` plus
+`onThemeNameChange` for side effects.
+
+**Manual wiring** when you want to pass the value yourself:
+
 ```jsx
 import { useThemePersistence, VoidframeProvider, ThemeSelector } from "voidframe-ui";
 

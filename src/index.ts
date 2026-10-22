@@ -25,9 +25,11 @@ export {
   VoidframeProvider,
   useTokens,
   useThemeScope,
+  useTheme,
 } from "./provider/VoidframeProvider";
 export type {
   VoidframeProviderProps,
+  ThemeControl,
   ThemeName,
   VoidframeDensity,
   VoidframeContrast,
@@ -49,8 +51,9 @@ export {
   tokensToCssVars,
   themeToCss,
   THEME_NAMES,
+  THEME_OPTIONS,
 } from "./themes";
-export type { BuiltInThemeName } from "./themes";
+export type { BuiltInThemeName, ThemeOption } from "./themes";
 
 // ── Primitives ──────────────────────────────────────────────
 export * from "./primitives";

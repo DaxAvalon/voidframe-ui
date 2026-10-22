@@ -75,6 +75,51 @@
   font-size: var(--vf-font-sm);
 }
 
+/* kind="list": vertical radio list with descriptions, for settings pages. */
+.vf-theme-selector--list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+}
+.vf-theme-selector__item {
+  all: unset;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--vf-sp-3);
+  padding: var(--vf-sp-3) var(--vf-sp-4);
+  cursor: pointer;
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-1);
+  border: 1px solid var(--vf-border-1);
+  border-inline-start: 2px solid transparent;
+  background: var(--vf-bg-1);
+}
+.vf-theme-selector__item:hover { background: var(--vf-bg-2); color: var(--vf-text-0); }
+.vf-theme-selector__item:focus-visible { outline: var(--vf-focus-ring-accent); outline-offset: -2px; }
+.vf-theme-selector__item--selected {
+  background: var(--vf-bg-3);
+  color: var(--vf-text-0);
+  border-inline-start-color: var(--vf-accent);
+}
+.vf-theme-selector__radio {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-top: 0.3em;
+  border: 1px solid var(--vf-border-3);
+  border-radius: 50%;
+  background: var(--vf-bg-0);
+}
+.vf-theme-selector__item--selected .vf-theme-selector__radio {
+  border-color: var(--vf-accent);
+  background: var(--vf-accent);
+  box-shadow: inset 0 0 0 2px var(--vf-bg-0);
+}
+.vf-theme-selector__body { display: flex; flex-direction: column; gap: var(--vf-sp-1); min-width: 0; }
+.vf-theme-selector__description { font-size: var(--vf-font-xs); color: var(--vf-text-3); }
+.vf-theme-selector--sm .vf-theme-selector__item { padding: var(--vf-sp-2) var(--vf-sp-3); font-size: var(--vf-font-xs); }
+
 /* ThemeScope: a bare wrapper that re-asserts local inheritance. */
 
 .vf-theme-scope {
