@@ -856,7 +856,7 @@ Purpose-built surface for Claude-/ChatGPT-/agent-style products. Everything belo
 
 **Model, context, cost:** `ModelSelector`, `SystemPromptEditor`, `ChatTokenCounter`, `ContextWindow`, `CostDisplay`, `LatencyIndicator`, `UnreadBadge`.
 
-**Debug & trace:** `DebugPanel`, `TraceViewer`.
+**Debug & trace:** `DebugPanel`, `TraceViewer` (requires a span hierarchy with start and duration; for flat event streams use the data-tier `EventTimeline` / `RequestResponseTrace`), `EventLog` / `TraceTable` (dense monospace event table with tone bands, kind filters, anchor ids and cited highlight), `ChangeTable` (field-level before → after rows with a direction tone and an optional `Verdict` column).
 
 **Layout patterns:** `ChatLayout` (sidebar + conversation + inspector), `SimpleChat`, `AgentRunner`.
 

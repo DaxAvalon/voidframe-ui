@@ -1281,6 +1281,8 @@ export { TokenVisualizer } from "./TokenVisualizer";
 export type { TokenVisualizerProps } from "./TokenVisualizer";
 export { ConfidenceMeter } from "./ConfidenceMeter";
 export type { ConfidenceMeterProps, ConfidenceZone } from "./ConfidenceMeter";
+export { EventLog, TraceTable, EventTimeline, RequestResponseTrace, ChangeTable, changeTone } from "./EventTables";
+export type { LogEvent, EventLogProps, TraceEvent, EventTimelineProps, ChangeRow, ChangeTableProps, EventTone } from "./EventTables";
 export { Transcript, activeSegmentIndex, formatTranscriptTime } from "./Transcript";
 export type { TranscriptProps, TranscriptSegment } from "./Transcript";
 export { LivePreview } from "./LivePreview";

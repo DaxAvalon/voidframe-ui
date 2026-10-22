@@ -6,6 +6,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Event and trace tables** (`voidframe-ui/data`): `EventLog` (alias `TraceTable`) is a dense
+  monospace table of events (`id`, `time` or `time → end`, `label`, `detail`, `kind`, `tone`) with a
+  tone band per row, kind filter chips (`filterable`, `visibleKinds`), DOM anchors per row
+  (`anchorPrefix`), a `cited` highlight, selection, `onSelect` and optional payload drill-down;
+  `EventTimeline` (alias `RequestResponseTrace`) orders events by time with offsets from a base,
+  pairs request/response events by `pairId` (duration derived or explicit) and expands payloads;
+  `ChangeTable rows={{ label, before, after, tone, note, verdict }}` renders field-level
+  before → after rows with a dimmed before value, a direction tone (`direction="up-good" |
+  "down-good"`, `deriveTone`, `changeTone()` exported) and an optional `Verdict` / custom
+  trailing column. `TraceViewer` docs now state it requires a span hierarchy.
 - **Glossary primitives** (`voidframe-ui/specialty`): `GlossaryProvider terms={{ id: { term,
   definition, section, see } }}` feeds one vocabulary to `<Term id>` (an inline `dfn` with a dotted
   underline, `cursor: help`, focusable, definition in a portaled tooltip linked by

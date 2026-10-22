@@ -575,8 +575,8 @@ export interface TraceViewerProps extends HTMLAttributes<HTMLDivElement> {
  * to zero-width markers. For event feeds use `Activity` or a custom
  * `Card`-per-row feed; for log streams use `LogViewer`.
  *
- * Future-proofing: a dedicated `EventStreamViewer` may replace event-feed
- * usage of TraceViewer; the API change would be additive.
+ * For flat event streams use `EventTimeline` (request/response pairs with
+ * payload drill-down) or `EventLog` (dense event table) from `voidframe-ui/data`.
  */
 export const TraceViewer = forwardRef<HTMLDivElement, TraceViewerProps>(
   function TraceViewer({ spans, totalMs, className, ...props }, ref) {

@@ -80,6 +80,7 @@
 @import "./components/transport-strip.css";
 @import "./components/status-strip.css";
 @import "./components/transcript.css";
+@import "./components/event-tables.css";
 @import "./components/countdown-dial.css";
 @import "./components/org-chart.css";
 @import "./gradients.css";

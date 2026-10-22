@@ -45,3 +45,4 @@ export type { TooltipProps, TooltipProviderProps } from "../components/Popovers"
 export * from "../components/ListRow";
 export * from "../components/FactRow";
 export * from "../components/CheckList";
+export * from "../components/EventTables";
