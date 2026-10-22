@@ -533,3 +533,6 @@ export const greyTheme: VoidframeTokens = createTheme({
   borderWidth3: 3,
   borderWidth4: 4,
 });
+
+// Colour maths used by theme authors and their tests.
+export { contrastRatio, luminance } from "./utils/color";

@@ -1255,7 +1255,9 @@ Opt-out with `adaptive={false}` when you're wrapping one of these inside your ow
 ## Hooks
 
 Theming & state:
-`useTokens`, `useControllableState`, `useHover`, `useFocus`, `useToggle`, `useClickOutside`, `useDebounce`, `useMediaQuery`, `useLocalStorage`, `useInterval`, `usePrevious`, `useForceUpdate`, `useMergedRefs`, `useId`, `useIsomorphicLayoutEffect`.
+`useTokens`, `useControllableState`, `useHover`, `useFocus`, `useToggle`, `useClickOutside`, `useDebounce`, `useMediaQuery`, `useLocalStorage`, `usePersistedChoice` (a validated string choice persisted and synced across tabs and instances; `useThemePersistence` is built on it), `usePolling` (interval with overlap skipping and hidden-tab pause), `useScrollHighlight` (deep-link scroll-and-flash via `data-highlight`), `useInterval`, `usePrevious`, `useForceUpdate`, `useMergedRefs`, `useId`, `useIsomorphicLayoutEffect`. `useLongPress` tolerates `moveTolerance` px of drift and no longer cancels on pointer leave unless `cancelOnLeave` is set.
+
+Pure helpers on the root: `contrastRatio` / `luminance` (also from `voidframe-ui/tokens`), `lineDiff` / `wordDiff`, `dayLabel` / `groupByDay`, `toISODate` / `isoMonth` / `parseISODate`, and `formatBytes(n, { base: 1000 | 1024, decimals })`.
 
 Input & IO: `useKeyboardShortcut`, `useCopyToClipboard`, `useScroll`, `useWindowSize`, `useShortcut`, `useShortcutRegistry`.
 

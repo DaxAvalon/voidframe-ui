@@ -112,6 +112,18 @@ export {
   type UseThemePersistenceReturn,
 } from "./useThemePersistence";
 export {
+  usePersistedChoice,
+  type UsePersistedChoiceOptions,
+  type UsePersistedChoiceReturn,
+  type PersistedChoiceStorage,
+} from "./usePersistedChoice";
+export { usePolling, type UsePollingOptions, type UsePollingReturn } from "./usePolling";
+export {
+  useScrollHighlight,
+  type UseScrollHighlightOptions,
+  type UseScrollHighlightReturn,
+} from "./useScrollHighlight";
+export {
   useUserMedia,
   userMediaReason,
   type UseUserMediaOptions,

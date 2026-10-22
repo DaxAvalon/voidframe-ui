@@ -74,6 +74,47 @@ export function dayLabel(value: Date | string | number, options: DayLabelOptions
   return new Intl.DateTimeFormat(locale, sameYear ? { month: "long", day: "numeric" } : { year: "numeric", month: "short", day: "numeric" }).format(d);
 }
 
+export interface DayGroup<T> {
+  /** Local-calendar `yyyy-MM-dd`. */
+  key: string;
+  /** "Today", "Yesterday", a weekday, or a date (see `dayLabel`). */
+  label: string;
+  /** Midnight of that day. */
+  date: Date;
+  items: T[];
+}
+
+/**
+ * Group items by local calendar day, in the order the days are first seen,
+ * each group labelled with `dayLabel`. Items without a date are skipped.
+ *
+ * ```ts
+ * groupByDay(sessions, (s) => s.updatedAt).map((g) => <Section title={g.label}>…</Section>)
+ * ```
+ */
+export function groupByDay<T>(
+  items: readonly T[],
+  getDate: (item: T) => Date | string | number | null | undefined,
+  options: DayLabelOptions = {}
+): DayGroup<T>[] {
+  const groups = new Map<string, DayGroup<T>>();
+  for (const item of items) {
+    const raw = getDate(item);
+    if (raw === null || raw === undefined) continue;
+    const d = toDate(raw);
+    if (Number.isNaN(d.getTime())) continue;
+    const day = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const key = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+    let g = groups.get(key);
+    if (!g) {
+      g = { key, label: dayLabel(day, options), date: day, items: [] };
+      groups.set(key, g);
+    }
+    g.items.push(item);
+  }
+  return [...groups.values()];
+}
+
 /** Same calendar day in local time. */
 export function isSameDay(a: Date | string | number, b: Date | string | number): boolean {
   const x = toDate(a);

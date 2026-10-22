@@ -144,6 +144,11 @@ export {
   createNavModel,
   readToken,
   readTokens,
+  contrastRatio,
+  luminance,
+  toISODate,
+  isoMonth,
+  parseISODate,
   toBinding,
   bindingEquals,
   matchesKeyboardEvent,
@@ -162,6 +167,8 @@ export type {
   BindingAssignments,
   AssignBindingResult,
 } from "./utils";
+export { dayLabel, groupByDay } from "./components/Chat/helpers";
+export type { DayLabelOptions, DayGroup } from "./components/Chat/helpers";
 export type {
   NavNode,
   NavModel,

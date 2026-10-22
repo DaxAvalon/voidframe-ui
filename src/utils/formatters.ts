@@ -17,12 +17,22 @@ export function formatNumber(n: number, decimals?: number): string {
 /**
  * Format bytes into human-readable string.
  */
-export function formatBytes(bytes: number): string {
-  if (bytes === 0) return "0 B";
-  const units = ["B", "KB", "MB", "GB", "TB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+export interface FormatBytesOptions {
+  /** 1024 (default, binary: KB/MB) or 1000 (decimal: kB/MB, as storage vendors and HTTP tooling report). */
+  base?: 1000 | 1024;
+  /** Fraction digits for units above bytes. Default 1. */
+  decimals?: number;
+}
+
+export function formatBytes(bytes: number, options: FormatBytesOptions = {}): string {
+  const { base = 1024, decimals = 1 } = options;
+  if (!Number.isFinite(bytes) || bytes === 0) return "0 B";
+  const units = base === 1000 ? ["B", "kB", "MB", "GB", "TB", "PB"] : ["B", "KB", "MB", "GB", "TB", "PB"];
+  const abs = Math.abs(bytes);
+  const i = Math.min(units.length - 1, Math.floor(Math.log(abs) / Math.log(base)));
   const unit = units[i] ?? "B";
-  return `${(bytes / Math.pow(1024, i)).toFixed(i > 0 ? 1 : 0)} ${unit}`;
+  const value = bytes / Math.pow(base, i);
+  return `${value.toFixed(i > 0 ? decimals : 0)} ${unit}`;
 }
 
 /**

@@ -29,6 +29,9 @@ export type {
 export { ThemeScope } from "../provider/ThemeScope";
 export type { ThemeScopeProps } from "../provider/ThemeScope";
 export { useThemePersistence } from "../hooks/useThemePersistence";
+export { usePersistedChoice } from "../hooks/usePersistedChoice";
+export type { UsePersistedChoiceOptions, UsePersistedChoiceReturn, PersistedChoiceStorage } from "../hooks/usePersistedChoice";
+export { contrastRatio, luminance } from "../utils/color";
 export { readToken, readTokens } from "../utils/readToken";
 export {
   toBinding,

@@ -131,6 +131,7 @@ export { hasAccessibleGridAncestor } from "./hasAccessibleGridAncestor";
 export { auditTokens, warnUnknownTokens, resetTokenAudit } from "./auditTokens";
 export { readToken, readTokens } from "./readToken";
 export { toISODate, isoMonth, parseISODate } from "./date";
+export type { FormatBytesOptions } from "./formatters";
 export {
   toBinding,
   parseChord,

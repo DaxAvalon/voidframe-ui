@@ -6,6 +6,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Exported helpers and small hooks**: `contrastRatio` and `luminance` from the root and
+  `voidframe-ui/tokens`; `lineDiff` / `wordDiff`, `dayLabel` and the new `groupByDay(items, getDate,
+  options)` (local-day groups labelled Today / Yesterday / weekday / date) from the root;
+  `toISODate` / `isoMonth` / `parseISODate`; `formatBytes(n, { base: 1000 | 1024, decimals })`.
+  `usePersistedChoice(key, { default, allowed, storage, hydrate })` is the generic persisted-choice
+  hook (`useThemePersistence` is now a thin wrapper over it); `usePolling(fn, ms, { enabled,
+  immediate, pauseWhenHidden })` skips overlapping runs and pauses in hidden tabs;
+  `useScrollHighlight({ highlightMs, fromHash })` scrolls an element into view and sets
+  `data-highlight` for a moment. `useLongPress` gains `moveTolerance` (default 10 px) and
+  `cancelOnLeave`, and returns an `onPointerMove` binding.
 - **`useEventSource`** subscribes to named event types (`events: ["job", "done"]`) and reports every
   event through `onEvent({ type, data, parsed, lastEventId, raw })`; `parse(data, type)` turns the
   payload into `T` (errors land in `parseError`); the hook now exposes `lastEventType`,
@@ -430,6 +440,9 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   Built for Vonyx (DaxAvalon/Vonyx#131); see #16.
 
 ### Behavior changes
+- **`useLongPress`** no longer cancels when the pointer leaves the element (pass
+  `cancelOnLeave: true` for the old behaviour) and cancels when the pointer drifts more than
+  `moveTolerance` px, so touch scrolling does not fire it. Spread the new `onPointerMove` binding.
 - **Mermaid** defaults to `theme="voidframe"` (token-derived `base` theme) instead of `"dark"`;
   pass `theme="dark"` to keep mermaid's built-in dark theme.
 - **DropZone** default label is the localised "Drop files here or click to browse" (the stylesheet
