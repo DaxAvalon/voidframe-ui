@@ -6,6 +6,18 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Gantt**: `snapTo="day" | "week" | "none"` snaps drag results (week starts follow the
+  provider's `firstDayOfWeek`); `getTaskPermissions(task) → { move, resize, link }` and the
+  `task.locked` shorthand fix a bar (pointer cursor, no resize handle, `(fixed)` in the
+  accessible name, `data-locked`); `onDependencyCreate({ from, to })` adds a link handle to every
+  bar that can be dragged onto another task's row or driven with the keyboard (Enter on the
+  handle, Enter on the target bar, Escape cancels), with a dashed preview arrow and a highlighted
+  target row; `onDependencyClick({ from, to })` makes arrows focusable buttons; `nameColumnWidth`
+  replaces the fixed 200 px column (`--vf-gantt-name-width`); `fitTasks` derives the range from
+  the tasks (padded one unit) and makes `start`/`end` optional; `autoGranularity` picks day, week
+  or month from the range length; headers use `Intl.DateTimeFormat` with the provider's locale and
+  time zone (`formatHeader` overrides). `snapDate`, `pickGranularity` and `fitTaskRange` are
+  exported. Arrows whose dependency is not in `tasks` are not drawn (documented).
 - **Kanban**: `KanbanMoveEvent` now carries `toColumnOrder` (ids of the target column after the
   move, including the moved card) and `fromColumnOrder` (ids left in the source column; the same
   array for a move within one column), so a board that persists order can store the payload as
@@ -301,6 +313,9 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   Built for Vonyx (DaxAvalon/Vonyx#131); see #16.
 
 ### Behavior changes
+- **Gantt** drags now snap to whole days by default (`snapTo="day"`); pass `snapTo="none"` for
+  the previous continuous millisecond results. A drag whose snapped result equals the original
+  dates no longer calls `onTaskUpdate`.
 
 - **`d3-time` removed from the optional peer list.** Nothing in the library
   imported it directly; `d3-scale` pulls in what `timeScale` needs. Remove

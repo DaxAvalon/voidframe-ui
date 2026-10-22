@@ -579,12 +579,15 @@ export type {
   CalendarRange,
 } from "./Calendar";
 
-export { Gantt } from "./Gantt";
+export { Gantt, snapDate, pickGranularity, fitTaskRange } from "./Gantt";
 export type {
   GanttProps,
   GanttTask,
   GanttGranularity,
   GanttUpdate,
+  GanttSnap,
+  GanttTaskPermissions,
+  GanttDependency,
 } from "./Gantt";
 
 export { Activity } from "./Activity";

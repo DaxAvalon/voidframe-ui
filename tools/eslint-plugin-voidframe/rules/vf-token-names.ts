@@ -109,6 +109,7 @@ export const VF_TOKEN_NAMES: readonly string[] = [
   "--vf-font-xs",
   "--vf-font-xxl",
   "--vf-font-xxs",
+  "--vf-gantt-name-width",
   "--vf-gantt-unit-px",
   "--vf-gradient-accent",
   "--vf-gradient-cool",
