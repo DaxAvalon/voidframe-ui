@@ -28,6 +28,55 @@
     "file": "src/utils/announce.ts"
   },
   {
+    "name": "assignBinding",
+    "kind": "function",
+    "signature": "export function assignBinding( assignments: BindingAssignments, actionId: string, binding: BindingInput | null ): AssignBindingResult",
+    "description": "Give `actionId` a binding, enforcing one binding per action and one\naction per binding. Any other action holding an equal binding loses it,\nand is returned as `displaced` so the UI can say so. Pass `null` to clear.",
+    "file": "src/utils/binding.ts"
+  },
+  {
+    "name": "auditTokens",
+    "kind": "function",
+    "signature": "export function auditTokens(sheets?: Iterable<CSSStyleSheet>): TokenAuditResult",
+    "description": "Scan `document.styleSheets` (or the given sheets) for undefined `--vf-*` references.",
+    "file": "src/utils/auditTokens.ts"
+  },
+  {
+    "name": "bindingEquals",
+    "kind": "function",
+    "signature": "export function bindingEquals(a: BindingInput | null | undefined, b: BindingInput | null | undefined): boolean",
+    "description": "True when both bindings name the same trigger (labels ignored).",
+    "file": "src/utils/binding.ts"
+  },
+  {
+    "name": "bindingFromKeyboardEvent",
+    "kind": "function",
+    "signature": "export function bindingFromKeyboardEvent( e: Pick<KeyboardEvent, \"key\" | \"code\" | \"metaKey\" | \"ctrlKey\" | \"altKey\" | \"shiftKey\">, options: { by?: \"key\" | \"code\" } = {} ): Binding | null",
+    "description": "Build a binding from a keyboard event, by `key` (layout-dependent, the\ndefault) or by `code` (physical key: numpad, pedal keyboards). Returns\n`null` for a bare modifier press.",
+    "file": "src/utils/binding.ts"
+  },
+  {
+    "name": "bindingKeyshortcut",
+    "kind": "function",
+    "signature": "export function bindingKeyshortcut(input: BindingInput): string | undefined",
+    "description": "ARIA `aria-keyshortcuts` grammar for keyboard bindings; `undefined` for pedal and MIDI.",
+    "file": "src/utils/binding.ts"
+  },
+  {
+    "name": "bindingLabel",
+    "kind": "function",
+    "signature": "export function bindingLabel(input: BindingInput, platform: BindingPlatform = detectPlatform()): string",
+    "description": "Display name of a binding (\"⌘⇧K\", \"Ctrl+Shift+K\", \"Numpad 5\", \"Pedal 1\", \"MIDI note 60\").",
+    "file": "src/utils/binding.ts"
+  },
+  {
+    "name": "bindingParts",
+    "kind": "function",
+    "signature": "export function bindingParts(input: BindingInput, platform: BindingPlatform = detectPlatform()): string[]",
+    "description": "The pieces of a binding for `<kbd>` rendering, platform-aware for modifiers.",
+    "file": "src/utils/binding.ts"
+  },
+  {
     "name": "breakpointClass",
     "kind": "function",
     "signature": "export function breakpointClass( prefix: string, value: string, breakpoint?: string, ): string",
@@ -70,6 +119,13 @@
     "file": "src/utils/warn.ts"
   },
   {
+    "name": "codeLabel",
+    "kind": "function",
+    "signature": "export function codeLabel(code: string): string",
+    "description": "Human name for a `KeyboardEvent.code` (\"Numpad5\" → \"Numpad 5\", \"KeyA\" → \"A\").",
+    "file": "src/utils/binding.ts"
+  },
+  {
     "name": "composeEventHandlers",
     "kind": "function",
     "signature": "export function composeEventHandlers<E extends { defaultPrevented: boolean }>( ...handlers: (((event: E) => void) | undefined | null)[] ): (event: E) => void",
@@ -103,6 +159,12 @@
     "signature": "export async function copyToClipboard(text: string): Promise<boolean>",
     "description": "Copy text to clipboard.\n@returns true on success, false on failure",
     "file": "src/utils/formatters.ts"
+  },
+  {
+    "name": "createNavModel",
+    "kind": "function",
+    "signature": "export function createNavModel<Ctx = unknown>( tree: NavNode<Ctx>[], currentPath: string, options: CreateNavModelOptions<Ctx> = {} ): NavModel<Ctx>",
+    "file": "src/utils/navModel.ts"
   },
   {
     "name": "createSafeContext",
@@ -168,11 +230,31 @@
     "file": "src/utils/deprecate.ts"
   },
   {
+    "name": "detectPlatform",
+    "kind": "function",
+    "signature": "export function detectPlatform(): BindingPlatform",
+    "file": "src/utils/binding.ts"
+  },
+  {
     "name": "endOfMonth",
     "kind": "function",
     "signature": "export function endOfMonth(d: Date): Date",
     "description": "Last day of the month at 23:59:59.999 local.",
     "file": "src/utils/date.ts"
+  },
+  {
+    "name": "ensureSanitizer",
+    "kind": "function",
+    "signature": "export function ensureSanitizer(): Promise<void>",
+    "description": "Load the optional `dompurify` peer. Resolves once `sanitizeHtml` can\nsanitise for real; rejects with an error naming the missing package when\nit is not installed. Safe to call repeatedly.",
+    "file": "src/utils/sanitizeHtml.ts"
+  },
+  {
+    "name": "findBindingOwner",
+    "kind": "function",
+    "signature": "export function findBindingOwner( assignments: BindingAssignments, binding: BindingInput, exceptActionId?: string ): string | undefined",
+    "description": "The action currently holding a binding, if any.",
+    "file": "src/utils/binding.ts"
   },
   {
     "name": "FOCUSABLE_SELECTOR",
@@ -184,8 +266,7 @@
   {
     "name": "formatBytes",
     "kind": "function",
-    "signature": "export function formatBytes(bytes: number): string",
-    "description": "Format bytes into human-readable string.",
+    "signature": "export function formatBytes(bytes: number, options: FormatBytesOptions = {}): string",
     "file": "src/utils/formatters.ts"
   },
   {
@@ -342,6 +423,13 @@
     "file": "src/utils/color.ts"
   },
   {
+    "name": "INFINITY",
+    "kind": "variable",
+    "signature": "INFINITY = \"\\u221E\"",
+    "description": "Infinity.",
+    "file": "src/utils/glyphs.ts"
+  },
+  {
     "name": "invariant",
     "kind": "function",
     "signature": "export function invariant(condition: unknown, message: string): asserts condition",
@@ -384,6 +472,13 @@
     "file": "src/utils/focus.ts"
   },
   {
+    "name": "isoMonth",
+    "kind": "function",
+    "signature": "export function isoMonth(d: Date | null | undefined): string | null",
+    "description": "Local-calendar `yyyy-MM`.",
+    "file": "src/utils/date.ts"
+  },
+  {
     "name": "isSameDay",
     "kind": "function",
     "signature": "export function isSameDay(a: Date | null | undefined, b: Date | null | undefined): boolean",
@@ -396,6 +491,13 @@
     "signature": "export function isSameMonth(a: Date, b: Date): boolean",
     "description": "`true` if both dates fall in the same calendar month/year.",
     "file": "src/utils/date.ts"
+  },
+  {
+    "name": "isSanitizerReady",
+    "kind": "function",
+    "signature": "export function isSanitizerReady(): boolean",
+    "description": "Whether the sanitizer module has loaded (true after `ensureSanitizer()` resolves).",
+    "file": "src/utils/sanitizeHtml.ts"
   },
   {
     "name": "isServer",
@@ -426,6 +528,18 @@
     "file": "src/utils/color.ts"
   },
   {
+    "name": "KEY_ALIASES_MAC",
+    "kind": "variable",
+    "signature": "KEY_ALIASES_MAC: Record<string, string> =",
+    "file": "src/utils/binding.ts"
+  },
+  {
+    "name": "KEY_ALIASES_PC",
+    "kind": "variable",
+    "signature": "KEY_ALIASES_PC: Record<string, string> =",
+    "file": "src/utils/binding.ts"
+  },
+  {
     "name": "lighten",
     "kind": "function",
     "signature": "export function lighten(hex: string, amount: number): string",
@@ -447,11 +561,32 @@
     "file": "src/utils/formatters.ts"
   },
   {
+    "name": "matchesKeyboardEvent",
+    "kind": "function",
+    "signature": "export function matchesKeyboardEvent( input: BindingInput, e: Pick<KeyboardEvent, \"key\" | \"code\" | \"metaKey\" | \"ctrlKey\" | \"altKey\" | \"shiftKey\">, options: MatchOptions = {} ): boolean",
+    "description": "Whether a keyboard event triggers the binding. Pedal and MIDI bindings never match a keyboard event.",
+    "file": "src/utils/binding.ts"
+  },
+  {
     "name": "mergeStyles",
     "kind": "function",
     "signature": "export function mergeStyles( ...styles: (CSSProperties | undefined | null | false)[] ): CSSProperties",
     "description": "Merge multiple CSSProperties objects. Later values override earlier ones,\nbut explicit `undefined` values are skipped (won't erase existing keys).\n\n@example\nmergeStyles({ color: \"red\" }, condition && { fontWeight: \"bold\" })",
     "file": "src/utils/mergeStyles.ts"
+  },
+  {
+    "name": "MIDDLE_DOT",
+    "kind": "variable",
+    "signature": "MIDDLE_DOT = \"\\u00B7\"",
+    "description": "Middle dot separator.",
+    "file": "src/utils/glyphs.ts"
+  },
+  {
+    "name": "MINUS",
+    "kind": "variable",
+    "signature": "MINUS = \"\\u2212\"",
+    "description": "True minus sign (U+2212), for negative numbers in meters and clocks.",
+    "file": "src/utils/glyphs.ts"
   },
   {
     "name": "mix",
@@ -475,11 +610,25 @@
     "file": "src/utils/color.ts"
   },
   {
+    "name": "normalizeKeyName",
+    "kind": "function",
+    "signature": "export function normalizeKeyName(key: string): string",
+    "description": "Canonical lower-case name for a `KeyboardEvent.key`.",
+    "file": "src/utils/binding.ts"
+  },
+  {
     "name": "omit",
     "kind": "function",
     "signature": "export function omit<T extends Record<string, unknown>, K extends keyof T>( obj: T, keys: K[], ): Omit<T, K>",
     "description": "Return a new object without the specified keys.",
     "file": "src/utils/object.ts"
+  },
+  {
+    "name": "parseChord",
+    "kind": "function",
+    "signature": "export function parseChord(value: string, kind: \"key\" | \"code\" = \"key\"): ParsedChord",
+    "description": "Split \"mod+shift+k\" into modifier flags and the key (or code).",
+    "file": "src/utils/binding.ts"
   },
   {
     "name": "parseColor",
@@ -496,6 +645,13 @@
     "file": "src/utils/date.ts"
   },
   {
+    "name": "parseISODate",
+    "kind": "function",
+    "signature": "export function parseISODate(input: string | null | undefined): Date | null",
+    "description": "Parse `yyyy-MM-dd` (or `yyyy-MM`, as the first of that month) as a local\ndate at midnight. Returns `null` for anything else, including dates that\ndo not exist (2026-02-30).",
+    "file": "src/utils/date.ts"
+  },
+  {
     "name": "pick",
     "kind": "function",
     "signature": "export function pick<T extends Record<string, unknown>, K extends keyof T>( obj: T, keys: K[], ): Pick<T, K>",
@@ -503,11 +659,32 @@
     "file": "src/utils/object.ts"
   },
   {
+    "name": "readToken",
+    "kind": "function",
+    "signature": "export function readToken(name: string, options: ReadTokenOptions = {}): string",
+    "description": "Read one `--vf-*` token. `name` may be the full custom property\n(`\"--vf-accent\"`) or the bare suffix (`\"accent\"`). Returns the trimmed\ncomputed value, or `fallback` (default `\"\"`) when unset or when there is no\ndocument (SSR).",
+    "file": "src/utils/readToken.ts"
+  },
+  {
+    "name": "readTokens",
+    "kind": "function",
+    "signature": "export function readTokens<K extends string>( names: readonly K[], options: Omit<ReadTokenOptions, \"fallback\"> & { fallbacks?: Partial<Record<K, string>> } = {} ): Record<K, string>",
+    "description": "Read several tokens at once. The result is keyed by the names as given\n(`{ accent: \"#…\", \"--vf-bg-0\": \"#…\" }`).",
+    "file": "src/utils/readToken.ts"
+  },
+  {
     "name": "releasePortalContainer",
     "kind": "function",
     "signature": "export function releasePortalContainer(name?: string): void",
     "description": "Release a portal container. Decrements the ref count and\nremoves the element from the DOM when it reaches zero.",
     "file": "src/utils/portalContainer.ts"
+  },
+  {
+    "name": "resetTokenAudit",
+    "kind": "function",
+    "signature": "export function resetTokenAudit(): void",
+    "description": "Test hook: allow `warnUnknownTokens` to run again.",
+    "file": "src/utils/auditTokens.ts"
   },
   {
     "name": "responsiveClasses",
@@ -548,8 +725,14 @@
     "name": "sanitizeHtml",
     "kind": "function",
     "signature": "export function sanitizeHtml( html: string, profile: SanitizeProfile = \"rich-text\" ): string",
-    "description": "Sanitize an HTML string against one of the built-in allowlists.\nReturns the empty string in SSR / non-browser contexts — callers\nshould treat the output as client-only.",
+    "description": "Sanitize an HTML string against one of the built-in allowlists.\nReturns the empty string in SSR / non-browser contexts — callers\nshould treat the output as client-only. Before the lazily loaded\npurifier is ready (see `ensureSanitizer`) the markup is escaped instead.",
     "file": "src/utils/sanitizeHtml.ts"
+  },
+  {
+    "name": "selectableAttrs",
+    "kind": "function",
+    "signature": "export function selectableAttrs<E extends HTMLElement = HTMLElement>( base: string, input: SelectableInput<E> ): SelectableOutput<E>",
+    "file": "src/utils/selectable.ts"
   },
   {
     "name": "setAlpha",
@@ -636,6 +819,20 @@
     "file": "src/utils/formatters.ts"
   },
   {
+    "name": "toBinding",
+    "kind": "function",
+    "signature": "export function toBinding(input: BindingInput): Binding",
+    "description": "Coerce a string or binding to a `Binding`; strings are `key` chords.",
+    "file": "src/utils/binding.ts"
+  },
+  {
+    "name": "toISODate",
+    "kind": "function",
+    "signature": "export function toISODate(d: Date | null | undefined): string | null",
+    "description": "Local-calendar `yyyy-MM-dd` (never shifts across midnight the way `toISOString()` can).",
+    "file": "src/utils/date.ts"
+  },
+  {
     "name": "toneAttrs",
     "kind": "function",
     "signature": "export function toneAttrs(base: string, input: ToneAttrsInput = {}): ToneAttrs",
@@ -678,11 +875,25 @@
     "file": "src/utils/warn.ts"
   },
   {
+    "name": "warnUnknownTokens",
+    "kind": "function",
+    "signature": "export function warnUnknownTokens(): TokenAuditResult | undefined",
+    "description": "Run `auditTokens` once and `console.warn` the unknown names. Dev helper.",
+    "file": "src/utils/auditTokens.ts"
+  },
+  {
     "name": "weekdayNames",
     "kind": "function",
     "signature": "export function weekdayNames( locale: string, firstDayOfWeek: 0 | 1 = 0, length: \"narrow\" | \"short\" = \"short\" ): string[]",
     "description": "Localized short weekday names, rotated so index 0 is firstDayOfWeek.",
     "file": "src/utils/date.ts"
+  },
+  {
+    "name": "withMinus",
+    "kind": "function",
+    "signature": "export function withMinus(text: string): string",
+    "description": "Format a number with a true minus sign instead of hyphen-minus.",
+    "file": "src/utils/glyphs.ts"
   },
   {
     "name": "yupAdapter",

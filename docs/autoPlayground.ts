@@ -6,6 +6,11 @@ import { sampleValueFor } from "./sampleData";
  * These take priority over auto-generation.
  */
 const COMPONENT_OVERRIDES: Record<string, string> = {
+  EventLog: '<EventLog\n  label="Session events"\n  events={[\n    { id: "e1", time: "2026-09-01T10:00:00Z", kind: "tool", label: "read_file", detail: "src/index.ts", tone: "info" },\n    { id: "e2", time: "2026-09-01T10:00:02Z", kind: "model", label: "completion", detail: "412 tokens" },\n    { id: "e3", time: "2026-09-01T10:00:05Z", kind: "tool", label: "run_tests", detail: "3 failed", tone: "danger" },\n  ]}\n  cited={["e3"]}\n/>',
+  Transcript: '<Transcript\n  label="Take 3"\n  currentTimeS={4}\n  segments={[\n    { startS: 0, endS: 3.2, text: "Chapter one.", speaker: "Narrator", confidence: 0.98 },\n    { startS: 3.4, endS: 7.9, text: "It was a bright cold day in April.", speaker: "Narrator", confidence: 0.61 },\n    { startS: 8.1, endS: 11, text: "The clocks were striking thirteen.", speaker: "Narrator", confidence: 0.95, flagged: true },\n  ]}\n/>',
+  TagGroup: '<TagGroup\n  tags={["agent", { label: "needs-review", hue: "amber" }, "ci", "docs", "infra", "release"]}\n  max={4}\n  expandable\n/>',
+  HelpDrawer: '<HelpDrawer\n  trigger={<Button variant="ghost">Help</Button>}\n  title="About this view"\n  orientation="Recent takes for the selected chapter. Pick one to hear it; flagged takes need a pickup."\n  workflow={[\n    { label: "Record", description: "Punch in and read the paragraph." },\n    { label: "Review", description: "Listen back; flag misreads." },\n    { label: "Approve" },\n  ]}\n  currentStep={1}\n/>',
+  FlowNode: '<FlowNode\n  kind="agent"\n  title="Planner"\n  mono="plan-7f3a"\n  state="selected"\n  width={220}\n>\n  Decides the next step from the task graph.\n</FlowNode>',
   // ── Layout ──────────────────────────────────────────────────────────
   Flex: '<Flex gap={8}>\n  <div style={{ padding: 8, background: "var(--vf-bg-3)" }}>Item 1</div>\n  <div style={{ padding: 8, background: "var(--vf-bg-3)" }}>Item 2</div>\n  <div style={{ padding: 8, background: "var(--vf-bg-3)" }}>Item 3</div>\n</Flex>',
   HStack: '<HStack gap={8}>\n  <Badge>Tag 1</Badge>\n  <Badge>Tag 2</Badge>\n  <Badge>Tag 3</Badge>\n</HStack>',

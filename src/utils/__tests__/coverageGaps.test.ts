@@ -76,11 +76,14 @@ describe("sanitizeHtml — SSR path", () => {
 
   it("adds noreferrer noopener to target=_blank links", async () => {
     const mod = await import("../sanitizeHtml");
+    // The purifier is loaded lazily; before it resolves the markup is
+    // escaped (and the escaped text still contains "target"), so wait.
+    await mod.ensureSanitizer();
+    expect(mod.isSanitizerReady()).toBe(true);
     const html = '<a href="https://example.com" target="_blank">link</a>';
     const result = mod.sanitizeHtml(html, "rich-text");
-    // The hook should have added rel attribute
-    if (result.includes("target")) {
-      expect(result).toContain("noreferrer");
-    }
+    expect(result).toContain("<a");
+    expect(result).toContain("noreferrer");
+    expect(result).toContain("noopener");
   });
 });

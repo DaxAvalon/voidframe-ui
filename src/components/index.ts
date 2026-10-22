@@ -863,8 +863,10 @@ export {
   ReactionBar,
   MessageEdit,
   useConversation,
+  DateDivider,
 } from "./Chat";
 export type {
+  DateDividerProps,
   ConversationProps,
   ConversationStatus,
   MessageListProps,

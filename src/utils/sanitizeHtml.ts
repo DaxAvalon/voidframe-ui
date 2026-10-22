@@ -51,6 +51,10 @@ const RICH_TEXT_CONFIG = {
   ALLOWED_ATTR: ["href", "target", "rel", "class"],
   ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel|sms):|[#/?])/i,
   ADD_ATTR: ["target", "rel"],
+  // DOMPurify validates every attribute that is not known-safe against
+  // ALLOWED_URI_REGEXP; `_blank` and `noopener` fail that test, so without
+  // this the profile silently dropped target/rel and the hook below never ran.
+  ADD_URI_SAFE_ATTR: ["target", "rel"],
 };
 
 const SVG_CONFIG = {

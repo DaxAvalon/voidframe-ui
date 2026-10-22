@@ -91,6 +91,8 @@ async function extractComponents() {
           'ReactNode', 'RESPONSIVE_SIZE_PRESETS', 'Context',
         ]);
         if (EXCLUDED_NAMES.has(comp.displayName)) continue;
+        // SCREAMING_SNAKE exports are constants (token tables, thresholds), not components.
+        if (/^[A-Z0-9_]+$/.test(comp.displayName)) continue;
         const { kind, parent } = resolveKind(comp.displayName, rel, comp.tags);
         docs.push({
           name: comp.displayName,

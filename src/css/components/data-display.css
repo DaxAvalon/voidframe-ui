@@ -847,7 +847,7 @@
   width: var(--vf-sp-3);
   height: var(--vf-sp-3);
   margin-top: calc(var(--vf-sp-3) / -2);
-  margin-left: calc(var(--vf-sp-3) / -2);
+  margin-inline-start: calc(var(--vf-sp-3) / -2);
   border-radius: 50%;
   background: var(--vf-bg-0);
   border: 1px solid var(--vf-text-3);

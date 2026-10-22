@@ -35,6 +35,13 @@
     "file": "src/hooks/useAsyncCallback.ts"
   },
   {
+    "name": "useAudioLevel",
+    "kind": "function",
+    "signature": "export function useAudioLevel(stream: MediaStream | null | undefined, options: UseAudioLevelOptions = {}): UseAudioLevelReturn",
+    "description": "Measure a stream's audio level for an `AudioLevelMeter`.\n\n```tsx\nconst mic = useUserMedia({ audio: true });\nconst level = useAudioLevel(mic.stream);\n<AudioLevelMeter value={level.db} peak={level.peak} state={level.state === \"idle\" ? \"pending\" : \"live\"} />\n```",
+    "file": "src/hooks/useAudioLevel.ts"
+  },
+  {
     "name": "useClickOutside",
     "kind": "function",
     "signature": "export function useClickOutside<T extends HTMLElement = HTMLElement>( onClickOutside: () => void ): RefObject<T>",
@@ -113,7 +120,7 @@
   {
     "name": "useElementSize",
     "kind": "function",
-    "signature": "export function useElementSize<T extends Element>(ref: RefObject<T>): ResizeSize",
+    "signature": "export function useElementSize<T extends Element>(ref: RefObject<T | null>): ResizeSize",
     "description": "Convenience wrapper over `useResizeObserver`.",
     "file": "src/hooks/useElementSize.ts"
   },
@@ -134,8 +141,8 @@
   {
     "name": "useEventSource",
     "kind": "function",
-    "signature": "export function useEventSource( url: string | null, options: UseEventSourceOptions = {} ): UseEventSourceReturn",
-    "description": "Managed Server-Sent-Events (SSE) subscription. Auto-reconnects with\nexponential backoff; exposes `{ data, readyState, error, close }`. Pass\n`null` for `url` to pause the subscription.",
+    "signature": "export function useEventSource<T = string>( url: string | null | ((lastEventId: string | null) => string), options: UseEventSourceOptions<T> = {} ): UseEventSourceReturn<T>",
+    "description": "Managed Server-Sent-Events (SSE) subscription. Auto-reconnects with\nexponential backoff; exposes `{ data, readyState, error, close }`. Pass\n`null` for `url` to pause the subscription.\n\n`url` may be a function of the last event id, so a reconnect can resume\nfrom a cursor: `useEventSource((id) => id ? \\`/feed?from=${id}\\` : \"/feed\")`.\nNamed events are delivered when listed in `events`:\n\n```ts\nuseEventSource<Job>(\"/jobs\", { events: [\"job\", \"done\"], parse: JSON.parse, onEvent: ({ type, parsed }) => … });\n```",
     "file": "src/hooks/useEventSource.ts"
   },
   {
@@ -295,8 +302,8 @@
   {
     "name": "useLongPress",
     "kind": "function",
-    "signature": "export function useLongPress( handler: (e: ReactPointerEvent) => void, { threshold = 500, onCancel }: UseLongPressOptions = {} ): LongPressBindings",
-    "description": "Long-press detection. Returns bindings to spread onto the target element.",
+    "signature": "export function useLongPress( handler: (e: ReactPointerEvent) => void, { threshold = 500, onCancel, moveTolerance = 10, cancelOnLeave = false }: UseLongPressOptions = {} ): LongPressBindings",
+    "description": "Long-press detection. Returns bindings to spread onto the target element.\nMovement beyond `moveTolerance` cancels (touch scrolling), leaving the\nelement does not unless `cancelOnLeave` is set.",
     "file": "src/hooks/useLongPress.ts"
   },
   {
@@ -312,6 +319,13 @@
     "signature": "export function useMediaQuery(query: string): boolean",
     "description": "Responsive media query hook.\n@param query e.g. `\"(max-width: 768px)\"`",
     "file": "src/hooks/useMediaQuery.ts"
+  },
+  {
+    "name": "useMediaRecorder",
+    "kind": "function",
+    "signature": "export function useMediaRecorder( stream: MediaStream | null | undefined, options: UseMediaRecorderOptions = {} ): UseMediaRecorderReturn",
+    "description": "Record a `MediaStream`. Create a recorder per `start()`, collect chunks,\nand hand back a Blob on `stop()`.\n\n```tsx\nconst rec = useMediaRecorder(mic.stream, { timesliceMs: 1000 });\n<Button onClick={rec.state === \"recording\" ? () => void rec.stop() : rec.start}>…</Button>\n```",
+    "file": "src/hooks/useMediaRecorder.ts"
   },
   {
     "name": "useMergedRefs",
@@ -370,6 +384,20 @@
     "file": "src/hooks/usePermission.ts"
   },
   {
+    "name": "usePersistedChoice",
+    "kind": "function",
+    "signature": "export function usePersistedChoice<T extends string>( key: string, options: UsePersistedChoiceOptions<T> ): UsePersistedChoiceReturn<T>",
+    "description": "Persist one choice from a known set: a theme, a density, a sidebar\nmode, a default tab.\n\n```ts\nconst { value: density, setValue: setDensity } = usePersistedChoice(\"app-density\", {\n  default: \"comfortable\",\n  allowed: [\"comfortable\", \"compact\"],\n});\n```",
+    "file": "src/hooks/usePersistedChoice.ts"
+  },
+  {
+    "name": "usePolling",
+    "kind": "function",
+    "signature": "export function usePolling( fn: () => void | Promise<void>, intervalMs: number | null, options: UsePollingOptions = {} ): UsePollingReturn",
+    "description": "Call `fn` every `intervalMs`. Overlapping runs are skipped (a slow poll\nnever stacks), hidden tabs pause by default, and `run()` triggers an\nimmediate poll.\n\n```ts\nconst { lastRunAt } = usePolling(refetch, 15_000, { enabled: status === \"running\" });\n```",
+    "file": "src/hooks/usePolling.ts"
+  },
+  {
     "name": "usePreferredLanguage",
     "kind": "function",
     "signature": "export function usePreferredLanguage(): PreferredLanguage",
@@ -407,9 +435,16 @@
   {
     "name": "useResizeObserver",
     "kind": "function",
-    "signature": "export function useResizeObserver<T extends Element>( ref: RefObject<T> ): ResizeSize",
+    "signature": "export function useResizeObserver<T extends Element>( ref: RefObject<T | null> ): ResizeSize",
     "description": "Observe an element's content-box size.\nReturns `{ width: 0, height: 0 }` until the first measurement.",
     "file": "src/hooks/useResizeObserver.ts"
+  },
+  {
+    "name": "userMediaReason",
+    "kind": "function",
+    "signature": "export function userMediaReason(error: unknown): UserMediaReason",
+    "description": "Map a `getUserMedia` rejection to a user-facing reason.",
+    "file": "src/hooks/useUserMedia.ts"
   },
   {
     "name": "useScroll",
@@ -424,6 +459,13 @@
     "signature": "export function useScrollDirection(",
     "description": "Tracks whether the user is scrolling up or down.\nReturns `null` until the first scroll event.",
     "file": "src/hooks/useScrollDirection.ts"
+  },
+  {
+    "name": "useScrollHighlight",
+    "kind": "function",
+    "signature": "export function useScrollHighlight(options: UseScrollHighlightOptions = {}): UseScrollHighlightReturn",
+    "description": "Deep-link helper: scroll an element into view and flag it with\n`data-highlight` for a moment so the stylesheet can flash it\n(`[data-highlight] { animation: … }`). Reacts to the URL hash.",
+    "file": "src/hooks/useScrollHighlight.ts"
   },
   {
     "name": "useScrollPosition",
@@ -442,7 +484,7 @@
   {
     "name": "useShortcut",
     "kind": "function",
-    "signature": "export function useShortcut( keys: string, handler: (e: KeyboardEvent) => void, options: UseShortcutOptions = {} ): void",
+    "signature": "export function useShortcut( input: BindingInput, handler: (e: KeyboardEvent) => void, options: UseShortcutOptions = {} ): void",
     "description": "Register a keyboard shortcut. The handler runs at document-level keydown.\nIf a `ShortcutProvider` is in scope, the shortcut also shows up in\n`ShortcutGuide`.",
     "file": "src/hooks/useShortcuts.tsx"
   },
@@ -452,6 +494,20 @@
     "signature": "export function useShortcutRegistry(): ShortcutRegistryValue | null",
     "description": "Low-level read access to the global shortcut registry installed by\n`ShortcutProvider`. Returns the full list of registered shortcuts for\ncustom guide UIs.",
     "file": "src/hooks/useShortcuts.tsx"
+  },
+  {
+    "name": "useSocketBusStatus",
+    "kind": "function",
+    "signature": "export function useSocketBusStatus(bus: SocketBus | null | undefined): SocketBusStatus",
+    "description": "The bus's connection status as React state.",
+    "file": "src/hooks/socketBus.ts"
+  },
+  {
+    "name": "useSocketTopic",
+    "kind": "function",
+    "signature": "export function useSocketTopic( bus: SocketBus | null | undefined, topic: string | null | undefined, handler: SocketBusHandler, options: { enabled?: boolean } = {} ): void",
+    "description": "Subscribe a component to one topic on a bus. The handler may change every\nrender; the subscription follows `topic` and `enabled`.",
+    "file": "src/hooks/socketBus.ts"
   },
   {
     "name": "useStopwatch",
@@ -464,7 +520,7 @@
     "name": "useThemePersistence",
     "kind": "function",
     "signature": "export function useThemePersistence<T extends string = string>( options: UseThemePersistenceOptions<T> = {} ): UseThemePersistenceReturn<T>",
-    "description": "Persist the active theme in `localStorage` (key configurable), sync across\ntabs via the `storage` event, and resolve `\"system\"` against\n`matchMedia(\"(prefers-color-scheme: light)\")`. Pairs with `ThemeSelector`.",
+    "description": "Persist the active theme in `localStorage` (key configurable), sync across\ntabs via the `storage` event and across instances in the same tab via a\nshared emitter per key. Pairs with `ThemeSelector` and the provider's\n`themeName` / `onThemeNameChange`.",
     "file": "src/hooks/useThemePersistence.ts"
   },
   {
@@ -515,6 +571,20 @@
     "signature": "export function useUpdateEffect(effect: EffectCallback, deps?: DependencyList): void",
     "description": "Like `useEffect`, but skips the first render.",
     "file": "src/hooks/useUpdateEffect.ts"
+  },
+  {
+    "name": "useUserMedia",
+    "kind": "function",
+    "signature": "export function useUserMedia( constraints: MediaStreamConstraints = { audio: true }, options: UseUserMediaOptions = {} ): UseUserMediaReturn",
+    "description": "Request a camera and/or microphone with `getUserMedia`, exposing the\nstream and a small state machine (`off → asking → on | failed`) with a\n`reason` the UI can show. Tracks are stopped on `stop()` and on unmount;\na track that ends on its own (device unplugged) returns the hook to `off`\nwith `reason: \"ended\"`.\n\n```tsx\nconst mic = useUserMedia({ audio: { echoCancellation: false } });\n<Button onClick={() => mic.start()}>Check microphone</Button>\n{mic.state === \"failed\" && <Text>{mic.reason === \"denied\" ? \"Allow the microphone in the address bar.\" : \"No microphone found.\"}</Text>}\n```",
+    "file": "src/hooks/useUserMedia.ts"
+  },
+  {
+    "name": "useVoidframeTokens",
+    "kind": "function",
+    "signature": "export function useVoidframeTokens<K extends string>( names: readonly K[], options: UseVoidframeTokensOptions = {} ): Record<K, string> & { refresh: () => void }",
+    "description": "Resolve `--vf-*` tokens to concrete values and keep them current.\n\nRe-reads when a `data-vf-theme` (or contrast / density / scale) attribute\nchanges anywhere in the document, when the root element's `class` or\ninline `style` changes, and when the OS colour scheme flips. The first\nrender returns the `fallbacks` (or `\"\"`) so server and client markup\nagree; the real values arrive in an effect.\n\n```tsx\nconst t = useVoidframeTokens([\"accent\", \"bg-2\", \"chart-1\"]);\n<MiniMap nodeColor={() => t[\"chart-1\"]} maskColor={t[\"bg-2\"]} />\n```",
+    "file": "src/hooks/useVoidframeTokens.ts"
   },
   {
     "name": "useWebSocket",

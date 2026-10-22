@@ -552,6 +552,9 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   rather than sitting hidden in the DOM.
 
 ### Fixed
+- **`sanitizeHtml`**: the `rich-text` profile dropped `target` and `rel` on links because
+  DOMPurify checked their values against the URI allow-list, so `target="_blank"` never reached
+  the hook that adds `rel="noreferrer noopener"`. Both are now marked URI-safe and the hook runs.
 - **Code typography**: inline and block `Code`, `Kbd` and `CodeBlock` use `--vf-font-mono` instead
   of the body font, so they stay monospace under sans-serif themes; block code gets
   `overflow-wrap: anywhere` so long tokens wrap instead of overflowing.
