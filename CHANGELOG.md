@@ -59,6 +59,18 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **`voidframe-ui/testing` no longer requires `jest-axe` at import time.** The
+  entry re-exported `expectNoA11yViolations`, whose module statically imported
+  the optional peer, so `renderWithVoidframe`, `installMatchMedia` and the mock
+  components were unusable without it. The import is now lazy inside the
+  helper, which throws a message naming the missing peer when called.
+- **Page `::selection` no longer inverts text inside embedded editors.** The
+  `.vf-root ::selection` rule painted selected text `bg-0` everywhere, which
+  inside CodeMirror or Monaco (which draw their own selection layer) read as
+  black on black. The rule now uses new `--vf-selection-bg` /
+  `--vf-selection-fg` tokens and excludes `.cm-editor`, `.monaco-editor` and
+  `[data-vf-selection="native"]` subtrees through a zero-specificity
+  `:where()`.
 - **`DiffViewer` split mode numbers lines per side.** Both columns numbered
   rows by array index including pad rows, so numbering drifted after any
   insert or delete. Split mode is now a rows-first grid (both sides of a row
