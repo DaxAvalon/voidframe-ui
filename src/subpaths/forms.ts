@@ -19,6 +19,8 @@ export * from "../components/MarkdownEditor";
 export * from "../components/CodeEditor";
 export * from "../components/FileUpload";
 export * from "../components/FilePicker";
+export { ScaleInput } from "../components/DataVisuals";
+export type { ScaleInputProps } from "../components/DataVisuals";
 export * from "../components/SignaturePad";
 export * from "../components/ImageCropper";
 export * from "../components/Transfer";

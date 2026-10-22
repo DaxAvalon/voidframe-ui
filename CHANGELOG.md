@@ -6,6 +6,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Lightweight data visuals** (`voidframe-ui/data`): `BarList` (ranked bars scaled to the largest
+  value, `sort`, tones, links or buttons, `meta`); `TargetProgress { value, target, direction:
+  "at-least" | "at-most", unit, format, warnWithin, showDelta }` (a `meter` with a target marker and
+  met / near / missed state; `targetState()` exported); `DayDots` (last-N-days strip with done,
+  missed and no-data states and an accessible summary) and `StreakBadge` (a plain count, no
+  celebration); `ScaleInput` (labelled 1–N radio scale with arrow, Home and End keys, `labels`,
+  `endLabels`, `renderStep`, hidden `name` input; also on `voidframe-ui/forms`); `StatusLine` (one
+  quiet line whose live role is `alert` for danger/warning and `status` otherwise, with an action
+  slot); `TagGroup` (`Tag` row that folds the overflow behind "+N more", `expandable`, `onSelect`,
+  `onRemove`).
 - **Event and trace tables** (`voidframe-ui/data`): `EventLog` (alias `TraceTable`) is a dense
   monospace table of events (`id`, `time` or `time → end`, `label`, `detail`, `kind`, `tone`) with a
   tone band per row, kind filter chips (`filterable`, `visibleKinds`), DOM anchors per row

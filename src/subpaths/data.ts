@@ -46,3 +46,4 @@ export * from "../components/ListRow";
 export * from "../components/FactRow";
 export * from "../components/CheckList";
 export * from "../components/EventTables";
+export * from "../components/DataVisuals";

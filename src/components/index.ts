@@ -1283,6 +1283,19 @@ export { ConfidenceMeter } from "./ConfidenceMeter";
 export type { ConfidenceMeterProps, ConfidenceZone } from "./ConfidenceMeter";
 export { EventLog, TraceTable, EventTimeline, RequestResponseTrace, ChangeTable, changeTone } from "./EventTables";
 export type { LogEvent, EventLogProps, TraceEvent, EventTimelineProps, ChangeRow, ChangeTableProps, EventTone } from "./EventTables";
+export { BarList, TargetProgress, targetState, DayDots, StreakBadge, ScaleInput, StatusLine, TagGroup } from "./DataVisuals";
+export type {
+  BarListItem,
+  BarListProps,
+  TargetProgressProps,
+  DayDotsProps,
+  StreakBadgeProps,
+  ScaleInputProps,
+  StatusLineProps,
+  TagGroupProps,
+  TagGroupTag,
+  VisualTone,
+} from "./DataVisuals";
 export { Transcript, activeSegmentIndex, formatTranscriptTime } from "./Transcript";
 export type { TranscriptProps, TranscriptSegment } from "./Transcript";
 export { LivePreview } from "./LivePreview";
