@@ -121,6 +121,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **Docs match the API.** The theme-persistence guide and README use the
+  object `useThemePersistence` returns (`{ theme, setTheme, clearTheme }`)
+  with `themeName`, and `ThemeSelector onValueChange`; the README lists all
+  seven themes including `booth`, the token table covers `fontMono`,
+  `fontSans`, `fontDisplay`, `headingCase`, `radius1`/`radius2`, border
+  widths and breakpoints, the component inventory names `AudioLevelMeter`,
+  `TransportStrip`, `WaveformStrip`, `Verdict`, `CountdownDial` and
+  `StatusStrip` with a `StatusStrip` vs `StatusBar` note, and the SSR
+  section documents the Content Security Policy requirement
+  (`style-src 'unsafe-inline'`) and the `themeName`-only way to reduce it.
 - **`MarkdownRenderer` now renders the GFM tables and task lists its docs
   claimed.** The bundled renderer parses `| a | b |` tables with a delimiter
   row (column alignment honoured, cells padded to the header width, a table

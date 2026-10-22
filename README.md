@@ -293,7 +293,7 @@ import { VoidframeProvider } from "voidframe-ui";
 
 ### Built-in themes
 
-Six themes ship out of the box: `darkTheme` (default), `lightTheme`, `midnightTheme` (deep-black OLED-friendly), `greyTheme` (neutral mid-grey for print and projection), and the rounded pair `softTheme` / `softLightTheme` (lower-contrast surfaces with rounded corners — the deliberate opt-out of the brutalist zero-radius default). Pass any of them to `VoidframeProvider`'s `theme` prop or address them by name via `themeName="dark" | "light" | "midnight" | "grey" | "soft" | "soft-light" | "system"`.
+Seven themes ship out of the box (`THEME_NAMES` lists them): `darkTheme` (default), `lightTheme`, `midnightTheme` (deep-black OLED-friendly), `greyTheme` (neutral mid-grey for print and projection), the rounded pair `softTheme` / `softLightTheme` (lower-contrast surfaces with rounded corners — the deliberate opt-out of the brutalist zero-radius default), and `boothTheme` (a dark recording-booth ground with a type scale raised for reading at one to two metres and 7:1 text contrast). Pass any of them to `VoidframeProvider`'s `theme` prop or address them by name via `themeName="dark" | "light" | "midnight" | "grey" | "soft" | "soft-light" | "booth" | "system"`.
 
 ```jsx
 import { VoidframeProvider } from "voidframe-ui";
@@ -384,7 +384,7 @@ function App() {
     <VoidframeProvider themeName={theme}>
       <ThemeSelector
         value={theme}
-        onChange={setTheme}
+        onValueChange={setTheme}
         themes={[
           { id: "dark", label: "Dark" },
           { id: "light", label: "Light" },
@@ -445,9 +445,10 @@ border width, and `vf-sm`→`vf-xxl` breakpoints.
 | Text       | `text0` → `text5`                         | 6 levels, white to invisible    |
 | Accents    | `green red amber blue purple cyan rose`   | Semantic color only             |
 | Aliases    | `success danger warning info`             | Semantic shortcuts              |
-| Typography | `fontFamily`, `fontXxs` → `font3xl`       | 8 sizes, monospace only         |
+| Typography | `fontFamily`, `fontMono`, `fontSans`, `fontDisplay`; `fontXxs` → `font3xl`; `lineHeight`, `letterSpacing`, `labelSpacing`, `headingTracking`, `headingCase` | 8 sizes; mono is the default family, sans/display stacks and heading case are theme-settable |
 | Spacing    | `sp1` (2px) → `sp12` (48px)               | 12-step scale                   |
-| Misc       | `radius` (always 0), `transition`         | Framework constants             |
+| Breakpoints | `bpSm` → `bpXxl`                         | Responsive props and `Show`/`Hide` |
+| Shape      | `radius` (0 in the brutalist themes), `radius1`, `radius2`, `borderWidth0` → `borderWidth4`, `transition` | Soft themes raise the radii |
 
 ---
 
@@ -588,6 +589,10 @@ Tables: `Table` (CSS grid with table ARIA roles by default; `as="table"` renders
 Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortable`.
 
 Metrics: `Stat`, `StatGroup`, `MetricCard`, `CircularProgress`.
+
+Recording and review (booth tier, `voidframe-ui/data`): `AudioLevelMeter` (dB bar meter with ballistics, peak hold, limit words, pending/unavailable states), `TransportStrip` (session state word, clocks, roll countdown and bound actions), `WaveformStrip` (takes over a waveform with markers, selection and playhead), `Verdict` (pass / warn / fail / flagged / skipped as glyph and word), `CountdownDial` (seconds to an event as a dial, `role="timer"`), `StatusStrip` (one dense line of named facts). Pair them with the `booth` theme.
+
+`StatusStrip` vs `StatusBar`: `StatusBar` (in the Card family) is the IDE-style bottom bar for an app window, a container for icon-and-text items you compose yourself. `StatusStrip` is a single list of named facts (`interface · 48 kHz · 6 ms · 0 dropouts`) with tones that add a visually hidden word, meant to sit inside a panel or header and be glanced at, not announced.
 
 Charts — hand-rolled SVG library. Math uses d3-scale / d3-shape / d3-array for algorithms; every rendered element, CSS class, and interaction is ours and themed through `--vf-*` tokens.
 
@@ -871,6 +876,21 @@ Use `@axe-core/playwright` for per-route browser-level a11y checks. For visual r
 **React versions.** The peer range is `react >=18`; CI typechecks and runs the
 suite on both React 18 and React 19 (with `@types/react@19`), so `asChild`,
 `Slot` and the portal primitives read refs in either shape.
+
+**Content Security Policy.** Voidframe writes styles at runtime: the
+provider and `ThemeScope` emit the active token set as inline `style`
+attributes, the provider appends a `<style>` element so portaled overlays
+inherit a named theme, and components that position or size from
+measurements (`Popover`, `Tooltip`, `Slider`, `Progress`, charts, the
+dashboard grid) set inline `style`. A host with a strict CSP therefore
+needs `style-src 'unsafe-inline'`; `'unsafe-hashes'` does not help because
+the values change at runtime. No script is injected, so `script-src` needs
+nothing from voidframe; the optional FOUC guard in `theme-script.js` is a
+static file you serve yourself and can carry your nonce. For hosts that
+cannot allow inline styles, address themes by name (`themeName`) and skip
+`theme`/`ThemeScope` token overrides: the named themes live in the shipped
+stylesheet and the provider then emits no token attribute, while
+measurement-driven inline positioning on overlays remains.
 
 Voidframe is SSR-safe and carries `"use client"` directives on every stateful module, so it works out of the box with Next.js (App + Pages Router), Remix, Astro, Vite SSR, and Gatsby. A `renderToString` smoke test exercises a representative sample of every complexity tier on every commit.
 

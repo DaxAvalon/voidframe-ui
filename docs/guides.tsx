@@ -228,11 +228,20 @@ function ProviderGuide() {
           Pair with <code>useThemePersistence()</code> to store the user's
           chosen theme in <code>localStorage</code> so it survives reloads.
         </Text>
-        <CodeBlock>{`import { VoidframeProvider, useThemePersistence } from "voidframe-ui";
+        <CodeBlock>{`import { VoidframeProvider, ThemeSelector, useThemePersistence } from "voidframe-ui";
 
 function Root({ children }) {
-  const [theme, setTheme] = useThemePersistence("dark");
-  return <VoidframeProvider theme={theme}>{children}</VoidframeProvider>;
+  // Returns an object, not a tuple. \`theme\` is a theme *name*.
+  const { theme, setTheme, clearTheme } = useThemePersistence({
+    defaultTheme: "dark",
+    allowed: ["dark", "light", "system"],
+  });
+  return (
+    <VoidframeProvider themeName={theme}>
+      <ThemeSelector value={theme} onValueChange={setTheme} />
+      {children}
+    </VoidframeProvider>
+  );
 }`}</CodeBlock>
       </Section>
     </>
