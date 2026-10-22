@@ -6,6 +6,14 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Kanban**: `KanbanMoveEvent` now carries `toColumnOrder` (ids of the target column after the
+  move, including the moved card) and `fromColumnOrder` (ids left in the source column; the same
+  array for a move within one column), so a board that persists order can store the payload as
+  is. `Kanban<T extends KanbanItem>` is generic: `items`, `renderItem`, `getSearchable` and the
+  new `onItemClick(item, event)` are typed with the card. `onItemClick` fires on click and on
+  Enter / Space on a focused card, and is suppressed for the click a browser emits after a drag.
+  `columnMaxHeight` (number or CSS length, default `60vh` via `--vf-kanban-column-max-height`)
+  controls where a column's card list starts scrolling internally.
 - **React Flow integration** (`voidframe-ui/reactflow`): `FlowNode` (alias
   `ReactFlowNodeShell`) is a themed shell for custom nodes with a kind label, title, body,
   monospace slot, trailing slot, coloured rail and a `handles` slot; it exposes

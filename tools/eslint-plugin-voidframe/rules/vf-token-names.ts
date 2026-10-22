@@ -128,6 +128,7 @@ export const VF_TOKEN_NAMES: readonly string[] = [
   "--vf-heading-tracking",
   "--vf-hex-highlight",
   "--vf-info",
+  "--vf-kanban-column-max-height",
   "--vf-label-case",
   "--vf-label-spacing",
   "--vf-letter-spacing",

@@ -13,9 +13,13 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type ForwardedRef,
   type HTMLAttributes,
   type KeyboardEvent,
+  type MouseEvent,
+  type ReactElement,
   type ReactNode,
+  type Ref,
 } from "react";
 import { cx } from "../utils/cx";
 import { Label } from "./Text";
@@ -36,15 +40,37 @@ export interface KanbanMoveEvent {
   itemId: string;
   fromColumn: string;
   toColumn: string;
+  /**
+   * Index of the card in the target column after the move, counted over the
+   * column's cards without the dragged card (so the moved card ends up at
+   * `toColumnOrder[toIndex]`).
+   */
   toIndex: number;
+  /**
+   * Ids of every card in the target column after the move, in order,
+   * including the moved card. Persist this directly.
+   */
+  toColumnOrder: string[];
+  /**
+   * Ids of every card left in the source column after the move. Equal to
+   * `toColumnOrder` when the move is within one column.
+   */
+  fromColumnOrder: string[];
 }
 
-export interface KanbanProps extends HTMLAttributes<HTMLDivElement> {
+export interface KanbanProps<T extends KanbanItem = KanbanItem>
+  extends HTMLAttributes<HTMLDivElement> {
   columns: KanbanColumn[];
-  items: KanbanItem[];
+  items: T[];
   onItemMove?: (event: KanbanMoveEvent) => void;
-  renderItem: (item: KanbanItem) => ReactNode;
+  renderItem: (item: T) => ReactNode;
   renderColumnHeader?: (column: KanbanColumn, count: number) => ReactNode;
+  /**
+   * Called when a card is clicked, or activated with Enter / Space while
+   * focused. Not called for the click the browser fires at the end of a drag,
+   * so a board can be both draggable and openable.
+   */
+  onItemClick?: (item: T, event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) => void;
   readOnly?: boolean;
   /** Show a search input above the board. */
   searchable?: boolean;
@@ -55,7 +81,13 @@ export interface KanbanProps extends HTMLAttributes<HTMLDivElement> {
    * filter. Return a list of strings to match against. Defaults to
    * `[title, label]` when they are strings.
    */
-  getSearchable?: (item: KanbanItem) => string[];
+  getSearchable?: (item: T) => string[];
+  /**
+   * Maximum height of a column's card list before it scrolls internally.
+   * Default `60vh` (set by the stylesheet as `--vf-kanban-column-max-height`).
+   * Pass `"none"` to let columns grow with their content.
+   */
+  columnMaxHeight?: number | string;
   style?: CSSProperties;
 }
 
@@ -63,27 +95,32 @@ export interface KanbanProps extends HTMLAttributes<HTMLDivElement> {
  * A column-based task board that supports dragging items between columns.
  * Emits move events so callers can persist reordering and cross-column transitions.
  */
-const KanbanImpl = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
+function KanbanInner<T extends KanbanItem>(
   {
     columns,
     items,
     onItemMove,
+    onItemClick,
     renderItem,
     renderColumnHeader,
     readOnly,
     searchable,
     onSearch,
     getSearchable,
+    columnMaxHeight,
     className,
     style,
     ...props
-  },
-  ref
+  }: KanbanProps<T>,
+  ref: ForwardedRef<HTMLDivElement>
 ) {
   const [searchQuery, setSearchQuery] = useState("");
   const dragRef = useRef<{ id: string; fromColumn: string; fromIndex: number } | null>(
     null
   );
+  // Set when a drag gesture happened on a card; the click the browser emits
+  // when the pointer is released must not open the card.
+  const dragHappenedRef = useRef(false);
   const [dropTarget, setDropTarget] = useState<{
     columnId: string;
     index: number;
@@ -119,7 +156,41 @@ const KanbanImpl = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
     return before ? itemIndex : itemIndex + 1;
   };
 
-  const handleKey = (e: KeyboardEvent<HTMLLIElement>, item: KanbanItem) => {
+  // Build the full move event: the resulting order of both affected columns
+  // so consumers can persist it without re-deriving the splice.
+  const buildMove = (
+    itemId: string,
+    fromColumn: string,
+    toColumn: string,
+    toIndex: number
+  ): KanbanMoveEvent => {
+    const fromOrder = columnItems(fromColumn)
+      .map((it) => it.id)
+      .filter((id) => id !== itemId);
+    const toBase =
+      fromColumn === toColumn
+        ? fromOrder.slice()
+        : columnItems(toColumn)
+            .map((it) => it.id)
+            .filter((id) => id !== itemId);
+    const clamped = Math.max(0, Math.min(toIndex, toBase.length));
+    toBase.splice(clamped, 0, itemId);
+    return {
+      itemId,
+      fromColumn,
+      toColumn,
+      toIndex: clamped,
+      toColumnOrder: toBase,
+      fromColumnOrder: fromColumn === toColumn ? toBase : fromOrder,
+    };
+  };
+
+  const handleKey = (e: KeyboardEvent<HTMLLIElement>, item: T) => {
+    if (onItemClick && (e.key === "Enter" || e.key === " ") && e.target === e.currentTarget) {
+      e.preventDefault();
+      onItemClick(item, e);
+      return;
+    }
     if (readOnly) return;
     if (!(e.ctrlKey || e.metaKey)) return;
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
@@ -130,19 +201,25 @@ const KanbanImpl = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
     if (nextIdx < 0 || nextIdx >= columns.length) return;
     const target = columns[nextIdx]!;
     if (target.wip !== undefined && columnItems(target.id).length >= target.wip) return;
-    onItemMove?.({
-      itemId: item.id,
-      fromColumn: item.columnId,
-      toColumn: target.id,
-      toIndex: columnItems(target.id).length,
-    });
+    onItemMove?.(
+      buildMove(item.id, item.columnId, target.id, columnItems(target.id).length)
+    );
   };
+
+  const boardStyle: CSSProperties | undefined =
+    columnMaxHeight !== undefined
+      ? ({
+          ...style,
+          "--vf-kanban-column-max-height":
+            typeof columnMaxHeight === "number" ? `${columnMaxHeight}px` : columnMaxHeight,
+        } as CSSProperties)
+      : style;
 
   return (
     <div
       ref={ref}
       className={cx("vf-kanban", className)}
-      style={style}
+      style={boardStyle}
       role="group"
       aria-label="Kanban board"
       {...props}
@@ -197,12 +274,7 @@ const KanbanImpl = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
               if (drag.fromColumn === col.id && toIndex > drag.fromIndex) {
                 toIndex -= 1;
               }
-              onItemMove?.({
-                itemId: drag.id,
-                fromColumn: drag.fromColumn,
-                toColumn: col.id,
-                toIndex,
-              });
+              onItemMove?.(buildMove(drag.id, drag.fromColumn, col.id, toIndex));
               dragRef.current = null;
               setDropTarget(null);
             }}
@@ -234,11 +306,13 @@ const KanbanImpl = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
                   tabIndex={0}
                   className={cx(
                     "vf-kanban__item",
+                    onItemClick && "vf-kanban__item--clickable",
                     dropTarget?.columnId === col.id &&
                       dropTarget.index === i &&
                       "vf-kanban__item--drop-hint"
                   )}
                   onDragStart={() => {
+                    dragHappenedRef.current = true;
                     dragRef.current = {
                       id: item.id,
                       fromColumn: col.id,
@@ -248,7 +322,20 @@ const KanbanImpl = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
                   onDragEnd={() => {
                     dragRef.current = null;
                     setDropTarget(null);
+                    // The synthetic click, when the browser emits one, follows
+                    // dragend in the same task; release the guard afterwards.
+                    setTimeout(() => {
+                      dragHappenedRef.current = false;
+                    }, 0);
                   }}
+                  onClick={
+                    onItemClick
+                      ? (e) => {
+                          if (dragHappenedRef.current) return;
+                          onItemClick(item, e);
+                        }
+                      : undefined
+                  }
                   onDragOver={(e) => {
                     if (readOnly) return;
                     e.preventDefault();
@@ -270,7 +357,11 @@ const KanbanImpl = forwardRef<HTMLDivElement, KanbanProps>(function Kanban(
       })}
     </div>
   );
-});
+}
+
+const KanbanImpl = forwardRef(KanbanInner) as unknown as (<T extends KanbanItem>(
+  props: KanbanProps<T> & { ref?: Ref<HTMLDivElement> }
+) => ReactElement | null) & { displayName?: string };
 KanbanImpl.displayName = "Kanban";
 
 /**
@@ -278,6 +369,11 @@ KanbanImpl.displayName = "Kanban";
  * site so re-rendering a parent with unrelated state doesn't re-render
  * the full board grid; consumers can rely on referentially-stable
  * `items` / `onMove` callbacks for the optimization to actually fire.
+ *
+ * Generic over the card type: `<Kanban<Card> items={cards} renderItem={(card) => …} />`
+ * types `renderItem`, `getSearchable` and `onItemClick` with your card.
  */
-export const Kanban = memo(KanbanImpl);
-(Kanban as unknown as { displayName: string }).displayName = "Kanban";
+export const Kanban = memo(KanbanImpl as never) as unknown as (<T extends KanbanItem>(
+  props: KanbanProps<T> & { ref?: Ref<HTMLDivElement> }
+) => ReactElement | null) & { displayName?: string };
+Kanban.displayName = "Kanban";
