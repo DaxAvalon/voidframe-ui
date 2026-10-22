@@ -6,6 +6,12 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Agent / devops icon pack**: `BotIcon`, `BrainIcon`, `GitBranchIcon`, `GitMergeIcon`,
+  `GitCommitIcon`, `RocketIcon`, `PackageIcon`, `ServerIcon`, `ShieldIcon`, `TargetIcon`,
+  `TrophyIcon`, `FlaskIcon`, `WandIcon`, `WrenchIcon`, `ScissorsIcon`, `BugIcon`, `SparklesIcon`,
+  `ListTodoIcon`, `ArchiveIcon`, `CpuIcon`, `PlugIcon`, `WorkflowIcon` join the bundled set (root
+  and `voidframe-ui/icons`), drawn on the same 1 px monoline grid. README documents `adaptIcon`
+  with `size` / `spin` as the path for everything else.
 - **Localised component copy**: `TransportStrip` (elapsed / remaining), `CountdownDial`
   (seconds), `Verdict` (measured / required), `AudioLevelMeter` (peak hold), `WaveformStrip`
   (marker kinds, takes / markers / replaced summary) and `StatusStrip` (tone words) now read their

@@ -1053,3 +1053,257 @@ export const LoadingDotsIcon = makeIcon(
     </circle>
   </>
 );
+
+// ── Agent / automation / devops pack ───────────────────────
+//
+// Same monoline 1px grid as the core set: bots, models, git, delivery,
+// infrastructure, quality and housekeeping glyphs an agent console reaches
+// for on day one.
+
+/** Bot: a head with two eyes and an antenna. */
+export const BotIcon = makeIcon(
+  "BotIcon",
+  "Bot",
+  <>
+    <rect x="4" y="9" width="16" height="11" rx="2" />
+    <path d="M12 9V5" />
+    <circle cx="12" cy="4" r="1" />
+    <path d="M9 14h.01M15 14h.01" />
+    <path d="M9 17h6" />
+  </>
+);
+
+/** Brain: two lobes. */
+export const BrainIcon = makeIcon(
+  "BrainIcon",
+  "Model",
+  <>
+    <path d="M12 5a3 3 0 0 0-5.5 1.5A3 3 0 0 0 5 12a3 3 0 0 0 1 5.5A3 3 0 0 0 12 19V5Z" />
+    <path d="M12 5a3 3 0 0 1 5.5 1.5A3 3 0 0 1 19 12a3 3 0 0 1-1 5.5A3 3 0 0 1 12 19V5Z" />
+    <path d="M12 5v14" />
+  </>
+);
+
+/** Git branch: a trunk with a branch joining from a second node. */
+export const GitBranchIcon = makeIcon(
+  "GitBranchIcon",
+  "Branch",
+  <>
+    <circle cx="6" cy="18" r="2" />
+    <circle cx="6" cy="6" r="2" />
+    <circle cx="18" cy="8" r="2" />
+    <path d="M6 8v8" />
+    <path d="M18 10c0 4-4 5-8 6" />
+  </>
+);
+
+/** Git merge: two branches joining into one. */
+export const GitMergeIcon = makeIcon(
+  "GitMergeIcon",
+  "Merge",
+  <>
+    <circle cx="6" cy="18" r="2" />
+    <circle cx="6" cy="6" r="2" />
+    <circle cx="18" cy="16" r="2" />
+    <path d="M6 8v8" />
+    <path d="M6 8c0 6 6 8 10 8" />
+  </>
+);
+
+/** Git commit: a node on a line. */
+export const GitCommitIcon = makeIcon(
+  "GitCommitIcon",
+  "Commit",
+  <>
+    <circle cx="12" cy="12" r="3" />
+    <path d="M3 12h6M15 12h6" />
+  </>
+);
+
+/** Rocket. */
+export const RocketIcon = makeIcon(
+  "RocketIcon",
+  "Deploy",
+  <>
+    <path d="M14 4c3 0 6 3 6 6-2 2-6 6-8 8l-4-4c2-2 6-6 6-10Z" />
+    <path d="M8 14l-3 1 2-4" />
+    <path d="M10 16l-1 3 4-2" />
+    <circle cx="14.5" cy="9.5" r="1.5" />
+  </>
+);
+
+/** Package: a box with a top seam. */
+export const PackageIcon = makeIcon(
+  "PackageIcon",
+  "Package",
+  <>
+    <path d="M12 3 20 7.5v9L12 21l-8-4.5v-9L12 3Z" />
+    <path d="M4 7.5 12 12l8-4.5" />
+    <path d="M12 12v9" />
+  </>
+);
+
+/** Server: two stacked units with a status light each. */
+export const ServerIcon = makeIcon(
+  "ServerIcon",
+  "Server",
+  <>
+    <rect x="4" y="4" width="16" height="6" rx="1" />
+    <rect x="4" y="14" width="16" height="6" rx="1" />
+    <path d="M8 7h.01M8 17h.01" />
+  </>
+);
+
+/** Shield. */
+export const ShieldIcon = makeIcon(
+  "ShieldIcon",
+  "Protected",
+  <>
+    <path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6l-7-3Z" />
+  </>
+);
+
+/** Target: concentric rings. */
+export const TargetIcon = makeIcon(
+  "TargetIcon",
+  "Target",
+  <>
+    <circle cx="12" cy="12" r="8" />
+    <circle cx="12" cy="12" r="4.5" />
+    <circle cx="12" cy="12" r="1" />
+  </>
+);
+
+/** Trophy. */
+export const TrophyIcon = makeIcon(
+  "TrophyIcon",
+  "Best",
+  <>
+    <path d="M8 4h8v5a4 4 0 0 1-8 0V4Z" />
+    <path d="M8 6H5a3 3 0 0 0 3 3M16 6h3a3 3 0 0 1-3 3" />
+    <path d="M12 13v4" />
+    <path d="M8 20h8M9 17h6v3" />
+  </>
+);
+
+/** Flask: an experiment. */
+export const FlaskIcon = makeIcon(
+  "FlaskIcon",
+  "Experiment",
+  <>
+    <path d="M9 3h6" />
+    <path d="M10 3v6l-5 9a1.5 1.5 0 0 0 1.3 2.2h11.4A1.5 1.5 0 0 0 19 18l-5-9V3" />
+    <path d="M7.5 15h9" />
+  </>
+);
+
+/** Wand: a diagonal stick with a spark. */
+export const WandIcon = makeIcon(
+  "WandIcon",
+  "Generate",
+  <>
+    <path d="M4 20 15 9" />
+    <path d="M15 9l-1-1" />
+    <path d="M18 3v3M16.5 4.5h3M19 9v1M20.5 9.5h-3" />
+  </>
+);
+
+/** Wrench. */
+export const WrenchIcon = makeIcon(
+  "WrenchIcon",
+  "Configure",
+  <>
+    <path d="M14.5 4a4.5 4.5 0 0 0 5.5 5.5l-9 9a2.1 2.1 0 0 1-3-3l9-9a4.5 4.5 0 0 0-2.5-2.5Z" />
+  </>
+);
+
+/** Scissors. */
+export const ScissorsIcon = makeIcon(
+  "ScissorsIcon",
+  "Cut",
+  <>
+    <circle cx="6" cy="6" r="2.5" />
+    <circle cx="6" cy="18" r="2.5" />
+    <path d="M8 7.5 20 17M8 16.5 20 7" />
+  </>
+);
+
+/** Bug. */
+export const BugIcon = makeIcon(
+  "BugIcon",
+  "Bug",
+  <>
+    <rect x="8" y="8" width="8" height="12" rx="4" />
+    <path d="M9 8a3 3 0 0 1 6 0" />
+    <path d="M12 8v12" />
+    <path d="M8 12H4M20 12h-4M8 16l-3 2M16 16l3 2M8 8 5 6M16 8l3-2" />
+  </>
+);
+
+/** Sparkles: one large and one small four-point star. */
+export const SparklesIcon = makeIcon(
+  "SparklesIcon",
+  "AI",
+  <>
+    <path d="M10 4v4M8 6h4" />
+    <path d="M14 10c0 3-2 5-5 5 3 0 5 2 5 5 0-3 2-5 5-5-3 0-5-2-5-5Z" />
+    <path d="M6 15v3M4.5 16.5h3" />
+  </>
+);
+
+/** List with a checked item. */
+export const ListTodoIcon = makeIcon(
+  "ListTodoIcon",
+  "Tasks",
+  <>
+    <rect x="3" y="4" width="5" height="5" />
+    <path d="M4.5 16.5 6 18l2.5-3" />
+    <path d="M11 6h10M11 12h10M11 18h10" />
+    <rect x="3" y="14" width="5" height="5" />
+  </>
+);
+
+/** Archive box. */
+export const ArchiveIcon = makeIcon(
+  "ArchiveIcon",
+  "Archive",
+  <>
+    <rect x="3" y="4" width="18" height="4" />
+    <path d="M5 8v12h14V8" />
+    <path d="M10 12h4" />
+  </>
+);
+
+/** CPU: a chip with pins. */
+export const CpuIcon = makeIcon(
+  "CpuIcon",
+  "Compute",
+  <>
+    <rect x="6" y="6" width="12" height="12" rx="1" />
+    <rect x="9.5" y="9.5" width="5" height="5" />
+    <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" />
+  </>
+);
+
+/** Plug: an integration. */
+export const PlugIcon = makeIcon(
+  "PlugIcon",
+  "Integration",
+  <>
+    <path d="M9 3v5M15 3v5" />
+    <path d="M6 8h12v3a6 6 0 0 1-12 0V8Z" />
+    <path d="M12 17v4" />
+  </>
+);
+
+/** Workflow: three nodes in a path. */
+export const WorkflowIcon = makeIcon(
+  "WorkflowIcon",
+  "Workflow",
+  <>
+    <rect x="3" y="3" width="6" height="6" rx="1" />
+    <rect x="15" y="9" width="6" height="6" rx="1" />
+    <rect x="3" y="15" width="6" height="6" rx="1" />
+    <path d="M9 6h3a3 3 0 0 1 3 3M6 9v6M9 18h3a3 3 0 0 0 3-3" />
+  </>
+);

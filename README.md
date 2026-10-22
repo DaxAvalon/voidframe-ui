@@ -898,7 +898,9 @@ Monoline, 1px-stroke, 24×24 brutalist icon system. Decorative by default; suppl
 
 **Composition:** `IconButton` (square, required `aria-label`, optional `tooltip`, `active` for toggles), `IconGroup` (row with gap or interleaved separator).
 
-**Third-party adapter:** `adaptIcon(Component, { defaultLabel, directional })` wraps any Lucide/Phosphor/Heroicons/Tabler icon so framework sizing, color, spin, and RTL mirroring all apply.
+**Agent / devops pack:** `BotIcon`, `BrainIcon`, `GitBranchIcon`, `GitMergeIcon`, `GitCommitIcon`, `RocketIcon`, `PackageIcon`, `ServerIcon`, `ShieldIcon`, `TargetIcon`, `TrophyIcon`, `FlaskIcon`, `WandIcon`, `WrenchIcon`, `ScissorsIcon`, `BugIcon`, `SparklesIcon`, `ListTodoIcon`, `ArchiveIcon`, `CpuIcon`, `PlugIcon`, `WorkflowIcon` — the same 1 px monoline grid as the core set.
+
+**Third-party adapter:** `adaptIcon(Component, { defaultLabel, directional })` wraps any Lucide/Phosphor/Heroicons/Tabler icon so framework sizing, color, spin, and RTL mirroring all apply. This is the sanctioned path for glyphs the bundled set does not have: the wrapped icon takes the same `size` (`"xs"`–`"xxl"` or a number), `spin`, `rotate`, `flipX` / `flipY`, `label` and `color` props as every built-in icon, so there is no per-icon pixel sizing.
 
 ```jsx
 import { SearchIcon, IconButton, adaptIcon } from "voidframe-ui";
