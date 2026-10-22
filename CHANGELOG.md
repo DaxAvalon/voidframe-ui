@@ -7,6 +7,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **Status colour API.** `Badge tone` now colours every variant (outline,
+  ghost and subtle take the tone's text and border colour, not only solid)
+  and gains `tone="muted"`. `hue="blue" | "green" | "amber" | "red" |
+  "purple" | "cyan" | "rose"` on `Badge`, `Tag`, `Dots` and
+  `StatusIndicator` colours from the palette ramps (`--vf-{hue}-20` fill,
+  `--vf-{hue}` text) for status enums with more than five states.
+  `StatusIndicator` takes `tone`, `hue` and `pulse` alongside the presence
+  `status` (now optional). `Dots` gains `total` (hollow `○` remainder in
+  text-4), `label` (`role="img"` with the name; default "n of m" when
+  `total` is set), `tone` and `hue`. `Hue` is exported from the root.
 - **The 1.4.0 selection and pressed grammar as props.** `Table
   selectedRowKey` (one key or several) / `isRowSelected(row, index)` mark
   rows with `vf-table__row--selected`, `data-selected` and `aria-selected`;

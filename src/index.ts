@@ -14,6 +14,7 @@ export type {
   Accent,
   SemanticColor,
   Tone,
+  Hue,
   Side,
   Alignment,
   ToastType,

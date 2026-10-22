@@ -22,6 +22,20 @@
   font-size: var(--vf-dots-size, 7px);
   color: var(--vf-accent, var(--vf-amber));
 }
+/* The hollow remainder of `total` reads as the empty steps. */
+.vf-dots__dot--hollow { color: var(--vf-text-4); }
+.vf-dots--success .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-success); }
+.vf-dots--warning .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-warning); }
+.vf-dots--danger .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-danger); }
+.vf-dots--info .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-info); }
+.vf-dots--neutral .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-text-1); }
+.vf-dots--hue-blue .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-blue); }
+.vf-dots--hue-green .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-green); }
+.vf-dots--hue-amber .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-amber); }
+.vf-dots--hue-red .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-red); }
+.vf-dots--hue-purple .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-purple); }
+.vf-dots--hue-cyan .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-cyan); }
+.vf-dots--hue-rose .vf-dots__dot:not(.vf-dots__dot--hollow) { color: var(--vf-rose); }
 
 .vf-badge__close {
   background: none;

@@ -402,6 +402,24 @@
   background: var(--vf-accent, var(--vf-green));
   animation: vf-pulse 1s ease-in-out infinite;
 }
+/* Non-presence states: tone, then hue, each winning over status. */
+.vf-status-indicator--tone-neutral .vf-status-indicator__dot { background: var(--vf-text-3); }
+.vf-status-indicator--tone-success .vf-status-indicator__dot { background: var(--vf-success); }
+.vf-status-indicator--tone-warning .vf-status-indicator__dot { background: var(--vf-warning); }
+.vf-status-indicator--tone-danger .vf-status-indicator__dot { background: var(--vf-danger); }
+.vf-status-indicator--tone-info .vf-status-indicator__dot { background: var(--vf-info); }
+.vf-status-indicator--hue-blue .vf-status-indicator__dot { background: var(--vf-blue); }
+.vf-status-indicator--hue-green .vf-status-indicator__dot { background: var(--vf-green); }
+.vf-status-indicator--hue-amber .vf-status-indicator__dot { background: var(--vf-amber); }
+.vf-status-indicator--hue-red .vf-status-indicator__dot { background: var(--vf-red); }
+.vf-status-indicator--hue-purple .vf-status-indicator__dot { background: var(--vf-purple); }
+.vf-status-indicator--hue-cyan .vf-status-indicator__dot { background: var(--vf-cyan); }
+.vf-status-indicator--hue-rose .vf-status-indicator__dot { background: var(--vf-rose); }
+.vf-status-indicator--pulse .vf-status-indicator__dot { animation: vf-pulse 1s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .vf-status-indicator--pulse .vf-status-indicator__dot,
+  .vf-status-indicator--loading .vf-status-indicator__dot { animation: none; }
+}
 @keyframes vf-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
@@ -446,10 +464,46 @@
 .vf-badge--ghost { background: transparent; border: 1px solid transparent; color: var(--vf-text-2); }
 .vf-badge--subtle { background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 15%, transparent); color: var(--vf-text-0); }
 .vf-badge--neutral.vf-badge--solid { background: var(--vf-bg-4); color: var(--vf-text-0); }
+.vf-badge--muted.vf-badge--solid { background: var(--vf-bg-3); color: var(--vf-text-2); }
 .vf-badge--success.vf-badge--solid { background: var(--vf-green); color: var(--vf-on-accent); }
 .vf-badge--warning.vf-badge--solid { background: var(--vf-amber); color: var(--vf-on-accent); }
 .vf-badge--danger.vf-badge--solid { background: var(--vf-red); color: var(--vf-on-accent); }
 .vf-badge--info.vf-badge--solid { background: var(--vf-blue); color: var(--vf-on-accent); }
+
+/* Tone × variant matrix: outline, ghost and subtle colour text (and the
+   border, through currentColor) by tone instead of ignoring it. */
+.vf-badge--muted.vf-badge--outline,
+.vf-badge--muted.vf-badge--ghost,
+.vf-badge--muted.vf-badge--subtle { color: var(--vf-text-3); }
+.vf-badge--success.vf-badge--outline,
+.vf-badge--success.vf-badge--ghost,
+.vf-badge--success.vf-badge--subtle { color: var(--vf-success); }
+.vf-badge--warning.vf-badge--outline,
+.vf-badge--warning.vf-badge--ghost,
+.vf-badge--warning.vf-badge--subtle { color: var(--vf-warning); }
+.vf-badge--danger.vf-badge--outline,
+.vf-badge--danger.vf-badge--ghost,
+.vf-badge--danger.vf-badge--subtle { color: var(--vf-danger); }
+.vf-badge--info.vf-badge--outline,
+.vf-badge--info.vf-badge--ghost,
+.vf-badge--info.vf-badge--subtle { color: var(--vf-info); }
+.vf-badge--outline:not(.vf-badge--neutral) { border-color: color-mix(in srgb, currentColor 55%, transparent); }
+.vf-badge--subtle:not(.vf-badge--neutral) { background: color-mix(in srgb, currentColor 15%, transparent); }
+
+/* Hue ramps for status enums beyond five states. Each hue: fill -20, text
+   the hue; solid fills the hue with on-accent text. Wins over tone. */
+.vf-badge[data-hue] { --vf-badge-hue: var(--vf-text-2); --vf-badge-hue-20: var(--vf-bg-3); }
+.vf-badge--hue-blue { --vf-badge-hue: var(--vf-blue); --vf-badge-hue-20: var(--vf-blue-20); }
+.vf-badge--hue-green { --vf-badge-hue: var(--vf-green); --vf-badge-hue-20: var(--vf-green-20); }
+.vf-badge--hue-amber { --vf-badge-hue: var(--vf-amber); --vf-badge-hue-20: var(--vf-amber-20); }
+.vf-badge--hue-red { --vf-badge-hue: var(--vf-red); --vf-badge-hue-20: var(--vf-red-20); }
+.vf-badge--hue-purple { --vf-badge-hue: var(--vf-purple); --vf-badge-hue-20: var(--vf-purple-20); }
+.vf-badge--hue-cyan { --vf-badge-hue: var(--vf-cyan); --vf-badge-hue-20: var(--vf-cyan-20); }
+.vf-badge--hue-rose { --vf-badge-hue: var(--vf-rose); --vf-badge-hue-20: var(--vf-rose-20); }
+.vf-badge[data-hue].vf-badge--solid { background: var(--vf-badge-hue); color: var(--vf-on-accent); }
+.vf-badge[data-hue].vf-badge--outline { background: transparent; color: var(--vf-badge-hue); border-color: color-mix(in srgb, var(--vf-badge-hue) 55%, transparent); }
+.vf-badge[data-hue].vf-badge--ghost { background: transparent; color: var(--vf-badge-hue); }
+.vf-badge[data-hue].vf-badge--subtle { background: var(--vf-badge-hue-20); color: var(--vf-badge-hue); }
 .vf-badge--sm { font-size: var(--vf-font-xxs); padding: 1px var(--vf-sp-2); }
 .vf-badge--md { font-size: var(--vf-font-xs); padding: var(--vf-sp-1) var(--vf-sp-3); }
 .vf-badge--lg { font-size: var(--vf-font-sm); padding: var(--vf-sp-1) var(--vf-sp-4); }

@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
-import type { Tone } from "../types";
+import type { Hue, Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 import { Label } from "./Text";
 import { Stat, type StatTone } from "./Data";
@@ -456,26 +456,44 @@ export type StatusIndicatorStatus =
   | "loading";
 
 export interface StatusIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
-  status: StatusIndicatorStatus;
+  /**
+   * Presence state, which picks the colour. Optional when `tone` or `hue`
+   * supplies the colour for a non-presence state (a run, a flag, a stage).
+   */
+  status?: StatusIndicatorStatus;
+  /** Semantic tone for non-presence states; overrides the `status` colour. */
+  tone?: Tone;
+  /** Palette hue for enums with more than five states; overrides `tone`. */
+  hue?: Hue;
+  /** Pulse the dot (as `status="loading"` does) for an in-progress state. */
+  pulse?: boolean;
   label?: ReactNode;
 }
 
 /**
- * Coloured dot plus label indicating a status (`online`, `idle`, `busy`,
- * `offline`). Optional pulse.
+ * Coloured dot plus label. `status` covers presence (`online`, `offline`,
+ * `away`, `busy`, `loading`); `tone` and `hue` colour any other state
+ * without borrowing a presence word, and `pulse` marks one in progress.
  */
 export const StatusIndicator = forwardRef<HTMLSpanElement, StatusIndicatorProps>(
-  function StatusIndicator({ status, label, className, ...props }, ref) {
+  function StatusIndicator({ status, tone, hue, pulse, label, className, ...props }, ref) {
+    const fallbackName = status ?? tone ?? hue ?? "status";
     return (
       <span
         ref={ref}
         className={cx(
           "vf-status-indicator",
-          `vf-status-indicator--${status}`,
+          status && `vf-status-indicator--${status}`,
+          tone && `vf-status-indicator--tone-${tone}`,
+          hue && `vf-status-indicator--hue-${hue}`,
+          pulse && "vf-status-indicator--pulse",
           className
         )}
         role="status"
-        aria-label={typeof label === "string" ? label : status}
+        aria-label={typeof label === "string" ? label : fallbackName}
+        data-status={status}
+        data-tone={tone}
+        data-hue={hue}
         {...props}
       >
         <span className="vf-status-indicator__dot" aria-hidden="true" />

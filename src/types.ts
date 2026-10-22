@@ -29,6 +29,14 @@ export type SemanticColor = "success" | "danger" | "warning" | "info";
  */
 export type Tone = "neutral" | SemanticColor;
 
+/**
+ * A palette hue for status enums with more than five states (pending, in
+ * review, in CI, blocked, …). Components with a `hue` prop fill from
+ * `--vf-{hue}-20` and colour text with `--vf-{hue}`. `Accent` is the same
+ * set; `Hue` is the name used on props.
+ */
+export type Hue = Accent;
+
 /** Placement sides for overlays/tooltips. */
 export type Side = "top" | "right" | "bottom" | "left";
 

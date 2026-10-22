@@ -609,9 +609,9 @@ Everything below ships from the top-level `voidframe-ui` import. Compound compon
 | `Button`, `ButtonGroup` | Primary button + segmented group |
 | `IconButton` | Icon-only button |
 | `Link` | Text-link primitive — voidframe accent + focus ring; pass `as` for react-router / next/link integration |
-| `Badge`, `Tag`, `TagInput` | Small labels / chip collections |
+| `Badge`, `Tag`, `TagInput` | Small labels / chip collections. `tone` colours every Badge variant (plus `muted`); `hue` on Badge and Tag picks a palette ramp for enums with more than five states |
 | `Shortcut`, `Kbd`, `ShortcutGuide` | Keyboard hints + `?` registry overlay |
-| `StatusIndicator`, `Dots` | Presence dots and multi-dot stacks |
+| `StatusIndicator`, `Dots` | Status dot (`status` for presence, `tone`/`hue`/`pulse` for any other state) and dot stacks (`total` for `●●●○`, `label` for the accessible name) |
 | `Spinner`, `SpinnerV2`, `Shimmer`, `Skeleton`, `Dots`, `Progress`, `CircularProgress`, `Gauge`, `Sparkline` | Loading / progress primitives |
 | `LoadingOverlay`, `Backdrop` | Full-surface loading / dim layers |
 

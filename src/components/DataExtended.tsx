@@ -2,7 +2,7 @@
 
 import { forwardRef, memo, useState } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
-import type { Side, Tone } from "../types";
+import type { Hue, Side, Tone } from "../types";
 import { cx } from "../utils/cx";
 import { toneAttrs } from "../utils/toneAttrs";
 import { selectableAttrs } from "../utils/selectable";
@@ -146,6 +146,8 @@ export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
   children?: ReactNode;
   /** Sets `--vf-accent`. */
   color?: string;
+  /** Palette hue: fill `--vf-{hue}-20`, text and border `--vf-{hue}`. */
+  hue?: Hue;
   onRemove?: () => void;
   style?: CSSProperties;
 }
@@ -155,14 +157,20 @@ export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
  * when the dismiss button is clicked.
  */
 export const Tag = forwardRef<HTMLSpanElement, TagProps>(function Tag(
-  { children, color, onRemove, className, style, ...props },
+  { children, color, hue, onRemove, className, style, ...props },
   ref
 ) {
   const composed: CSSProperties = color
     ? ({ "--vf-accent": color, ...style } as CSSProperties)
     : (style ?? {});
   return (
-    <span ref={ref} className={cx("vf-tag", className)} style={composed} {...props}>
+    <span
+      ref={ref}
+      className={cx("vf-tag", hue && `vf-tag--hue-${hue}`, className)}
+      style={composed}
+      data-hue={hue}
+      {...props}
+    >
       {children}
       {onRemove && (
         <span className="vf-tag__remove" onClick={onRemove}>
