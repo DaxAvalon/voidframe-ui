@@ -6,6 +6,12 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **`useEventSource`** subscribes to named event types (`events: ["job", "done"]`) and reports every
+  event through `onEvent({ type, data, parsed, lastEventId, raw })`; `parse(data, type)` turns the
+  payload into `T` (errors land in `parseError`); the hook now exposes `lastEventType`,
+  `lastEventId` and `lastParsed`; and `url` may be a function of the last event id so a reconnect
+  can resume from a cursor (`(id) => id ? \`/feed?from=${id}\` : "/feed"`). Retry backoff is now
+  exponential (capped at 30 s) instead of a fixed interval.
 - **CalendarHeatmap** follows the provider's `firstDayOfWeek` and locale (both overridable per
   chart) for week anchoring, day labels (`Intl` short weekday names, `dayLabels` override) and month
   labels; `onCellClick` makes cells focusable buttons (click, Enter, Space) with a date and value
