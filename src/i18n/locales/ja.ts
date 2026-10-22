@@ -79,5 +79,17 @@ export const ja: LocalePack = {
       selected: "選択済み",
       loading: "読み込み中",
     },
+    shortcuts: {
+      edit: "ショートカットを編集",
+      clear: "ショートカットを消去",
+      prompt: "キーの組み合わせを押してください…",
+      promptCode: "割り当てるキーを押してください…",
+      unassigned: "未割り当て",
+      assigned: "すでに割り当て済み",
+      assignedTo: ({ owner }) => `${owner} に割り当て済み`,
+      pedal: ({ n }) => `ペダル ${n}`,
+      midiNote: ({ n }) => `MIDI ノート ${n}`,
+      midiCc: ({ n }) => `MIDI CC ${n}`,
+    },
   },
 };

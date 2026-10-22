@@ -79,5 +79,17 @@ export const ar: LocalePack = {
       selected: "محدد",
       loading: "جارٍ التحميل",
     },
+    shortcuts: {
+      edit: "تحرير الاختصار",
+      clear: "مسح الاختصار",
+      prompt: "اضغط على مجموعة مفاتيح…",
+      promptCode: "اضغط على المفتاح المطلوب ربطه…",
+      unassigned: "غير معيّن",
+      assigned: "معيّن بالفعل",
+      assignedTo: ({ owner }) => `معيّن بالفعل لـ ${owner}`,
+      pedal: ({ n }) => `الدواسة ${n}`,
+      midiNote: ({ n }) => `نغمة MIDI ${n}`,
+      midiCc: ({ n }) => `MIDI CC ${n}`,
+    },
   },
 };

@@ -79,5 +79,17 @@ export const zhCN: LocalePack = {
       selected: "已选中",
       loading: "加载中",
     },
+    shortcuts: {
+      edit: "编辑快捷键",
+      clear: "清除快捷键",
+      prompt: "请按下组合键…",
+      promptCode: "请按下要绑定的键…",
+      unassigned: "未分配",
+      assigned: "已被分配",
+      assignedTo: ({ owner }) => `已分配给 ${owner}`,
+      pedal: ({ n }) => `踏板 ${n}`,
+      midiNote: ({ n }) => `MIDI 音符 ${n}`,
+      midiCc: ({ n }) => `MIDI CC ${n}`,
+    },
   },
 };

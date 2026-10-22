@@ -130,6 +130,33 @@ export { buttonDisabledAttrs, type DisabledAttrs } from "./buttonDisabledAttrs";
 export { hasAccessibleGridAncestor } from "./hasAccessibleGridAncestor";
 export { auditTokens, warnUnknownTokens, resetTokenAudit } from "./auditTokens";
 export { readToken, readTokens } from "./readToken";
+export {
+  toBinding,
+  parseChord,
+  normalizeKeyName,
+  bindingEquals,
+  matchesKeyboardEvent,
+  bindingFromKeyboardEvent,
+  bindingParts,
+  bindingLabel,
+  bindingKeyshortcut,
+  codeLabel,
+  detectPlatform,
+  assignBinding,
+  findBindingOwner,
+  KEY_ALIASES_MAC,
+  KEY_ALIASES_PC,
+} from "./binding";
+export type {
+  Binding,
+  BindingKind,
+  BindingInput,
+  BindingPlatform,
+  BindingAssignments,
+  AssignBindingResult,
+  ParsedChord,
+  MatchOptions,
+} from "./binding";
 export type { ReadTokenOptions } from "./readToken";
 export type { TokenAuditResult } from "./auditTokens";
 export { selectableAttrs } from "./selectable";

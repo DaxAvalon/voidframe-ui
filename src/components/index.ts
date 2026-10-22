@@ -1032,6 +1032,8 @@ export type {
   QueryGroup,
   QueryBuilderProps,
   ShortcutEditorProps,
+  ShortcutEditorStringProps,
+  ShortcutEditorBindingProps,
 } from "./DevTools";
 
 export {

@@ -25,6 +25,14 @@ import {
 } from "react";
 import { cx } from "../utils/cx";
 import { safeHref } from "../utils/safeHref";
+import {
+  bindingLabel,
+  bindingParts,
+  detectPlatform,
+  toBinding,
+  type BindingInput,
+  type BindingPlatform,
+} from "../utils/binding";
 
 // ── CursorPagination ─────────────────────────────────────────
 
@@ -259,63 +267,38 @@ BackToTop.displayName = "BackToTop";
 
 // ── Shortcut / Kbd ──────────────────────────────────────────
 
-function isMacLike(): boolean {
-  if (typeof navigator === "undefined") return false;
-  return /Mac|iPod|iPhone|iPad/.test(navigator.platform);
-}
-
-const KEY_ALIASES_MAC: Record<string, string> = {
-  mod: "⌘",
-  cmd: "⌘",
-  ctrl: "⌃",
-  alt: "⌥",
-  shift: "⇧",
-  enter: "⏎",
-  tab: "⇥",
-  escape: "⎋",
-  up: "↑",
-  down: "↓",
-  left: "←",
-  right: "→",
-};
-const KEY_ALIASES_PC: Record<string, string> = {
-  mod: "Ctrl",
-  cmd: "Ctrl",
-  ctrl: "Ctrl",
-  alt: "Alt",
-  shift: "Shift",
-  enter: "Enter",
-  tab: "Tab",
-  escape: "Esc",
-  up: "↑",
-  down: "↓",
-  left: "←",
-  right: "→",
-};
-
 export interface ShortcutProps extends HTMLAttributes<HTMLSpanElement> {
-  /** Plus-separated keys e.g. "mod+k" or "shift+enter". */
-  keys: string;
+  /**
+   * Plus-separated keys e.g. "mod+k" or "shift+enter", or a `Binding`
+   * (`{ kind: "code", value: "Numpad5" }`, `{ kind: "pedal", value: "1" }`).
+   */
+  keys: BindingInput;
+  /** Force the modifier glyph set. Default: detected from the platform. */
+  platform?: BindingPlatform;
 }
 
 /**
- * Inline rendered keyboard shortcut (`Cmd+K`). Purely visual; for actual
- * binding use `useKeyboardShortcut`.
+ * Inline rendered keyboard shortcut (`Cmd+K`), or the name of a physical
+ * key, pedal or MIDI control. Purely visual; for actual binding use
+ * `useShortcut`.
  */
 export const Shortcut = forwardRef<HTMLSpanElement, ShortcutProps>(
-  function Shortcut({ keys, className, ...props }, ref) {
-    const table = isMacLike() ? KEY_ALIASES_MAC : KEY_ALIASES_PC;
-    const parts = keys.split("+").map((k) => k.trim().toLowerCase());
+  function Shortcut({ keys, platform, className, ...props }, ref) {
+    const binding = toBinding(keys);
+    const parts = bindingParts(binding, platform ?? detectPlatform());
     const rendered = parts.map((p, i) => (
       <kbd key={i} className="vf-kbd vf-shortcut__key">
-        {table[p] ?? p.toUpperCase()}
+        {p}
       </kbd>
     ));
+    const prefix =
+      binding.kind === "pedal" ? "Pedal binding" : binding.kind === "midi" ? "MIDI binding" : "Keyboard shortcut";
     return (
       <span
         ref={ref}
-        className={cx("vf-shortcut", className)}
-        aria-label={`Keyboard shortcut: ${keys}`}
+        className={cx("vf-shortcut", `vf-shortcut--${binding.kind}`, className)}
+        data-binding-kind={binding.kind}
+        aria-label={`${prefix}: ${binding.kind === "key" ? binding.value : bindingLabel(binding, platform ?? detectPlatform())}`}
         {...props}
       >
         {rendered}

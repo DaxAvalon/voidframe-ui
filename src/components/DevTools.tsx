@@ -15,7 +15,19 @@ import {
   type ReactNode,
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
+import { useId } from "../hooks/useId";
+import { useMessages } from "../i18n/MessagesProvider";
 import { cx } from "../utils/cx";
+import {
+  assignBinding,
+  bindingFromKeyboardEvent,
+  bindingLabel,
+  findBindingOwner,
+  toBinding,
+  type Binding,
+  type BindingAssignments,
+  type BindingInput,
+} from "../utils/binding";
 import type { Tone } from "../types";
 import { toneAttrs } from "../utils/toneAttrs";
 import { JSONViewer } from "./Viewers";
@@ -1013,42 +1025,102 @@ function Rule(props: {
 
 // ── ShortcutEditor ──────────────────────────────────────────
 
-export interface ShortcutEditorProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
-  value?: string;
-  defaultValue?: string;
-  onValueChange?: (next: string) => void;
+export interface ShortcutEditorBaseProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
+  /** Legacy: chord strings that count as taken. Prefer `assignments`. */
   conflicts?: string[];
+  /**
+   * Every action's current binding (`assignments[actionId]`), with this
+   * editor's own action named by `action`. Capturing a binding another
+   * action holds reports it through `onDisplace` and the conflict text
+   * names the previous owner.
+   */
+  assignments?: BindingAssignments;
+  /** The action this editor edits, for conflict resolution against `assignments`. */
+  action?: string;
+  /** Display names for action ids in the conflict message. */
+  actionLabels?: Record<string, string>;
+  /** Called when the captured binding was taken from another action. */
+  onDisplace?: (displacedActionId: string, binding: Binding) => void;
+  /** Prompt while listening. Default from messages (`shortcuts.prompt` / `promptCode`). */
   placeholder?: ReactNode;
   label?: ReactNode;
 }
 
+/** The historical string API: chord strings in, chord strings out (`""` on clear). */
+export interface ShortcutEditorStringProps extends ShortcutEditorBaseProps {
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (next: string) => void;
+  /** Strings can only describe `key` bindings. */
+  mode?: "key";
+}
+
+/** The binding API: `Binding` objects in and out (`null` on clear), with learn-by-code. */
+export interface ShortcutEditorBindingProps extends ShortcutEditorBaseProps {
+  value?: Binding | null;
+  defaultValue?: Binding | null;
+  onValueChange?: (next: Binding | null) => void;
+  /**
+   * Learn mode. `"key"` (default) records `KeyboardEvent.key`, so the result
+   * follows the layout; `"code"` records `KeyboardEvent.code`, the physical
+   * key, so a numpad 5 and the 5 above the letters are different bindings.
+   */
+  mode?: "key" | "code";
+}
+
+export type ShortcutEditorProps = ShortcutEditorStringProps | ShortcutEditorBindingProps;
+
+interface ShortcutEditorLooseProps extends ShortcutEditorBaseProps {
+  value?: BindingInput | null;
+  defaultValue?: BindingInput | null;
+  onValueChange?: (next: string | Binding | null) => void;
+  mode?: "key" | "code";
+}
+
+function emptyBinding(v: BindingInput | null | undefined): boolean {
+  return v === null || v === undefined || v === "";
+}
+
 /**
- * UI for editing an existing keyboard shortcut binding. Captures the next
- * chord pressed.
+ * UI for editing a keyboard shortcut binding. Captures the next chord
+ * pressed, by key or by physical code, and resolves conflicts against the
+ * other actions' bindings.
  */
 export const ShortcutEditor = forwardRef<HTMLDivElement, ShortcutEditorProps>(
-  function ShortcutEditor(
-    {
+  function ShortcutEditor(rawProps, ref) {
+    const {
       value,
       defaultValue = "",
       onValueChange,
+      mode = "key",
       conflicts = [],
-      placeholder = "Press a key combination…",
+      assignments,
+      action,
+      actionLabels,
+      onDisplace,
+      placeholder,
       label = "Shortcut",
       className,
       ...props
-    },
-    ref
-  ) {
-    const [internal, setInternal] = useState(defaultValue);
-    const current = value ?? internal;
+    } = rawProps as ShortcutEditorLooseProps;
+    const { t } = useMessages();
+    const [internal, setInternal] = useState<BindingInput | null>(defaultValue);
+    const current = value !== undefined ? value : internal;
     const [listening, setListening] = useState(false);
-    const set = (next: string) => {
-      if (value === undefined) setInternal(next);
-      onValueChange?.(next);
+    const conflictId = useId();
+    // Emit strings only when the consumer speaks strings (legacy API).
+    const stringMode = mode === "key" && (typeof current === "string" || current === undefined);
+    const set = (next: Binding | null) => {
+      const out: string | Binding | null = stringMode ? (next ? next.value : "") : next;
+      if (value === undefined) setInternal(out);
+      onValueChange?.(out);
     };
-    const conflict = conflicts.includes(current);
+    const currentBinding = emptyBinding(current) ? null : toBinding(current as BindingInput);
+    const owner =
+      currentBinding && assignments ? findBindingOwner(assignments, currentBinding, action) : undefined;
+    const legacyConflict = typeof current === "string" && current !== "" && conflicts.includes(current);
+    const conflict = Boolean(owner) || legacyConflict;
 
     const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
       if (!listening) return;
@@ -1057,14 +1129,13 @@ export const ShortcutEditor = forwardRef<HTMLDivElement, ShortcutEditorProps>(
         setListening(false);
         return;
       }
-      const parts: string[] = [];
-      if (e.metaKey || e.ctrlKey) parts.push("mod");
-      if (e.altKey) parts.push("alt");
-      if (e.shiftKey) parts.push("shift");
-      const key = normalizeKey(e.key);
-      if (!key || ["Meta", "Control", "Alt", "Shift"].includes(e.key)) return;
-      parts.push(key);
-      set(parts.join("+"));
+      const captured = bindingFromKeyboardEvent(e, { by: mode });
+      if (!captured) return;
+      if (assignments && action) {
+        const { displaced } = assignBinding(assignments, action, captured);
+        if (displaced) onDisplace?.(displaced, captured);
+      }
+      set(captured);
       setListening(false);
     };
 
@@ -1073,6 +1144,7 @@ export const ShortcutEditor = forwardRef<HTMLDivElement, ShortcutEditorProps>(
         ref={ref}
         className={cx(
           "vf-shortcut-editor",
+          `vf-shortcut-editor--${mode}`,
           listening && "vf-shortcut-editor--listening",
           conflict && "vf-shortcut-editor--conflict",
           className
@@ -1088,33 +1160,37 @@ export const ShortcutEditor = forwardRef<HTMLDivElement, ShortcutEditorProps>(
           onClick={() => setListening(true)}
           onKeyDown={onKeyDown}
           onBlur={() => setListening(false)}
-          aria-label="Edit shortcut"
-          aria-describedby={conflict ? "vf-shortcut-conflict" : undefined}
+          aria-label={t("shortcuts.edit")}
+          aria-describedby={conflict ? conflictId : undefined}
         >
           {listening ? (
-            <span className="vf-shortcut-editor__prompt">{placeholder}</span>
-          ) : current ? (
-            <span className="vf-shortcut-editor__chord">{current}</span>
+            <span className="vf-shortcut-editor__prompt">
+              {placeholder ?? t(mode === "code" ? "shortcuts.promptCode" : "shortcuts.prompt")}
+            </span>
+          ) : currentBinding ? (
+            <span className="vf-shortcut-editor__chord" data-binding-kind={currentBinding.kind}>
+              {currentBinding.kind === "key" ? currentBinding.value : bindingLabel(currentBinding)}
+            </span>
           ) : (
-            <span className="vf-shortcut-editor__empty">unassigned</span>
+            <span className="vf-shortcut-editor__empty">{t("shortcuts.unassigned")}</span>
           )}
         </button>
-        {current && !listening && (
+        {currentBinding && !listening && (
           <button
             type="button"
             className="vf-shortcut-editor__clear"
-            onClick={() => set("")}
-            aria-label="Clear shortcut"
+            onClick={() => set(null)}
+            aria-label={t("shortcuts.clear")}
           >
             ✕
           </button>
         )}
         {conflict && (
           <span
-            id="vf-shortcut-conflict"
+            id={conflictId}
             className="vf-shortcut-editor__conflict"
           >
-            Already assigned
+            {owner ? t("shortcuts.assignedTo", { owner: actionLabels?.[owner] ?? owner }) : t("shortcuts.assigned")}
           </span>
         )}
       </div>
@@ -1123,17 +1199,3 @@ export const ShortcutEditor = forwardRef<HTMLDivElement, ShortcutEditorProps>(
 );
 ShortcutEditor.displayName = "ShortcutEditor";
 
-function normalizeKey(key: string): string | null {
-  if (!key) return null;
-  if (key.length === 1) return key.toLowerCase();
-  // Normalize common named keys.
-  const map: Record<string, string> = {
-    ArrowUp: "up",
-    ArrowDown: "down",
-    ArrowLeft: "left",
-    ArrowRight: "right",
-    " ": "space",
-    Escape: "esc",
-  };
-  return map[key] ?? key.toLowerCase();
-}

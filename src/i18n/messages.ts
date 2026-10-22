@@ -73,6 +73,18 @@ export interface VoidframeMessages {
     selected: string;
     loading: string;
   };
+  shortcuts: {
+    edit: string;
+    clear: string;
+    prompt: string;
+    promptCode: string;
+    unassigned: string;
+    assigned: string;
+    assignedTo: (args: { owner: string }) => string;
+    pedal: (args: { n: string }) => string;
+    midiNote: (args: { n: string }) => string;
+    midiCc: (args: { n: string }) => string;
+  };
 }
 
 export type PartialMessages = {
@@ -181,6 +193,18 @@ export const enMessages: VoidframeMessages = {
     collapse: "Collapse",
     selected: "Selected",
     loading: "Loading",
+  },
+  shortcuts: {
+    edit: "Edit shortcut",
+    clear: "Clear shortcut",
+    prompt: "Press a key combination…",
+    promptCode: "Press the key to bind…",
+    unassigned: "unassigned",
+    assigned: "Already assigned",
+    assignedTo: ({ owner }) => `Already assigned to ${owner}`,
+    pedal: ({ n }) => `Pedal ${n}`,
+    midiNote: ({ n }) => `MIDI note ${n}`,
+    midiCc: ({ n }) => `MIDI CC ${n}`,
   },
 };
 

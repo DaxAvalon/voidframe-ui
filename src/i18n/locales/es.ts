@@ -104,5 +104,17 @@ export const es: LocalePack = {
       selected: "Seleccionado",
       loading: "Cargando",
     },
+    shortcuts: {
+      edit: "Editar atajo",
+      clear: "Borrar atajo",
+      prompt: "Pulsa una combinación de teclas…",
+      promptCode: "Pulsa la tecla a asignar…",
+      unassigned: "sin asignar",
+      assigned: "Ya asignado",
+      assignedTo: ({ owner }) => `Ya asignado a ${owner}`,
+      pedal: ({ n }) => `Pedal ${n}`,
+      midiNote: ({ n }) => `Nota MIDI ${n}`,
+      midiCc: ({ n }) => `CC MIDI ${n}`,
+    },
   },
 };

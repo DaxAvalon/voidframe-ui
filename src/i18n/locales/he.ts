@@ -79,5 +79,17 @@ export const he: LocalePack = {
       selected: "נבחר",
       loading: "טוען",
     },
+    shortcuts: {
+      edit: "ערוך קיצור",
+      clear: "נקה קיצור",
+      prompt: "הקש צירוף מקשים…",
+      promptCode: "הקש את המקש לשיוך…",
+      unassigned: "לא משויך",
+      assigned: "כבר משויך",
+      assignedTo: ({ owner }) => `כבר משויך אל ${owner}`,
+      pedal: ({ n }) => `דוושה ${n}`,
+      midiNote: ({ n }) => `תו MIDI ${n}`,
+      midiCc: ({ n }) => `MIDI CC ${n}`,
+    },
   },
 };

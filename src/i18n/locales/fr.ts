@@ -99,5 +99,17 @@ export const fr: LocalePack = {
       selected: "Sélectionné",
       loading: "Chargement",
     },
+    shortcuts: {
+      edit: "Modifier le raccourci",
+      clear: "Effacer le raccourci",
+      prompt: "Appuyez sur une combinaison de touches…",
+      promptCode: "Appuyez sur la touche à associer…",
+      unassigned: "non attribué",
+      assigned: "Déjà attribué",
+      assignedTo: ({ owner }) => `Déjà attribué à ${owner}`,
+      pedal: ({ n }) => `Pédale ${n}`,
+      midiNote: ({ n }) => `Note MIDI ${n}`,
+      midiCc: ({ n }) => `CC MIDI ${n}`,
+    },
   },
 };

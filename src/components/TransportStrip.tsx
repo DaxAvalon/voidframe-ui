@@ -6,6 +6,7 @@ import { LiveIndicator } from "./LiveIndicator";
 import { LiveRegion } from "../primitives/LiveRegion";
 import { cx } from "../utils/cx";
 import { useId } from "../hooks/useId";
+import { bindingKeyshortcut, bindingLabel, type BindingInput } from "../utils/binding";
 
 export type TransportTone = "neutral" | "danger" | "warning";
 /** `wrap`: actions wrap as needed. `row`: one non-wrapping row of equal-width targets in `actions` order. */
@@ -23,16 +24,17 @@ export interface TransportAction {
   /** Visible label ("Punch", "Record", "Stop", "Marker"). */
   label: string;
   /**
-   * Display name of the key, pedal button or MIDI note that triggers it
-   * ("Enter", "Numpad 0", "Pedal 1", "↓"); shown and read with the label.
-   * Not used for `aria-keyshortcuts`: see `keyshortcut`.
+   * What triggers the action: a display name ("Enter", "Numpad 0",
+   * "Pedal 1", "↓") or a `Binding` (`{ kind: "code", value: "Numpad0" }`,
+   * `{ kind: "pedal", value: "1" }`), whose label is derived. Shown and
+   * read with the label. A plain string is display-only; see `keyshortcut`.
    */
-  binding?: string;
+  binding?: BindingInput;
   /**
    * The same trigger in ARIA `aria-keyshortcuts` grammar: key names joined
    * with `+`, several alternatives separated by spaces ("Enter",
-   * "Shift+Enter", "ArrowDown", "Escape"). Only keyboard triggers belong
-   * here; a pedal or MIDI binding has no keyshortcut.
+   * "Shift+Enter", "ArrowDown", "Escape"). Derived from a keyboard
+   * `Binding` when omitted; a pedal or MIDI binding has no keyshortcut.
    */
   keyshortcut?: string;
   /** Optional glyph, decorative. */
@@ -186,6 +188,8 @@ const TransportStripImpl = forwardRef<HTMLDivElement, TransportStripProps>(funct
         {actions.map((a) => {
           const disabled = a.enabled === false;
           const reasonId = disabled && a.disabledReason ? `${id}-${a.id}-reason` : undefined;
+          const bindingText =
+            a.binding === undefined ? undefined : typeof a.binding === "string" ? a.binding : bindingLabel(a.binding);
           return (
             <Toolbar.Button
               key={a.id}
@@ -199,8 +203,10 @@ const TransportStripImpl = forwardRef<HTMLDivElement, TransportStripProps>(funct
               data-tone={a.tone}
               disabled={disabled}
               pressed={a.pressed}
-              aria-label={a.binding ? `${a.label}, ${a.binding}` : a.label}
-              aria-keyshortcuts={a.keyshortcut}
+              aria-label={bindingText ? `${a.label}, ${bindingText}` : a.label}
+              aria-keyshortcuts={
+                a.keyshortcut ?? (a.binding && typeof a.binding !== "string" ? bindingKeyshortcut(a.binding) : undefined)
+              }
               aria-describedby={reasonId}
               title={disabled ? a.disabledReason : undefined}
               onClick={() => onAction(a.id)}
@@ -211,9 +217,9 @@ const TransportStripImpl = forwardRef<HTMLDivElement, TransportStripProps>(funct
                 </span>
               )}
               <span className="vf-transport__label">{a.label}</span>
-              {a.binding && (
+              {bindingText && (
                 <kbd className="vf-transport__binding" aria-hidden="true">
-                  {a.binding}
+                  {bindingText}
                 </kbd>
               )}
               {reasonId && (

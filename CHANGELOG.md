@@ -6,6 +6,21 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Shared `Binding` model** (`voidframe-ui/core`): `{ kind: "key" | "code" | "pedal" | "midi", value,
+  label? }` with `toBinding`, `matchesKeyboardEvent` (key chords by `e.key`, code chords by
+  `e.code`; `{ modifiers: "strict" }` rejects an unrequested Shift), `bindingFromKeyboardEvent(e,
+  { by: "key" | "code" })`, `bindingParts` / `bindingLabel` (platform-aware glyphs, "Numpad 5",
+  "Pedal 1", "MIDI note 60"), `bindingKeyshortcut` (ARIA grammar), `bindingEquals`,
+  `assignBinding(assignments, actionId, binding)` (one binding per action; returns `displaced`)
+  and `findBindingOwner`. `useShortcut`, `Shortcut`, `ShortcutGuide` (`triggerKeys`),
+  `ShortcutEditor` and `TransportStrip.actions[].binding` accept a string or a `Binding`;
+  registered shortcuts carry `binding`; pedal and MIDI bindings register for the guide and are
+  dispatched by the consumer. `ShortcutEditor` gains `mode="code"` (learn the physical key),
+  `assignments` / `action` / `actionLabels` / `onDisplace` for conflict resolution that names the
+  previous owner, and its strings come from the message catalogue (`shortcuts.*`, translated in
+  every locale pack). With `Binding` values it emits `Binding | null`; string consumers keep the
+  string API. `TransportStrip` derives the binding text and `aria-keyshortcuts` from a keyboard
+  `Binding`.
 - **Verdict vocabularies**: `Verdict kinds={{ accept: { tone, glyph, word }, … }}` renders a
   consumer's own outcomes with the glyph-and-word discipline; built-in kinds remain the fallback,
   `tone` / `glyph` props override one instance, and `verdictTone(verdict, kinds)` /

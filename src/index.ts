@@ -144,6 +144,23 @@ export {
   createNavModel,
   readToken,
   readTokens,
+  toBinding,
+  bindingEquals,
+  matchesKeyboardEvent,
+  bindingFromKeyboardEvent,
+  bindingParts,
+  bindingLabel,
+  bindingKeyshortcut,
+  assignBinding,
+  findBindingOwner,
+} from "./utils";
+export type {
+  Binding,
+  BindingKind,
+  BindingInput,
+  BindingPlatform,
+  BindingAssignments,
+  AssignBindingResult,
 } from "./utils";
 export type {
   NavNode,

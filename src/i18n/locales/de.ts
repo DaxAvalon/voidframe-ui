@@ -91,5 +91,17 @@ export const de: LocalePack = {
       selected: "Ausgewählt",
       loading: "Lädt",
     },
+    shortcuts: {
+      edit: "Tastenkürzel bearbeiten",
+      clear: "Tastenkürzel löschen",
+      prompt: "Tastenkombination drücken…",
+      promptCode: "Taste zum Belegen drücken…",
+      unassigned: "nicht belegt",
+      assigned: "Bereits belegt",
+      assignedTo: ({ owner }) => `Bereits belegt durch ${owner}`,
+      pedal: ({ n }) => `Pedal ${n}`,
+      midiNote: ({ n }) => `MIDI-Note ${n}`,
+      midiCc: ({ n }) => `MIDI-CC ${n}`,
+    },
   },
 };

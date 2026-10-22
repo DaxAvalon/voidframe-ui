@@ -722,7 +722,7 @@ Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortabl
 
 Metrics: `Stat`, `StatGroup`, `MetricCard`, `CircularProgress`.
 
-Recording and review (booth tier, `voidframe-ui/data`): `AudioLevelMeter` (dB bar meter with ballistics, peak hold, limit words, pending/unavailable states), `TransportStrip` (session state word, clocks, roll countdown and bound actions), `WaveformStrip` (takes over a waveform with markers, selection and playhead), `Verdict` (pass / warn / fail / flagged / skipped / pending as glyph and word; `kinds` adds a consumer vocabulary such as accept / needs approval / reject with its own tones, glyphs and words), `VerdictCallout` (tone callout with the verdict as headline, reasons list, body, details disclosure and actions), `FactRow` (label · value · note at 44 px with a tone rule), `CheckList` (verdict rows that gate an action: `canProceed`, `n/m` badge, editable mode), `CountdownDial` (seconds to an event as a dial, `role="timer"`), `StatusStrip` (one dense line of named facts; `collapse` drops segments by `priority` when the strip is too narrow). Pair them with the `booth` theme.
+Recording and review (booth tier, `voidframe-ui/data`): `AudioLevelMeter` (dB bar meter with ballistics, peak hold, limit words, pending/unavailable states), `TransportStrip` (session state word, clocks, roll countdown and bound actions; `binding` takes a display string or a `Binding`), `WaveformStrip` (takes over a waveform with markers, selection and playhead), `Verdict` (pass / warn / fail / flagged / skipped / pending as glyph and word; `kinds` adds a consumer vocabulary such as accept / needs approval / reject with its own tones, glyphs and words), `VerdictCallout` (tone callout with the verdict as headline, reasons list, body, details disclosure and actions), `FactRow` (label · value · note at 44 px with a tone rule), `CheckList` (verdict rows that gate an action: `canProceed`, `n/m` badge, editable mode), `CountdownDial` (seconds to an event as a dial, `role="timer"`), `StatusStrip` (one dense line of named facts; `collapse` drops segments by `priority` when the strip is too narrow). Pair them with the `booth` theme.
 
 `StatusStrip` vs `StatusBar`: `StatusBar` (in the Card family) is the IDE-style bottom bar for an app window, a container for icon-and-text items you compose yourself. `StatusStrip` is a single list of named facts (`interface · 48 kHz · 6 ms · 0 dropouts`) with tones that add a visually hidden word, meant to sit inside a panel or header and be glanced at, not announced.
 
@@ -853,7 +853,7 @@ Purpose-built surface for Claude-/ChatGPT-/agent-style products. Everything belo
 
 Domain surfaces that round out the tier-1 offering. Everything below is in the top-level `voidframe-ui` import.
 
-**Dev tools:** `CommitGraph`, `NetworkInspector` (JSON headers/body drill-down), `ConsoleOutput` (level filter `"warn+"`), `DebugTree` (JSON or YAML via `format` prop — `toYaml` helper exported), `KeyValueEditor`, `QueryBuilder` (AND/OR groups + rules), `ShortcutEditor` (records chords to `mod+shift+k`-style strings with conflict detection).
+**Dev tools:** `CommitGraph`, `NetworkInspector` (JSON headers/body drill-down), `ConsoleOutput` (level filter `"warn+"`), `DebugTree` (JSON or YAML via `format` prop — `toYaml` helper exported), `KeyValueEditor`, `QueryBuilder` (AND/OR groups + rules), `ShortcutEditor` (records chords to `mod+shift+k`-style strings, or `Binding` objects with `mode="code"` to learn the physical key; `assignments` + `action` resolve conflicts and name the displaced owner).
 
 **Identity:** `UserCard`, `TeamCard`, `OrganizationCard`, `Identicon` (deterministic 5×5 mirrored pattern), `PresenceList` (grouped by status, maxVisible + overflow).
 
@@ -1237,7 +1237,7 @@ Opt-out with `adaptive={false}` when you're wrapping one of these inside your ow
 
 `VoidframeProvider` — theme context.
 `ConfirmProvider` + `useConfirm()` — promise-based confirmation dialogs.
-`ShortcutProvider` + `useShortcut()` — global keyboard shortcut registry.
+`ShortcutProvider` + `useShortcut()` — global keyboard shortcut registry. Accepts a chord string or a `Binding` (`{ kind: "key" | "code" | "pedal" | "midi", value, label? }`): `code` bindings match `KeyboardEvent.code`, so a numpad key is distinct from the row above the letters; `pedal` and `midi` bindings register for the guide and are dispatched by your device code. `Shortcut`, `ShortcutGuide`, `ShortcutEditor` and `TransportStrip` take the same type; `assignBinding()` keeps one binding per action and returns the displaced one.
 
 ---
 

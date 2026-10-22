@@ -17,10 +17,19 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import {
+  matchesKeyboardEvent,
+  toBinding,
+  type Binding,
+  type BindingInput,
+} from "../utils/binding";
 
 export interface RegisteredShortcut {
   id: string;
+  /** The chord string, or the binding's value for non-string bindings. */
   keys: string;
+  /** The full binding (kind, value, label). */
+  binding?: Binding;
   description?: string;
   group?: string;
   /** Whether the handler is currently active. */
@@ -83,29 +92,6 @@ export interface UseShortcutOptions {
   allowInInputs?: boolean;
 }
 
-function parseKeys(keys: string): {
-  key: string;
-  mod: boolean;
-  ctrl: boolean;
-  alt: boolean;
-  shift: boolean;
-} {
-  const parts = keys.split("+").map((k) => k.trim().toLowerCase());
-  let mod = false;
-  let ctrl = false;
-  let alt = false;
-  let shift = false;
-  let key = "";
-  for (const p of parts) {
-    if (p === "mod" || p === "cmd") mod = true;
-    else if (p === "ctrl") ctrl = true;
-    else if (p === "alt" || p === "opt" || p === "option") alt = true;
-    else if (p === "shift") shift = true;
-    else key = p;
-  }
-  return { key, mod, ctrl, alt, shift };
-}
-
 function isEditableTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false;
   const tag = target.tagName;
@@ -119,7 +105,7 @@ function isEditableTarget(target: EventTarget | null): boolean {
  * `ShortcutGuide`.
  */
 export function useShortcut(
-  keys: string,
+  input: BindingInput,
   handler: (e: KeyboardEvent) => void,
   options: UseShortcutOptions = {}
 ): void {
@@ -128,6 +114,9 @@ export function useShortcut(
   handlerRef.current = handler;
   const enabled = options.enabled ?? true;
   const allowInInputs = options.allowInInputs ?? false;
+  const binding = toBinding(input);
+  const keys = binding.value;
+  const bindingKey = `${binding.kind}:${binding.value}:${binding.label ?? ""}`;
 
   // Register with the provider for discovery. Depend on the stable
   // register/unregister fns — not `registry`, which is a new object reference
@@ -137,38 +126,33 @@ export function useShortcut(
   const unregister = registry?.unregister;
   useEffect(() => {
     if (!register || !unregister) return;
-    const id = `${keys}::${options.description ?? ""}::${options.group ?? ""}`;
+    const id = `${bindingKey}::${options.description ?? ""}::${options.group ?? ""}`;
     register({
       id,
       keys,
+      binding: { kind: binding.kind, value: binding.value, label: binding.label },
       description: options.description,
       group: options.group,
       enabled,
     });
     return () => unregister(id);
-  }, [register, unregister, keys, options.description, options.group, enabled]);
+    // `bindingKey` stands for the binding's content.
+  }, [register, unregister, bindingKey, options.description, options.group, enabled]);
 
   useEffect(() => {
     if (!enabled) return;
-    const parsed = parseKeys(keys);
+    // Pedal and MIDI bindings are dispatched by the consumer (call the
+    // handler from your device code); only keyboard bindings listen here.
+    if (binding.kind !== "key" && binding.kind !== "code") return;
+    const b: Binding = { kind: binding.kind, value: binding.value };
     const listener = (e: KeyboardEvent) => {
       if (!allowInInputs && isEditableTarget(e.target)) return;
-      const pressedKey = e.key.toLowerCase();
-      if (pressedKey !== parsed.key) return;
-      const modPressed = e.metaKey || e.ctrlKey;
-      if (parsed.mod && !modPressed) return;
-      if (parsed.ctrl && !e.ctrlKey) return;
-      if (parsed.alt && !e.altKey) return;
-      if (parsed.shift && !e.shiftKey) return;
-      // If the binding explicitly asks for no modifier, reject events that
-      // have one (to avoid "?" matching Shift+/ on some layouts).
-      if (!parsed.mod && !parsed.ctrl && !parsed.alt && !parsed.shift) {
-        if (e.metaKey || e.ctrlKey || e.altKey) return;
-      }
+      if (!matchesKeyboardEvent(b, e)) return;
       e.preventDefault();
       handlerRef.current(e);
     };
     window.addEventListener("keydown", listener);
     return () => window.removeEventListener("keydown", listener);
-  }, [keys, enabled, allowInInputs]);
+    // `bindingKey` stands for the binding's content.
+  }, [bindingKey, enabled, allowInInputs]);
 }

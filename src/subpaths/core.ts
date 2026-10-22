@@ -30,6 +30,25 @@ export { ThemeScope } from "../provider/ThemeScope";
 export type { ThemeScopeProps } from "../provider/ThemeScope";
 export { useThemePersistence } from "../hooks/useThemePersistence";
 export { readToken, readTokens } from "../utils/readToken";
+export {
+  toBinding,
+  bindingEquals,
+  matchesKeyboardEvent,
+  bindingFromKeyboardEvent,
+  bindingParts,
+  bindingLabel,
+  bindingKeyshortcut,
+  assignBinding,
+  findBindingOwner,
+} from "../utils/binding";
+export type {
+  Binding,
+  BindingKind,
+  BindingInput,
+  BindingPlatform,
+  BindingAssignments,
+  AssignBindingResult,
+} from "../utils/binding";
 export type { ReadTokenOptions } from "../utils/readToken";
 export { useVoidframeTokens } from "../hooks/useVoidframeTokens";
 export type { UseVoidframeTokensOptions } from "../hooks/useVoidframeTokens";
