@@ -280,6 +280,9 @@ export { BubbleMap } from "./BubbleMap";
 export type { BubbleMapPoint, BubbleMapProps } from "./BubbleMap";
 
 export { TileGridMap, US_STATES_GRID } from "./TileGridMap";
+export { matchCountryNames, normalizeCountryName, COUNTRY_ALIASES } from "./geo/countryNames";
+export type { MatchCountryNamesOptions, MatchCountryNamesResult } from "./geo/countryNames";
+export { weekdayLabels } from "./CalendarHeatmap";
 export type { TileGridCell, TileGridMapProps } from "./TileGridMap";
 
 // ── OrgChart (Phase 1) ──────────────────────────────────────

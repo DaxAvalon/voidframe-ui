@@ -107,6 +107,14 @@ when it renders without it.
 | `voidframe-ui/charts` | `d3-scale` + `d3-shape` + `d3-array` (eager, every chart); `d3-geo` + `topojson-client` (ChoroplethMap, BubbleMap), `d3-force` (NetworkGraph), `d3-hierarchy` (TreeMap, Sunburst), `d3-sankey` (Sankey) are loaded when the chart first renders |
 | `voidframe-ui/charts/lazy` | none at import time; each `Lazy*` wrapper pulls its chart's peers when it mounts |
 | `voidframe-ui/data` (`ChartLegend`) | none: the legend is plain DOM and is re-exported here for non-chart canvases |
+
+World map recipe: install `world-atlas` and `topojson-client`, then
+`import world from "world-atlas/countries-110m.json"` and render
+`<ChoroplethMap topology={world} objectKey="countries" featureIdProp="name" values={values} normalizeKey={(id) => id} onUnmatched={console.warn} />`.
+When your data is keyed by free-text country names, pass it through
+`matchCountryNames(data, world.objects.countries.geometries.map((g) => g.properties.name))`
+first: it folds case and diacritics, resolves common aliases (`USA`, `Viet Nam`, `Czech Republic`)
+and returns the keys it could not place so you can show them in `renderFooter`.
 | `voidframe-ui/reactflow` | `@xyflow/react` |
 | `voidframe-ui/testing` | `jest-axe` (only `expectNoA11yViolations`) |
 

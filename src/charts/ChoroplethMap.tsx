@@ -35,6 +35,16 @@ export interface ChoroplethMapProps
   featureIdProp: string;
   /** Lookup from feature id → numeric value. Missing → "no data". */
   values: Record<string, number>;
+  /**
+   * Canonicalise a feature's id before it is matched against `values`
+   * (trim, case-fold, map aliases). Applied once per feature; the raw
+   * id is kept for the tooltip. Pair with `matchCountryNames` for names.
+   */
+  normalizeKey?: (featureId: string, properties: Record<string, unknown>) => string;
+  /** Called (when it changes) with the `values` keys that matched no feature. */
+  onUnmatched?: (keys: string[]) => void;
+  /** Footer under the map, e.g. to list what could not be placed. */
+  renderFooter?: (info: { unmatched: string[]; matched: number; total: number }) => ReactNode;
   width?: number;
   height?: number;
   /** Color buckets low→high. Default 5 blues. */
@@ -57,7 +67,10 @@ const DEFAULT_COLORS = [
 ];
 
 interface PreparedFeature {
+  /** Key used to look up `values` (after `normalizeKey`). */
   id: string;
+  /** The raw `featureIdProp` value, for display. */
+  label: string;
   pathD: string;
   centroid: [number, number];
   properties: Record<string, unknown>;
@@ -74,6 +87,9 @@ export const ChoroplethMap = forwardRef<HTMLDivElement, ChoroplethMapProps>(
       objectKey,
       featureIdProp,
       values,
+      normalizeKey,
+      onUnmatched,
+      renderFooter,
       width: widthProp,
       height = 360,
       colors = DEFAULT_COLORS,
@@ -103,6 +119,8 @@ export const ChoroplethMap = forwardRef<HTMLDivElement, ChoroplethMapProps>(
       null
     );
     const [features, setFeatures] = useState<PreparedFeature[]>([]);
+    const normalizeRef = useRef(normalizeKey);
+    normalizeRef.current = normalizeKey;
 
     useEffect(() => {
       let cancelled = false;
@@ -142,12 +160,16 @@ export const ChoroplethMap = forwardRef<HTMLDivElement, ChoroplethMapProps>(
           );
           const pathGen = (d3geo as { geoPath: (proj: unknown) => (x: unknown) => string }).geoPath(proj);
           const centroidOf = (d3geo as { geoPath: (proj: unknown) => { centroid: (x: unknown) => [number, number] } }).geoPath(proj);
-          const prepared: PreparedFeature[] = fc.features.map((f) => ({
-            id: String(f.properties[featureIdProp] ?? ""),
-            pathD: pathGen(f) ?? "",
-            centroid: centroidOf.centroid(f) as [number, number],
-            properties: f.properties,
-          }));
+          const prepared: PreparedFeature[] = fc.features.map((f) => {
+            const raw = String(f.properties[featureIdProp] ?? "");
+            return {
+              id: normalizeRef.current ? normalizeRef.current(raw, f.properties) : raw,
+              label: raw,
+              pathD: pathGen(f) ?? "",
+              centroid: centroidOf.centroid(f) as [number, number],
+              properties: f.properties,
+            };
+          });
           setFeatures(prepared);
         } catch (e) {
           if (e instanceof MissingPeerDependencyError) setError(e);
@@ -164,6 +186,20 @@ export const ChoroplethMap = forwardRef<HTMLDivElement, ChoroplethMapProps>(
       for (const v of Object.values(values)) if (v > hi) hi = v;
       return hi || 1;
     }, [values]);
+
+    const unmatched = useMemo(() => {
+      if (features.length === 0) return [] as string[];
+      const ids = new Set(features.map((f) => f.id));
+      return Object.keys(values).filter((k) => !ids.has(k));
+    }, [features, values]);
+    const unmatchedKey = unmatched.join("\u0000");
+    const onUnmatchedRef = useRef(onUnmatched);
+    onUnmatchedRef.current = onUnmatched;
+    useEffect(() => {
+      if (features.length === 0) return;
+      onUnmatchedRef.current?.(unmatched);
+      // unmatchedKey stands for the list's content.
+    }, [unmatchedKey, features.length]);
 
     const colorScale = useMemo(
       () => quantizeScale<string>({ domain: [0, max], range: colors }),
@@ -253,10 +289,19 @@ export const ChoroplethMap = forwardRef<HTMLDivElement, ChoroplethMapProps>(
             }))}
           />
         )}
+        {renderFooter ? (
+          <div className="vf-chart-choropleth__footer">
+            {renderFooter({
+              unmatched,
+              matched: Object.keys(values).length - unmatched.length,
+              total: Object.keys(values).length,
+            })}
+          </div>
+        ) : null}
         <ChartTooltip active={!!hover} x={hover?.x ?? 0} y={hover?.y ?? 0}>
           {hover ? (
             <ChartTooltipBody
-              title={hover.feature.id}
+              title={hover.feature.label}
               metrics={[
                 {
                   label: "value",

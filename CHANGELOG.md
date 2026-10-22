@@ -6,6 +6,17 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **CalendarHeatmap** follows the provider's `firstDayOfWeek` and locale (both overridable per
+  chart) for week anchoring, day labels (`Intl` short weekday names, `dayLabels` override) and month
+  labels; `onCellClick` makes cells focusable buttons (click, Enter, Space) with a date and value
+  name; `highlightToday` (and `today`) outlines the current day. `weekdayLabels(locale, firstDay)`
+  is exported.
+- **ChoroplethMap** `normalizeKey(featureId, properties)` canonicalises feature ids before the
+  `values` lookup (the raw id stays in the tooltip), `onUnmatched(keys)` reports `values` keys that
+  matched no feature, and `renderFooter({ unmatched, matched, total })` renders a footer under the
+  map. `matchCountryNames(values, featureNames, { aliases })` re-keys free-text country names onto
+  a map's feature names using `normalizeCountryName` and the exported `COUNTRY_ALIASES` table, and
+  returns the keys it could not place. README documents the `world-atlas` recipe.
 - **Charts**: `LineChart referenceLines=[{ y, label, tone, color, dashed, labelPosition }]` draws
   horizontal targets/thresholds (they extend the value domain) and `series[].pointStyle(datum,
   value, index) → { fill, tone, hollow, size, hidden }` styles each point; `Sparkline highlightLast`
