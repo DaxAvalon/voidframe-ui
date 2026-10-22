@@ -630,6 +630,10 @@ export { AppShell } from "./AppShell";
 export type { AppShellProps } from "./AppShell";
 export { InspectorPane } from "./InspectorPane";
 export type { InspectorPaneProps } from "./InspectorPane";
+export { ListRow } from "./ListRow";
+export type { ListRowProps, ListRowMinHeight } from "./ListRow";
+export { SettingsRow } from "./SettingsRow";
+export type { SettingsRowProps } from "./SettingsRow";
 
 export { default as Menu, ContextMenu, MenuBar, MenuBarMenu } from "./Menu";
 export type {

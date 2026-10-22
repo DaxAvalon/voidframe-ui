@@ -76,6 +76,12 @@ export interface TextProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
   spacing?: number;
   /** Uppercase transform. */
   upper?: boolean;
+  /**
+   * Single-line truncation with an ellipsis (`overflow: hidden`, `nowrap`).
+   * When the children are plain text, the full text becomes the `title` so
+   * the cut-off part is still reachable. Pass `title` yourself to override.
+   */
+  truncate?: boolean;
   as?: AsElement;
   /** Render through `<Slot>` and merge props onto a single child element. */
   asChild?: boolean;
@@ -98,6 +104,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
     weight,
     spacing,
     upper,
+    truncate,
     as: Tag = "span",
     asChild,
     tone,
@@ -108,6 +115,10 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   ref
 ) {
   const resolvedSize = useResolvedTextSize(size);
+  const truncateTitle =
+    truncate && props.title === undefined && (typeof children === "string" || typeof children === "number")
+      ? { title: String(children) }
+      : {};
   if (process.env.NODE_ENV !== "production") warnIfColorIsNotACssColor(color);
   const inline: CSSProperties = {
     ...(color !== undefined ? { color } : {}),
@@ -120,6 +131,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
     ta.className,
     `vf-text--${resolvedSize}`,
     upper && "vf-text--upper",
+    truncate && "vf-text--truncate",
     className
   );
   const toneData = ta.attrs;
@@ -130,6 +142,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
         className={composedClass}
         style={inline}
         {...toneData}
+        {...truncateTitle}
         {...props}
       >
         {children}
@@ -142,6 +155,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
       className={composedClass}
       style={inline}
       {...toneData}
+      {...truncateTitle}
       {...props}
     >
       {children}

@@ -31,3 +31,4 @@ export * from "../components/TimePicker";
 export * from "../components/TreeSelect";
 export * from "../components/RichTextEditor";
 export * from "../components/FormProvider";
+export * from "../components/SettingsRow";

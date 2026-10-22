@@ -229,6 +229,8 @@ export interface CodeProps extends HTMLAttributes<HTMLElement> {
   inline?: boolean;
   /** Dimmed (text-3) — a "before" value beside an "after", a superseded token. */
   muted?: boolean;
+  /** Single-line truncation with an ellipsis; plain-text children become the `title`. */
+  truncate?: boolean;
   style?: CSSProperties;
 }
 
@@ -237,15 +239,20 @@ export interface CodeProps extends HTMLAttributes<HTMLElement> {
  * blocks use `CodeBlock`.
  */
 export const Code = forwardRef<HTMLElement, CodeProps>(function Code(
-  { children, inline, muted, className, style, ...props },
+  { children, inline, muted, truncate, className, style, ...props },
   ref
 ) {
+  const truncateTitle =
+    truncate && props.title === undefined && (typeof children === "string" || typeof children === "number")
+      ? { title: String(children) }
+      : {};
   if (inline) {
     return (
       <code
         ref={ref as never}
-        className={cx("vf-code--inline", muted && "vf-code--muted", className)}
+        className={cx("vf-code--inline", muted && "vf-code--muted", truncate && "vf-code--truncate", className)}
         style={style}
+        {...truncateTitle}
         {...props}
       >
         {children}
@@ -255,8 +262,9 @@ export const Code = forwardRef<HTMLElement, CodeProps>(function Code(
   return (
     <pre
       ref={ref as never}
-      className={cx("vf-code--block", muted && "vf-code--muted", className)}
+      className={cx("vf-code--block", muted && "vf-code--muted", truncate && "vf-code--truncate", className)}
       style={style}
+      {...truncateTitle}
       {...props}
     >
       {children}

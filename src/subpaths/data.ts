@@ -38,3 +38,4 @@ export * from "../components/AsyncData";
 // the same component as the root and `voidframe-ui/overlays`.
 export { Tooltip, TooltipProvider } from "../components/Popovers";
 export type { TooltipProps, TooltipProviderProps } from "../components/Popovers";
+export * from "../components/ListRow";

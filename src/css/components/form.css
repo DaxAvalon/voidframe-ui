@@ -5,6 +5,13 @@
   flex-direction: column;
   gap: var(--vf-sp-2);
 }
+/* fullWidth: the field fills its flex row or grid column. */
+.vf-field--full {
+  width: 100%;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.vf-field--full .vf-select-wrap { display: block; width: 100%; }
 
 .vf-input,
 .vf-textarea,

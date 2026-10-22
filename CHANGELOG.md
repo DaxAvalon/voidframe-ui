@@ -7,6 +7,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **Row primitives.** `Text truncate` and `Code truncate` (single-line
+  ellipsis; plain-text children become the `title`). `ListRow` (data tier):
+  a two-cell row that never wraps, the identity cell flexing and truncating
+  with a `title`, the trailing controls never shrinking, `minHeight`
+  (`sm`/`md`/`lg` or px), `description`, `leading`, `as="li"`, tone and the
+  shared `selected`/`onSelect` grammar. `SettingsRow` (forms tier): name and
+  description on the left, status slot, control column on the right that
+  stacks below `stackBelow` (`sm`/`md`/`lg`/`never`), labelling a single
+  unlabelled control by the row name. `fullWidth` on `Input`, `Textarea` and
+  `Select` (`.vf-field--full`).
 - **App frame.** `VoidframeProvider fill` (`.vf-root--fill`: min-height
   100 %, column flex) so layouts can resolve `height: 100%`; `AppShell
   fill`, `padded={false}`, `mainPadding`, `mainOverflow` and `footerPadded`

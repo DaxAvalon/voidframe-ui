@@ -48,6 +48,8 @@ type InputBaseProps = Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onC
 export type InputSize = "sm" | "md" | "lg";
 
 export interface InputProps extends InputBaseProps {
+  /** Let the field fill its container (`.vf-field--full`: width 100 %, flex 1, min-width 0). */
+  fullWidth?: boolean;
   value?: string | number | readonly string[];
   /** Raw event handler — kept for backward compatibility. Prefer `onValueChange`. */
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -92,6 +94,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     label,
     type = "text",
     width,
+    fullWidth,
     className,
     style,
     id,
@@ -118,7 +121,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   const inline: CSSProperties = width !== undefined ? { width, ...style } : (style ?? {});
   const ta = toneAttrs("vf-input", { size });
   return (
-    <div className="vf-field">
+    <div className={cx("vf-field", fullWidth && "vf-field--full")}>
       {label && (
         <Label as="label" htmlFor={inputId}>
           {label}
@@ -156,6 +159,8 @@ type TextareaBaseProps = Omit<
 >;
 
 export interface TextareaProps extends TextareaBaseProps {
+  /** Let the field fill its container (`.vf-field--full`: width 100 %, flex 1, min-width 0). */
+  fullWidth?: boolean;
   value?: string | number | readonly string[];
   /** Raw event handler — kept for backward compatibility. Prefer `onValueChange`. */
   onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
@@ -191,6 +196,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       size = "md",
       asAriaLabel,
       suppressA11yWarning,
+      fullWidth,
       className,
       style,
       id,
@@ -212,7 +218,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const textareaId = useId(id);
     const ta = toneAttrs("vf-textarea", { size });
     return (
-      <div className="vf-field">
+      <div className={cx("vf-field", fullWidth && "vf-field--full")}>
         {label && (
           <Label as="label" htmlFor={textareaId}>
             {label}
@@ -351,6 +357,8 @@ type SelectBaseProps = Omit<
 export type SelectSize = "sm" | "md" | "lg";
 
 export interface SelectProps extends SelectBaseProps {
+  /** Let the field fill its container (`.vf-field--full`: width 100 %, flex 1, min-width 0). */
+  fullWidth?: boolean;
   options: SelectOption[];
   value?: string;
   defaultValue?: string;
@@ -395,6 +403,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     onValueChange,
     label,
     width,
+    fullWidth,
     className,
     style,
     id,
@@ -455,7 +464,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   const selectTa = toneAttrs("vf-select", { size });
   const inline: CSSProperties = width !== undefined ? { width, ...style } : (style ?? {});
   return (
-    <div className="vf-field">
+    <div className={cx("vf-field", fullWidth && "vf-field--full")}>
       {label && (
         <Label as="label" htmlFor={selectId}>
           {label}

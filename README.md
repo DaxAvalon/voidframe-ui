@@ -641,6 +641,8 @@ For programmatic actions (no destination URL), use `Button` with
 
 ### Form controls
 
+`SettingsRow` lays a setting out as name and description on the left and the control on the right, stacking below a breakpoint and labelling an unlabelled control by the row name. `Input`, `Textarea` and `Select` take `fullWidth` to fill their column; `Text` and `Code` take `truncate` for single-line ellipsis with a `title` fallback.
+
 Core: `Input`, `Textarea`, `Select`, `Toggle`, `Switch`, `Checkbox`, `CheckboxGroup`, `RadioGroup`, `Slider`, `NumberInput`, `CurrencyInput`, `PhoneInput`, `PinInput`, `PasswordInput`, `MaskedInput`, `SearchInput`, `SegmentedControl`, `RatingInput`, `ColorPicker`.
 
 Complex selects: `Combobox`, `MultiSelect`, `TreeSelect`, `MentionInput`.
@@ -702,7 +704,7 @@ distinction is part of why the two components exist.
 
 Tables: `Table` (CSS grid with table ARIA roles by default; `as="table"` renders real `<table>`/`<thead>`/`<tbody>`/`<tr>`/`<th scope>`/`<td>` with the same column API, `rowHeader` columns as `<th scope="row">`, `rowTone` for tinted rows, `selectedRowKey` / `isRowSelected` for the shared selection grammar), `DataGrid` (sort / filter / resize / reorder / group / virtualize / persist / export), `TreeTable`, `DataList`, `DescriptionList`, `KeyValue`, `JSONViewer`, `DiffViewer`, `LogViewer`, `Gantt`, `Kanban`, `Heatmap`.
 
-Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortable`.
+Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortable`, `ListRow` (the two-cell row that never wraps: identity truncates with a `title`, trailing controls never shrink, fixed `minHeight`).
 
 Metrics: `Stat`, `StatGroup`, `MetricCard`, `CircularProgress`.
 

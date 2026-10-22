@@ -20,6 +20,16 @@
 .vf-text--upper {
   text-transform: var(--vf-heading-case, uppercase);
 }
+/* Single-line truncation; the element must be allowed to shrink (min-width: 0). */
+.vf-text--truncate {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+span.vf-text--truncate { display: inline-block; vertical-align: bottom; }
 
 /* Semantic text tones — the colour vocabulary consumers reach for. */
 .vf-text--muted   { color: var(--vf-text-3); }
