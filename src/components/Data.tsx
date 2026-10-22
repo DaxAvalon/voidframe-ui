@@ -640,6 +640,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
       className={cx(ta.className, className)}
       style={composedStyle}
       role="progressbar"
+      data-state={variant === "indeterminate" ? "indeterminate" : value >= max ? "complete" : "active"}
       aria-valuenow={variant === "indeterminate" ? undefined : value}
       aria-valuemin={0}
       aria-valuemax={max}

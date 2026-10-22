@@ -121,7 +121,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
           className
         )}
         style={composedStyle}
-        {...ta.attrs}
+        data-state={collapsible ? (disclosure.open ? "open" : "closed") : undefined}
+      {...ta.attrs}
         {...props}
       >
         {children}

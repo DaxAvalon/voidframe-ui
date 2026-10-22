@@ -24,6 +24,8 @@ export {
 } from "./renderWithVoidframe";
 
 export { expectNoA11yViolations } from "./axe";
+export { expectThemeContrast, themeContrastReport } from "./contrast";
+export type { ThemeContrastOptions, ThemeContrastFailure } from "./contrast";
 
 export {
   mockReactFlow,

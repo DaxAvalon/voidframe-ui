@@ -35,6 +35,7 @@ export const THEME_NAMES = [
 ] as const;
 export type BuiltInThemeName = (typeof THEME_NAMES)[number];
 
+export { highContrastDarkOverrides, highContrastLightOverrides, withHighContrast } from "./highContrast";
 export { THEME_OPTIONS } from "./options";
 export type { ThemeOption } from "./options";
 

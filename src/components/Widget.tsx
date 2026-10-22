@@ -909,6 +909,7 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
                 isMoving && "vf-dashboard-grid__cell--moving",
                 isSwapPartner && "vf-dashboard-grid__cell--swap-partner"
               )}
+              data-state={isMoving ? "moving" : resizing?.id === item.id ? "resizing" : isSwapPartner ? "swap-partner" : "idle"}
               style={{
                 position: "absolute",
                 width: item.w * cellStep - gap,
