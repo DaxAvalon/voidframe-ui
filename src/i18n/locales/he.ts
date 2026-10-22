@@ -26,6 +26,10 @@ export const he: LocalePack = {
       remove: "הסר",
       tooLarge: ({ maxBytes }) => `הקובץ חורג ממגבלת ${(maxBytes / 1024 / 1024).toFixed(1)} MB.`,
       tooMany: ({ max }) => `ניתן להעלות לכל היותר ${max} קבצים.`,
+      chooseFile: "בחר קובץ",
+      chooseFiles: "בחר קבצים",
+      moreIssues: ({ n }) => `${n} נוספים`,
+      fewerIssues: "הצג פחות",
     },
     form: { required: "חובה", optional: "אופציונלי", invalid: "ערך לא חוקי" },
     datePicker: {

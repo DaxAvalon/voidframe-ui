@@ -6,6 +6,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **File input primitives** (`voidframe-ui/forms`): `FilePickerButton { onFiles, accept, multiple,
+  label, inputProps }` is a `Button` wired to a hidden `<input type="file">` (reset after each pick);
+  `DropTarget { onFiles, accept, onRejected, multiple, surface }` decorates a region with
+  `data-dragging` and filters dropped files by `accept` (`fileMatchesAccept()` exported) without
+  rendering a button or input, so a `FilePickerButton` can sit inside it; `IssueList { issues:
+  { label, message, tone }[], max, empty }` lists import issues with a tone mark per row and an
+  "N more" / "Show fewer" toggle. `DropZone` gains `interactive={false}` (no `role="button"`, no
+  hidden input: host your own control) and `renderSurface({ dragging, open })`, and its default
+  label now comes from the message catalogue (`fileUpload.dropOrBrowse`). New catalogue keys
+  `fileUpload.chooseFile`, `chooseFiles`, `moreIssues`, `fewerIssues` are translated in every locale.
 - **Described options**: `Select` takes `placeholder` (a disabled empty option; the value is `""`
   until a pick, styled `.vf-select--placeholder`), and `SelectOption` gains `description`, `badge`
   and `disabled` (the native control appends them to the option text; `selectOptionText()` is
@@ -382,6 +392,8 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   Built for Vonyx (DaxAvalon/Vonyx#131); see #16.
 
 ### Behavior changes
+- **DropZone** default label is the localised "Drop files here or click to browse" (the stylesheet
+  still renders it in label case) instead of a hard-coded upper-case English string.
 - **Gantt** drags now snap to whole days by default (`snapTo="day"`); pass `snapTo="none"` for
   the previous continuous millisecond results. A drag whose snapped result equals the original
   dates no longer calls `onTaskUpdate`.

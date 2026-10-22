@@ -26,6 +26,10 @@ export const es: LocalePack = {
       remove: "Quitar",
       tooLarge: ({ maxBytes }) => `El archivo supera el límite de ${(maxBytes / 1024 / 1024).toFixed(1)} MB.`,
       tooMany: ({ max }) => `Puedes subir como máximo ${max} archivos.`,
+      chooseFile: "Elegir archivo",
+      chooseFiles: "Elegir archivos",
+      moreIssues: ({ n }) => `${n} más`,
+      fewerIssues: "Mostrar menos",
     },
     form: {
       required: "Obligatorio",

@@ -13,6 +13,7 @@ import { useControllableState } from "../hooks/useControllableState";
 import { useId } from "../hooks/useId";
 import { cx } from "../utils/cx";
 import { warnOnce } from "../utils/warn";
+import { useMessages } from "../i18n/MessagesProvider";
 import { Label } from "./Text";
 
 // ── Checkbox ──────────────────────────────────────────────────
@@ -623,7 +624,17 @@ FormField.displayName = "FormField";
 export interface DropZoneProps extends HTMLAttributes<HTMLDivElement> {
   onFiles?: (files: File[]) => void;
   accept?: string;
+  /** Visible text. Default from messages ("Drop files here or click to browse"). */
   label?: string;
+  /**
+   * Default true: the zone itself is a button (click or Enter opens the
+   * picker). Set false when you render your own `FilePickerButton` inside,
+   * so there is no button inside a button; the zone then only decorates.
+   */
+  interactive?: boolean;
+  /** Replace the default label with your own surface; receives the drag state and an `open()` helper. */
+  renderSurface?: (state: { dragging: boolean; open: () => void }) => ReactNode;
+  children?: ReactNode;
   style?: CSSProperties;
 }
 
@@ -632,9 +643,10 @@ export interface DropZoneProps extends HTMLAttributes<HTMLDivElement> {
  * open file picker). Emits `onFiles(files)`.
  */
 export const DropZone = forwardRef<HTMLDivElement, DropZoneProps>(function DropZone(
-  { onFiles, accept, label, className, style, ...props },
+  { onFiles, accept, label, interactive = true, renderSurface, children, className, style, ...props },
   ref
 ) {
+  const { t } = useMessages();
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
@@ -642,7 +654,7 @@ export const DropZone = forwardRef<HTMLDivElement, DropZoneProps>(function DropZ
     setDragOver(false);
     onFiles?.(Array.from(e.dataTransfer.files));
   };
-  const labelText = label ?? "DROP FILES HERE OR CLICK TO BROWSE";
+  const labelText = label ?? t("fileUpload.dropOrBrowse");
   const activate = () => inputRef.current?.click();
   const handleKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -650,17 +662,25 @@ export const DropZone = forwardRef<HTMLDivElement, DropZoneProps>(function DropZ
       activate();
     }
   };
+  const content = renderSurface ? (
+    renderSurface({ dragging: dragOver, open: activate })
+  ) : children !== undefined ? (
+    children
+  ) : (
+    <Label>{labelText}</Label>
+  );
   return (
     <div
       ref={ref}
-      className={cx("vf-drop-zone", className)}
+      className={cx("vf-drop-zone", !interactive && "vf-drop-zone--static", className)}
       style={style}
-      role="button"
-      tabIndex={0}
-      aria-label={labelText}
+      role={interactive ? "button" : undefined}
+      tabIndex={interactive ? 0 : undefined}
+      aria-label={interactive ? labelText : undefined}
       data-drag-over={dragOver ? "true" : undefined}
-      onClick={activate}
-      onKeyDown={handleKey}
+      data-dragging={dragOver || undefined}
+      onClick={interactive ? activate : undefined}
+      onKeyDown={interactive ? handleKey : undefined}
       onDragOver={(e) => {
         e.preventDefault();
         setDragOver(true);
@@ -669,18 +689,20 @@ export const DropZone = forwardRef<HTMLDivElement, DropZoneProps>(function DropZ
       onDrop={handleDrop}
       {...props}
     >
-      <input
-        ref={inputRef}
-        type="file"
-        accept={accept}
-        multiple
-        className="vf-visually-hidden"
-        onChange={(e) => {
-          const files = e.target.files;
-          if (files) onFiles?.(Array.from(files));
-        }}
-      />
-      <Label>{labelText}</Label>
+      {interactive && (
+        <input
+          ref={inputRef}
+          type="file"
+          accept={accept}
+          multiple
+          className="vf-visually-hidden"
+          onChange={(e) => {
+            const files = e.target.files;
+            if (files) onFiles?.(Array.from(files));
+          }}
+        />
+      )}
+      {content}
     </div>
   );
 });

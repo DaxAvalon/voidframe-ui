@@ -29,6 +29,10 @@ export interface VoidframeMessages {
     remove: string;
     tooLarge: (args: { maxBytes: number }) => string;
     tooMany: (args: { max: number }) => string;
+    chooseFile: string;
+    chooseFiles: string;
+    moreIssues: (args: { n: number }) => string;
+    fewerIssues: string;
   };
   form: {
     required: string;
@@ -116,6 +120,10 @@ export const enMessages: VoidframeMessages = {
     tooLarge: ({ maxBytes }) =>
       `File exceeds the ${formatBytesSimple(maxBytes)} limit.`,
     tooMany: ({ max }) => `You can upload at most ${max} files.`,
+    chooseFile: "Choose file",
+    chooseFiles: "Choose files",
+    moreIssues: ({ n }) => `${n} more`,
+    fewerIssues: "Show fewer",
   },
   form: {
     required: "Required",

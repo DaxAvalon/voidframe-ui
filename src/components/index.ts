@@ -752,6 +752,14 @@ export type {
   CropResult,
   ImageCropperProps,
 } from "./ImageCropper";
+export { FilePickerButton, DropTarget, IssueList, fileMatchesAccept } from "./FilePicker";
+export type {
+  FilePickerButtonProps,
+  DropTargetProps,
+  DropTargetRenderState,
+  IssueListProps,
+  Issue,
+} from "./FilePicker";
 export { FileUpload } from "./FileUpload";
 export type { FileUploadProps, UploadItem, UploadStatus } from "./FileUpload";
 

@@ -269,7 +269,7 @@ describe("DropZone", () => {
   it("renders default label", () => {
     renderWithTheme(<DropZone />);
     expect(
-      screen.getByText("DROP FILES HERE OR CLICK TO BROWSE")
+      screen.getByText("Drop files here or click to browse")
     ).toBeInTheDocument();
   });
 
@@ -280,7 +280,7 @@ describe("DropZone", () => {
 
   it("has button role and is keyboard-activatable", () => {
     renderWithTheme(<DropZone />);
-    const zone = screen.getByRole("button", { name: "DROP FILES HERE OR CLICK TO BROWSE" });
+    const zone = screen.getByRole("button", { name: "Drop files here or click to browse" });
     expect(zone).toBeInTheDocument();
     expect(zone.getAttribute("tabindex")).toBe("0");
   });
@@ -288,7 +288,7 @@ describe("DropZone", () => {
   it("fires onFiles when files are dropped", () => {
     const onFiles = vi.fn();
     renderWithTheme(<DropZone onFiles={onFiles} />);
-    const zone = screen.getByRole("button", { name: "DROP FILES HERE OR CLICK TO BROWSE" });
+    const zone = screen.getByRole("button", { name: "Drop files here or click to browse" });
     const file = new File(["content"], "test.txt", { type: "text/plain" });
     const dataTransfer = { files: [file] };
     fireEvent.drop(zone, { dataTransfer });

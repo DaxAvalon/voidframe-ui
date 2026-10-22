@@ -26,6 +26,10 @@ export const ja: LocalePack = {
       remove: "削除",
       tooLarge: ({ maxBytes }) => `ファイルが ${(maxBytes / 1024 / 1024).toFixed(1)} MB の制限を超えています。`,
       tooMany: ({ max }) => `アップロードできるのは最大 ${max} ファイルです。`,
+      chooseFile: "ファイルを選択",
+      chooseFiles: "ファイルを選択",
+      moreIssues: ({ n }) => `他 ${n} 件`,
+      fewerIssues: "少なく表示",
     },
     form: { required: "必須", optional: "任意", invalid: "無効な値" },
     datePicker: {

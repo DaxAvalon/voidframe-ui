@@ -665,7 +665,7 @@ Date & time: `DatePicker`, `DateRangePicker`, `DateTimePicker`, `TimePicker` (vi
 
 Editors: `RichTextEditor`, `MarkdownEditor`, `CodeEditor`, `MarkdownRenderer` (React-element output: headings, emphasis, code, links, lists, `- [ ]` task lists with `onTaskToggle`, GFM tables, blockquotes; no HTML injection, no sanitizer peer).
 
-Capture: `SignaturePad`, `ImageCropper`, `FileUpload`, `Clipboard`.
+Capture: `SignaturePad`, `ImageCropper`, `FileUpload`, `FilePickerButton` (a `Button` wired to a hidden file input), `DropTarget` (decorates a region with `data-dragging` and `onFiles`, no button of its own), `DropZone` (`interactive={false}` to host your own button, `renderSurface`), `IssueList` (per-row issues with tone marks, a `max` cap and an "N more" toggle), `Clipboard`.
 
 Forms hook: `useForm()` for controlled-or-uncontrolled form state with validation.
 

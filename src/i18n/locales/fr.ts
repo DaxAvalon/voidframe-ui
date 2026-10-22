@@ -26,6 +26,10 @@ export const fr: LocalePack = {
       remove: "Retirer",
       tooLarge: ({ maxBytes }) => `Le fichier dépasse la limite de ${(maxBytes / 1024 / 1024).toFixed(1)} Mo.`,
       tooMany: ({ max }) => `Vous pouvez téléverser au maximum ${max} fichiers.`,
+      chooseFile: "Choisir un fichier",
+      chooseFiles: "Choisir des fichiers",
+      moreIssues: ({ n }) => `${n} de plus`,
+      fewerIssues: "Afficher moins",
     },
     form: {
       required: "Obligatoire",

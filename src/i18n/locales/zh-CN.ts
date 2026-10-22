@@ -26,6 +26,10 @@ export const zhCN: LocalePack = {
       remove: "移除",
       tooLarge: ({ maxBytes }) => `文件超过 ${(maxBytes / 1024 / 1024).toFixed(1)} MB 限制。`,
       tooMany: ({ max }) => `最多上传 ${max} 个文件。`,
+      chooseFile: "选择文件",
+      chooseFiles: "选择多个文件",
+      moreIssues: ({ n }) => `另外 ${n} 项`,
+      fewerIssues: "收起",
     },
     form: { required: "必填", optional: "可选", invalid: "无效值" },
     datePicker: {

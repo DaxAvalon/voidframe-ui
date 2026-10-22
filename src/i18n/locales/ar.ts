@@ -26,6 +26,10 @@ export const ar: LocalePack = {
       remove: "إزالة",
       tooLarge: ({ maxBytes }) => `الملف يتجاوز الحد المسموح ${(maxBytes / 1024 / 1024).toFixed(1)} ميغابايت.`,
       tooMany: ({ max }) => `يمكنك رفع ${max} ملفات كحد أقصى.`,
+      chooseFile: "اختر ملفًا",
+      chooseFiles: "اختر ملفات",
+      moreIssues: ({ n }) => `${n} أخرى`,
+      fewerIssues: "عرض أقل",
     },
     form: { required: "مطلوب", optional: "اختياري", invalid: "قيمة غير صالحة" },
     datePicker: {
