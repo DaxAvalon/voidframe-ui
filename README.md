@@ -960,6 +960,14 @@ Tree-shaking still applies — `import { Button } from "voidframe-ui"` costs rou
 
 **Production DCE.** All dev-only `warn()` and `warnOnce()` calls are guarded by `process.env.NODE_ENV !== "production"` — bundlers strip them from production builds entirely, so warning message strings never ship.
 
+### Copy tone and glyphs
+
+Built-in text is short, literal and comes from the message catalogue; numbers use a true minus sign (U+2212) and monochrome text glyphs only. The rules and the glyph table are in [`docs/copy-tone.md`](docs/copy-tone.md); `MINUS`, `INFINITY`, `MIDDLE_DOT` and `withMinus()` are exported for app code.
+
+### Attribute contract
+
+Rest props (`data-testid`, `data-*`, `aria-*`) land on a component's root element, so tests and instrumentation can target the component without titles or internal classes. Components with a visual state expose it as `data-state` on that root: open / closed on `Accordion.Item`, `Collapsible`, `Disclosure`, `Menu`, `Dialog`, `DrawerV2`, collapsible `Card`; `active` / `inactive` on `Tabs.Trigger`; `active` / `complete` / `indeterminate` on `Progress`; `idle` / `moving` / `resizing` / `swap-partner` on `DashboardGrid` cells; `selected` / `highlighted` / `dimmed` / `danger` on `FlowNode`; `on` / `off` on `LivePreview`; `pending` / `live` on `AudioLevelMeter`. Selection uses `data-selected` and `aria-selected` / `aria-current` (the selection grammar), tone uses `data-tone`.
+
 ### Testing your app against Voidframe
 
 Voidframe ships a `voidframe-ui/testing` subpath with the same helpers used internally — so consuming apps can write tests against our components with the provider, a11y checks, and viewport mocks pre-wired.
@@ -1008,6 +1016,8 @@ it("persists theme through storage", () => {
   // Pass `storage` into useThemePersistence / WhatsNewPopover.
 });
 ```
+
+**Theme contrast.** `expectThemeContrast(tokens)` throws when `text0`–`text2` fall under 4.5:1 on `bg0`–`bg2` (pass `{ min: 7 }` for high contrast, or your own `tiers` / `surfaces`); `themeContrastReport()` returns the failing pairs. The library runs it for every built-in theme, including the `withHighContrast()` variant.
 
 **Scripts** (the framework's own CI matrix, mirrored in `package.json`):
 

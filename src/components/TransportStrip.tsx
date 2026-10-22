@@ -7,6 +7,8 @@ import { LiveRegion } from "../primitives/LiveRegion";
 import { cx } from "../utils/cx";
 import { useId } from "../hooks/useId";
 import { bindingKeyshortcut, bindingLabel, type BindingInput } from "../utils/binding";
+import { useMessages } from "../i18n/MessagesProvider";
+import { MINUS } from "../utils/glyphs";
 
 export type TransportTone = "neutral" | "danger" | "warning";
 /** `wrap`: actions wrap as needed. `row`: one non-wrapping row of equal-width targets in `actions` order. */
@@ -101,14 +103,19 @@ export function rollFraction(remaining: number, total: number): number {
   return Math.min(1, Math.max(0, remaining / total));
 }
 
-/** `m:ss`, or `h:mm:ss` from an hour; negative and non-finite values read as 0:00. */
-export function formatClock(seconds: number): string {
-  const s = Number.isFinite(seconds) && seconds > 0 ? Math.floor(seconds) : 0;
+/**
+ * `m:ss`, or `h:mm:ss` from an hour. Negative and non-finite values read as
+ * 0:00 unless `{ signed: true }`, which renders overruns with a true minus
+ * sign (U+2212): `−0:05`.
+ */
+export function formatClock(seconds: number, options: { signed?: boolean } = {}): string {
+  const negative = Number.isFinite(seconds) && seconds < 0 && options.signed;
+  const s = Number.isFinite(seconds) && (seconds > 0 || negative) ? Math.floor(Math.abs(seconds)) : 0;
   const h = Math.floor(s / 3600);
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
   const mm = h > 0 ? String(m).padStart(2, "0") : String(m);
-  return `${h > 0 ? `${h}:` : ""}${mm}:${String(sec).padStart(2, "0")}`;
+  return `${negative && s > 0 ? MINUS : ""}${h > 0 ? `${h}:` : ""}${mm}:${String(sec).padStart(2, "0")}`;
 }
 
 const TransportStripImpl = forwardRef<HTMLDivElement, TransportStripProps>(function TransportStrip(
@@ -132,6 +139,7 @@ const TransportStripImpl = forwardRef<HTMLDivElement, TransportStripProps>(funct
   },
   ref
 ) {
+  const { t } = useMessages();
   const tone = state.tone ?? "neutral";
   const rolling = remaining !== null && remaining !== undefined;
   const fraction = rolling ? rollFraction(remaining, rollTotal ?? 0) : 0;
@@ -172,13 +180,13 @@ const TransportStripImpl = forwardRef<HTMLDivElement, TransportStripProps>(funct
         )}
         {elapsed !== undefined && (
           <span className="vf-transport__time">
-            <span className="vf-sr-only">elapsed </span>
+            <span className="vf-sr-only">{t("media.elapsed")} </span>
             {formatTime(elapsed)}
           </span>
         )}
         {rolling && (
           <span className="vf-transport__remaining">
-            <span className="vf-sr-only">remaining </span>
+            <span className="vf-sr-only">{t("media.remaining")} </span>
             {formatTime(remaining)}
           </span>
         )}

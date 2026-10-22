@@ -3,6 +3,7 @@
 import { forwardRef, memo, type HTMLAttributes } from "react";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { cx } from "../utils/cx";
+import { useMessages } from "../i18n/MessagesProvider";
 
 export type CountdownDialVariant = "ring" | "bar";
 export type CountdownDialTone = "neutral" | "warning" | "danger";
@@ -45,9 +46,11 @@ const CountdownDialImpl = forwardRef<HTMLDivElement, CountdownDialProps>(functio
   ref
 ) {
   const reduced = usePrefersReducedMotion();
+  const { t } = useMessages();
   const fraction = countdownFraction(remaining, total);
   const text = format(remaining);
-  const name = label ? `${label}: ${text} seconds` : `${text} seconds`;
+  const seconds = t("media.seconds");
+  const name = label ? `${label}: ${text} ${seconds}` : `${text} ${seconds}`;
   const motion = reduced ? { transition: "none" } : undefined;
   return (
     <div

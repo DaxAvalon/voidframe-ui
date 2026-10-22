@@ -12,6 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { useMessages } from "../i18n/MessagesProvider";
 import { useId } from "../hooks/useId";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
@@ -229,6 +230,7 @@ const AudioLevelMeterImpl = forwardRef<HTMLDivElement, AudioLevelMeterProps>(
     },
     ref
   ) {
+    const { t } = useMessages();
     const live = state === "live";
     const targets = useMemo(
       () => (!live ? [-Infinity] : channels && channels.length > 0 ? channels : [value]),
@@ -302,7 +304,7 @@ const AudioLevelMeterImpl = forwardRef<HTMLDivElement, AudioLevelMeterProps>(
                 <div
                   className="vf-audio-level-meter__hold"
                   style={{ [axis]: pos(hold) } as CSSProperties}
-                  title={`Peak hold ${formatValue(hold, unit)}`}
+                  title={`${t("media.peakHold")} ${formatValue(hold, unit)}`}
                 />
               )}
               {limits.map((l) => (

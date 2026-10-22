@@ -14,6 +14,7 @@ import {
 } from "react";
 import { useElementSize } from "../hooks/useElementSize";
 import { cx } from "../utils/cx";
+import { useMessages } from "../i18n/MessagesProvider";
 
 /** Min/max per bucket for a time range; values in -1..1. Supplied by the consumer, never decoded here. */
 export interface WaveformTile {
@@ -81,7 +82,7 @@ export interface WaveformStripProps extends Omit<HTMLAttributes<HTMLDivElement>,
 }
 
 const LANE_ORDER: WaveformMarkerKind[] = ["marker", "flag", "gap", "peak"];
-const KIND_WORD: Record<WaveformMarkerKind, string> = { marker: "Marker", flag: "Pickup flag", gap: "Gap", peak: "Peak" };
+const KIND_MESSAGE: Record<WaveformMarkerKind, string> = { marker: "media.marker", flag: "media.pickupFlag", gap: "media.gap", peak: "media.peak" };
 
 /** Time → x in px for a strip of `width` px showing `duration` s (or `pps` px per second when given). */
 export function timeToX(time: number, duration: number, width: number, pps?: number): number {
@@ -180,6 +181,7 @@ const WaveformStripImpl = forwardRef<HTMLDivElement, WaveformStripProps>(functio
   },
   ref
 ) {
+  const { t } = useMessages();
   const innerRef = useRef<HTMLDivElement>(null);
   const measured = useElementSize(innerRef);
   const width = Math.max(0, Math.floor(widthProp ?? measured.width ?? 0));
@@ -252,7 +254,7 @@ const WaveformStripImpl = forwardRef<HTMLDivElement, WaveformStripProps>(functio
   };
 
   const hiddenCount = segments.filter((s) => s.hidden).length;
-  const summary = `${formatTimecode(playhead ?? 0)} of ${formatTimecode(duration)} · ${segments.length} take${segments.length === 1 ? "" : "s"}${hiddenCount ? ` (${hiddenCount} replaced)` : ""} · ${markers.length} marker${markers.length === 1 ? "" : "s"}`;
+  const summary = `${t("media.positionOf", { position: formatTimecode(playhead ?? 0), duration: formatTimecode(duration) })} · ${t("media.takes", { n: segments.length })}${hiddenCount ? ` (${t("media.replaced", { n: hiddenCount })})` : ""} · ${t("media.markers", { n: markers.length })}`;
   const shown = draft ?? selection;
 
   return (
@@ -283,7 +285,7 @@ const WaveformStripImpl = forwardRef<HTMLDivElement, WaveformStripProps>(functio
                     className={cx("vf-waveform-strip__marker", `vf-waveform-strip__marker--${kind}`)}
                     style={{ left: x(m.at) }}
                     data-marker={m.id}
-                    aria-label={`${KIND_WORD[kind]}${m.label ? `: ${m.label}` : ""}, ${formatTimecode(m.at)}`}
+                    aria-label={`${t(KIND_MESSAGE[kind])}${m.label ? `: ${m.label}` : ""}, ${formatTimecode(m.at)}`}
                     title={m.label}
                     onClick={(e) => {
                       e.stopPropagation();

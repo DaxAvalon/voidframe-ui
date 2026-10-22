@@ -6,6 +6,25 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Localised component copy**: `TransportStrip` (elapsed / remaining), `CountdownDial`
+  (seconds), `Verdict` (measured / required), `AudioLevelMeter` (peak hold), `WaveformStrip`
+  (marker kinds, takes / markers / replaced summary) and `StatusStrip` (tone words) now read their
+  words from the message catalogue (`media.*`, `status.*`, translated in every locale pack);
+  `toneWord(tone, t?)` takes the catalogue's `t`. `formatClock(seconds, { signed: true })`
+  renders overruns with a true minus sign; `MINUS`, `INFINITY`, `MIDDLE_DOT` and `withMinus()`
+  are exported. A source test keeps these components free of hard-coded English, and
+  `docs/copy-tone.md` documents the copy tone and glyph vocabulary.
+- **CI contracts**: `expectThemeContrast(tokens, { min, surfaces, tiers })` and
+  `themeContrastReport()` in `voidframe-ui/testing` assert that the word-carrying text tiers meet a
+  ratio on the surfaces; the library runs it for every built-in theme at AA and, with the exported
+  `withHighContrast()` overrides (`highContrastDarkOverrides` / `highContrastGreyOverrides` /
+  `highContrastLightOverrides`, kept in sync with `tokens.css` by a test), at 7:1. New Playwright
+  specs audit every fixture route under a coarse pointer for targets under 24 px, adjacent targets
+  closer than 8 px, `title`-only affordances and horizontal overflow at 390 / 768 / 1280 px, and
+  open every overlay route with a zero `console.error` / `pageerror` contract. `data-state` is now
+  exposed by `Progress` (`active | complete | indeterminate`), collapsible `Card` (`open | closed`)
+  and `DashboardGrid` cells (`idle | moving | resizing | swap-partner`); README documents that rest
+  `data-*` props land on a component's root and that stateful components expose `data-state`.
 - **`voidframe-ui/codemirror`**: `voidframeEditorThemeSpec({ dark, fontFamily, fontSize, lineHeight,
   overrides })` returns the editor chrome (gutters, active line, selection layer, bracket match,
   search, panels, tooltips, lint ranges) and a token-coloured highlight style as plain data, and

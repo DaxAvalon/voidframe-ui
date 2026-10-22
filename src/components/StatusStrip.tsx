@@ -14,6 +14,7 @@ import {
 import { VisuallyHidden } from "../primitives/VisuallyHidden";
 import { cx } from "../utils/cx";
 import { useMergedRefs } from "../hooks/useMergedRefs";
+import { useMessages } from "../i18n/MessagesProvider";
 
 export type StatusTone = "neutral" | "success" | "warning" | "danger" | "info";
 
@@ -57,17 +58,20 @@ export interface StatusStripProps extends Omit<HTMLAttributes<HTMLUListElement>,
   label?: string;
 }
 
-/** The word a tone adds for assistive technology; empty for `neutral`. */
-export function toneWord(tone: StatusTone | undefined): string {
+/**
+ * The word a tone adds for assistive technology; empty for `neutral`.
+ * Pass the catalogue's `t` to localise; the English defaults are used otherwise.
+ */
+export function toneWord(tone: StatusTone | undefined, t?: (path: string) => string): string {
   switch (tone) {
     case "success":
-      return "ok";
+      return t ? t("status.ok") : "ok";
     case "warning":
-      return "warning";
+      return t ? t("status.warning") : "warning";
     case "danger":
-      return "alert";
+      return t ? t("status.alert") : "alert";
     case "info":
-      return "info";
+      return t ? t("status.info") : "info";
     default:
       return "";
   }
@@ -117,6 +121,7 @@ const StatusStripImpl = forwardRef<HTMLUListElement, StatusStripProps>(function 
   ref
 ) {
   const vars = { "--vf-status-strip-separator": JSON.stringify(separator) } as CSSProperties;
+  const { t } = useMessages();
   const listRef = useRef<HTMLUListElement>(null);
   const mergedRef = useMergedRefs(ref, listRef);
   const widthsRef = useRef(new Map<string, number>());
@@ -178,7 +183,7 @@ const StatusStripImpl = forwardRef<HTMLUListElement, StatusStripProps>(function 
     >
       {segments.map((s) => {
         const tone = s.tone ?? "neutral";
-        const word = toneWord(tone);
+        const word = toneWord(tone, t);
         return (
           <li
             key={s.id}

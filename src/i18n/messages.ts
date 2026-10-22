@@ -77,6 +77,28 @@ export interface VoidframeMessages {
     selected: string;
     loading: string;
   };
+  media: {
+    elapsed: string;
+    remaining: string;
+    seconds: string;
+    measured: string;
+    required: string;
+    peakHold: string;
+    marker: string;
+    pickupFlag: string;
+    gap: string;
+    peak: string;
+    takes: (args: { n: number }) => string;
+    markers: (args: { n: number }) => string;
+    replaced: (args: { n: number }) => string;
+    positionOf: (args: { position: string; duration: string }) => string;
+  };
+  status: {
+    ok: string;
+    warning: string;
+    alert: string;
+    info: string;
+  };
   wizard: {
     back: string;
     next: string;
@@ -208,6 +230,28 @@ export const enMessages: VoidframeMessages = {
     collapse: "Collapse",
     selected: "Selected",
     loading: "Loading",
+  },
+  media: {
+    elapsed: "elapsed",
+    remaining: "remaining",
+    seconds: "seconds",
+    measured: "measured",
+    required: "required",
+    peakHold: "Peak hold",
+    marker: "Marker",
+    pickupFlag: "Pickup flag",
+    gap: "Gap",
+    peak: "Peak",
+    takes: ({ n }) => `${n} ${n === 1 ? "take" : "takes"}`,
+    markers: ({ n }) => `${n} ${n === 1 ? "marker" : "markers"}`,
+    replaced: ({ n }) => `${n} replaced`,
+    positionOf: ({ position, duration }) => `${position} of ${duration}`,
+  },
+  status: {
+    ok: "ok",
+    warning: "warning",
+    alert: "alert",
+    info: "info",
   },
   wizard: {
     back: "Back",

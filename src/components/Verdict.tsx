@@ -6,6 +6,7 @@ import { VisuallyHidden } from "../primitives/VisuallyHidden";
 import { Disclosure } from "./Disclosure";
 import { cx } from "../utils/cx";
 import { toneAttrs } from "../utils/toneAttrs";
+import { useMessages } from "../i18n/MessagesProvider";
 
 /**
  * The outcomes a check can have (the spec engine's vocabulary) plus
@@ -99,6 +100,7 @@ const VerdictImpl = forwardRef<HTMLSpanElement, VerdictProps>(function Verdict(
   ref
 ) {
   const explanationId = useId();
+  const { t } = useMessages();
   const spec = verdictSpec(verdict, kinds);
   const word = label ?? spec.word ?? verdict;
   const tone = toneProp ?? spec.tone;
@@ -124,14 +126,14 @@ const VerdictImpl = forwardRef<HTMLSpanElement, VerdictProps>(function Verdict(
         <span className="vf-verdict__numbers">
           {measured && (
             <span className="vf-verdict__measured">
-              <VisuallyHidden>measured </VisuallyHidden>
+              <VisuallyHidden>{t("media.measured")} </VisuallyHidden>
               {measured}
             </span>
           )}
           {measured && required && <span aria-hidden="true"> · </span>}
           {required && (
             <span className="vf-verdict__required">
-              <VisuallyHidden>required </VisuallyHidden>
+              <VisuallyHidden>{t("media.required")} </VisuallyHidden>
               {required}
             </span>
           )}
