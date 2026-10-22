@@ -198,6 +198,10 @@
   /* focus */
   --vf-focus-ring: 2px solid var(--vf-text-0);
   --vf-focus-offset: 0;
+  /* text selection — inverted by default; embedded editors (.cm-editor,
+   * .monaco-editor, [data-vf-selection="native"]) are excluded in base.css */
+  --vf-selection-bg: var(--vf-text-1);
+  --vf-selection-fg: var(--vf-bg-0);
   /* Accent-flavored ring for controls whose grammar is accent-driven
    * (text inputs, editors). Everything else uses the monochrome ring. */
   --vf-focus-ring-accent: 2px solid var(--vf-accent);

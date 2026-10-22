@@ -27,9 +27,15 @@
   box-sizing: border-box;
 }
 
-.vf-root ::selection {
-  background: var(--vf-text-1);
-  color: var(--vf-bg-0);
+/* Inverted selection for page text. Editors that paint their own selection
+ * layer (CodeMirror, Monaco) and anything under [data-vf-selection="native"]
+ * keep the browser's selection, otherwise their text reads as bg-0 on their
+ * own dark highlight. :where() keeps the exclusion at zero specificity so
+ * consumer `::selection` rules still win on a tie. */
+.vf-root
+  :where(:not(.cm-editor *, .monaco-editor *, [data-vf-selection="native"] *))::selection {
+  background: var(--vf-selection-bg);
+  color: var(--vf-selection-fg);
 }
 
 .vf-root :focus-visible {
