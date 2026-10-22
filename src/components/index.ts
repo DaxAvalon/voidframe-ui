@@ -65,6 +65,10 @@ export type {
 export { Card, ScrollRow, StatusBar, SegmentBar } from "./Card";
 export { Disclosure } from "./Disclosure";
 export type { DisclosureProps } from "./Disclosure";
+export { SecretReveal } from "./SecretReveal";
+export type { SecretRevealProps } from "./SecretReveal";
+export { DecisionBar, DecisionCard } from "./DecisionBar";
+export type { DecisionBarProps, DecisionCardProps, DecisionAction } from "./DecisionBar";
 export type {
   CardProps,
   CardTitleAs,
@@ -365,6 +369,7 @@ export type {
   DialogSize,
   AlertDialogProps,
   ConfirmDialogPropsV2,
+  ConfirmDialogReasonField,
   ConfirmProviderProps,
 } from "./Dialog";
 

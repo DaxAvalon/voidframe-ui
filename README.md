@@ -580,6 +580,7 @@ Everything below ships from the top-level `voidframe-ui` import. Compound compon
 | `Divider`, `Spacer` | Whitespace / separation |
 | `Box`, `Flex`, `HStack`, `VStack`, `Stack`, `Grid`, `Container` | Layout primitives |
 | `AspectRatio` | Fixed-ratio frames |
+| `Card`, `Disclosure` | Bordered content container (`title` any node, `titleAs` heading level, `header` slot, `tone` tint, `collapsible`) and the standalone expand/collapse region with a ReactNode trigger (`surface="card"`, `keepMounted`) |
 | `AppShell` | Sidebar + header + footer scaffolding. `fill` sizes to the parent instead of `100vh`; `padded={false}` / `mainPadding` / `mainOverflow` / `footerPadded` hand the main area to your own panel grid; `sidebarCollapseMode="rail"` keeps a rail when collapsed |
 | `InspectorPane` | Persistent non-modal side pane: heading (`titleAs`), `actions`, `onClose`, a body that scrolls on its own, `footer`; use as `AppShell rightPanel` or inside `ResizablePanel` |
 | `Navbar` (compound) | Top bar with `Brand`, `Links` and `Actions`; `Links overflow="menu"` keeps one row and moves links that do not fit into a "More" menu (radio group naming the current one, hysteresis on resize) |
@@ -800,6 +801,8 @@ Avatars & media: `Avatar`, `AvatarGroup`, `Image`, `ImageGallery`, `AudioPlayer`
 ### Overlays
 
 `Modal`, `Dialog` (compound), `DrawerV2`, `Sheet` (smooth continuous drag on the handle, snaps on release), `PopoverV2`, `HoverCard`, `TooltipV2`, `ContextMenu`, `Menu`, `CommandPalette`, `Spotlight`, `NotificationCenter`, `EmptyState`, `ErrorState`, `ReactionPicker`.
+
+Confirmation and sensitive flows: `ConfirmDialogV2` arms with `requireText` (type-to-confirm), `reason` (collected and passed to `onConfirm`), `acknowledge` (a required checkbox) and `closeOnConfirm={false}` for an async confirm that keeps the dialog open on rejection; `SecretReveal` shows a one-time secret (masked, reveal, copy, acknowledge to dismiss, never shown again); `DecisionBar` and `DecisionCard` (specialty tier) are the approve / decline-with-reason / escalate surface with a blocked state.
 
 Toasts: `toast()` imperative API, `useToast()` hook, `Toaster` (placement wrapper), `Snackbar` (bottom-center preset), `AlertV2`.
 

@@ -23,3 +23,5 @@ export * from "../components/TimeDisplays";
 export * from "../components/ShortcutGuide";
 export * from "../components/ThemeSelector";
 export * from "../components/Print";
+export * from "../components/SecretReveal";
+export * from "../components/DecisionBar";

@@ -120,6 +120,73 @@
 .vf-theme-selector__description { font-size: var(--vf-font-xs); color: var(--vf-text-3); }
 .vf-theme-selector--sm .vf-theme-selector__item { padding: var(--vf-sp-2) var(--vf-sp-3); font-size: var(--vf-font-xs); }
 
+/* ── ConfirmDialogV2 fields (type-to-confirm, reason, acknowledgement) ── */
+.vf-confirm__fields { display: flex; flex-direction: column; gap: var(--vf-sp-4); }
+.vf-confirm__field { display: flex; flex-direction: column; gap: var(--vf-sp-2); }
+.vf-confirm__field-label { font-size: var(--vf-font-xs); color: var(--vf-text-2); }
+.vf-confirm__require { font-family: var(--vf-font-mono); color: var(--vf-text-0); background: var(--vf-bg-3); padding: 0 var(--vf-sp-2); user-select: all; }
+.vf-confirm__ack { display: flex; align-items: flex-start; gap: var(--vf-sp-3); font-size: var(--vf-font-sm); color: var(--vf-text-1); cursor: pointer; }
+.vf-confirm__ack-box { margin: 0.2em 0 0; accent-color: var(--vf-accent); }
+.vf-confirm__error { margin: 0; font-size: var(--vf-font-sm); color: var(--vf-danger); }
+
+/* ── SecretReveal ──────────────────────────────────────────── */
+.vf-secret {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  padding: var(--vf-sp-5);
+  border: 1px solid var(--vf-border-2);
+  background: var(--vf-bg-2);
+  font-family: var(--vf-font-family);
+}
+.vf-secret__head { display: flex; flex-direction: column; gap: var(--vf-sp-1); }
+.vf-secret__label { font-size: var(--vf-font-xs); color: var(--vf-text-3); letter-spacing: var(--vf-label-spacing); text-transform: var(--vf-label-case, uppercase); }
+.vf-secret__notice { font-size: var(--vf-font-sm); color: var(--vf-warning); }
+.vf-secret__row { display: flex; align-items: center; gap: var(--vf-sp-3); }
+.vf-secret__value {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--vf-font-mono);
+  font-size: var(--vf-font-md);
+  color: var(--vf-text-0);
+  background: var(--vf-bg-0);
+  border: 1px solid var(--vf-border-1);
+  padding: var(--vf-sp-3) var(--vf-sp-4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: all;
+}
+.vf-secret__value[data-revealed="false"] { letter-spacing: var(--vf-label-spacing); user-select: none; }
+.vf-secret__value--multiline { white-space: pre-wrap; overflow: auto; }
+.vf-secret__controls { flex: none; display: inline-flex; gap: var(--vf-sp-2); }
+.vf-secret__footer { display: flex; justify-content: flex-end; }
+.vf-secret--acknowledged .vf-secret__acknowledged { margin: 0; font-size: var(--vf-font-sm); color: var(--vf-text-2); }
+
+/* ── DecisionBar / DecisionCard ───────────────────────────── */
+.vf-decision-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--vf-sp-3); font-family: var(--vf-font-family); }
+.vf-decision-bar--end .vf-decision-bar__actions { margin-inline-start: auto; }
+.vf-decision-bar__lead { font-size: var(--vf-font-xs); color: var(--vf-text-3); }
+.vf-decision-bar__blocked { flex-basis: 100%; margin: 0; font-size: var(--vf-font-sm); color: var(--vf-warning); }
+.vf-decision-bar__actions { display: inline-flex; gap: var(--vf-sp-2); flex-wrap: wrap; }
+.vf-decision-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-4);
+  padding: var(--vf-sp-5);
+  border: 1px solid var(--vf-border-1);
+  background: var(--vf-bg-2);
+  font-family: var(--vf-font-family);
+}
+.vf-decision-card__header { display: flex; align-items: center; gap: var(--vf-sp-3); }
+.vf-decision-card__title { margin: 0; font-size: var(--vf-font-md); font-weight: 600; color: var(--vf-text-0); flex: 1; min-width: 0; }
+.vf-decision-card__meta { display: flex; flex-wrap: wrap; gap: var(--vf-sp-6); margin: 0; }
+.vf-decision-card__meta-item { display: flex; flex-direction: column; gap: var(--vf-sp-1); }
+.vf-decision-card__meta dt { font-size: var(--vf-font-xxs); color: var(--vf-text-4); letter-spacing: var(--vf-label-spacing); text-transform: var(--vf-label-case, uppercase); }
+.vf-decision-card__meta dd { margin: 0; font-size: var(--vf-font-sm); color: var(--vf-text-1); }
+.vf-decision-card__details { font-size: var(--vf-font-sm); color: var(--vf-text-1); }
+.vf-decision-card__bar { padding-top: var(--vf-sp-3); border-top: 1px solid var(--vf-border-1); }
+
 /* ThemeScope: a bare wrapper that re-asserts local inheritance. */
 
 .vf-theme-scope {

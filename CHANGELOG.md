@@ -7,6 +7,17 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **Confirmation and sensitive flows.** `ConfirmDialogV2` gains
+  `requireText` (type-to-confirm), `reason` (`{ label, required,
+  placeholder }`, passed to `onConfirm(reason)`), `acknowledge` (a checkbox
+  that must be ticked) and `closeOnConfirm={false}`, which keeps the dialog
+  open while an async `onConfirm` runs and on rejection (the error shows
+  under the fields). **`SecretReveal`**: a one-time secret, masked by
+  default, reveal and copy controls, dismissed only by acknowledging, after
+  which the value is gone from the component. **`DecisionBar`**
+  (`actions[{ id, label, tone, variant, confirm }]`, `blocked`, `onDecide(id,
+  reason)`) and **`DecisionCard`** (title, status, requester, expiry,
+  details, embedded bar) for approval and review surfaces.
 - **`Card title` and `subtitle` accept any node**, `titleAs="h2" | … | "h6"`
   renders the title as a heading (default stays the chrome `Label`), a
   `header` slot replaces the title row, and `tone` tints the panel with the

@@ -33,6 +33,7 @@ import { ScrollLock } from "../primitives/ScrollLock";
 import { buttonDisabledAttrs } from "../utils/buttonDisabledAttrs";
 import { cx } from "../utils/cx";
 import { warnOnce } from "../utils/warn";
+import { useControllableState } from "../hooks/useControllableState";
 
 export type DialogSize = "sm" | "md" | "lg" | "xl" | "full";
 
@@ -542,6 +543,13 @@ export function AlertDialog(props: AlertDialogProps) {
 
 // ── ConfirmDialog (compound + props API) ──────────────────────
 
+export interface ConfirmDialogReasonField {
+  label: ReactNode;
+  /** The confirm button stays disabled until a reason is typed. Default false. */
+  required?: boolean;
+  placeholder?: string;
+}
+
 export interface ConfirmDialogPropsV2 {
   open?: boolean;
   defaultOpen?: boolean;
@@ -552,8 +560,31 @@ export interface ConfirmDialogPropsV2 {
   cancelLabel?: string;
   confirmTone?: "neutral" | "danger" | "success";
   destructive?: boolean;
-  onConfirm?: () => void | Promise<void>;
+  /**
+   * Fires on confirm with the reason typed into the `reason` field, if any.
+   * When it returns a promise the dialog shows the confirm button as busy
+   * and, with `closeOnConfirm` false, stays open until it resolves; a
+   * rejection keeps it open and shows the error message under the fields.
+   */
+  onConfirm?: (reason?: string) => void | Promise<void>;
   onCancel?: () => void;
+  /**
+   * Type-to-confirm: the confirm button is disabled until the user types
+   * this exact text ("type the project name to delete it").
+   */
+  requireText?: string;
+  /** Collect a reason; passed to `onConfirm`. */
+  reason?: ConfirmDialogReasonField;
+  /** An acknowledgement checkbox that must be ticked before confirming. */
+  acknowledge?: ReactNode;
+  /**
+   * Close the dialog as soon as confirm is clicked. Default true. `false`
+   * keeps it open until an async `onConfirm` resolves (and keeps it open on
+   * rejection).
+   */
+  closeOnConfirm?: boolean;
+  /** Error text shown when `onConfirm` rejects without a message. Default "Something went wrong." */
+  errorMessage?: ReactNode;
   /**
    * Attributes applied to the built-in Confirm button. Use for custom
    * `data-testid` / `aria-*` without replacing the button entirely.
@@ -573,7 +604,7 @@ export interface ConfirmDialogPropsV2 {
  * `ConfirmProvider` + `useConfirm` for imperative prompts.
  */
 export function ConfirmDialogV2({
-  open,
+  open: openProp,
   defaultOpen,
   onOpenChange,
   title = "Are you sure?",
@@ -584,20 +615,138 @@ export function ConfirmDialogV2({
   destructive,
   onConfirm,
   onCancel,
+  requireText,
+  reason,
+  acknowledge,
+  closeOnConfirm = true,
+  errorMessage = "Something went wrong.",
   confirmButtonProps,
   cancelButtonProps,
 }: ConfirmDialogPropsV2) {
+  // Own the open state so an async confirm can close (or keep) the dialog.
+  const [open, setOpen] = useControllableState<boolean>({
+    value: openProp,
+    defaultValue: defaultOpen ?? false,
+    onChange: onOpenChange,
+    componentName: "ConfirmDialogV2",
+  });
+  const [typed, setTyped] = useState("");
+  const [reasonText, setReasonText] = useState("");
+  const [acked, setAcked] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<ReactNode>(null);
+  const ids = useId();
+  const requireId = `${ids}-require`;
+  const reasonId = `${ids}-reason`;
+  const errorId = `${ids}-error`;
+
+  const armed =
+    (requireText === undefined || typed === requireText) &&
+    (!reason?.required || reasonText.trim().length > 0) &&
+    (acknowledge === undefined || acked) &&
+    !busy;
+  const hasFields = requireText !== undefined || reason !== undefined || acknowledge !== undefined;
+
+  const reset = () => {
+    setTyped("");
+    setReasonText("");
+    setAcked(false);
+    setError(null);
+  };
+
+  const handleConfirm = async () => {
+    if (!armed) return;
+    const value = reason ? reasonText.trim() || undefined : undefined;
+    if (closeOnConfirm) {
+      // Confirm first: a parent that treats the close as a cancel (the
+      // ConfirmProvider does) must already have the answer.
+      void onConfirm?.(value);
+      setOpen(false);
+      reset();
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    try {
+      await onConfirm?.(value);
+      setOpen(false);
+      reset();
+    } catch (e) {
+      setError(e instanceof Error && e.message ? e.message : errorMessage);
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <AlertDialog
       open={open}
-      defaultOpen={defaultOpen}
-      onOpenChange={onOpenChange}
+      onOpenChange={(next) => {
+        setOpen(next);
+        if (!next) reset();
+      }}
     >
       <Dialog.Content size="sm">
         <Dialog.Header>
           <Dialog.Title>{title}</Dialog.Title>
           {description && <Dialog.Description>{description}</Dialog.Description>}
         </Dialog.Header>
+        {(hasFields || error) && (
+          <Dialog.Body className="vf-confirm__fields">
+            {requireText !== undefined && (
+              <label className="vf-confirm__field" htmlFor={requireId}>
+                <span className="vf-confirm__field-label">
+                  Type <code className="vf-confirm__require">{requireText}</code> to confirm
+                </span>
+                <input
+                  id={requireId}
+                  className="vf-input vf-input--sm"
+                  autoComplete="off"
+                  spellCheck={false}
+                  value={typed}
+                  onChange={(e) => setTyped(e.target.value)}
+                  aria-invalid={typed.length > 0 && typed !== requireText ? true : undefined}
+                  data-testid="vf-confirm-require-input"
+                />
+              </label>
+            )}
+            {reason && (
+              <label className="vf-confirm__field" htmlFor={reasonId}>
+                <span className="vf-confirm__field-label">
+                  {reason.label}
+                  {reason.required && <span aria-hidden="true"> *</span>}
+                </span>
+                <textarea
+                  id={reasonId}
+                  className="vf-textarea vf-textarea--sm"
+                  rows={3}
+                  placeholder={reason.placeholder}
+                  value={reasonText}
+                  onChange={(e) => setReasonText(e.target.value)}
+                  aria-required={reason.required || undefined}
+                  data-testid="vf-confirm-reason-input"
+                />
+              </label>
+            )}
+            {acknowledge !== undefined && (
+              <label className="vf-confirm__ack">
+                <input
+                  type="checkbox"
+                  className="vf-confirm__ack-box"
+                  checked={acked}
+                  onChange={(e) => setAcked(e.target.checked)}
+                  data-testid="vf-confirm-ack-input"
+                />
+                <span>{acknowledge}</span>
+              </label>
+            )}
+            {error && (
+              <p id={errorId} className="vf-confirm__error" role="alert">
+                {error}
+              </p>
+            )}
+          </Dialog.Body>
+        )}
         <Dialog.Footer>
           <Dialog.Cancel
             data-testid="vf-confirm-cancel-button"
@@ -612,10 +761,14 @@ export function ConfirmDialogV2({
           <Dialog.Action
             data-testid="vf-confirm-confirm-button"
             data-tone={confirmTone ?? (destructive ? "danger" : undefined)}
+            autoClose={false}
             {...confirmButtonProps}
+            disabled={!armed || confirmButtonProps?.disabled}
+            aria-busy={busy || undefined}
+            aria-describedby={error ? errorId : undefined}
             onClick={(e) => {
               confirmButtonProps?.onClick?.(e);
-              onConfirm?.();
+              void handleConfirm();
             }}
           >
             {confirmLabel}
