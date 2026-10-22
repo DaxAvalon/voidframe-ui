@@ -130,3 +130,5 @@ export { buttonDisabledAttrs, type DisabledAttrs } from "./buttonDisabledAttrs";
 export { hasAccessibleGridAncestor } from "./hasAccessibleGridAncestor";
 export { auditTokens, warnUnknownTokens, resetTokenAudit } from "./auditTokens";
 export type { TokenAuditResult } from "./auditTokens";
+export { selectableAttrs } from "./selectable";
+export type { SelectableInput, SelectableOutput } from "./selectable";

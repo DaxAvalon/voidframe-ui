@@ -15,6 +15,7 @@ import {
 } from "react";
 import { cx } from "../utils/cx";
 import type { Tone } from "../types";
+import { selectableAttrs } from "../utils/selectable";
 import { toneAttrs } from "../utils/toneAttrs";
 
 export interface DataListItem {
@@ -67,6 +68,10 @@ export interface DataListItemProps extends HTMLAttributes<HTMLDivElement> {
   value: ReactNode;
   /** Semantic tone — highlight rows as success/warning/danger/info. */
   tone?: Tone;
+  /** Paint the row with the shared selection grammar (`data-selected`, `aria-current`). */
+  selected?: boolean;
+  /** Make the row selectable: click or Enter/Space calls it; the row joins the tab order. */
+  onSelect?: () => void;
   /**
    * Optional rich expansion content rendered below the label/value row.
    * Use for "click to expand" patterns where the simple value isn't
@@ -79,16 +84,18 @@ export interface DataListItemProps extends HTMLAttributes<HTMLDivElement> {
 
 const DataListItemComponent = forwardRef<HTMLDivElement, DataListItemProps>(
   function DataListItem(
-    { label, value, tone, expandedContent, className, ...props },
+    { label, value, tone, selected, onSelect, onClick, onKeyDown, expandedContent, className, ...props },
     ref
   ) {
     const ta = toneAttrs("vf-datalist__row", { tone });
+    const sel = selectableAttrs("vf-datalist__row", { selected, onSelect, onClick, onKeyDown });
     return (
       <div
         ref={ref}
-        className={cx(ta.className, className)}
+        className={cx(ta.className, ...sel.classNames, className)}
         {...ta.attrs}
         {...props}
+        {...sel.attrs}
       >
         <div className="vf-datalist__label">{label}</div>
         <div className="vf-datalist__value">{value}</div>

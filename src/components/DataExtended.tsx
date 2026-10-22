@@ -5,6 +5,7 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import type { Side, Tone } from "../types";
 import { cx } from "../utils/cx";
 import { toneAttrs } from "../utils/toneAttrs";
+import { selectableAttrs } from "../utils/selectable";
 import { deprecatedComponent } from "../utils/deprecate";
 import { Label } from "./Text";
 
@@ -318,21 +319,27 @@ export interface TimelineItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 
   tone?: "neutral" | "success" | "warning" | "danger";
   title?: ReactNode;
   description?: ReactNode;
+  /** Paint the event with the shared selection grammar (`data-selected`, `aria-current`). */
+  selected?: boolean;
+  /** Make the event selectable: click or Enter/Space calls it; it joins the tab order. */
+  onSelect?: () => void;
   children?: ReactNode;
 }
 
 const TimelineItemComponent = forwardRef<HTMLDivElement, TimelineItemProps>(
   function TimelineItem(
-    { time, icon, tone = "neutral", title, description, children, className, ...props },
+    { time, icon, tone = "neutral", title, description, selected, onSelect, onClick, onKeyDown, children, className, ...props },
     ref
   ) {
     const ta = toneAttrs("vf-timeline__event", { tone });
+    const sel = selectableAttrs("vf-timeline__event", { selected, onSelect, onClick, onKeyDown });
     return (
       <div
         ref={ref}
-        className={cx(ta.className, className)}
+        className={cx(ta.className, ...sel.classNames, className)}
         {...ta.attrs}
         {...props}
+        {...sel.attrs}
       >
         <div className="vf-timeline__dot" aria-hidden="true">
           {icon}

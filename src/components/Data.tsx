@@ -74,6 +74,14 @@ export interface TableProps<T = Record<string, unknown>>
    * `data-tone` and a `vf-table__row--<tone>` class that tints the cells.
    */
   rowTone?: (row: T, index: number) => TableRowTone | undefined;
+  /**
+   * Key(s) of the selected row(s), compared with `rowKey` (or the index).
+   * Selected rows get `vf-table__row--selected`, `data-selected` and
+   * `aria-selected`, painted with the shared selection grammar.
+   */
+  selectedRowKey?: string | number | ReadonlyArray<string | number> | null;
+  /** Predicate alternative to `selectedRowKey`. */
+  isRowSelected?: (row: T, index: number) => boolean;
   striped?: boolean;
   dense?: boolean;
   bordered?: boolean;
@@ -130,6 +138,8 @@ const TableImpl = genericForwardRef(function Table<T = Record<string, unknown>>(
     data,
     as = "grid",
     rowTone,
+    selectedRowKey,
+    isRowSelected,
     striped,
     dense,
     bordered,
@@ -257,16 +267,26 @@ const TableImpl = genericForwardRef(function Table<T = Record<string, unknown>>(
       </span>
     </>
   );
+  const selectedKeys =
+    selectedRowKey === null || selectedRowKey === undefined
+      ? null
+      : Array.isArray(selectedRowKey)
+        ? new Set<string | number>(selectedRowKey as ReadonlyArray<string | number>)
+        : new Set<string | number>([selectedRowKey as string | number]);
   const rowProps = (row: T, ri: number, key: string | number) => {
     const tone = rowTone?.(row, ri);
+    const selected = isRowSelected ? isRowSelected(row, ri) : !!selectedKeys?.has(key);
     return {
       className: cx(
         "vf-table__row",
         onRowClick && "vf-table__row--clickable",
         striped && ri % 2 === 1 && "vf-table__row--alt",
-        tone && `vf-table__row--${tone}`
+        tone && `vf-table__row--${tone}`,
+        selected && "vf-table__row--selected"
       ),
       "data-tone": tone,
+      "data-selected": selected ? "true" : undefined,
+      "aria-selected": selectedKeys || isRowSelected ? selected : undefined,
       ...itemKeyAttrs("row", String(key)),
       onClick: onRowClick ? () => onRowClick(row, ri) : undefined,
       ...((rowAttributes?.(row, ri) ?? {}) as HTMLAttributes<HTMLElement>),

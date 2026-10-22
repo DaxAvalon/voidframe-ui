@@ -36,6 +36,12 @@ export interface ButtonProps
   tone?: ButtonTone;
   size?: ButtonSize;
   active?: boolean;
+  /**
+   * Toggle button state: sets `aria-pressed` and paints the toggled-on
+   * grammar (bg-5, text-0, border-3) while `true`. Leave undefined for a
+   * plain button.
+   */
+  pressed?: boolean;
   disabled?: boolean;
   /** When true, renders a spinner before children and disables the button. */
   loading?: boolean;
@@ -64,6 +70,7 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     tone,
     size = "md",
     active,
+    pressed,
     disabled,
     loading,
     iconLeft,
@@ -96,11 +103,13 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     size,
     tone: resolvedTone,
   });
-  const composedClass = cx(ta.className, className);
+  const composedClass = cx(ta.className, pressed && "vf-button--pressed", className);
   const isDisabled = disabled || loading;
   const dataAttrs = {
     ...ta.attrs,
     "data-active": active ? "true" : undefined,
+    "data-pressed": pressed ? "true" : undefined,
+    "aria-pressed": pressed === undefined ? undefined : pressed,
     "data-disabled": isDisabled ? "true" : undefined,
   };
 

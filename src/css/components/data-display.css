@@ -1,6 +1,39 @@
 /* Phase 9 — DataGrid, TreeTable, TreeView, Virtualization, DataList,
    Metrics, Charts, Viewers, Calendar, Gantt, Activity, Kanban, upgrades. */
 
+/* ── Shared selection grammar (1.4.0) ────────────────────────
+   Collection selection = bg-3 + text-0 + a 2px accent edge. One rule for
+   every collection whose selection the consumer owns. */
+.vf-table__row--selected > .vf-table__cell,
+.vf-activity__item--selected,
+.vf-datalist__row--selected,
+.vf-timeline__event--selected {
+  background: var(--vf-bg-3);
+  color: var(--vf-text-0);
+}
+.vf-table__row--selected > .vf-table__cell:first-child,
+.vf-activity__item--selected,
+.vf-datalist__row--selected,
+.vf-timeline__event--selected {
+  box-shadow: inset 2px 0 0 var(--vf-accent);
+}
+.vf-activity__item--selectable,
+.vf-datalist__row--selectable,
+.vf-timeline__event--selectable {
+  cursor: pointer;
+}
+.vf-activity__item--selectable:hover,
+.vf-datalist__row--selectable:hover,
+.vf-timeline__event--selectable:hover {
+  background: var(--vf-bg-2);
+}
+.vf-activity__item--selectable:focus-visible,
+.vf-datalist__row--selectable:focus-visible,
+.vf-timeline__event--selectable:focus-visible {
+  outline: var(--vf-focus-ring);
+  outline-offset: -2px;
+}
+
 /* ── Table upgrades ───────────────────────────────────────── */
 .vf-table__row--clickable { cursor: pointer; }
 .vf-table__row--alt > .vf-table__cell { background: var(--vf-bg-3); }

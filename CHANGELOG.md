@@ -7,6 +7,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **The 1.4.0 selection and pressed grammar as props.** `Table
+  selectedRowKey` (one key or several) / `isRowSelected(row, index)` mark
+  rows with `vf-table__row--selected`, `data-selected` and `aria-selected`;
+  `Activity.Item`, `DataList.Item` and `Timeline.Item` take `selected`
+  (`data-selected`, `aria-current`) and `onSelect` (click, Enter and Space;
+  the item joins the tab order); `Button pressed` sets `aria-pressed` and
+  the toggled-on look (bg-5, text-0, border-3). All of them are painted by
+  one shared stylesheet rule (bg-3, text-0, 2px accent edge). `NavItem
+  activeStyle="fill" | "edge"` shipped with the sidebar rail.
+  `selectableAttrs()` is exported for collections of your own.
 - **Type scale independent of palette.** `scale` on `VoidframeProvider` and
   `ThemeScope`: a multiplier applied to every font and spacing token (half-
   pixel rounding), a preset (`"booth"`) or a `TypeScale` object, emitted as

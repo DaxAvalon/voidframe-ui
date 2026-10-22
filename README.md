@@ -698,7 +698,7 @@ distinction is part of why the two components exist.
 
 ### Data display
 
-Tables: `Table` (CSS grid with table ARIA roles by default; `as="table"` renders real `<table>`/`<thead>`/`<tbody>`/`<tr>`/`<th scope>`/`<td>` with the same column API, `rowHeader` columns as `<th scope="row">`, `rowTone` for tinted rows), `DataGrid` (sort / filter / resize / reorder / group / virtualize / persist / export), `TreeTable`, `DataList`, `DescriptionList`, `KeyValue`, `JSONViewer`, `DiffViewer`, `LogViewer`, `Gantt`, `Kanban`, `Heatmap`.
+Tables: `Table` (CSS grid with table ARIA roles by default; `as="table"` renders real `<table>`/`<thead>`/`<tbody>`/`<tr>`/`<th scope>`/`<td>` with the same column API, `rowHeader` columns as `<th scope="row">`, `rowTone` for tinted rows, `selectedRowKey` / `isRowSelected` for the shared selection grammar), `DataGrid` (sort / filter / resize / reorder / group / virtualize / persist / export), `TreeTable`, `DataList`, `DescriptionList`, `KeyValue`, `JSONViewer`, `DiffViewer`, `LogViewer`, `Gantt`, `Kanban`, `Heatmap`.
 
 Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortable`.
 

@@ -12,6 +12,7 @@ import {
 } from "react";
 import { cx } from "../utils/cx";
 import type { Tone } from "../types";
+import { selectableAttrs } from "../utils/selectable";
 import { toneAttrs } from "../utils/toneAttrs";
 
 function formatRelative(time: Date | string): string {
@@ -66,6 +67,10 @@ export interface ActivityItemProps extends HTMLAttributes<HTMLDivElement> {
   /** Show absolute time instead of relative. */
   absoluteTime?: boolean;
   tone?: Tone;
+  /** Paint the item with the shared selection grammar (`data-selected`, `aria-current`). */
+  selected?: boolean;
+  /** Make the item selectable: click or Enter/Space calls it; the item joins the tab order. */
+  onSelect?: () => void;
   /**
    * Optional rich expansion content rendered below the fixed-shape row.
    * Use when an activity item should disclose more detail than fits in
@@ -87,6 +92,10 @@ const ActivityItem = forwardRef<HTMLDivElement, ActivityItemProps>(
       time,
       absoluteTime,
       tone = "neutral",
+      selected,
+      onSelect,
+      onClick,
+      onKeyDown,
       children,
       className,
       ...props
@@ -94,12 +103,14 @@ const ActivityItem = forwardRef<HTMLDivElement, ActivityItemProps>(
     ref
   ) {
     const ta = toneAttrs("vf-activity__item", { tone });
+    const sel = selectableAttrs("vf-activity__item", { selected, onSelect, onClick, onKeyDown });
     return (
       <article
         ref={ref}
-        className={cx(ta.className, className)}
+        className={cx(ta.className, ...sel.classNames, className)}
         {...ta.attrs}
         {...props}
+        {...sel.attrs}
       >
         {avatar && <div className="vf-activity__avatar">{avatar}</div>}
         <div className="vf-activity__body">
