@@ -5,6 +5,8 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-10-22
+
 ### Added
 - **shadcn token bridge**: `voidframe-ui/compat-shadcn/tokens.css` maps the shadcn variable
   vocabulary (`--background`, `--muted-foreground`, `--border`, `--radius`, `--chart-*`,
