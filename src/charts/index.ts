@@ -122,6 +122,9 @@ export type {
   LineChartDatum,
   LineChartProps,
   LineChartSeries,
+  LineChartReferenceLine,
+  LineChartPointStyle,
+  LineChartTone,
   LineChartXKind,
 } from "./LineChart";
 

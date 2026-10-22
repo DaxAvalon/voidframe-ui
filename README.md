@@ -106,6 +106,7 @@ when it renders without it.
 | `voidframe-ui` (root), `/forms`, `/media`, `/specialty` | `dompurify` (RichTextEditor, Mermaid) |
 | `voidframe-ui/charts` | `d3-scale` + `d3-shape` + `d3-array` (eager, every chart); `d3-geo` + `topojson-client` (ChoroplethMap, BubbleMap), `d3-force` (NetworkGraph), `d3-hierarchy` (TreeMap, Sunburst), `d3-sankey` (Sankey) are loaded when the chart first renders |
 | `voidframe-ui/charts/lazy` | none at import time; each `Lazy*` wrapper pulls its chart's peers when it mounts |
+| `voidframe-ui/data` (`ChartLegend`) | none: the legend is plain DOM and is re-exported here for non-chart canvases |
 | `voidframe-ui/reactflow` | `@xyflow/react` |
 | `voidframe-ui/testing` | `jest-axe` (only `expectNoA11yViolations`) |
 

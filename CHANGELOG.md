@@ -6,6 +6,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Charts**: `LineChart referenceLines=[{ y, label, tone, color, dashed, labelPosition }]` draws
+  horizontal targets/thresholds (they extend the value domain) and `series[].pointStyle(datum,
+  value, index) → { fill, tone, hollow, size, hidden }` styles each point; `Sparkline highlightLast`
+  marks the latest point and `tone` colours the stroke semantically; `ChartLegendItem.dash`
+  (`"dashed"`, `"dotted"` or a `stroke-dasharray`) and `description`; `ChartLegend` is also
+  exported from `voidframe-ui/data` so non-chart canvases can use it without the d3 entry.
+- **Mermaid** `theme="voidframe"` (now the default) initialises mermaid's `base` theme with
+  `themeVariables` derived from the active `--vf-*` tokens (`mermaidThemeVariables(element)` is
+  exported), so diagrams follow light, dark and soft themes; `themeVariables` merges overrides;
+  `onRender(svg)` and `onError(error)` callbacks.
 - **Control refinements**: `SegmentedControl wrap`, `fullWidth` and option `description`
   (`aria-describedby`); `Tabs variant="plain"` (no rule, filled active pill), `Tabs.List wrap`,
   `Tabs.Trigger tone`; `ToggleGroup max`; `Wizard.Skip` with `Wizard.Step optional`, `onSkip`,
@@ -403,6 +413,8 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   Built for Vonyx (DaxAvalon/Vonyx#131); see #16.
 
 ### Behavior changes
+- **Mermaid** defaults to `theme="voidframe"` (token-derived `base` theme) instead of `"dark"`;
+  pass `theme="dark"` to keep mermaid's built-in dark theme.
 - **DropZone** default label is the localised "Drop files here or click to browse" (the stylesheet
   still renders it in label case) instead of a hard-coded upper-case English string.
 - **Gantt** drags now snap to whole days by default (`snapTo="day"`); pass `snapTo="none"` for

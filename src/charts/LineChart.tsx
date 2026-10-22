@@ -47,6 +47,30 @@ export interface LineChartDatum {
   [seriesKey: string]: number | Date | string | null | undefined;
 }
 
+export type LineChartTone = "neutral" | "success" | "warning" | "danger" | "info";
+
+const TONE_COLOR: Record<LineChartTone, string> = {
+  neutral: "var(--vf-text-3)",
+  success: "var(--vf-success)",
+  warning: "var(--vf-warning)",
+  danger: "var(--vf-danger)",
+  info: "var(--vf-info)",
+};
+
+/** Per-point appearance returned by `pointStyle`. */
+export interface LineChartPointStyle {
+  /** Explicit fill colour. */
+  fill?: string;
+  /** Colour from a semantic tone (wins over `fill`). */
+  tone?: LineChartTone;
+  /** Ring instead of a filled marker. */
+  hollow?: boolean;
+  /** Marker size override. */
+  size?: number;
+  /** Skip the marker. */
+  hidden?: boolean;
+}
+
 export interface LineChartSeries {
   key: string;
   label?: string;
@@ -54,6 +78,28 @@ export interface LineChartSeries {
   curve?: CurveKind;
   dashed?: boolean;
   showPoints?: boolean;
+  /**
+   * Style each point from its datum (hollow vs filled, pass/fail tone).
+   * Return `undefined` for the series default.
+   */
+  pointStyle?: (
+    datum: LineChartDatum,
+    value: number,
+    index: number
+  ) => LineChartPointStyle | undefined;
+}
+
+/** A horizontal target or threshold drawn across the plot. */
+export interface LineChartReferenceLine {
+  y: number;
+  label?: string;
+  tone?: LineChartTone;
+  /** Explicit colour (wins over `tone`). */
+  color?: string;
+  /** Default true. */
+  dashed?: boolean;
+  /** Where the label sits. Default `"end"`. */
+  labelPosition?: "start" | "end";
 }
 
 export interface LineChartProps
@@ -78,6 +124,8 @@ export interface LineChartProps
   scaleKind?: "linear" | "log" | "sqrt";
   /** Series keys to hide (for interactive legend toggling). */
   hiddenKeys?: string[];
+  /** Horizontal targets / thresholds. They also extend the value domain. */
+  referenceLines?: LineChartReferenceLine[];
   /** When true, null / undefined values are skipped and surrounding points connect. Default false. */
   connectNulls?: boolean;
 }
@@ -109,6 +157,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       accessibleLabel,
       scaleKind = "linear",
       hiddenKeys: hiddenKeysProp,
+      referenceLines,
       connectNulls = false,
       className,
       ...props
@@ -145,6 +194,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
           <LineChartInner
             data={data}
             series={visibleSeries}
+            referenceLines={referenceLines}
             xKind={xKind}
             valueTicks={valueTicks}
             xTicks={xTicks}
@@ -218,6 +268,7 @@ LineChart.displayName = "LineChart";
 interface LineChartInnerProps {
   data: LineChartDatum[];
   series: LineChartSeries[];
+  referenceLines?: LineChartReferenceLine[];
   xKind: LineChartXKind;
   valueTicks: number;
   xTicks: number;
@@ -240,6 +291,7 @@ interface LineChartInnerHover {
 function LineChartInner({
   data,
   series,
+  referenceLines,
   xKind,
   valueTicks,
   xTicks,
@@ -300,11 +352,17 @@ function LineChartInner({
         }
       }
     }
+    for (const r of referenceLines ?? []) {
+      if (Number.isFinite(r.y)) {
+        if (r.y < lo) lo = r.y;
+        if (r.y > hi) hi = r.y;
+      }
+    }
     if (!Number.isFinite(lo)) lo = 0;
     if (!Number.isFinite(hi)) hi = 1;
     if (lo === hi) hi = lo + 1;
     return [lo, hi];
-  }, [data, series]);
+  }, [data, series, referenceLines]);
 
   const yScale = useMemo(() => {
     const opts = {
@@ -361,14 +419,49 @@ function LineChartInner({
         ticks={valueTicks}
         format={(v) => valueFormat(v as number)}
       />
+      {(referenceLines ?? []).map((r, i) => {
+        if (!Number.isFinite(r.y)) return null;
+        const y = yScale(r.y);
+        const color = r.color ?? TONE_COLOR[r.tone ?? "neutral"];
+        const atStart = r.labelPosition === "start";
+        return (
+          <g
+            key={`ref-${i}`}
+            className={cx("vf-chart-line-chart__reference", r.tone && `vf-chart-line-chart__reference--${r.tone}`)}
+            data-tone={r.tone}
+          >
+            <line
+              x1={0}
+              x2={innerWidth}
+              y1={y}
+              y2={y}
+              stroke={color}
+              strokeWidth={1}
+              strokeDasharray={r.dashed === false ? undefined : "6 4"}
+            />
+            {r.label ? (
+              <text
+                className="vf-chart-line-chart__reference-label"
+                x={atStart ? 4 : innerWidth - 4}
+                y={y - 4}
+                textAnchor={atStart ? "start" : "end"}
+                fill={color}
+              >
+                {r.label}
+              </text>
+            ) : null}
+          </g>
+        );
+      })}
       {series.map((s, sIdx) => {
-        const rawPoints = data.map((d) => {
+        const rawPoints = data.map((d, i) => {
           const value = Number(d[s.key]);
           const valid = Number.isFinite(value);
           return {
             x: xAt(d.x) as number,
             y: valid ? yScale(value) : 0,
             defined: valid,
+            style: valid && s.pointStyle ? s.pointStyle(d, value, i) : undefined,
           };
         });
         // When connectNulls is true, remove undefined points so the line connects.
@@ -386,13 +479,39 @@ function LineChartInner({
               curve={s.curve ?? "linear"}
               dashed={s.dashed}
             />
-            {s.showPoints !== false && (
+            {s.showPoints !== false && !s.pointStyle && (
               <Point
                 data={visiblePoints}
                 shape="square"
                 size={4}
                 fill={colors[sIdx]}
               />
+            )}
+            {s.showPoints !== false && s.pointStyle && (
+              <g className="vf-chart-line-chart__styled-points">
+                {visiblePoints.map((p, i) => {
+                  const st = p.style;
+                  if (st?.hidden) return null;
+                  const size = st?.size ?? 4;
+                  const color = st?.tone ? TONE_COLOR[st.tone] : st?.fill ?? colors[sIdx];
+                  const hollow = st?.hollow ?? false;
+                  return (
+                    <rect
+                      key={i}
+                      className="vf-chart-point"
+                      x={p.x - size / 2}
+                      y={p.y - size / 2}
+                      width={size}
+                      height={size}
+                      fill={hollow ? "var(--vf-bg-1)" : color}
+                      stroke={color}
+                      strokeWidth={hollow ? 1.5 : 0}
+                      data-tone={st?.tone}
+                      data-hollow={hollow || undefined}
+                    />
+                  );
+                })}
+              </g>
             )}
           </g>
         );

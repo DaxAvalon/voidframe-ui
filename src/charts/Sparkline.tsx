@@ -22,9 +22,21 @@ export interface SparklineProps extends HTMLAttributes<HTMLDivElement> {
   showPoints?: boolean;
   /** Draw a dashed reference line at the mean. Default false. */
   showTrend?: boolean;
+  /** Mark the latest point with a filled dot (the "now" value). Default false. */
+  highlightLast?: boolean;
+  /** Semantic colour for the stroke (and the last-point marker). Overrides the palette default; `stroke` wins. */
+  tone?: "neutral" | "success" | "warning" | "danger" | "info";
   curve?: CurveKind;
   strokeWidth?: number;
 }
+
+const SPARK_TONE: Record<NonNullable<SparklineProps["tone"]>, string> = {
+  neutral: "var(--vf-text-2)",
+  success: "var(--vf-success)",
+  warning: "var(--vf-warning)",
+  danger: "var(--vf-danger)",
+  info: "var(--vf-info)",
+};
 
 /**
  * Tiny inline trend chart. No axes / labels — context comes from the
@@ -41,6 +53,8 @@ export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
       showArea,
       showPoints,
       showTrend,
+      highlightLast,
+      tone,
       curve = "linear",
       strokeWidth = 1.5,
       className,
@@ -58,7 +72,7 @@ export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
         />
       );
     }
-    const resolvedStroke = stroke ?? seriesPalette(1)[0]!;
+    const resolvedStroke = stroke ?? (tone ? SPARK_TONE[tone] : seriesPalette(1)[0]!);
     const resolvedFill = fill ?? resolvedStroke;
     const xScale = linearScale({
       domain: [0, Math.max(1, data.length - 1)],
@@ -78,8 +92,9 @@ export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
     return (
       <div
         ref={ref}
-        className={cx("vf-chart-sparkline", className)}
+        className={cx("vf-chart-sparkline", tone && `vf-chart-sparkline--${tone}`, className)}
         style={{ width, height, display: "inline-block" }}
+        data-tone={tone}
         {...props}
       >
         <svg
@@ -121,6 +136,17 @@ export const Sparkline = forwardRef<HTMLDivElement, SparklineProps>(
               shape="square"
               size={3}
               fill={resolvedStroke}
+            />
+          )}
+          {highlightLast && points.length > 0 && (
+            <circle
+              className="vf-chart-sparkline__last"
+              cx={Math.min(width - 2.5, points[points.length - 1]!.x)}
+              cy={points[points.length - 1]!.y}
+              r={2.5}
+              fill={resolvedStroke}
+              stroke="var(--vf-bg-1)"
+              strokeWidth={1}
             />
           )}
         </svg>

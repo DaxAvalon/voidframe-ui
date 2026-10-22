@@ -62,7 +62,11 @@ describe("Mermaid", () => {
       expect(container.querySelector(".vf-mermaid__svg")).toBeInTheDocument();
     });
     expect(mockApi.initialize).toHaveBeenCalledWith(
-      expect.objectContaining({ theme: "dark", securityLevel: "strict" })
+      expect.objectContaining({
+        theme: "base",
+        securityLevel: "strict",
+        themeVariables: expect.objectContaining({ primaryColor: expect.any(String) }),
+      })
     );
   });
 

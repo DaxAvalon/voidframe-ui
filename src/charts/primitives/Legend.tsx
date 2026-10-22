@@ -17,7 +17,17 @@ export interface ChartLegendItem {
   tone?: "success" | "warning" | "danger" | "info" | "neutral";
   /** SVG glyph kind. Default `"square"`. */
   glyph?: "square" | "circle" | "line";
+  /** Dash pattern for the `line` glyph (`"dashed"`, `"dotted"` or an SVG `stroke-dasharray`). */
+  dash?: "solid" | "dashed" | "dotted" | string;
+  /** Secondary text under the label ("target", "last 7 days"). */
+  description?: string;
 }
+
+const DASH_PRESETS: Record<string, string | undefined> = {
+  solid: undefined,
+  dashed: "4 3",
+  dotted: "1.5 2.5",
+};
 
 // `onToggle` is a native event handler in React 19's HTMLAttributes; ours is
 // the legend's own item toggle, so the native one is omitted.
@@ -76,8 +86,15 @@ export const ChartLegend = forwardRef<HTMLDivElement, ChartLegendProps>(function
             role={interactive ? "option" : undefined}
             aria-selected={interactive ? !item.disabled : undefined}
           >
-            <Swatch color={item.color} glyph={item.glyph} />
-            <span className="vf-chart-legend__label">{item.label}</span>
+            <Swatch color={item.color} glyph={item.glyph} dash={item.dash} />
+            {item.description ? (
+              <span className="vf-chart-legend__text">
+                <span className="vf-chart-legend__label">{item.label}</span>
+                <span className="vf-chart-legend__description">{item.description}</span>
+              </span>
+            ) : (
+              <span className="vf-chart-legend__label">{item.label}</span>
+            )}
           </Tag>
         );
       })}
@@ -86,7 +103,7 @@ export const ChartLegend = forwardRef<HTMLDivElement, ChartLegendProps>(function
 });
 ChartLegend.displayName = "ChartLegend";
 
-function SquareSwatch({ color, glyph }: { color: string; glyph?: "square" | "circle" | "line" }) {
+function SquareSwatch({ color, glyph }: { color: string; glyph?: "square" | "circle" | "line"; dash?: string }) {
   if (glyph === "circle") {
     return (
       <svg width={12} height={12} viewBox="0 0 12 12" aria-hidden="true">
@@ -103,7 +120,8 @@ function SquareSwatch({ color, glyph }: { color: string; glyph?: "square" | "cir
   );
 }
 
-function LineSwatch({ color }: { color: string; glyph?: "square" | "circle" | "line" }) {
+function LineSwatch({ color, dash }: { color: string; glyph?: "square" | "circle" | "line"; dash?: string }) {
+  const dasharray = dash === undefined ? undefined : dash in DASH_PRESETS ? DASH_PRESETS[dash] : dash;
   return (
     <svg width={16} height={12} viewBox="0 0 16 12" aria-hidden="true">
       <line
@@ -113,6 +131,7 @@ function LineSwatch({ color }: { color: string; glyph?: "square" | "circle" | "l
         y2={6}
         stroke={color}
         strokeWidth={2}
+        strokeDasharray={dasharray}
       />
     </svg>
   );

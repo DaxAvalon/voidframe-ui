@@ -1122,7 +1122,7 @@ export type {
   PaletteProps,
 } from "./ColorTools";
 
-export { LegalText, Mermaid } from "./RichEmbed";
+export { LegalText, Mermaid, mermaidThemeVariables } from "./RichEmbed";
 export type { LegalTextProps, MermaidProps } from "./RichEmbed";
 
 export {

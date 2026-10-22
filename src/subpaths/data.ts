@@ -38,6 +38,9 @@ export * from "../components/AsyncData";
 // the portaled overlay, re-exported here so `voidframe-ui/data` consumers get
 // the same component as the root and `voidframe-ui/overlays`.
 export { Tooltip, TooltipProvider } from "../components/Popovers";
+// The legend has no d3 dependency; non-chart canvases can use it from here.
+export { ChartLegend } from "../charts/primitives/Legend";
+export type { ChartLegendItem, ChartLegendProps } from "../charts/primitives/Legend";
 export type { TooltipProps, TooltipProviderProps } from "../components/Popovers";
 export * from "../components/ListRow";
 export * from "../components/FactRow";
