@@ -91,6 +91,10 @@
   opacity: var(--vf-disabled-opacity);
   cursor: not-allowed;
 }
+/* A disabled asChild host (anchor, router link) must not navigate or focus. */
+.vf-button[data-disabled="true"]:not(button) {
+  pointer-events: none;
+}
 
 /* Reuses vf-icon-spin from icon.css — loading spinners are
  * intentional indicators, exempt from the no-animation policy. */

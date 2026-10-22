@@ -113,8 +113,15 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     // children, then pass the decorated child to Slot for prop merging.
     let decoratedChild = children;
     if (isValidElement(children)) {
-      const childEl = children as ReactElement<{ children?: React.ReactNode }>;
+      const childEl = children as ReactElement<{
+        children?: React.ReactNode;
+        onClick?: unknown;
+      }>;
       decoratedChild = cloneElement(childEl, {
+        // A disabled host that is not a <button> (an <a href>, a router link)
+        // keeps no click handler of its own; the Slot handler below prevents
+        // the default action (navigation) and the element leaves the tab order.
+        ...(isDisabled ? { onClick: undefined } : {}),
         children: (
           <>
             {loading ? (
@@ -130,14 +137,27 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
         ),
       });
     }
+    const disabledHostProps = isDisabled
+      ? {
+          "aria-disabled": "true" as const,
+          tabIndex: -1,
+          onClick: (e: React.MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+          },
+          onKeyDown: (e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") e.preventDefault();
+          },
+        }
+      : { onClick };
     return (
       <Slot
         ref={ref as never}
-        onClick={isDisabled ? undefined : onClick}
         className={composedClass}
         style={composedStyle}
         {...dataAttrs}
         {...props}
+        {...disabledHostProps}
       >
         {decoratedChild}
       </Slot>
