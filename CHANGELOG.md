@@ -59,6 +59,14 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **`DiffViewer` split mode numbers lines per side.** Both columns numbered
+  rows by array index including pad rows, so numbering drifted after any
+  insert or delete. Split mode is now a rows-first grid (both sides of a row
+  are siblings, so wrapped lines stay aligned) with per-side counters; unified
+  mode shows old and new numbers. New props `wrap` (pre-wrap with
+  `overflow-wrap: anywhere`), `oldTitle`/`newTitle` and `size="sm" | "md"`.
+  `lineDiff` and `wordDiff` (and `DiffOp`, `WordSpan`) are exported as pure
+  helpers.
 - **Custom `theme` tokens now reach portaled overlays.** A `theme` object was
   applied as inline style on the provider's wrapper only, so `Dialog`,
   `DrawerV2`, `PopoverV2`, `Toaster` and other portals mounted under

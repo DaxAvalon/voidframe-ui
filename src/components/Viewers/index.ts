@@ -12,8 +12,8 @@ export type { CodeContextViewProps } from "./CodeContextView";
 export { JSONViewer } from "./JSONViewer";
 export type { JSONViewerProps } from "./JSONViewer";
 
-export { DiffViewer } from "./DiffViewer";
-export type { DiffViewerProps } from "./DiffViewer";
+export { DiffViewer, lineDiff, wordDiff } from "./DiffViewer";
+export type { DiffViewerProps, DiffOp, WordSpan } from "./DiffViewer";
 
 export { LogViewer, Terminal } from "./LogViewer";
 export type {

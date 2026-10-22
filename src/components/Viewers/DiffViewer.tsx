@@ -15,20 +15,32 @@ export interface DiffViewerProps extends HTMLAttributes<HTMLDivElement> {
   kind?: "unified" | "split";
   language?: string;
   showLineNumbers?: boolean;
+  /**
+   * Wrap long lines instead of scrolling horizontally. In split mode both
+   * sides of a row are siblings in one grid, so a wrapped line on one side
+   * stretches the other side's cell and the rows stay aligned.
+   */
+  wrap?: boolean;
+  /** Column titles for split mode (e.g. "Before" / "After"). */
+  oldTitle?: React.ReactNode;
+  newTitle?: React.ReactNode;
+  /** Type size. `sm` is the dense default; `md` for review panes. */
+  size?: "sm" | "md";
 }
 
-interface DiffOp {
+export interface DiffOp {
   op: "equal" | "insert" | "delete";
   line: string;
 }
 
-interface WordSpan {
+export interface WordSpan {
   text: string;
   type: "equal" | "added" | "removed";
 }
 
 /** Word-level diff for a changed line pair using LCS on words. */
-function wordDiff(oldLine: string, newLine: string): { oldSpans: WordSpan[]; newSpans: WordSpan[] } {
+/** Word-level diff of a changed line pair. Pure. */
+export function wordDiff(oldLine: string, newLine: string): { oldSpans: WordSpan[]; newSpans: WordSpan[] } {
   const a = oldLine.split(/(\s+)/);
   const b = newLine.split(/(\s+)/);
   const m = a.length;
@@ -72,7 +84,11 @@ function renderWordSpans(spans: WordSpan[]): React.ReactNode {
 }
 
 // Tiny line-based diff (LCS). Good enough for modest inputs.
-function lineDiff(oldText: string, newText: string): DiffOp[] {
+/**
+ * Line-level diff (LCS) of two texts. Pure; exported so consumers can build
+ * their own views or tests on the same algorithm the viewer uses.
+ */
+export function lineDiff(oldText: string, newText: string): DiffOp[] {
   const a = oldText.split("\n");
   const b = newText.split("\n");
   const m = a.length;
@@ -121,6 +137,10 @@ export const DiffViewer = forwardRef<HTMLDivElement, DiffViewerProps>(
       kind = "unified",
       language,
       showLineNumbers = true,
+      wrap = false,
+      oldTitle,
+      newTitle,
+      size = "sm",
       className,
       ...props
     },
@@ -139,85 +159,135 @@ export const DiffViewer = forwardRef<HTMLDivElement, DiffViewerProps>(
       return map;
     }, [ops]);
 
+    const rootClass = (mode: string) =>
+      cx(
+        "vf-diff",
+        `vf-diff--${mode}`,
+        size === "md" && "vf-diff--md",
+        wrap && "vf-diff--wrap",
+        className
+      );
+
     if (kind === "split") {
-      type LeftRow = { text: string; type: "equal" | "delete" | "pad"; spans?: WordSpan[] };
-      type RightRow = { text: string; type: "equal" | "insert" | "pad"; spans?: WordSpan[] };
-      const left: LeftRow[] = [];
-      const right: RightRow[] = [];
+      // Per-side line numbers: pad rows consume no number on their side.
+      type Side = {
+        text: string;
+        type: "equal" | "delete" | "insert" | "pad";
+        num: number | null;
+        spans?: WordSpan[];
+      };
+      const rows: Array<{ left: Side; right: Side }> = [];
+      let oldLine = 0;
+      let newLine = 0;
       for (let idx = 0; idx < ops.length; idx++) {
         const op = ops[idx]!;
         if (op.op === "equal") {
-          left.push({ text: op.line, type: "equal" });
-          right.push({ text: op.line, type: "equal" });
+          oldLine++;
+          newLine++;
+          rows.push({
+            left: { text: op.line, type: "equal", num: oldLine },
+            right: { text: op.line, type: "equal", num: newLine },
+          });
         } else if (op.op === "delete") {
           const wd = wordDiffs.get(idx);
+          oldLine++;
           if (wd) {
-            left.push({ text: op.line, type: "delete", spans: wd.oldSpans });
-            right.push({ text: ops[idx + 1]!.line, type: "insert", spans: wd.newSpans });
+            newLine++;
+            rows.push({
+              left: { text: op.line, type: "delete", num: oldLine, spans: wd.oldSpans },
+              right: {
+                text: ops[idx + 1]!.line,
+                type: "insert",
+                num: newLine,
+                spans: wd.newSpans,
+              },
+            });
             idx++; // skip the paired insert
           } else {
-            left.push({ text: op.line, type: "delete" });
-            right.push({ text: "", type: "pad" });
+            rows.push({
+              left: { text: op.line, type: "delete", num: oldLine },
+              right: { text: "", type: "pad", num: null },
+            });
           }
         } else {
-          left.push({ text: "", type: "pad" });
-          right.push({ text: op.line, type: "insert" });
+          newLine++;
+          rows.push({
+            left: { text: "", type: "pad", num: null },
+            right: { text: op.line, type: "insert", num: newLine },
+          });
         }
       }
-      return (
+      const cell = (side: Side, which: "old" | "new") => (
         <div
-          ref={ref}
-          className={cx("vf-diff", "vf-diff--split", className)}
-          data-language={language}
-          {...props}
+          className={cx("vf-diff__line", `vf-diff__line--${side.type}`)}
+          data-side={which}
         >
-          <div className="vf-diff__col" aria-label="old">
-            {left.map((ln, i) => (
-              <div key={i} className={cx("vf-diff__line", `vf-diff__line--${ln.type}`)}>
-                {showLineNumbers && (
-                  <span className="vf-diff__num">{ln.type === "pad" ? "" : i + 1}</span>
-                )}
-                <span className="vf-diff__text">{ln.spans ? renderWordSpans(ln.spans) : (ln.text || " ")}</span>
-              </div>
-            ))}
-          </div>
-          <div className="vf-diff__col" aria-label="new">
-            {right.map((ln, i) => (
-              <div key={i} className={cx("vf-diff__line", `vf-diff__line--${ln.type}`)}>
-                {showLineNumbers && (
-                  <span className="vf-diff__num">{ln.type === "pad" ? "" : i + 1}</span>
-                )}
-                <span className="vf-diff__text">{ln.spans ? renderWordSpans(ln.spans) : (ln.text || " ")}</span>
-              </div>
-            ))}
-          </div>
+          {showLineNumbers && (
+            <span className="vf-diff__num">{side.num ?? ""}</span>
+          )}
+          <span className="vf-diff__text">
+            {side.spans ? renderWordSpans(side.spans) : side.text || " "}
+          </span>
+        </div>
+      );
+      const hasTitles = oldTitle !== undefined || newTitle !== undefined;
+      return (
+        <div ref={ref} className={rootClass("split")} data-language={language} {...props}>
+          {hasTitles && (
+            <div className="vf-diff__row vf-diff__row--titles">
+              <div className="vf-diff__title">{oldTitle}</div>
+              <div className="vf-diff__title">{newTitle}</div>
+            </div>
+          )}
+          {rows.map((row, i) => (
+            <div key={i} className="vf-diff__row">
+              {cell(row.left, "old")}
+              {cell(row.right, "new")}
+            </div>
+          ))}
         </div>
       );
     }
 
     // Unified view with word-level highlighting.
     const unifiedRows: React.ReactNode[] = [];
+    let oldN = 0;
+    let newN = 0;
+    const nums = (o: number | null, n: number | null) =>
+      showLineNumbers ? (
+        <>
+          <span className="vf-diff__num">{o ?? ""}</span>
+          <span className="vf-diff__num">{n ?? ""}</span>
+        </>
+      ) : null;
     for (let idx = 0; idx < ops.length; idx++) {
       const op = ops[idx]!;
       const wd = wordDiffs.get(idx);
       if (wd) {
         // Render paired delete/insert with word spans.
+        oldN++;
         unifiedRows.push(
           <div key={`${idx}-del`} className={cx("vf-diff__line", "vf-diff__line--delete")}>
+            {nums(oldN, null)}
             <span className="vf-diff__marker" aria-hidden="true">-</span>
             <span className="vf-diff__text">{renderWordSpans(wd.oldSpans)}</span>
           </div>
         );
+        newN++;
         unifiedRows.push(
           <div key={`${idx}-ins`} className={cx("vf-diff__line", "vf-diff__line--insert")}>
+            {nums(null, newN)}
             <span className="vf-diff__marker" aria-hidden="true">+</span>
             <span className="vf-diff__text">{renderWordSpans(wd.newSpans)}</span>
           </div>
         );
         idx++; // skip paired insert
       } else {
+        if (op.op !== "insert") oldN++;
+        if (op.op !== "delete") newN++;
         unifiedRows.push(
           <div key={idx} className={cx("vf-diff__line", `vf-diff__line--${op.op}`)}>
+            {nums(op.op === "insert" ? null : oldN, op.op === "delete" ? null : newN)}
             <span className="vf-diff__marker" aria-hidden="true">
               {op.op === "insert" ? "+" : op.op === "delete" ? "-" : " "}
             </span>
@@ -228,12 +298,7 @@ export const DiffViewer = forwardRef<HTMLDivElement, DiffViewerProps>(
     }
 
     return (
-      <div
-        ref={ref}
-        className={cx("vf-diff", "vf-diff--unified", className)}
-        data-language={language}
-        {...props}
-      >
+      <div ref={ref} className={rootClass("unified")} data-language={language} {...props}>
         {unifiedRows}
       </div>
     );
