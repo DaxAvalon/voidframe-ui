@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { darkTheme, lightTheme, midnightTheme, greyTheme, softTheme, softLightTheme, boothTheme, THEME_NAMES } from "../index";
-import { highContrastDarkOverrides, highContrastLightOverrides, withHighContrast } from "../highContrast";
+import { highContrastDarkOverrides, highContrastGreyOverrides, highContrastLightOverrides, withHighContrast } from "../highContrast";
 import { expectThemeContrast, themeContrastReport } from "../../testing/contrast";
 
 const THEMES = {
@@ -36,16 +37,18 @@ describe("built-in theme contrast", () => {
   });
 
   it("the JS high-contrast overrides match tokens.css", () => {
-    const css = readFileSync(new URL("../../css/tokens.css", import.meta.url), "utf8");
-    const dark = css.slice(css.indexOf('[data-vf-contrast="high"] {'), css.indexOf('[data-vf-theme="light"][data-vf-contrast="high"]'));
-    const light = css.slice(css.indexOf('[data-vf-theme="light"][data-vf-contrast="high"]'));
-    for (const [key, value] of Object.entries(highContrastDarkOverrides)) {
-      const prop = `--vf-${key.replace(/(\d)$/, "-$1")}: ${value}`;
-      expect(dark, prop).toContain(prop);
-    }
-    for (const [key, value] of Object.entries(highContrastLightOverrides)) {
-      const prop = `--vf-${key.replace(/(\d)$/, "-$1")}: ${value}`;
-      expect(light, prop).toContain(prop);
-    }
+    const css = readFileSync(resolve(process.cwd(), "src/css/tokens.css"), "utf8");
+    const block = (selector: string) => {
+      const start = css.indexOf(`${selector} {`);
+      expect(start, selector).toBeGreaterThan(-1);
+      return css.slice(start, css.indexOf("}", start));
+    };
+    const prop = (key: string, value: string) => `--vf-${key.replace(/(\d)$/, "-$1")}: ${value}`;
+    const dark = block('[data-vf-contrast="high"]');
+    for (const [key, value] of Object.entries(highContrastDarkOverrides)) expect(dark, key).toContain(prop(key, value as string));
+    const light = block('[data-vf-theme="light"][data-vf-contrast="high"]');
+    for (const [key, value] of Object.entries(highContrastLightOverrides)) expect(light, key).toContain(prop(key, value as string));
+    const grey = block('[data-vf-theme="grey"][data-vf-contrast="high"]');
+    expect(grey).toContain(prop("text2", highContrastGreyOverrides.text2 as string));
   });
 });

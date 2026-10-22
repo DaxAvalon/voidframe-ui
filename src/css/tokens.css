@@ -761,6 +761,10 @@
   --vf-focus-offset: 1px;
 }
 
+[data-vf-theme="grey"][data-vf-contrast="high"] {
+  --vf-text-2: #d0d0d0;
+}
+
 [data-vf-theme="light"][data-vf-contrast="high"] {
   --vf-text-1: #111111;
   --vf-text-2: #333333;

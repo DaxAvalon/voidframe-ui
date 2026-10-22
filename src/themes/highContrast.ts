@@ -15,6 +15,12 @@ export const highContrastDarkOverrides: ThemeOverrides = {
   border4: "#7a7a7a",
 };
 
+/** The grey theme's lighter ground needs a brighter secondary tier for 7:1. */
+export const highContrastGreyOverrides: ThemeOverrides = {
+  ...highContrastDarkOverrides,
+  text2: "#d0d0d0",
+};
+
 /** Overrides for the light theme under high contrast. */
 export const highContrastLightOverrides: ThemeOverrides = {
   text1: "#111111",
@@ -28,6 +34,11 @@ export const highContrastLightOverrides: ThemeOverrides = {
 
 /** Apply the high-contrast overrides a theme receives (`light` gets the light set, everything else the dark set). */
 export function withHighContrast<T extends Record<string, unknown>>(tokens: T, themeName?: string): T {
-  const overrides = themeName === "light" || themeName === "soft-light" ? highContrastLightOverrides : highContrastDarkOverrides;
+  const overrides =
+    themeName === "light" || themeName === "soft-light"
+      ? highContrastLightOverrides
+      : themeName === "grey"
+        ? highContrastGreyOverrides
+        : highContrastDarkOverrides;
   return { ...tokens, ...overrides };
 }
