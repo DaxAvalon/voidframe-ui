@@ -216,6 +216,8 @@ Tooltip.displayName = "Tooltip";
 export interface CodeProps extends HTMLAttributes<HTMLElement> {
   children?: ReactNode;
   inline?: boolean;
+  /** Dimmed (text-3) — a "before" value beside an "after", a superseded token. */
+  muted?: boolean;
   style?: CSSProperties;
 }
 
@@ -224,14 +226,14 @@ export interface CodeProps extends HTMLAttributes<HTMLElement> {
  * blocks use `CodeBlock`.
  */
 export const Code = forwardRef<HTMLElement, CodeProps>(function Code(
-  { children, inline, className, style, ...props },
+  { children, inline, muted, className, style, ...props },
   ref
 ) {
   if (inline) {
     return (
       <code
         ref={ref as never}
-        className={cx("vf-code--inline", className)}
+        className={cx("vf-code--inline", muted && "vf-code--muted", className)}
         style={style}
         {...props}
       >
@@ -242,7 +244,7 @@ export const Code = forwardRef<HTMLElement, CodeProps>(function Code(
   return (
     <pre
       ref={ref as never}
-      className={cx("vf-code--block", className)}
+      className={cx("vf-code--block", muted && "vf-code--muted", className)}
       style={style}
       {...props}
     >

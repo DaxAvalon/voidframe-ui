@@ -5,6 +5,7 @@ export {
 } from "./Text";
 export type {
   TextProps,
+  TextTone,
   TextSize,
   ResponsiveSizePreset,
   LabelProps,

@@ -59,6 +59,19 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **`Text` warns when `color` is not a CSS colour, and gains `tone`.** `color`
+  was written to inline style verbatim, so `color="muted"` or `"danger"` was
+  silently dropped by the browser. `Text` now warns in development for tone
+  words and (where `CSS.supports` exists) for any invalid colour, and gains
+  `tone="muted" | "subtle" | "danger" | "warning" | "success" | "info" |
+  "accent" | "inherit"` mapped to token classes with `data-tone`. `Code`
+  gains `muted` for a dimmed "before" value.
+- **`Button asChild disabled` on a non-button host no longer navigates or
+  takes focus.** An `<a href>` or router link under a disabled `asChild`
+  Button kept its `href`, stayed in the tab order and activated. The host now
+  gets `aria-disabled="true"`, `tabIndex={-1}`, a click/keydown handler that
+  prevents the default action, loses its own `onClick`, and
+  `pointer-events: none` via `[data-disabled="true"]:not(button)`.
 - **`voidframe-ui/testing` no longer requires `jest-axe` at import time.** The
   entry re-exported `expectNoA11yViolations`, whose module statically imported
   the optional peer, so `renderWithVoidframe`, `installMatchMedia` and the mock

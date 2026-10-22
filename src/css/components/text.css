@@ -21,6 +21,16 @@
   text-transform: var(--vf-heading-case, uppercase);
 }
 
+/* Semantic text tones — the colour vocabulary consumers reach for. */
+.vf-text--muted   { color: var(--vf-text-3); }
+.vf-text--subtle  { color: var(--vf-text-4); }
+.vf-text--danger  { color: var(--vf-danger); }
+.vf-text--warning { color: var(--vf-warning); }
+.vf-text--success { color: var(--vf-success); }
+.vf-text--info    { color: var(--vf-info); }
+.vf-text--accent  { color: var(--vf-accent); }
+.vf-text--inherit { color: inherit; }
+
 .vf-label {
   font-family: var(--vf-font-family);
   font-size: var(--vf-font-xs);

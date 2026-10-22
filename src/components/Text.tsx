@@ -5,6 +5,7 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { Slot } from "../primitives/Slot";
 import type { Size } from "../types";
 import { cx } from "../utils/cx";
+import { toneAttrs } from "../utils/toneAttrs";
 import { warnOnce } from "../utils/warn";
 import { useResponsive, type Responsive } from "../responsive";
 
@@ -27,9 +28,49 @@ export type ResponsiveSizePreset = keyof typeof RESPONSIVE_SIZE_PRESETS;
 
 export type TextSize = Size | ResponsiveSizePreset | Responsive<Size>;
 
+export type TextTone =
+  | "default"
+  | "muted"
+  | "subtle"
+  | "danger"
+  | "warning"
+  | "success"
+  | "info"
+  | "accent"
+  | "inherit";
+
+/**
+ * Words that are tones, not colours. Passing one as `color` writes an invalid
+ * CSS value that the browser drops silently; `tone` is the prop for them.
+ */
+const TONE_WORDS = /^(default|muted|subtle|danger|warning|success|info|accent|neutral|primary|secondary|error|inherit)$/i;
+
+function warnIfColorIsNotACssColor(color: string | undefined): void {
+  if (color === undefined) return;
+  if (TONE_WORDS.test(color.trim())) {
+    warnOnce(
+      `text-color-tone-${color}`,
+      `<Text color="${color}"> is not a CSS colour and is ignored by the browser. Use tone="${color.toLowerCase()}" instead.`
+    );
+    return;
+  }
+  const css = (globalThis as { CSS?: { supports?: (p: string, v: string) => boolean } }).CSS;
+  if (css?.supports && !css.supports("color", color)) {
+    warnOnce(
+      `text-color-invalid-${color}`,
+      `<Text color="${color}"> is not a valid CSS colour; the declaration is dropped. Pass a colour, a var(--vf-…) expression, or use the tone prop.`
+    );
+  }
+}
+
 export interface TextProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
   size?: TextSize;
-  /** Override text color. */
+  /**
+   * Semantic colour: `muted` (text-3), `subtle` (text-4), the four status
+   * colours, `accent`, or `inherit`. Prefer this over `color`.
+   */
+  tone?: TextTone;
+  /** Override text color with a CSS colour or `var(--vf-…)` expression. */
   color?: string;
   weight?: number;
   spacing?: number;
@@ -59,6 +100,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
     upper,
     as: Tag = "span",
     asChild,
+    tone,
     className,
     style,
     ...props
@@ -66,24 +108,28 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   ref
 ) {
   const resolvedSize = useResolvedTextSize(size);
+  if (process.env.NODE_ENV !== "production") warnIfColorIsNotACssColor(color);
   const inline: CSSProperties = {
     ...(color !== undefined ? { color } : {}),
     ...(weight !== undefined ? { fontWeight: weight } : {}),
     ...(spacing !== undefined ? { letterSpacing: spacing } : {}),
     ...style,
   };
+  const ta = toneAttrs("vf-text", { tone: tone && tone !== "default" ? tone : undefined });
   const composedClass = cx(
-    "vf-text",
+    ta.className,
     `vf-text--${resolvedSize}`,
     upper && "vf-text--upper",
     className
   );
+  const toneData = ta.attrs;
   if (asChild) {
     return (
       <Slot
         ref={ref as never}
         className={composedClass}
         style={inline}
+        {...toneData}
         {...props}
       >
         {children}
@@ -95,6 +141,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
       ref={ref as never}
       className={composedClass}
       style={inline}
+      {...toneData}
       {...props}
     >
       {children}
