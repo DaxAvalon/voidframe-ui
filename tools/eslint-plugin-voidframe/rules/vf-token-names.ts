@@ -224,6 +224,7 @@ export const VF_TOKEN_NAMES: readonly string[] = [
   "--vf-transition-transform",
   "--vf-transport-accent",
   "--vf-transport-target",
+  "--vf-verdict-callout-accent",
   "--vf-warning",
   "--vf-waveform-bg",
   "--vf-waveform-boundary",

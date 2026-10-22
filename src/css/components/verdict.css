@@ -34,6 +34,76 @@
   font-size: var(--vf-font-md);
 }
 
+/* ── VerdictCallout: tone callout + Verdict headline + reasons + details ── */
+.vf-verdict-callout {
+  --vf-verdict-callout-accent: var(--vf-text-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-3);
+  padding: var(--vf-sp-4);
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-1);
+  border-inline-start: 3px solid var(--vf-verdict-callout-accent);
+  border-radius: var(--vf-radius-1);
+  font-family: var(--vf-font-family);
+  color: var(--vf-text-0);
+}
+.vf-verdict-callout[data-tone="success"] { --vf-verdict-callout-accent: var(--vf-success); }
+.vf-verdict-callout[data-tone="warning"] { --vf-verdict-callout-accent: var(--vf-warning); }
+.vf-verdict-callout[data-tone="danger"] { --vf-verdict-callout-accent: var(--vf-danger); }
+.vf-verdict-callout[data-tone="info"] { --vf-verdict-callout-accent: var(--vf-info); }
+.vf-verdict-callout__headline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--vf-sp-3);
+  margin: 0;
+  font-size: var(--vf-font-md);
+  font-weight: 600;
+}
+.vf-verdict-callout__text { flex: 1 1 auto; min-width: 0; }
+.vf-verdict-callout__reasons-label {
+  font-size: var(--vf-font-xs);
+  letter-spacing: var(--vf-label-spacing);
+  text-transform: var(--vf-label-case);
+  color: var(--vf-text-2);
+  margin-bottom: var(--vf-sp-1);
+}
+.vf-verdict-callout__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+}
+.vf-verdict-callout__reason {
+  display: flex;
+  align-items: baseline;
+  gap: var(--vf-sp-2);
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-1);
+}
+.vf-verdict-callout__reason::before {
+  content: "•";
+  color: var(--vf-text-3);
+}
+.vf-verdict-callout__reason-verdict { flex: none; }
+.vf-verdict-callout__body { font-size: var(--vf-font-sm); color: var(--vf-text-1); }
+.vf-verdict-callout__details-body {
+  margin-top: var(--vf-sp-2);
+  font-family: var(--vf-font-mono);
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-1);
+  overflow: auto;
+}
+.vf-verdict-callout__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--vf-sp-2);
+  justify-content: flex-end;
+}
+
 /* ── FactRow: label · value · note at 44 px, tone as a 3 px leading rule ── */
 .vf-fact-row {
   display: flex;

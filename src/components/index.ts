@@ -1278,8 +1278,17 @@ export type {
 } from "./AudioLevelMeter";
 export { WaveformStrip, timeToX, xToTime, bucketTiles, rulerTicks, formatTimecode } from "./WaveformStrip";
 export type { WaveformStripProps, WaveformTile, WaveformSegment, WaveformBoundary, WaveformMarker, WaveformMarkerKind, WaveformRange } from "./WaveformStrip";
-export { Verdict, verdictTone } from "./Verdict";
-export type { VerdictProps, VerdictKind, VerdictTone } from "./Verdict";
+export { Verdict, VerdictCallout, verdictTone, verdictSpec, VERDICT_KINDS } from "./Verdict";
+export type {
+  VerdictProps,
+  VerdictKind,
+  VerdictTone,
+  VerdictKindSpec,
+  VerdictKinds,
+  VerdictValue,
+  VerdictCalloutProps,
+  VerdictReason,
+} from "./Verdict";
 export { FactRow } from "./FactRow";
 export type { FactRowProps } from "./FactRow";
 export { CheckList, checkListSummary, resolveVerdict } from "./CheckList";
@@ -1295,7 +1304,7 @@ export type {
   TransportLabels,
   TransportShowBindings,
 } from "./TransportStrip";
-export { StatusStrip, toneWord } from "./StatusStrip";
+export { StatusStrip, toneWord, collapseSegments } from "./StatusStrip";
 export type { StatusStripProps, StatusSegment, StatusTone } from "./StatusStrip";
 export { CountdownDial, countdownFraction, formatSeconds } from "./CountdownDial";
 export type { CountdownDialProps, CountdownDialVariant, CountdownDialTone } from "./CountdownDial";

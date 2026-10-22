@@ -6,6 +6,18 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Verdict vocabularies**: `Verdict kinds={{ accept: { tone, glyph, word }, … }}` renders a
+  consumer's own outcomes with the glyph-and-word discipline; built-in kinds remain the fallback,
+  `tone` / `glyph` props override one instance, and `verdictTone(verdict, kinds)` /
+  `verdictSpec()` / `VERDICT_KINDS` are exported for tables. `data-tone` is set on the root.
+- **`VerdictCallout`**: the gating panel as one component: tone callout, `Verdict` headline with
+  optional `headline` sentence and measured / required values, `reasons` (nodes or
+  `{ text, verdict }` with per-reason badges), body children, raw `details` behind a `Disclosure`,
+  footer `actions`, optional `headingAs`.
+- **StatusStrip `collapse`**: with `StatusSegment.priority`, a strip that is narrower than its
+  content hides the lowest-priority segments (ties from the end; segments without a priority
+  always stay) instead of scrolling, re-measuring on resize; `onCollapseChange(hiddenIds)` reports
+  the result and `collapseSegments()` is exported.
 - **Dashboard layout**: `packLayout` accepts `Array<string | { id, w?, h? }>` and packs with a
   per-column skyline, so widgets of different spans and heights fill the lowest free row instead
   of advancing by one uniform height (the `string[]` form is unchanged); `startY` packs below an

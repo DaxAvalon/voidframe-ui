@@ -21,6 +21,10 @@
   white-space: normal;
   row-gap: var(--vf-sp-1);
 }
+.vf-status-strip--collapse {
+  overflow-x: hidden;
+}
+.vf-status-strip__segment[hidden] { display: none; }
 .vf-status-strip--sm { font-size: var(--vf-font-xs); }
 .vf-status-strip--lg { font-size: var(--vf-font-lg); gap: 0 var(--vf-sp-4); }
 
