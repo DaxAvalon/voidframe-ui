@@ -75,6 +75,18 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **`DashboardGrid` can require a drag handle, moves and resizes from the
+  keyboard, and can size cells to its container.** Any pointerdown on a
+  movable card started a drag, so widget bodies could not hold a button,
+  checkbox or link, and `WidgetShell draggable`'s `⠿` handle was decorative.
+  New `dragHandle` (`true` matches `[data-drag-handle]`, a string is a
+  selector) starts a move only from the handle; it stays `false` for one
+  release and then becomes the default. Cards are focusable: arrows move one
+  sub-cell (landing on another card swaps the two, as a pointer drop does),
+  Shift+Arrow resizes within the min/max bounds, each change is announced;
+  `keyboard={false}` opts out. `cellSize="auto"` renders a full-width canvas
+  and derives the sub-cell from the measured width. Cells carry
+  `data-item-id`.
 - **React 19 is now typechecked and tested in CI.** Two global `JSX.Element`
   annotations, `cloneElement` ref typing in `Slot`, `RefObject<T | null>`
   parameters on the resize hooks and `useClickOutside`, an argument-less

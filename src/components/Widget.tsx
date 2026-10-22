@@ -16,6 +16,8 @@ import {
 } from "react";
 import { cx } from "../utils/cx";
 import { warnOnce } from "../utils/warn";
+import { announce } from "../utils/announce";
+import { useElementSize } from "../hooks/useElementSize";
 
 // ── WidgetShell ─────────────────────────────────────────────
 
@@ -158,14 +160,30 @@ export interface DashboardGridProps
   onLayoutChange?: (next: DashboardLayoutItem[]) => void;
   /** Total sub-cell columns across the canvas. Default 24. */
   cols?: number;
-  /** Pixel size of one sub-cell side. Default 32. */
-  cellSize?: number;
+  /**
+   * Pixel size of one sub-cell side. Default 32. `"auto"` fills the
+   * container width: the canvas is `width: 100%` and the sub-cell is
+   * derived from the measured width and `cols`.
+   */
+  cellSize?: number | "auto";
   /** Pixel gap between sub-cells. Default 4. */
   gap?: number;
   /** Render function per item. */
   renderItem: (id: string, item: DashboardLayoutItem) => ReactNode;
   /** Allow click-drag to move cards. Default true. */
   movable?: boolean;
+  /**
+   * Start a move only from a drag handle inside the card: `true` matches
+   * `[data-drag-handle]` (what `WidgetShell draggable` renders), a string
+   * is a CSS selector. Default `false` (any pointerdown on the card
+   * starts a move) so widget bodies with their own controls should set it.
+   */
+  dragHandle?: boolean | string;
+  /**
+   * Arrow keys move the focused card; Shift+Arrow resizes it (when
+   * `resizable`). Default `true`.
+   */
+  keyboard?: boolean;
   /** Show corner-resize grips on each card. Default false. */
   resizable?: boolean;
   /** Min sub-cell width when resizing. Default 2. */
@@ -306,10 +324,12 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       items,
       onLayoutChange,
       cols = 24,
-      cellSize = 32,
+      cellSize: cellSizeProp = 32,
       gap = 4,
       renderItem,
       movable = true,
+      dragHandle = false,
+      keyboard = true,
       resizable = false,
       minW = 2,
       minH = 2,
@@ -338,6 +358,15 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       else if (ref) (ref as { current: HTMLDivElement | null }).current = node;
     };
 
+    // `cellSize="auto"`: measure the canvas (width: 100%) and derive the
+    // sub-cell from it. Before the first measurement fall back to 32 px.
+    const autoCell = cellSizeProp === "auto";
+    const measured = useElementSize(canvasRef);
+    const cellSize = autoCell
+      ? measured.width > 0
+        ? Math.max(8, Math.floor((measured.width - Math.max(0, cols - 1) * gap) / cols))
+        : 32
+      : cellSizeProp;
     const cellStep = cellSize + gap;
     const subToPx = (n: number) => n * cellStep;
 
@@ -488,6 +517,14 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
         // need to defend against rare event ordering issues.
         const target = e.target as HTMLElement;
         if (target?.closest?.(".vf-dashboard-grid__resize")) return;
+        // With a drag handle, only a press on the handle starts a move, so
+        // buttons, links and inputs inside the card keep working.
+        if (dragHandle) {
+          const selector =
+            typeof dragHandle === "string" ? dragHandle : "[data-drag-handle]";
+          const handle = target?.closest?.(selector);
+          if (!handle || !e.currentTarget.contains(handle)) return;
+        }
         const local = localFromPointer(e);
         setMoving({
           id: item.id,
@@ -604,12 +641,67 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pointer]);
 
+    // Keyboard: arrows move the focused card one sub-cell; Shift+Arrow
+    // resizes it. Only when the key lands on the card itself, so controls
+    // inside the widget keep their own arrow-key behaviour.
+    const onCellKeyDown = (item: DashboardLayoutItem) =>
+      (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (!keyboard || !onLayoutChange || e.target !== e.currentTarget) return;
+        const delta: Record<string, [number, number]> = {
+          ArrowLeft: [-1, 0],
+          ArrowRight: [1, 0],
+          ArrowUp: [0, -1],
+          ArrowDown: [0, 1],
+        };
+        const d = delta[e.key];
+        if (!d) return;
+        e.preventDefault();
+        const [dx, dy] = d;
+        const maxWidth = maxW ?? colsLimit;
+        const maxHeight = maxH ?? (Number.isFinite(rowsLimit) ? rowsLimit : Number.POSITIVE_INFINITY);
+        if (e.shiftKey) {
+          if (!resizable) return;
+          const w = Math.max(minW, Math.min(maxWidth, item.w + dx));
+          const h = Math.max(minH, Math.min(maxHeight, item.h + dy));
+          if (w === item.w && h === item.h) return;
+          onLayoutChange(items.map((i) => (i.id === item.id ? { ...i, w, h } : i)));
+          announce(`${item.id} resized to ${w} by ${h}`);
+          return;
+        }
+        if (!movable) return;
+        const x = Math.max(0, Math.min(colsLimit - item.w, item.x + dx));
+        const y = Math.max(0, Math.min(Number.isFinite(rowsLimit) ? rowsLimit - item.h : Number.POSITIVE_INFINITY, item.y + dy));
+        if (x === item.x && y === item.y) return;
+        // Land on another card: swap places with it, as a pointer drop would.
+        const occupant = items.find(
+          (i) =>
+            i.id !== item.id &&
+            x < i.x + i.w && x + item.w > i.x && y < i.y + i.h && y + item.h > i.y
+        );
+        if (occupant) {
+          onLayoutChange(
+            items.map((i) =>
+              i.id === item.id
+                ? { ...i, x: occupant.x, y: occupant.y }
+                : i.id === occupant.id
+                  ? { ...i, x: item.x, y: item.y }
+                  : i
+            )
+          );
+          announce(`${item.id} swapped with ${occupant.id}`);
+          return;
+        }
+        onLayoutChange(items.map((i) => (i.id === item.id ? { ...i, x, y } : i)));
+        announce(`${item.id} moved to column ${x + 1}, row ${y + 1}`);
+      };
+
     const showOverlay = !!moving;
     const dragging = !!moving || !!resizing;
+    const focusable = keyboard && !!onLayoutChange && (movable || resizable);
 
     const canvasStyle: CSSProperties = {
       position: "relative",
-      width: canvasWidth,
+      width: autoCell ? "100%" : canvasWidth,
       maxWidth: "100%",
       height: bounds === "auto" ? canvasHeight : canvasHeight,
       ...style,
@@ -695,6 +787,11 @@ export const DashboardGrid = forwardRef<HTMLDivElement, DashboardGridProps>(
                 touchAction: "none",
                 ...cardStyle,
               }}
+              data-item-id={item.id}
+              tabIndex={focusable ? 0 : undefined}
+              aria-label={focusable ? item.id : undefined}
+              aria-roledescription={focusable ? "movable widget" : undefined}
+              onKeyDown={focusable ? onCellKeyDown(item) : undefined}
               onPointerDown={movable ? startMove(item) : undefined}
             >
               {renderItem(item.id, item)}
