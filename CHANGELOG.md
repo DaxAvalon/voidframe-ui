@@ -7,6 +7,15 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **Verdict rows and checklists** (data tier). `Verdict verdict="pending"`
+  (tone `info`, glyph `…`) for a check that has not run. `FactRow`: label ·
+  value · note (· actions) at a 44 px minimum height with the tone as a 3 px
+  leading rule, `as="li"`. `CheckList`: rows of `Verdict` + sentence +
+  optional action, a `passed/total` badge, a derived `canProceed` (blocking
+  fails and pendings; `blocking` per row), an optional gated `proceed`
+  button with a blocked hint, `onSummary`, and an editable mode (`onToggle`
+  turns rows into checkboxes, `onRemove`, `onAdd`). `checkListSummary()` and
+  `resolveVerdict()` are exported; rows keep 44 px under a coarse pointer.
 - **Row primitives.** `Text truncate` and `Code truncate` (single-line
   ellipsis; plain-text children become the `title`). `ListRow` (data tier):
   a two-cell row that never wraps, the identity cell flexing and truncating

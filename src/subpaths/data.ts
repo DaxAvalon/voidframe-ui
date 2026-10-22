@@ -39,3 +39,5 @@ export * from "../components/AsyncData";
 export { Tooltip, TooltipProvider } from "../components/Popovers";
 export type { TooltipProps, TooltipProviderProps } from "../components/Popovers";
 export * from "../components/ListRow";
+export * from "../components/FactRow";
+export * from "../components/CheckList";

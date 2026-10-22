@@ -708,7 +708,7 @@ Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortabl
 
 Metrics: `Stat`, `StatGroup`, `MetricCard`, `CircularProgress`.
 
-Recording and review (booth tier, `voidframe-ui/data`): `AudioLevelMeter` (dB bar meter with ballistics, peak hold, limit words, pending/unavailable states), `TransportStrip` (session state word, clocks, roll countdown and bound actions), `WaveformStrip` (takes over a waveform with markers, selection and playhead), `Verdict` (pass / warn / fail / flagged / skipped as glyph and word), `CountdownDial` (seconds to an event as a dial, `role="timer"`), `StatusStrip` (one dense line of named facts). Pair them with the `booth` theme.
+Recording and review (booth tier, `voidframe-ui/data`): `AudioLevelMeter` (dB bar meter with ballistics, peak hold, limit words, pending/unavailable states), `TransportStrip` (session state word, clocks, roll countdown and bound actions), `WaveformStrip` (takes over a waveform with markers, selection and playhead), `Verdict` (pass / warn / fail / flagged / skipped / pending as glyph and word), `FactRow` (label · value · note at 44 px with a tone rule), `CheckList` (verdict rows that gate an action: `canProceed`, `n/m` badge, editable mode), `CountdownDial` (seconds to an event as a dial, `role="timer"`), `StatusStrip` (one dense line of named facts). Pair them with the `booth` theme.
 
 `StatusStrip` vs `StatusBar`: `StatusBar` (in the Card family) is the IDE-style bottom bar for an app window, a container for icon-and-text items you compose yourself. `StatusStrip` is a single list of named facts (`interface · 48 kHz · 6 ms · 0 dropouts`) with tones that add a visually hidden word, meant to sit inside a panel or header and be glanced at, not announced.
 

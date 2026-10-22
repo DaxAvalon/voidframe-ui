@@ -1247,7 +1247,11 @@ export type {
 export { WaveformStrip, timeToX, xToTime, bucketTiles, rulerTicks, formatTimecode } from "./WaveformStrip";
 export type { WaveformStripProps, WaveformTile, WaveformSegment, WaveformBoundary, WaveformMarker, WaveformMarkerKind, WaveformRange } from "./WaveformStrip";
 export { Verdict, verdictTone } from "./Verdict";
-export type { VerdictProps, VerdictKind } from "./Verdict";
+export type { VerdictProps, VerdictKind, VerdictTone } from "./Verdict";
+export { FactRow } from "./FactRow";
+export type { FactRowProps } from "./FactRow";
+export { CheckList, checkListSummary, resolveVerdict } from "./CheckList";
+export type { CheckListProps, CheckListItem, CheckListSummary } from "./CheckList";
 export { TransportStrip, rollFraction, formatClock } from "./TransportStrip";
 export type {
   TransportStripProps,

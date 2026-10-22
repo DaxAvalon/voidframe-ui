@@ -5,8 +5,11 @@ import { Badge, type BadgeSize } from "./Badge";
 import { VisuallyHidden } from "../primitives/VisuallyHidden";
 import { cx } from "../utils/cx";
 
-/** The five outcomes a check can have (the spec engine's vocabulary). */
-export type VerdictKind = "pass" | "warn" | "fail" | "flagged" | "skipped";
+/**
+ * The outcomes a check can have (the spec engine's vocabulary) plus
+ * `pending` for a check that has not run or is still running.
+ */
+export type VerdictKind = "pass" | "warn" | "fail" | "flagged" | "skipped" | "pending";
 
 export interface VerdictProps extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {
   /** The outcome. Decides the tone, the glyph and the word. */
@@ -25,12 +28,15 @@ export interface VerdictProps extends Omit<HTMLAttributes<HTMLSpanElement>, "chi
   label?: string;
 }
 
-const TONE: Record<VerdictKind, "success" | "warning" | "danger" | "neutral"> = {
+export type VerdictTone = "success" | "warning" | "danger" | "neutral" | "info";
+
+const TONE: Record<VerdictKind, VerdictTone> = {
   pass: "success",
   warn: "warning",
   fail: "danger",
   flagged: "warning",
   skipped: "neutral",
+  pending: "info",
 };
 
 const GLYPH: Record<VerdictKind, string> = {
@@ -39,10 +45,11 @@ const GLYPH: Record<VerdictKind, string> = {
   fail: "✕",
   flagged: "⚑",
   skipped: "–",
+  pending: "…",
 };
 
 /** The tone a verdict renders with — exported so tables can colour other cells consistently. */
-export function verdictTone(verdict: VerdictKind): "success" | "warning" | "danger" | "neutral" {
+export function verdictTone(verdict: VerdictKind): VerdictTone {
   return TONE[verdict];
 }
 
@@ -96,8 +103,8 @@ const VerdictImpl = forwardRef<HTMLSpanElement, VerdictProps>(function Verdict(
 });
 
 /**
- * A check's outcome — pass, warn, fail, flagged or skipped — as a glyph and a
- * word (never colour alone), with optional measured/required values in
+ * A check's outcome — pass, warn, fail, flagged, skipped or pending — as a
+ * glyph and a word (never colour alone), with optional measured/required values in
  * monospace and an explanation sentence. A thin layer over `Badge` so verdicts
  * look the same in a checker report, a table cell and a session check.
  */
