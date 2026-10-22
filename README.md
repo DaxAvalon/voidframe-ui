@@ -809,7 +809,9 @@ import { LazyLineChart, ChartSkeleton } from "voidframe-ui/charts/lazy";
 
 Calendars: `Calendar` (month/week/day views, range selection).
 
-Avatars & media: `Avatar`, `AvatarGroup`, `Image`, `ImageGallery`, `AudioPlayer`, `VideoPlayer`, `DocumentPreview`, `IFrame`, `CodeBlock`.
+Avatars & media: `Avatar`, `AvatarGroup`, `Image`, `ImageGallery`, `AudioPlayer`, `VideoPlayer`, `DocumentPreview`, `IFrame`, `CodeBlock`, `LivePreview` (muted, inline, mirrored camera self-view of a `MediaStream`).
+
+Media capture (`voidframe-ui/media`, hooks also on the root): `useUserMedia(constraints)` → `{ stream, state: "off" | "asking" | "on" | "failed" | "unsupported", reason, deviceLabel, start, stop }` with `DOMException` names mapped to `denied` / `not-found` / `in-use` / `overconstrained` / `insecure`; `useAudioLevel(stream, { fftSize, releaseDbPerSecond, silentDb, silenceMs })` → `{ db, peak, state, resume }` for `AudioLevelMeter`, with the pure `rmsDb`, `peakDb`, `applyRelease` and `detectSilence` exported; `useMediaRecorder(stream, { timesliceMs, onChunk })` → `{ state, chunks, blob, durationMs, start, stop, pause, resume }`. `Transcript` (`voidframe-ui/data`) shows timed segments (`{ startS, endS?, text, confidence?, speaker?, flagged? }`), highlights the one at `currentTimeS`, seeks on click, dims low-confidence text and marks flags. None of these send media anywhere: streams, levels, recordings and transcripts stay on the device until the consumer does something with them.
 
 ### Overlays
 

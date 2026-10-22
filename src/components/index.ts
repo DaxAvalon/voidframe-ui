@@ -1269,6 +1269,10 @@ export { TokenVisualizer } from "./TokenVisualizer";
 export type { TokenVisualizerProps } from "./TokenVisualizer";
 export { ConfidenceMeter } from "./ConfidenceMeter";
 export type { ConfidenceMeterProps, ConfidenceZone } from "./ConfidenceMeter";
+export { Transcript, activeSegmentIndex, formatTranscriptTime } from "./Transcript";
+export type { TranscriptProps, TranscriptSegment } from "./Transcript";
+export { LivePreview } from "./LivePreview";
+export type { LivePreviewProps } from "./LivePreview";
 export { AudioLevelMeter, applyDecay, dbToFraction, formatDb } from "./AudioLevelMeter";
 export type {
   AudioLevelMeterProps,

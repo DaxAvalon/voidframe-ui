@@ -6,6 +6,23 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Media capture hooks** (`voidframe-ui/media` and the root): `useUserMedia(constraints, { autoStart,
+  onStream, onFailure })` requests a camera/microphone and exposes `stream`, `state`
+  (`off | asking | on | failed | unsupported`), a `reason` mapped from the `DOMException` name
+  (`denied`, `not-found`, `in-use`, `overconstrained`, `insecure`, `aborted`, `ended`), the device
+  labels and `start` / `stop`; tracks are stopped on `stop()` and unmount and an unplugged device
+  returns the hook to `off` with `reason: "ended"`. `useAudioLevel(stream, options)` measures RMS
+  and peak in dBFS through an `AnalyserNode` with instant attack, limited release and a silence
+  detector (`state: idle | suspended | live | silent`, `resume()` for autoplay policy); `rmsDb`,
+  `peakDb`, `applyRelease` and `detectSilence` are exported. `useMediaRecorder(stream, { mimeType,
+  timesliceMs, onChunk, onStop })` records to Blobs (`pickRecorderMimeType` chooses a supported
+  container). `LivePreview` renders a muted, inline, mirrored self-view from a `MediaStream` with a
+  placeholder when off. Nothing in these hooks transmits media; sending is the consumer's act.
+- **`Transcript`** (`voidframe-ui/data`): timed segments with start-time stamps, optional speakers,
+  the segment at `currentTimeS` highlighted (`aria-current`), click / Enter to `onSeek`,
+  low-confidence segments dimmed (`lowConfidenceBelow`), reviewer `flagged` marks, `follow` to
+  scroll with playback, `renderText`, `empty`; `activeSegmentIndex` and `formatTranscriptTime` are
+  exported.
 - **Shared `Binding` model** (`voidframe-ui/core`): `{ kind: "key" | "code" | "pedal" | "midi", value,
   label? }` with `toBinding`, `matchesKeyboardEvent` (key chords by `e.key`, code chords by
   `e.code`; `{ modifiers: "strict" }` rejects an unrequested Shift), `bindingFromKeyboardEvent(e,

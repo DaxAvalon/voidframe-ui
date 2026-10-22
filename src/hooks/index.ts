@@ -111,6 +111,31 @@ export {
   type UseThemePersistenceOptions,
   type UseThemePersistenceReturn,
 } from "./useThemePersistence";
+export {
+  useUserMedia,
+  userMediaReason,
+  type UseUserMediaOptions,
+  type UseUserMediaReturn,
+  type UserMediaState,
+  type UserMediaReason,
+} from "./useUserMedia";
+export {
+  useAudioLevel,
+  rmsDb,
+  peakDb,
+  applyRelease,
+  detectSilence,
+  type UseAudioLevelOptions,
+  type UseAudioLevelReturn,
+  type AudioLevelState,
+} from "./useAudioLevel";
+export {
+  useMediaRecorder,
+  pickRecorderMimeType,
+  type UseMediaRecorderOptions,
+  type UseMediaRecorderReturn,
+  type MediaRecorderState,
+} from "./useMediaRecorder";
 
 // Phase 3 — interaction
 export { useEscapeKey } from "./useEscapeKey";

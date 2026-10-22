@@ -135,6 +135,7 @@ export const VF_TOKEN_NAMES: readonly string[] = [
   "--vf-letter-spacing",
   "--vf-line-height",
   "--vf-list-row-min-height",
+  "--vf-live-preview-ratio",
   "--vf-marquee-duration",
   "--vf-menu-align-offset",
   "--vf-menu-side-offset",
