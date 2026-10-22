@@ -14,6 +14,34 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  react19:
+    name: react 19 · typecheck · test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-fund
+
+      # The peer range is >=18; keep the upper end honest by compiling and
+      # running the suite against the current React 19 release and its types.
+      - name: Swap in React 19
+        run: npm install --no-save --no-fund react@19 react-dom@19 @types/react@19 @types/react-dom@19
+
+      - name: Typecheck (React 19 types)
+        run: npm run typecheck
+
+      - name: Tests (React 19 runtime)
+        run: npm test -- --run
+
   ci:
     name: typecheck · test · build
     runs-on: ubuntu-latest

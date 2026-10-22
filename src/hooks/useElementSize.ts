@@ -6,6 +6,6 @@ import { useResizeObserver, type ResizeSize } from "./useResizeObserver";
 /**
  * Convenience wrapper over `useResizeObserver`.
  */
-export function useElementSize<T extends Element>(ref: RefObject<T>): ResizeSize {
+export function useElementSize<T extends Element>(ref: RefObject<T | null>): ResizeSize {
   return useResizeObserver(ref);
 }

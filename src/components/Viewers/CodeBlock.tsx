@@ -28,7 +28,7 @@ function HTMLPane({
   className?: string;
   role?: string;
   "aria-label"?: string;
-}): JSX.Element {
+}): React.JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;

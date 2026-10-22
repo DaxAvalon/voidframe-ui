@@ -121,7 +121,7 @@ function JSONNode({
   onSelect?: (path: string) => void;
   nameKey: string;
   isArrayItem?: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   const { expandedPaths, generation } = useContext(JSONViewerContext);
   const naturalDefault =
     defaultExpanded === true

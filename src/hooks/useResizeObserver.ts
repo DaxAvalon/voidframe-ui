@@ -12,7 +12,7 @@ export interface ResizeSize {
  * Returns `{ width: 0, height: 0 }` until the first measurement.
  */
 export function useResizeObserver<T extends Element>(
-  ref: RefObject<T>
+  ref: RefObject<T | null>
 ): ResizeSize {
   const [size, setSize] = useState<ResizeSize>({ width: 0, height: 0 });
 

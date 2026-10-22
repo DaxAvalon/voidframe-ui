@@ -6,6 +6,7 @@
 // Enables `<Button asChild><Link href="/">Home</Link></Button>` patterns.
 // ═══════════════════════════════════════════════════════════════
 
+import { getElementRef } from "./getElementRef";
 import {
   Children,
   cloneElement,
@@ -56,13 +57,18 @@ export const Slot = forwardRef<HTMLElement, SlotProps>(function Slot(
     (child.props as Record<string, unknown>) ?? {}
   );
 
-  const childRef = (child as { ref?: Ref<HTMLElement> }).ref;
+  const childRef = getElementRef<HTMLElement>(child);
   // useMergedRefs is a hook — calling it conditionally would violate rules,
   // so we always call it. `null` refs are skipped inside.
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const mergedRef = useMergedRefs(forwardedRef, childRef ?? null);
 
-  return cloneElement(child, { ...merged, ref: mergedRef });
+  // `ref` lives in props under React 19 and beside them under React 18; typing
+  // the child's props as an open record keeps the call valid for both.
+  return cloneElement(child as ReactElement<Record<string, unknown>>, {
+    ...merged,
+    ref: mergedRef,
+  });
 });
 
 Slot.displayName = "Slot";

@@ -6,6 +6,7 @@
 // (no floating-ui dep): position relative to the trigger's bounding rect,
 // compute placement/offset, and flip when there's no room.
 
+import { getElementRef } from "../primitives/getElementRef";
 import {
   Children,
   cloneElement,
@@ -343,7 +344,7 @@ export function Tooltip({
   const child = children as ReactElement<Record<string, unknown>>;
   const captureRef = (node: HTMLElement | null) => {
     triggerRef.current = node;
-    const childRef = (child as { ref?: React.Ref<HTMLElement> }).ref;
+    const childRef = getElementRef<HTMLElement>(child);
     if (typeof childRef === "function") childRef(node);
     else if (childRef && typeof childRef === "object")
       (childRef as { current: HTMLElement | null }).current = node;

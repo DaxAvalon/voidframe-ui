@@ -19,7 +19,9 @@ export interface ChartLegendItem {
   glyph?: "square" | "circle" | "line";
 }
 
-export interface ChartLegendProps extends HTMLAttributes<HTMLDivElement> {
+// `onToggle` is a native event handler in React 19's HTMLAttributes; ours is
+// the legend's own item toggle, so the native one is omitted.
+export interface ChartLegendProps extends Omit<HTMLAttributes<HTMLDivElement>, "onToggle"> {
   items: ChartLegendItem[];
   orientation?: "horizontal" | "vertical";
   onToggle?: (key: string) => void;

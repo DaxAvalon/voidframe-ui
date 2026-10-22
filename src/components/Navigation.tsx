@@ -1,5 +1,6 @@
 "use client";
 
+import { getElementRef } from "../primitives/getElementRef";
 import {
   Children,
   cloneElement,
@@ -641,8 +642,8 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
     const child = children as ReactElement<Record<string, unknown>> & {
       ref?: React.Ref<HTMLElement>;
     };
-    // Preserve child's own ref (React 18 shape) alongside forwarded ref from NavItem.
-    const childRef = child.ref;
+    // Preserve the child's own ref (React 18 or 19 shape) alongside the forwarded ref.
+    const childRef = getElementRef<HTMLElement>(child);
     const mergedRef = (node: HTMLElement | null) => {
       if (typeof childRef === "function") childRef(node);
       else if (childRef && typeof childRef === "object") {

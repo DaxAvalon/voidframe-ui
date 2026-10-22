@@ -59,6 +59,16 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **React 19 is now typechecked and tested in CI.** Two global `JSX.Element`
+  annotations, `cloneElement` ref typing in `Slot`, `RefObject<T | null>`
+  parameters on the resize hooks and `useClickOutside`, an argument-less
+  `useRef`, `ClassValue` without `bigint`, and `ChartLegendProps.onToggle`
+  clashing with React 19's native `onToggle` all failed under
+  `@types/react@19`. `asChild` paths (`Slot`, `Presence`, `TooltipV2`,
+  `NavItem asChild`) now read a child's ref through `getElementRef`, which
+  uses `props.ref` on React 19 and `element.ref` on React 18 without hitting
+  the React 19 deprecation getter. A `react19` CI job swaps in React 19 and
+  runs typecheck and the suite.
 - **`Text` warns when `color` is not a CSS colour, and gains `tone`.** `color`
   was written to inline style verbatim, so `color="muted"` or `"danger"` was
   silently dropped by the browser. `Text` now warns in development for tone

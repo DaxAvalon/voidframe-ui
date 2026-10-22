@@ -31,7 +31,7 @@ const SAMPLE_OPTIONS = [
   { value: "b", label: "Banana" },
 ];
 
-const cases: Array<{ name: string; render: () => JSX.Element }> = [
+const cases: Array<{ name: string; render: () => React.JSX.Element }> = [
   {
     name: "ColorPicker",
     render: () => <ColorPicker wrapperProps={{ "data-testid": "wp" }} />,

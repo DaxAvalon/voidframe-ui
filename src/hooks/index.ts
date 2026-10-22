@@ -227,7 +227,7 @@ export function useToggle(
  */
 export function useClickOutside<T extends HTMLElement = HTMLElement>(
   onClickOutside: () => void
-): RefObject<T> {
+): RefObject<T | null> {
   const ref = useRef<T>(null);
   useEffect(() => {
     const handler = (e: globalThis.MouseEvent) => {
@@ -364,7 +364,7 @@ export interface UseCopyToClipboardReturn {
  */
 export function useCopyToClipboard(resetDelay: number = 2000): UseCopyToClipboardReturn {
   const [copied, setCopied] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => () => clearTimeout(timerRef.current), []);
   const copy = useCallback(
     async (text: string) => {
