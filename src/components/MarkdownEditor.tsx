@@ -6,8 +6,9 @@
 // simple toolbar that inserts markdown around the current selection.
 //
 // Bundles a tiny markdown renderer for the preview. It covers the common
-// subset (headers, emphasis, inline code, code fences, links, lists, hr,
-// blockquote, hard breaks). For richer rendering, pass your own `renderPreview`.
+// subset (headers, emphasis, inline code, code fences, links, lists, task
+// lists, GFM tables, hr, blockquote, hard breaks). For richer rendering,
+// pass your own `renderPreview`.
 //
 // SECURITY: The bundled renderer emits React elements — never innerHTML
 // strings — and validates link URLs through `safeHref`. User input can
@@ -311,6 +312,12 @@ export type MarkdownComponents = Partial<{
   strong: React.ElementType;
   em: React.ElementType;
   br: React.ElementType;
+  table: React.ElementType;
+  thead: React.ElementType;
+  tbody: React.ElementType;
+  tr: React.ElementType;
+  th: React.ElementType;
+  td: React.ElementType;
 }>;
 
 export interface RenderMarkdownOptions {
@@ -318,7 +325,70 @@ export interface RenderMarkdownOptions {
   components?: MarkdownComponents;
   /** Opens links in a new tab when set. Default: `"_blank"` (+noopener+noreferrer). */
   linkTarget?: "_blank" | "_self";
+  /**
+   * Called when a task-list checkbox (`- [ ]` / `- [x]`) is toggled.
+   * `index` counts task items through the document from 0, `checked` is
+   * the new state and `line` is the 1-based line of that item in the
+   * source string. Setting it makes task checkboxes interactive unless
+   * `interactiveTasks` is `false`.
+   */
+  onTaskToggle?: (index: number, checked: boolean, line: number) => void;
+  /** Make task-list checkboxes interactive. Default: `!!onTaskToggle`. */
+  interactiveTasks?: boolean;
 }
+
+export type MarkdownTableAlign = "left" | "center" | "right" | undefined;
+
+/** A `|`-row split into trimmed cells; leading/trailing pipes optional. */
+function splitTableRow(line: string): string[] {
+  let s = line.trim();
+  if (s.startsWith("|")) s = s.slice(1);
+  if (s.endsWith("|") && !s.endsWith("\\|")) s = s.slice(0, -1);
+  const cells: string[] = [];
+  let cur = "";
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i]!;
+    if (ch === "\\" && s[i + 1] === "|") {
+      cur += "|";
+      i++;
+    } else if (ch === "|") {
+      cells.push(cur.trim());
+      cur = "";
+    } else {
+      cur += ch;
+    }
+  }
+  cells.push(cur.trim());
+  return cells;
+}
+
+const TABLE_DELIM_CELL = /^:?-+:?$/;
+
+/** Parse a GFM delimiter row (`| --- | :-: |`) into alignments, or null. */
+function parseTableDelimiter(line: string): MarkdownTableAlign[] | null {
+  if (!line.includes("-") || !line.includes("|")) return null;
+  const cells = splitTableRow(line);
+  if (cells.length === 0) return null;
+  const aligns: MarkdownTableAlign[] = [];
+  for (const c of cells) {
+    if (!TABLE_DELIM_CELL.test(c)) return null;
+    const left = c.startsWith(":");
+    const right = c.endsWith(":");
+    aligns.push(left && right ? "center" : right ? "right" : left ? "left" : undefined);
+  }
+  return aligns;
+}
+
+/** True when `lines[i]` and `lines[i + 1]` open a GFM table. */
+function isTableStart(lines: string[], i: number): boolean {
+  const head = lines[i];
+  const delim = lines[i + 1];
+  if (!head || !delim || !head.includes("|")) return false;
+  const aligns = parseTableDelimiter(delim);
+  return aligns !== null && splitTableRow(head).length === aligns.length;
+}
+
+const TASK_RE = /^\[([ xX])\]\s+/;
 
 function resolveTag(
   tag: keyof MarkdownComponents,
@@ -393,6 +463,42 @@ export function renderMarkdownBlocks(
   const Li = resolveTag("li", options.components);
   const Hr = resolveTag("hr", options.components);
   const P = resolveTag("p", options.components);
+  const TableTag = resolveTag("table", options.components);
+  const Thead = resolveTag("thead", options.components);
+  const Tbody = resolveTag("tbody", options.components);
+  const Tr = resolveTag("tr", options.components);
+  const Th = resolveTag("th", options.components);
+  const Td = resolveTag("td", options.components);
+  const interactiveTasks = options.interactiveTasks ?? !!options.onTaskToggle;
+  let taskIndex = 0;
+
+  // One list item: a `[ ]`/`[x]` prefix becomes a task checkbox.
+  const listItem = (raw: string, key: string, line: number) => {
+    const task = raw.match(TASK_RE);
+    if (!task) return <Li key={key}>{inline(raw, key)}</Li>;
+    const checked = task[1] !== " ";
+    const idx = taskIndex++;
+    const text = raw.slice(task[0].length);
+    return (
+      <Li key={key} className="vf-md-task" data-checked={checked ? "true" : "false"}>
+        <input
+          type="checkbox"
+          className="vf-md-task__checkbox"
+          checked={checked}
+          disabled={!interactiveTasks}
+          aria-disabled={!interactiveTasks ? true : undefined}
+          onChange={
+            interactiveTasks
+              ? (e) => options.onTaskToggle?.(idx, e.target.checked, line)
+              : undefined
+          }
+          readOnly={!interactiveTasks}
+        />
+        <span className="vf-md-task__text">{inline(text, key)}</span>
+      </Li>
+    );
+  };
+
   while (i < lines.length) {
     const line = lines[i]!;
     if (/^```/.test(line)) {
@@ -436,34 +542,73 @@ export function renderMarkdownBlocks(
       blocks.push(<Blockquote key={key}>{inline(quote.join(" "), key)}</Blockquote>);
       continue;
     }
+    if (isTableStart(lines, i)) {
+      const headerCells = splitTableRow(line);
+      const aligns = parseTableDelimiter(lines[i + 1]!)!;
+      i += 2;
+      const rows: string[][] = [];
+      while (i < lines.length && lines[i]!.trim() !== "" && lines[i]!.includes("|")) {
+        const cells = splitTableRow(lines[i]!);
+        // Pad or trim to the header width, as GFM does.
+        rows.push(
+          Array.from({ length: headerCells.length }, (_, c) => cells[c] ?? "")
+        );
+        i++;
+      }
+      const key = `t-${blocks.length}`;
+      const alignStyle = (c: number): CSSProperties | undefined =>
+        aligns[c] ? { textAlign: aligns[c] } : undefined;
+      blocks.push(
+        <TableTag key={key} className="vf-md-table">
+          <Thead>
+            <Tr>
+              {headerCells.map((h, c) => (
+                <Th key={`${key}-h${c}`} scope="col" style={alignStyle(c)}>
+                  {inline(h, `${key}-h${c}`)}
+                </Th>
+              ))}
+            </Tr>
+          </Thead>
+          <Tbody>
+            {rows.map((r, ri) => (
+              <Tr key={`${key}-r${ri}`}>
+                {r.map((cell, c) => (
+                  <Td key={`${key}-r${ri}c${c}`} style={alignStyle(c)}>
+                    {inline(cell, `${key}-r${ri}c${c}`)}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </TableTag>
+      );
+      continue;
+    }
     if (/^[-*]\s+/.test(line)) {
-      const items: string[] = [];
+      const items: { text: string; line: number }[] = [];
       while (i < lines.length && /^[-*]\s+/.test(lines[i]!)) {
-        items.push(lines[i]!.replace(/^[-*]\s+/, ""));
+        items.push({ text: lines[i]!.replace(/^[-*]\s+/, ""), line: i + 1 });
         i++;
       }
       const key = `ul-${blocks.length}`;
+      const isTaskList = items.some((it) => TASK_RE.test(it.text));
       blocks.push(
-        <Ul key={key}>
-          {items.map((it, idx) => (
-            <Li key={`${key}-${idx}`}>{inline(it, `${key}-${idx}`)}</Li>
-          ))}
+        <Ul key={key} className={isTaskList ? "vf-md-task-list" : undefined}>
+          {items.map((it, idx) => listItem(it.text, `${key}-${idx}`, it.line))}
         </Ul>
       );
       continue;
     }
     if (/^\d+\.\s+/.test(line)) {
-      const items: string[] = [];
+      const items: { text: string; line: number }[] = [];
       while (i < lines.length && /^\d+\.\s+/.test(lines[i]!)) {
-        items.push(lines[i]!.replace(/^\d+\.\s+/, ""));
+        items.push({ text: lines[i]!.replace(/^\d+\.\s+/, ""), line: i + 1 });
         i++;
       }
       const key = `ol-${blocks.length}`;
       blocks.push(
         <Ol key={key}>
-          {items.map((it, idx) => (
-            <Li key={`${key}-${idx}`}>{inline(it, `${key}-${idx}`)}</Li>
-          ))}
+          {items.map((it, idx) => listItem(it.text, `${key}-${idx}`, it.line))}
         </Ol>
       );
       continue;
@@ -477,7 +622,8 @@ export function renderMarkdownBlocks(
     while (
       i < lines.length &&
       lines[i]!.trim() !== "" &&
-      !/^(#{1,6}\s|>\s|[-*]\s|\d+\.\s|```|-{3,}$|_{3,}$|\*{3,}$)/.test(lines[i]!)
+      !/^(#{1,6}\s|>\s|[-*]\s|\d+\.\s|```|-{3,}$|_{3,}$|\*{3,}$)/.test(lines[i]!) &&
+      !isTableStart(lines, i)
     ) {
       para.push(lines[i]!);
       i++;
@@ -489,8 +635,9 @@ export function renderMarkdownBlocks(
 }
 
 /**
- * Markdown editor with live preview. Sanitises rendered HTML via DOMPurify
- * (peer dependency).
+ * Markdown editor with live preview. The bundled preview renderer emits
+ * React elements (no HTML strings, no sanitizer peer needed); a custom
+ * `renderPreview` is responsible for its own sanitisation.
  */
 export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
   function MarkdownEditor(

@@ -208,6 +208,14 @@ export interface MessageContentProps
   streaming?: boolean;
   cursor?: boolean;
   citations?: ReactNode;
+  /**
+   * Forwarded to `MarkdownRenderer`: called when a `- [ ]` task checkbox in
+   * markdown content is toggled (document index, new state, 1-based source
+   * line). Setting it makes the checkboxes interactive.
+   */
+  onTaskToggle?: (index: number, checked: boolean, line: number) => void;
+  /** Forwarded to `MarkdownRenderer`. Default: `!!onTaskToggle`. */
+  interactiveTasks?: boolean;
 }
 
 /**
@@ -218,9 +226,21 @@ export interface MessageContentProps
  */
 export const MessageContent = forwardRef<HTMLDivElement, MessageContentProps>(
   function MessageContent(
-    { content, children, markdown, streaming, cursor, citations, className, ...props },
+    {
+      content,
+      children,
+      markdown,
+      streaming,
+      cursor,
+      citations,
+      onTaskToggle,
+      interactiveTasks,
+      className,
+      ...props
+    },
     ref
   ) {
+    const mdProps = { onTaskToggle, interactiveTasks };
     return (
       <div
         ref={ref}
@@ -235,13 +255,18 @@ export const MessageContent = forwardRef<HTMLDivElement, MessageContentProps>(
           children
         ) : typeof content === "string" ? (
           markdown ? (
-            <MarkdownRenderer content={content} />
+            <MarkdownRenderer content={content} {...mdProps} />
           ) : (
             <span className="vf-message-content__text">{content}</span>
           )
         ) : content !== undefined ? (
           content.map((part, i) => (
-            <MessagePartRenderer key={i} part={part} markdown={markdown} />
+            <MessagePartRenderer
+              key={i}
+              part={part}
+              markdown={markdown}
+              {...mdProps}
+            />
           ))
         ) : null}
         {streaming && cursor !== false && (
@@ -268,13 +293,21 @@ export const MessageMarkdown = MessageContent;
 function MessagePartRenderer({
   part,
   markdown,
+  onTaskToggle,
+  interactiveTasks,
 }: {
   part: MessagePart;
   markdown?: boolean;
+  onTaskToggle?: (index: number, checked: boolean, line: number) => void;
+  interactiveTasks?: boolean;
 }) {
   if (part.type === "text") {
     return markdown ? (
-      <MarkdownRenderer content={part.text} />
+      <MarkdownRenderer
+        content={part.text}
+        onTaskToggle={onTaskToggle}
+        interactiveTasks={interactiveTasks}
+      />
     ) : (
       <p className="vf-message-content__text">{part.text}</p>
     );

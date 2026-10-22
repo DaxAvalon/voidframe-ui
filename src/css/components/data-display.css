@@ -523,6 +523,44 @@
 .vf-markdown-renderer__body ul,
 .vf-markdown-renderer__body ol { padding-inline-start: 1.5em; }
 
+/* GFM tables + task lists from the bundled renderer (also inside
+   MarkdownEditor's preview and chat MessageContent). */
+.vf-md-table {
+  border-collapse: collapse;
+  margin: var(--vf-sp-3) 0;
+  font-size: var(--vf-font-sm);
+  font-variant-numeric: tabular-nums;
+}
+.vf-md-table th,
+.vf-md-table td {
+  padding: var(--vf-sp-2) var(--vf-sp-4);
+  border: 1px solid var(--vf-border-1);
+  text-align: start;
+  vertical-align: top;
+}
+.vf-md-table th {
+  background: var(--vf-bg-2);
+  color: var(--vf-text-0);
+  font-size: var(--vf-font-xxs);
+  font-weight: 600;
+  letter-spacing: var(--vf-label-spacing);
+  text-transform: var(--vf-heading-case, uppercase);
+}
+.vf-md-table tbody tr:nth-child(even) td { background: var(--vf-bg-1); }
+.vf-md-task-list { list-style: none; padding-inline-start: 0; }
+.vf-md-task {
+  display: flex;
+  align-items: baseline;
+  gap: var(--vf-sp-3);
+}
+.vf-md-task__checkbox {
+  margin: 0;
+  flex: none;
+  accent-color: var(--vf-accent);
+}
+.vf-md-task__checkbox:not(:disabled) { cursor: pointer; }
+.vf-md-task[data-checked="true"] .vf-md-task__text { color: var(--vf-text-3); }
+
 /* ── Calendar view ──────────────────────────────────────── */
 .vf-calendar-view { display: flex; flex-direction: column; gap: var(--vf-sp-2); font-family: var(--vf-font-family); }
 .vf-calendar-view__nav { display: flex; align-items: center; gap: var(--vf-sp-2); }

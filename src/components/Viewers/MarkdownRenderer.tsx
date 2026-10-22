@@ -13,26 +13,7 @@ import {
 
 // ── MarkdownRenderer ─────────────────────────────────────────
 
-export type MarkdownComponentMap = Partial<{
-  h1: React.ElementType;
-  h2: React.ElementType;
-  h3: React.ElementType;
-  h4: React.ElementType;
-  h5: React.ElementType;
-  h6: React.ElementType;
-  p: React.ElementType;
-  a: React.ElementType;
-  code: React.ElementType;
-  pre: React.ElementType;
-  ul: React.ElementType;
-  ol: React.ElementType;
-  li: React.ElementType;
-  blockquote: React.ElementType;
-  hr: React.ElementType;
-  strong: React.ElementType;
-  em: React.ElementType;
-  br: React.ElementType;
-}>;
+export type MarkdownComponentMap = MarkdownComponents;
 
 export type MarkdownPlugin = (input: string) => string;
 
@@ -44,15 +25,36 @@ export interface MarkdownRendererProps extends HTMLAttributes<HTMLDivElement> {
   plugins?: MarkdownPlugin[];
   /** Replace specific tags with custom React components. */
   components?: MarkdownComponentMap;
+  /**
+   * Called when a task-list checkbox is toggled with its document index,
+   * new state and 1-based source line. Setting it makes the checkboxes
+   * interactive; they are rendered disabled otherwise.
+   */
+  onTaskToggle?: (index: number, checked: boolean, line: number) => void;
+  /** Make task-list checkboxes interactive. Default: `!!onTaskToggle`. */
+  interactiveTasks?: boolean;
 }
 
 /**
- * Safe markdown renderer. Sanitises HTML via DOMPurify (peer dependency);
- * supports code blocks, tables, task lists.
+ * Safe markdown renderer. Emits React elements only (no HTML strings, no
+ * sanitizer peer): headings, emphasis, inline code, code fences, links
+ * (through `safeHref`), lists, task lists, GFM tables, blockquotes, rules
+ * and hard breaks. Raw HTML in the source is shown as text. Class hooks:
+ * `vf-markdown-renderer__body`, `vf-md-table`, `vf-md-task-list`,
+ * `vf-md-task`, `vf-md-task__checkbox`, `vf-md-task__text`.
  */
 export const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps>(
   function MarkdownRenderer(
-    { content, linkTarget, plugins, components, className, ...props },
+    {
+      content,
+      linkTarget,
+      plugins,
+      components,
+      onTaskToggle,
+      interactiveTasks,
+      className,
+      ...props
+    },
     ref
   ) {
     const processed = useMemo(() => {
@@ -66,8 +68,10 @@ export const MarkdownRenderer = forwardRef<HTMLDivElement, MarkdownRendererProps
         renderMarkdownBlocks(processed, {
           components: components as MarkdownComponents | undefined,
           linkTarget,
+          onTaskToggle,
+          interactiveTasks,
         }),
-      [processed, linkTarget, components]
+      [processed, linkTarget, components, onTaskToggle, interactiveTasks]
     );
 
     return (

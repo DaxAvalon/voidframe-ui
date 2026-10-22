@@ -7,6 +7,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **`onTaskToggle(index, checked, line)` and `interactiveTasks`** on
+  `MarkdownRenderer`, `renderMarkdownBlocks` options and chat
+  `MessageContent`/`MessageMarkdown`: task checkboxes are disabled until a
+  handler is set, then toggle and report their document index, new state
+  and 1-based source line. `MarkdownComponents` gains `table`, `thead`,
+  `tbody`, `tr`, `th`, `td`; class hooks `vf-md-table`, `vf-md-task-list`,
+  `vf-md-task`, `vf-md-task__checkbox`, `vf-md-task__text`.
 - **`Table as="table"`** renders real `<table>`, `<colgroup>`, `<thead>`,
   `<tbody>`, `<tr>`, `<th scope="col">` and `<td>` elements with the same
   column API and classes (`vf-table--semantic` on the wrapper). New
@@ -100,6 +107,14 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **`MarkdownRenderer` now renders the GFM tables and task lists its docs
+  claimed.** The bundled renderer parses `| a | b |` tables with a delimiter
+  row (column alignment honoured, cells padded to the header width, a table
+  may follow a paragraph without a blank line) into `<table>`/`<thead>`/
+  `<tbody>` elements, and `- [ ]`/`- [x]` items into `<li class="vf-md-task">`
+  with a checkbox. Doc comments and README no longer say the renderer or the
+  `MarkdownEditor` preview sanitise HTML through DOMPurify: both emit React
+  elements and need no sanitizer peer.
 - **`Table` docs said "Semantic `<table>` wrapper" while it rendered a div
   grid.** The doc comment and README now describe the default grid, and
   `rowAttributes` is typed for the element each mode renders

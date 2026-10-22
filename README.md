@@ -48,7 +48,7 @@ npm install voidframe-ui
 | `d3-hierarchy` | `TreeMap`, `Sunburst` (loaded on first render) |
 | `d3-sankey` | `Sankey` (loaded on first render) |
 | `d3-scale`, `d3-shape`, `d3-array` | Every other chart in `voidframe-ui/charts`. `voidframe-ui/charts/lazy` imports none of them itself. |
-| `dompurify` | `MarkdownRenderer`, `MarkdownEditor` preview |
+| `dompurify` | `RichTextEditor`, `Mermaid` (`MarkdownRenderer` and the `MarkdownEditor` preview emit React elements and need no sanitizer) |
 | `react-live` | `docs/` site and any `<Playground>` consumer |
 | `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`, `jest-axe` | Required only when using `voidframe-ui/testing`'s helpers |
 
@@ -103,7 +103,7 @@ when it renders without it.
 | Entry | Optional peers it can use |
 |---|---|
 | `voidframe-ui/core`, `/layout`, `/navigation`, `/overlays`, `/data`, `/activity` | none |
-| `voidframe-ui` (root), `/forms`, `/media`, `/specialty` | `dompurify` (RichTextEditor, Mermaid, MarkdownRenderer HTML) |
+| `voidframe-ui` (root), `/forms`, `/media`, `/specialty` | `dompurify` (RichTextEditor, Mermaid) |
 | `voidframe-ui/charts` | `d3-scale` + `d3-shape` + `d3-array` (eager, every chart); `d3-geo` + `topojson-client` (ChoroplethMap, BubbleMap), `d3-force` (NetworkGraph), `d3-hierarchy` (TreeMap, Sunburst), `d3-sankey` (Sankey) are loaded when the chart first renders |
 | `voidframe-ui/charts/lazy` | none at import time; each `Lazy*` wrapper pulls its chart's peers when it mounts |
 | `voidframe-ui/reactflow` | `@xyflow/react` |
@@ -530,7 +530,7 @@ Complex selects: `Combobox`, `MultiSelect`, `TreeSelect`, `MentionInput`.
 
 Date & time: `DatePicker`, `DateRangePicker`, `DateTimePicker`, `TimePicker` (via DatePicker).
 
-Editors: `RichTextEditor`, `MarkdownEditor`, `CodeEditor`, `MarkdownRenderer`.
+Editors: `RichTextEditor`, `MarkdownEditor`, `CodeEditor`, `MarkdownRenderer` (React-element output: headings, emphasis, code, links, lists, `- [ ]` task lists with `onTaskToggle`, GFM tables, blockquotes; no HTML injection, no sanitizer peer).
 
 Capture: `SignaturePad`, `ImageCropper`, `FileUpload`, `Clipboard`.
 
