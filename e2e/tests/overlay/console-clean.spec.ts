@@ -34,7 +34,9 @@ for (const route of OVERLAY_ROUTES) {
       const trigger = triggers.nth(i);
       if (!(await trigger.isVisible())) continue;
       if (route === "ContextMenu") await trigger.click({ button: "right" });
-      else if (route === "Tooltip" || route === "HoverCard") await trigger.hover();
+      // `force`: an open hover card from the previous trigger may still sit
+      // over this one; we audit console errors, not pointer reachability.
+      else if (route === "Tooltip" || route === "HoverCard") await trigger.hover({ force: true });
       else await trigger.click();
       await page.waitForTimeout(150);
       await page.keyboard.press("Escape");

@@ -41,8 +41,9 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   ratio on the surfaces; the library runs it for every built-in theme at AA and, with the exported
   `withHighContrast()` overrides (`highContrastDarkOverrides` / `highContrastGreyOverrides` /
   `highContrastLightOverrides`, kept in sync with `tokens.css` by a test), at 7:1. New Playwright
-  specs audit every fixture route under a coarse pointer for targets under 24 px, adjacent targets
-  closer than 8 px, `title`-only affordances and horizontal overflow at 390 / 768 / 1280 px, and
+  specs audit every fixture route under a coarse pointer for WCAG 2.2 target size (24 px, or the
+  spacing exception for smaller targets), `title`-only affordances and horizontal overflow at
+  390 / 768 / 1280 px, with known offenders held in a per-route baseline so new ones fail, and
   open every overlay route with a zero `console.error` / `pageerror` contract. `data-state` is now
   exposed by `Progress` (`active | complete | indeterminate`), collapsible `Card` (`open | closed`)
   and `DashboardGrid` cells (`idle | moving | resizing | swap-partner`); README documents that rest
