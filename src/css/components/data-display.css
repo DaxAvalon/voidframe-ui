@@ -216,11 +216,11 @@
 }
 
 /* ── DataList / DescriptionList ──────────────────────────── */
-.vf-datalist { display: flex; flex-direction: column; gap: var(--vf-sp-2); font-family: var(--vf-font-family); }
+.vf-datalist { display: flex; flex-direction: column; gap: var(--vf-datalist-gap, var(--vf-sp-2)); font-family: var(--vf-font-family); }
 .vf-datalist__row {
   display: grid; gap: var(--vf-sp-3);
   grid-template-columns: 140px 1fr;
-  padding: var(--vf-sp-2) 0;
+  padding: var(--vf-datalist-row-gap, var(--vf-sp-2)) 0;
   border-bottom: 1px solid var(--vf-border-1);
 }
 .vf-datalist--vertical .vf-datalist__row { grid-template-columns: 1fr; gap: var(--vf-sp-1); }

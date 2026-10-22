@@ -13,7 +13,7 @@ import { toneAttrs } from "../utils/toneAttrs";
  * Button visual variant. `"destructive"` is a shadcn-compat shorthand
  * for `variant="solid" tone="danger"` — not an independent variant.
  */
-export type ButtonVariant = "solid" | "outline" | "ghost" | "subtle" | "destructive";
+export type ButtonVariant = "solid" | "outline" | "ghost" | "subtle" | "destructive" | "primary";
 export type ButtonSize = "sm" | "md" | "lg" | "icon";
 export type ButtonTone =
   | "neutral"
@@ -197,8 +197,8 @@ const ButtonImpl = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
 });
 ButtonImpl.displayName = "Button";
 /**
- * Primary interactive button. Five variants (`solid`, `outline`, `ghost`,
- * `subtle`, `destructive`), four sizes including `icon` (square 1:1 aspect),
+ * Primary interactive button. Six variants (`solid`, `outline`, `ghost`,
+ * `subtle`, `destructive`, `primary`), four sizes including `icon` (square 1:1 aspect),
  * tone vocabulary (`neutral` / `info` / `success` / `danger` / `warning`)
  * mirroring Badge/AlertV2/Card, optional `iconLeft` / `iconRight`, loading
  * spinner, and polymorphic `asChild` for slot-style composition. Memoized so
@@ -221,6 +221,12 @@ ButtonImpl.displayName = "Button";
  * **`variant="destructive"`** is an alias that maps to `tone="danger"` +
  * solid visual — provides drop-in compatibility with shadcn/Radix call
  * sites that use that variant name.
+ *
+ * **`variant="primary"`** is the semantic "main action" slot. It renders
+ * from the `--vf-button-primary-{bg,fg,border}` (and `-hover`) tokens, which
+ * default to the tinted `subtle` look; a theme that wants filled primaries
+ * overrides those tokens once instead of every call site choosing between
+ * `solid` and `subtle`.
  */
 export const Button = memo(ButtonImpl);
 (Button as unknown as { displayName: string }).displayName = "Button";

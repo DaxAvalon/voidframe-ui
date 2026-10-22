@@ -119,6 +119,15 @@ export {
 } from "./usePersistedChoice";
 export { usePolling, type UsePollingOptions, type UsePollingReturn } from "./usePolling";
 export {
+  createSocketBus,
+  useSocketTopic,
+  useSocketBusStatus,
+  type SocketBus,
+  type SocketBusOptions,
+  type SocketBusHandler,
+  type SocketBusStatus,
+} from "./socketBus";
+export {
   useScrollHighlight,
   type UseScrollHighlightOptions,
   type UseScrollHighlightReturn,

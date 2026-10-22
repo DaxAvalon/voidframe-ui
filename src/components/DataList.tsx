@@ -35,17 +35,27 @@ export interface DataListProps extends HTMLAttributes<HTMLDivElement> {
    * props directly.
    */
   itemAttributes?: (item: DataListItem, index: number) => HTMLAttributes<HTMLDivElement>;
+  /** Space between rows (CSS length or px number). Default the stylesheet's `--vf-sp-2`. */
+  gap?: number | string;
+  /** Vertical padding inside each row. Default `--vf-sp-2`; use `0` for dense inspectors. */
+  rowGap?: number | string;
   children?: ReactNode;
 }
 
 const DataListBase = forwardRef<HTMLDivElement, DataListProps>(function DataList(
-  { items, orientation = "horizontal", itemAttributes, className, children, ...props },
+  { items, orientation = "horizontal", itemAttributes, gap, rowGap, className, style, children, ...props },
   ref
 ) {
+  const px = (v: number | string | undefined) => (typeof v === "number" ? `${v}px` : v);
+  const vars = {
+    ...(gap !== undefined ? { "--vf-datalist-gap": px(gap) } : {}),
+    ...(rowGap !== undefined ? { "--vf-datalist-row-gap": px(rowGap) } : {}),
+  } as React.CSSProperties;
   return (
     <div
       ref={ref}
       className={cx("vf-datalist", `vf-datalist--${orientation}`, className)}
+      style={{ ...vars, ...style }}
       {...props}
     >
       {items?.map((it, i) => {

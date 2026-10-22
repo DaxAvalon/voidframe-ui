@@ -623,7 +623,8 @@ Headings inside `Text` already reset their margins; `Sticky` exists for sticky h
 
 | Want | Use |
 |------|-----|
-| Primary action | `variant="solid"` |
+| The main action | `variant="primary"` — rendered from `--vf-button-primary-{bg,fg,border}` (default: the tinted `subtle` look). Themes that want filled primaries override those tokens once. |
+| A filled action | `variant="solid"` |
 | Secondary action | `variant="outline"` (default) |
 | Destructive action | `tone="danger"` (or `variant="destructive"`) |
 | Subtle/ghost action | `variant="ghost"` or `variant="subtle"` |
@@ -727,7 +728,7 @@ distinction is part of why the two components exist.
 
 ### Data display
 
-Tables: `Table` (CSS grid with table ARIA roles by default; `as="table"` renders real `<table>`/`<thead>`/`<tbody>`/`<tr>`/`<th scope>`/`<td>` with the same column API, `rowHeader` columns as `<th scope="row">`, `rowTone` for tinted rows, `selectedRowKey` / `isRowSelected` for the shared selection grammar), `DataGrid` (sort / filter / resize / reorder / group / virtualize / persist / export), `TreeTable`, `DataList`, `DescriptionList`, `KeyValue`, `JSONViewer`, `DiffViewer`, `LogViewer`, `Gantt` (drags snap to whole days by default via `snapTo`; `getTaskPermissions` / `task.locked` fix a bar's start or end; `onDependencyCreate` adds a link handle on every bar, draggable onto another row or driven with Enter; `onDependencyClick` makes arrows clickable; `nameColumnWidth`, `fitTasks`, `autoGranularity`; headers follow the provider locale; arrows to tasks not in `tasks` are not drawn), `Kanban` (generic over the card type; move events carry `toColumnOrder` / `fromColumnOrder`; `onItemClick` opens a card and is suppressed after a drag; columns scroll internally past `columnMaxHeight`, default 60 vh), `Heatmap`.
+Tables: `Table` (CSS grid with table ARIA roles by default; `as="table"` renders real `<table>`/`<thead>`/`<tbody>`/`<tr>`/`<th scope>`/`<td>` with the same column API, `rowHeader` columns as `<th scope="row">`, `rowTone` for tinted rows, `selectedRowKey` / `isRowSelected` for the shared selection grammar), `DataGrid` (sort / filter / resize / reorder / group / virtualize / persist / export), `TreeTable`, `DataList` (`gap` between rows, `rowGap` inside them — `rowGap={0}` for dense inspectors), `DescriptionList`, `KeyValue`, `JSONViewer`, `DiffViewer`, `LogViewer`, `Gantt` (drags snap to whole days by default via `snapTo`; `getTaskPermissions` / `task.locked` fix a bar's start or end; `onDependencyCreate` adds a link handle on every bar, draggable onto another row or driven with Enter; `onDependencyClick` makes arrows clickable; `nameColumnWidth`, `fitTasks`, `autoGranularity`; headers follow the provider locale; arrows to tasks not in `tasks` are not drawn), `Kanban` (generic over the card type; move events carry `toColumnOrder` / `fromColumnOrder`; `onItemClick` opens a card and is suppressed after a drag; columns scroll internally past `columnMaxHeight`, default 60 vh), `Heatmap`.
 
 Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortable`, `ListRow` (the two-cell row that never wraps: identity truncates with a `title`, trailing controls never shrink, fixed `minHeight`).
 
@@ -870,7 +871,7 @@ Domain surfaces that round out the tier-1 offering. Everything below is in the t
 
 **Identity:** `UserCard`, `TeamCard`, `OrganizationCard`, `Identicon` (deterministic 5×5 mirrored pattern), `PresenceList` (grouped by status, maxVisible + overflow).
 
-**Numeric:** `NumberDisplay`, `CurrencyDisplay`, `PercentDisplay` (all locale-aware with auto-tone), `BigNumber` (hero metric with unit + delta + optional sparkline slot).
+**Numeric:** `NumberDisplay` (`scale` divides before formatting), `CurrencyDisplay` (`minorUnits` for values stored in cents / pence, via `minorUnitFactor(currency)`; `scale` for anything else), `PercentDisplay` (all locale-aware with auto-tone), `BigNumber` (hero metric with unit + delta + optional sparkline slot).
 
 **Time:** `TimeZoneSelect` (searchable, Intl-driven), `RelativeTime` (auto-updating, pure `Intl.RelativeTimeFormat`), `DurationDisplay` (`hms`/`compact`/`long`), `Countdown` (its own interval to `target`, or consumer-driven `remainingSeconds` with `thresholds={{ warn, danger }}` tones and `hidden`).
 
@@ -1278,6 +1279,8 @@ Opt-out with `adaptive={false}` when you're wrapping one of these inside your ow
 
 Theming & state:
 `useTokens`, `useControllableState`, `useHover`, `useFocus`, `useToggle`, `useClickOutside`, `useDebounce`, `useMediaQuery`, `useLocalStorage`, `usePersistedChoice` (a validated string choice persisted and synced across tabs and instances; `useThemePersistence` is built on it), `usePolling` (interval with overlap skipping and hidden-tab pause), `useScrollHighlight` (deep-link scroll-and-flash via `data-highlight`), `useInterval`, `usePrevious`, `useForceUpdate`, `useMergedRefs`, `useId`, `useIsomorphicLayoutEffect`. `useLongPress` tolerates `moveTolerance` px of drift and no longer cancels on pointer leave unless `cancelOnLeave` is set.
+
+**Socket bus.** `createSocketBus({ url, topicKey, replay })` opens one WebSocket and multiplexes it: `useSocketTopic(bus, conversationId, handler)` subscribes a component to the messages whose `topicKey` field matches (`"*"` for all), the bus connects when the first subscriber arrives and closes when the last leaves, reconnects with capped backoff, remembers the last event id for replay (`url` may be a function of it), and treats `authCloseCodes` (4001 / 4003 / 4401 / 4403 by default) as terminal so expired credentials do not loop. `useSocketBusStatus(bus)` exposes `idle | connecting | open | closed | unauthorized`. `useWebSocket` remains for a single-purpose socket owned by one component.
 
 Pure helpers on the root: `contrastRatio` / `luminance` (also from `voidframe-ui/tokens`), `lineDiff` / `wordDiff`, `dayLabel` / `groupByDay`, `toISODate` / `isoMonth` / `parseISODate`, and `formatBytes(n, { base: 1000 | 1024, decimals })`.
 

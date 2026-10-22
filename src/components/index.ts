@@ -1296,6 +1296,7 @@ export type {
   TagGroupTag,
   VisualTone,
 } from "./DataVisuals";
+export { minorUnitFactor } from "./Numeric";
 export { Transcript, activeSegmentIndex, formatTranscriptTime } from "./Transcript";
 export type { TranscriptProps, TranscriptSegment } from "./Transcript";
 export { LivePreview } from "./LivePreview";

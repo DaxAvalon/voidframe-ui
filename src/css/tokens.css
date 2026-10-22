@@ -135,6 +135,14 @@
   /* layout */
   --vf-sidebar-rail-width: 56px;
   --vf-kanban-column-max-height: 60vh;
+  /* The primary action. Defaults to the tinted `subtle` look; a theme that
+     wants filled primaries sets these three tokens. */
+  --vf-button-primary-bg: color-mix(in srgb, var(--vf-accent) 8%, transparent);
+  --vf-button-primary-fg: color-mix(in srgb, var(--vf-accent) 80%, transparent);
+  --vf-button-primary-border: color-mix(in srgb, var(--vf-accent) 22%, transparent);
+  --vf-button-primary-bg-hover: color-mix(in srgb, var(--vf-accent) 15%, transparent);
+  --vf-button-primary-fg-hover: var(--vf-accent);
+  --vf-button-primary-border-hover: color-mix(in srgb, var(--vf-accent) 33%, transparent);
 
   /* motion */
   --vf-transition: all 0.15s ease;

@@ -85,6 +85,22 @@
   color: var(--vf-accent, var(--vf-text-1));
 }
 
+/* Semantic primary: rendered from the --vf-button-primary-* tokens. */
+.vf-button--primary {
+  background: var(--vf-button-primary-bg);
+  border-color: var(--vf-button-primary-border);
+  color: var(--vf-button-primary-fg);
+}
+.vf-button--primary:hover:not(:disabled) {
+  background: var(--vf-button-primary-bg-hover);
+  border-color: var(--vf-button-primary-border-hover);
+  color: var(--vf-button-primary-fg-hover);
+}
+.vf-button--primary[data-active="true"] {
+  background: var(--vf-button-primary-bg-hover);
+  color: var(--vf-button-primary-fg-hover);
+}
+
 .vf-button--solid {
   background: var(--vf-accent, var(--vf-text-1));
   border-color: var(--vf-accent, var(--vf-text-1));

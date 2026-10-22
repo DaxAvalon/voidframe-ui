@@ -6,6 +6,14 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **`createSocketBus` / `useSocketTopic` / `useSocketBusStatus`**: one WebSocket shared by many
+  subscribers, routed by a topic field, lazy connect / disconnect, capped backoff, last-event-id
+  replay, and terminal auth close codes.
+- **`Button variant="primary"`**: the semantic main-action slot, rendered from the new
+  `--vf-button-primary-{bg,fg,border}` (+ `-hover`) tokens, which default to the `subtle` look.
+- **`CurrencyDisplay minorUnits` / `scale`** and **`NumberDisplay scale`** format values stored in
+  cents, pence or thousandths without a wrapper; `minorUnitFactor(currency)` is exported.
+- **`DataList gap` / `rowGap`** (`--vf-datalist-gap`, `--vf-datalist-row-gap`) for dense inspectors.
 - **Agent / devops icon pack**: `BotIcon`, `BrainIcon`, `GitBranchIcon`, `GitMergeIcon`,
   `GitCommitIcon`, `RocketIcon`, `PackageIcon`, `ServerIcon`, `ShieldIcon`, `TargetIcon`,
   `TrophyIcon`, `FlaskIcon`, `WandIcon`, `WrenchIcon`, `ScissorsIcon`, `BugIcon`, `SparklesIcon`,

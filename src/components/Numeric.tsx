@@ -22,6 +22,8 @@ export interface NumberDisplayProps
   compact?: boolean;
   /** Show sign for positive numbers too. */
   signed?: boolean;
+  /** Divide `value` by this before formatting (stored in thousandths → `scale={1000}`). */
+  scale?: number;
   prefix?: ReactNode;
   suffix?: ReactNode;
   tone?: Tone;
@@ -39,6 +41,7 @@ export const NumberDisplay = forwardRef<HTMLSpanElement, NumberDisplayProps>(
       decimals,
       compact,
       signed,
+      scale,
       prefix,
       suffix,
       tone,
@@ -48,6 +51,7 @@ export const NumberDisplay = forwardRef<HTMLSpanElement, NumberDisplayProps>(
     ref
   ) {
     const text = useMemo(() => {
+      const scaled = scale && scale !== 0 ? value / scale : value;
       const options: Intl.NumberFormatOptions = {};
       if (decimals !== undefined) {
         options.minimumFractionDigits = decimals;
@@ -58,8 +62,8 @@ export const NumberDisplay = forwardRef<HTMLSpanElement, NumberDisplayProps>(
         options.maximumFractionDigits ??= 1;
       }
       if (signed) options.signDisplay = "exceptZero";
-      return new Intl.NumberFormat(locale, options).format(value);
-    }, [value, locale, decimals, compact, signed]);
+      return new Intl.NumberFormat(locale, options).format(scaled);
+    }, [value, locale, decimals, compact, signed, scale]);
     const ta = toneAttrs("vf-num", { tone });
     return (
       <span
@@ -92,6 +96,18 @@ export interface CurrencyDisplayProps
    */
   autoTone?: boolean;
   decimals?: number;
+  /** `value` is in minor units (cents, pence): divide by the currency's minor-unit factor before formatting. */
+  minorUnits?: boolean;
+  /** Divide `value` by this before formatting; overrides `minorUnits`. */
+  scale?: number;
+}
+
+/** Minor units per major unit for a currency (100 for most; 1 for JPY/KRW…; 1000 for KWD/BHD…). */
+export function minorUnitFactor(currency: string): number {
+  const c = currency.toUpperCase();
+  if (["JPY", "KRW", "VND", "CLP", "ISK", "UGX", "XAF", "XOF", "XPF", "GNF", "PYG", "RWF", "KMF", "DJF", "BIF", "VUV"].includes(c)) return 1;
+  if (["KWD", "BHD", "IQD", "JOD", "LYD", "OMR", "TND"].includes(c)) return 1000;
+  return 100;
 }
 
 /**
@@ -110,11 +126,14 @@ export const CurrencyDisplay = forwardRef<
     compact,
     autoTone,
     decimals,
+    minorUnits,
+    scale,
     className,
     ...props
   },
   ref
 ) {
+  const amount = scale && scale !== 0 ? value / scale : minorUnits ? value / minorUnitFactor(currency) : value;
   const text = useMemo(() => {
     const options: Intl.NumberFormatOptions = {
       style: "currency",
@@ -129,12 +148,12 @@ export const CurrencyDisplay = forwardRef<
       options.notation = "compact";
       options.maximumFractionDigits ??= 2;
     }
-    return new Intl.NumberFormat(locale, options).format(value);
-  }, [value, currency, locale, signed, compact, decimals]);
+    return new Intl.NumberFormat(locale, options).format(amount);
+  }, [amount, currency, locale, signed, compact, decimals]);
 
   const tone =
-    autoTone && value !== 0
-      ? value > 0
+    autoTone && amount !== 0
+      ? amount > 0
         ? "success"
         : "danger"
       : undefined;
