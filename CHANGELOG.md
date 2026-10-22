@@ -75,6 +75,15 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **`dompurify` is no longer required to import the root entry or
+  `voidframe-ui/forms`.** `sanitizeHtml` loads the optional peer lazily on
+  first use; until it has loaded it returns the input with markup escaped
+  (never raw HTML, never silently empty). `RichTextEditor` and `Mermaid`
+  warm it on mount. New exports `ensureSanitizer()` (resolves when ready,
+  rejects naming the missing peer) and `isSanitizerReady()`. The provider,
+  `ThemeScope`, `useThemePersistence`, `createTheme` and the theme objects
+  are now also exported from `voidframe-ui/core`, and the README lists which
+  entries can use which optional peers plus a pnpm/monorepo note.
 - **`DashboardGrid` can require a drag handle, moves and resizes from the
   keyboard, and can size cells to its container.** Any pointerdown on a
   movable card started a drag, so widget bodies could not hold a button,

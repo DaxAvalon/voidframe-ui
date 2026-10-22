@@ -12,11 +12,12 @@
 //     the empty string instead of crashing.
 //
 // `dompurify` is declared `external` in vite.config.ts and an optional
-// peer dep. Consumers who don't use markdown / rich-text / mermaid can
-// rely on tree-shaking to drop this module entirely; consumers who do
-// install dompurify alongside voidframe-ui.
-
-import DOMPurify from "dompurify";
+// peer dep. It is loaded lazily on first use, so importing the root entry
+// or `voidframe-ui/forms` (which carries RichTextEditor) does not require
+// it to be installed. Until the module has loaded, `sanitizeHtml` returns
+// the input with all markup escaped — never raw HTML, never silently
+// empty. Components that sanitise call `ensureSanitizer()` on mount so the
+// purifier is ready by the time content flows through them.
 
 export type SanitizeProfile = "rich-text" | "svg" | "strict";
 
@@ -68,22 +69,73 @@ interface Purifier {
   removeAllHooks: () => void;
 }
 
+type PurifierFactory = (w: Window) => Purifier;
+
+let factory: PurifierFactory | null = null;
+let pending: Promise<void> | null = null;
+
+/**
+ * Load the optional `dompurify` peer. Resolves once `sanitizeHtml` can
+ * sanitise for real; rejects with an error naming the missing package when
+ * it is not installed. Safe to call repeatedly.
+ */
+export function ensureSanitizer(): Promise<void> {
+  if (factory) return Promise.resolve();
+  if (!pending) {
+    pending = import("dompurify")
+      .then((mod) => {
+        const candidate = (mod as { default?: unknown }).default ?? mod;
+        factory = candidate as PurifierFactory;
+      })
+      .catch((cause) => {
+        pending = null;
+        throw new Error(
+          '[voidframe] sanitizeHtml requires the optional peer dependency "dompurify". ' +
+            "Install it with: npm install dompurify" +
+            (cause instanceof Error ? ` (${cause.message})` : "")
+        );
+      });
+  }
+  return pending;
+}
+
+/** Whether the sanitizer module has loaded (true after `ensureSanitizer()` resolves). */
+export function isSanitizerReady(): boolean {
+  return factory !== null;
+}
+
+/** Markup-free fallback used before the purifier has loaded. */
+function escapeHtml(html: string): string {
+  return html
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function getPurifier(): Purifier | null {
-  if (typeof window === "undefined") return null;
-  return DOMPurify(window) as unknown as Purifier;
+  if (typeof window === "undefined" || !factory) return null;
+  return factory(window);
 }
 
 /**
  * Sanitize an HTML string against one of the built-in allowlists.
  * Returns the empty string in SSR / non-browser contexts — callers
- * should treat the output as client-only.
+ * should treat the output as client-only. Before the lazily loaded
+ * purifier is ready (see `ensureSanitizer`) the markup is escaped instead.
  */
 export function sanitizeHtml(
   html: string,
   profile: SanitizeProfile = "rich-text"
 ): string {
+  if (typeof window === "undefined") return "";
   const purify = getPurifier();
-  if (!purify) return "";
+  if (!purify) {
+    void ensureSanitizer().catch(() => {
+      /* reported to callers of ensureSanitizer() */
+    });
+    return escapeHtml(html);
+  }
   const cfg =
     profile === "svg"
       ? SVG_CONFIG

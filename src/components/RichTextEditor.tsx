@@ -23,12 +23,13 @@ import {
   type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
+  useState,
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { useId } from "../hooks/useId";
 import { cx } from "../utils/cx";
 import { safeHref } from "../utils/safeHref";
-import { sanitizeHtml } from "../utils/sanitizeHtml";
+import { ensureSanitizer, isSanitizerReady, sanitizeHtml } from "../utils/sanitizeHtml";
 import { Label } from "./Text";
 
 const HTML_PROP = "innerHTML" as const;
@@ -218,6 +219,23 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorProps>(
         sanitizeProp ?? ((input: string) => sanitizeHtml(input, "rich-text")),
       [sanitizeProp]
     );
+    // Warm the lazily loaded sanitizer so the first read is a real
+    // sanitize, not the escaped fallback. Re-sync the editable once ready.
+    const [sanitizerReady, setSanitizerReady] = useState(isSanitizerReady());
+    useEffect(() => {
+      if (sanitizeProp || sanitizerReady) return;
+      let cancelled = false;
+      ensureSanitizer()
+        .then(() => {
+          if (!cancelled) setSanitizerReady(true);
+        })
+        .catch(() => {
+          /* the escaped fallback stays in effect */
+        });
+      return () => {
+        cancelled = true;
+      };
+    }, [sanitizeProp, sanitizerReady]);
     const editableRef = useRef<HTMLDivElement>(null);
     const editorId = useId(id);
 

@@ -94,6 +94,33 @@ the root entry:
 
 #### When to reach for a subpath vs the root
 
+#### Which entries need which optional peers
+
+Optional peers are loaded lazily where they are used. None is required to
+import an entry; a component that needs one throws a clear install message
+when it renders without it.
+
+| Entry | Optional peers it can use |
+|---|---|
+| `voidframe-ui/core`, `/layout`, `/navigation`, `/overlays`, `/data`, `/activity` | none |
+| `voidframe-ui` (root), `/forms`, `/media`, `/specialty` | `dompurify` (RichTextEditor, Mermaid, MarkdownRenderer HTML) |
+| `voidframe-ui/charts` | `d3-geo` + `topojson-client` (ChoroplethMap, BubbleMap), `d3-force` (NetworkGraph) |
+| `voidframe-ui/reactflow` | `@xyflow/react` |
+| `voidframe-ui/testing` | `jest-axe` (only `expectNoA11yViolations`) |
+
+The provider, `ThemeScope`, `useThemePersistence` and the theme objects are
+exported from `voidframe-ui/core` as well as the root, so an app can mount
+voidframe without touching the root entry.
+
+#### Monorepos and pnpm
+
+pnpm keys a package by its resolved peers, so a workspace where several
+packages import `voidframe-ui` can end up with more than one copy, and the
+provider context in one copy is invisible to components from another. Add
+`resolve.dedupe: ["voidframe-ui", "react", "react-dom"]` to the app's Vite
+config (or hoist `voidframe-ui` to the workspace root), and install the
+optional peers above only in the packages that render those components.
+
 For the vast majority of consumers — anyone using a bundler (Vite, Webpack, Rspack, Rollup, esbuild, Next.js, Remix, Astro, Parcel) — `import { Button } from "voidframe-ui"` is fine. The bundler tree-shakes unused modules, so pulling `Button` from the root bundle only ships `Button`.
 
 The category subpaths (`voidframe-ui/core`, `voidframe-ui/forms`, `voidframe-ui/data`, …) exist for two cases:

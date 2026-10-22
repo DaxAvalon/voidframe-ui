@@ -12,7 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
-import { sanitizeHtml } from "../utils/sanitizeHtml";
+import { ensureSanitizer, sanitizeHtml } from "../utils/sanitizeHtml";
 
 // ── LegalText ───────────────────────────────────────────────
 
@@ -147,7 +147,19 @@ export const Mermaid = forwardRef<HTMLDivElement, MermaidProps>(
       if (!("svg" in state)) return;
       const el = svgRef.current;
       if (!el) return;
-      writeHTML(el, sanitizeHtml(state.svg, "svg"));
+      let cancelled = false;
+      // The sanitizer is a lazily loaded peer; wait for it rather than
+      // writing the escaped fallback into the chart container.
+      ensureSanitizer()
+        .then(() => {
+          if (!cancelled && svgRef.current === el) writeHTML(el, sanitizeHtml(state.svg, "svg"));
+        })
+        .catch(() => {
+          if (!cancelled) writeHTML(el, "");
+        });
+      return () => {
+        cancelled = true;
+      };
     }, [state]);
 
     const mergedRef = (node: HTMLDivElement | null) => {

@@ -128,6 +128,8 @@ export {
   safeHref,
   safeHrefOrWarn,
   sanitizeHtml,
+  ensureSanitizer,
+  isSanitizerReady,
 } from "./utils";
 export type {
   ClassValue,
