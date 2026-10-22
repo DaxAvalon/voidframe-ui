@@ -54,7 +54,7 @@ describe("AudioLevelMeter", () => {
     expect(root()).toHaveAttribute("aria-valuemin", "-60");
     expect(root()).toHaveAttribute("aria-valuemax", "0");
     expect(root()).toHaveAttribute("aria-valuenow", "-60");
-    expect(root()).toHaveAttribute("aria-valuetext", "-∞ dBFS");
+    expect(root()).toHaveAttribute("aria-valuetext", "−∞ dBFS");
     const fill = root().querySelector(".vf-audio-level-meter__fill") as HTMLElement;
     expect(fill.style.width).toBe("0.00%");
   });
@@ -64,7 +64,7 @@ describe("AudioLevelMeter", () => {
     const fill = root().querySelector(".vf-audio-level-meter__fill") as HTMLElement;
     expect(fill.style.width).toBe("50.00%");
     expect(root()).toHaveAttribute("aria-valuenow", "-30");
-    expect(root()).toHaveAttribute("aria-valuetext", "-30.0 dBFS");
+    expect(root()).toHaveAttribute("aria-valuetext", "\u221230.0 dBFS");
   });
 
   it("clamps aria-valuenow to the scale but reports the real value", () => {
@@ -79,7 +79,7 @@ describe("AudioLevelMeter", () => {
     );
     const limit = root().querySelector(".vf-audio-level-meter__limit--red") as HTMLElement;
     expect(limit.style.left).toBe("95.00%");
-    expect(limit.title).toBe("ACX peak (-3.0 dBFS)");
+    expect(limit.title).toBe("ACX peak (\u22123.0 dBFS)");
     expect(root().className).not.toContain("over-");
   });
 
@@ -125,10 +125,10 @@ describe("AudioLevelMeter", () => {
 
   it("shows a 10 dB scale and a readout on request", () => {
     renderWithTheme(<AudioLevelMeter value={-30} showScale showValue unit="LUFS" {...still} />);
-    expect(screen.getByText("-60")).toBeInTheDocument();
-    expect(screen.getByText("-30")).toBeInTheDocument();
+    expect(screen.getByText("\u221260")).toBeInTheDocument();
+    expect(screen.getByText("\u221230")).toBeInTheDocument();
     expect(screen.getByText("0")).toBeInTheDocument();
-    expect(screen.getByText("-30.0 LUFS")).toBeInTheDocument();
+    expect(screen.getByText("\u221230.0 LUFS")).toBeInTheDocument();
   });
 
   it("honours a custom formatter and label", () => {

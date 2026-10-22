@@ -1228,8 +1228,15 @@ export { TokenVisualizer } from "./TokenVisualizer";
 export type { TokenVisualizerProps } from "./TokenVisualizer";
 export { ConfidenceMeter } from "./ConfidenceMeter";
 export type { ConfidenceMeterProps, ConfidenceZone } from "./ConfidenceMeter";
-export { AudioLevelMeter, applyDecay, dbToFraction } from "./AudioLevelMeter";
-export type { AudioLevelMeterProps, AudioLevelMeterLimit, AudioLevelMeterTone } from "./AudioLevelMeter";
+export { AudioLevelMeter, applyDecay, dbToFraction, formatDb } from "./AudioLevelMeter";
+export type {
+  AudioLevelMeterProps,
+  AudioLevelMeterLimit,
+  AudioLevelMeterTone,
+  AudioLevelMeterSize,
+  AudioLevelMeterValueSize,
+  AudioLevelMeterState,
+} from "./AudioLevelMeter";
 export { WaveformStrip, timeToX, xToTime, bucketTiles, rulerTicks, formatTimecode } from "./WaveformStrip";
 export type { WaveformStripProps, WaveformTile, WaveformSegment, WaveformBoundary, WaveformMarker, WaveformMarkerKind, WaveformRange } from "./WaveformStrip";
 export { Verdict, verdictTone } from "./Verdict";

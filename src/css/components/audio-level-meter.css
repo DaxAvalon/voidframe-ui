@@ -21,6 +21,21 @@
 .vf-audio-level-meter--md { --vf-alm-thickness: 16px; }
 /* lg is the booth-mode size: readable at arm's length in the dark. */
 .vf-audio-level-meter--lg { --vf-alm-thickness: 28px; }
+/* xl: read from across the room. */
+.vf-audio-level-meter--xl { --vf-alm-thickness: 40px; }
+
+/* pending: nothing measured yet — hatched empty track.
+   unavailable: cannot be measured — dimmed. */
+.vf-audio-level-meter--pending .vf-audio-level-meter__track {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--vf-alm-track) 0 6px,
+    var(--vf-bg-2) 6px 12px
+  );
+}
+.vf-audio-level-meter--pending .vf-audio-level-meter__fill,
+.vf-audio-level-meter--unavailable .vf-audio-level-meter__fill { display: none; }
+.vf-audio-level-meter--unavailable .vf-audio-level-meter__track { opacity: 0.5; }
 
 /* ── Tracks ─────────────────────────────────────────────────── */
 
@@ -126,12 +141,65 @@
   left: var(--vf-sp-1);
 }
 
+.vf-audio-level-meter__tick--limit { font-weight: 700; color: var(--vf-text-0); }
+.vf-audio-level-meter__tick--amber { color: var(--vf-amber); }
+.vf-audio-level-meter__tick--red { color: var(--vf-red); }
+
+/* Limit words: printed beside the marker so the ceiling is readable, not
+   hover-only. Past the midpoint the label hangs to the start side so it
+   stays inside the meter. */
+.vf-audio-level-meter__limits {
+  position: relative;
+  height: 1.4em;
+  font-size: var(--vf-font-xs);
+}
+.vf-audio-level-meter--vertical .vf-audio-level-meter__limits {
+  height: auto;
+  width: auto;
+  min-width: 4em;
+}
+.vf-audio-level-meter__limit-label {
+  position: absolute;
+  white-space: nowrap;
+  color: var(--vf-text-1);
+}
+.vf-audio-level-meter--horizontal .vf-audio-level-meter__limit-label--end {
+  transform: translateX(-100%);
+}
+.vf-audio-level-meter--vertical .vf-audio-level-meter__limit-label {
+  left: var(--vf-sp-1);
+  transform: translateY(50%);
+}
+.vf-audio-level-meter__limit-label--amber { color: var(--vf-amber); }
+.vf-audio-level-meter__limit-label--red { color: var(--vf-red); }
+
 .vf-audio-level-meter__value {
   font-size: var(--vf-font-sm);
   color: var(--vf-text-1);
 }
-
 .vf-audio-level-meter--lg .vf-audio-level-meter__value {
   font-size: var(--vf-font-xl);
   color: var(--vf-text-0);
+}
+.vf-audio-level-meter--xl .vf-audio-level-meter__value {
+  font-size: var(--vf-font-3xl);
+  color: var(--vf-text-0);
+}
+/* valueSize overrides whatever size implies. */
+.vf-audio-level-meter__value--sm { font-size: var(--vf-font-sm); }
+.vf-audio-level-meter__value--md { font-size: var(--vf-font-md); }
+.vf-audio-level-meter__value--lg { font-size: var(--vf-font-lg); }
+.vf-audio-level-meter__value--xl { font-size: var(--vf-font-xl); }
+.vf-audio-level-meter__value--3xl { font-size: var(--vf-font-3xl); }
+.vf-audio-level-meter__value--state {
+  font-family: var(--vf-font-family);
+  color: var(--vf-text-3);
+  text-transform: var(--vf-heading-case, uppercase);
+  letter-spacing: var(--vf-label-spacing);
+}
+
+.vf-audio-level-meter__caption {
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  color: var(--vf-text-2);
 }

@@ -41,9 +41,15 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   `decayDbPerSecond` (default 60, disabled under `prefers-reduced-motion`),
   consumer-owned `hold` marker, `limits` markers with amber/red tones that
   recolour the fill once crossed, `channels` for one bar per channel, a 10 dB
-  `showScale`, horizontal or vertical. `role="meter"` with unit-bearing
-  `aria-valuetext` (`-∞ dBFS` for silence). Pure helpers `applyDecay` and
-  `dbToFraction` are exported. Built for Vonyx (DaxAvalon/Vonyx#44); see #9.
+  `showScale` that also ticks every limit and prints each limit's word
+  beside its marker (`limits[].showLabel` per limit), a `caption` sentence
+  linked by `aria-describedby`, `size="xl"` and `valueSize` for a numeral
+  read at a distance, and `state="pending" | "unavailable"` (empty bar,
+  state word in the readout and `aria-valuetext`), horizontal or vertical.
+  `role="meter"` with unit-bearing `aria-valuetext` (`−∞ dBFS` for
+  silence) and the limits in its accessible description. Numerals use a
+  true minus sign (U+2212). Pure helpers `applyDecay`, `dbToFraction` and
+  `formatDb` are exported. Built for Vonyx (DaxAvalon/Vonyx#44); see #9, #61.
 - **`booth` theme** (`themeName="booth"`, `boothTheme`). The dark ground and
   accents with every text tier used for words at 7:1 or better, a type scale
   raised for reading at one to two metres (`fontMd` 18 px, `font3xl` 48 px),
