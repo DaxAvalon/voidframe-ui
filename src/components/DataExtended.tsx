@@ -175,7 +175,7 @@ Tag.displayName = "Tag";
 
 // ── Tooltip ───────────────────────────────────────────────────
 
-export interface TooltipProps {
+export interface InlineTooltipProps {
   children: ReactNode;
   content: ReactNode;
   position?: Side;
@@ -184,10 +184,12 @@ export interface TooltipProps {
 }
 
 /**
- * Small text popover anchored to a trigger on hover / focus. Install one
- * `TooltipProvider` near the app root to coordinate delays.
+ * @deprecated Use `Tooltip` (portaled, viewport-aware). This variant renders
+ * the bubble inside the trigger's wrapper, so ancestor stacking contexts and
+ * `overflow` clip it, and the wrapper `<div>` is invalid inside a `<button>`.
+ * Kept for one release; removed in 2.0.
  */
-export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(function Tooltip(
+export const InlineTooltip = forwardRef<HTMLDivElement, InlineTooltipProps>(function InlineTooltip(
   { children, content, position = "top", className, style },
   ref
 ) {
@@ -209,7 +211,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(function Tooltip
     </div>
   );
 });
-Tooltip.displayName = "Tooltip";
+InlineTooltip.displayName = "InlineTooltip";
 
 // ── Code ──────────────────────────────────────────────────────
 

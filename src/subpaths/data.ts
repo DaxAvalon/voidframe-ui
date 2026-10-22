@@ -32,3 +32,9 @@ export * from "../components/TransportStrip";
 export * from "../components/StatusStrip";
 export * from "../components/CountdownDial";
 export * from "../components/AsyncData";
+
+// The data tier historically exported an inline `Tooltip`; the one Tooltip is
+// the portaled overlay, re-exported here so `voidframe-ui/data` consumers get
+// the same component as the root and `voidframe-ui/overlays`.
+export { Tooltip, TooltipProvider } from "../components/Popovers";
+export type { TooltipProps, TooltipProviderProps } from "../components/Popovers";

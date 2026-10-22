@@ -224,13 +224,13 @@ describe("Countdown", () => {
 // ── Help / Changelog / Whats New ──
 
 describe("HelpTooltip", () => {
-  it("renders a button and hidden tooltip content", () => {
-    const { container } = renderWithTheme(
-      <HelpTooltip content="This is a note." />
-    );
-    expect(screen.getByRole("button", { name: "Help" })).toBeInTheDocument();
-    const tip = container.querySelector(".vf-help-tooltip__content");
-    expect(tip).toHaveAttribute("aria-hidden", "true");
+  it("renders a button; the portaled bubble mounts on hover", async () => {
+    renderWithTheme(<HelpTooltip content="This is a note." />);
+    const button = screen.getByRole("button", { name: "Help" });
+    expect(document.body.querySelector(".vf-help-tooltip__content")).toBeNull();
+    await userEvent.hover(button);
+    const tip = document.body.querySelector(".vf-help-tooltip__content");
+    expect(tip).toHaveAttribute("role", "tooltip");
     expect(tip?.textContent).toBe("This is a note.");
   });
 });

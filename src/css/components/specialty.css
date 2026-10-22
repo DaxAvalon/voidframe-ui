@@ -939,27 +939,11 @@
   border-color: var(--vf-border-3);
 }
 
+/* The help bubble is the portaled `.vf-tooltip-v2`; this only widens it. */
 .vf-help-tooltip__content {
-  position: absolute;
-  max-width: 240px;
-  padding: var(--vf-sp-1) var(--vf-sp-2);
-  background: var(--vf-bg-3);
-  color: var(--vf-text-0);
-  border: 1px solid var(--vf-border-2);
-  font-size: var(--vf-font-xs);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--vf-duration-fast) var(--vf-easing-standard);
-  z-index: var(--vf-z-overlay-sub);
+  max-width: 280px;
   white-space: normal;
 }
-
-.vf-help-tooltip--open .vf-help-tooltip__content { opacity: 1; }
-
-.vf-help-tooltip--top .vf-help-tooltip__content { bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
-.vf-help-tooltip--bottom .vf-help-tooltip__content { top: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
-.vf-help-tooltip--left .vf-help-tooltip__content { inset-inline-end: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
-.vf-help-tooltip--right .vf-help-tooltip__content { inset-inline-start: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
 
 /* ── ContextHelp ───────────────────────────────────────────── */
 

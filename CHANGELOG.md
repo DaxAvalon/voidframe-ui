@@ -57,6 +57,22 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   `formatSeconds`. Distinct from `Countdown`, the text timer to a target date.
   Built for Vonyx (DaxAvalon/Vonyx#131); see #16.
 
+### Behavior changes
+
+- **One `Tooltip`.** The root and `voidframe-ui/data` exported an inline
+  tooltip (an absolutely positioned bubble inside the trigger's wrapper,
+  prop `position`) while `voidframe-ui/overlays` exported the portaled one
+  (prop `placement`) under the same name, and the root called the portaled
+  one `TooltipV2`. Every entry now exports the portaled tooltip as `Tooltip`
+  (`TooltipV2` stays as an alias). It accepts `position` as a deprecated
+  alias of `placement`, wraps a non-element child in a `span` instead of
+  throwing, applies `className`/`style` to the bubble, supports controlled
+  `open`/`onOpenChange`, and forwards its ref to the trigger. The inline
+  variant is still available as `InlineTooltip` (deprecated, removed in
+  2.0). `HelpTooltip` renders its bubble through the portaled tooltip, so it
+  escapes sticky bars and `overflow` containers; the bubble mounts on hover
+  rather than sitting hidden in the DOM.
+
 ### Fixed
 
 - **React 19 is now typechecked and tested in CI.** Two global `JSX.Element`

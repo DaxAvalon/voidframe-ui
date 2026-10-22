@@ -124,7 +124,7 @@ describe("Components — forwardRef + displayName invariants", () => {
       "Tooltip",
       Components.Tooltip,
       { content: "tip", children: <button>btn</button> },
-      HTMLDivElement,
+      HTMLButtonElement, // the forwarded ref reaches the trigger
     ],
     ["Code", Components.Code, { children: "x" }, HTMLElement],
     ["Timeline", Components.Timeline, { events: [{ title: "x" }] }, HTMLDivElement],

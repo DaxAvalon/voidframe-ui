@@ -12,7 +12,7 @@ import {
   Spinner,
   Tag,
   Timeline,
-  Tooltip,
+  InlineTooltip,
 } from "../DataExtended";
 import { renderWithTheme } from "../../../test/renderWithTheme";
 
@@ -68,12 +68,12 @@ describe("Tag", () => {
   });
 });
 
-describe("Tooltip", () => {
+describe("InlineTooltip (deprecated)", () => {
   it("shows content on hover", async () => {
     renderWithTheme(
-      <Tooltip content="tip">
+      <InlineTooltip content="tip">
         <button>hover me</button>
-      </Tooltip>
+      </InlineTooltip>
     );
     await userEvent.hover(screen.getByRole("button"));
     expect(screen.getByText("tip")).toBeInTheDocument();
@@ -81,9 +81,9 @@ describe("Tooltip", () => {
 
   it("hides on unhover", async () => {
     renderWithTheme(
-      <Tooltip content="tip">
+      <InlineTooltip content="tip">
         <button>hover me</button>
-      </Tooltip>
+      </InlineTooltip>
     );
     await userEvent.hover(screen.getByRole("button"));
     await userEvent.unhover(screen.getByRole("button"));

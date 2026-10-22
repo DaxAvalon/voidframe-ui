@@ -124,7 +124,7 @@ export {
   Avatar,
   AvatarGroup,
   Tag,
-  Tooltip,
+  InlineTooltip,
   Code,
   Timeline,
   Skeleton,
@@ -139,7 +139,7 @@ export type {
   AvatarStatus,
   AvatarGroupProps,
   TagProps,
-  TooltipProps,
+  InlineTooltipProps,
   CodeProps,
   TimelineProps,
   TimelineEvent,
@@ -373,6 +373,7 @@ export type {
 
 export {
   PopoverV2,
+  Tooltip,
   Tooltip as TooltipV2,
   TooltipProvider,
   HoverCard,
@@ -382,6 +383,7 @@ export type {
   PopoverV2Props,
   PopoverTriggerProps,
   PopoverContentProps,
+  TooltipProps,
   TooltipProps as TooltipV2Props,
   TooltipProviderProps,
   HoverCardProps,

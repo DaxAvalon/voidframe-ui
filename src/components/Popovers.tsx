@@ -273,29 +273,53 @@ export interface TooltipProps {
   content: ReactNode;
   children: ReactNode;
   placement?: Placement;
+  /** @deprecated Alias of `placement`, kept for code written against the former inline Tooltip. */
+  position?: Placement;
   offset?: number;
   openDelay?: number;
   closeDelay?: number;
   /** Override aria pattern. Default infers from focusability. */
   asAriaLabel?: boolean;
+  /** Controlled open state. */
+  open?: boolean;
+  /** Initial open state when uncontrolled. */
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  /** Class name applied to the tooltip bubble. */
+  className?: string;
+  /** Inline style applied to the tooltip bubble. */
+  style?: CSSProperties;
 }
 
 /**
- * Compact labelling overlay. Wraps a single child and shows `content`
- * on hover or focus with a configurable `openDelay` / `closeDelay`.
- * Wires `aria-describedby` by default, or `aria-label` when
- * `asAriaLabel` is set and `content` is a string. Inherits shared timing
- * from a surrounding `TooltipProvider`.
+ * Compact labelling overlay, portaled to `document.body` and positioned
+ * against the trigger with viewport flip, so it escapes ancestor stacking
+ * contexts and `overflow` clipping. Wraps a single child (a non-element
+ * child is wrapped in a `span`) and shows `content` on hover or focus with
+ * a configurable `openDelay` / `closeDelay`. Wires `aria-describedby` by
+ * default, or `aria-label` when `asAriaLabel` is set and `content` is a
+ * string. Inherits shared timing from a surrounding `TooltipProvider`. The
+ * forwarded ref reaches the trigger element.
  */
-export function Tooltip({
-  content,
-  children,
-  placement = "top",
-  offset = 6,
-  openDelay,
-  closeDelay = 100,
-  asAriaLabel,
-}: TooltipProps) {
+export const Tooltip = forwardRef<HTMLElement, TooltipProps>(function Tooltip(
+  {
+    content,
+    children,
+    placement: placementProp,
+    position,
+    offset = 6,
+    openDelay,
+    closeDelay = 100,
+    asAriaLabel,
+    open: openProp,
+    defaultOpen = false,
+    onOpenChange,
+    className,
+    style,
+  },
+  forwardedRef
+) {
+  const placement: Placement = placementProp ?? position ?? "top";
   const provider = useContext(TooltipProviderCtx);
   const computeOpenDelay = () =>
     openDelay ??
@@ -304,7 +328,13 @@ export function Tooltip({
         ? 0
         : provider.delayDuration
       : 300);
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const isControlled = openProp !== undefined;
+  const open = isControlled ? openProp : internalOpen;
+  const setOpen = (next: boolean) => {
+    if (!isControlled) setInternalOpen(next);
+    onOpenChange?.(next);
+  };
   const triggerRef = useRef<HTMLElement | null>(null);
   const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
   const [pos, setPos] = useState<AnchorPosition | null>(null);
@@ -338,16 +368,23 @@ export function Tooltip({
 
   useEffect(() => () => cancelTimers(), []);
 
-  if (!isValidElement(children)) {
-    throw new Error("Tooltip expects a single React element as a child.");
-  }
-  const child = children as ReactElement<Record<string, unknown>>;
+  // A plain-text or fragment child gets an anchor span so there is always a
+  // single element to attach the handlers and the ref to.
+  const element = isValidElement(children) ? (
+    children
+  ) : (
+    <span className="vf-tooltip__anchor">{children}</span>
+  );
+  const child = element as ReactElement<Record<string, unknown>>;
+  const childRef = getElementRef<HTMLElement>(child);
   const captureRef = (node: HTMLElement | null) => {
     triggerRef.current = node;
-    const childRef = getElementRef<HTMLElement>(child);
     if (typeof childRef === "function") childRef(node);
     else if (childRef && typeof childRef === "object")
       (childRef as { current: HTMLElement | null }).current = node;
+    if (typeof forwardedRef === "function") forwardedRef(node);
+    else if (forwardedRef && typeof forwardedRef === "object")
+      (forwardedRef as { current: HTMLElement | null }).current = node;
   };
 
   const childProps: Record<string, unknown> = {
@@ -384,8 +421,8 @@ export function Tooltip({
   }
 
   const inline: CSSProperties = pos
-    ? { position: "fixed", top: pos.top, left: pos.left }
-    : { position: "fixed", top: -9999, left: -9999 };
+    ? { position: "fixed", top: pos.top, left: pos.left, ...style }
+    : { position: "fixed", top: -9999, left: -9999, ...style };
 
   return (
     <>
@@ -396,7 +433,7 @@ export function Tooltip({
             ref={setContentEl}
             id={tooltipId}
             role="tooltip"
-            className="vf-tooltip-v2"
+            className={cx("vf-tooltip-v2", className)}
             style={inline}
             data-side={pos?.side}
             onMouseEnter={cancelTimers}
@@ -408,7 +445,8 @@ export function Tooltip({
       )}
     </>
   );
-}
+});
+Tooltip.displayName = "Tooltip";
 
 // ── Tooltip compound (Radix-shape parity) ────────────────────
 //

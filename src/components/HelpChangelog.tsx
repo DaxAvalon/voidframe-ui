@@ -10,10 +10,11 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { Tooltip } from "./Popovers";
 
 // ── HelpTooltip ─────────────────────────────────────────────
-// Lightweight "?" icon with a CSS-positioned tooltip. No portal or
-// focus-scope — for richer needs, use <HoverCard> or <TooltipV2>.
+// "?" trigger whose help text renders through the portaled `Tooltip`, so it
+// escapes sticky bars, transformed canvases and overflow containers.
 
 export interface HelpTooltipProps
   extends Omit<HTMLAttributes<HTMLSpanElement>, "content"> {
@@ -24,7 +25,7 @@ export interface HelpTooltipProps
 
 /**
  * Tooltip variant tuned for contextual help text — slightly wider, with a
- * `?` trigger convention.
+ * `?` trigger convention. The bubble is portaled (see `Tooltip`).
  */
 export const HelpTooltip = forwardRef<HTMLSpanElement, HelpTooltipProps>(
   function HelpTooltip(
@@ -47,21 +48,22 @@ export const HelpTooltip = forwardRef<HTMLSpanElement, HelpTooltipProps>(
         onBlur={() => setOpen(false)}
         {...props}
       >
-        <button
-          type="button"
-          className="vf-help-tooltip__trigger"
-          aria-label={label}
-          tabIndex={0}
-        >
-          ?
-        </button>
-        <span
-          role="tooltip"
+        <Tooltip
+          content={content}
+          placement={placement}
+          open={open}
+          onOpenChange={setOpen}
           className="vf-help-tooltip__content"
-          aria-hidden={!open}
         >
-          {content}
-        </span>
+          <button
+            type="button"
+            className="vf-help-tooltip__trigger"
+            aria-label={label}
+            tabIndex={0}
+          >
+            ?
+          </button>
+        </Tooltip>
       </span>
     );
   }
