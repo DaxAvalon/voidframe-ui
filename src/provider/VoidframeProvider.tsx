@@ -153,6 +153,12 @@ export interface VoidframeProviderProps {
   /** Inject the optional CSS reset (`.vf-baseline`). */
   cssBaseline?: boolean;
   /**
+   * Make the root fill its parent (`min-height: 100%`, column flex) so a
+   * layout that relies on `height: 100%` resolves against the viewport
+   * instead of its content. Pair with `html, body { height: 100% }`.
+   */
+  fill?: boolean;
+  /**
    * Full locale pack (messages + direction + firstDayOfWeek). When
    * supplied, direction auto-derives from the pack unless the
    * `direction` prop above overrides it.
@@ -225,6 +231,7 @@ export function VoidframeProvider({
   direction,
   reducedMotion = "auto",
   cssBaseline = false,
+  fill = false,
   locale,
   messages,
   localeTag,
@@ -399,7 +406,7 @@ export function VoidframeProvider({
       <ThemeControlContext.Provider value={control}>
       <RuntimeScopeContext.Provider value={scope}>
         <div
-          className={cx("vf-root", cssBaseline && "vf-baseline", className)}
+          className={cx("vf-root", cssBaseline && "vf-baseline", fill && "vf-root--fill", className)}
           data-vf-theme={resolvedThemeName}
           data-vf-density={density !== "comfortable" ? density : undefined}
           data-vf-scale={scale === undefined ? undefined : typeof scale === "object" ? "custom" : String(scale)}

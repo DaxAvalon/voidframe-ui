@@ -141,8 +141,12 @@ export {
   isSanitizerReady,
   auditTokens,
   warnUnknownTokens,
+  createNavModel,
 } from "./utils";
 export type {
+  NavNode,
+  NavModel,
+  NavModelItem,
   ClassValue,
   VoidframeLogger,
   SafeContextOptions,

@@ -611,6 +611,13 @@ export interface NavItemProps extends HTMLAttributes<HTMLDivElement> {
    * default.
    */
   activeStyle?: NavItemActiveStyle;
+  /**
+   * Render the item at all. A predicate receives the enclosing
+   * `Sidebar navContext` (roles, flags). Hidden items render nothing; if the
+   * hidden item was the active one, nothing else becomes active: derive the
+   * destination with `createNavModel(...).fallback` and route there.
+   */
+  visible?: boolean | ((ctx: unknown) => boolean);
   style?: CSSProperties;
 }
 
@@ -634,6 +641,7 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(function NavItem(
     tone,
     tooltip,
     activeStyle: activeStyleProp,
+    visible,
     className,
     style,
     ...props
@@ -642,7 +650,10 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(function NavItem(
 ) {
   const sidebar = useSidebarContext();
   const collapsed = sidebar.collapsed;
+  const isVisible =
+    visible === undefined ? true : typeof visible === "function" ? visible(sidebar.navContext) : visible;
   const activeStyle = activeStyleProp ?? sidebar.activeStyle;
+  if (!isVisible) return null;
   const inline: CSSProperties = {
     ...(indent && !collapsed
       ? { paddingInlineStart: `calc(var(--vf-sp-5) + ${indent * 14}px)` }

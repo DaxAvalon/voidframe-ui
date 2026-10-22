@@ -628,6 +628,8 @@ export type {
 
 export { AppShell } from "./AppShell";
 export type { AppShellProps } from "./AppShell";
+export { InspectorPane } from "./InspectorPane";
+export type { InspectorPaneProps } from "./InspectorPane";
 
 export { default as Menu, ContextMenu, MenuBar, MenuBarMenu } from "./Menu";
 export type {
@@ -654,11 +656,12 @@ export type {
   ToolbarToggleItemProps,
 } from "./Toolbar";
 
-export { Navbar, TabBar } from "./Navbar";
+export { Navbar, TabBar, computeVisibleCount, NAVBAR_OVERFLOW_HYSTERESIS } from "./Navbar";
 export type {
   NavbarProps,
   TabBarProps,
   TabBarItemProps,
+  NavbarLinksProps,
 } from "./Navbar";
 
 export { Sidebar } from "./Sidebar";

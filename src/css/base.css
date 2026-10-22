@@ -1,5 +1,13 @@
 /* Provider root + selection / focus baselines. */
 
+/* `fill`: the root resolves height against its parent, not its content. */
+.vf-root--fill {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.vf-root--fill > * { min-height: 0; }
+
 .vf-root {
   background: var(--vf-bg-0);
   color: var(--vf-text-1);

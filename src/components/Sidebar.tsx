@@ -48,6 +48,11 @@ export interface SidebarProps extends HTMLAttributes<HTMLElement> {
    */
   activeStyle?: NavItemActiveStyle;
   /**
+   * Value handed to every `NavItem visible` predicate inside (roles, feature
+   * flags, permissions), so role-gated items decide in one place.
+   */
+  navContext?: unknown;
+  /**
    * Collapse to rail mode automatically below the `md` breakpoint. Default
    * true. Use `adaptive={false}` when the sidebar is already inside a
    * mobile-aware shell (e.g. AppShell with `drawerMobile`).
@@ -61,6 +66,7 @@ const SidebarBase = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
     collapsed: collapsedProp,
     labels = "hidden",
     activeStyle,
+    navContext,
     adaptive = true,
     className,
     children,
@@ -72,7 +78,7 @@ const SidebarBase = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
   const collapsed =
     collapsedProp ?? (shell?.mode === "rail" ? shell.collapsed : false);
   return (
-    <SidebarContext.Provider value={{ collapsed, labels, activeStyle }}>
+    <SidebarContext.Provider value={{ collapsed, labels, activeStyle, navContext }}>
       <aside
         ref={ref}
         aria-label="Sidebar"

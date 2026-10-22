@@ -7,6 +7,23 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **App frame.** `VoidframeProvider fill` (`.vf-root--fill`: min-height
+  100 %, column flex) so layouts can resolve `height: 100%`; `AppShell
+  fill`, `padded={false}`, `mainPadding`, `mainOverflow` and `footerPadded`
+  so apps with their own panel grid stop overriding `.vf-appshell__main`.
+- **`InspectorPane`** (layout tier): a persistent non-modal side pane with
+  a heading (`titleAs`), `subtitle`, `actions`, `onClose`, a body that
+  scrolls on its own, `footer`, `padded` and `width`.
+- **`Navbar.Links overflow="menu"`** keeps the links on one row and moves
+  those that do not fit into a "More" menu: a radio group naming the current
+  item, choosing which activates the real link (router handlers included),
+  re-measured on resize with hysteresis; `maxVisible` and `moreLabel`.
+  `computeVisibleCount` is exported.
+- **`createNavModel(tree, currentPath, { ctx })`** derives sidebar items
+  (depth, active, ancestor flags), breadcrumbs, the active `match` and a
+  `fallback` route from one navigation tree, with per-node `visible`
+  predicates and `match: "exact" | "prefix"`. `NavItem visible` (boolean or
+  predicate over `Sidebar navContext`) hides role-gated items.
 - **Status colour API.** `Badge tone` now colours every variant (outline,
   ghost and subtle take the tone's text and border colour, not only solid)
   and gains `tone="muted"`. `hue="blue" | "green" | "amber" | "red" |

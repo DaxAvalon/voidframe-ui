@@ -17,6 +17,8 @@ export interface SidebarContextValue {
   labels: SidebarLabels;
   /** Default active-item treatment for every NavItem inside. */
   activeStyle?: NavItemActiveStyle;
+  /** Passed to `NavItem visible` predicates (roles, flags). */
+  navContext?: unknown;
 }
 
 export const SidebarContext = createContext<SidebarContextValue>({

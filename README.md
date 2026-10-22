@@ -580,8 +580,10 @@ Everything below ships from the top-level `voidframe-ui` import. Compound compon
 | `Divider`, `Spacer` | Whitespace / separation |
 | `Box`, `Flex`, `HStack`, `VStack`, `Stack`, `Grid`, `Container` | Layout primitives |
 | `AspectRatio` | Fixed-ratio frames |
-| `AppShell` | Sidebar + header + footer scaffolding |
-| `Sidebar` (compound) | Navigation shell with groups and items. `collapsed` is a rail: labels, badges, section labels and brand text hidden, icons centred, each `NavItem` shows its label as a tooltip and `aria-label`; `labels="vertical"` keeps rotated text; `activeStyle="edge"` marks the active item with the accent edge only; `Sidebar.Brand icon` is the rail mark. `AppShell sidebarCollapseMode="rail"` keeps the column at `sidebarRailWidth` and drives it. `NavItem` renders `<a>` with `href`, a native `<button>` with `onClick`, else a `div`. |
+| `AppShell` | Sidebar + header + footer scaffolding. `fill` sizes to the parent instead of `100vh`; `padded={false}` / `mainPadding` / `mainOverflow` / `footerPadded` hand the main area to your own panel grid; `sidebarCollapseMode="rail"` keeps a rail when collapsed |
+| `InspectorPane` | Persistent non-modal side pane: heading (`titleAs`), `actions`, `onClose`, a body that scrolls on its own, `footer`; use as `AppShell rightPanel` or inside `ResizablePanel` |
+| `Navbar` (compound) | Top bar with `Brand`, `Links` and `Actions`; `Links overflow="menu"` keeps one row and moves links that do not fit into a "More" menu (radio group naming the current one, hysteresis on resize) |
+| `Sidebar` (compound) | Navigation shell with groups and items. `navContext` feeds `NavItem visible` predicates for role-gated items; `createNavModel(tree, path, { ctx })` derives items, breadcrumbs, the active match and a fallback route from one tree. `collapsed` is a rail: labels, badges, section labels and brand text hidden, icons centred, each `NavItem` shows its label as a tooltip and `aria-label`; `labels="vertical"` keeps rotated text; `activeStyle="edge"` marks the active item with the accent edge only; `Sidebar.Brand icon` is the rail mark. `AppShell sidebarCollapseMode="rail"` keeps the column at `sidebarRailWidth` and drives it. `NavItem` renders `<a>` with `href`, a native `<button>` with `onClick`, else a `div`. |
 | `PageHeader` | Title / subtitle / action area for routes |
 | `Navbar`, `Toolbar` (compound) | Top-level bars and inline action strips |
 | `SplitView`, `ResizableGroup` / `ResizablePanel` / `ResizableHandle` | Draggable split panes |

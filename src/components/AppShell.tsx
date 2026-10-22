@@ -64,6 +64,19 @@ export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
   onSidebarWidthChange?: (width: number) => void;
   /** Height of the header in pixels/CSS value. Default "auto". */
   headerHeight?: number | string;
+  /**
+   * Size the shell to its parent (`height: 100%`) instead of the viewport
+   * (`100vh`). Use inside `VoidframeProvider fill` or any sized container.
+   */
+  fill?: boolean;
+  /** Pad the main area. Default true; `false` for apps with their own panel grid. */
+  padded?: boolean;
+  /** Main-area padding when `padded`; a number is px. Default `--vf-sp-5`. */
+  mainPadding?: number | string;
+  /** Main-area overflow. Default `"auto"`; `"hidden"` for panels that scroll themselves. */
+  mainOverflow?: "auto" | "hidden" | "visible";
+  /** Pad the footer. Default true. */
+  footerPadded?: boolean;
   /** Viewport width at which the sidebar becomes a mobile overlay drawer. Default 768. */
   mobileBreakpoint?: number;
   children?: ReactNode;
@@ -98,6 +111,11 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
       sidebarMaxWidth = 480,
       onSidebarWidthChange,
       headerHeight,
+      fill = false,
+      padded = true,
+      mainPadding,
+      mainOverflow = "auto",
+      footerPadded = true,
       mobileBreakpoint = 768,
       children,
       className,
@@ -189,7 +207,10 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
         "sidebar main rightpanel"
         "footer footer footer"
       `,
-      height: "100vh",
+      height: fill ? "100%" : "100vh",
+      ...(mainPadding !== undefined
+        ? ({ "--vf-appshell-main-padding": sizeToCss(mainPadding) } as CSSProperties)
+        : {}),
       ...style,
     };
 
@@ -199,7 +220,14 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
       >
       <div
         ref={ref}
-        className={cx("vf-appshell", className)}
+        className={cx(
+          "vf-appshell",
+          fill && "vf-appshell--fill",
+          !padded && "vf-appshell--unpadded",
+          mainOverflow !== "auto" && `vf-appshell--main-${mainOverflow}`,
+          !footerPadded && "vf-appshell--footer-unpadded",
+          className
+        )}
         style={gridStyle}
         data-sidebar-collapsed={collapsed ? "true" : undefined}
         data-sidebar-collapse-mode={sidebarCollapseMode}

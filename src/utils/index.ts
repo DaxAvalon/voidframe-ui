@@ -132,3 +132,5 @@ export { auditTokens, warnUnknownTokens, resetTokenAudit } from "./auditTokens";
 export type { TokenAuditResult } from "./auditTokens";
 export { selectableAttrs } from "./selectable";
 export type { SelectableInput, SelectableOutput } from "./selectable";
+export { createNavModel } from "./navModel";
+export type { NavNode, NavModel, NavModelItem, CreateNavModelOptions } from "./navModel";
