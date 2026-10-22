@@ -103,6 +103,13 @@ export const fr: LocalePack = {
       selected: "Sélectionné",
       loading: "Chargement",
     },
+    wizard: {
+      back: "Retour",
+      next: "Suivant",
+      finish: "Terminer",
+      skip: "Passer",
+      stepOf: ({ current, total }) => `Étape ${current} sur ${total}`,
+    },
     shortcuts: {
       edit: "Modifier le raccourci",
       clear: "Effacer le raccourci",

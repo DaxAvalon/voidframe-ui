@@ -277,13 +277,41 @@ DurationDisplay.displayName = "DurationDisplay";
 
 // ── Countdown ───────────────────────────────────────────────
 
+export interface CountdownThresholds {
+  /** At or below this many seconds the countdown takes the `warning` tone. */
+  warn?: number;
+  /** At or below this many seconds the countdown takes the `danger` tone. */
+  danger?: number;
+}
+
 export interface CountdownProps extends HTMLAttributes<HTMLSpanElement> {
-  target: number | string | Date;
+  /** Instant to count down to. The component runs its own interval. Omit when driving `remainingSeconds`. */
+  target?: number | string | Date;
+  /**
+   * Consumer-owned remaining time, in seconds. No interval runs; the text
+   * follows this value exactly, so several displays can share one clock.
+   */
+  remainingSeconds?: number;
   onComplete?: () => void;
   /** Format of the remaining time. */
   format?: "hms" | "compact" | "long";
   /** Render after completion. Defaults to "0:00". */
   completedLabel?: ReactNode;
+  /** Tone thresholds in seconds; sets `data-tone` and a tone class. */
+  thresholds?: CountdownThresholds;
+  /** Keep the element (and its `data-remaining-ms`) in the DOM but hide it. */
+  hidden?: boolean;
+}
+
+/** Tone for a remaining time against thresholds. */
+export function countdownTone(
+  remainingSeconds: number,
+  thresholds: CountdownThresholds | undefined
+): "neutral" | "warning" | "danger" {
+  if (!thresholds) return "neutral";
+  if (thresholds.danger !== undefined && remainingSeconds <= thresholds.danger) return "danger";
+  if (thresholds.warn !== undefined && remainingSeconds <= thresholds.warn) return "warning";
+  return "neutral";
 }
 
 /**
@@ -292,21 +320,30 @@ export interface CountdownProps extends HTMLAttributes<HTMLSpanElement> {
  */
 export const Countdown = forwardRef<HTMLSpanElement, CountdownProps>(
   function Countdown(
-    { target, onComplete, format = "hms", completedLabel, className, ...props },
+    { target, remainingSeconds, onComplete, format = "hms", completedLabel, thresholds, hidden, className, ...props },
     ref
   ) {
+    const driven = remainingSeconds !== undefined;
     const targetMs =
-      target instanceof Date
-        ? target.getTime()
-        : new Date(typeof target === "string" ? target : target).getTime();
+      target === undefined
+        ? 0
+        : target instanceof Date
+          ? target.getTime()
+          : new Date(typeof target === "string" ? target : target).getTime();
     const [now, setNow] = useState(Date.now);
     useEffect(() => {
+      if (driven || target === undefined) return;
       const tick = () => setNow(Date.now());
       const handle = setInterval(tick, 500);
       return () => clearInterval(handle);
-    }, []);
-    const diff = Math.max(0, targetMs - now);
+    }, [driven, target]);
+    const diff = driven
+      ? Math.max(0, Math.round(remainingSeconds * 1000))
+      : target === undefined
+        ? 0
+        : Math.max(0, targetMs - now);
     const completed = diff <= 0;
+    const tone = countdownTone(diff / 1000, thresholds);
     useEffect(() => {
       if (completed) onComplete?.();
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -317,9 +354,12 @@ export const Countdown = forwardRef<HTMLSpanElement, CountdownProps>(
         className={cx(
           "vf-countdown",
           completed && "vf-countdown--done",
+          tone !== "neutral" && `vf-countdown--${tone}`,
           className
         )}
         data-remaining-ms={diff}
+        data-tone={tone !== "neutral" ? tone : undefined}
+        hidden={hidden || undefined}
         {...props}
       >
         {completed ? (

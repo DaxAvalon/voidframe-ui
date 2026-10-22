@@ -68,6 +68,12 @@ export interface TabsProps
   orientation?: TabsOrientation;
   /** Accent color for the active trigger (sets `--vf-accent`). */
   accent?: string;
+  /**
+   * `line` (default) underlines the list and marks the active tab with an
+   * accent bar; `plain` has no rule and marks the active tab with a filled
+   * pill, for tab strips inside cards and toolbars.
+   */
+  variant?: "line" | "plain";
   children?: ReactNode;
   style?: CSSProperties;
 }
@@ -85,6 +91,7 @@ const TabsRoot = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
     onValueChange,
     orientation = "horizontal",
     accent,
+    variant = "line",
     className,
     style,
     children,
@@ -133,6 +140,7 @@ const TabsRoot = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
         className={cx(
           "vf-tabs",
           `vf-tabs--${orientation}`,
+          variant !== "line" && `vf-tabs--${variant}`,
           className
         )}
         style={composedStyle}
@@ -149,11 +157,13 @@ TabsRoot.displayName = "Tabs";
 export interface TabsListProps extends HTMLAttributes<HTMLDivElement> {
   /** Accessible label for the tablist. Strongly recommended. */
   "aria-label"?: string;
+  /** Let triggers wrap onto further lines instead of overflowing. Default false. */
+  wrap?: boolean;
 }
 
 /** Container with `role="tablist"` that holds tab triggers and handles arrow-key navigation. */
 const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsList(
-  { className, onKeyDown, children, ...props },
+  { className, onKeyDown, wrap, children, ...props },
   ref
 ) {
   const ctx = useTabs("Tabs.List");
@@ -201,7 +211,7 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsList(
       role="tablist"
       aria-orientation={ctx.orientation}
       aria-label={hasExplicitLabel ? undefined : "Tabs"}
-      className={cx("vf-tabs__list", className)}
+      className={cx("vf-tabs__list", wrap && "vf-tabs__list--wrap", className)}
       onKeyDown={handleKey}
       {...props}
     >
@@ -215,13 +225,15 @@ export interface TabsTriggerProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "value" | "onClick"> {
   value: string;
   disabled?: boolean;
+  /** Colour the trigger text to mark a step as cleared, locked or failing. */
+  tone?: "neutral" | "success" | "warning" | "danger" | "info";
   children?: ReactNode;
 }
 
 /** Individual tab button that activates its corresponding panel on click. */
 const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
   function TabsTrigger(
-    { value, disabled, className, children, ...props },
+    { value, disabled, tone, className, children, ...props },
     ref
   ) {
     const ctx = useTabs("Tabs.Trigger");
@@ -244,6 +256,7 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
         aria-disabled={disabled || undefined}
         data-value={value}
         data-state={selected ? "active" : "inactive"}
+        data-tone={tone && tone !== "neutral" ? tone : undefined}
         data-disabled={disabled ? "true" : undefined}
         tabIndex={selected ? 0 : -1}
         disabled={disabled}
@@ -558,17 +571,19 @@ Toast.displayName = "Toast";
 export interface KbdProps extends HTMLAttributes<HTMLElement> {
   /** Combo string (e.g. "Cmd+K"). Use children for single-key form. */
   keys?: string;
+  /** Type size. Default `md`. */
+  size?: "sm" | "md" | "lg";
   style?: CSSProperties;
 }
 
 const KbdImpl = forwardRef<HTMLElement, KbdProps>(function Kbd(
-  { keys, children, className, style, ...props },
+  { keys, size = "md", children, className, style, ...props },
   ref
 ) {
   return (
     <kbd
       ref={ref as never}
-      className={cx("vf-kbd", className)}
+      className={cx("vf-kbd", size !== "md" && `vf-kbd--${size}`, className)}
       style={style}
       {...props}
     >

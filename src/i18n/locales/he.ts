@@ -83,6 +83,13 @@ export const he: LocalePack = {
       selected: "נבחר",
       loading: "טוען",
     },
+    wizard: {
+      back: "חזרה",
+      next: "הבא",
+      finish: "סיום",
+      skip: "דלג",
+      stepOf: ({ current, total }) => `שלב ${current} מתוך ${total}`,
+    },
     shortcuts: {
       edit: "ערוך קיצור",
       clear: "נקה קיצור",

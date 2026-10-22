@@ -240,3 +240,36 @@ export function clampDate(d: Date, min?: Date | null, max?: Date | null): Date {
   if (max && result > max) result = max;
   return result;
 }
+
+/** Local-calendar `yyyy-MM-dd` (never shifts across midnight the way `toISOString()` can). */
+export function toISODate(d: Date | null | undefined): string | null {
+  if (!d || Number.isNaN(d.getTime())) return null;
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+/** Local-calendar `yyyy-MM`. */
+export function isoMonth(d: Date | null | undefined): string | null {
+  if (!d || Number.isNaN(d.getTime())) return null;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+}
+
+/**
+ * Parse `yyyy-MM-dd` (or `yyyy-MM`, as the first of that month) as a local
+ * date at midnight. Returns `null` for anything else, including dates that
+ * do not exist (2026-02-30).
+ */
+export function parseISODate(input: string | null | undefined): Date | null {
+  if (!input) return null;
+  const m = /^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(input.trim());
+  if (!m) return null;
+  const y = Number(m[1]);
+  const mo = Number(m[2]) - 1;
+  const day = m[3] ? Number(m[3]) : 1;
+  const d = new Date(y, mo, day);
+  d.setHours(0, 0, 0, 0);
+  if (d.getFullYear() !== y || d.getMonth() !== mo || d.getDate() !== day) return null;
+  return d;
+}

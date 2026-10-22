@@ -21,6 +21,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../utils/cx";
+import { useMessages } from "../i18n/MessagesProvider";
 
 interface WizardContextValue {
   currentIndex: number;
@@ -29,7 +30,12 @@ interface WizardContextValue {
   goTo: (idOrIndex: string | number) => void;
   next: () => void;
   previous: () => void;
+  /** Advance without the `canAdvance` gate; records the step as skipped. */
+  skip: () => void;
   canAdvance: boolean;
+  /** Whether the current step may be skipped (see `Wizard.Step optional`). */
+  canSkip: boolean;
+  skipped: ReadonlySet<string>;
   isFirst: boolean;
   isLast: boolean;
 }
@@ -51,27 +57,32 @@ export interface WizardProps
   onComplete?: () => void;
   /** Per-step validation gate. Return `false` to block Next. */
   canAdvance?: (stepId: string) => boolean;
+  /** Called when a step is skipped with `Wizard.Skip`. */
+  onSkip?: (stepId: string) => void;
   /** Show a built-in step indicator above the content. Default true. */
   showStepper?: boolean;
   children?: ReactNode;
 }
 
 const WizardBase = forwardRef<HTMLDivElement, WizardProps>(function Wizard(
-  { value, defaultValue, onValueChange, onComplete, canAdvance, showStepper = true, className, children, ...props },
+  { value, defaultValue, onValueChange, onComplete, canAdvance, onSkip, showStepper = true, className, children, ...props },
   ref
 ) {
   // Collect step ids and labels from children.
   const steps: string[] = [];
   const stepLabels: Record<string, string> = {};
+  const optionalSteps = new Set<string>();
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) return;
-    const el = child as ReactElement<{ id?: string; label?: string }>;
+    const el = child as ReactElement<{ id?: string; label?: string; optional?: boolean }>;
     const type = el.type as { displayName?: string };
     if (type.displayName === "WizardStep" && el.props.id) {
       steps.push(el.props.id);
       stepLabels[el.props.id] = el.props.label ?? el.props.id;
+      if (el.props.optional) optionalSteps.add(el.props.id);
     }
   });
+  const [skipped, setSkipped] = useState<Set<string>>(() => new Set());
 
   const [internal, setInternal] = useState<string>(
     defaultValue ?? steps[0] ?? ""
@@ -106,6 +117,25 @@ const WizardBase = forwardRef<HTMLDivElement, WizardProps>(function Wizard(
   }, [idx, goTo]);
 
   const advance = currentId ? canAdvance?.(currentId) ?? true : false;
+  const canSkip = currentId !== undefined && optionalSteps.has(currentId);
+  const optionalKey = [...optionalSteps].join("|");
+
+  const skip = useCallback(() => {
+    if (!currentId || !optionalSteps.has(currentId)) return;
+    setSkipped((prev) => {
+      if (prev.has(currentId)) return prev;
+      const nextSet = new Set(prev);
+      nextSet.add(currentId);
+      return nextSet;
+    });
+    onSkip?.(currentId);
+    if (idx >= steps.length - 1) {
+      onComplete?.();
+      return;
+    }
+    goTo(idx + 1);
+    // optionalKey stands for the optional set's content.
+  }, [currentId, idx, steps.length, goTo, onComplete, onSkip, optionalKey]);
 
   const ctx = useMemo<WizardContextValue>(
     () => ({
@@ -115,11 +145,14 @@ const WizardBase = forwardRef<HTMLDivElement, WizardProps>(function Wizard(
       goTo,
       next,
       previous,
+      skip,
       canAdvance: advance,
+      canSkip,
+      skipped,
       isFirst: idx === 0,
       isLast: idx === steps.length - 1,
     }),
-    [idx, steps.length, currentId, goTo, next, previous, advance]
+    [idx, steps.length, currentId, goTo, next, previous, skip, advance, canSkip, skipped]
   );
 
   return (
@@ -137,9 +170,11 @@ const WizardBase = forwardRef<HTMLDivElement, WizardProps>(function Wizard(
                 className={cx(
                   "vf-wizard__step-label",
                   i === idx && "vf-wizard__step-label--active",
-                  i < idx && "vf-wizard__step-label--completed"
+                  i < idx && "vf-wizard__step-label--completed",
+                  skipped.has(stepId) && "vf-wizard__step-label--skipped"
                 )}
                 aria-current={i === idx ? "step" : undefined}
+                data-skipped={skipped.has(stepId) || undefined}
               >
                 {stepLabels[stepId]}
               </li>
@@ -162,15 +197,17 @@ const WizardBase = forwardRef<HTMLDivElement, WizardProps>(function Wizard(
 
 export interface WizardStepProps extends HTMLAttributes<HTMLDivElement> {
   id: string;
-  /** Display label for the step indicator. Falls back to `id`. */
+  /** Display label for the step indicator and the step's accessible name. Falls back to `id`. */
   label?: string;
+  /** The step may be skipped with `Wizard.Skip`. Default false. */
+  optional?: boolean;
   /** @internal */
   active?: boolean;
   children?: ReactNode;
 }
 
 const WizardStep = forwardRef<HTMLDivElement, WizardStepProps>(function WizardStep(
-  { id, active, className, children, ...props },
+  { id, label, optional, active, className, children, ...props },
   ref
 ) {
   if (!active) return null;
@@ -178,7 +215,8 @@ const WizardStep = forwardRef<HTMLDivElement, WizardStepProps>(function WizardSt
     <div
       ref={ref}
       role="group"
-      aria-label={`Step ${id}`}
+      aria-label={label ?? id}
+      data-optional={optional || undefined}
       className={cx("vf-wizard__step", className)}
       {...props}
     >
@@ -195,6 +233,7 @@ function WizardFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
 const WizardPrevious = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement>>(
   function WizardPrevious({ className, onClick, children, ...props }, ref) {
     const ctx = useWizard();
+    const { t } = useMessages();
     return (
       <button
         ref={ref}
@@ -207,7 +246,7 @@ const WizardPrevious = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLBu
         }}
         {...props}
       >
-        {children ?? "Back"}
+        {children ?? t("wizard.back")}
       </button>
     );
   }
@@ -217,6 +256,7 @@ WizardPrevious.displayName = "WizardPrevious";
 const WizardNext = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement>>(
   function WizardNext({ className, onClick, children, ...props }, ref) {
     const ctx = useWizard();
+    const { t } = useMessages();
     return (
       <button
         ref={ref}
@@ -229,15 +269,44 @@ const WizardNext = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButton
         }}
         {...props}
       >
-        {children ?? (ctx.isLast ? "Finish" : "Next")}
+        {children ?? (ctx.isLast ? t("wizard.finish") : t("wizard.next"))}
       </button>
     );
   }
 );
 WizardNext.displayName = "WizardNext";
 
+/**
+ * Skips the current step without its `canAdvance` gate. Renders only while
+ * the current step is `optional`; records the step in `skipped` (shown in
+ * the indicator) and calls `onSkip`.
+ */
+const WizardSkip = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement>>(
+  function WizardSkip({ className, onClick, children, ...props }, ref) {
+    const ctx = useWizard();
+    const { t } = useMessages();
+    if (!ctx.canSkip) return null;
+    return (
+      <button
+        ref={ref}
+        type="button"
+        className={cx("vf-button", "vf-wizard__skip", className)}
+        onClick={(e) => {
+          onClick?.(e);
+          ctx.skip();
+        }}
+        {...props}
+      >
+        {children ?? t("wizard.skip")}
+      </button>
+    );
+  }
+);
+WizardSkip.displayName = "WizardSkip";
+
 function WizardStepIndicator({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   const ctx = useWizard();
+  const { t } = useMessages();
   return (
     <div
       className={cx("vf-wizard__indicator", className)}
@@ -245,7 +314,7 @@ function WizardStepIndicator({ className, ...props }: HTMLAttributes<HTMLDivElem
       aria-live="polite"
       {...props}
     >
-      Step {ctx.currentIndex + 1} of {ctx.total}
+      {t("wizard.stepOf", { current: ctx.currentIndex + 1, total: ctx.total })}
     </div>
   );
 }
@@ -263,5 +332,7 @@ export const Wizard = Object.assign(WizardBase, {
   Footer: WizardFooter,
   Previous: WizardPrevious,
   Next: WizardNext,
+  Skip: WizardSkip,
   StepIndicator: WizardStepIndicator,
 });
+export { useWizard };

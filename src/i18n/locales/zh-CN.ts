@@ -83,6 +83,13 @@ export const zhCN: LocalePack = {
       selected: "已选中",
       loading: "加载中",
     },
+    wizard: {
+      back: "上一步",
+      next: "下一步",
+      finish: "完成",
+      skip: "跳过",
+      stepOf: ({ current, total }) => `第 ${current} 步，共 ${total} 步`,
+    },
     shortcuts: {
       edit: "编辑快捷键",
       clear: "清除快捷键",

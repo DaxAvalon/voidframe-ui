@@ -77,6 +77,13 @@ export interface VoidframeMessages {
     selected: string;
     loading: string;
   };
+  wizard: {
+    back: string;
+    next: string;
+    finish: string;
+    skip: string;
+    stepOf: (args: { current: number; total: number }) => string;
+  };
   shortcuts: {
     edit: string;
     clear: string;
@@ -201,6 +208,13 @@ export const enMessages: VoidframeMessages = {
     collapse: "Collapse",
     selected: "Selected",
     loading: "Loading",
+  },
+  wizard: {
+    back: "Back",
+    next: "Next",
+    finish: "Finish",
+    skip: "Skip",
+    stepOf: ({ current, total }) => `Step ${current} of ${total}`,
   },
   shortcuts: {
     edit: "Edit shortcut",

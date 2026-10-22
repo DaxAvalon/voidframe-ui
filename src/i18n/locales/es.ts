@@ -108,6 +108,13 @@ export const es: LocalePack = {
       selected: "Seleccionado",
       loading: "Cargando",
     },
+    wizard: {
+      back: "Atrás",
+      next: "Siguiente",
+      finish: "Finalizar",
+      skip: "Omitir",
+      stepOf: ({ current, total }) => `Paso ${current} de ${total}`,
+    },
     shortcuts: {
       edit: "Editar atajo",
       clear: "Borrar atajo",

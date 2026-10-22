@@ -42,6 +42,11 @@ export interface ToggleGroupProps
   disabled?: boolean;
   /** When false, prevents deselecting the last active toggle. Default: true. */
   allowEmpty?: boolean;
+  /**
+   * Maximum number of active toggles. At the cap, unselected items are
+   * `aria-disabled` and ignore activation until one is deselected.
+   */
+  max?: number;
 }
 
 const ToggleGroupImpl = forwardRef<HTMLDivElement, ToggleGroupProps>(
@@ -57,6 +62,7 @@ const ToggleGroupImpl = forwardRef<HTMLDivElement, ToggleGroupProps>(
       orientation = "horizontal",
       disabled = false,
       allowEmpty = true,
+      max,
       className,
       style,
       ...props
@@ -72,12 +78,14 @@ const ToggleGroupImpl = forwardRef<HTMLDivElement, ToggleGroupProps>(
 
     const itemsRef = useRef<Array<HTMLButtonElement | null>>([]);
 
+    const atCap = max !== undefined && current.length >= max;
     const toggle = (key: string) => {
       const isActive = current.includes(key);
       if (isActive) {
         if (!allowEmpty && current.length <= 1) return;
         setCurrent(current.filter((k) => k !== key));
       } else {
+        if (atCap) return;
         setCurrent([...current, key]);
       }
     };

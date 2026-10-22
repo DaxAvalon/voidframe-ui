@@ -1644,3 +1644,8 @@
     top: 0;
   }
 }
+
+/* ── Countdown (TimeDisplays) ─────────────────────────────── */
+.vf-countdown { font-variant-numeric: tabular-nums; }
+.vf-countdown--warning { color: var(--vf-warning); }
+.vf-countdown--danger { color: var(--vf-danger); }

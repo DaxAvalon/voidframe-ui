@@ -136,6 +136,8 @@ CheckboxGroup.displayName = "CheckboxGroup";
 export interface SegmentedOption {
   value: string;
   label: string;
+  /** Secondary line under the label; the segment grows to fit. */
+  description?: ReactNode;
   icon?: ReactNode;
   disabled?: boolean;
 }
@@ -149,6 +151,10 @@ export interface SegmentedControlProps
   /** Accent color (sets `--vf-accent`). */
   accent?: string;
   size?: "sm" | "md" | "lg";
+  /** Let segments wrap onto further lines instead of overflowing. Default false. */
+  wrap?: boolean;
+  /** Stretch to the container width, sharing it equally. Default false. */
+  fullWidth?: boolean;
   style?: CSSProperties;
 }
 
@@ -158,7 +164,7 @@ export interface SegmentedControlProps
  */
 export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps>(
   function SegmentedControl(
-    { options, value, defaultValue, onValueChange, accent, size = "md", className, style, ...props },
+    { options, value, defaultValue, onValueChange, accent, size = "md", wrap, fullWidth, className, style, ...props },
     ref
   ) {
     const [current, setCurrent] = useControllableState<string>({
@@ -167,6 +173,7 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
       onChange: onValueChange,
       componentName: "SegmentedControl",
     });
+    const baseId = useId();
 
     const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
       const activeIdx = options.findIndex((o) => o.value === current);
@@ -205,7 +212,13 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
     return (
       <div
         ref={ref}
-        className={cx("vf-segmented", `vf-segmented--${size}`, className)}
+        className={cx(
+          "vf-segmented",
+          `vf-segmented--${size}`,
+          wrap && "vf-segmented--wrap",
+          fullWidth && "vf-segmented--full",
+          className
+        )}
         style={composedStyle}
         role="radiogroup"
         onKeyDown={handleKey}
@@ -213,6 +226,8 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
       >
         {options.map((o) => {
           const selected = current === o.value;
+          const described = o.description !== undefined && o.description !== null;
+          const descId = `${baseId}-${o.value}-desc`;
           return (
             <button
               key={o.value}
@@ -220,9 +235,10 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
               role="radio"
               aria-checked={selected}
               aria-label={o.label}
+              aria-describedby={described ? descId : undefined}
               tabIndex={selected ? 0 : -1}
               {...buttonDisabledAttrs(o.disabled)}
-              className={cx("vf-segmented__item")}
+              className={cx("vf-segmented__item", described && "vf-segmented__item--described")}
               data-active={selected ? "true" : undefined}
               onClick={() => !o.disabled && setCurrent(o.value)}
             >
@@ -231,7 +247,16 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
                   {o.icon}
                 </span>
               )}
-              {o.label}
+              {described ? (
+                <span className="vf-segmented__text">
+                  <span className="vf-segmented__label">{o.label}</span>
+                  <span id={descId} className="vf-segmented__description">
+                    {o.description}
+                  </span>
+                </span>
+              ) : (
+                o.label
+              )}
             </button>
           );
         })}

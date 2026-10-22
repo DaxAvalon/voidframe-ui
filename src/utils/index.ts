@@ -130,6 +130,7 @@ export { buttonDisabledAttrs, type DisabledAttrs } from "./buttonDisabledAttrs";
 export { hasAccessibleGridAncestor } from "./hasAccessibleGridAncestor";
 export { auditTokens, warnUnknownTokens, resetTokenAudit } from "./auditTokens";
 export { readToken, readTokens } from "./readToken";
+export { toISODate, isoMonth, parseISODate } from "./date";
 export {
   toBinding,
   parseChord,

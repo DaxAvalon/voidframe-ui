@@ -95,6 +95,13 @@ export const de: LocalePack = {
       selected: "Ausgewählt",
       loading: "Lädt",
     },
+    wizard: {
+      back: "Zurück",
+      next: "Weiter",
+      finish: "Fertigstellen",
+      skip: "Überspringen",
+      stepOf: ({ current, total }) => `Schritt ${current} von ${total}`,
+    },
     shortcuts: {
       edit: "Tastenkürzel bearbeiten",
       clear: "Tastenkürzel löschen",

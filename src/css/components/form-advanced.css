@@ -161,6 +161,20 @@
   display: inline-flex;
   opacity: 0.8;
 }
+.vf-segmented--wrap { flex-wrap: wrap; }
+.vf-segmented--wrap .vf-segmented__item { border-inline-end: 1px solid var(--vf-border-1); }
+.vf-segmented--full { display: flex; width: 100%; }
+.vf-segmented--full .vf-segmented__item { flex: 1 1 0; justify-content: center; }
+.vf-segmented__item--described { align-items: flex-start; text-align: start; }
+.vf-segmented__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.vf-segmented__description {
+  font-size: var(--vf-font-xs);
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--vf-text-3);
+  white-space: normal;
+}
+.vf-segmented__item[data-active="true"] .vf-segmented__description { color: var(--vf-text-2); }
 
 /* ── PasswordInput ───────────────────────────────────────────── */
 .vf-password-input {

@@ -6,6 +6,17 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Control refinements**: `SegmentedControl wrap`, `fullWidth` and option `description`
+  (`aria-describedby`); `Tabs variant="plain"` (no rule, filled active pill), `Tabs.List wrap`,
+  `Tabs.Trigger tone`; `ToggleGroup max`; `Wizard.Skip` with `Wizard.Step optional`, `onSkip`,
+  `skipped` in the context and indicator (`data-skipped`), `useWizard` exported, Back / Next /
+  Finish / Skip / "Step n of m" from the message catalogue (`wizard.*`, translated in every
+  locale), and `Wizard.Step`'s accessible name taken from `label` (it is no longer spread onto
+  the element); `DatePicker valueAsString` / `defaultValueAsString` / `onValueAsStringChange`
+  (local-calendar `yyyy-MM-dd`); `Slider valueText` (string or function) for `aria-valuetext` and
+  the readout; `Kbd size`; `Countdown remainingSeconds` (consumer-owned clock, no interval),
+  `thresholds={{ warn, danger }}` (`data-tone`, tone classes, `countdownTone()` exported) and
+  `hidden`. `toISODate`, `isoMonth` and `parseISODate` (local-calendar ISO helpers) are exported.
 - **File input primitives** (`voidframe-ui/forms`): `FilePickerButton { onFiles, accept, multiple,
   label, inputProps }` is a `Button` wired to a hidden `<input type="file">` (reset after each pick);
   `DropTarget { onFiles, accept, onRejected, multiple, surface }` decorates a region with

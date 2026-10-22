@@ -275,6 +275,12 @@ export interface SliderProps
   label?: string;
   accent?: string;
   showValue?: boolean;
+  /**
+   * Human-readable value for `aria-valuetext` and the `showValue` readout
+   * ("-6 dB", "45 min"). A string is used as is; a function receives the
+   * current value.
+   */
+  valueText?: string | ((value: number) => string);
   style?: CSSProperties;
   /**
    * Attributes for the outer wrapper `<div>`. Use for container-level
@@ -294,7 +300,7 @@ export interface SliderProps
  * `wrapperProps` for attributes that genuinely belong on the outer div.
  */
 export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
-  { value, defaultValue, onValueChange, min = 0, max = 100, step = 1, label, accent, showValue, className, style, wrapperProps, ...inputProps },
+  { value, defaultValue, onValueChange, min = 0, max = 100, step = 1, label, accent, showValue, valueText, className, style, wrapperProps, ...inputProps },
   ref
 ) {
   const [current, setCurrent] = useControllableState<number>({
@@ -304,6 +310,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
     componentName: "Slider",
   });
   const pct = ((current - min) / (max - min)) * 100;
+  const text = typeof valueText === "function" ? valueText(current) : valueText;
   const composedStyle: CSSProperties = accent
     ? ({ "--vf-accent": accent, ...style } as CSSProperties)
     : (style ?? {});
@@ -312,7 +319,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
       {(label || showValue) && (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {label && <Label>{label}</Label>}
-          {showValue && <Label style={{ color: "var(--vf-accent, var(--vf-green))" }}>{current}</Label>}
+          {showValue && <Label style={{ color: "var(--vf-accent, var(--vf-green))" }}>{text ?? current}</Label>}
         </div>
       )}
       <div className="vf-slider__track-wrap">
@@ -324,6 +331,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
           className="vf-slider__input"
           type="range"
           aria-label={label ?? "Slider"}
+          aria-valuetext={text}
           min={min}
           max={max}
           step={step}

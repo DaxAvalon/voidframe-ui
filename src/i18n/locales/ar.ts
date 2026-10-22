@@ -83,6 +83,13 @@ export const ar: LocalePack = {
       selected: "محدد",
       loading: "جارٍ التحميل",
     },
+    wizard: {
+      back: "رجوع",
+      next: "التالي",
+      finish: "إنهاء",
+      skip: "تخطي",
+      stepOf: ({ current, total }) => `الخطوة ${current} من ${total}`,
+    },
     shortcuts: {
       edit: "تحرير الاختصار",
       clear: "مسح الاختصار",

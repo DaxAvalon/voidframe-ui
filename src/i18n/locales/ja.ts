@@ -83,6 +83,13 @@ export const ja: LocalePack = {
       selected: "選択済み",
       loading: "読み込み中",
     },
+    wizard: {
+      back: "戻る",
+      next: "次へ",
+      finish: "完了",
+      skip: "スキップ",
+      stepOf: ({ current, total }) => `ステップ ${current} / ${total}`,
+    },
     shortcuts: {
       edit: "ショートカットを編集",
       clear: "ショートカットを消去",

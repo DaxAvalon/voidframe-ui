@@ -387,6 +387,8 @@
 }
 .vf-wizard__step-label--active { color: var(--vf-text-0); border-bottom-color: var(--vf-accent); }
 .vf-wizard__step-label--completed { color: var(--vf-text-2); }
+.vf-wizard__step-label--skipped { color: var(--vf-text-3); text-decoration: line-through; }
+.vf-wizard__skip { margin-inline-start: auto; }
 
 /* ── CursorPagination ───────────────────────────────────── */
 .vf-cursor-pagination {

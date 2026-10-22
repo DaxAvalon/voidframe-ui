@@ -657,11 +657,11 @@ For programmatic actions (no destination URL), use `Button` with
 
 `SettingsRow` lays a setting out as name and description on the left and the control on the right, stacking below a breakpoint and labelling an unlabelled control by the row name. `Input`, `Textarea` and `Select` take `fullWidth` to fill their column; `Text` and `Code` take `truncate` for single-line ellipsis with a `title` fallback.
 
-Core: `Input`, `Textarea`, `Select` (`placeholder` renders a disabled empty option; options take `description`, `badge` and `disabled`), `Toggle`, `Switch`, `Checkbox`, `CheckboxGroup`, `RadioGroup` (options take `description`, `badge`, `disabled`), `Slider`, `NumberInput`, `CurrencyInput`, `PhoneInput`, `PinInput`, `PasswordInput`, `MaskedInput`, `SearchInput`, `SegmentedControl`, `RatingInput`, `ColorPicker`.
+Core: `Input`, `Textarea`, `Select` (`placeholder` renders a disabled empty option; options take `description`, `badge` and `disabled`), `Toggle`, `Switch`, `Checkbox`, `CheckboxGroup`, `RadioGroup` (options take `description`, `badge`, `disabled`), `Slider`, `NumberInput`, `CurrencyInput`, `PhoneInput`, `PinInput`, `PasswordInput`, `MaskedInput`, `SearchInput`, `SegmentedControl` (`wrap`, `fullWidth`, option `description`), `RatingInput`, `ColorPicker`. `Slider` takes `valueText` for `aria-valuetext`; `ToggleGroup` takes `max`.
 
 Complex selects: `Combobox`, `MultiSelect`, `TreeSelect`, `MentionInput`.
 
-Date & time: `DatePicker`, `DateRangePicker`, `DateTimePicker`, `TimePicker` (via DatePicker).
+Date & time: `DatePicker` (`valueAsString` / `onValueAsStringChange` bind a local-calendar `yyyy-MM-dd` string directly), `DateRangePicker`, `DateTimePicker`, `TimePicker` (via DatePicker).
 
 Editors: `RichTextEditor`, `MarkdownEditor`, `CodeEditor`, `MarkdownRenderer` (React-element output: headings, emphasis, code, links, lists, `- [ ]` task lists with `onTaskToggle`, GFM tables, blockquotes; no HTML injection, no sanitizer peer).
 
@@ -861,7 +861,7 @@ Domain surfaces that round out the tier-1 offering. Everything below is in the t
 
 **Numeric:** `NumberDisplay`, `CurrencyDisplay`, `PercentDisplay` (all locale-aware with auto-tone), `BigNumber` (hero metric with unit + delta + optional sparkline slot).
 
-**Time:** `TimeZoneSelect` (searchable, Intl-driven), `RelativeTime` (auto-updating, pure `Intl.RelativeTimeFormat`), `DurationDisplay` (`hms`/`compact`/`long`), `Countdown`.
+**Time:** `TimeZoneSelect` (searchable, Intl-driven), `RelativeTime` (auto-updating, pure `Intl.RelativeTimeFormat`), `DurationDisplay` (`hms`/`compact`/`long`), `Countdown` (its own interval to `target`, or consumer-driven `remainingSeconds` with `thresholds={{ warn, danger }}` tones and `hidden`).
 
 **Help & changelog:** `HelpTooltip` (CSS-positioned ? icon), `ContextHelp` (side-panel pattern), `Changelog` (per-entry `added`/`fixed`/`changed`/`removed`/`security`/`deprecated`), `WhatsNewPopover` (once-per-version, persists via injected storage for tests/SSR).
 

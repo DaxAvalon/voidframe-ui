@@ -31,6 +31,8 @@ import {
   startOfDay,
   startOfMonth,
   weekdayNames,
+  parseISODate,
+  toISODate,
 } from "../utils/date";
 import { Label } from "./Text";
 
@@ -300,6 +302,14 @@ export interface DatePickerProps
   value?: Date | null;
   defaultValue?: Date | null;
   onValueChange?: (date: Date | null) => void;
+  /**
+   * String mode: the value as local-calendar `yyyy-MM-dd` (`null` when
+   * empty). Apps that store ISO dates can bind this directly and avoid the
+   * `Date` ↔ string conversion (and the UTC drift of `toISOString()`).
+   */
+  valueAsString?: string | null;
+  defaultValueAsString?: string | null;
+  onValueAsStringChange?: (iso: string | null) => void;
   label?: string;
   placeholder?: string;
   min?: Date | null;
@@ -331,9 +341,12 @@ export interface DatePickerProps
 export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   function DatePicker(
     {
-      value,
-      defaultValue,
+      value: valueProp,
+      defaultValue: defaultValueProp,
       onValueChange,
+      valueAsString,
+      defaultValueAsString,
+      onValueAsStringChange,
       label,
       placeholder = "yyyy-mm-dd",
       min,
@@ -356,6 +369,15 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     },
     ref
   ) {
+    // Parse once per string so `current` keeps its identity between renders
+    // (the draft-sync effect depends on it).
+    const parsedValue = useMemo(
+      () => (valueAsString !== undefined ? parseISODate(valueAsString) : undefined),
+      [valueAsString]
+    );
+    const value = valueAsString !== undefined ? parsedValue : valueProp;
+    const defaultValue =
+      defaultValueAsString !== undefined ? parseISODate(defaultValueAsString) : defaultValueProp;
     const isControlled = value !== undefined;
     const [internal, setInternal] = useState<Date | null>(defaultValue ?? null);
     const current = isControlled ? value ?? null : internal;
@@ -380,8 +402,9 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       (next: Date | null) => {
         if (!isControlled) setInternal(next);
         onValueChange?.(next);
+        onValueAsStringChange?.(toISODate(next));
       },
-      [isControlled, onValueChange]
+      [isControlled, onValueChange, onValueAsStringChange]
     );
 
     const displayFormat = useCallback(
