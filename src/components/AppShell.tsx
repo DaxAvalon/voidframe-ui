@@ -18,6 +18,12 @@ import {
 } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { cx } from "../utils/cx";
+import {
+  AppShellSidebarContext,
+  type SidebarCollapseMode,
+} from "./appShellContext";
+
+export type { SidebarCollapseMode } from "./appShellContext";
 
 export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
   header?: ReactNode;
@@ -35,6 +41,15 @@ export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
   /** Controlled sidebar collapsed state. */
   sidebarCollapsed?: boolean;
   onSidebarCollapsedChange?: (collapsed: boolean) => void;
+  /**
+   * What collapsing does on desktop: `"hide"` (default) removes the sidebar
+   * column; `"rail"` keeps it at `sidebarRailWidth` and a `Sidebar` inside
+   * follows into rail mode (icons only, labels as tooltips) unless its own
+   * `collapsed` prop is set. On mobile both modes close the drawer.
+   */
+  sidebarCollapseMode?: SidebarCollapseMode;
+  /** Column width while collapsed in `"rail"` mode. Default 56. */
+  sidebarRailWidth?: number | string;
   /**
    * When true, adds a drag handle on the sidebar's trailing edge so users
    * can resize it. The width is reported via `onSidebarWidthChange` and
@@ -75,6 +90,8 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
       sidebarCollapsible,
       sidebarDefaultCollapsed,
       sidebarCollapsed,
+      sidebarCollapseMode = "hide",
+      sidebarRailWidth = 56,
       onSidebarCollapsedChange,
       sidebarResizable,
       sidebarMinWidth = 180,
@@ -144,7 +161,22 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
 
     const effectiveSidebarWidth =
       sidebarResizable && liveWidth !== null ? liveWidth : sidebarWidth;
-    const sbW = isMobile || collapsed ? "0px" : sizeToCss(effectiveSidebarWidth);
+    const rail = sidebarCollapseMode === "rail" && collapsed && !isMobile;
+    const sbW = isMobile
+      ? "0px"
+      : rail
+        ? sizeToCss(sidebarRailWidth)
+        : collapsed
+          ? "0px"
+          : sizeToCss(effectiveSidebarWidth);
+    const toggleLabel =
+      sidebarCollapseMode === "rail" && !isMobile
+        ? collapsed
+          ? "Expand sidebar"
+          : "Collapse sidebar"
+        : collapsed
+          ? "Show sidebar"
+          : "Hide sidebar";
     const rpW = rightPanel ? sizeToCss(rightPanelWidth) : "0px";
     const hH = headerHeight !== undefined ? sizeToCss(headerHeight) : "auto";
 
@@ -162,10 +194,15 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
     };
 
     return (
+      <AppShellSidebarContext.Provider
+        value={{ collapsed, mode: sidebarCollapseMode }}
+      >
       <div
         ref={ref}
         className={cx("vf-appshell", className)}
         style={gridStyle}
+        data-sidebar-collapsed={collapsed ? "true" : undefined}
+        data-sidebar-collapse-mode={sidebarCollapseMode}
         {...props}
       >
         {header && (
@@ -175,7 +212,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
                 type="button"
                 className="vf-appshell__sidebar-toggle"
                 aria-expanded={!collapsed}
-                aria-label={collapsed ? "Show sidebar" : "Hide sidebar"}
+                aria-label={toggleLabel}
                 onClick={toggle}
               >
                 {collapsed ? "›" : "‹"}
@@ -184,10 +221,16 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
             {header}
           </div>
         )}
-        {sidebar && !collapsed && !isMobile && (
-          <aside className="vf-appshell__sidebar">
+        {sidebar && (!collapsed || rail) && !isMobile && (
+          <aside
+            className={cx(
+              "vf-appshell__sidebar",
+              rail && "vf-appshell__sidebar--rail"
+            )}
+            data-collapsed={rail ? "true" : undefined}
+          >
             {sidebar}
-            {sidebarResizable && (
+            {sidebarResizable && !rail && (
               <div
                 className="vf-appshell__sidebar-resizer"
                 role="separator"
@@ -224,6 +267,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(
           </footer>
         )}
       </div>
+      </AppShellSidebarContext.Provider>
     );
   }
 );

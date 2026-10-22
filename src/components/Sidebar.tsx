@@ -3,11 +3,12 @@
 // Phase 8 — Sidebar (compound)
 //
 // Vertical navigation container with brand, sections (labeled groups), nav
-// items, separators, and a footer slot. Supports a "rail" collapse variant
-// that hides labels to just icons.
+// items, separators, and a footer slot. Supports a "rail" collapse variant:
+// item labels, badges, section labels and the brand text are hidden, icons
+// are centred, and each NavItem shows its label as a tooltip and exposes it
+// as its accessible name.
 
 import {
-  createContext,
   forwardRef,
   useContext,
   useId as useReactId,
@@ -17,15 +18,35 @@ import {
 import { cx } from "../utils/cx";
 import { useDisclosure } from "../hooks/useDisclosure";
 import { Label } from "./Text";
+import {
+  SidebarContext,
+  type NavItemActiveStyle,
+  type SidebarLabels,
+} from "./sidebarContext";
+import { useAppShellSidebar } from "./appShellContext";
 
-interface SidebarContextValue {
-  collapsed: boolean;
-}
-const SidebarContext = createContext<SidebarContextValue>({ collapsed: false });
+export type { SidebarLabels, NavItemActiveStyle } from "./sidebarContext";
+export { useSidebarContext } from "./sidebarContext";
 
 export interface SidebarProps extends HTMLAttributes<HTMLElement> {
-  /** When true, collapses labels so only icons remain (rail mode). */
+  /**
+   * Rail mode: labels, badges, section labels and the brand text are hidden,
+   * icons are centred, and every `NavItem` inside shows its label as a
+   * tooltip and uses it as its accessible name. Inside an `AppShell` with
+   * `sidebarCollapseMode="rail"` this follows the shell's collapse state
+   * when left undefined.
+   */
   collapsed?: boolean;
+  /**
+   * How rail mode presents item labels: `"hidden"` (default, icon only) or
+   * `"vertical"` (rotated text under the icon).
+   */
+  labels?: SidebarLabels;
+  /**
+   * Default `activeStyle` for every `NavItem` inside: `"fill"` (background
+   * plus accent edge, the default) or `"edge"` (accent edge only).
+   */
+  activeStyle?: NavItemActiveStyle;
   /**
    * Collapse to rail mode automatically below the `md` breakpoint. Default
    * true. Use `adaptive={false}` when the sidebar is already inside a
@@ -36,21 +57,34 @@ export interface SidebarProps extends HTMLAttributes<HTMLElement> {
 }
 
 const SidebarBase = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
-  { collapsed = false, adaptive = true, className, children, ...props },
+  {
+    collapsed: collapsedProp,
+    labels = "hidden",
+    activeStyle,
+    adaptive = true,
+    className,
+    children,
+    ...props
+  },
   ref
 ) {
+  const shell = useAppShellSidebar();
+  const collapsed =
+    collapsedProp ?? (shell?.mode === "rail" ? shell.collapsed : false);
   return (
-    <SidebarContext.Provider value={{ collapsed }}>
+    <SidebarContext.Provider value={{ collapsed, labels, activeStyle }}>
       <aside
         ref={ref}
         aria-label="Sidebar"
         className={cx(
           "vf-sidebar",
           collapsed && "vf-sidebar--collapsed",
+          collapsed && labels === "vertical" && "vf-sidebar--labels-vertical",
           adaptive && "vf-sidebar--adaptive",
           className
         )}
         data-adaptive={adaptive ? "true" : undefined}
+        data-collapsed={collapsed ? "true" : undefined}
         {...props}
       >
         {children}
@@ -59,17 +93,39 @@ const SidebarBase = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
   );
 });
 
-function SidebarBrand({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+export interface SidebarBrandProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * Compact mark shown in rail mode in place of the text (`children`). The
+   * text keeps its place in the DOM for the accessible name; without an
+   * `icon` the text stays visible, centred and clipped to the rail.
+   */
+  icon?: ReactNode;
+}
+
+function SidebarBrand({
+  icon,
+  className,
+  children,
+  ...props
+}: SidebarBrandProps) {
   const { collapsed } = useContext(SidebarContext);
   return (
     <div
       className={cx(
         "vf-sidebar__brand",
         collapsed && "vf-sidebar__brand--collapsed",
+        icon && "vf-sidebar__brand--has-icon",
         className
       )}
       {...props}
-    />
+    >
+      {icon && (
+        <span className="vf-sidebar__brand-icon" aria-hidden="true">
+          {icon}
+        </span>
+      )}
+      <span className="vf-sidebar__brand-text">{children}</span>
+    </div>
   );
 }
 
@@ -185,7 +241,9 @@ function SidebarFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) 
  * Brutalist app-shell side navigation. Compound: compose `Sidebar.Brand`,
  * `Sidebar.Section` (optionally `label`ed), `Sidebar.Separator`, and
  * `Sidebar.Footer` with `NavItem` children. Pass `collapsed` for rail
- * mode (icons only); `adaptive` auto-collapses below the `md` breakpoint.
+ * mode (icons only, labels as tooltips and accessible names; `labels=
+ * "vertical"` keeps rotated text); `adaptive` auto-collapses below the
+ * `md` breakpoint.
  */
 export const Sidebar = Object.assign(SidebarBase, {
   Brand: SidebarBrand,

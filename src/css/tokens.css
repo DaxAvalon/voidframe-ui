@@ -127,6 +127,9 @@
   --vf-sp-11: 32px;
   --vf-sp-12: 48px;
 
+  /* layout */
+  --vf-sidebar-rail-width: 56px;
+
   /* motion */
   --vf-transition: all 0.15s ease;
   --vf-duration-fast: 100ms;

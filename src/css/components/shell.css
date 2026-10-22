@@ -223,6 +223,13 @@
   background: var(--vf-bg-2);
   overflow-y: auto;
 }
+.vf-appshell__sidebar--rail {
+  overflow-x: hidden;
+}
+.vf-appshell__sidebar--rail > .vf-sidebar {
+  min-width: 0;
+  width: 100%;
+}
 .vf-appshell__sidebar-resizer {
   position: absolute;
   top: 0;

@@ -149,15 +149,31 @@
   }
 }
 
-/* Sidebar — auto-collapse to rail below md (label text hidden). */
+/* Sidebar — auto-collapse to rail below md: item labels, badges, section
+   labels and the brand text are hidden, icons centred. CSS only, so give
+   items an `aria-label` (or plain-text children with `collapsed`) for the
+   accessible name. */
 @media (max-width: 767.98px) {
+  .vf-sidebar--adaptive:not(.vf-sidebar--collapsed) .vf-sidebar__section-header,
   .vf-sidebar--adaptive:not(.vf-sidebar--collapsed) .vf-sidebar__section-label,
-  .vf-sidebar--adaptive:not(.vf-sidebar--collapsed) .vf-sidebar__brand:not(.vf-sidebar__brand--collapsed) {
+  .vf-sidebar--adaptive:not(.vf-sidebar--collapsed) .vf-nav-item__content,
+  .vf-sidebar--adaptive:not(.vf-sidebar--collapsed) .vf-nav-item__badge,
+  .vf-sidebar--adaptive:not(.vf-sidebar--collapsed) .vf-sidebar__brand--has-icon .vf-sidebar__brand-text {
     display: none;
   }
+  .vf-sidebar--adaptive:not(.vf-sidebar--collapsed) .vf-sidebar__brand-icon {
+    display: inline-flex;
+  }
+  .vf-sidebar--adaptive:not(.vf-sidebar--collapsed) .vf-nav-item {
+    justify-content: center;
+    padding-inline: 0;
+    gap: 0;
+  }
   .vf-sidebar--adaptive {
-    width: 48px;
-    min-width: 48px;
+    width: var(--vf-sidebar-rail-width, 48px);
+    min-width: var(--vf-sidebar-rail-width, 48px);
+    padding: var(--vf-sp-2);
+    overflow-x: hidden;
   }
 }
 

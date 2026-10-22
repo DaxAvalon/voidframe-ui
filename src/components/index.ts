@@ -660,7 +660,15 @@ export type {
 } from "./Navbar";
 
 export { Sidebar } from "./Sidebar";
-export type { SidebarProps, SidebarSectionProps } from "./Sidebar";
+export { useSidebarContext } from "./Sidebar";
+export type {
+  SidebarProps,
+  SidebarSectionProps,
+  SidebarBrandProps,
+  SidebarLabels,
+  NavItemActiveStyle,
+} from "./Sidebar";
+export type { SidebarCollapseMode } from "./appShellContext";
 
 export { Wizard } from "./Wizard";
 export type { WizardProps, WizardStepProps } from "./Wizard";

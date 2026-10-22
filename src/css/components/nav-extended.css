@@ -182,9 +182,44 @@
   font-family: var(--vf-font-family);
   min-width: 220px;
 }
+/* Rail mode: icons only. Labels, badges, section labels and the brand text
+   are hidden (NavItem exposes the label as tooltip + aria-label). */
 .vf-sidebar--collapsed {
-  min-width: 56px;
+  width: var(--vf-sidebar-rail-width, 56px);
+  min-width: var(--vf-sidebar-rail-width, 56px);
   padding: var(--vf-sp-2);
+  overflow-x: hidden;
+}
+.vf-sidebar--collapsed .vf-nav-item {
+  justify-content: center;
+  padding-inline: 0;
+  gap: 0;
+}
+.vf-sidebar--collapsed .vf-nav-item__content,
+.vf-sidebar--collapsed .vf-nav-item__badge,
+.vf-sidebar--collapsed .vf-sidebar__section-header,
+.vf-sidebar--collapsed .vf-sidebar__section-label {
+  display: none;
+}
+.vf-sidebar--collapsed .vf-nav-item__icon {
+  width: auto;
+  opacity: 1;
+}
+/* Rotated labels under the icon. */
+.vf-sidebar--labels-vertical .vf-nav-item {
+  flex-direction: column;
+  padding-block: var(--vf-sp-3);
+  gap: var(--vf-sp-2);
+}
+.vf-sidebar--labels-vertical .vf-nav-item__content {
+  display: block;
+  flex: none;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: var(--vf-font-xxs);
+  letter-spacing: var(--vf-label-spacing);
+  text-transform: var(--vf-heading-case, uppercase);
+  white-space: nowrap;
 }
 .vf-sidebar__brand {
   color: var(--vf-text-0);
@@ -193,6 +228,31 @@
   letter-spacing: var(--vf-letter-spacing);
   text-transform: var(--vf-heading-case, uppercase);
   padding: var(--vf-sp-2);
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+  min-width: 0;
+}
+.vf-sidebar__brand-icon {
+  display: none;
+  flex: none;
+  line-height: 1;
+}
+.vf-sidebar__brand-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vf-sidebar__brand--collapsed {
+  justify-content: center;
+  padding-inline: 0;
+}
+.vf-sidebar__brand--collapsed .vf-sidebar__brand-icon {
+  display: inline-flex;
+}
+.vf-sidebar__brand--collapsed.vf-sidebar__brand--has-icon .vf-sidebar__brand-text {
+  display: none;
 }
 .vf-sidebar__section { display: flex; flex-direction: column; gap: var(--vf-sp-1); }
 .vf-sidebar__section-label {

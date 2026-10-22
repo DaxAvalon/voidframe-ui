@@ -114,11 +114,12 @@ describe("NavItem", () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it("clickable item without href is keyboard-operable (role, tab stop, Enter/Space)", async () => {
+  it("clickable item without href is a native button (tab stop, Enter/Space)", async () => {
     const onClick = vi.fn();
     renderWithTheme(<NavItem onClick={onClick}>Go</NavItem>);
     const item = screen.getByRole("button", { name: "Go" });
-    expect(item).toHaveAttribute("tabindex", "0");
+    expect(item.tagName).toBe("BUTTON");
+    expect(item).toHaveAttribute("type", "button");
     await userEvent.tab();
     expect(item).toHaveFocus();
     await userEvent.keyboard("{Enter}");

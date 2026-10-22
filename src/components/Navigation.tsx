@@ -11,7 +11,6 @@ import {
   type ButtonHTMLAttributes,
   type CSSProperties,
   type HTMLAttributes,
-  type KeyboardEvent,
   type OlHTMLAttributes,
   type ReactElement,
   type ReactNode,
@@ -20,6 +19,8 @@ import { cx } from "../utils/cx";
 import { toneAttrs } from "../utils/toneAttrs";
 import { safeHref } from "../utils/safeHref";
 import { Label } from "./Text";
+import { Tooltip } from "./Popovers";
+import { useSidebarContext, type NavItemActiveStyle } from "./sidebarContext";
 
 // ── Breadcrumb ────────────────────────────────────────────────
 
@@ -585,23 +586,42 @@ export interface NavItemProps extends HTMLAttributes<HTMLDivElement> {
   icon?: ReactNode;
   /** Optional trailing content (badge, count, etc). */
   badge?: ReactNode;
-  /** Href: when provided, NavItem renders an <a>; otherwise a <div>. */
+  /**
+   * Href: when provided, NavItem renders an `<a>`. With `onClick` and no
+   * `href` it renders a native `<button type="button">`; with neither, an
+   * inert `<div>`.
+   */
   href?: string;
   onClick?: () => void;
-  /** Indentation level (multiplies by 14px). */
+  /** Indentation level (multiplies by 14px). Ignored in a collapsed rail. */
   indent?: number;
   /** Render as a polymorphic element via children (Radix-style asChild). */
   asChild?: boolean;
   /** Semantic tone — destructive nav entries, warnings, etc. */
   tone?: "neutral" | "danger" | "warning" | "success";
+  /**
+   * Tooltip shown on hover/focus, placed to the right. Inside a collapsed
+   * `Sidebar` it defaults to the label (`children`); pass `false` to
+   * suppress that, or any node to show one in every mode.
+   */
+  tooltip?: ReactNode | boolean;
+  /**
+   * Active-item treatment: `"fill"` (background plus accent edge, default)
+   * or `"edge"` (accent edge only). The enclosing `Sidebar` can set a
+   * default.
+   */
+  activeStyle?: NavItemActiveStyle;
   style?: CSSProperties;
 }
 
 /**
- * Single nav/sidebar item: icon, label, optional badge, active state. Wraps
- * a link.
+ * Single nav/sidebar item: icon, label, optional badge, active state. Renders
+ * a link with `href`, a native button with `onClick`, or an inert div. In a
+ * collapsed `Sidebar` the label is hidden, becomes the tooltip, and is set
+ * as `aria-label` when it is plain text; pass `aria-label` yourself for a
+ * rich label.
  */
-export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem(
+export const NavItem = forwardRef<HTMLElement, NavItemProps>(function NavItem(
   {
     children,
     active,
@@ -612,14 +632,21 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
     indent = 0,
     asChild,
     tone,
+    tooltip,
+    activeStyle: activeStyleProp,
     className,
     style,
     ...props
   },
   ref
 ) {
+  const sidebar = useSidebarContext();
+  const collapsed = sidebar.collapsed;
+  const activeStyle = activeStyleProp ?? sidebar.activeStyle;
   const inline: CSSProperties = {
-    ...(indent ? { paddingInlineStart: `calc(var(--vf-sp-5) + ${indent * 14}px)` } : {}),
+    ...(indent && !collapsed
+      ? { paddingInlineStart: `calc(var(--vf-sp-5) + ${indent * 14}px)` }
+      : {}),
     ...style,
   };
   const inner = (
@@ -629,14 +656,38 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
       {badge && <span className="vf-nav-item__badge">{badge}</span>}
     </>
   );
+  const textLabel =
+    typeof children === "string" || typeof children === "number"
+      ? String(children)
+      : undefined;
   const ta = toneAttrs("vf-nav-item", { tone });
   const commonProps = {
     className: cx(ta.className, className),
     style: inline,
     "data-active": active ? "true" : undefined,
+    "data-active-style": activeStyle,
     "aria-current": active ? ("page" as const) : undefined,
+    ...(collapsed && textLabel && !props["aria-label"] && !props["aria-labelledby"]
+      ? { "aria-label": textLabel }
+      : {}),
     ...ta.attrs,
   };
+  const tooltipContent: ReactNode =
+    tooltip === false
+      ? null
+      : tooltip === true || tooltip === undefined
+        ? collapsed
+          ? children
+          : null
+        : tooltip;
+  const withTooltip = (el: ReactElement) =>
+    tooltipContent != null && tooltipContent !== "" ? (
+      <Tooltip content={tooltipContent} placement="right">
+        {el}
+      </Tooltip>
+    ) : (
+      el
+    );
   if (asChild && isValidElement(children)) {
     // Let the caller provide the outer element (e.g. router <Link>).
     const child = children as ReactElement<Record<string, unknown>> & {
@@ -655,22 +706,21 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
           node as unknown as HTMLDivElement;
       }
     };
-    return (
-      <>
-        {typeof child.type === "function" || typeof child.type === "string"
-          ? cloneElement(child, {
-              ...(props as Record<string, unknown>),
-              ...commonProps,
-              onClick,
-              ref: mergedRef,
-            } as Record<string, unknown>)
-          : child}
-      </>
+    return withTooltip(
+      typeof child.type === "function" || typeof child.type === "string"
+        ? cloneElement(child, {
+            ...(props as Record<string, unknown>),
+            ...commonProps,
+            onClick,
+            ref: mergedRef,
+          } as Record<string, unknown>)
+        : child
     );
   }
   if (href) {
-    return (
+    return withTooltip(
       <a
+        ref={ref as React.Ref<HTMLAnchorElement>}
         href={safeHref(href)}
         onClick={onClick}
         {...(commonProps as unknown as AnchorHTMLAttributes<HTMLAnchorElement>)}
@@ -680,30 +730,24 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(function NavItem
       </a>
     );
   }
-  // Clickable items without an href must still be reachable and operable
-  // from the keyboard: expose button semantics and activate on Enter/Space.
-  const interactiveProps = onClick
-    ? {
-        role: "button" as const,
-        tabIndex: 0,
-        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
-          props.onKeyDown?.(e);
-          if (e.defaultPrevented) return;
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onClick();
-          }
-        },
-      }
-    : {};
-  return (
-    <div
-      ref={ref}
-      onClick={onClick}
-      {...commonProps}
-      {...props}
-      {...interactiveProps}
-    >
+  // Clickable items without an href are native buttons: focusable, operable
+  // with Enter/Space and announced as buttons without any ARIA patching.
+  // `.vf-nav-item` carries the UA reset.
+  if (onClick) {
+    return withTooltip(
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
+        type="button"
+        onClick={onClick}
+        {...(commonProps as unknown as ButtonHTMLAttributes<HTMLButtonElement>)}
+        {...(props as unknown as ButtonHTMLAttributes<HTMLButtonElement>)}
+      >
+        {inner}
+      </button>
+    );
+  }
+  return withTooltip(
+    <div ref={ref as React.Ref<HTMLDivElement>} {...commonProps} {...props}>
       {inner}
     </div>
   );

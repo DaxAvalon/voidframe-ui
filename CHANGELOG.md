@@ -7,6 +7,14 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **`AppShell sidebarCollapseMode="rail"`** keeps the sidebar column at
+  `sidebarRailWidth` (default 56) when collapsed and puts a `Sidebar` inside
+  into rail mode through context; the toggle reads "Collapse/Expand
+  sidebar". `"hide"` (default) is unchanged. The shell exposes
+  `data-sidebar-collapsed` and `data-sidebar-collapse-mode`.
+- **`NavItem activeStyle="fill" | "edge"`** and a `Sidebar activeStyle`
+  default: `edge` marks the active item with the accent edge only, no
+  filled background. `NavItem tooltip` and `useSidebarContext()` are new.
 - **`voidframe-ui/charts/lazy`** — a `React.lazy` wrapper for every chart
   (`LazyBarChart`, `LazyLineChart`, `LazyTreeMap`, … 34 in all) with the
   chart's own props and `ref`, plus `ChartSkeleton` (`height`, `width`,
@@ -85,6 +93,20 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **`Sidebar collapsed` is now a rail.** The stylesheet hides item labels,
+  badges, section labels and the brand text under `.vf-sidebar--collapsed`
+  and centres icons (width `--vf-sidebar-rail-width`, 56px); the adaptive
+  media query does the same below `md`. Every `NavItem` inside a collapsed
+  sidebar shows its label as a right-placed tooltip and, when the label is
+  plain text, as `aria-label` (`tooltip={false}` opts out; a node shows in
+  every mode); `indent` is ignored in a rail. `Sidebar.Brand icon` is the
+  rail mark. New `labels="vertical"` keeps rotated labels under the icons.
+- **`NavItem` with `onClick` and no `href` renders a native
+  `<button type="button">`** instead of `div role="button"`, and
+  `.vf-nav-item` carries the UA reset (appearance, border, font, text-align,
+  full width) so an `asChild` button needs no consumer CSS. Its ref type is
+  now `HTMLElement` (a link, button or div). `focus-visible` draws the
+  focus ring inside the item.
 - **`d3-hierarchy` and `d3-sankey` are no longer imported eagerly by
   `voidframe-ui/charts`.** `TreeMap`, `Sunburst` and `Sankey` load their
   peer on first render through the new `usePeer` hook (exported with

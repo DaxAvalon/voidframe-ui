@@ -245,20 +245,38 @@
   background: color-mix(in srgb, var(--vf-green) 27%, transparent);
 }
 
-/* NavItem */
+/* NavItem — one rule for <a>, <button> and <div>; the button reset lives
+   here so a native button (onClick without href, or asChild <button>) has
+   no UA chrome to strip. */
 .vf-nav-item {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
   padding: var(--vf-sp-3) var(--vf-sp-5);
   background: transparent;
+  border: 0;
   border-inline-start: 2px solid transparent;
+  border-radius: 0;
   color: var(--vf-text-3);
   cursor: pointer;
   transition: var(--vf-transition);
   display: flex;
   align-items: center;
   gap: var(--vf-sp-4);
+  font: inherit;
   font-size: var(--vf-font-sm);
   font-family: var(--vf-font-family);
+  line-height: var(--vf-line-height);
+  text-align: start;
   text-decoration: none;
+  box-sizing: border-box;
+}
+button.vf-nav-item {
+  width: 100%;
+}
+.vf-nav-item:focus-visible {
+  outline: var(--vf-focus-ring);
+  outline-offset: -2px;
 }
 .vf-nav-item__content { flex: 1; min-width: 0; }
 .vf-nav-item__badge {
@@ -280,6 +298,13 @@
   background: var(--vf-bg-3);
   border-inline-start-color: var(--vf-accent);
   color: var(--vf-text-0);
+}
+/* Edge-only active mark: accent edge, no filled background. */
+.vf-nav-item[data-active="true"][data-active-style="edge"] {
+  background: transparent;
+}
+.vf-nav-item[data-active="true"][data-active-style="edge"]:hover {
+  background: var(--vf-bg-4);
 }
 .vf-nav-item__icon {
   font-size: var(--vf-font-sm);

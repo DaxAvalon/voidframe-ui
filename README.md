@@ -466,7 +466,7 @@ Everything below ships from the top-level `voidframe-ui` import. Compound compon
 | `Box`, `Flex`, `HStack`, `VStack`, `Stack`, `Grid`, `Container` | Layout primitives |
 | `AspectRatio` | Fixed-ratio frames |
 | `AppShell` | Sidebar + header + footer scaffolding |
-| `Sidebar` (compound) | Collapsible navigation shell with groups and items |
+| `Sidebar` (compound) | Navigation shell with groups and items. `collapsed` is a rail: labels, badges, section labels and brand text hidden, icons centred, each `NavItem` shows its label as a tooltip and `aria-label`; `labels="vertical"` keeps rotated text; `activeStyle="edge"` marks the active item with the accent edge only; `Sidebar.Brand icon` is the rail mark. `AppShell sidebarCollapseMode="rail"` keeps the column at `sidebarRailWidth` and drives it. `NavItem` renders `<a>` with `href`, a native `<button>` with `onClick`, else a `div`. |
 | `PageHeader` | Title / subtitle / action area for routes |
 | `Navbar`, `Toolbar` (compound) | Top-level bars and inline action strips |
 | `SplitView`, `ResizableGroup` / `ResizablePanel` / `ResizableHandle` | Draggable split panes |
@@ -1070,7 +1070,7 @@ The `useContainerQuery` hook above doesn't depend on browser CSS support — it 
 
 - `Modal` goes full-screen.
 - `Drawer` / `DrawerV2` expand to full-width.
-- `Sidebar` collapses to a 48px rail (labels hidden).
+- `Sidebar` collapses to a rail (`--vf-sidebar-rail-width`, 48px here): item labels, badges, section labels and the brand text are hidden, icons centred. This is CSS only, so give items plain-text children or an `aria-label` for their accessible name; the `collapsed` prop adds tooltips and `aria-label`s as well.
 - `Table` renders as stacked cards (column header above each value).
 
 Opt-out with `adaptive={false}` when you're wrapping one of these inside your own mobile-aware shell.
