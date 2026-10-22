@@ -93,7 +93,7 @@
   padding: 1px 5px;
   font-size: var(--vf-font-sm);
   color: var(--vf-amber);
-  font-family: var(--vf-font-family);
+  font-family: var(--vf-font-mono);
 }
 .vf-code--muted { color: var(--vf-text-3); }
 .vf-code--truncate {
@@ -111,11 +111,12 @@
   padding: var(--vf-sp-6);
   font-size: var(--vf-font-sm);
   color: var(--vf-text-1);
-  font-family: var(--vf-font-family);
+  font-family: var(--vf-font-mono);
   overflow: auto;
   line-height: 1.7;
   margin: 0;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 /* Timeline */

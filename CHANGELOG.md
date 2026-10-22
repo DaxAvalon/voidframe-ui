@@ -6,6 +6,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **`voidframe-ui/codemirror`**: `voidframeEditorThemeSpec({ dark, fontFamily, fontSize, lineHeight,
+  overrides })` returns the editor chrome (gutters, active line, selection layer, bracket match,
+  search, panels, tooltips, lint ranges) and a token-coloured highlight style as plain data, and
+  `voidframeEditorTheme(cm, options)` turns it into CodeMirror extensions from the modules you
+  inject (`EditorView`, `HighlightStyle`, `syntaxHighlighting`, `tags`), so the entry has no
+  CodeMirror dependency. Every colour is a `var(--vf-*)` reference and the selection layer uses the
+  accent (voidframe's inverted `::selection` already excludes `.cm-editor`).
 - **Testing utilities** (`voidframe-ui/testing`): `MockCodeEditor`, `MockMarkdownEditor` and
   `MockRichTextEditor` are now textarea-backed and forward `value` / `defaultValue`,
   `onValueChange`, `placeholder`, `aria-label` and `readOnly` (data attributes kept);
@@ -506,6 +513,9 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   rather than sitting hidden in the DOM.
 
 ### Fixed
+- **Code typography**: inline and block `Code`, `Kbd` and `CodeBlock` use `--vf-font-mono` instead
+  of the body font, so they stay monospace under sans-serif themes; block code gets
+  `overflow-wrap: anywhere` so long tokens wrap instead of overflowing.
 
 - **Docs match the API.** The theme-persistence guide and README use the
   object `useThemePersistence` returns (`{ theme, setTheme, clearTheme }`)

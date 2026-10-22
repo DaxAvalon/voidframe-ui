@@ -119,6 +119,16 @@
       "import": "./dist/reactflow.es.js",
       "require": "./dist/reactflow.cjs.js"
     },
+    "./codemirror": {
+      "types": "./dist/types/subpaths/codemirror.d.ts",
+      "import": "./dist/codemirror.es.js",
+      "require": "./dist/codemirror.cjs.js"
+    },
+    "./codemirror": {
+      "types": "./dist/types/subpaths/codemirror.d.ts",
+      "import": "./dist/codemirror.es.js",
+      "require": "./dist/codemirror.cjs.js"
+    },
     "./compat-shadcn": {
       "types": "./dist/types/subpaths/compat-shadcn.d.ts",
       "import": "./dist/compat-shadcn.es.js",
@@ -303,6 +313,18 @@
       "name": "ReactFlow theme ESM (dist/reactflow.es.js)",
       "path": "dist/reactflow.es.js",
       "limit": "5 KB",
+      "gzip": true
+    },
+    {
+      "name": "CodeMirror theme ESM (dist/codemirror.es.js)",
+      "path": "dist/codemirror.es.js",
+      "limit": "4 KB",
+      "gzip": true
+    },
+    {
+      "name": "CodeMirror theme ESM (dist/codemirror.es.js)",
+      "path": "dist/codemirror.es.js",
+      "limit": "4 KB",
       "gzip": true
     },
     {

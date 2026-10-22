@@ -131,6 +131,8 @@ export default defineConfig({
         specialty: resolve(__dirname, "src/subpaths/specialty.ts"),
         interactive: resolve(__dirname, "src/subpaths/interactive.ts"),
         reactflow: resolve(__dirname, "src/subpaths/reactflow.ts"),
+        codemirror: resolve(__dirname, "src/subpaths/codemirror.ts"),
+        codemirror: resolve(__dirname, "src/subpaths/codemirror.ts"),
         "compat-shadcn": resolve(__dirname, "src/subpaths/compat-shadcn.ts"),
       },
       name: "Voidframe",

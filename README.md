@@ -89,6 +89,8 @@ the root entry:
 | `voidframe-ui/interactive` | `Accordion`, `DragDrop`, `Gestures`, `FilterBuilder`, `Interactive` primitives. |
 | `voidframe-ui/compat-shadcn` | Migrating from shadcn/Radix — flat named exports with shadcn-shaped API. |
 | `voidframe-ui/reactflow` | `VoidframeReactFlowTheme` wrapper, `FlowNode` custom-node shell, `useVoidframeReactFlowStyles()` (edge, label and panel styles), `flowKindColor()`, `readToken()`/`useVoidframeTokens()` and the deterministic `layeredLayout()`/`forceLayout()` helpers for `@xyflow/react`. |
+| `voidframe-ui/codemirror` | `voidframeEditorTheme({ EditorView, HighlightStyle, syntaxHighlighting, tags }, { dark })` builds a CodeMirror 6 theme and highlight style from the tokens; `voidframeEditorThemeSpec()` is the same as plain data. No CodeMirror dependency: you inject the modules you already have. |
+| `voidframe-ui/codemirror` | `voidframeEditorTheme({ EditorView, HighlightStyle, syntaxHighlighting, tags }, { dark })` builds a CodeMirror 6 theme and highlight style from the tokens; `voidframeEditorThemeSpec()` is the same as plain data. No CodeMirror dependency: you inject the modules you already have. |
 | `voidframe-ui/styles.css` | The single bundled stylesheet. |
 | `voidframe-ui/theme-script.js` | Inline `<head>` snippet that applies the persisted theme pre-hydration (no flash). |
 
