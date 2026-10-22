@@ -7,7 +7,7 @@ import { expectNoA11yViolations } from "../../../test/axe";
 const ACTIONS: TransportAction[] = [
   { id: "record", label: "Record", binding: "Numpad 0", tone: "danger" },
   { id: "stop", label: "Stop", binding: "Numpad ." },
-  { id: "punch", label: "Punch", binding: "Enter", tone: "warning" },
+  { id: "punch", label: "Punch", binding: "Enter", keyshortcut: "Enter", tone: "warning" },
   { id: "marker", label: "Marker", binding: "Numpad +" },
   { id: "flag", label: "Flag", binding: "Numpad -", enabled: false },
 ];

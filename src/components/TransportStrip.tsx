@@ -1,24 +1,46 @@
 "use client";
 
-import { forwardRef, memo, type HTMLAttributes, type ReactNode } from "react";
+import { forwardRef, memo, type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
 import { Toolbar } from "./Toolbar";
 import { LiveIndicator } from "./LiveIndicator";
 import { LiveRegion } from "../primitives/LiveRegion";
 import { cx } from "../utils/cx";
+import { useId } from "../hooks/useId";
 
 export type TransportTone = "neutral" | "danger" | "warning";
+/** `wrap`: actions wrap as needed. `row`: one non-wrapping row of equal-width targets in `actions` order. */
+export type TransportLayout = "wrap" | "row";
+/** Minimum target height in CSS px. */
+export type TransportTargetSize = 44 | 56 | 64;
+/** `words`: label text always. `glyphs`: icon only where an action has one. `auto`: glyphs below 480 px of container width. */
+export type TransportLabels = "auto" | "words" | "glyphs";
+/** `large` enlarges the binding names, for learning them. */
+export type TransportShowBindings = "normal" | "large";
 
 export interface TransportAction {
   /** Stable id passed to `onAction`. */
   id: string;
   /** Visible label ("Punch", "Record", "Stop", "Marker"). */
   label: string;
-  /** The key, pedal button or MIDI note that triggers it ("Enter", "Numpad 0", "Pedal 1"); shown and read with the label. */
+  /**
+   * Display name of the key, pedal button or MIDI note that triggers it
+   * ("Enter", "Numpad 0", "Pedal 1", "↓"); shown and read with the label.
+   * Not used for `aria-keyshortcuts`: see `keyshortcut`.
+   */
   binding?: string;
+  /**
+   * The same trigger in ARIA `aria-keyshortcuts` grammar: key names joined
+   * with `+`, several alternatives separated by spaces ("Enter",
+   * "Shift+Enter", "ArrowDown", "Escape"). Only keyboard triggers belong
+   * here; a pedal or MIDI binding has no keyshortcut.
+   */
+  keyshortcut?: string;
   /** Optional glyph, decorative. */
   icon?: ReactNode;
   /** Default `true`. */
   enabled?: boolean;
+  /** Why the action is unavailable; shown as a tooltip and read with the button. */
+  disabledReason?: string;
   /** Colour emphasis: `danger` for record, `warning` for a roll-landing punch. */
   tone?: TransportTone;
   /** Render as a toggled button (`aria-pressed`). */
@@ -47,6 +69,22 @@ export interface TransportStripProps extends Omit<HTMLAttributes<HTMLDivElement>
   rollTotal?: number;
   /** `lg`: targets at least 44 × 44 CSS px, wider than tall, for booth and tablet use. Default `md`. */
   size?: "md" | "lg";
+  /**
+   * `wrap` (default) lets the actions wrap. `row` keeps them in one
+   * non-wrapping row of equal-width targets in `actions` order (put record
+   * first and stop last), on their own line under the state and clocks.
+   */
+  layout?: TransportLayout;
+  /**
+   * Minimum target height in CSS px (44, 56 or 64). In `row` layout width
+   * is shared equally, so seven 56 px targets fit a 390 px viewport with
+   * `labels="glyphs"` or `"auto"`.
+   */
+  targetSize?: TransportTargetSize;
+  /** Label presentation; `auto` (default) switches to glyphs under 480 px of width where an action has an icon. */
+  labels?: TransportLabels;
+  /** `large` shows the binding names big, for learning them. Default `normal`. */
+  showBindings?: TransportShowBindings;
   /** Accessible name of the toolbar. Default "Transport". */
   label?: string;
   /** Clock formatter for `elapsed` and `remaining`. Default `formatClock`. */
@@ -72,18 +110,51 @@ export function formatClock(seconds: number): string {
 }
 
 const TransportStripImpl = forwardRef<HTMLDivElement, TransportStripProps>(function TransportStrip(
-  { actions, state, elapsed, remaining, rollTotal, size = "md", label = "Transport", formatTime = formatClock, onAction, className, ...rest },
+  {
+    actions,
+    state,
+    elapsed,
+    remaining,
+    rollTotal,
+    size = "md",
+    layout = "wrap",
+    targetSize,
+    labels = "auto",
+    showBindings = "normal",
+    label = "Transport",
+    formatTime = formatClock,
+    onAction,
+    className,
+    style,
+    ...rest
+  },
   ref
 ) {
   const tone = state.tone ?? "neutral";
   const rolling = remaining !== null && remaining !== undefined;
   const fraction = rolling ? rollFraction(remaining, rollTotal ?? 0) : 0;
+  const id = useId();
+  const inline: CSSProperties = {
+    ...(targetSize ? ({ "--vf-transport-target": `${targetSize}px` } as CSSProperties) : {}),
+    ...style,
+  };
   return (
     <div
       ref={ref}
-      className={cx("vf-transport", `vf-transport--${size}`, `vf-transport--${tone}`, rolling && "vf-transport--rolling", className)}
+      className={cx(
+        "vf-transport",
+        `vf-transport--${size}`,
+        `vf-transport--${tone}`,
+        `vf-transport--${layout}`,
+        `vf-transport--labels-${labels}`,
+        showBindings === "large" && "vf-transport--bindings-large",
+        rolling && "vf-transport--rolling",
+        className
+      )}
+      style={inline}
       data-state={state.label}
       data-tone={tone}
+      data-layout={layout}
       {...rest}
     >
       {rolling && (
@@ -112,32 +183,47 @@ const TransportStripImpl = forwardRef<HTMLDivElement, TransportStripProps>(funct
       </div>
       <LiveRegion message={state.label} politeness="polite" className="vf-transport__announce" />
       <Toolbar aria-label={label} className="vf-transport__actions">
-        {actions.map((a) => (
-          <Toolbar.Button
-            key={a.id}
-            type="button"
-            className={cx("vf-transport__action", a.tone && `vf-transport__action--${a.tone}`)}
-            data-action={a.id}
-            data-tone={a.tone}
-            disabled={a.enabled === false}
-            pressed={a.pressed}
-            aria-label={a.binding ? `${a.label}, ${a.binding}` : a.label}
-            aria-keyshortcuts={a.binding}
-            onClick={() => onAction(a.id)}
-          >
-            {a.icon && (
-              <span className="vf-transport__icon" aria-hidden="true">
-                {a.icon}
-              </span>
-            )}
-            <span className="vf-transport__label">{a.label}</span>
-            {a.binding && (
-              <kbd className="vf-transport__binding" aria-hidden="true">
-                {a.binding}
-              </kbd>
-            )}
-          </Toolbar.Button>
-        ))}
+        {actions.map((a) => {
+          const disabled = a.enabled === false;
+          const reasonId = disabled && a.disabledReason ? `${id}-${a.id}-reason` : undefined;
+          return (
+            <Toolbar.Button
+              key={a.id}
+              type="button"
+              className={cx(
+                "vf-transport__action",
+                a.tone && `vf-transport__action--${a.tone}`,
+                a.icon && "vf-transport__action--has-icon"
+              )}
+              data-action={a.id}
+              data-tone={a.tone}
+              disabled={disabled}
+              pressed={a.pressed}
+              aria-label={a.binding ? `${a.label}, ${a.binding}` : a.label}
+              aria-keyshortcuts={a.keyshortcut}
+              aria-describedby={reasonId}
+              title={disabled ? a.disabledReason : undefined}
+              onClick={() => onAction(a.id)}
+            >
+              {a.icon && (
+                <span className="vf-transport__icon" aria-hidden="true">
+                  {a.icon}
+                </span>
+              )}
+              <span className="vf-transport__label">{a.label}</span>
+              {a.binding && (
+                <kbd className="vf-transport__binding" aria-hidden="true">
+                  {a.binding}
+                </kbd>
+              )}
+              {reasonId && (
+                <span id={reasonId} className="vf-sr-only">
+                  {a.disabledReason}
+                </span>
+              )}
+            </Toolbar.Button>
+          );
+        })}
       </Toolbar>
     </div>
   );
@@ -148,7 +234,10 @@ const TransportStripImpl = forwardRef<HTMLDivElement, TransportStripProps>(funct
  * pulsing indicator while recording, announced once per change), elapsed and
  * roll-remaining clocks, a countdown bar along the top edge while a roll runs,
  * and the actions as toolbar buttons named with their key, pedal or MIDI
- * binding so they can be found without looking. Audio-agnostic: labels,
- * bindings, state and seconds in; action ids out.
+ * binding so they can be found without looking (`keyshortcut` carries the
+ * ARIA grammar separately). `layout="row"` with `targetSize` gives a
+ * phone or tablet one fixed-order row of touch targets; `labels` and
+ * `showBindings` trade words for glyphs or enlarge the key names.
+ * Audio-agnostic: labels, bindings, state and seconds in; action ids out.
  */
 export const TransportStrip = memo(TransportStripImpl);

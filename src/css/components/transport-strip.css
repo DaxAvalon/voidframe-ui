@@ -2,7 +2,9 @@
 
 .vf-transport {
   --vf-transport-accent: var(--vf-text-1);
+  --vf-transport-target: var(--vf-control-height-md);
   position: relative;
+  container-type: inline-size;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -58,8 +60,9 @@
 .vf-transport__action {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--vf-sp-2);
-  min-height: var(--vf-control-height-md);
+  min-height: var(--vf-transport-target);
   padding: 0 var(--vf-sp-3);
 }
 .vf-transport__action--danger { --vf-accent: var(--vf-red); }
@@ -77,13 +80,71 @@
 .vf-transport--lg .vf-transport__word { font-size: var(--vf-font-3xl); }
 .vf-transport--lg .vf-transport__time,
 .vf-transport--lg .vf-transport__remaining { font-size: var(--vf-font-xxl); }
+.vf-transport--lg { --vf-transport-target: 44px; }
 .vf-transport--lg .vf-transport__action {
-  min-height: 44px;
   min-width: 88px;
   padding: 0 var(--vf-sp-4);
   font-size: var(--vf-font-lg);
 }
 .vf-transport--lg .vf-transport__binding { font-size: var(--vf-font-sm); }
+
+/* ── layout="row": one non-wrapping row of equal targets ──────── */
+/* The actions take their own full-width line under the state and clocks,
+   never wrap, and share the width equally in `actions` order. Widths
+   shrink below the target size before anything wraps; height holds. */
+.vf-transport--row .vf-transport__actions {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--vf-sp-1);
+  margin-inline-start: 0;
+  min-width: 0;
+}
+.vf-transport--row .vf-transport__action,
+.vf-transport--row.vf-transport--lg .vf-transport__action {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0 var(--vf-sp-2);
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+  line-height: 1.1;
+}
+.vf-transport--row .vf-transport__label,
+.vf-transport--row .vf-transport__binding {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* ── labels ──────────────────────────────────────────────────── */
+/* glyphs: hide the word where an icon can stand in for it. */
+.vf-transport--labels-glyphs .vf-transport__action--has-icon .vf-transport__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+@container (max-width: 480px) {
+  .vf-transport--labels-auto .vf-transport__action--has-icon .vf-transport__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+.vf-transport--labels-glyphs .vf-transport__icon,
+.vf-transport--row .vf-transport__icon { font-size: var(--vf-font-lg); }
+
+/* ── showBindings="large": learn the keys ─────────────────────── */
+.vf-transport--bindings-large .vf-transport__binding {
+  font-size: var(--vf-font-lg);
+  font-weight: 700;
+  color: var(--vf-text-0);
+  padding: 0 var(--vf-sp-3);
+}
 
 .vf-sr-only {
   position: absolute;

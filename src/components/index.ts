@@ -1242,7 +1242,16 @@ export type { WaveformStripProps, WaveformTile, WaveformSegment, WaveformBoundar
 export { Verdict, verdictTone } from "./Verdict";
 export type { VerdictProps, VerdictKind } from "./Verdict";
 export { TransportStrip, rollFraction, formatClock } from "./TransportStrip";
-export type { TransportStripProps, TransportAction, TransportState, TransportTone } from "./TransportStrip";
+export type {
+  TransportStripProps,
+  TransportAction,
+  TransportState,
+  TransportTone,
+  TransportLayout,
+  TransportTargetSize,
+  TransportLabels,
+  TransportShowBindings,
+} from "./TransportStrip";
 export { StatusStrip, toneWord } from "./StatusStrip";
 export type { StatusStripProps, StatusSegment, StatusTone } from "./StatusStrip";
 export { CountdownDial, countdownFraction, formatSeconds } from "./CountdownDial";

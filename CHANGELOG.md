@@ -75,9 +75,17 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
   the session state as a dominant word (pulsing indicator while recording,
   announced once per change), elapsed and roll-remaining clocks, a countdown
   bar along the top edge while a roll runs, and the actions as toolbar buttons
-  named with their key, pedal or MIDI binding (`aria-label`,
-  `aria-keyshortcuts`). Pure helpers `rollFraction` and `formatClock`. Built
-  for Vonyx (DaxAvalon/Vonyx#131); see #13.
+  named with their key, pedal or MIDI `binding` (display text, in the
+  `aria-label`); the separate `keyshortcut` field carries ARIA
+  `aria-keyshortcuts` grammar for keyboard triggers only. `layout="row"`
+  keeps the actions in one non-wrapping row of equal-width targets in
+  `actions` order under the clocks, `targetSize` (44 | 56 | 64) sets the
+  minimum target height, `labels="auto" | "words" | "glyphs"` drops words
+  for icons (auto: under 480 px of container width), `showBindings="large"`
+  enlarges the key names for learning them, and `disabledReason` is a
+  tooltip plus accessible description on a disabled action. Pure helpers
+  `rollFraction` and `formatClock`. Built for Vonyx (DaxAvalon/Vonyx#131);
+  see #13, #62.
 - **`StatusStrip`** (data tier, `voidframe-ui/data`). One dense line of
   labelled values with tones — interface · sample rate · latency · dropouts ·
   "saved 20 s ago" — as a named list; each non-neutral tone adds a visually
