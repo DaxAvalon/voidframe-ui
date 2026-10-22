@@ -337,6 +337,37 @@ const warmVoid = createTheme({
 </VoidframeProvider>
 ```
 
+**A theme object is the whole description.** Besides surfaces, borders, text
+and the seven hues, `VoidframeTokens` carries `accent` (what every
+accent-driven control uses), `onAccent` (text on an accent or status fill;
+solid buttons and badges read it), `labelCase` (chrome labels, independent of
+`headingCase`), `focusRing` / `focusOffset`, `selectionBg` / `selectionFg`
+and `colorScheme`, which the provider emits as the subtree's `color-scheme`.
+`createTheme` derives what you leave out: the `X5…X60` alpha steps of every
+hex hue, `success`/`danger`/`warning`/`info` from `green`/`red`/`amber`/`blue`,
+`accent` from `blue`, `onAccent` from `bg0` and `colorScheme` from `bg0`'s
+lightness. `withAccentAlphas()` does the alpha derivation on its own.
+
+**Register a custom theme like a built-in** with `defineTheme`:
+
+```tsx
+import { defineTheme, VoidframeProvider, ThemeSelector, THEME_OPTIONS } from "voidframe-ui";
+
+export const brand = defineTheme({
+  id: "brand",
+  label: "Brand",
+  description: "Company palette on a navy ground.",
+  tokens: { bg0: "#0b1020", bg1: "#10172b", blue: "#6ea8ff", onAccent: "#ffffff", labelCase: "none" },
+});
+
+// brand.css is a `[data-vf-theme="brand"] { … }` block: serve it after
+// voidframe-ui/styles.css and `themeName="brand"` works with no inline tokens,
+// nested ThemeScopes included. Or pass the tokens at runtime:
+<VoidframeProvider {...brand.providerProps}>
+  <ThemeSelector connected themes={[...THEME_OPTIONS, brand.option]} />
+</VoidframeProvider>
+```
+
 ### Density, contrast, direction, reduced motion
 
 Independent, composable props on the provider — all cascade via `data-*` attributes so component CSS reads them through custom properties.

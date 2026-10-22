@@ -33,8 +33,8 @@ export type {
   UseThemePersistenceOptions,
   UseThemePersistenceReturn,
 } from "../hooks/useThemePersistence";
-export { defaultTokens, createTheme, tint } from "../tokens";
-export type { VoidframeTokens, ThemeOverrides } from "../tokens";
+export { defaultTokens, createTheme, tint, withAccentAlphas, defineTheme, tokensToCssDeclarations } from "../tokens";
+export type { VoidframeTokens, ThemeOverrides, AccentHue, DefineThemeInput, DefinedTheme } from "../tokens";
 export {
   darkTheme,
   lightTheme,

@@ -36,7 +36,7 @@
   font-size: var(--vf-font-xs);
   letter-spacing: var(--vf-label-spacing);
   color: var(--vf-text-3);
-  text-transform: var(--vf-heading-case, uppercase);
+  text-transform: var(--vf-label-case, uppercase);
 }
 
 .vf-divider {

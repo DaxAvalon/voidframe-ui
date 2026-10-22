@@ -55,6 +55,24 @@ export interface VoidframeTokens {
   warning: string;
   info: string;
 
+  // Brand
+  /** The accent every accent-driven control uses (`--vf-accent`). Default: `blue`. */
+  accent: string;
+  /** Text and glyph colour on an accent fill (`--vf-on-accent`). Default: `bg0`, the page colour. */
+  onAccent: string;
+
+  // Interaction
+  /** Focus ring shorthand (`--vf-focus-ring`), e.g. `"2px solid #fff"`. */
+  focusRing: string;
+  /** Focus ring offset in px (`--vf-focus-offset`). */
+  focusOffset: number;
+  /** Text selection background (`--vf-selection-bg`). */
+  selectionBg: string;
+  /** Text selection foreground (`--vf-selection-fg`). */
+  selectionFg: string;
+  /** Emitted as the CSS `color-scheme` of the themed subtree and `--vf-color-scheme`. */
+  colorScheme: "dark" | "light" | "dark light";
+
   // Typography
   fontFamily: string;
   /** Monospace font stack (body text, dense UI). Falls through to fontFamily. */
@@ -78,6 +96,12 @@ export interface VoidframeTokens {
   headingTracking: string;
   /** Heading `text-transform`. Default `"uppercase"` preserves brutalist behavior; set to `"none"` for title-case. */
   headingCase: "uppercase" | "none" | "lowercase" | "capitalize";
+  /**
+   * `text-transform` of chrome labels (`Label`, field labels, section labels),
+   * independent of `headingCase` so title-case headings can keep uppercase
+   * labels or vice versa. Default `"uppercase"`.
+   */
+  labelCase: "uppercase" | "none" | "lowercase" | "capitalize";
 
   // Spacing
   sp1: number;
@@ -170,6 +194,15 @@ export const defaultTokens: VoidframeTokens = {
   warning: "#c8aa3e",
   info: "#6b9fdd",
 
+  // ── BRAND + INTERACTION ───────────────────────────────────
+  accent: "#6b9fdd",
+  onAccent: "#050505",
+  focusRing: "2px solid var(--vf-text-0)",
+  focusOffset: 0,
+  selectionBg: "var(--vf-text-1)",
+  selectionFg: "var(--vf-bg-0)",
+  colorScheme: "dark",
+
   // ── TYPOGRAPHY ────────────────────────────────────────────
   // Monospace by default. Sans + display slots let consumers opt into a
   // secondary face without forking the library.
@@ -192,6 +225,7 @@ export const defaultTokens: VoidframeTokens = {
   labelSpacing: 2,
   headingTracking: "0.08em",
   headingCase: "uppercase",
+  labelCase: "uppercase",
 
   // ── SPACING ───────────────────────────────────────────────
   // 12-step scale. Use by name in components.
@@ -229,8 +263,46 @@ export const defaultTokens: VoidframeTokens = {
   borderWidth4: 4,
 };
 
+export type AccentHue = "green" | "red" | "amber" | "blue" | "purple" | "cyan" | "rose";
+const HUES: readonly AccentHue[] = ["green", "red", "amber", "blue", "purple", "cyan", "rose"];
+const ALPHA_STEPS = { 5: "0d", 10: "1a", 20: "33", 40: "66", 60: "99" } as const;
+const SEMANTIC_OF: Record<"success" | "danger" | "warning" | "info", AccentHue> = {
+  success: "green",
+  danger: "red",
+  warning: "amber",
+  info: "blue",
+};
+
+const HEX6 = /^#[0-9a-f]{6}$/i;
+
 /**
- * Create a custom theme by merging overrides with defaults.
+ * Derive the `X5…X60` alpha variants of every hue present in `accents` from
+ * its base value, keeping any variant that is set explicitly. Non-hex bases
+ * (`rgb()`, `var()`) cannot carry an alpha suffix and are left alone.
+ */
+export function withAccentAlphas(accents: ThemeOverrides): ThemeOverrides {
+  const out: Record<string, unknown> = { ...accents };
+  for (const hue of HUES) {
+    const base = accents[hue];
+    if (typeof base !== "string" || !HEX6.test(base)) continue;
+    for (const [step, suffix] of Object.entries(ALPHA_STEPS)) {
+      const key = `${hue}${step}`;
+      if (out[key] === undefined) out[key] = `${base}${suffix}`;
+    }
+  }
+  return out as ThemeOverrides;
+}
+
+/**
+ * Create a custom theme by merging overrides with defaults, deriving what
+ * the overrides imply so a theme author writes the few values that matter:
+ *
+ * - `X5…X60` alpha variants from each hue given as `#rrggbb`;
+ * - `success`/`danger`/`warning`/`info` from `green`/`red`/`amber`/`blue`;
+ * - `accent` from `blue`, `onAccent` from `bg0`;
+ * - `colorScheme` from `bg0`'s lightness.
+ *
+ * Anything set explicitly wins.
  *
  * @example
  * const warm = createTheme({
@@ -240,7 +312,104 @@ export const defaultTokens: VoidframeTokens = {
  * });
  */
 export function createTheme(overrides: ThemeOverrides = {}): VoidframeTokens {
-  return { ...defaultTokens, ...overrides };
+  const derived: Record<string, unknown> = { ...withAccentAlphas(overrides) };
+  for (const [alias, hue] of Object.entries(SEMANTIC_OF)) {
+    if (derived[alias] === undefined && overrides[hue] !== undefined) derived[alias] = overrides[hue];
+  }
+  if (derived.accent === undefined && overrides.blue !== undefined) derived.accent = overrides.blue;
+  if (derived.onAccent === undefined && overrides.bg0 !== undefined) derived.onAccent = overrides.bg0;
+  if (derived.colorScheme === undefined && typeof overrides.bg0 === "string" && HEX6.test(overrides.bg0)) {
+    derived.colorScheme = relativeLuminance(overrides.bg0) > 0.4 ? "light" : "dark";
+  }
+  return { ...defaultTokens, ...(derived as ThemeOverrides) };
+}
+
+function relativeLuminance(hex: string): number {
+  const n = parseInt(hex.slice(1), 16);
+  const ch = (v: number) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * ch((n >> 16) & 255) + 0.7152 * ch((n >> 8) & 255) + 0.0722 * ch(n & 255);
+}
+
+export interface DefineThemeInput {
+  /** The `data-vf-theme` value and `themeName`. Letters, digits and dashes. */
+  id: string;
+  /** Picker label. */
+  label: string;
+  /** Picker description. */
+  description?: string;
+  /** Overrides merged over `defaultTokens` by `createTheme`. */
+  tokens: ThemeOverrides;
+  /** Density to pair with the theme in `providerProps`. */
+  density?: "comfortable" | "compact" | "spacious";
+}
+
+export interface DefinedTheme {
+  id: string;
+  label: string;
+  /** The complete token set. */
+  tokens: VoidframeTokens;
+  /**
+   * Stylesheet text registering the theme like a built-in: a
+   * `[data-vf-theme="id"]` cascade block (so `themeName="id"` and nested
+   * `ThemeScope`s work with no inline tokens) and the `color-scheme`.
+   * Serve it after `voidframe-ui/styles.css`.
+   */
+  css: string;
+  /** Props to spread on `VoidframeProvider`. */
+  providerProps: { themeName: string; theme: VoidframeTokens; density?: "comfortable" | "compact" | "spacious" };
+  /** A `ThemeSelector` option. */
+  option: { id: string; label: string; description: string; scheme: "dark" | "light" | "system" };
+}
+
+/**
+ * Describe a custom theme once and get everything a built-in has: the full
+ * token set, the cascade CSS to serve statically, the provider props and a
+ * picker option.
+ */
+export function defineTheme(input: DefineThemeInput): DefinedTheme {
+  const id = input.id.replace(/[^\w-]/g, "");
+  const tokens = createTheme(input.tokens);
+  const vars = tokensToCssDeclarations(tokens);
+  const css = `[data-vf-theme="${id}"]{${vars}color-scheme:${tokens.colorScheme};}`;
+  return {
+    id,
+    label: input.label,
+    tokens,
+    css,
+    providerProps: {
+      themeName: id,
+      theme: tokens,
+      ...(input.density ? { density: input.density } : {}),
+    },
+    option: {
+      id,
+      label: input.label,
+      description: input.description ?? "",
+      scheme: tokens.colorScheme === "light" ? "light" : "dark",
+    },
+  };
+}
+
+const UNITLESS_TOKEN_KEYS = new Set<string>(["lineHeight"]);
+const NON_VAR_KEYS = new Set<string>(["colorScheme"]);
+
+/** `--vf-…:value;` declarations for every token (no `color-scheme`; callers add it). */
+export function tokensToCssDeclarations(tokens: ThemeOverrides | VoidframeTokens): string {
+  let out = "";
+  for (const key of Object.keys(tokens)) {
+    if (NON_VAR_KEYS.has(key)) {
+      out += `--vf-color-scheme:${(tokens as Record<string, unknown>)[key]};`;
+      continue;
+    }
+    const value = (tokens as Record<string, unknown>)[key];
+    if (value === undefined) continue;
+    const css = typeof value === "number" && !UNITLESS_TOKEN_KEYS.has(key) ? `${value}px` : String(value);
+    out += `--vf-${key.replace(/([a-z])([A-Z0-9])/g, "$1-$2").toLowerCase()}:${css};`;
+  }
+  return out;
 }
 
 /**
@@ -306,6 +475,7 @@ export const lightTheme: VoidframeTokens = createTheme({
  * finds the dark theme too dim and the light theme too glaring.
  */
 export const greyTheme: VoidframeTokens = createTheme({
+  colorScheme: "dark light",
   bg0: "#2a2a2a",
   bg1: "#2f2f2f",
   bg2: "#353535",

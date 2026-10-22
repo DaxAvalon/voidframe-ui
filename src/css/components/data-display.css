@@ -413,10 +413,10 @@
 .vf-badge--ghost { background: transparent; border: 1px solid transparent; color: var(--vf-text-2); }
 .vf-badge--subtle { background: color-mix(in srgb, var(--vf-accent, var(--vf-text-3)) 15%, transparent); color: var(--vf-text-0); }
 .vf-badge--neutral.vf-badge--solid { background: var(--vf-bg-4); color: var(--vf-text-0); }
-.vf-badge--success.vf-badge--solid { background: var(--vf-green); color: var(--vf-bg-0); }
-.vf-badge--warning.vf-badge--solid { background: var(--vf-amber); color: var(--vf-bg-0); }
-.vf-badge--danger.vf-badge--solid { background: var(--vf-red); color: var(--vf-bg-0); }
-.vf-badge--info.vf-badge--solid { background: var(--vf-blue); color: var(--vf-bg-0); }
+.vf-badge--success.vf-badge--solid { background: var(--vf-green); color: var(--vf-on-accent); }
+.vf-badge--warning.vf-badge--solid { background: var(--vf-amber); color: var(--vf-on-accent); }
+.vf-badge--danger.vf-badge--solid { background: var(--vf-red); color: var(--vf-on-accent); }
+.vf-badge--info.vf-badge--solid { background: var(--vf-blue); color: var(--vf-on-accent); }
 .vf-badge--sm { font-size: var(--vf-font-xxs); padding: 1px var(--vf-sp-2); }
 .vf-badge--md { font-size: var(--vf-font-xs); padding: var(--vf-sp-1) var(--vf-sp-3); }
 .vf-badge--lg { font-size: var(--vf-font-sm); padding: var(--vf-sp-1) var(--vf-sp-4); }
@@ -492,7 +492,7 @@
 .vf-log-viewer__level--error { color: var(--vf-red); }
 .vf-log-viewer__level--debug { color: var(--vf-text-4); }
 .vf-log-viewer__source { color: var(--vf-text-3); }
-.vf-log-viewer__mark { background: var(--vf-amber); color: var(--vf-bg-0); padding: 0 var(--vf-sp-1); }
+.vf-log-viewer__mark { background: var(--vf-amber); color: var(--vf-on-accent); padding: 0 var(--vf-sp-1); }
 
 .vf-terminal {
   background: var(--vf-bg-0); color: var(--vf-text-0);
@@ -602,10 +602,10 @@
 .vf-calendar-view__daynum { font-size: var(--vf-font-sm); }
 .vf-calendar-view__events { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1px; }
 .vf-calendar-view__event { background: var(--vf-bg-4); padding: 1px var(--vf-sp-1); font-size: var(--vf-font-xxs); }
-.vf-calendar-view__event--success { background: var(--vf-green); color: var(--vf-bg-0); }
-.vf-calendar-view__event--warning { background: var(--vf-amber); color: var(--vf-bg-0); }
-.vf-calendar-view__event--danger { background: var(--vf-red); color: var(--vf-bg-0); }
-.vf-calendar-view__event--info { background: var(--vf-blue); color: var(--vf-bg-0); }
+.vf-calendar-view__event--success { background: var(--vf-green); color: var(--vf-on-accent); }
+.vf-calendar-view__event--warning { background: var(--vf-amber); color: var(--vf-on-accent); }
+.vf-calendar-view__event--danger { background: var(--vf-red); color: var(--vf-on-accent); }
+.vf-calendar-view__event--info { background: var(--vf-blue); color: var(--vf-on-accent); }
 
 .vf-calendar-view__hour-grid {
   display: grid;

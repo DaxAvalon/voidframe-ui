@@ -37,6 +37,13 @@ export function tokensToCssVars(
   for (const key of Object.keys(tokens) as Array<keyof VoidframeTokens>) {
     const value = (tokens as Record<string, unknown>)[key];
     if (value === undefined) continue;
+    if (key === "colorScheme") {
+      // A real property as well as a token, so the subtree's form controls
+      // and scrollbars follow the theme.
+      out.colorScheme = value as string;
+      out["--vf-color-scheme"] = value as string;
+      continue;
+    }
     const cssKey = `--vf-${camelToKebab(key)}`;
     out[cssKey] =
       typeof value === "number" && !UNITLESS_KEYS.has(key)
@@ -63,7 +70,7 @@ export function themeToCss(
 ): string {
   const vars = tokensToCssVars(tokens) as Record<string, string | number>;
   const decls = Object.entries(vars)
-    .map(([k, v]) => `${k}:${v};`)
+    .map(([k, v]) => `${k === "colorScheme" ? "color-scheme" : k}:${v};`)
     .join("");
   if (!decls) return "";
   const safe = String(name).replace(/["\\]/g, "");

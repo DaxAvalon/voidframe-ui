@@ -80,7 +80,7 @@
 .vf-button--solid {
   background: var(--vf-accent, var(--vf-text-1));
   border-color: var(--vf-accent, var(--vf-text-1));
-  color: var(--vf-bg-0);
+  color: var(--vf-on-accent);
 }
 .vf-button--solid:hover:not(:disabled) {
   background: color-mix(in srgb, var(--vf-accent, var(--vf-text-1)) 86%, var(--vf-bg-0));

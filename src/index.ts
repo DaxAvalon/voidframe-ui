@@ -5,8 +5,8 @@
 // ═══════════════════════════════════════════════════════════════
 
 // ── Tokens & Theming ────────────────────────────────────────
-export { defaultTokens, createTheme, tint } from "./tokens";
-export type { VoidframeTokens, ThemeOverrides } from "./tokens";
+export { defaultTokens, createTheme, tint, withAccentAlphas, defineTheme, tokensToCssDeclarations } from "./tokens";
+export type { VoidframeTokens, ThemeOverrides, AccentHue, DefineThemeInput, DefinedTheme } from "./tokens";
 
 // ── Shared types ────────────────────────────────────────────
 export type {

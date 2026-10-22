@@ -7,6 +7,21 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **Theme objects describe accent, on-accent, label case, focus, selection
+  and colour scheme.** `VoidframeTokens` gains `accent`, `onAccent`,
+  `labelCase`, `focusRing`, `focusOffset`, `selectionBg`, `selectionFg` and
+  `colorScheme` (emitted as `--vf-*` and, for `colorScheme`, as the real
+  `color-scheme` of the themed subtree). Defaults preserve today's rendering;
+  solid `Button`, `CopyButton`, `Badge`, calendar events and log marks now
+  read `--vf-on-accent`, and `.vf-label` reads `--vf-label-case` instead of
+  the heading case.
+- **`createTheme` derives** the `X5…X60` alpha steps of every hex hue, the
+  semantic aliases from their hues, `accent` from `blue`, `onAccent` from
+  `bg0` and `colorScheme` from `bg0`'s lightness (explicit values win);
+  `withAccentAlphas()` and `tokensToCssDeclarations()` are exported.
+- **`defineTheme({ id, label, description, tokens, density })`** returns the
+  full token set, a `[data-vf-theme="id"]` cascade CSS block, provider props
+  and a `ThemeSelector` option, so a custom theme registers like a built-in.
 - **Theme control from the provider.** `useTheme()` returns `{ themeName,
   resolvedThemeName, setThemeName }`; `VoidframeProvider` takes
   `defaultThemeName` (uncontrolled) and `onThemeNameChange`, so a settings

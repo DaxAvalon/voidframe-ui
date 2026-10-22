@@ -171,6 +171,10 @@
    * reference it via var(--vf-accent, ...) so consumers can set a brand
    * color at the theme level instead of per-component. */
   --vf-accent: var(--vf-blue);
+  /* text and glyphs on an accent or status fill (solid buttons, badges) */
+  --vf-on-accent: var(--vf-bg-0);
+  /* chrome labels: independent of --vf-heading-case */
+  --vf-label-case: uppercase;
 
   /* scrim / backdrop overlay */
   --vf-scrim: rgba(0, 0, 0, 0.6);
