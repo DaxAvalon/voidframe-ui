@@ -227,8 +227,11 @@ export function useToggle(
  */
 export function useClickOutside<T extends HTMLElement = HTMLElement>(
   onClickOutside: () => void
-): RefObject<T | null> {
-  const ref = useRef<T>(null);
+): RefObject<T> {
+  // `useRef<T>(null)` is RefObject<T> on React 18 and RefObject<T | null> on
+  // React 19; the cast keeps one return type that the `ref` prop accepts on
+  // both.
+  const ref = useRef<T>(null) as RefObject<T>;
   useEffect(() => {
     const handler = (e: globalThis.MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
