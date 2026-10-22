@@ -63,6 +63,37 @@
 [data-vf-reactflow] .react-flow__edge:focus .react-flow__edge-path {
   stroke: var(--vf-accent);
 }
+[data-vf-reactflow] .react-flow__edge-text {
+  fill: var(--vf-text-1);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-xs);
+}
+[data-vf-reactflow] .react-flow__edge-textbg {
+  fill: var(--vf-bg-2);
+  stroke: var(--vf-border-3);
+  stroke-width: 1;
+}
+[data-vf-reactflow] .react-flow__edge.selected .react-flow__edge-textbg {
+  stroke: var(--vf-accent);
+}
+[data-vf-reactflow] .react-flow__arrowhead polyline,
+[data-vf-reactflow] .react-flow__arrowhead path {
+  stroke: var(--vf-border-3);
+  fill: var(--vf-border-3);
+}
+
+[data-vf-reactflow] .react-flow__panel {
+  color: var(--vf-text-0);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+}
+[data-vf-reactflow] .react-flow__panel.vf-flow-panel,
+[data-vf-reactflow] .vf-flow-panel {
+  background: var(--vf-bg-2);
+  border: 1px solid var(--vf-border-3);
+  border-radius: var(--vf-radius-1);
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+}
 
 [data-vf-reactflow] .react-flow__node {
   font-family: var(--vf-font-family);
@@ -84,4 +115,122 @@
   background: transparent;
   color: var(--vf-text-2);
   font-size: var(--vf-font-xs);
+}
+
+/* ── FlowNode shell ─────────────────────────────────────────────
+ * Custom-node card. Works inside `.react-flow__node` (React Flow adds
+ * `.selected` on the wrapper, mirrored here) and on its own. State comes
+ * from `data-state` so apps never write inline selection styles.
+ * ──────────────────────────────────────────────────────────────── */
+
+.vf-flow-node {
+  --vf-flow-node-rail: var(--vf-border-3);
+  --vf-flow-node-ring: transparent;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-width: 160px;
+  background: var(--vf-bg-2);
+  color: var(--vf-text-0);
+  border: 1px solid var(--vf-border-3);
+  border-radius: var(--vf-radius-1);
+  box-shadow: 0 0 0 2px var(--vf-flow-node-ring);
+  font-family: var(--vf-font-family);
+  font-size: var(--vf-font-sm);
+  line-height: var(--vf-line-height);
+  text-align: start;
+  overflow: hidden;
+  transition: var(--vf-transition-default), opacity 150ms var(--vf-easing-standard);
+}
+.vf-flow-node__rail {
+  flex: none;
+  width: var(--vf-sp-1);
+  background: var(--vf-flow-node-rail);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+.vf-flow-node__main {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--vf-sp-2) var(--vf-sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--vf-sp-1);
+}
+.vf-flow-node__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--vf-sp-2);
+}
+.vf-flow-node__heading {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.vf-flow-node__kind {
+  font-size: var(--vf-font-xs);
+  letter-spacing: var(--vf-label-spacing);
+  text-transform: var(--vf-label-case);
+  color: var(--vf-text-2);
+}
+.vf-flow-node__title {
+  font-weight: 600;
+  color: var(--vf-text-0);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vf-flow-node__trailing {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vf-sp-1);
+}
+.vf-flow-node__body {
+  color: var(--vf-text-1);
+}
+.vf-flow-node__mono {
+  font-family: var(--vf-font-mono);
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* States — the 1.4 selection grammar. */
+.vf-flow-node[data-state="selected"],
+.react-flow__node.selected > .vf-flow-node {
+  border-color: var(--vf-accent);
+  --vf-flow-node-ring: color-mix(in srgb, var(--vf-accent) 35%, transparent);
+  outline: var(--vf-focus-ring-accent);
+  outline-offset: 1px;
+}
+.vf-flow-node[data-state="highlighted"] {
+  border-color: var(--vf-accent);
+  --vf-flow-node-ring: color-mix(in srgb, var(--vf-accent) 20%, transparent);
+}
+.vf-flow-node[data-state="dimmed"] {
+  opacity: 0.4;
+}
+.vf-flow-node[data-state="danger"] {
+  border-color: var(--vf-red);
+  --vf-flow-node-rail: var(--vf-red);
+  --vf-flow-node-ring: color-mix(in srgb, var(--vf-red) 30%, transparent);
+}
+.vf-flow-node[data-state="danger"] .vf-flow-node__kind {
+  color: var(--vf-red);
+}
+
+/* Handles rendered inside the shell inherit the theme without the wrapper. */
+.vf-flow-node .react-flow__handle {
+  background: var(--vf-accent);
+  border: 1px solid var(--vf-bg-0);
+  width: var(--vf-sp-2);
+  height: var(--vf-sp-2);
+}
+.vf-flow-node .react-flow__handle:hover {
+  background: var(--vf-text-0);
 }

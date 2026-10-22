@@ -92,6 +92,8 @@ export const VF_TOKEN_NAMES: readonly string[] = [
   "--vf-fab-left",
   "--vf-fab-right",
   "--vf-fact-row-min-height",
+  "--vf-flow-node-rail",
+  "--vf-flow-node-ring",
   "--vf-focus-offset",
   "--vf-focus-ring",
   "--vf-focus-ring-accent",

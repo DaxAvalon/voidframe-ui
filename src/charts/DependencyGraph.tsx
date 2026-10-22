@@ -22,6 +22,7 @@ import {
 } from "./math/edges";
 import { cx } from "../utils/cx";
 import { useElementSize } from "../hooks/useElementSize";
+import { computeLayers } from "./layout/graph";
 
 export interface DependencyNode {
   id: string;
@@ -69,37 +70,6 @@ interface PlacedNode extends DependencyNode {
   index: number;
   x: number;
   y: number;
-}
-
-function computeLayers(
-  nodes: DependencyNode[],
-  edges: DependencyEdge[]
-): Map<string, number> {
-  // Longest-path layering by INCOMING edges: a node sits 1 layer below
-  // the deepest node that points at it. Roots (no incoming edges) land
-  // at layer 0 / top, so the natural read for "source → target" is a
-  // downward arrow from a higher level to its dependency.
-  const layer = new Map<string, number>();
-  const incoming = new Map<string, string[]>();
-  for (const n of nodes) incoming.set(n.id, []);
-  for (const e of edges) {
-    if (!incoming.has(e.target)) incoming.set(e.target, []);
-    incoming.get(e.target)!.push(e.source);
-  }
-  const visiting = new Set<string>();
-  const visit = (id: string): number => {
-    if (layer.has(id)) return layer.get(id)!;
-    if (visiting.has(id)) return 0; // cycle: place at layer 0
-    visiting.add(id);
-    const sources = incoming.get(id) ?? [];
-    let l = 0;
-    for (const s of sources) l = Math.max(l, visit(s) + 1);
-    visiting.delete(id);
-    layer.set(id, l);
-    return l;
-  };
-  for (const n of nodes) visit(n.id);
-  return layer;
 }
 
 /**

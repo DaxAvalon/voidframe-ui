@@ -6,6 +6,32 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **React Flow integration** (`voidframe-ui/reactflow`): `FlowNode` (alias
+  `ReactFlowNodeShell`) is a themed shell for custom nodes with a kind label, title, body,
+  monospace slot, trailing slot, coloured rail and a `handles` slot; it exposes
+  `data-state="selected|highlighted|dimmed|danger"` (React Flow's `selected` flag maps to
+  `selected`) so selection and dimming come from the stylesheet. `useVoidframeReactFlowStyles()`
+  now also returns `panel`, `edgeStyle(kind, { dash, width, dimmed })`, `edgeLabelStyle`,
+  `edgeLabelBgStyle`, the `dash` presets (`FLOW_DASH`) and `flowKindColor`. `flowKindColor(kind,
+  kinds?)` maps a node or edge kind to `var(--vf-chart-1..8)` (stable hash for strings, positional
+  with an ordered `kinds` list); `flowKindColorValue()` resolves it to a concrete colour. Edge
+  labels (`.react-flow__edge-text/-textbg`), arrowheads and `Panel` are themed inside the wrapper.
+- **`readToken(name)` / `readTokens(names)`** (core) resolve `--vf-*` custom properties to their
+  computed values for APIs that reject `var()` strings (canvas, `MiniMap nodeColor`,
+  `markerEnd.color`, chart libraries). **`useVoidframeTokens([...])`** keeps the values current:
+  it re-reads when a `data-vf-theme`/contrast/density/scale attribute changes anywhere in the
+  document, when the root element's class or inline style changes, and when the OS colour scheme
+  flips. Both also ship from `voidframe-ui/reactflow`.
+- **Deterministic graph layouts** (`voidframe-ui/charts` and `/reactflow`): `layeredLayout(nodes,
+  edges, { direction, nodeWidth, nodeHeight, layerGap, siblingGap, order })` exposes the
+  longest-path layering `DependencyGraph` uses and returns positions, layers and the bounding box
+  (`order: "barycenter"` reduces crossings); `forceLayout(nodes, edges, { seed, iterations, … })`
+  is a seeded force-directed layout, identical for a given input on every platform;
+  `computeLayers` and `seededRandom` are exported too.
+- **`mockReactFlow()`** (`voidframe-ui/testing`): a module stand-in for `@xyflow/react`
+  (`vi.mock("@xyflow/react", () => mockReactFlow())`) that renders nodes through `nodeTypes`,
+  lists edges, forwards node/edge/pane clicks, and returns a shared recording `useReactFlow()`
+  instance.
 
 - **`SessionList` as an agent-chat sidebar.** `ChatSessionEntry` gains
   `unreadCount` (badge, in the row's accessible name), `status` (`typing`

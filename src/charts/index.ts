@@ -252,6 +252,21 @@ export type {
   DependencyNode,
 } from "./DependencyGraph";
 
+export {
+  layeredLayout,
+  forceLayout,
+  computeLayers,
+  seededRandom,
+} from "./layout/graph";
+export type {
+  GraphLayoutNode,
+  GraphLayoutEdge,
+  GraphPosition,
+  LayeredLayoutOptions,
+  LayeredLayoutResult,
+  ForceLayoutOptions,
+} from "./layout/graph";
+
 export { ChoroplethMap } from "./ChoroplethMap";
 export type {
   ChoroplethMapProps,

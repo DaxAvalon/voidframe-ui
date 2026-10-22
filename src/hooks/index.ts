@@ -84,6 +84,8 @@ export {
   type IntersectionState,
 } from "./useIntersectionObserver";
 export { useElementSize } from "./useElementSize";
+export { useVoidframeTokens } from "./useVoidframeTokens";
+export type { UseVoidframeTokensOptions } from "./useVoidframeTokens";
 export { useScrollPosition, type ScrollPos } from "./useScrollPosition";
 export {
   useScrollDirection,

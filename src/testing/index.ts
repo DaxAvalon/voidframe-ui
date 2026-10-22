@@ -26,6 +26,17 @@ export {
 export { expectNoA11yViolations } from "./axe";
 
 export {
+  mockReactFlow,
+  type MockReactFlowModule,
+  type MockReactFlowOptions,
+  type MockReactFlowInstance,
+  type MockReactFlowProps,
+  type MockFlowNode,
+  type MockFlowEdge,
+  type MockNodeProps,
+} from "./mockReactFlow";
+
+export {
   installMatchMedia,
   createMockStorage,
   type MatchMediaController,
