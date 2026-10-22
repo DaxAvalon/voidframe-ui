@@ -251,6 +251,7 @@
 }
 .vf-sidebar--collapsed .vf-nav-item__content,
 .vf-sidebar--collapsed .vf-nav-item__badge,
+.vf-sidebar--collapsed .vf-nav-item__meta,
 .vf-sidebar--collapsed .vf-sidebar__section-header,
 .vf-sidebar--collapsed .vf-sidebar__section-label {
   display: none;

@@ -6,13 +6,17 @@ import {
   forwardRef,
   useMemo,
   useState,
+  type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
 } from "react";
 import { useControllableState } from "../hooks/useControllableState";
 import { cx } from "../utils/cx";
+import { LiveIndicator } from "./LiveIndicator";
 
 // ── Session types ───────────────────────────────────────────
+
+export type SessionStatus = "idle" | "typing" | "awaiting" | "error";
 
 export interface ChatSessionEntry {
   id: string;
@@ -20,9 +24,35 @@ export interface ChatSessionEntry {
   lastMessage?: ReactNode;
   updatedAt?: number | Date;
   pinned?: boolean;
+  /** Unread messages; shown as a count badge (and `aria-label`ed). */
+  unreadCount?: number;
+  /** `typing`: the agent is responding; `awaiting`: it waits for the user; `error`: the last turn failed. */
+  status?: SessionStatus;
+  /** Per-session colour (a CSS colour or `var(--vf-…)`): a leading stripe. */
+  accent?: string;
+  /** Row-level render slot for extra controls or a context menu trigger. */
+  renderActions?: (session: ChatSessionEntry) => ReactNode;
+  /** Anything else the app needs on the row (model name, project). */
+  meta?: ReactNode;
 }
 
 export type SessionGroupBy = "day" | "pinned" | "none";
+
+/** A custom section: label, member ids in order, initial open state. */
+export interface SessionGroup {
+  id?: string;
+  label: ReactNode;
+  ids: string[];
+  /** Default true. */
+  defaultOpen?: boolean;
+}
+
+const STATUS_WORD: Record<SessionStatus, string> = {
+  idle: "",
+  typing: "responding",
+  awaiting: "waiting for you",
+  error: "failed",
+};
 
 // ── SessionListItem ─────────────────────────────────────────
 
@@ -42,27 +72,42 @@ export const SessionListItem = forwardRef<
   HTMLDivElement,
   SessionListItemProps
 >(function SessionListItem(
-  { session, active, onSelect, onDelete, onRename, onPin, className, ...props },
+  { session, active, onSelect, onDelete, onRename, onPin, className, style, ...props },
   ref
 ) {
+  const unread = session.unreadCount ?? 0;
+  const status = session.status && session.status !== "idle" ? session.status : undefined;
+  const nameParts = [
+    typeof session.title === "string" ? session.title : undefined,
+    unread > 0 ? `${unread} unread` : undefined,
+    status ? STATUS_WORD[status] : undefined,
+  ].filter(Boolean);
+  const extra = session.renderActions?.(session);
   return (
     <div
       ref={ref}
       role="option"
       aria-selected={active}
       data-active={active || undefined}
+      data-status={status}
+      data-unread={unread > 0 ? unread : undefined}
       className={cx(
         "vf-session-item",
         active && "vf-session-item--active",
         session.pinned && "vf-session-item--pinned",
+        unread > 0 && "vf-session-item--unread",
+        status && `vf-session-item--${status}`,
+        session.accent && "vf-session-item--accented",
         className
       )}
+      style={session.accent ? ({ "--vf-session-accent": session.accent, ...style } as CSSProperties) : style}
       {...props}
     >
       <button
         type="button"
         className="vf-session-item__button"
         onClick={onSelect}
+        aria-label={nameParts.length > 1 ? nameParts.join(", ") : undefined}
       >
         {session.pinned && (
           <span className="vf-session-item__pin" aria-hidden="true">
@@ -70,21 +115,40 @@ export const SessionListItem = forwardRef<
           </span>
         )}
         <span className="vf-session-item__content">
-          <span className="vf-session-item__title">{session.title}</span>
-          {session.lastMessage && (
-            <span className="vf-session-item__preview">
-              {session.lastMessage}
+          <span className="vf-session-item__title-row">
+            <span className="vf-session-item__title">{session.title}</span>
+            {session.meta && <span className="vf-session-item__meta">{session.meta}</span>}
+          </span>
+          {status === "typing" ? (
+            <span className="vf-session-item__preview vf-session-item__preview--status">
+              <LiveIndicator kind="typing" size="sm" label="Responding" className="vf-session-item__status-indicator" />
+            </span>
+          ) : status ? (
+            <span className="vf-session-item__preview vf-session-item__preview--status" data-status={status}>
+              {STATUS_WORD[status]}
+            </span>
+          ) : (
+            session.lastMessage && (
+              <span className="vf-session-item__preview">{session.lastMessage}</span>
+            )
+          )}
+        </span>
+        <span className="vf-session-item__trailing">
+          {session.updatedAt && (
+            <span className="vf-session-item__time">
+              {formatTime(session.updatedAt)}
+            </span>
+          )}
+          {unread > 0 && (
+            <span className="vf-session-item__unread" aria-hidden="true">
+              {unread > 99 ? "99+" : unread}
             </span>
           )}
         </span>
-        {session.updatedAt && (
-          <span className="vf-session-item__time">
-            {formatTime(session.updatedAt)}
-          </span>
-        )}
       </button>
-      {(onPin || onRename || onDelete) && (
+      {(onPin || onRename || onDelete || extra) && (
         <div className="vf-session-item__actions">
+          {extra}
           {onPin && (
             <button
               type="button"
@@ -145,6 +209,15 @@ export interface SessionListProps
   onPin?: (id: string) => void;
   searchable?: boolean;
   groupBy?: SessionGroupBy;
+  /**
+   * Custom sections instead of `groupBy` (needs attention, active, in
+   * review, done, archived…): each lists member ids in display order and
+   * can start collapsed. Sessions in no group render after the last one
+   * under `ungroupedLabel`.
+   */
+  groups?: SessionGroup[];
+  /** Label of the trailing section for sessions no custom group claims. Default "Other". */
+  ungroupedLabel?: ReactNode;
   header?: ReactNode;
   footer?: ReactNode;
   emptyState?: ReactNode;
@@ -165,6 +238,8 @@ export const SessionList = forwardRef<HTMLDivElement, SessionListProps>(
       onPin,
       searchable = false,
       groupBy = "day",
+      groups: customGroups,
+      ungroupedLabel = "Other",
       header,
       footer,
       emptyState,
@@ -183,10 +258,29 @@ export const SessionList = forwardRef<HTMLDivElement, SessionListProps>(
       );
     }, [sessions, query]);
 
-    const groups = useMemo(() => groupSessions(filtered, groupBy), [
-      filtered,
-      groupBy,
-    ]);
+    const groups = useMemo<{ id: string; label: ReactNode; items: ChatSessionEntry[]; defaultOpen: boolean }[]>(() => {
+      if (customGroups) {
+        const byId = new Map(filtered.map((s) => [s.id, s]));
+        const claimed = new Set<string>();
+        const out = customGroups.map((g, i) => {
+          const items = g.ids.map((id) => byId.get(id)).filter((s): s is ChatSessionEntry => !!s);
+          items.forEach((s) => claimed.add(s.id));
+          return { id: g.id ?? `g${i}`, label: g.label, items, defaultOpen: g.defaultOpen ?? true };
+        });
+        const rest = filtered.filter((s) => !claimed.has(s.id));
+        if (rest.length) out.push({ id: "ungrouped", label: ungroupedLabel, items: rest, defaultOpen: true });
+        return out.filter((g) => g.items.length > 0);
+      }
+      return groupSessions(filtered, groupBy).map((g) => ({ id: g.label || "all", label: g.label, items: g.items, defaultOpen: true }));
+    }, [filtered, groupBy, customGroups, ungroupedLabel]);
+    const [closed, setClosed] = useState<Set<string>>(new Set());
+    const toggleGroup = (id: string) =>
+      setClosed((prev) => {
+        const next = new Set(prev);
+        if (next.has(id)) next.delete(id);
+        else next.add(id);
+        return next;
+      });
 
     return (
       <aside
@@ -213,18 +307,37 @@ export const SessionList = forwardRef<HTMLDivElement, SessionListProps>(
             ? emptyState ?? (
                 <div className="vf-session-list__empty">No sessions</div>
               )
-            : groups.map((group) => (
+            : groups.map((group) => {
+                const collapsible = !!customGroups;
+                const isOpen = collapsible ? (closed.has(group.id) ? false : group.defaultOpen ? true : closed.has(`!${group.id}`)) : true;
+                return (
                 <section
-                  key={group.label}
-                  className="vf-session-list__group"
-                  aria-label={group.label}
+                  key={group.id}
+                  className={cx("vf-session-list__group", collapsible && !isOpen && "vf-session-list__group--closed")}
+                  aria-label={typeof group.label === "string" ? group.label : undefined}
+                  data-open={collapsible ? (isOpen ? "true" : "false") : undefined}
                 >
-                  {group.label !== "" && (
+                  {group.label !== "" && (collapsible ? (
+                    <button
+                      type="button"
+                      className="vf-session-list__group-label vf-session-list__group-toggle"
+                      aria-expanded={isOpen}
+                      onClick={() => {
+                        // Groups that start closed are tracked with a "!" key so one set covers both directions.
+                        if (group.defaultOpen) toggleGroup(group.id);
+                        else toggleGroup(`!${group.id}`);
+                      }}
+                    >
+                      <span aria-hidden="true">{isOpen ? "▾" : "▸"}</span>
+                      {group.label}
+                      <span className="vf-session-list__group-count">{group.items.length}</span>
+                    </button>
+                  ) : (
                     <header className="vf-session-list__group-label">
                       {group.label}
                     </header>
-                  )}
-                  {group.items.map((session) => (
+                  ))}
+                  {isOpen && group.items.map((session) => (
                     <SessionListItem
                       key={session.id}
                       session={session}
@@ -236,7 +349,8 @@ export const SessionList = forwardRef<HTMLDivElement, SessionListProps>(
                     />
                   ))}
                 </section>
-              ))}
+                );
+              })}
         </div>
         {footer && <footer className="vf-session-list__footer">{footer}</footer>}
       </aside>

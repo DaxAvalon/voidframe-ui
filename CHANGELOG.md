@@ -7,6 +7,14 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **`SessionList` as an agent-chat sidebar.** `ChatSessionEntry` gains
+  `unreadCount` (badge, in the row's accessible name), `status` (`typing`
+  shows the typing indicator, `awaiting` and `error` a word), `accent`
+  (leading stripe), `meta` and `renderActions(session)` for per-row controls
+  or a context-menu trigger. `SessionList groups` (`{ id, label, ids,
+  defaultOpen }[]`) replaces `groupBy` with custom collapsible sections,
+  unclaimed sessions falling under `ungroupedLabel`. `NavItem meta` is a
+  quiet trailing slot (a timestamp, a model name), hidden in a rail.
 - **Chat tier for agent transcripts.** `MessageAuthor.color` / `Message
   accent` / `MessageGroup accent` draw a per-author stripe and avatar ring;
   `timestamp` on `Message` and `MessageGroup` accepts a `Date`, epoch number

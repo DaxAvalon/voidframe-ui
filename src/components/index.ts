@@ -972,6 +972,8 @@ export {
 } from "./ChatSession";
 export type {
   ChatSessionEntry,
+  SessionGroup,
+  SessionStatus,
   SessionGroupBy,
   SessionListProps,
   SessionListItemProps,

@@ -279,6 +279,14 @@ button.vf-nav-item {
   outline-offset: -2px;
 }
 .vf-nav-item__content { flex: 1; min-width: 0; }
+.vf-nav-item__meta {
+  margin-inline-start: auto;
+  font-size: var(--vf-font-xxs);
+  color: var(--vf-text-4);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.vf-nav-item__badge + .vf-nav-item__meta { margin-inline-start: var(--vf-sp-2); }
 .vf-nav-item__badge {
   margin-inline-start: auto;
   padding: 0 var(--vf-sp-3);

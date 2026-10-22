@@ -167,6 +167,7 @@ export const VF_TOKEN_NAMES: readonly string[] = [
   "--vf-scrim-strong",
   "--vf-selection-bg",
   "--vf-selection-fg",
+  "--vf-session-accent",
   "--vf-settings-row-control",
   "--vf-shadow-inner",
   "--vf-shadow-lg",

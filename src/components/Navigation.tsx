@@ -586,6 +586,8 @@ export interface NavItemProps extends HTMLAttributes<HTMLDivElement> {
   icon?: ReactNode;
   /** Optional trailing content (badge, count, etc). */
   badge?: ReactNode;
+  /** Quiet trailing text (a timestamp, a model name), after the badge; hidden in a rail. */
+  meta?: ReactNode;
   /**
    * Href: when provided, NavItem renders an `<a>`. With `onClick` and no
    * `href` it renders a native `<button type="button">`; with neither, an
@@ -634,6 +636,7 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(function NavItem(
     active,
     icon,
     badge,
+    meta,
     href,
     onClick,
     indent = 0,
@@ -665,6 +668,7 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(function NavItem(
       {icon && <span className="vf-nav-item__icon">{icon}</span>}
       <span className="vf-nav-item__content">{children}</span>
       {badge && <span className="vf-nav-item__badge">{badge}</span>}
+      {meta && <span className="vf-nav-item__meta">{meta}</span>}
     </>
   );
   const textLabel =
