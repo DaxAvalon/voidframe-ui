@@ -7,6 +7,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **`NotificationCenter` rows can open something.** `NotificationItem` gains
+  `icon`, `avatar`, `href` and a per-item `onSelect`; the centre gains
+  `onSelect(item)` fired on activation (click, Enter, Space; rows with a
+  destination render a link or button) and separate from `onMarkRead`,
+  which still fires on activation and from a per-row "Mark read" control on
+  unread rows that navigate, so a notification can be marked read without
+  opening it. Rows without a destination keep click-to-mark-read.
 - **Confirmation and sensitive flows.** `ConfirmDialogV2` gains
   `requireText` (type-to-confirm), `reason` (`{ label, required,
   placeholder }`, passed to `onConfirm(reason)`), `acknowledge` (a checkbox

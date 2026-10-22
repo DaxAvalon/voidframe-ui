@@ -802,6 +802,8 @@ Avatars & media: `Avatar`, `AvatarGroup`, `Image`, `ImageGallery`, `AudioPlayer`
 
 `Modal`, `Dialog` (compound), `DrawerV2`, `Sheet` (smooth continuous drag on the handle, snaps on release), `PopoverV2`, `HoverCard`, `TooltipV2`, `ContextMenu`, `Menu`, `CommandPalette`, `Spotlight`, `NotificationCenter`, `EmptyState`, `ErrorState`, `ReactionPicker`.
 
+`NotificationCenter` rows take `icon` / `avatar`, `href` and `onSelect` (open the thing the notification is about) separately from `onMarkRead`; unread rows that navigate get a "Mark read" control.
+
 Confirmation and sensitive flows: `ConfirmDialogV2` arms with `requireText` (type-to-confirm), `reason` (collected and passed to `onConfirm`), `acknowledge` (a required checkbox) and `closeOnConfirm={false}` for an async confirm that keeps the dialog open on rejection; `SecretReveal` shows a one-time secret (masked, reveal, copy, acknowledge to dismiss, never shown again); `DecisionBar` and `DecisionCard` (specialty tier) are the approve / decline-with-reason / escalate surface with a blocked state.
 
 Toasts: `toast()` imperative API, `useToast()` hook, `Toaster` (placement wrapper), `Snackbar` (bottom-center preset), `AlertV2`.

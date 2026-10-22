@@ -29,12 +29,34 @@ export interface NotificationItem {
   read?: boolean;
   time?: Date | string;
   tone?: Tone;
+  /** Leading glyph for the kind of notification. */
+  icon?: ReactNode;
+  /** Leading avatar of the actor; shown in place of `icon` when both are given. */
+  avatar?: ReactNode;
+  /** Where the notification leads. The row renders a link; activating it fires `onSelect` too. */
+  href?: string;
+  /** Per-item activation handler, in addition to the centre's `onSelect`. */
+  onSelect?: (item: NotificationItem) => void;
 }
 
-export interface NotificationCenterProps extends HTMLAttributes<HTMLDivElement> {
+export interface NotificationCenterProps extends Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> {
   notifications: NotificationItem[];
   unreadCount?: number;
+  /**
+   * Fires when a row is marked read: on activation of any row, and from the
+   * per-row "Mark read" control that appears on unread rows that also
+   * navigate (`href` / `onSelect`), so a notification can be marked read
+   * without opening it. Rows without a destination mark read on click.
+   */
   onMarkRead?: (id: string) => void;
+  /**
+   * Fires when a row is activated (click, Enter or Space) and is the place
+   * to open what the notification is about; independent of `onMarkRead`.
+   * Rows with `href` navigate as well.
+   */
+  onSelect?: (item: NotificationItem) => void;
+  /** Label of the per-row mark-read control. Default "Mark read". */
+  markReadLabel?: string;
   onMarkAllRead?: () => void;
   onDismiss?: (id: string) => void;
   renderNotification?: (n: NotificationItem) => ReactNode;
@@ -73,6 +95,8 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
       notifications,
       unreadCount,
       onMarkRead,
+      onSelect,
+      markReadLabel = "Mark read",
       onMarkAllRead,
       onDismiss,
       renderNotification,
@@ -229,28 +253,71 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
               {notifications.length === 0 && (
                 <li className="vf-notif-center__empty">No notifications</li>
               )}
-              {notifications.map((n) => (
+              {notifications.map((n) => {
+                const activatable = !!(n.href || n.onSelect || onSelect);
+                const activate = () => {
+                  onMarkRead?.(n.id);
+                  n.onSelect?.(n);
+                  onSelect?.(n);
+                };
+                const body = renderNotification ? (
+                  renderNotification(n)
+                ) : (
+                  <>
+                    {(n.avatar || n.icon) && (
+                      <span className="vf-notif-center__icon" aria-hidden="true">
+                        {n.avatar ?? n.icon}
+                      </span>
+                    )}
+                    <span className="vf-notif-center__body">
+                      <span className="vf-notif-center__title">{n.title}</span>
+                      {n.description && (
+                        <span className="vf-notif-center__desc">{n.description}</span>
+                      )}
+                      {n.time && (
+                        <time className="vf-notif-center__time">{formatTime(n.time)}</time>
+                      )}
+                    </span>
+                  </>
+                );
+                return (
                 <li
                   key={n.id}
                   className={cx(
                     "vf-notif-center__item",
                     !n.read && "vf-notif-center__item--unread",
+                    activatable && "vf-notif-center__item--activatable",
                     n.tone && `vf-notif-center__item--${n.tone}`
                   )}
-                  onClick={() => onMarkRead?.(n.id)}
+                  data-read={n.read ? "true" : "false"}
+                  onClick={activatable ? undefined : () => onMarkRead?.(n.id)}
                 >
-                  {renderNotification ? (
-                    renderNotification(n)
+                  {activatable ? (
+                    n.href ? (
+                      <a className="vf-notif-center__link" href={n.href} onClick={activate}>
+                        {body}
+                      </a>
+                    ) : (
+                      <button type="button" className="vf-notif-center__link" onClick={activate}>
+                        {body}
+                      </button>
+                    )
                   ) : (
-                    <>
-                      <div className="vf-notif-center__title">{n.title}</div>
-                      {n.description && (
-                        <div className="vf-notif-center__desc">{n.description}</div>
-                      )}
-                      {n.time && (
-                        <time className="vf-notif-center__time">{formatTime(n.time)}</time>
-                      )}
-                    </>
+                    <div className="vf-notif-center__row">{body}</div>
+                  )}
+                  {activatable && !n.read && onMarkRead && (
+                    <button
+                      type="button"
+                      className="vf-notif-center__mark-read"
+                      data-testid={`vf-notification-mark-read-button-${n.id}`}
+                      aria-label={`${markReadLabel}: ${typeof n.title === "string" ? n.title : "notification"}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onMarkRead(n.id);
+                      }}
+                    >
+                      {markReadLabel}
+                    </button>
                   )}
                   {onDismiss && (
                     <button
@@ -267,7 +334,8 @@ export const NotificationCenter = forwardRef<HTMLDivElement, NotificationCenterP
                     </button>
                   )}
                 </li>
-              ))}
+                );
+              })}
             </ul>
               </FocusScope>
             </div>
