@@ -25,6 +25,8 @@ export {
   SplitView,
   Stretch,
   Box,
+  sizingStyle,
+  splitSizing,
 } from "./Layout";
 export type {
   FlexProps,
@@ -36,6 +38,8 @@ export type {
   SplitViewProps,
   StretchProps,
   BoxProps,
+  SizingProps,
+  CssLength,
 } from "./Layout";
 
 // ── Buttons ─────────────────────────────────────────────────
@@ -648,6 +652,8 @@ export type {
   MenuProps,
   MenuTriggerProps,
   MenuContentProps,
+  MenuSide,
+  MenuAlign,
   MenuItemProps,
   MenuCheckboxItemProps,
   MenuRadioGroupProps,

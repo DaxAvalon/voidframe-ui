@@ -23,6 +23,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
@@ -31,6 +32,7 @@ import {
 } from "react";
 import { useClickOutside, useId } from "../hooks";
 import { cx } from "../utils/cx";
+import { computeAnchoredPosition, type Placement } from "../utils/anchor";
 import { toneAttrs } from "../utils/toneAttrs";
 import { warnOnce } from "../utils/warn";
 
@@ -175,16 +177,93 @@ const MenuTrigger = forwardRef<HTMLElement, MenuTriggerProps>(
 
 // ── Menu.Content ──────────────────────────────────────────────
 
+export type MenuSide = "top" | "bottom" | "left" | "right";
+export type MenuAlign = "start" | "center" | "end";
+
 export interface MenuContentProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
+  /** Which side of the trigger the menu opens on. Default `bottom`. */
+  side?: MenuSide;
+  /** Alignment along the trigger's edge. Default `start`. */
+  align?: MenuAlign;
+  /** Gap between trigger and menu in px. Default 4. */
+  sideOffset?: number;
+  /** Shift along the alignment axis in px. Default 0. */
+  alignOffset?: number;
+  /**
+   * Flip to the opposite side when the menu would leave the viewport, and
+   * shift along the alignment axis to stay inside it. Default true.
+   */
+  avoidCollisions?: boolean;
 }
 
+const OPPOSITE: Record<MenuSide, MenuSide> = { top: "bottom", bottom: "top", left: "right", right: "left" };
+
 /**
- * Positioned popover that holds menu items. Subpart of `Menu`.
+ * Positioned popover that holds menu items. Subpart of `Menu`. Positioned
+ * against the trigger with `side` / `align` / offsets; flips and clamps to
+ * the viewport when `avoidCollisions`.
  */
-function MenuContent({ children, className, ...props }: MenuContentProps) {
+function MenuContent({
+  children,
+  className,
+  side = "bottom",
+  align = "start",
+  sideOffset = 4,
+  alignOffset = 0,
+  avoidCollisions = true,
+  style,
+  ...props
+}: MenuContentProps) {
   const ctx = useMenu();
   const outsideRef = useClickOutside<HTMLDivElement>(() => ctx.setOpen(false));
+  const [resolvedSide, setResolvedSide] = useState<MenuSide>(side);
+  const [shift, setShift] = useState(0);
+  const shiftedRef = useRef(false);
+
+  // Collision handling: measure after mount and flip / shift as needed.
+  useEffect(() => {
+    setResolvedSide(side);
+    setShift(0);
+    shiftedRef.current = false;
+  }, [side, ctx.open]);
+  useEffect(() => {
+    if (!ctx.open || !avoidCollisions || typeof window === "undefined") return;
+    const el = outsideRef.current;
+    if (!el) return;
+    const measure = () => {
+      const r = el.getBoundingClientRect();
+      if (r.width === 0 && r.height === 0) return;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      let nextSide = resolvedSide;
+      if (resolvedSide === "bottom" && r.bottom > vh && r.top - r.height > 0) nextSide = "top";
+      else if (resolvedSide === "top" && r.top < 0 && r.bottom + r.height < vh) nextSide = "bottom";
+      else if (resolvedSide === "right" && r.right > vw && r.left - r.width > 0) nextSide = "left";
+      else if (resolvedSide === "left" && r.left < 0 && r.right + r.width < vw) nextSide = "right";
+      if (nextSide !== resolvedSide) {
+        setResolvedSide(nextSide);
+        return;
+      }
+      // Shift along the alignment axis to stay 8px inside the viewport.
+      let delta = 0;
+      if (nextSide === "top" || nextSide === "bottom") {
+        if (r.right > vw - 8) delta = vw - 8 - r.right;
+        else if (r.left < 8) delta = 8 - r.left;
+      } else {
+        if (r.bottom > vh - 8) delta = vh - 8 - r.bottom;
+        else if (r.top < 8) delta = 8 - r.top;
+      }
+      // One correction per open: the rect moves with it, so measuring again
+      // would only re-apply the same delta.
+      if (Math.abs(delta) > 0.5 && !shiftedRef.current) {
+        shiftedRef.current = true;
+        setShift((s) => s + delta);
+      }
+    };
+    const frame = requestAnimationFrame(measure);
+    return () => cancelAnimationFrame(frame);
+  }, [ctx.open, avoidCollisions, resolvedSide, outsideRef, shift]);
 
   useEffect(() => {
     if (!ctx.open) return;
@@ -268,7 +347,21 @@ function MenuContent({ children, className, ...props }: MenuContentProps) {
       id={ctx.contentId}
       role="menu"
       aria-labelledby={ctx.triggerId}
-      className={cx("vf-menu__content", className)}
+      className={cx(
+        "vf-menu__content",
+        `vf-menu__content--side-${resolvedSide}`,
+        `vf-menu__content--align-${align}`,
+        className
+      )}
+      data-side={resolvedSide}
+      data-align={align}
+      style={{
+        ...({
+          "--vf-menu-side-offset": `${sideOffset}px`,
+          "--vf-menu-align-offset": `${alignOffset + shift}px`,
+        } as CSSProperties),
+        ...style,
+      }}
       onKeyDown={onKey}
       tabIndex={-1}
       {...props}
@@ -663,6 +756,14 @@ export {
 
 export interface ContextMenuProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "content"> {
+  /** Side of the pointer the menu opens on. Default `bottom`. */
+  side?: MenuSide;
+  /** Alignment relative to the pointer. Default `start`. */
+  align?: MenuAlign;
+  /** Gap from the pointer in px. Default 2. */
+  sideOffset?: number;
+  /** Shift along the alignment axis in px. Default 0. */
+  alignOffset?: number;
   /**
    * Menu content rendered when the user right-clicks or long-presses the
    * trigger children. ContextMenu wraps this slot in an internal `<Menu>`
@@ -689,10 +790,15 @@ export function ContextMenu({
   content,
   children,
   className,
+  side = "bottom",
+  align = "start",
+  sideOffset = 2,
+  alignOffset = 0,
   ...props
 }: ContextMenuProps) {
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
+  const [placed, setPlaced] = useState<{ top: number; left: number } | null>(null);
   const anchorRef = useRef<HTMLDivElement>(null);
   const reactId = useReactId();
   const triggerId = `vf-ctx-${reactId}`;
@@ -701,8 +807,34 @@ export function ContextMenu({
   const handleContext = (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setPosition({ x: e.clientX, y: e.clientY });
+    setPlaced(null);
     setOpen(true);
   };
+
+  // Place the menu against the pointer with the shared anchor math (flip +
+  // clamp 8px inside the viewport) once its size is known.
+  useEffect(() => {
+    if (!open || !position) return;
+    const el = menuRefLocal.current;
+    if (!el) return;
+    const frame = requestAnimationFrame(() => {
+      const r = el.getBoundingClientRect();
+      if (r.width === 0 && r.height === 0) return;
+      const placement = `${side}-${align}` as Placement;
+      const pos = computeAnchoredPosition(
+        { top: position.y, left: position.x, right: position.x, bottom: position.y, width: 0, height: 0 },
+        { width: r.width, height: r.height },
+        placement.replace("-center", "") as Placement,
+        sideOffset
+      );
+      const next = {
+        top: pos.top + (side === "left" || side === "right" ? alignOffset : 0),
+        left: pos.left + (side === "top" || side === "bottom" ? alignOffset : 0),
+      };
+      setPlaced((cur) => (cur && cur.top === next.top && cur.left === next.left ? cur : next));
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [open, position, side, align, sideOffset, alignOffset]);
 
   useEffect(() => {
     if (!open) return;
@@ -751,10 +883,12 @@ export function ContextMenu({
             id={contentId}
             aria-labelledby={triggerId}
             className="vf-menu__content vf-context-menu__content"
+            data-side={side}
+            data-align={align}
             style={{
               position: "fixed",
-              insetInlineStart: position.x,
-              top: position.y,
+              left: placed ? placed.left : position.x,
+              top: placed ? placed.top : position.y,
               zIndex: 1000,
             }}
           >

@@ -19,6 +19,9 @@
   top: 100%;
   inset-inline-start: 0;
   display: inline-block;
+  /* side / align come from Menu.Content props; offsets through variables. */
+  --vf-menu-side-offset: 0px;
+  --vf-menu-align-offset: 0px;
   min-width: 180px;
   background: var(--vf-bg-1);
   border: 1px solid var(--vf-border-2);
@@ -26,6 +29,26 @@
   z-index: var(--vf-z-popover);
   outline: none;
 }
+/* Positioning matrix. Sides pick the edge of the trigger; aligns the point
+   along it. The context menu is fixed-positioned by JS and ignores these. */
+.vf-menu__content--side-bottom { top: calc(100% + var(--vf-menu-side-offset)); bottom: auto; }
+.vf-menu__content--side-top { bottom: calc(100% + var(--vf-menu-side-offset)); top: auto; }
+.vf-menu__content--side-right { inset-inline-start: calc(100% + var(--vf-menu-side-offset)); inset-inline-end: auto; top: 0; }
+.vf-menu__content--side-left { inset-inline-end: calc(100% + var(--vf-menu-side-offset)); inset-inline-start: auto; top: 0; }
+.vf-menu__content--side-bottom.vf-menu__content--align-start,
+.vf-menu__content--side-top.vf-menu__content--align-start { inset-inline-start: var(--vf-menu-align-offset); inset-inline-end: auto; }
+.vf-menu__content--side-bottom.vf-menu__content--align-end,
+.vf-menu__content--side-top.vf-menu__content--align-end { inset-inline-end: calc(-1 * var(--vf-menu-align-offset)); inset-inline-start: auto; }
+.vf-menu__content--side-bottom.vf-menu__content--align-center,
+.vf-menu__content--side-top.vf-menu__content--align-center { inset-inline-start: 50%; inset-inline-end: auto; transform: translateX(calc(-50% + var(--vf-menu-align-offset))); }
+.vf-menu__content--side-left.vf-menu__content--align-start,
+.vf-menu__content--side-right.vf-menu__content--align-start { top: var(--vf-menu-align-offset); bottom: auto; }
+.vf-menu__content--side-left.vf-menu__content--align-end,
+.vf-menu__content--side-right.vf-menu__content--align-end { bottom: calc(-1 * var(--vf-menu-align-offset)); top: auto; }
+.vf-menu__content--side-left.vf-menu__content--align-center,
+.vf-menu__content--side-right.vf-menu__content--align-center { top: 50%; bottom: auto; transform: translateY(calc(-50% + var(--vf-menu-align-offset))); }
+.vf-context-menu__content { transform: none; }
+
 .vf-menu__item {
   display: flex;
   align-items: center;
