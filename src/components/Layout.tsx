@@ -12,6 +12,68 @@ import { useResponsive, type Responsive } from "../responsive";
 
 type FlexDirection = CSSProperties["flexDirection"];
 
+/** A CSS length: number → px, string as written (`"1fr"`, `"var(--vf-sp-8)"`, `"100%"`). */
+export type CssLength = number | string;
+
+/**
+ * Sizing and overflow props shared by `Box`, `Flex`, `HStack`, `VStack`.
+ * Numbers are px; strings are raw CSS, so tokens (`"var(--vf-sp-8)"`) work.
+ */
+export interface SizingProps {
+  w?: CssLength;
+  minW?: CssLength;
+  maxW?: CssLength;
+  h?: CssLength;
+  minH?: CssLength;
+  maxH?: CssLength;
+  /** `flex` shorthand (`1`, `"1 1 0"`, `"none"`). */
+  flex?: CssLength;
+  position?: CSSProperties["position"];
+  overflow?: CSSProperties["overflow"];
+  /** Outer margin; numbers are px. */
+  margin?: CssLength;
+  /**
+   * The flex-child scroll idiom in one word: `min-height: 0; overflow:
+   * auto` (and `min-width: 0`), so the element scrolls inside a flex
+   * column instead of growing it.
+   */
+  scrollable?: boolean;
+}
+
+const len = (v: CssLength | undefined): string | undefined =>
+  v === undefined ? undefined : typeof v === "number" ? `${v}px` : v;
+
+/** Translate `SizingProps` to inline style; `scrollable` is also a class. */
+export function sizingStyle(p: SizingProps): CSSProperties {
+  const out: CSSProperties = {};
+  if (p.w !== undefined) out.width = len(p.w);
+  if (p.minW !== undefined) out.minWidth = len(p.minW);
+  if (p.maxW !== undefined) out.maxWidth = len(p.maxW);
+  if (p.h !== undefined) out.height = len(p.h);
+  if (p.minH !== undefined) out.minHeight = len(p.minH);
+  if (p.maxH !== undefined) out.maxHeight = len(p.maxH);
+  if (p.flex !== undefined) out.flex = typeof p.flex === "number" ? p.flex : p.flex;
+  if (p.position !== undefined) out.position = p.position;
+  if (p.overflow !== undefined) out.overflow = p.overflow;
+  if (p.margin !== undefined) out.margin = len(p.margin);
+  return out;
+}
+
+const SIZING_KEYS = ["w", "minW", "maxW", "h", "minH", "maxH", "flex", "position", "overflow", "margin", "scrollable"] as const;
+
+/** Split `SizingProps` off a props object so the rest can be spread onto the DOM. */
+export function splitSizing<P extends SizingProps>(props: P): { sizing: SizingProps; rest: Omit<P, keyof SizingProps> } {
+  const sizing: SizingProps = {};
+  const rest = { ...props } as Record<string, unknown>;
+  for (const k of SIZING_KEYS) {
+    if (k in rest) {
+      (sizing as Record<string, unknown>)[k] = rest[k];
+      delete rest[k];
+    }
+  }
+  return { sizing, rest: rest as Omit<P, keyof SizingProps> };
+}
+
 /**
  * `Flex.wrap` accepts either:
  * - `boolean` (or `Responsive<boolean>`) — voidframe convention
@@ -22,7 +84,7 @@ type FlexDirection = CSSProperties["flexDirection"];
  */
 export type FlexWrap = boolean | "wrap" | "nowrap" | "wrap-reverse";
 
-export interface FlexProps extends HTMLAttributes<HTMLElement> {
+export interface FlexProps extends HTMLAttributes<HTMLElement>, SizingProps {
   children?: ReactNode;
   direction?: Responsive<FlexDirection>;
   align?: Responsive<CSSProperties["alignItems"]>;
@@ -45,9 +107,10 @@ const directionClass = (d: FlexDirection): string | undefined => {
 
 /** Flexbox primitive. Foundation for HStack/VStack. Every visual prop accepts a `Responsive<T>` object for per-breakpoint values. */
 export const Flex = forwardRef<HTMLElement, FlexProps>(function Flex(
-  { children, direction, align, justify, wrap, gap, className, style, as: Tag = "div", ...props },
+  { children, direction, align, justify, wrap, gap, className, style, as: Tag = "div", ...rawProps },
   ref
 ) {
+  const { sizing, rest: props } = splitSizing(rawProps);
   const d = useResponsive(direction);
   const a = useResponsive(align);
   const j = useResponsive(justify);
@@ -62,12 +125,13 @@ export const Flex = forwardRef<HTMLElement, FlexProps>(function Flex(
     ...(typeof w === "string" && w === "wrap-reverse"
       ? { flexWrap: "wrap-reverse" as const }
       : {}),
+    ...sizingStyle(sizing),
     ...style,
   };
   return (
     <Tag
       ref={ref as never}
-      className={cx("vf-flex", directionClass(d), wrapResolved && "vf-flex--wrap", className)}
+      className={cx("vf-flex", directionClass(d), wrapResolved && "vf-flex--wrap", sizing.scrollable && "vf-scrollable", className)}
       style={inline}
       {...props}
     >
@@ -77,9 +141,10 @@ export const Flex = forwardRef<HTMLElement, FlexProps>(function Flex(
 });
 Flex.displayName = "Flex";
 
-export interface StackProps extends HTMLAttributes<HTMLDivElement> {
+export interface StackProps extends HTMLAttributes<HTMLDivElement>, SizingProps {
   children?: ReactNode;
   align?: CSSProperties["alignItems"];
+  justify?: CSSProperties["justifyContent"];
   gap?: number | string;
   wrap?: boolean;
   style?: CSSProperties;
@@ -87,18 +152,21 @@ export interface StackProps extends HTMLAttributes<HTMLDivElement> {
 
 /** Horizontal stack — `flex-direction: row`, default align `center`. */
 export const HStack = forwardRef<HTMLDivElement, StackProps>(function HStack(
-  { children, align, gap, wrap, className, style, ...props },
+  { children, align, justify, gap, wrap, className, style, ...rawProps },
   ref
 ) {
+  const { sizing, rest: props } = splitSizing(rawProps);
   const inline: CSSProperties = {
     ...(align !== undefined ? { alignItems: align } : {}),
+    ...(justify !== undefined ? { justifyContent: justify } : {}),
     ...(gap !== undefined ? { gap: typeof gap === "number" ? `${gap}px` : gap } : {}),
+    ...sizingStyle(sizing),
     ...style,
   };
   return (
     <div
       ref={ref}
-      className={cx("vf-hstack", wrap && "vf-flex--wrap", className)}
+      className={cx("vf-hstack", wrap && "vf-flex--wrap", sizing.scrollable && "vf-scrollable", className)}
       style={inline}
       {...props}
     >
@@ -110,18 +178,21 @@ HStack.displayName = "HStack";
 
 /** Vertical stack — `flex-direction: column`, default align `stretch`. */
 export const VStack = forwardRef<HTMLDivElement, StackProps>(function VStack(
-  { children, align, gap, wrap, className, style, ...props },
+  { children, align, justify, gap, wrap, className, style, ...rawProps },
   ref
 ) {
+  const { sizing, rest: props } = splitSizing(rawProps);
   const inline: CSSProperties = {
     ...(align !== undefined ? { alignItems: align } : {}),
+    ...(justify !== undefined ? { justifyContent: justify } : {}),
     ...(gap !== undefined ? { gap: typeof gap === "number" ? `${gap}px` : gap } : {}),
+    ...sizingStyle(sizing),
     ...style,
   };
   return (
     <div
       ref={ref}
-      className={cx("vf-vstack", wrap && "vf-flex--wrap", className)}
+      className={cx("vf-vstack", wrap && "vf-flex--wrap", sizing.scrollable && "vf-scrollable", className)}
       style={inline}
       {...props}
     >
@@ -131,24 +202,34 @@ export const VStack = forwardRef<HTMLDivElement, StackProps>(function VStack(
 });
 VStack.displayName = "VStack";
 
-export interface GridProps extends HTMLAttributes<HTMLDivElement> {
+export interface GridProps extends HTMLAttributes<HTMLDivElement>, SizingProps {
   children?: ReactNode;
   columns?: Responsive<number | string>;
   rows?: Responsive<string>;
   gap?: Responsive<number | string>;
   minChildWidth?: Responsive<string>;
+  /** `align-items` for the cells. */
+  align?: Responsive<CSSProperties["alignItems"]>;
+  /** `justify-items` for the cells. */
+  justify?: Responsive<CSSProperties["justifyItems"]>;
+  /** `align-content` / `justify-content` for the tracks. */
+  alignContent?: CSSProperties["alignContent"];
+  justifyContent?: CSSProperties["justifyContent"];
   style?: CSSProperties;
 }
 
 /** CSS Grid wrapper. All visual props accept `Responsive<T>` objects. */
 export const Grid = forwardRef<HTMLDivElement, GridProps>(function Grid(
-  { children, columns, rows, gap, minChildWidth, className, style, ...props },
+  { children, columns, rows, gap, minChildWidth, align, justify, alignContent, justifyContent, className, style, ...rawProps },
   ref
 ) {
+  const { sizing, rest: props } = splitSizing(rawProps);
   const c = useResponsive(columns);
   const r = useResponsive(rows);
   const g = useResponsive(gap);
   const m = useResponsive(minChildWidth);
+  const ai = useResponsive(align);
+  const ji = useResponsive(justify);
   const templateCols = m
     ? `repeat(auto-fill, minmax(${m}, 1fr))`
     : typeof c === "number"
@@ -158,10 +239,15 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>(function Grid(
     ...(templateCols ? { gridTemplateColumns: templateCols } : {}),
     ...(r ? { gridTemplateRows: r } : {}),
     ...(g !== undefined ? { gap: typeof g === "number" ? `${g}px` : g } : {}),
+    ...(ai !== undefined ? { alignItems: ai } : {}),
+    ...(ji !== undefined ? { justifyItems: ji } : {}),
+    ...(alignContent !== undefined ? { alignContent } : {}),
+    ...(justifyContent !== undefined ? { justifyContent } : {}),
+    ...sizingStyle(sizing),
     ...style,
   };
   return (
-    <div ref={ref} className={cx("vf-grid", className)} style={inline} {...props}>
+    <div ref={ref} className={cx("vf-grid", sizing.scrollable && "vf-scrollable", className)} style={inline} {...props}>
       {children}
     </div>
   );
@@ -297,7 +383,7 @@ export const Stretch = forwardRef<HTMLDivElement, StretchProps>(function Stretch
 });
 Stretch.displayName = "Stretch";
 
-export interface BoxProps extends HTMLAttributes<HTMLElement> {
+export interface BoxProps extends HTMLAttributes<HTMLElement>, SizingProps {
   children?: ReactNode;
   bg?: string;
   border?: string | true;
@@ -308,12 +394,14 @@ export interface BoxProps extends HTMLAttributes<HTMLElement> {
   style?: CSSProperties;
 }
 
-/** Generic box with token-aware shorthand props. */
+/** Generic box with token-aware shorthand props, including sizing (`w`, `minW`, `maxW`, `h`, `minH`, `maxH`, `flex`, `position`, `overflow`, `scrollable`). */
 export const Box = forwardRef<HTMLElement, BoxProps>(function Box(
-  { children, bg, border, padding, margin, radius, className, style, as: Tag = "div", ...props },
+  { children, bg, border, padding, margin, radius, className, style, as: Tag = "div", ...rawProps },
   ref
 ) {
+  const { sizing, rest: props } = splitSizing(rawProps);
   const inline: CSSProperties = {
+    ...sizingStyle(sizing),
     ...(bg !== undefined ? { background: bg } : {}),
     ...(border !== undefined
       ? { border: `1px solid ${border === true ? "var(--vf-border-1)" : border}` }
@@ -328,7 +416,7 @@ export const Box = forwardRef<HTMLElement, BoxProps>(function Box(
     ...style,
   };
   return (
-    <Tag ref={ref as never} className={cx("vf-box", className)} style={inline} {...props}>
+    <Tag ref={ref as never} className={cx("vf-box", sizing.scrollable && "vf-scrollable", className)} style={inline} {...props}>
       {children}
     </Tag>
   );

@@ -66,3 +66,10 @@
   font-family: var(--vf-font-family);
   border-radius: var(--vf-radius);
 }
+
+/* The flex-child scroll idiom: shrink below content size and scroll. */
+.vf-scrollable {
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+}

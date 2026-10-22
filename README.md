@@ -574,6 +574,19 @@ Everything below ships from the top-level `voidframe-ui` import. Compound compon
 
 ### Foundations & layout
 
+**Layout contract.** Every primitive accepts the same sizing props, so a wrapper never needs an inline style for its box: `w` / `minW` / `maxW` / `h` / `minH` / `maxH` (numbers are px, strings are CSS, so `"var(--vf-sp-8)"` and `"1fr"` work), `flex`, `position`, `overflow`, `margin`, and `scrollable` (`min-height: 0; min-width: 0; overflow: auto`, the idiom that lets a child scroll inside a flex column).
+
+| Primitive | Own props | Sizing props |
+|---|---|---|
+| `Box` | `bg`, `border`, `padding`, `margin`, `radius`, `as` | yes |
+| `Flex` | `direction`, `align`, `justify`, `wrap`, `gap` (all responsive), `as` | yes |
+| `HStack` / `VStack` | `align`, `justify`, `gap`, `wrap` | yes |
+| `Grid` | `columns`, `rows`, `gap`, `minChildWidth` (responsive), `align`, `justify`, `alignContent`, `justifyContent` | yes |
+| `Spacer` | `size`, `mode="fill" \| "push"` (`push` is `margin-inline-start: auto`, no row of its own) | no |
+| `Stretch`, `Center`, `Container`, `AspectRatio`, `SplitView`, `Sticky` | as documented in their props | no |
+
+Headings inside `Text` already reset their margins; `Sticky` exists for sticky headers; `Select` takes `width` and `fullWidth`.
+
 | Component | Purpose |
 |-----------|---------|
 | `Text`, `Label`, `Quote`, `Code`, `Kbd` | Typographic primitives |
@@ -800,7 +813,7 @@ Avatars & media: `Avatar`, `AvatarGroup`, `Image`, `ImageGallery`, `AudioPlayer`
 
 ### Overlays
 
-`Modal`, `Dialog` (compound), `DrawerV2`, `Sheet` (smooth continuous drag on the handle, snaps on release), `PopoverV2`, `HoverCard`, `TooltipV2`, `ContextMenu`, `Menu`, `CommandPalette`, `Spotlight`, `NotificationCenter`, `EmptyState`, `ErrorState`, `ReactionPicker`.
+`Modal`, `Dialog` (compound), `DrawerV2`, `Sheet` (smooth continuous drag on the handle, snaps on release), `PopoverV2`, `HoverCard`, `TooltipV2`, `ContextMenu` (`side` / `align` / offsets relative to the pointer), `Menu` (`Menu.Content side / align / sideOffset / alignOffset`, flips and clamps to the viewport), `CommandPalette`, `Spotlight`, `NotificationCenter`, `EmptyState`, `ErrorState`, `ReactionPicker`.
 
 `NotificationCenter` rows take `icon` / `avatar`, `href` and `onSelect` (open the thing the notification is about) separately from `onMarkRead`; unread rows that navigate get a "Mark read" control.
 

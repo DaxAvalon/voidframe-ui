@@ -297,19 +297,25 @@ export const Divider = memo(DividerImpl);
 
 export interface SpacerProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
+  /**
+   * `fill` (default): a flex filler that takes the free space between
+   * siblings. `push`: zero-size with `margin-inline-start: auto`, pushing
+   * what follows to the end without claiming a row in a wrapping flex.
+   */
+  mode?: "fill" | "push";
   style?: CSSProperties;
 }
 
 /** Vertical spacer. */
 const SpacerImpl = forwardRef<HTMLDivElement, SpacerProps>(function Spacer(
-  { size, className, style, ...props },
+  { size, mode = "fill", className, style, ...props },
   ref
 ) {
   const inline: CSSProperties = size !== undefined ? { height: size, ...style } : (style ?? {});
   return (
     <div
       ref={ref}
-      className={cx("vf-spacer", className)}
+      className={cx("vf-spacer", mode === "push" && "vf-spacer--push", className)}
       style={inline}
       {...props}
     />

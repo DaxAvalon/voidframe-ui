@@ -85,6 +85,13 @@ span.vf-text--truncate { display: inline-block; vertical-align: bottom; }
 .vf-spacer {
   height: var(--vf-sp-6);
 }
+/* mode="push": no size of its own, pushes the following siblings to the end. */
+.vf-spacer--push {
+  height: 0;
+  width: 0;
+  flex: none;
+  margin-inline-start: auto;
+}
 
 /* Long-form reading text: the reading tokens, not the chrome's monospace. */
 .vf-reading {

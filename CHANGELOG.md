@@ -7,6 +7,20 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **`Menu.Content` positioning**: `side` (`top` | `bottom` | `left` |
+  `right`), `align` (`start` | `center` | `end`), `sideOffset`,
+  `alignOffset` and `avoidCollisions` (flip to the opposite side when the
+  menu would leave the viewport, then shift along the alignment axis to stay
+  8 px inside it). The resolved side and align are exposed as `data-side` /
+  `data-align`. `ContextMenu` takes the same props relative to the pointer,
+  placed with the shared anchor math (flip + clamp).
+- **Layout sizing props.** `Box`, `Flex`, `HStack`, `VStack` and `Grid` take
+  `w`, `minW`, `maxW`, `h`, `minH`, `maxH`, `flex`, `position`, `overflow`,
+  `margin` and `scrollable` (the `min-height: 0; overflow: auto` flex-child
+  idiom as a class). `Grid` gains `align`, `justify`, `alignContent` and
+  `justifyContent`; stacks gain `justify`. `Spacer mode="push"` pushes the
+  following siblings to the end without claiming a row. `sizingStyle` and
+  `splitSizing` are exported for consumers' own primitives.
 - **`NotificationCenter` rows can open something.** `NotificationItem` gains
   `icon`, `avatar`, `href` and a per-item `onSelect`; the centre gains
   `onSelect(item)` fired on activation (click, Enter, Space; rows with a
