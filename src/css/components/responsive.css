@@ -189,6 +189,13 @@
     min-width: 0 !important;
     grid-template-columns: none !important;
   }
+  .vf-table--adaptive .vf-table__table,
+  .vf-table--adaptive .vf-table__table > tbody {
+    display: block;
+  }
+  .vf-table--adaptive .vf-table__table > colgroup {
+    display: none;
+  }
   .vf-table--adaptive .vf-table__head {
     display: none !important;
   }

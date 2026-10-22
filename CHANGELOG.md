@@ -7,6 +7,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **`Table as="table"`** renders real `<table>`, `<colgroup>`, `<thead>`,
+  `<tbody>`, `<tr>`, `<th scope="col">` and `<td>` elements with the same
+  column API and classes (`vf-table--semantic` on the wrapper). New
+  `TableColumn.rowHeader` renders `<th scope="row">` there and
+  `role="rowheader"` in grid mode, and `rowTone(row, index)` sets
+  `data-tone` plus a `vf-table__row--<tone>` wash on the row. Adaptive
+  stacked cards work in both modes.
 - **`AppShell sidebarCollapseMode="rail"`** keeps the sidebar column at
   `sidebarRailWidth` (default 56) when collapsed and puts a `Sidebar` inside
   into rail mode through context; the toggle reads "Collapse/Expand
@@ -93,6 +100,11 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **`Table` docs said "Semantic `<table>` wrapper" while it rendered a div
+  grid.** The doc comment and README now describe the default grid, and
+  `rowAttributes` is typed for the element each mode renders
+  (`HTMLAttributes<HTMLElement>`). Sortable column headers are now focusable
+  and toggle on Enter/Space in both modes.
 - **`Sidebar collapsed` is now a rail.** The stylesheet hides item labels,
   badges, section labels and the brand text under `.vf-sidebar--collapsed`
   and centres icons (width `--vf-sidebar-rail-width`, 56px); the adaptive

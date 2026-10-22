@@ -21,6 +21,15 @@ import { Label } from "./Text";
 
 export type TableAlign = "left" | "center" | "right";
 export type SortDirection = "asc" | "desc";
+/** Markup the table renders: a CSS grid of ARIA-role divs, or real table elements. */
+export type TableElement = "grid" | "table";
+export type TableRowTone =
+  | "neutral"
+  | "success"
+  | "warning"
+  | "danger"
+  | "info"
+  | "accent";
 
 export interface TableColumn<T = Record<string, unknown>> {
   key: string;
@@ -30,6 +39,12 @@ export interface TableColumn<T = Record<string, unknown>> {
   sortable?: boolean;
   /** Pin to the start or end of the grid. */
   sticky?: "left" | "right";
+  /**
+   * This column names its row: rendered as `<th scope="row">` in
+   * `as="table"` mode and `role="rowheader"` in grid mode, so screen readers
+   * announce it with every cell in the row.
+   */
+  rowHeader?: boolean;
   className?: string;
   headerClassName?: string;
   color?: string | ((row: T) => string);
@@ -44,6 +59,20 @@ export interface TableProps<T = Record<string, unknown>>
   extends Omit<HTMLAttributes<HTMLDivElement>, "onClick"> {
   columns: TableColumn<T>[];
   data: T[];
+  /**
+   * `"grid"` (default) renders a CSS grid of divs carrying table ARIA roles,
+   * which lets columns be sized with `width` tracks and pinned with
+   * `sticky`. `"table"` renders real `<table>`, `<thead>`, `<tbody>`,
+   * `<tr>`, `<th scope>` and `<td>` elements with the same column API and
+   * styling: use it when consumers need native table semantics, row
+   * headers, spreadsheet-friendly copy or `tbody tr` selectors.
+   */
+  as?: TableElement;
+  /**
+   * Tone for a whole row (success, warning, danger, info, accent): sets
+   * `data-tone` and a `vf-table__row--<tone>` class that tints the cells.
+   */
+  rowTone?: (row: T, index: number) => TableRowTone | undefined;
   striped?: boolean;
   dense?: boolean;
   bordered?: boolean;
@@ -58,11 +87,12 @@ export interface TableProps<T = Record<string, unknown>>
   onRowClick?: (row: T, index: number) => void;
   rowKey?: (row: T, index: number) => string | number;
   /**
-   * Return arbitrary HTML attributes to apply to each `<tr>`. Use for
+   * Return arbitrary HTML attributes to apply to each row element (a
+   * `<tr>` in `as="table"` mode, a `role="row"` div otherwise). Use for
    * `data-testid`, `aria-*`, per-row event listeners, etc. — tests can then
    * query rows by attribute instead of by content or injected marker spans.
    */
-  rowAttributes?: (row: T, index: number) => HTMLAttributes<HTMLTableRowElement>;
+  rowAttributes?: (row: T, index: number) => HTMLAttributes<HTMLElement>;
   /** Initial sort state (uncontrolled). */
   defaultSort?: { key: string; direction: SortDirection };
   /** Controlled sort state. */
@@ -89,13 +119,16 @@ export function defineColumns<T>(columns: TableColumn<T>[]): TableColumn<T>[] {
 type TableRowLookup = Record<string, unknown>;
 
 /**
- * Semantic `<table>` wrapper with voidframe styling. For sortable /
- * virtualised tables use `DataGrid`.
+ * Column-driven table with voidframe styling. By default it renders a CSS
+ * grid of divs with table ARIA roles; `as="table"` renders real table
+ * elements. For virtualised, filterable or resizable tables use `DataGrid`.
  */
 const TableImpl = genericForwardRef(function Table<T = Record<string, unknown>>(
   {
     columns,
     data,
+    as = "grid",
+    rowTone,
     striped,
     dense,
     bordered,
@@ -145,22 +178,197 @@ const TableImpl = genericForwardRef(function Table<T = Record<string, unknown>>(
     return [...data].sort((a, b) => cmp(a, b) * dir);
   }, [data, columns, current]);
 
-  return (
-    <div
-      ref={ref}
-      className={cx(
-        "vf-table",
-        striped && "vf-table--striped",
-        dense && "vf-table--dense",
-        bordered && "vf-table--bordered",
-        stickyHeader && "vf-table--sticky-header",
-        adaptive && "vf-table--adaptive",
-        className
+  const semantic = as === "table";
+
+  const ariaSortFor = (c: TableColumn<T>) => {
+    const isSorted = current?.key === c.key;
+    return isSorted
+      ? current!.direction === "asc"
+        ? ("ascending" as const)
+        : ("descending" as const)
+      : c.sortable
+        ? ("none" as const)
+        : undefined;
+  };
+  const headerInteractive = (c: TableColumn<T>) =>
+    c.sortable
+      ? {
+          onClick: () => toggleSort(c.key),
+          tabIndex: 0,
+          onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggleSort(c.key);
+            }
+          },
+        }
+      : {};
+  const headerContent = (c: TableColumn<T>) => {
+    const isSorted = current?.key === c.key;
+    return (
+      <>
+        {c.header}
+        {c.sortable && (
+          <span
+            aria-hidden="true"
+            className={cx(
+              "vf-table__sort-indicator",
+              isSorted && "vf-table__sort-indicator--active"
+            )}
+          >
+            {isSorted ? (current!.direction === "asc" ? "▲" : "▼") : "▾"}
+          </span>
+        )}
+      </>
+    );
+  };
+  const headerClass = (c: TableColumn<T>) =>
+    cx(
+      "vf-table__header-cell",
+      c.sortable && "vf-table__header-cell--sortable",
+      c.sticky && `vf-table__cell--sticky-${c.sticky}`,
+      c.headerClassName
+    );
+  const cellClass = (c: TableColumn<T>) =>
+    cx(
+      "vf-table__cell",
+      c.bold && "vf-table__cell--bold",
+      c.sticky && `vf-table__cell--sticky-${c.sticky}`,
+      c.rowHeader && "vf-table__cell--row-header",
+      c.className
+    );
+  const cellStyle = (c: TableColumn<T>, row: T): CSSProperties => ({
+    ...(c.color
+      ? { color: typeof c.color === "function" ? c.color(row) : c.color }
+      : {}),
+    ...(c.fontSize ? { fontSize: c.fontSize } : {}),
+    ...(c.align ? { textAlign: c.align } : {}),
+  });
+  const cellContent = (c: TableColumn<T>, row: T, ri: number) => (
+    <>
+      {adaptive && (
+        <span aria-hidden="true" className="vf-table__cell-label">
+          {c.header}
+        </span>
       )}
-      data-adaptive={adaptive ? "true" : undefined}
-      style={style}
-      {...props}
-    >
+      <span className="vf-table__cell-value">
+        {c.render ? c.render(row, ri) : ((row as TableRowLookup)[c.key] as ReactNode)}
+      </span>
+    </>
+  );
+  const rowProps = (row: T, ri: number, key: string | number) => {
+    const tone = rowTone?.(row, ri);
+    return {
+      className: cx(
+        "vf-table__row",
+        onRowClick && "vf-table__row--clickable",
+        striped && ri % 2 === 1 && "vf-table__row--alt",
+        tone && `vf-table__row--${tone}`
+      ),
+      "data-tone": tone,
+      ...itemKeyAttrs("row", String(key)),
+      onClick: onRowClick ? () => onRowClick(row, ri) : undefined,
+      ...((rowAttributes?.(row, ri) ?? {}) as HTMLAttributes<HTMLElement>),
+    };
+  };
+  const emptyContent =
+    emptyState ?? (
+      <div className="vf-empty-state vf-empty-state--plain" data-variant="plain">
+        <div className="vf-empty-state__title">No rows</div>
+      </div>
+    );
+
+  const wrapperProps = {
+    ref,
+    className: cx(
+      "vf-table",
+      semantic ? "vf-table--semantic" : "vf-table--grid",
+      striped && "vf-table--striped",
+      dense && "vf-table--dense",
+      bordered && "vf-table--bordered",
+      stickyHeader && "vf-table--sticky-header",
+      adaptive && "vf-table--adaptive",
+      className
+    ),
+    "data-adaptive": adaptive ? "true" : undefined,
+    style,
+    ...props,
+  };
+
+  if (semantic) {
+    return (
+      <div {...wrapperProps}>
+        <table className="vf-table__table">
+          <colgroup>
+            {columns.map((c) => (
+              <col key={c.key} style={c.width ? { width: c.width } : undefined} />
+            ))}
+          </colgroup>
+          <thead className="vf-table__head">
+            <tr>
+              {columns.map((c) => (
+                <th
+                  key={c.key}
+                  scope="col"
+                  aria-sort={ariaSortFor(c)}
+                  className={headerClass(c)}
+                  style={c.align ? { textAlign: c.align } : undefined}
+                  {...headerInteractive(c)}
+                >
+                  <span className="vf-table__header-inner">{headerContent(c)}</span>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="vf-table__body">
+            {loading ? (
+              <tr className="vf-table__loading">
+                <td colSpan={columns.length}>Loading…</td>
+              </tr>
+            ) : sortedData.length === 0 ? (
+              <tr className="vf-table__empty">
+                <td colSpan={columns.length}>{emptyContent}</td>
+              </tr>
+            ) : (
+              sortedData.map((row, ri) => {
+                const key = rowKey ? rowKey(row, ri) : ri;
+                return (
+                  <tr
+                    key={key}
+                    {...(rowProps(row, ri, key) as HTMLAttributes<HTMLTableRowElement>)}
+                  >
+                    {columns.map((c) =>
+                      c.rowHeader ? (
+                        <th
+                          key={`${key}-${c.key}`}
+                          scope="row"
+                          className={cellClass(c)}
+                          style={cellStyle(c, row)}
+                        >
+                          {cellContent(c, row, ri)}
+                        </th>
+                      ) : (
+                        <td
+                          key={`${key}-${c.key}`}
+                          className={cellClass(c)}
+                          style={cellStyle(c, row)}
+                        >
+                          {cellContent(c, row, ri)}
+                        </td>
+                      )
+                    )}
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  return (
+    <div {...wrapperProps}>
       <div
         className="vf-table__grid"
         style={{
@@ -175,45 +383,18 @@ const TableImpl = genericForwardRef(function Table<T = Record<string, unknown>>(
           style={{ display: "contents" }}
         >
           <div role="row" style={{ display: "contents" }}>
-          {columns.map((c) => {
-            const isSorted = current?.key === c.key;
-            return (
+            {columns.map((c) => (
               <div
                 key={c.key}
                 role="columnheader"
-                aria-sort={
-                  isSorted
-                    ? current!.direction === "asc"
-                      ? "ascending"
-                      : "descending"
-                    : c.sortable
-                      ? "none"
-                      : undefined
-                }
-                className={cx(
-                  "vf-table__header-cell",
-                  c.sortable && "vf-table__header-cell--sortable",
-                  c.sticky && `vf-table__cell--sticky-${c.sticky}`,
-                  c.headerClassName
-                )}
+                aria-sort={ariaSortFor(c)}
+                className={headerClass(c)}
                 style={c.align ? { textAlign: c.align } : undefined}
-                onClick={c.sortable ? () => toggleSort(c.key) : undefined}
+                {...headerInteractive(c)}
               >
-                {c.header}
-                {c.sortable && (
-                  <span
-                    aria-hidden="true"
-                    className={cx(
-                      "vf-table__sort-indicator",
-                      isSorted && "vf-table__sort-indicator--active"
-                    )}
-                  >
-                    {isSorted ? (current!.direction === "asc" ? "▲" : "▼") : "▾"}
-                  </span>
-                )}
+                {headerContent(c)}
               </div>
-            );
-          })}
+            ))}
           </div>
         </div>
         <div
@@ -230,70 +411,29 @@ const TableImpl = genericForwardRef(function Table<T = Record<string, unknown>>(
           ) : sortedData.length === 0 ? (
             <div role="row" className="vf-table__empty">
               <div role="cell" style={{ gridColumn: `1 / span ${columns.length}` }}>
-                {emptyState ?? (
-                  <div className="vf-empty-state vf-empty-state--plain" data-variant="plain">
-                    <div className="vf-empty-state__title">No rows</div>
-                  </div>
-                )}
+                {emptyContent}
               </div>
             </div>
           ) : (
             sortedData.map((row, ri) => {
               const key = rowKey ? rowKey(row, ri) : ri;
-              const extraRowAttrs = rowAttributes?.(row, ri) ?? {};
               return (
                 <div
                   key={key}
                   role="row"
-                  className={cx(
-                    "vf-table__row",
-                    onRowClick && "vf-table__row--clickable",
-                    striped && ri % 2 === 1 && "vf-table__row--alt"
-                  )}
-                  {...itemKeyAttrs("row", String(key))}
-                  onClick={onRowClick ? () => onRowClick(row, ri) : undefined}
+                  {...(rowProps(row, ri, key) as HTMLAttributes<HTMLDivElement>)}
                   style={{ display: "contents" }}
-                  {...(extraRowAttrs as unknown as HTMLAttributes<HTMLDivElement>)}
                 >
-                  {columns.map((c) => {
-                    const inline: CSSProperties = {
-                      ...(c.color
-                        ? {
-                            color:
-                              typeof c.color === "function" ? c.color(row) : c.color,
-                          }
-                        : {}),
-                      ...(c.fontSize ? { fontSize: c.fontSize } : {}),
-                      ...(c.align ? { textAlign: c.align } : {}),
-                    };
-                    return (
-                      <div
-                        key={`${key}-${c.key}`}
-                        role="cell"
-                        className={cx(
-                          "vf-table__cell",
-                          c.bold && "vf-table__cell--bold",
-                          c.sticky && `vf-table__cell--sticky-${c.sticky}`,
-                          c.className
-                        )}
-                        style={inline}
-                      >
-                        {adaptive && (
-                          <span
-                            aria-hidden="true"
-                            className="vf-table__cell-label"
-                          >
-                            {c.header}
-                          </span>
-                        )}
-                        <span className="vf-table__cell-value">
-                          {c.render
-                            ? c.render(row, ri)
-                            : ((row as TableRowLookup)[c.key] as ReactNode)}
-                        </span>
-                      </div>
-                    );
-                  })}
+                  {columns.map((c) => (
+                    <div
+                      key={`${key}-${c.key}`}
+                      role={c.rowHeader ? "rowheader" : "cell"}
+                      className={cellClass(c)}
+                      style={cellStyle(c, row)}
+                    >
+                      {cellContent(c, row, ri)}
+                    </div>
+                  ))}
                 </div>
               );
             })

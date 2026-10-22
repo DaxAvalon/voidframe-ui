@@ -583,7 +583,7 @@ distinction is part of why the two components exist.
 
 ### Data display
 
-Tables: `Table`, `DataGrid` (sort / filter / resize / reorder / group / virtualize / persist / export), `TreeTable`, `DataList`, `DescriptionList`, `KeyValue`, `JSONViewer`, `DiffViewer`, `LogViewer`, `Gantt`, `Kanban`, `Heatmap`.
+Tables: `Table` (CSS grid with table ARIA roles by default; `as="table"` renders real `<table>`/`<thead>`/`<tbody>`/`<tr>`/`<th scope>`/`<td>` with the same column API, `rowHeader` columns as `<th scope="row">`, `rowTone` for tinted rows), `DataGrid` (sort / filter / resize / reorder / group / virtualize / persist / export), `TreeTable`, `DataList`, `DescriptionList`, `KeyValue`, `JSONViewer`, `DiffViewer`, `LogViewer`, `Gantt`, `Kanban`, `Heatmap`.
 
 Trees & lists: `TreeView`, `VirtualList` (via DataGrid virtualization), `Sortable`.
 
@@ -1071,7 +1071,7 @@ The `useContainerQuery` hook above doesn't depend on browser CSS support — it 
 - `Modal` goes full-screen.
 - `Drawer` / `DrawerV2` expand to full-width.
 - `Sidebar` collapses to a rail (`--vf-sidebar-rail-width`, 48px here): item labels, badges, section labels and the brand text are hidden, icons centred. This is CSS only, so give items plain-text children or an `aria-label` for their accessible name; the `collapsed` prop adds tooltips and `aria-label`s as well.
-- `Table` renders as stacked cards (column header above each value).
+- `Table` renders as stacked cards (column header above each value), in both `as="grid"` and `as="table"` mode.
 
 Opt-out with `adaptive={false}` when you're wrapping one of these inside your own mobile-aware shell.
 

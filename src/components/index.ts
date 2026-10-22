@@ -111,6 +111,8 @@ export type {
   TableProps,
   TableColumn,
   TableAlign,
+  TableElement,
+  TableRowTone,
   SortDirection,
   StatProps,
   StatTone,

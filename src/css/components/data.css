@@ -51,6 +51,43 @@
 .vf-table__header-cell--sortable:hover .vf-table__sort-indicator { color: var(--vf-text-1); }
 .vf-table__cell--bold { font-weight: 700; }
 
+/* as="table": real table elements, same classes. */
+.vf-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: var(--vf-font-sm);
+  font-family: var(--vf-font-family);
+}
+.vf-table__table .vf-table__header-cell {
+  display: table-cell;
+  vertical-align: middle;
+}
+.vf-table__header-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--vf-sp-2);
+}
+.vf-table__table .vf-table__header-cell:focus-visible {
+  outline: var(--vf-focus-ring);
+  outline-offset: -2px;
+}
+.vf-table__grid .vf-table__header-cell:focus-visible {
+  outline: var(--vf-focus-ring);
+  outline-offset: -2px;
+}
+.vf-table__cell--row-header {
+  font-weight: 600;
+  color: var(--vf-text-0);
+}
+
+/* Row tones: a wash behind every cell in the row; text keeps its colour. */
+.vf-table__row--success > .vf-table__cell { background: color-mix(in srgb, var(--vf-success) 12%, transparent); }
+.vf-table__row--warning > .vf-table__cell { background: color-mix(in srgb, var(--vf-warning) 14%, transparent); }
+.vf-table__row--danger  > .vf-table__cell { background: color-mix(in srgb, var(--vf-danger) 12%, transparent); }
+.vf-table__row--info    > .vf-table__cell { background: color-mix(in srgb, var(--vf-info) 12%, transparent); }
+.vf-table__row--accent  > .vf-table__cell { background: color-mix(in srgb, var(--vf-accent) 12%, transparent); }
+
 /* Stat */
 .vf-stat__value {
   font-variant-numeric: tabular-nums;
