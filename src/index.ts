@@ -46,6 +46,7 @@ export {
   softLightTheme,
   boothTheme,
   tokensToCssVars,
+  themeToCss,
   THEME_NAMES,
 } from "./themes";
 export type { BuiltInThemeName } from "./themes";

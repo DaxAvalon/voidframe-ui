@@ -47,6 +47,26 @@ const UNITLESS_KEYS = new Set<keyof VoidframeTokens>([
   "lineHeight",
 ]);
 
+/**
+ * Serialise a token set to a CSS rule scoped to a theme name:
+ * `html[data-vf-theme="<name>"] { --vf-…: …; }`. The `html[…]` selector
+ * outranks the stylesheet's own `[data-vf-theme]` cascade blocks and reaches
+ * portaled overlays mounted under `document.body`. `VoidframeProvider` emits
+ * this for custom `theme` objects; SSR consumers can emit it themselves.
+ */
+export function themeToCss(
+  name: string,
+  tokens: ThemeOverrides | VoidframeTokens
+): string {
+  const vars = tokensToCssVars(tokens) as Record<string, string | number>;
+  const decls = Object.entries(vars)
+    .map(([k, v]) => `${k}:${v};`)
+    .join("");
+  if (!decls) return "";
+  const safe = String(name).replace(/["\\]/g, "");
+  return `html[data-vf-theme="${safe}"]{${decls}}`;
+}
+
 function camelToKebab(s: string): string {
   return s.replace(/([a-z])([A-Z0-9])/g, "$1-$2").toLowerCase();
 }

@@ -26,6 +26,7 @@ import {
   softLightTheme,
   boothTheme,
   tokensToCssVars,
+  themeToCss,
   type BuiltInThemeName,
 } from "../themes";
 import { MessagesProvider } from "../i18n/MessagesProvider";
@@ -278,6 +279,29 @@ export function VoidframeProvider({
       else root.removeAttribute("dir");
     };
   }, [themeScopeMode, resolvedThemeName, density, contrast, reducedMotion, resolvedDirection]);
+
+  // Custom `theme` tokens are inline on the wrapper div, which portaled
+  // overlays (mounted under document.body) never inherit. Publish them as a
+  // stylesheet rule on `html[data-vf-theme="<name>"]` so portals read the
+  // same values. Removed on unmount or when the theme changes.
+  const themeVarsCss = useMemo(
+    () => (theme ? themeToCss(resolvedThemeName, theme) : ""),
+    [theme, resolvedThemeName]
+  );
+  useIsomorphicLayoutEffect(() => {
+    if (themeScopeMode !== "global") return;
+    if (typeof document === "undefined") return;
+    if (!themeVarsCss) return;
+    const el = document.createElement("style");
+    el.setAttribute("data-vf-theme-vars", resolvedThemeName);
+    el.textContent = themeVarsCss;
+    document.head.appendChild(el);
+    return () => {
+      el.remove();
+    };
+    // Keyed on the serialised CSS (a string), so an inline `theme={{…}}`
+    // object with a fresh identity does not churn the style element.
+  }, [themeScopeMode, resolvedThemeName, themeVarsCss]);
 
   return (
     <VoidframeContext.Provider value={tokens}>

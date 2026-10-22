@@ -59,6 +59,14 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- **Custom `theme` tokens now reach portaled overlays.** A `theme` object was
+  applied as inline style on the provider's wrapper only, so `Dialog`,
+  `DrawerV2`, `PopoverV2`, `Toaster` and other portals mounted under
+  `document.body` rendered with the stylesheet defaults. Under
+  `scope="global"` the provider now also publishes the overrides as a
+  `<style data-vf-theme-vars>` rule on `html[data-vf-theme="<name>"]`,
+  keyed on the serialised CSS so inline theme objects do not churn it. New
+  export `themeToCss(name, tokens)` for SSR consumers.
 - **`CommandPalette` no longer re-renders without bound when `Item`s are
   mounted.** `scoredOrder` was rebuilt as a new array on every render and sat
   in the context memo, so each `Item`'s registration effect re-fired every
