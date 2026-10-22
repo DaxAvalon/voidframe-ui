@@ -347,6 +347,23 @@ Toggle.displayName = "Toggle";
 export interface SelectOption {
   value: string;
   label: string;
+  /**
+   * Secondary line ("2 channels · default"). The native control can only
+   * show text, so it is appended to the label after an em dash; `Combobox`
+   * and `RadioGroup` render it as its own line.
+   */
+  description?: string;
+  /** Short qualifier ("default", "beta"); appended after the label. */
+  badge?: string;
+  disabled?: boolean;
+}
+
+/** Text a native `<option>` shows for an option with description / badge. */
+export function selectOptionText(option: SelectOption): string {
+  let text = option.label;
+  if (option.badge) text += ` · ${option.badge}`;
+  if (option.description) text += ` — ${option.description}`;
+  return text;
 }
 
 type SelectBaseProps = Omit<
@@ -364,6 +381,12 @@ export interface SelectProps extends SelectBaseProps {
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   label?: string;
+  /**
+   * Prompt shown while nothing is chosen ("Choose a device…"). Renders a
+   * disabled empty option, so the unset state needs no sentinel in
+   * `options`; the value is `""` until the user picks one.
+   */
+  placeholder?: string;
   width?: string | number;
   style?: CSSProperties;
   /**
@@ -402,6 +425,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     defaultValue,
     onValueChange,
     label,
+    placeholder,
     width,
     fullWidth,
     className,
@@ -417,7 +441,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
 ) {
   const [current, setCurrent] = useControllableState<string>({
     value,
-    defaultValue: defaultValue ?? options[0]?.value ?? "",
+    defaultValue: defaultValue ?? (placeholder !== undefined ? "" : options[0]?.value ?? ""),
     onChange: onValueChange,
     componentName: "Select",
   });
@@ -480,16 +504,21 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
           id={selectId}
           value={current}
           onChange={(e) => setCurrent(e.target.value)}
-          className={cx(selectTa.className, className)}
+          className={cx(selectTa.className, current === "" && placeholder !== undefined && "vf-select--placeholder", className)}
           style={inline}
           size={listSize}
           aria-label={asAriaLabel ?? (props as Record<string, unknown>)["aria-label"] as string | undefined}
           {...selectTa.attrs}
           {...props}
         >
+          {placeholder !== undefined && (
+            <option value="" disabled hidden={listSize !== undefined && listSize > 1}>
+              {placeholder}
+            </option>
+          )}
           {options.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
+            <option key={o.value} value={o.value} disabled={o.disabled}>
+              {selectOptionText(o)}
             </option>
           ))}
         </select>

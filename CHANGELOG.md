@@ -6,6 +6,13 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **Described options**: `Select` takes `placeholder` (a disabled empty option; the value is `""`
+  until a pick, styled `.vf-select--placeholder`), and `SelectOption` gains `description`, `badge`
+  and `disabled` (the native control appends them to the option text; `selectOptionText()` is
+  exported). `ComboboxOption` and `RadioGroupOption` gain `description` and `badge` (and `disabled`
+  on radios), rendered as a secondary line and a trailing qualifier; `Radio` takes the same props
+  and links the description with `aria-describedby`. `renderOptionContent()` is exported for custom
+  Combobox `renderOption` implementations.
 - **Media capture hooks** (`voidframe-ui/media` and the root): `useUserMedia(constraints, { autoStart,
   onStream, onFailure })` requests a camera/microphone and exposes `stream`, `state`
   (`off | asking | on | failed | unsupported`), a `reason` mapped from the `DOMException` name

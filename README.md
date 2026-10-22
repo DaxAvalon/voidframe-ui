@@ -657,7 +657,7 @@ For programmatic actions (no destination URL), use `Button` with
 
 `SettingsRow` lays a setting out as name and description on the left and the control on the right, stacking below a breakpoint and labelling an unlabelled control by the row name. `Input`, `Textarea` and `Select` take `fullWidth` to fill their column; `Text` and `Code` take `truncate` for single-line ellipsis with a `title` fallback.
 
-Core: `Input`, `Textarea`, `Select`, `Toggle`, `Switch`, `Checkbox`, `CheckboxGroup`, `RadioGroup`, `Slider`, `NumberInput`, `CurrencyInput`, `PhoneInput`, `PinInput`, `PasswordInput`, `MaskedInput`, `SearchInput`, `SegmentedControl`, `RatingInput`, `ColorPicker`.
+Core: `Input`, `Textarea`, `Select` (`placeholder` renders a disabled empty option; options take `description`, `badge` and `disabled`), `Toggle`, `Switch`, `Checkbox`, `CheckboxGroup`, `RadioGroup` (options take `description`, `badge`, `disabled`), `Slider`, `NumberInput`, `CurrencyInput`, `PhoneInput`, `PinInput`, `PasswordInput`, `MaskedInput`, `SearchInput`, `SegmentedControl`, `RatingInput`, `ColorPicker`.
 
 Complex selects: `Combobox`, `MultiSelect`, `TreeSelect`, `MentionInput`.
 

@@ -84,7 +84,7 @@ export type {
 } from "./Card";
 
 // ── Form Controls (Core) ────────────────────────────────────
-export { Input, Textarea, Toggle, Select } from "./Form";
+export { Input, Textarea, Toggle, Select, selectOptionText } from "./Form";
 export type {
   InputProps,
   TextareaProps,
@@ -792,7 +792,7 @@ export {
 export type { ColorPickerProps } from "./ColorPicker";
 
 // ── Phase 7.3: complex form controls ────────────────────────
-export { Combobox, MultiSelect } from "./Combobox";
+export { Combobox, MultiSelect, renderOptionContent } from "./Combobox";
 export type {
   ComboboxOption,
   ComboboxProps,

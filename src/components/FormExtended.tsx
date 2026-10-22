@@ -84,6 +84,10 @@ export interface RadioProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChan
   /** Fires whenever the checked state changes (controlled or uncontrolled). */
   onValueChange?: (checked: boolean) => void;
   label?: string;
+  /** Secondary line under the label, part of the click target. */
+  description?: ReactNode;
+  /** Short qualifier rendered after the label ("default", "recommended"). */
+  badge?: ReactNode;
   accent?: string;
   disabled?: boolean;
   style?: CSSProperties;
@@ -100,6 +104,8 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(function Radio(
     defaultChecked,
     onValueChange,
     label,
+    description,
+    badge,
     accent,
     disabled,
     className,
@@ -114,6 +120,8 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(function Radio(
     onChange: onValueChange,
     componentName: "Radio",
   });
+  const described = description !== undefined && description !== null;
+  const descriptionId = useId();
   const toggle = () => {
     if (disabled) return;
     setValue(!value);
@@ -130,10 +138,11 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(function Radio(
   return (
     <div
       ref={ref}
-      className={cx("vf-radio", className)}
+      className={cx("vf-radio", described && "vf-radio--described", className)}
       style={composedStyle}
       data-disabled={disabled ? "true" : undefined}
       aria-disabled={disabled || undefined}
+      aria-describedby={described ? descriptionId : undefined}
       onClick={toggle}
       role="radio"
       aria-checked={value}
@@ -142,7 +151,19 @@ export const Radio = forwardRef<HTMLDivElement, RadioProps>(function Radio(
       {...props}
     >
       <div className="vf-radio__box">{value && <div className="vf-radio__pip" />}</div>
-      {label && <Label>{label}</Label>}
+      {label || described || badge ? (
+        <span className="vf-radio__text">
+          <span className="vf-radio__main">
+            {label && <Label>{label}</Label>}
+            {badge !== undefined && badge !== null ? <span className="vf-radio__badge">{badge}</span> : null}
+          </span>
+          {described ? (
+            <span id={descriptionId} className="vf-radio__description">
+              {description}
+            </span>
+          ) : null}
+        </span>
+      ) : null}
     </div>
   );
 });
@@ -153,6 +174,11 @@ Radio.displayName = "Radio";
 export interface RadioGroupOption {
   value: string;
   label: string;
+  /** Secondary line under the label. */
+  description?: ReactNode;
+  /** Short qualifier after the label. */
+  badge?: ReactNode;
+  disabled?: boolean;
 }
 
 export interface RadioGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -222,6 +248,9 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
               checked={current === o.value}
               onValueChange={() => setCurrent(o.value)}
               label={o.label}
+              description={o.description}
+              badge={o.badge}
+              disabled={o.disabled}
               accent={accent}
             />
           ))}

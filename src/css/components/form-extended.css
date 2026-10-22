@@ -51,6 +51,20 @@
   background: var(--vf-accent, var(--vf-green));
 }
 
+.vf-radio--described { align-items: flex-start; }
+.vf-radio--described .vf-radio__box { margin-top: 0.2em; }
+.vf-radio__text { display: flex; flex-direction: column; gap: var(--vf-sp-1); min-width: 0; }
+.vf-radio__main { display: inline-flex; align-items: baseline; gap: var(--vf-sp-2); }
+.vf-radio__badge {
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-2);
+  border: 1px solid var(--vf-border-1);
+  border-radius: var(--vf-radius-1);
+  padding: 0 var(--vf-sp-1);
+  line-height: 1.4;
+}
+.vf-radio__description { font-size: var(--vf-font-sm); color: var(--vf-text-2); }
+
 .vf-radio-group__items {
   display: flex;
   gap: var(--vf-sp-3);

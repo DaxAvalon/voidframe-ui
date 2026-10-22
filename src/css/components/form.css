@@ -12,6 +12,7 @@
   min-width: 0;
 }
 .vf-field--full .vf-select-wrap { display: block; width: 100%; }
+.vf-select--placeholder { color: var(--vf-text-3); }
 
 .vf-input,
 .vf-textarea,

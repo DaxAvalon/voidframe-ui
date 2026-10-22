@@ -49,6 +49,20 @@
   color: var(--vf-text-5);
   cursor: not-allowed;
 }
+.vf-combobox__option-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
+.vf-combobox__option-main { display: flex; align-items: baseline; gap: var(--vf-sp-2); }
+.vf-combobox__option-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vf-combobox__option-badge {
+  margin-inline-start: auto;
+  font-size: var(--vf-font-xs);
+  color: var(--vf-text-2);
+  border: 1px solid var(--vf-border-1);
+  border-radius: var(--vf-radius-1);
+  padding: 0 var(--vf-sp-1);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.vf-combobox__option-description { font-size: var(--vf-font-xs); color: var(--vf-text-2); }
 .vf-combobox__empty {
   padding: var(--vf-sp-3);
   color: var(--vf-text-4);

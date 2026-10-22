@@ -37,6 +37,10 @@ import { Label } from "./Text";
 export interface ComboboxOption {
   value: string;
   label: string;
+  /** Secondary line under the label ("2 channels · default"). */
+  description?: ReactNode;
+  /** Short qualifier rendered at the end of the row ("default", "beta"). */
+  badge?: ReactNode;
   disabled?: boolean;
   /** Optional group label; adjacent options with the same group are rendered together. */
   group?: string;
@@ -86,6 +90,24 @@ export interface ComboboxProps
  * A searchable single-select that pairs a text input with a filterable listbox.
  * Users can type to narrow options and pick a single value from the results.
  */
+/** Default option body: label, optional description line and badge. */
+export function renderOptionContent(opt: ComboboxOption): ReactNode {
+  if (opt.description === undefined && opt.badge === undefined) return opt.label;
+  return (
+    <span className="vf-combobox__option-body">
+      <span className="vf-combobox__option-main">
+        <span className="vf-combobox__option-label">{opt.label}</span>
+        {opt.badge !== undefined && opt.badge !== null ? (
+          <span className="vf-combobox__option-badge">{opt.badge}</span>
+        ) : null}
+      </span>
+      {opt.description !== undefined && opt.description !== null ? (
+        <span className="vf-combobox__option-description">{opt.description}</span>
+      ) : null}
+    </span>
+  );
+}
+
 export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
   function Combobox(
     {
@@ -348,7 +370,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                           highlighted: isHighlighted,
                           selected: isSelected,
                         })
-                      : opt.label}
+                      : renderOptionContent(opt)}
                   </li>
                 </Fragment>
               );
@@ -621,7 +643,7 @@ export const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                     <span className="vf-combobox__check" aria-hidden="true">
                       {isSelected ? "✓" : ""}
                     </span>
-                    {opt.label}
+                    {renderOptionContent(opt)}
                   </li>
                 </Fragment>
               );
