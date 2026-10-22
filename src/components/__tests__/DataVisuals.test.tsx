@@ -34,11 +34,12 @@ describe("TargetProgress", () => {
     expect(targetState(5, 10)).toBe("danger");
     expect(targetState(5, 10, "at-most")).toBe("success");
     expect(targetState(10.5, 10, "at-most")).toBe("warning");
-    const { container } = renderWithTheme(<TargetProgress label="Noise floor" value={-55} target={-60} direction="at-most" unit="dB" showDelta />);
+    const { container } = renderWithTheme(<TargetProgress label="Noise floor" value={-50} target={-60} direction="at-most" unit="dB" showDelta />);
     const meter = screen.getByRole("meter", { name: "Noise floor" });
     expect(meter).toHaveAttribute("data-state", "danger");
     expect(meter.getAttribute("aria-valuetext")).toContain("target missed");
-    expect(screen.getByText(/\(\+5 dB\)/)).toBeInTheDocument();
+    expect(screen.getByText(/\(\+10 dB\)/)).toBeInTheDocument();
+    expect(targetState(-55, -60, "at-most")).toBe("warning");
     expect(container.querySelector(".vf-target-progress__marker")).not.toBeNull();
   });
 });

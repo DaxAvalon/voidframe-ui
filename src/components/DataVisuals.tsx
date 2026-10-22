@@ -53,7 +53,7 @@ export const BarList = forwardRef<HTMLDivElement, BarListProps>(function BarList
     if (sort === "none") return items;
     return [...items].sort((a, b) => (sort === "desc" ? b.value - a.value : a.value - b.value));
   }, [items, sort]);
-  const scale = max ?? Math.max(0, ...items.map((i) => i.value)) || 1;
+  const scale = max ?? (Math.max(0, ...items.map((i) => i.value)) || 1);
   return (
     <div ref={ref} role="list" aria-label={label} className={cx("vf-bar-list", className)} {...rest}>
       {sorted.map((item, i) => {
@@ -124,7 +124,7 @@ export const TargetProgress = forwardRef<HTMLDivElement, TargetProgressProps>(fu
   ref
 ) {
   const state = targetState(value, target, direction, warnWithin);
-  const scale = max ?? Math.max(value, target, 0) * 1.1 || 1;
+  const scale = max ?? (Math.max(value, target, 0) * 1.1 || 1);
   const pct = Math.max(0, Math.min(100, (value / scale) * 100));
   const targetPct = Math.max(0, Math.min(100, (target / scale) * 100));
   const delta = value - target;

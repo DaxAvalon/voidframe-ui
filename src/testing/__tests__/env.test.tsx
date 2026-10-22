@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MockCodeEditor, MockPopoverV2, MockTooltip, mockMermaidLoader } from "../mocks";
 import { installResizeObserver, setupVoidframeTestEnv } from "../env";
@@ -15,7 +15,7 @@ describe("interactive editor mocks", () => {
     await userEvent.type(input, "{{");
     expect(onValueChange).toHaveBeenCalledWith("{");
     const un = render(<MockCodeEditor defaultValue="x" onValueChange={onValueChange} />);
-    const box = un.getByRole("textbox") as HTMLTextAreaElement;
+    const box = within(un.container).getByRole("textbox") as HTMLTextAreaElement;
     fireEvent.change(box, { target: { value: "xy" } });
     expect(box.value).toBe("xy");
   });
