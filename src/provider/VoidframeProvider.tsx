@@ -34,6 +34,7 @@ import { MessagesProvider } from "../i18n/MessagesProvider";
 import type { PartialMessages } from "../i18n/messages";
 import type { LocalePack } from "../i18n/locales/types";
 import { cx } from "../utils/cx";
+import { scaleTokens, scaledOverrides, type Scale } from "../themes/scale";
 import { warnUnknownTokens } from "../utils/auditTokens";
 
 const VoidframeContext = createContext<VoidframeTokens>(defaultTokens);
@@ -132,6 +133,13 @@ export interface VoidframeProviderProps {
   onThemeNameChange?: (next: ThemeName) => void;
   /** Density mode. Scales spacing globally. */
   density?: VoidframeDensity;
+  /**
+   * Type scale, independent of the palette: a multiplier applied to every
+   * font and spacing token (`1.25`, rounded to half pixels), a preset name
+   * (`"booth"`), or a `TypeScale` object. Emitted as runtime `--vf-font-*`
+   * / `--vf-sp-*` vars, reaching portaled overlays too.
+   */
+  scale?: Scale;
   /** Contrast mode. Boosts text + border tokens under `"high"`. */
   contrast?: VoidframeContrast;
   /** Writing direction. Root gains `dir="…"`. */
@@ -212,6 +220,7 @@ export function VoidframeProvider({
   defaultThemeName = "dark",
   onThemeNameChange,
   density = "comfortable",
+  scale,
   contrast = "normal",
   direction,
   reducedMotion = "auto",
@@ -265,19 +274,28 @@ export function VoidframeProvider({
     return defaultTokens;
   }, [resolvedThemeName]);
 
-  const tokens = useMemo<VoidframeTokens>(() => {
+  const unscaledTokens = useMemo<VoidframeTokens>(() => {
     if (!theme) return baseTokens;
     if (isFullTokenSet(theme)) return theme;
     return createTheme({ ...baseTokens, ...theme });
   }, [theme, baseTokens]);
+  const tokens = useMemo<VoidframeTokens>(
+    () => (scale === undefined ? unscaledTokens : scaleTokens(unscaledTokens, scale)),
+    [unscaledTokens, scale]
+  );
 
-  // Emit runtime CSS vars whenever the caller supplied overrides or a
-  // non-default built-in needs to beat `:root`'s stylesheet.
-  const overrideStyle = useMemo<CSSProperties>(() => {
-    if (isFullTokenSet(theme)) return tokensToCssVars(theme);
-    if (theme) return tokensToCssVars(theme);
-    return {};
-  }, [theme]);
+  // Everything that must be emitted at runtime to beat the stylesheet: the
+  // caller's theme overrides plus whatever the scale changed.
+  const runtimeOverrides = useMemo<ThemeOverrides | null>(() => {
+    const scaled = scale === undefined ? {} : scaledOverrides(unscaledTokens, scale);
+    if (!theme) return Object.keys(scaled).length ? scaled : null;
+    return { ...(theme as ThemeOverrides), ...scaled };
+  }, [theme, scale, unscaledTokens]);
+
+  const overrideStyle = useMemo<CSSProperties>(
+    () => (runtimeOverrides ? tokensToCssVars(runtimeOverrides) : {}),
+    [runtimeOverrides]
+  );
 
   const control = useMemo<ThemeControl>(
     () => ({ themeName, resolvedThemeName, setThemeName }),
@@ -353,8 +371,8 @@ export function VoidframeProvider({
   // stylesheet rule on `html[data-vf-theme="<name>"]` so portals read the
   // same values. Removed on unmount or when the theme changes.
   const themeVarsCss = useMemo(
-    () => (theme ? themeToCss(resolvedThemeName, theme) : ""),
-    [theme, resolvedThemeName]
+    () => (runtimeOverrides ? themeToCss(resolvedThemeName, runtimeOverrides) : ""),
+    [runtimeOverrides, resolvedThemeName]
   );
   useIsomorphicLayoutEffect(() => {
     if (themeScopeMode !== "global") return;
@@ -384,6 +402,7 @@ export function VoidframeProvider({
           className={cx("vf-root", cssBaseline && "vf-baseline", className)}
           data-vf-theme={resolvedThemeName}
           data-vf-density={density !== "comfortable" ? density : undefined}
+          data-vf-scale={scale === undefined ? undefined : typeof scale === "object" ? "custom" : String(scale)}
           data-vf-contrast={contrast !== "normal" ? contrast : undefined}
           data-vf-motion={reducedMotion !== "auto" ? reducedMotion : undefined}
           dir={resolvedDirection === "rtl" ? "rtl" : undefined}

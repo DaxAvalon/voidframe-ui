@@ -7,6 +7,15 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- **Type scale independent of palette.** `scale` on `VoidframeProvider` and
+  `ThemeScope`: a multiplier applied to every font and spacing token (half-
+  pixel rounding), a preset (`"booth"`) or a `TypeScale` object, emitted as
+  runtime vars for the subtree and for portals, with `data-vf-scale` on the
+  root. `TYPE_SCALES`, `scaleTokens`, `scaledOverrides`, `boothPalette` and
+  `boothScale` are exported; `boothTheme` is their composition.
+- **Reading tokens** `readingSize`, `readingFamily`, `readingMeasure`,
+  `readingColor` (`--vf-reading-*`; the booth theme raises size and narrows
+  the measure) and a `.vf-reading` class for long-form text.
 - **Theme objects describe accent, on-accent, label case, focus, selection
   and colour scheme.** `VoidframeTokens` gains `accent`, `onAccent`,
   `labelCase`, `focusRing`, `focusOffset`, `selectionBg`, `selectionFg` and

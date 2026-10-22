@@ -96,6 +96,15 @@ export interface VoidframeTokens {
   headingTracking: string;
   /** Heading `text-transform`. Default `"uppercase"` preserves brutalist behavior; set to `"none"` for title-case. */
   headingCase: "uppercase" | "none" | "lowercase" | "capitalize";
+  // Reading — long-form text, separate from the chrome's monospace.
+  /** Reading size in px (`--vf-reading-size`). Default 14. */
+  readingSize: number;
+  /** Reading face (`--vf-reading-family`). Default: the sans stack. */
+  readingFamily: string;
+  /** Measure, i.e. max line length (`--vf-reading-measure`). Default `"65ch"`. */
+  readingMeasure: string;
+  /** Reading text colour (`--vf-reading-color`). Default: `text1`. */
+  readingColor: string;
   /**
    * `text-transform` of chrome labels (`Label`, field labels, section labels),
    * independent of `headingCase` so title-case headings can keep uppercase
@@ -226,6 +235,11 @@ export const defaultTokens: VoidframeTokens = {
   headingTracking: "0.08em",
   headingCase: "uppercase",
   labelCase: "uppercase",
+  readingSize: 14,
+  readingFamily:
+    "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+  readingMeasure: "65ch",
+  readingColor: "#cccccc",
 
   // ── SPACING ───────────────────────────────────────────────
   // 12-step scale. Use by name in components.
@@ -318,6 +332,8 @@ export function createTheme(overrides: ThemeOverrides = {}): VoidframeTokens {
   }
   if (derived.accent === undefined && overrides.blue !== undefined) derived.accent = overrides.blue;
   if (derived.onAccent === undefined && overrides.bg0 !== undefined) derived.onAccent = overrides.bg0;
+  if (derived.readingColor === undefined && overrides.text1 !== undefined) derived.readingColor = overrides.text1;
+  if (derived.readingFamily === undefined && overrides.fontSans !== undefined) derived.readingFamily = overrides.fontSans;
   if (derived.colorScheme === undefined && typeof overrides.bg0 === "string" && HEX6.test(overrides.bg0)) {
     derived.colorScheme = relativeLuminance(overrides.bg0) > 0.4 ? "light" : "dark";
   }

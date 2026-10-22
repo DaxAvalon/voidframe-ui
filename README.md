@@ -368,6 +368,28 @@ export const brand = defineTheme({
 </VoidframeProvider>
 ```
 
+### Type scale
+
+Palette and type size are separate axes. `scale` on `VoidframeProvider` (and
+`ThemeScope`, per subtree) takes a multiplier applied to every font and
+spacing token with half-pixel rounding, a preset name, or a `TypeScale`
+object; the result is emitted as runtime `--vf-font-*` / `--vf-sp-*` vars
+that reach portaled overlays too, and the root carries `data-vf-scale`.
+
+```jsx
+<VoidframeProvider themeName="midnight" scale="booth">   // booth type on the midnight palette
+<VoidframeProvider scale={1.25}>                          // everything ×1.25 for a 4K monitor
+<ThemeScope scale={{ ...TYPE_SCALES.default, fontMd: 13 }}>…</ThemeScope>
+```
+
+`TYPE_SCALES` holds the `default` and `booth` presets; `scaleTokens(tokens,
+scale)` is the pure function behind the prop. The `booth` theme is now
+`createTheme({ ...boothPalette, ...boothScale, radius: 0 })`, both halves
+exported. Four reading tokens describe long-form text separately from the
+chrome: `readingSize`, `readingFamily`, `readingMeasure` (`65ch`) and
+`readingColor`, emitted as `--vf-reading-*`; the `.vf-reading` class applies
+them to a block of prose.
+
 ### Density, contrast, direction, reduced motion
 
 Independent, composable props on the provider — all cascade via `data-*` attributes so component CSS reads them through custom properties.

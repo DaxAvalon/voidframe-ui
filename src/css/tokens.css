@@ -98,6 +98,11 @@
   --vf-font-xl: 18px;
   --vf-font-xxl: 24px;
   --vf-font-3xl: 32px;
+  /* reading — long-form text, separate from the chrome's monospace */
+  --vf-reading-size: 14px;
+  --vf-reading-family: var(--vf-font-sans);
+  --vf-reading-measure: 65ch;
+  --vf-reading-color: var(--vf-text-1);
   --vf-line-height: 1.6;
   --vf-letter-spacing: 1.5px;
   --vf-label-spacing: 2px;
@@ -672,6 +677,8 @@
   --vf-font-xxl: 40px;
   --vf-font-3xl: 48px;
   --vf-line-height: 1.4;
+  --vf-reading-size: 22px;
+  --vf-reading-measure: 60ch;
   --vf-radius: 0;
 }
 

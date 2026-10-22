@@ -75,3 +75,14 @@
 .vf-spacer {
   height: var(--vf-sp-6);
 }
+
+/* Long-form reading text: the reading tokens, not the chrome's monospace. */
+.vf-reading {
+  font-family: var(--vf-reading-family);
+  font-size: var(--vf-reading-size);
+  max-width: var(--vf-reading-measure);
+  color: var(--vf-reading-color);
+  line-height: 1.6;
+  letter-spacing: 0;
+  text-transform: none;
+}

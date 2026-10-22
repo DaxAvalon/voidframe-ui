@@ -15,6 +15,7 @@ import {
 } from "react";
 import { useIsomorphicLayoutEffect } from "../hooks/useIsomorphicLayoutEffect";
 import { cx } from "../utils/cx";
+import { scaleTokens, type Scale } from "../themes/scale";
 import {
   tokensToCssVars,
   type BuiltInThemeName,
@@ -53,6 +54,8 @@ export interface ThemeScopeProps
   theme?: VoidframeTokens | ThemeOverrides;
   themeName?: BuiltInThemeName | (string & {});
   density?: VoidframeDensity;
+  /** Type scale for this subtree: multiplier, preset name or `TypeScale`. */
+  scale?: Scale;
   contrast?: VoidframeContrast;
   direction?: VoidframeDirection;
   reducedMotion?: VoidframeReducedMotion;
@@ -78,6 +81,7 @@ export const ThemeScope = forwardRef<HTMLDivElement, ThemeScopeProps>(
       theme,
       themeName,
       density,
+      scale,
       contrast,
       direction,
       reducedMotion,
@@ -92,14 +96,17 @@ export const ThemeScope = forwardRef<HTMLDivElement, ThemeScopeProps>(
   ) {
     const outerTokens = useTokens();
     const tokens = useMemo<VoidframeTokens>(() => {
-      if (theme && isFullTokenSet(theme)) return theme;
-      const base =
-        themeName && themeName in BUILTIN_THEMES
-          ? BUILTIN_THEMES[themeName as BuiltInThemeName]
-          : outerTokens;
-      if (!theme) return base;
-      return { ...base, ...theme };
-    }, [theme, themeName, outerTokens]);
+      let t: VoidframeTokens;
+      if (theme && isFullTokenSet(theme)) t = theme;
+      else {
+        const base =
+          themeName && themeName in BUILTIN_THEMES
+            ? BUILTIN_THEMES[themeName as BuiltInThemeName]
+            : outerTokens;
+        t = theme ? { ...base, ...theme } : base;
+      }
+      return scale === undefined ? t : scaleTokens(t, scale);
+    }, [theme, themeName, outerTokens, scale]);
 
     const cssVars = useMemo<CSSProperties>(
       () => tokensToCssVars(tokens),
@@ -159,6 +166,9 @@ export const ThemeScope = forwardRef<HTMLDivElement, ThemeScopeProps>(
           data-vf-theme={themeName}
           data-vf-density={
             density && density !== "comfortable" ? density : undefined
+          }
+          data-vf-scale={
+            scale === undefined ? undefined : typeof scale === "object" ? "custom" : String(scale)
           }
           data-vf-contrast={
             contrast && contrast !== "normal" ? contrast : undefined

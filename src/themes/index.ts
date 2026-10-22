@@ -13,7 +13,16 @@ export { midnightTheme } from "./midnight";
 export { greyTheme } from "./grey";
 export { softTheme } from "./soft";
 export { softLightTheme } from "./soft-light";
-export { boothTheme } from "./booth";
+export { boothTheme, boothPalette, boothScale } from "./booth";
+export {
+  TYPE_SCALES,
+  FONT_SCALE_KEYS,
+  SPACE_SCALE_KEYS,
+  scaleTokens,
+  scaledOverrides,
+  roundHalf,
+} from "./scale";
+export type { Scale, TypeScale, TypeScaleName } from "./scale";
 
 export const THEME_NAMES = [
   "dark",

@@ -43,9 +43,13 @@ export {
   softTheme,
   softLightTheme,
   boothTheme,
+  boothPalette,
+  boothScale,
+  TYPE_SCALES,
+  scaleTokens,
   tokensToCssVars,
   themeToCss,
   THEME_NAMES,
   THEME_OPTIONS,
 } from "../themes";
-export type { BuiltInThemeName, ThemeOption } from "../themes";
+export type { BuiltInThemeName, ThemeOption, Scale, TypeScale, TypeScaleName } from "../themes";
