@@ -6,6 +6,12 @@ UTC. The project follows [Semantic Versioning](https://semver.org).
 ## [Unreleased]
 
 ### Added
+- **shadcn token bridge**: `voidframe-ui/compat-shadcn/tokens.css` maps the shadcn variable
+  vocabulary (`--background`, `--muted-foreground`, `--border`, `--radius`, `--chart-*`,
+  `--sidebar-*`…) onto voidframe tokens via relative color syntax so existing `hsl(var(--x))`
+  sites and the shadcn Tailwind v3 preset follow the voidframe theme; `…/tokens-v4.css` holds
+  resolved colors for `var(--x)` / Tailwind v4 sites. The `shadcn-hsl-to-vf` codemod rewrites
+  sources onto `var(--vf-*)` (alpha modifiers become `color-mix`) and reports unmapped variables.
 - **`createSocketBus` / `useSocketTopic` / `useSocketBusStatus`**: one WebSocket shared by many
   subscribers, routed by a topic field, lazy connect / disconnect, capped backoff, last-event-id
   replay, and terminal auth close codes.

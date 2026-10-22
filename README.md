@@ -166,7 +166,7 @@ Other CLI commands:
 - `voidframe theme <dark|light|midnight|grey>` — drop a theme override
   file you can edit locally.
 - `voidframe codemod <name> <paths...>` — run a voidframe codemod
-  (`legacy-charts-to-v2`, `tokens-from-hex`).
+  (`legacy-charts-to-v2`, `tokens-from-hex`, `shadcn-hsl-to-vf`).
 - `voidframe doctor` — verify your project wiring (voidframe version,
   React version, stylesheet import, peer deps).
 - `voidframe test <name> [--type component|hook|util] [--force]` —
@@ -276,6 +276,25 @@ The compat layer is purely static re-exports — zero runtime translation cost. 
 | `Tabs` (+ List / Trigger / Content) | Same | `Tabs.List` / `.Trigger` / `.Panel` (aliased as `.Content`) |
 | `Toast` / `Toaster` / `useToast` | Same | `Toaster` + `toast()` (sonner-shaped `toast.error`, `.success`, `.warning`, `.info` also work) |
 | `Input`, `Textarea`, `Label`, `Badge`, `Checkbox`, `Switch`, `Avatar`, `Separator`, `ScrollArea`, `Skeleton`, `Progress`, `Slider`, `Toggle`, `ToggleGroup`, `RadioGroup`, `RadioGroupItem` | Trivial passthroughs | direct voidframe exports |
+
+### Tokens: keep `hsl(var(--background))` working
+
+shadcn projects carry a second surface besides the component imports: the `--background` / `--foreground` / `--muted` / `--border` / `--radius` variables that hand-written CSS, `cva` variants and the shadcn Tailwind preset read as `hsl(var(--x))`. Two stylesheets bridge that vocabulary onto voidframe tokens so the page follows the voidframe theme (dark, light, midnight, grey, high contrast) without a rewrite:
+
+```css
+@import "voidframe-ui/styles.css";
+@import "voidframe-ui/compat-shadcn/tokens.css";     /* hsl(var(--x)) sites, Tailwind v3 preset, bg-background/50 */
+/* or */
+@import "voidframe-ui/compat-shadcn/tokens-v4.css";  /* var(--x) sites, Tailwind v4 @theme inline, oklch-era shadcn */
+```
+
+`tokens.css` uses relative color syntax (`--background: from var(--vf-bg-0) h s l`) so `hsl(var(--background))` and `hsl(var(--background) / 0.5)` both resolve; it needs Chromium 119+, Safari 16.4+ or Firefox 128+. `tokens-v4.css` holds resolved colors. Mapping: `background → --vf-bg-0`, `foreground → --vf-text-0`, `card → --vf-bg-1`, `popover`/`muted → --vf-bg-2`, `secondary → --vf-bg-3`, `accent → --vf-bg-4` (the hover surface, not the brand color), `primary → --vf-accent`, `primary-foreground → --vf-on-accent`, `destructive → --vf-danger`, `border → --vf-border-1`, `input → --vf-border-2`, `ring → --vf-accent`, `chart-1…5 → --vf-chart-1…5`, `sidebar-* → bg-1 / text-0 / accent / border-1`, `radius → --vf-radius`.
+
+When you are ready to drop the bridge, the `shadcn-hsl-to-vf` codemod rewrites sources in place — `hsl(var(--border) / 0.5)` becomes `color-mix(in srgb, var(--vf-border-1) 50%, transparent)`, `var(--radius)` becomes `var(--vf-radius)` — and reports any variable it has no mapping for:
+
+```bash
+npx voidframe codemod shadcn-hsl-to-vf src/
+```
 
 ### Migration tips
 

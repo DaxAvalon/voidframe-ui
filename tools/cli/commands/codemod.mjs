@@ -8,7 +8,7 @@ const transformsDir = resolve(__dirname, "..", "..", "codemods", "transforms");
 
 export async function codemodCommand({ name, paths, log = console }) {
   if (!name) {
-    log.error("✖ Missing codemod name. Try: legacy-charts-to-v2 | tokens-from-hex");
+    log.error("✖ Missing codemod name. Try: legacy-charts-to-v2 | tokens-from-hex | shadcn-hsl-to-vf");
     return 2;
   }
   const tPath = resolve(transformsDir, `${name}.ts`);

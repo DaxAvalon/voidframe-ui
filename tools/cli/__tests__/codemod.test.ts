@@ -66,5 +66,6 @@ describe("codemod command", () => {
     await codemodCommand({ name: undefined, paths: [], log: silent(errs) });
     expect(errs[0]).toContain("legacy-charts-to-v2");
     expect(errs[0]).toContain("tokens-from-hex");
+    expect(errs[0]).toContain("shadcn-hsl-to-vf");
   });
 });

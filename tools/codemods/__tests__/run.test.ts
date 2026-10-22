@@ -15,8 +15,8 @@ describe("tools/codemods/run.mjs", () => {
     expect(src).toContain("jscodeshift");
   });
 
-  it("TRANSFORMS enumerates the two shipped codemods", () => {
-    expect(TRANSFORMS).toEqual(["legacy-charts-to-v2", "tokens-from-hex"]);
+  it("TRANSFORMS enumerates the shipped codemods", () => {
+    expect(TRANSFORMS).toEqual(["legacy-charts-to-v2", "tokens-from-hex", "shadcn-hsl-to-vf"]);
   });
 
   it("resolveTransform returns a path for known names and null for unknown", () => {

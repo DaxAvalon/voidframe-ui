@@ -134,6 +134,8 @@
       "import": "./dist/compat-shadcn.es.js",
       "require": "./dist/compat-shadcn.cjs.js"
     },
+    "./compat-shadcn/tokens.css": "./dist/compat-shadcn-tokens.css",
+    "./compat-shadcn/tokens-v4.css": "./dist/compat-shadcn-tokens-v4.css",
     "./theme-script.js": "./theme-script.js",
     "./tailwind": {
       "types": "./tailwind/preset.d.ts",
@@ -154,7 +156,7 @@
     "*.css"
   ],
   "scripts": {
-    "build": "node scripts/export-token-names.mjs --dist && tsc -p tsconfig.build.json --emitDeclarationOnly && NODE_OPTIONS=\"--max-old-space-size=4096\" vite build",
+    "build": "node scripts/export-token-names.mjs --dist && tsc -p tsconfig.build.json --emitDeclarationOnly && NODE_OPTIONS=\"--max-old-space-size=4096\" vite build && node scripts/copy-static-css.mjs",
     "dev": "vite",
     "preview": "vite preview",
     "demo": "vite serve demo",

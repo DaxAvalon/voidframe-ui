@@ -1,0 +1,51 @@
+/* voidframe-ui/compat-shadcn/tokens-v4.css
+ *
+ * The shadcn/ui variable vocabulary as resolved colors, for sites that read
+ * them directly: `var(--background)`, the Tailwind v4 `@theme inline`
+ * mapping (`--color-background: var(--background)`), and the newer shadcn
+ * presets that store resolved colors. Load after voidframe's stylesheet.
+ * The HSL-components form (for shadcn-style `var()` sites) is `compat-shadcn/tokens.css`.
+ */
+:root,
+[data-vf-theme] {
+  --background: var(--vf-bg-0);
+  --foreground: var(--vf-text-0);
+  --card: var(--vf-bg-1);
+  --card-foreground: var(--vf-text-0);
+  --popover: var(--vf-bg-2);
+  --popover-foreground: var(--vf-text-0);
+  --primary: var(--vf-accent);
+  --primary-foreground: var(--vf-on-accent);
+  --secondary: var(--vf-bg-3);
+  --secondary-foreground: var(--vf-text-1);
+  --muted: var(--vf-bg-2);
+  --muted-foreground: var(--vf-text-2);
+  --accent: var(--vf-bg-4);
+  --accent-foreground: var(--vf-text-0);
+  --destructive: var(--vf-danger);
+  --destructive-foreground: var(--vf-text-0);
+  --success: var(--vf-success);
+  --success-foreground: var(--vf-text-0);
+  --warning: var(--vf-warning);
+  --warning-foreground: var(--vf-bg-0);
+  --info: var(--vf-info);
+  --info-foreground: var(--vf-text-0);
+  --border: var(--vf-border-1);
+  --input: var(--vf-border-2);
+  --ring: var(--vf-accent);
+  --chart-1: var(--vf-chart-1);
+  --chart-2: var(--vf-chart-2);
+  --chart-3: var(--vf-chart-3);
+  --chart-4: var(--vf-chart-4);
+  --chart-5: var(--vf-chart-5);
+  --sidebar: var(--vf-bg-1);
+  --sidebar-background: var(--vf-bg-1);
+  --sidebar-foreground: var(--vf-text-0);
+  --sidebar-primary: var(--vf-accent);
+  --sidebar-primary-foreground: var(--vf-on-accent);
+  --sidebar-accent: var(--vf-bg-3);
+  --sidebar-accent-foreground: var(--vf-text-0);
+  --sidebar-border: var(--vf-border-1);
+  --sidebar-ring: var(--vf-accent);
+  --radius: var(--vf-radius);
+}

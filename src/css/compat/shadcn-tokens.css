@@ -1,0 +1,60 @@
+/* voidframe-ui/compat-shadcn/tokens.css
+ *
+ * Bridges the shadcn/ui CSS variable vocabulary onto voidframe tokens so
+ * existing `hsl(var(--background))` sites (hand-written CSS, cva variants,
+ * the shadcn Tailwind v3 preset, `bg-background/50` opacity modifiers) keep
+ * working while the page is themed by voidframe.
+ *
+ * shadcn expects each variable to hold bare HSL components ("0 0% 100%").
+ * Relative color syntax lets us express those from a resolved voidframe
+ * color: `hsl(var(--background))` substitutes to `hsl(from var(--vf-bg-0) h s l)`,
+ * and `hsl(var(--background) / 0.5)` to `hsl(from … h s l / 0.5)`, both valid.
+ * Requires relative color syntax (Chromium 119+, Safari 16.4+, Firefox 128+).
+ *
+ * Load after voidframe's stylesheet. Sites that read the variables directly
+ * (`var(--background)`, Tailwind v4 / shadcn "new-york-v4") want
+ * `compat-shadcn/tokens-v4.css` instead.
+ */
+:root,
+[data-vf-theme] {
+  --background: from var(--vf-bg-0) h s l;
+  --foreground: from var(--vf-text-0) h s l;
+  --card: from var(--vf-bg-1) h s l;
+  --card-foreground: from var(--vf-text-0) h s l;
+  --popover: from var(--vf-bg-2) h s l;
+  --popover-foreground: from var(--vf-text-0) h s l;
+  --primary: from var(--vf-accent) h s l;
+  --primary-foreground: from var(--vf-on-accent) h s l;
+  --secondary: from var(--vf-bg-3) h s l;
+  --secondary-foreground: from var(--vf-text-1) h s l;
+  --muted: from var(--vf-bg-2) h s l;
+  --muted-foreground: from var(--vf-text-2) h s l;
+  --accent: from var(--vf-bg-4) h s l;
+  --accent-foreground: from var(--vf-text-0) h s l;
+  --destructive: from var(--vf-danger) h s l;
+  --destructive-foreground: from var(--vf-text-0) h s l;
+  --success: from var(--vf-success) h s l;
+  --success-foreground: from var(--vf-text-0) h s l;
+  --warning: from var(--vf-warning) h s l;
+  --warning-foreground: from var(--vf-bg-0) h s l;
+  --info: from var(--vf-info) h s l;
+  --info-foreground: from var(--vf-text-0) h s l;
+  --border: from var(--vf-border-1) h s l;
+  --input: from var(--vf-border-2) h s l;
+  --ring: from var(--vf-accent) h s l;
+  --chart-1: from var(--vf-chart-1) h s l;
+  --chart-2: from var(--vf-chart-2) h s l;
+  --chart-3: from var(--vf-chart-3) h s l;
+  --chart-4: from var(--vf-chart-4) h s l;
+  --chart-5: from var(--vf-chart-5) h s l;
+  --sidebar: from var(--vf-bg-1) h s l;
+  --sidebar-background: from var(--vf-bg-1) h s l;
+  --sidebar-foreground: from var(--vf-text-0) h s l;
+  --sidebar-primary: from var(--vf-accent) h s l;
+  --sidebar-primary-foreground: from var(--vf-on-accent) h s l;
+  --sidebar-accent: from var(--vf-bg-3) h s l;
+  --sidebar-accent-foreground: from var(--vf-text-0) h s l;
+  --sidebar-border: from var(--vf-border-1) h s l;
+  --sidebar-ring: from var(--vf-accent) h s l;
+  --radius: var(--vf-radius);
+}

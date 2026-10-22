@@ -7,6 +7,7 @@
  * Available transforms:
  *   legacy-charts-to-v2
  *   tokens-from-hex
+ *   shadcn-hsl-to-vf
  */
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
@@ -15,7 +16,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export const TRANSFORMS = ["legacy-charts-to-v2", "tokens-from-hex"];
+export const TRANSFORMS = ["legacy-charts-to-v2", "tokens-from-hex", "shadcn-hsl-to-vf"];
 
 /**
  * Resolve a codemod short name to an absolute file path. Returns null
